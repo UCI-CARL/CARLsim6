@@ -20,7 +20,9 @@ All software is available on the
 <a href="http://www.socsci.uci.edu/~jkrichma/CARLsim/index.html" target="_blank"><b>CARL Website</b></a>.
 
 New features include:
-- improved platform compatibility (Linux, Mac OS X, and Windows)
+- a python interface pyCARL (see https://arxiv.org/abs/2003.09696)
+- improved saving and loading of neural networks (see \ref ch8_saving_and_loading)
+- adjusted platform compatibility (Linux, Mac OS X)
 - real-time and offline data analysis tools (see \ref ch7_monitoring and \ref ch9_matlab_oat)
 - a more complete STDP implementation which includes neuromodulatory mechanisms (see \ref ch5_synaptic_plasticity)
 - an automated parameter tuning interface that utilizes evolutionary algorithms to construct functional SNNs
@@ -35,7 +37,7 @@ The present release, CARLsim3, greatly expands the functionality of the simulato
 that enable and simplify the creation, tuning, and simulation of complex networks with spatial structure.
 
 CARLsim was originally written by Jayram Moorkanikara Nageswaran and Micah Richert. The code is now being 
-maintained and extended by Michael Beyeler, Kristofor Carlson, and Ting-Shuo Chou. For a full list of contributors, 
+maintained and extended by Hirak Kashyap, Jinwei Xing and Kexin Chen. For a full list of contributors, 
 see file AUTHORS.
 
 

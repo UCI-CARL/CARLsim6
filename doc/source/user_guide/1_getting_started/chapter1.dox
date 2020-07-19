@@ -107,8 +107,7 @@ Alternatively, you may download the latest stable release from the
 <a href="https://github.com/UCI-CARL/CARLsim5/releases">GitHub Release</a> page (.zip or .tar.gz).
 
 For installation instructions on Linux and Mac OS X platforms, please refer to \ref ch1s2s1_linux below.
-For installation instructions on Windows platforms, please refer to \ref ch1s2s2_windows below.
-For installation instructions on any platform using CMake, refer to \ref ch1s2s3_cmake below.
+For installation instructions on any platform using CMake, refer to \ref ch1s2s2_cmake below.
 
 
 \subsection ch1s2s1_linux 1.2.1 Linux / Mac OS X
@@ -272,27 +271,7 @@ For more information on the regression suite, please refer to
 
 
 
-\subsection ch1s2s2_windows 1.2.2 Windows
-
-CARLsim provides solution files for Microsoft Visual Studio (VS) 2015 and CUDA 8.0.
-The solution file is called <tt>CARLsim.sln</tt> and is located in the CARLsim root directory.
-In addition, every project, tutorial, and the regression suite have their own .vcxproj projects file
-in the appropriate directory.
-
-Before building the solution, <tt>Configuration</tt> should be set to <tt>x64</tt>.
-<tt>Release</tt> should be selected for project executables, and <tt>Debug</tt> should be selected
-for compiling the regression suite. For more information about the regression suite, please see
-\ref ch11_regression_suite.
-
-VS 2015 will then generate all executables (.exe) and the static library (.lib) via "Build Solution".
-
-Newer VS versions will automatically upgrade the solution file (<tt>CARLsim.sln</tt>) and all project files
-(<tt>*.vcxproj</tt>).
-For newer CUDA Toolkit versions, the strings "CUDA 8.0.props" and "CUDA 8.0.targets" that are present in
-every .vcxproj file have to be manually updated to reflect the right CUDA Toolkit version number.
-
-
-\subsection ch1s2s3_cmake 1.2.3 CMake
+\subsection ch1s2s2_cmake 1.2.2 CMake
 
 Create a build directory (you can make it anywhere)
 
@@ -353,7 +332,7 @@ This directory already contains two MATLAB scripts to aid in using the OAT (see 
 The script <tt>initOAT.m</tt> adds the OAT directory to the MATLAB path, whereas <tt>demoOAT.m</tt> will open a
 NetworkMonitor to visualize network activity.
 Note that for <tt>demoOAT.m</tt> to work, the executable must be run first
-(see \ref ch1s3s1s1_linux_hello_world_compile and \ref ch1s3s2s1_win_hello_world_compile below).
+(see \ref ch1s3s1s1_linux_hello_world_compile below).
 In order to run the OAT, open MATLAB, change to <tt>projects/hello_world/scripts/</tt>, then type:
 \code
 >> initOAT     % adds OAT relative path to MATLAB paths
@@ -431,40 +410,11 @@ where <tt>{project_name}</tt> is the string assigned to the <tt>project</tt> var
 
 
 
-\subsection ch1s3s2_windows_project_workflow 1.3.2 Windows
+\subsection ch1s3s2_cmake_project_workflow 1.3.2 CMake
 
-\subsubsection ch1s3s2s1_win_hello_world_compile 1.3.2.1 Compiling and Running the "Hello World" Project in Windows
+\subsubsection ch1s3s2s1_cmake_hello_world_compile 1.3.3.1 Compiling the "Hello World" Project using CMake
 
-The "Hello World" project comes with its own <tt>.vcxproj</tt> project file that has already been added
-to the <tt>CARLsim.sln</tt> solution file.
-Thus the project can be built simply by opening the <tt>CARLsim.sln</tt> solution file in VS, right-clicking the
-project directory and choosing "Build project".
-
-
-\subsubsection ch1s3s2s1_win_create_new 1.3.2.2 Creating a New Project in Windows
-
-The easiest way to create new project in Windows is to make a copy of the directory <tt>projects/hello_world</tt>
-and all its corresponding subdirectories, to rename the directory accordingly, and to place it alongside
-<tt>hello_world/</tt> in the <tt>projects/</tt> directory.
-Then only minimal changes to the project and solution file need to be made in order for the project to
-compile correctly.
-
-First, the project file in the new project directory needs to be named according to the new project name:
-<tt>{project name}.vcxproj</tt>.
-The C++ source file should be renamed for consistency: <tt>main_{project name}.cpp</tt>.
-
-Second, the projects file needs to be added to the <tt>CARLsim.sln</tt> solution file.
-
-Then the new project is ready to be built, rebuilt, or cleaned directly through VS.
-
-\since v3.0
-
-
-\subsection ch1s3s3_cmake_project_workflow 1.3.3 CMake
-
-\subsubsection ch1s3s3s1_cmake_hello_world_compile 1.3.3.1 Compiling the "Hello World" Project using CMake
-
-Make sure that CARLsim has been \ref ch1s2s3_cmake "built and installed using CMake",
+Make sure that CARLsim has been \ref ch1s2s2_cmake "built and installed using CMake",
 because the "Hello World" project's cmake script searches for CARLsim's cmake package configuration file.
 
 Create a build directory (you can make it anywhere)
@@ -514,9 +464,6 @@ To uninstall CARLsim on a Unix platform, open a terminal, simply remove the inst
 
 \note Any environments that have been added to <tt>~/.bashrc</tt> must be removed manually.
 
-\subsection ch1s4s2_windows 1.4.2 Windows
-
-On Windows, simply move all downloaded and unzipped CARLsim files to the recycle bin.
 
 */
 

@@ -20,6 +20,11 @@ If you use CARLsim in your research, please cite this [paper](https://www.socsci
 
 Chou*, T.-S., Kashyap*, H.J., Xing, J., Listopad, S., Rounds, E.L., Beyeler, M., Dutt, N., and Krichmar, J.L. (2018). "CARLsim 4: An Open Source Library for Large Scale, Biologically Detailed Spiking Neural Network Simulation using Heterogeneous Clusters." In Proceedings of IEEE International Joint Conference on Neural Networks (IJCNN), pp. 1158-1165.
 
+## News
+We released PyCARL which is an interface of CARLsim to the pyNN framework!  
+Please check [here](https://github.com/UCI-CARL/CARLsim5/tree/master/pyCARL) for more details.
+
+
 ## Installation
 
 Detailed instructions for installing the latest stable release of CARLsim on Mac OS X / Linux / Windows

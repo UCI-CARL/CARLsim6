@@ -3,6 +3,24 @@ Legend:
   - removed element
   * changed element
 
+===============================================================================
+Release 5.0
+===============================================================================
+
+---------------------
+Build 5.0.0
+---------------------
+
+2020-07-19  Hirak Kashyap <kashyaph@uci.edu>  Adarsha Balaji <adarshbalaji@gmail.com>
+ + Add python iterface pyCARL
+
+2020-07-19  Jinwei Xing <jinweix1@uci.edu>  Kexin Chen <kexinc3@uci.edu>
+ * Update save and load of neural networks.
+ * Update matlab analysis tool
+
+2020-07-09  Hirak Kashayp <kashyaph@uci.edu>
+ * Fix neuron monitor
+
 
 ===============================================================================
 Release 4.0
