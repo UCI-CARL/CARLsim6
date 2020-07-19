@@ -22,7 +22,7 @@ Chou*, T.-S., Kashyap*, H.J., Xing, J., Listopad, S., Rounds, E.L., Beyeler, M.,
 
 ## Installation
 
-Detailed instructions for installing the latest stable release of CARLsim on Mac OS X / Linux / Windows
+Detailed instructions for installing the latest stable release of CARLsim on Mac OS X / Linux
 can be found in our [User Guide](http://uci-carl.github.io/CARLsim5/ch1_getting_started.html).
 
 ### Linux/MacOS
