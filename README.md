@@ -171,10 +171,6 @@ can be found in our [User Guide](http://uci-carl.github.io/CARLsim5/ch1_getting_
    make install
    ```
    
-### Windows
-
-Simply download the code. Open and build `CARLsim.sln`. Run the "Hello World" project file
-`projects\hello_world\hello_world.vcxproj`.
 
 
 ## Prerequisites
@@ -196,4 +192,3 @@ will continue to focus on the GPU implementation.
 The latest release was tested on the following platforms:
 - Ubuntu 16.04
 - Mac OS X 10.11 (El Capitan)
-- Windows 7/10 (Tested using VS 15 and cuda 8.0)
