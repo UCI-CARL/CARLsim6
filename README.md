@@ -6,7 +6,7 @@
 
 [![Build Status](https://travis-ci.org/UCI-CARL/CARLsim5.svg?branch=master)](https://travis-ci.org/UCI-CARL/CARLsim5)
 [![Coverage Status](https://coveralls.io/repos/github/UCI-CARL/CARLsim5/badge.svg?branch=master)](https://coveralls.io/github/UCI-CARL/CARLsim5?branch=master)
-[![Docs](https://img.shields.io/badge/docs-v4.1.0-blue.svg)](http://uci-carl.github.io/CARLsim5)
+[![Docs](https://img.shields.io/badge/docs-v5.0.0-blue.svg)](http://uci-carl.github.io/CARLsim5)
 [![Google group](https://img.shields.io/badge/Google-Discussion%20group-blue.svg)](https://groups.google.com/forum/#!forum/carlsim-snn-simulator)
 
 CARLsim is an efficient, easy-to-use, GPU-accelerated library for simulating large-scale spiking neural network (SNN) models with a high degree of biological detail. CARLsim allows execution of networks of Izhikevich spiking neurons with realistic synaptic dynamics on both generic x86 CPUs and standard off-the-shelf GPUs. The simulator provides a PyNN-like programming interface in C/C++, which allows for details and parameters to be specified at the synapse, neuron, and network level.
@@ -16,13 +16,17 @@ CARLsim is an efficient, easy-to-use, GPU-accelerated library for simulating lar
 - Hybrid CPU/GPU mode
 - Multi-compartment and LIF point neurons -->
 
-If you use CARLsim in your research, please cite this [paper](https://www.socsci.uci.edu/~jkrichma/Chou-Kashyap-CARLsim4-IJCNN2018.pdf).
+If you use CARLsim or PyCARL in your research, please cite our papers [CARLsim](https://www.socsci.uci.edu/~jkrichma/Chou-Kashyap-CARLsim4-IJCNN2018.pdf) and [PyCARL](https://arxiv.org/abs/2003.09696).
 
 Chou*, T.-S., Kashyap*, H.J., Xing, J., Listopad, S., Rounds, E.L., Beyeler, M., Dutt, N., and Krichmar, J.L. (2018). "CARLsim 4: An Open Source Library for Large Scale, Biologically Detailed Spiking Neural Network Simulation using Heterogeneous Clusters." In Proceedings of IEEE International Joint Conference on Neural Networks (IJCNN), pp. 1158-1165.
 
+Balaji, A., Adiraju, P., Kashyap, H. J., Das, A., Krichmar, J. L., Dutt, N. D., & Catthoor, F. (2020). PyCARL: A PyNN Interface for Hardware-Software Co-Simulation of Spiking Neural Network. arXiv preprint arXiv:2003.09696. (To appear in IJCNN 2020)
+
+
+
+
 ## News
-We released PyCARL which is an interface of CARLsim to the pyNN framework!  
-Please check [here](https://github.com/UCI-CARL/CARLsim5/tree/master/pyCARL) for more details.
+We released PyCARL which is an interface of CARLsim to the pyNN framework! Please check [here](https://github.com/UCI-CARL/CARLsim5/tree/master/pyCARL) for more details.
 
 
 ## Installation
