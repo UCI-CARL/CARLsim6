@@ -38,7 +38,7 @@ stat.file = 			                        $out.stat
 # Problem
 ##############################
 eval.problem =                                  ec.app.command.CommandProblem
-eval.problem.command =                          ./TuneFiringRates
+eval.problem.command =                          ./main_TuneFiringRates
 
 
 ##############################
