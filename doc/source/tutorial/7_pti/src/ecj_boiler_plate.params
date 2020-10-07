@@ -1,0 +1,18 @@
+############################################################
+# These are ECJ parameters that we seldom modify, so 
+# we've placed them here in this parent file to inherit from.
+############################################################
+breedthreads = 				                    1
+seed.0 =				                        time
+checkpoint =				                    false
+checkpoint-modulo =                             1
+checkpoint-prefix = 			                ec
+state = 				                        ec.simple.SimpleEvolutionState
+init = 					                        ec.simple.SimpleInitializer
+finish = 	        	                        ec.simple.SimpleFinisher
+exch = 					                        ec.simple.SimpleExchanger
+eval =					                        ec.simple.SimpleEvaluator
+pop = 					                        ec.Population
+pop.subpops =				                    1
+pop.subpop.0 = 				                    ec.Subpopulation
+pop.subpop.0.duplicate-retries =	            0

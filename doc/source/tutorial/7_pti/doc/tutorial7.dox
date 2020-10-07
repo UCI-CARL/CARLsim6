@@ -8,7 +8,14 @@
 
 In this tutorial we introduce the parameter tuning interface and how to tune the weight ranges of a
 simple SNN to achieve a particular target firing rate. We will be tuning four parameter values that
-represent the weight ranges. The layout of the SNN is as follows. We have 10 input excitatory
+represent the weight ranges, and we will use the 
+<a href="https://cs.gmu.edu/~eclab/projects/ecj/">ECJ evolutionary computation framework</a>.
+
+We will accomplish this by place our CARLsim model inside a program that accept parameter values on 
+`stdin`, runs the model, and then rights fitness values to `stdout`.  This provides an interface that 
+allows your CARLsim model to be tuned by external optimization tools such as ECJ.
+
+The layout of the SNN is as follows. We have 10 input excitatory
 neurons, 10 regular spiking (RS) excitatory neurons that receive this input, and 10 fast spiking
 (FS) izhikevich neurons that receive input from the excitatory RS neurons. Additionally, the
 inhibitory group is connected to the RS excitatory group and the RS excitatory group is connected to
@@ -16,16 +23,15 @@ itself recurrently. There are therefore 4 connection weight ranges to be tuned. 
 tuning is make the RS excitatory group have an average firing rate of 10 Hz and make the FS
 inhibitory group have an average firing rate of 20 Hz.
 
-All the required files are found in the doc/source/tutorial/3_pti directory. The user is encouraged
+All the required files are found in the doc/source/tutorial/7_pti/src/ directory. The user is encouraged
 to follow along and experiment with the source code found there.
 
 This tutorial assumes:
-- ECJ version 22 or greater is installed.
+- ECJ version 28 or greater is installed.  Find it at https://cs.gmu.edu/~eclab/projects/ecj/
 - CARLsim 5.0 is installed.
-- CARLsim5 and ECJ environment variables are configured correctly.
 
 The overview of parameter tuning is as follows. ECJ handles all steps of the evolutionary algorithm
-(EA) except for the fitness evaluation which is done by CARLsim through the implementation of an
+(EA) except for \em fitness \em evaluation which is done by CARLsim through the implementation of an
 experiment class function called <tt>run</tt>.
 
 
@@ -33,17 +39,108 @@ A more in-depth overview of CARLsim and ECJ can be found in \ref ch10_ecj.
 
 \section tut7s2_parameter_file 7.2 The ECJ Parameter File
 
-This example has an ECJ parameter file named <tt>TuneFiringRatesECJExperiment.params</tt>. As
-mentioned in \ref ch10_ecj, users must first configure this file if they want to parameter tune
-CARLsim programs.
+We'll start by configuring ECJ to optimize our model's parameter's with a simple evolutionary algorithm.
 
-We first specify that we want a maximum number of 50 generations and a population size of 10. This
-means 10 individuals (each a separate SNN) will be run in parallel by CARLsim:
+To do so, we'll write a parameter file.  ECJ uses big, centralized parameter files to coordinate the 
+interaction of a number of different algorithmic modules.  In this example, we'll implement a (μ, λ)-style 
+evolutionary algorithm (i.e., an algorithm that discards the parents at
+each generation) that evolves real-valued paramter vectores with Gaussian mutation of each real-valued gene,
+one-point crossover, and truncation selection.  You can find the complete example in
+<tt>ecj_TuneFiringRates.params</tt>.
+
+The <a href="https://cs.gmu.edu/~eclab/projects/ecj/manual.pdf">ECJ manual</a> is a great resource for 
+undertstanding these parameters and how to configure them in more detail.
+
+
+\subsection Boiler Plate
+
+We'll start by inheriting some boiler plate parameters from a parent file.
 
 \code
-generations =        50
-pop.subpop.0.size =  10
+parent.0 =                                      $ecj_boiler_plate.params
 \endcode
+
+This file contains quite a few standard parameter settings that we typically only alter
+in special circumstances—it defines things like the Java classes that manages the algorithm
+and population state.
+
+Notice there is a <tt>$</tt> before the filename. This indicates that the location of the 
+parent file is specified \em relative to the location of our parameter file.
+
+
+\subsection Problem
+
+Next, and most importantly, we want to tell ECJ to use an external binary program to compute fitness.  
+This is done by configuring the `problem` parameter to point to the `CommandProblem` class.  This is 
+a special ECJ fitness function that writes parameters to a program's `stdin` and reads fitness
+values back that your model writes to `stdout`.
+
+While we're at it we'll also define `evalthreads`, which controls how many instances of your model program
+will be run in parallel.  In this tutorial we're relying on the internal parallelism of a single CARLsim
+instance to evaluate many individuals at once, so we'll leave ECJ's `evalthreads` set to 1.
+
+\code
+eval.problem =                                  ec.app.command.CommandProblem
+eval.problem.command =                          $main_TuneFiringRates
+evalthreads = 				                    1
+\endcode
+
+
+\subsection Population 
+
+The next important group of parameters controls the population and the outline of how it evolves.
+Here we specify that we want a maximum number of 50 generations.  The `quit-on-run-complete`
+parameter toggles whether or not evolution should stop early if a solution with the "ideal" 
+fitness is found.  We are tuning a noisy fitness function, however, which sometimes causes
+an individual to momentarily appear to have a high fitness by chance—and we don't want to 
+stop early when that happens.
+
+\code
+generations =				                    50
+quit-on-run-complete =			                false
+\endcode
+
+Now we'll tell ECJ to general 20 individuals to population the initial population (i.e. the
+very first generation, when individuals are generated randomly). It's sometimes a good idea 
+to create many individuals in the first generation, because this gives us a chance to find a 
+good starting point with random search, before we use evolution to refine it.  After that, 
+a (μ, λ) breeder takes over evolution, generating `es.lamda.0` children and selecting `es.mu.0` 
+parents at each generation.
+
+\code
+pop.subpop.0.size =			                    20
+breed =					                        ec.es.MuCommaLambdaBreeder
+es.mu.0 = 				                        10
+es.lambda.0 =                                   20
+\endcode
+
+ECJ has several other breeding strategies available, including a (μ + λ) breeder 
+(`ec.es.MuPlusLambdaBreeder`), which treats parents and offspring as a combined population 
+(so parents have a chance of surviving multiple generations), and `ec.simple.SimpleBreeder`
+(which is like `MuCommaLambdaBreeder`, but is meant to work with other traditional selection 
+methods, such as tournament selection).
+
+
+\subsection Representation
+
+Now we'll add several parameters to define how solutions are represented in the EA.  The first 
+three are pretty standard, specifcying that we want to use floating-point vectors of numbers
+
+\code
+pop.subpop.0.species =                          ec.vector.FloatVectorSpecies
+pop.subpop.0.species.ind =		                ec.vector.DoubleVectorIndividual
+pop.subpop.0.species.fitness =		            ec.simple.SimpleFitness
+\endcode
+
+
+
+
+
+
+
+
+
+<!-- TODO: edit the tutorial below this point! -->
 
 There are four parameter values to be tuned so we set:
 
@@ -60,16 +157,9 @@ pop.subpop.0.species.min-gene =         0.0005
 pop.subpop.0.species.max-gene =         0.5
 \endcode
 
-Finally we must specify the name of the carlsim binary that ECJ should execute every generation to
-obtain fitness values. This is done below. Notice there is a <tt>$</tt> before the filename. This
-indicates that the location of the file is relative to the location of the parameter file.
 
-\code
-eval.problem.simulationCommand =        $carlsim_tuneFiringRatesECJ
-\endcode
+\subsection Operators
 
-Of course any of these parameters can be changed. For more information on ECJ parameter file
-configuration please visit the ECJ <a href="http://cs.gmu.edu/~eclab/projects/ecj/">homepage</a>.
 
 \section tut7s3_experiment_class 7.3 The Experiment Class
 We next discuss the CARLsim code found in the experiment class. This code is found in the

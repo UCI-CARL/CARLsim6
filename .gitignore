@@ -29,6 +29,9 @@
 .build
 build
 
+# Docs build directory
+doc/html/
+
 # =====================
 # emacs ignore list
 # =====================

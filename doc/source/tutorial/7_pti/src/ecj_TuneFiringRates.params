@@ -1,60 +1,32 @@
-# Copyright 2020 by Sean Luke and George Mason University
-# Licensed under the Academic Free License version 3.0
-# See the file "LICENSE" for more information
-
 ############################################################
 # This example shows how to use CommandProblem to optimize a
 # fitness function that is defined by an external program.
 ############################################################
 
-##############################
-# Boiler Plate
-##############################
-evalthreads = 				                    1
-breedthreads = 				                    1
-seed.0 =				                        time
-checkpoint =				                    false
-checkpoint-modulo =                             1
-checkpoint-prefix = 			                ec
-state = 				                        ec.simple.SimpleEvolutionState
-init = 					                        ec.simple.SimpleInitializer
-finish = 	        	                        ec.simple.SimpleFinisher
-exch = 					                        ec.simple.SimpleExchanger
-eval =					                        ec.simple.SimpleEvaluator
-pop = 					                        ec.Population
-pop.subpops =				                    1
-pop.subpop.0 = 				                    ec.Subpopulation
-pop.subpop.0.duplicate-retries =	            0
-
-
-##############################
-# Logging
-##############################
-stat =					                        ec.simple.SimpleStatistics
-stat.file = 			                        $out.stat
-
+parent.0 =                                      $ecj_boiler_plate.params
 
 ##############################
 # Problem
 ##############################
 eval.problem =                                  ec.app.command.CommandProblem
-eval.problem.command =                          ./main_TuneFiringRates
+eval.problem.command =                          $main_TuneFiringRates
+evalthreads = 				                    1
 
 
 ##############################
 # Population Model
 ##############################
 generations =				                    50
-quit-on-run-complete =			                true
+quit-on-run-complete =			                false
+pop.subpop.0.size =			                    20
 breed =					                        ec.es.MuCommaLambdaBreeder
-es.mu.0 = 				                        2
+es.mu.0 = 				                        10
 es.lambda.0 =                                   20
 
 
 ##############################
 # Representation
 ##############################
-pop.subpop.0.size =			                    5
 pop.subpop.0.species =                          ec.vector.FloatVectorSpecies
 pop.subpop.0.species.fitness =		            ec.simple.SimpleFitness
 pop.subpop.0.species.ind =		                ec.vector.DoubleVectorIndividual
@@ -83,3 +55,10 @@ pop.subpop.0.species.crossover-type =           one
 
 # Selection parameters
 select.tournament.size = 		                2
+
+
+##############################
+# Logging
+##############################
+stat =					                        ec.simple.SimpleStatistics
+stat.file = 			                        $out.stat
