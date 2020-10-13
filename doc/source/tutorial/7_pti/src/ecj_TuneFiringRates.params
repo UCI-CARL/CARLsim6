@@ -44,13 +44,12 @@ pop.subpop.0.species.pipe.source.0.source.0 =   ec.es.ESSelection
 pop.subpop.0.species.pipe.source.0.source.1 =   ec.es.ESSelection
 
 # Mutation parameters
-pop.subpop.0.species.mutation-prob =            1.0
-pop.subpop.0.species.mutation-stdev =           0.5
 pop.subpop.0.species.mutation-type =            gauss
 pop.subpop.0.species.mutation-bounded =	        true
+pop.subpop.0.species.mutation-prob =            1.0
+pop.subpop.0.species.mutation-stdev =           0.5
 
 # Crossover parameters
-# ECJ will complain if this isn't set even if we don't use it, so here's a default
 pop.subpop.0.species.crossover-type =           one
 
 # Selection parameters

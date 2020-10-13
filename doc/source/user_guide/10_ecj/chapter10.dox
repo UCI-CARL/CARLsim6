@@ -6,23 +6,29 @@
 
 \section ch10s1_overview CARLsim-ECJ Parameter-Tuning Framework Overview
 
-CARLsim now has a software interface to an evolutionary
-computation system written in Java (ECJ) (Luke et al., 2006) to provide an
-automated parameter tuning framework. We found that an automated tuning framework became
-increasingly useful as our SNN models became more complex. Evolutionary
-Algorithms (EAs) enable flexible parameter tuning by means
-of optimizing a generic fitness function. The first version of the automated paramter-tuning
-framework used an EA library called Evolving Objects (EO) as the EA engine (Carlson et al., 2014).
-ECJ was chosen to supercede EO because it is under active development (Linux), supports
-multi-threading, has excellent documentation, and implements a variety of EAs (Luke at al., 2006).
+CARLsim provides a software interface for exposing the parameters of a model 
+an external process so that they can be automatically tune to maximize some 
+measure of fitness.  The parameter-tuning interface (PTI) is generic, but is 
+built specifically to be compatible with the ECJ framework—an evolutionary 
+computation framework written in Java (Scott and Luke, 2019).
+
+We find that an automated tuning framework becomes
+increasingly useful as our SNN models become more complex. Evolutionary 
+Algorithms (EAs) enable flexible parameter tuning by means of optimizing a 
+generic fitness function. The first version of the automated paramter-tuning
+framework used an EA library called Evolving Objects (EO) as the EA engine 
+(Carlson et al., 2014). ECJ was chosen to supercede EO because it is under 
+active development (Linux), supports multi-threading and distribution, has 
+excellent documentation, and implements a variety of EAs (Scott and Luke, 
+2019).
 
 \image html 10_ecj.png  "Fig. 1. General approach to parameter tuning. ECJ performs the EA and passes the current generation of parameters (red arrow) to CARLsim for evaluation using the parameter tuning interface (PTI) code. CARLsim assigns each parameter set to an SNN and evaluates all the individuals in parallel, passing the fitness values back to ECJ for selection of individuals in the next generation (black arrow)."
 
 Source: Beyeler et al., 2015
 
 Fig. 1 shows the general approach of the automated parameter tuning framework.
-ECJ implements an EA with a parameter file that includes: EA parameters, the number of
-individuals per generation, and parameter ranges. Each step of
+ECJ implements an EA with a parameter file that includes: EA parameters, the 
+number of individuals per generation, and parameter ranges. Each step of
 the EA is executed by ECJ except for the evaluation of the
 fitness function, which is completed by CARLsim. CARLsim
 evaluates the fitness function in parallel by running multiple
@@ -31,8 +37,8 @@ of the computations occur. ECJ is written in Java, which is
 slower than C, but the majority of the execution time is spent
 running CARLsim’s optimized C++/CUDA code. At the
 beginning of every generation, the parameters to be tuned are
-passed from ECJ to CARLsim using standard input/output
-streams in Linux. CARLsim evaluates individuals in parallel
+passed from ECJ to CARLsim using the standard input/output
+streams of the model's process. CARLsim evaluates individuals in parallel
 and returns the resulting fitness values to ECJ via standard
 streams. The tuning framework allows users to tune virtually
 any SNN parameter, while the fitness functions can be written
@@ -43,31 +49,15 @@ SNN.
 
 \section ch10s2_installation 10.2 Installation
 
-The current version of the CARLsim paramter-tuning framework uses Evolutionary
-Computations in Java (ECJ) (tested using version 23). For information
-on how to install ECJ, please go  <a href="http://cs.gmu.edu/~eclab/projects/ecj/">here</a>.
 
-After ECJ has been installed, the user then needs to set the <tt>ECJ_DIR</tt>
-and <tt>ECJ_PTI_DIR</tt> environment variables in the ~/.bashrc file. The
-<tt>ECJ_DIR</tt> environment variable points to the ECJ installation .jar file (it should be inside a directory named jar and named as ecj.xx.jar). The
-<tt>ECJ_PTI_DIR</tt> environment variable points to the desired installation location of the CARLsim-ECJ PTI library.
+The current version of the CARLsim parameter-tuning framework works incely with
+the ECJ framework evolutionary computation framework (version 28 or newer). 
+For information on how to install ECJ, please go 
+<a href="http://cs.gmu.edu/~eclab/projects/ecj/">here</a>.  You can, however, 
+use any optimizatin package with CARLsim's PTI, just so long as it's capable of 
+feeding parameter vectors into a process on std::cin and reading fitness values 
+back from std::cout.
 
-We will also need to install apache ant (tested version is 1.9.6). Download the ant binary from <a href="https://archive.apache.org/dist/ant/binaries/">ant archive</a> and extract it.
-
-Users can set these environment variable in their ~/.bashrc file. The following example lines would be appended to .bashrc. For mac OS, these variables are placed in ~/.bash_profile.
-
-\code
-export ECJ_JAR=/path to the ecj directory/jar/ecj.23.jar
-export ECJ_PTI_DIR=/path-to-carlsim5-installtion/carlsim_ecj_pti
-
-export ANT_HOME=/path to apache-ant-1.9.6 directory
-export PATH=$PATH:$ANT_HOME/bin
-export CLASSPATH=.:$ANT_HOME/lib/*
-\endcode
-
-\note You may have to open a new shell or reboot to get export these variables.
-
-Once the environment variables have been set. Navigate to tools/ecj_pti and run:
 
 \code
 make
@@ -77,7 +67,7 @@ make install
 This will install the CARLsim-ECJ PTI static library into the location pointed to by
 <tt>ECJ_PTI_DIR</tt>.
 
-If you have already installed gtest in the CARLsim5 source tree, 
+If you have already installed gtest in the CARLsim4 source tree, 
 you can run the unit tests for CARLsim-ECJ PTI's C++ components, as:
 \code
 cd test
@@ -89,6 +79,53 @@ Also navigate to the doc/source/tutorial/7_pti directory and try that example
 to verify installation. More on this in \ref tut7_pti.
 
 \since v3.0
+
+
+\section ch10s3_pti_model Wrapping your Model
+
+From the perspective of a CARLsim model, the PTI is a set of C++ classes that 
+define a standard interface for inputting real-valued parameters to a model 
+and outputting real-valued fitness scores.  How the fitness scores are 
+computed is entirely up to the model designer, and defined by an Experiment class
+that wraps the model and writes fitness values to a std::ostream (usually std::cout).
+
+\image html Classes_UML.png "Fig. 2. The structure of the PTI interface classes.  The PTI helper classe loads a list of model parameters (ParameterInstances) and feeds them into your model, which should be wrapped in a subclass of Experiment." width=700px
+
+What you want to do is wrap your model in an Experiment object, in such a way 
+that you run a separate simulation for each instance of parameters in the
+provided ParameterInstances structure.  The Experiment abstract class is 
+found in PTI.h:
+
+\code
+#include <PTI.h>
+
+class MyExperiment : public Experiment {
+public:
+
+    MyExperiment() {}
+
+    void run(const ParameterInstances &parameters, std::ostream &outputStream) const {
+        for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
+            // Setup the ith model, using parameters
+        }
+
+        // Run the simulations (i.e. in parallel on a GPU)
+
+        // Measure results and compute fitness
+
+        // Write fitness value for each simulation to outputStream
+    }
+};
+\endcode
+
+You can find complete examples of Experiment.run() implementations in 
+\ref tut7_pti and in the tools/pti/examples directory of the CARLsim source
+tree.
+
+
+
+OLD MATERIAL BELOW THIS POINT
+
 
 \section ch10s3_usage 10.3 ECJ Usage
 In general, users will create their own project directory and model it after the tutorial program
@@ -234,14 +271,14 @@ References
 
 Beyeler, M., Carlson, K. D., Chou, T. S., Dutt, N., Krichmar, J. L., CARLsim 3: A user-friendly
 and highly optimized library for the creation of neurobiologically detailed spiking
-neural networks. (Submitted)
+neural networks. International Joint Confernece on Neural Networks (IJCNN), 2015.
 
 Carlson, K. D., Nageswaran, J. M., Dutt, N., Krichmar, J. L., An efficient automated parameter
 tuning framework for spiking neural networks, Front. Neurosci., vol. 8, no. 10, 2014.
 
-Luke, S., Panait, L., Balan, G., Paus, S., Skolicki, Z., Bassett, J., Hubley, R., and Chircop, A.,
-ECJ: A java-based evolutionary computation research system, http://cs. gmu. edu/eclab/projects/ecj,
-2006.
+Scott, E. and Luke, S., ECJ at 20: toward a general metaheuristics toolkit. 
+Proceedings of the Genetic and Evolutionary Computation Conference Companion 
+(GECCO), 1391-1398, 2019.
 
 
 
