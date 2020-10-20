@@ -15,14 +15,14 @@ using namespace std;
 class SimpleCA3Experiment : public Experiment {
 public:
     // Decay constants
-    static constexpr float COND_tAMPA=5.0, COND_tNMDA=150.0, COND_tGABAa=6.0, COND_tGABAb=150.0;
+    static const float COND_tAMPA, COND_tNMDA, COND_tGABAa, COND_tGABAb;
 
     // Neurons
     static const int NUM_NEURONS = 1000;
-    static constexpr double RND_FRACTION = 0.1;
-    static constexpr double PYR_FRACTION = 0.9;
-    static constexpr double PTI_FRACTION = 0.05;
-    static constexpr double DTI_FRACTION = 0.05;
+    static const double RND_FRACTION;
+    static const double PYR_FRACTION;
+    static const double PTI_FRACTION;
+    static const double DTI_FRACTION;
 
     // Izhikevich parameters
     static const float PYR_PARAMS[];
@@ -34,15 +34,15 @@ public:
     static const int EVAL_SECONDS = 20;
 
     // Firing rate of input Poisson neurons
-    static constexpr float IN_HZ = 10.0f;
+    static const float IN_HZ;
 
     // Target rates for the objective function
-    static constexpr float PYR_TARGET_HZ_MIN = 2.0f;
-    static constexpr float PYR_TARGET_HZ_MAX = 4.0f;
-    static constexpr float PTI_TARGET_HZ_MIN = 15.0f;
-    static constexpr float PTI_TARGET_HZ_MAX = 21.0f;
-    static constexpr float DTI_TARGET_HZ_MIN = 6.0f;
-    static constexpr float DTI_TARGET_HZ_MAX = 11.0f;
+    static const float PYR_TARGET_HZ_MIN;
+    static const float PYR_TARGET_HZ_MAX;
+    static const float PTI_TARGET_HZ_MIN;
+    static const float PTI_TARGET_HZ_MAX;
+    static const float DTI_TARGET_HZ_MIN;
+    static const float DTI_TARGET_HZ_MAX;
 
     const SimMode simMode;
     const LoggerMode verbosity;
@@ -138,9 +138,25 @@ private:
     }
 };
 
+/* Define default float values for the class above. */
+const float SimpleCA3Experiment::COND_tAMPA=5.0;
+const float SimpleCA3Experiment::COND_tNMDA=150.0;
+const float SimpleCA3Experiment::COND_tGABAa=6.0;
+const float SimpleCA3Experiment::COND_tGABAb=150.0;
+const double SimpleCA3Experiment::RND_FRACTION = 0.1;
+const double SimpleCA3Experiment::PYR_FRACTION = 0.9;
+const double SimpleCA3Experiment::PTI_FRACTION = 0.05;
+const double SimpleCA3Experiment::DTI_FRACTION = 0.05;
 const float SimpleCA3Experiment::PYR_PARAMS[] = { 0.02f, 0.25f, -65.0f, 0.05f };
 const float SimpleCA3Experiment::PTI_PARAMS[] = { 0.1f, 0.2f, -65.0f, 2.0f };
 const float SimpleCA3Experiment::DTI_PARAMS[] = { 0.02f, 0.2f, -65.0f, 8.0f };
+const float SimpleCA3Experiment::IN_HZ = 10.0f;
+const float SimpleCA3Experiment::PYR_TARGET_HZ_MIN = 2.0f;
+const float SimpleCA3Experiment::PYR_TARGET_HZ_MAX = 4.0f;
+const float SimpleCA3Experiment::PTI_TARGET_HZ_MIN = 15.0f;
+const float SimpleCA3Experiment::PTI_TARGET_HZ_MAX = 21.0f;
+const float SimpleCA3Experiment::DTI_TARGET_HZ_MIN = 6.0f;
+const float SimpleCA3Experiment::DTI_TARGET_HZ_MAX = 11.0f;
 
 /** If the command-line arguments contain the option "-parameter", returns the value of the
  * argument that immediately follows the option.  If the arguments do not contain "-parameter",
