@@ -15,14 +15,14 @@ using namespace std;
 class SimpleCA3Experiment : public Experiment {
 public:
     // Decay constants
-    static const float COND_tAMPA=5.0, COND_tNMDA=150.0, COND_tGABAa=6.0, COND_tGABAb=150.0;
+    static constexpr float COND_tAMPA=5.0, COND_tNMDA=150.0, COND_tGABAa=6.0, COND_tGABAb=150.0;
 
     // Neurons
     static const int NUM_NEURONS = 1000;
-    static const double RND_FRACTION = 0.1;
-    static const double PYR_FRACTION = 0.9;
-    static const double PTI_FRACTION = 0.05;
-    static const double DTI_FRACTION = 0.05;
+    static constexpr double RND_FRACTION = 0.1;
+    static constexpr double PYR_FRACTION = 0.9;
+    static constexpr double PTI_FRACTION = 0.05;
+    static constexpr double DTI_FRACTION = 0.05;
 
     // Izhikevich parameters
     static const float PYR_PARAMS[];
@@ -34,15 +34,15 @@ public:
     static const int EVAL_SECONDS = 20;
 
     // Firing rate of input Poisson neurons
-    static const float IN_HZ = 10.0f;
+    static constexpr float IN_HZ = 10.0f;
 
     // Target rates for the objective function
-    static const float PYR_TARGET_HZ_MIN = 2.0f;
-    static const float PYR_TARGET_HZ_MAX = 4.0f;
-    static const float PTI_TARGET_HZ_MIN = 15.0f;
-    static const float PTI_TARGET_HZ_MAX = 21.0f;
-    static const float DTI_TARGET_HZ_MIN = 6.0f;
-    static const float DTI_TARGET_HZ_MAX = 11.0f;
+    static constexpr float PYR_TARGET_HZ_MIN = 2.0f;
+    static constexpr float PYR_TARGET_HZ_MAX = 4.0f;
+    static constexpr float PTI_TARGET_HZ_MIN = 15.0f;
+    static constexpr float PTI_TARGET_HZ_MAX = 21.0f;
+    static constexpr float DTI_TARGET_HZ_MIN = 6.0f;
+    static constexpr float DTI_TARGET_HZ_MAX = 11.0f;
 
     const SimMode simMode;
     const LoggerMode verbosity;

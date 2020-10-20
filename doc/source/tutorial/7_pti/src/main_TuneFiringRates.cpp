@@ -17,9 +17,11 @@
 #include "PTI.h"
 #include <carlsim.h>
 #include <iostream>
+#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <cstdio>
+#include <cstring>
 #include <vector>
 
 using namespace std;
@@ -27,7 +29,7 @@ using namespace std;
 class TuneFiringRatesExperiment : public Experiment {
 public:
 	// Decay constants
-	static const float COND_tAMPA=5.0, COND_tNMDA=150.0, COND_tGABAa=6.0, COND_tGABAb=150.0;
+	const float COND_tAMPA=5.0, COND_tNMDA=150.0, COND_tGABAa=6.0, COND_tGABAb=150.0;
 	
 	// Number of neurons in each group
 	static const int NUM_NEURONS_PER_GROUP = 100;
@@ -36,9 +38,9 @@ public:
 	static const int runTime = 2;
 
 	// Target rates for the objective function
-	static const float INPUT_TARGET_HZ = 30.0f;
-	static const float EXC_TARGET_HZ   = 10.0f;
-	static const float INH_TARGET_HZ   = 20.0f;
+	const float INPUT_TARGET_HZ = 30.0f;
+	const float EXC_TARGET_HZ   = 10.0f;
+	const float INH_TARGET_HZ   = 20.0f;
 
     const LoggerMode verbosity;
 	const SimMode simMode;

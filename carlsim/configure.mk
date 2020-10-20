@@ -188,5 +188,5 @@ endif
 
 sim_install_files += $(CARLSIM5_LIB_DIR)/$(lib_name)*
 
-CARLSIM5_FLG := -I$(CARLSIM5_INC_DIR) -L$(CARLSIM5_LIB_DIR)
+CARLSIM5_FLG := -I$(CARLSIM5_INC_DIR) -L$(CARLSIM5_LIB_DIR) -pthread
 CARLSIM5_LIB := -l$(SIM_LIB_NAME)
