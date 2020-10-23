@@ -25,9 +25,10 @@
 *.la
 *.a
 
-# Build directory
+# Build directories
 .build
 build
+doc/html
 
 # =====================
 # emacs ignore list
