@@ -25,9 +25,10 @@
 *.la
 *.a
 
-# Build directory
+# Build directories
 .build
 build
+doc/html
 
 # Docs build directory
 doc/html/

@@ -1,8 +1,13 @@
 #! /bin/bash
 
-# compare doxygen version number to min version
-# http://stackoverflow.com/questions/4023830/bash-how-compare-two-strings-in-version-format
+
+##############################
+# Helper Functions
+##############################
+
 vercomp () {
+    # compare doxygen version number to min version
+    # http://stackoverflow.com/questions/4023830/bash-how-compare-two-strings-in-version-format
     if [[ $1 == $2 ]]
     then
         return 0
@@ -49,6 +54,18 @@ testvercomp () {
         exit 0
     fi
 }
+
+
+##############################
+# Main Script
+##############################
+
+if ! command -v doxygen &> /dev/null
+then
+    echo "ERROR: Could not find the 'doxygen' command on your system."
+    echo "       You'll need to install doxygen before building the docs."
+    exit
+fi
 
 # get doxygen version
 doxVer="$(doxygen --version | grep ^[0-9]\.[0-9])"
