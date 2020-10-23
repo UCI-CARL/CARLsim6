@@ -665,7 +665,7 @@ INPUT                  = ../carlsim/interface/inc \
                          ../carlsim/kernel/inc \
                          ../carlsim/kernel/src \
                          ../carlsim/monitor \
-                         ../tools/ecj_pti \
+                         ../tools/pti \
                          ../tools/eo_pti \
                          ../tools/visual_stimulus \
                          ../tools/offline_analysis_toolbox \
