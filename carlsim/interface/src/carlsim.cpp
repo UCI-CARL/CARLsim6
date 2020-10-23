@@ -1009,9 +1009,9 @@ public:
 			}
 		}
 
-	// return ConnectionMonitor object
-	return snn_->setConnectionMonitor(grpIdPre, grpIdPost, fid);
-}
+		// return ConnectionMonitor object
+		return snn_->setConnectionMonitor(grpIdPre, grpIdPost, fid);
+	}
 
 	void setExternalCurrent(int grpId, const std::vector<float>& current) {
 		std::string funcName = "setExternalCurrent(\""+getGroupName(grpId)+"\")";
@@ -1517,7 +1517,7 @@ public:
 		def_STDP_tauLTD_ = tauMinus;
 	}
 
-// set default values for I-STDP params
+	// set default values for I-STDP params
 	void setDefaultISTDPparams(float betaLTP, float betaLTD, float lambda, float delta, STDPType stdpType) {
 		std::string funcName = "setDefaultISTDPparams()";
 		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
@@ -1543,7 +1543,7 @@ public:
 		def_STDP_delta_ = delta;
 	}
 
-// set default STP values for an EXCITATORY_NEURON or INHIBITORY_NEURON
+	// set default STP values for an EXCITATORY_NEURON or INHIBITORY_NEURON
 	void setDefaultSTPparams(int neurType, float STP_U, float STP_tau_u, float STP_tau_x) {
 		std::string funcName = "setDefaultSTPparams()";
 		UserErrors::assertTrue(neurType==EXCITATORY_NEURON || neurType==INHIBITORY_NEURON, UserErrors::WRONG_NEURON_TYPE,
