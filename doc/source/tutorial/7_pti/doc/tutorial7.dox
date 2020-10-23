@@ -13,11 +13,20 @@ represent the weight ranges, and we will use the
 <a href="https://cs.gmu.edu/~eclab/projects/ecj/">ECJ evolutionary computation framework</a>.
 
 We will accomplish this by place our CARLsim model inside a program that accept parameter values on 
-`stdin`, runs the model, and then rights fitness values to `stdout`.  This provides an interface that 
-allows your CARLsim model to be tuned by external optimization tools such as ECJ.
+`stdin`, runs the model, and then rights fitness values to `stdout`.  For example, once we've compiled 
+this model, we can pipe one or more comma-delimited vector of parameters staright into it, and a 
+fitness value will be returned (or multiple values, if we send multiple vectors):
 
-All the required files are found in the doc/source/tutorial/7_pti/src/ directory. The user is encouraged
-to follow along and experiment with the source code found there.
+\code
+$ echo "0.1,0.1,0.1,0.1" | ./main_TuneFiringRates
+0.000690975
+\endcode
+
+This provides an interface that allows your CARLsim model to be tuned by external optimization tools such 
+as ECJ.
+
+All the required files for the example we describe here are found in the `doc/source/tutorial/7_pti/src/`
+directory. We encourage you and experiment with the source code found there!
 
 This tutorial assumes:
 - ECJ version 28 or greater is installed.  Find it at https://cs.gmu.edu/~eclab/projects/ecj/
@@ -30,7 +39,7 @@ experiment class function called <tt>run</tt>.
 A more in-depth overview of CARLsim and ECJ can be found in \ref ch10_ecj.
 
 
-\section tut7s3_experiment_class 7.2 The Experiment Class
+\section tut7s3_experiment_class 7.2 The Simulation to be Tuned
 
 Let's begin by building our CARLsim model.  The full example is found in <tt>main_TuneFiringRates.cpp</tt>.  You can 
 use it as a template for implementing your own parameter-tuning experiments.
@@ -61,7 +70,7 @@ int main(int argc, char* argv[]) {
   	const LoggerMode verbosity = hasOpt(argc, argv, "v") ? USER : SILENT;
 \endcode
 
-Next, we'll instantiate our model.  We'll write the impelmentation of `TunefiringRatesExperiment` class in
+Next, we'll instantiate our model.  We'll write the implementation of `TunefiringRatesExperiment` class in
 a moment below:
 
 \code
@@ -102,23 +111,11 @@ class must be inherited from the base class and default constructor must be defi
 \code
 class TuneFiringRatesExperiment : public Experiment {
 public:
-	// Decay constants
-	static const float COND_tAMPA=5.0, COND_tNMDA=150.0, COND_tGABAa=6.0, COND_tGABAb=150.0;
-	
-	// Number of neurons in each group
-	static const int NUM_NEURONS_PER_GROUP = 100;
-
-	// Simulation time in seconds
-	static const int runTime = 2;
-
-	// Target rates for the objective function
-	static const float INPUT_TARGET_HZ = 30.0f;
-	static const float EXC_TARGET_HZ   = 10.0f;
-	static const float INH_TARGET_HZ   = 20.0f;
+    // Various constants are defined here at the top that we'll use  later on
 \endcode
 
-We'll also add two member variables so we can remember the loggins and cpu-vs.-gpu configuration.
-All our constructor will do is set these two values:
+For our constructor, we'll just pull in two parameters to define whether we're using a CPU or GPU, and
+what level of logging to use.
 
 \code
     const LoggerMode verbosity;
@@ -127,113 +124,154 @@ All our constructor will do is set these two values:
 	TuneFiringRatesExperiment(const SimMode simMode, const LoggerMode verbosity): simMode(simMode), verbosity(verbosity) {}
 \endcode
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-After that, the user should only be concerned with writing the <tt>run</tt> member function.
+Now we'll implement the `run()` method, which handles the simulation meat and acts as the 
+fitness function for optimization.
 
 \code
-...
-void run(const ParameterInstances &parameters, std::ostream &outputStream) const {
-	int indiNum = parameters.getNumInstances();
+	void run(const ParameterInstances &parameters, std::ostream &outputStream) const {
 
-	int poissonGroup[indiNum];
-	int excGroup[indiNum];
-	int inhGroup[indiNum];
-	SpikeMonitor* excMonitor[indiNum];
-	SpikeMonitor* inhMonitor[indiNum];
-	float excHz[indiNum];
-	float inhHz[indiNum];
-	float excError[indiNum];
-	float inhError[indiNum];
-	float fitness[indiNum];
-...
+		// Construct a CARLsim network on the heap.
+		CARLsim* const network = new CARLsim("tuneFiringRates", simMode, verbosity);
 \endcode
 
-Notice we can use the parameters object to query how many instances/individuals we have defined in
-the ECJ parameter file. Now that we have that value, we manually create arrays neuron groups of size
-<tt>indiNum</tt>. In our case we have defined 10 individuals per generation.
+Now we are going to build many neural networks---one for each of the parameter vectors in 
+`ParameterInstances`---at the same time within a single `CARLsim` instance.  Doing this allows
+us to evaluate several separate networks at once on a GPU.
 
-Next we create our CARLsim network object and assign the 4 parameter values generated by ECJ to our
-10 SNN individuals. We iterate over all 10 individuals and assign them 4 distinct parameters each.
+We'll start by seting up `SpikeMonitor`s and variables to track the neuron groups for each
+individual's network:
 
 \code
-CARLsim* const network = new CARLsim("tuneFiringRatesECJ", GPU_MODE, SILENT);
+		// Define constant Izhikevich parameters for two types of neurons
+		const float REG_IZH[] = { 0.02f, 0.2f, -65.0f, 8.0f };
+		const float FAST_IZH[] = { 0.1f, 0.2f, -65.0f, 2.0f };
 
-for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
-	poissonGroup[i] = network->createSpikeGeneratorGroup("poisson", NUM_NEURONS, EXCITATORY_NEURON);
-	excGroup[i] = network->createGroup("exc", NUM_NEURONS, EXCITATORY_NEURON);
-	inhGroup[i] = network->createGroup("inh", NUM_NEURONS, INHIBITORY_NEURON);
+		// The number of individuals (separate parameter configurations) we have received
+		int indiNum = parameters.getNumInstances();
 
-	network->setNeuronParameters(excGroup[i], REG_IZH[0], REG_IZH[1], REG_IZH[2], REG_IZH[3]);
-	network->setNeuronParameters(inhGroup[i], FAST_IZH[0], FAST_IZH[1], FAST_IZH[2], FAST_IZH[3]);
-	network->setConductances(true,COND_tAMPA,COND_tNMDA,COND_tGABAa,COND_tGABAb);
+		// Groups for each individual
+		int poissonGroup[indiNum];
+		int excGroup[indiNum];
+		int inhGroup[indiNum];
 
-	network->connect(poissonGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,0)), 0.5f, RangeDelay(1));
-	network->connect(excGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,1)), 0.5f, RangeDelay(1));
-	network->connect(excGroup[i], inhGroup[i], "random", RangeWeight(parameters.getParameter(i,2)), 0.5f, RangeDelay(1));
-	network->connect(inhGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,3)), 0.5f, RangeDelay(1));
-
-}
+		// Measure spiking activity on each exc and inh group
+		SpikeMonitor* excMonitor[indiNum];
+		SpikeMonitor* inhMonitor[indiNum];
 \endcode
 
-We then setup the SNNs, begin recording their spike data with a SpikeMonitor, and run the SNNs.
+Then we'll set up some more arrays to track the firing rates of each network, and the fitness values
+that we'll calculate from those firing rates:
 
 \code
-...
-network->setupNetwork();
-...
-excMonitor[i] = network->setSpikeMonitor(excGroup[i], "/dev/null");
-inhMonitor[i] = network->setSpikeMonitor(inhGroup[i], "/dev/null");
-
-excMonitor[i]->startRecording();
-inhMonitor[i]->startRecording();
-...
-network->runNetwork(runTime,0);
+		// We'll process the spiking activity into a fitness value
+		float excHz[indiNum];
+		float inhHz[indiNum];
+		float excError[indiNum];
+		float inhError[indiNum];
+		float fitness[indiNum];
 \endcode
 
-Finally we stop recording, get the average firing rate of each group and compute a fitness function
-which is output to ECJ using standard Linux streams.
+Now we'll set up the actual groups for each network.  This involves iterating through all of the 
+`ParameterInstances` that we have been given, and using their values to set certain parameters of our
+network.  These are the values that will be tuned to maximize our measure of fitness:
 
 \code
-excMonitor[i]->stopRecording();
-inhMonitor[i]->stopRecording();
+		// We'll add groups for *all* the individuals to the same large CARLsim network object.
+		// This allows us to run multiple networks side-by-side on the same GPU: we treat them as
+		// a single mega-network with many non-interacting components.
+		assert(parameters.getNumParameters() >= 4);
+		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
+			/** Decode a genome*/
+			poissonGroup[i] = network->createSpikeGeneratorGroup("poisson", NUM_NEURONS_PER_GROUP, EXCITATORY_NEURON);
+			excGroup[i] = network->createGroup("exc", NUM_NEURONS_PER_GROUP, EXCITATORY_NEURON);
+			inhGroup[i] = network->createGroup("inh", NUM_NEURONS_PER_GROUP, INHIBITORY_NEURON);
 
-excHz[i] = excMonitor[i]->getPopMeanFiringRate();
-inhHz[i] = inhMonitor[i]->getPopMeanFiringRate();
+			network->setNeuronParameters(excGroup[i], REG_IZH[0], REG_IZH[1], REG_IZH[2], REG_IZH[3]);
+			network->setNeuronParameters(inhGroup[i], FAST_IZH[0], FAST_IZH[1], FAST_IZH[2], FAST_IZH[3]);
+			network->setConductances(true,COND_tAMPA,COND_tNMDA,COND_tGABAa,COND_tGABAb);
 
-excError[i] = fabs(excHz[i] - EXC_TARGET_HZ);
-inhError[i] = fabs(inhHz[i] - INH_TARGET_HZ);
-
-fitness[i] = 1/(excError[i] + inhError[i]);
-outputStream << fitness[i] << endl;
+			network->connect(poissonGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,0)), 0.5f, RangeDelay(1));
+			network->connect(excGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,1)), 0.5f, RangeDelay(1));
+			network->connect(excGroup[i], inhGroup[i], "random", RangeWeight(parameters.getParameter(i,2)), 0.5f, RangeDelay(1));
+			network->connect(inhGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,3)), 0.5f, RangeDelay(1));
+		}
 \endcode
+
+Now we need to pause and compile the networks before attaching the monitors:
+
+\code
+		// With all the groups and connections specified, we can now setup the mega-network
+		network->setupNetwork();
+\endcode
+
+Now well hop back into a `for` loop to add the monitors:
+
+\code
+		// Configure the spiking rate for the Poisson inputs
+		PoissonRate* const in = new PoissonRate(NUM_NEURONS_PER_GROUP);
+		in->setRates(INPUT_TARGET_HZ);
+
+		// Assign the spiking rate and spikeMonitors for each sub-network
+		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
+			network->setSpikeRate(poissonGroup[i],in);
+
+			excMonitor[i] = network->setSpikeMonitor(excGroup[i], "/dev/null");
+			inhMonitor[i] = network->setSpikeMonitor(inhGroup[i], "/dev/null");
+
+			excMonitor[i]->startRecording();
+			inhMonitor[i]->startRecording();
+
+			// initialize all the error and fitness variables
+			excHz[i]=0; inhHz[i]=0;
+			excError[i]=0; inhError[i]=0;
+			fitness[i]=0;
+		}
+\endcode
+
+Now we can execute the networks:
+
+\code
+		// GO!
+		network->runNetwork(runTime,0);
+\endcode
+
+After the simulations complete, we can loop back through and compute fitness values for each network.
+
+The fitness function can be whatever you need it to be to solve your problem: just compute a float and 
+write it to the `outputstream` variable that is passed into the `run()` method.
+
+In this tutorial, we compute fitness based on the distance between each group's mean firing rate and 
+our target firing rate.  We want to formulate the fitness function to follow a maximization problem,
+where higher values are better (because ECJ expects to be given maximization problems).  To effect this,
+we sum the errors for each group and then take the reciprocal:
+
+\code
+		// For each sub-network, extract the mean firing rate and compute a fitness value based on its difference from the target rate
+		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
+
+			excMonitor[i]->stopRecording();
+			inhMonitor[i]->stopRecording();
+
+			excHz[i] = excMonitor[i]->getPopMeanFiringRate();
+			inhHz[i] = inhMonitor[i]->getPopMeanFiringRate();
+
+			excError[i] = fabs(excHz[i] - EXC_TARGET_HZ);
+			inhError[i] = fabs(inhHz[i] - INH_TARGET_HZ);
+
+			fitness[i] = 1/(excError[i] + inhError[i]);
+			outputStream << fitness[i] << endl;
+		}
+\endcode
+
+Lastly, we'll close our `Experiment` with some cleanup, since we didn't use smart pointers:
+
+\code
+		delete network;
+		delete in;
+\endcode
+
+
+
 
 
 
@@ -412,40 +450,21 @@ stat.file = 			                        $out.stat
 \endcode
 
 
+\section tut7s4_output_files 7.4 ECJ Output
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-To compile and run the tuning framework we simply type:
+With our model compiled and our parameter file complete, run ECJ with `java` and pass in the 
+parameter file to its `-file` argument:
 
 \code
-make
-./launchCARLsimECJ.sh
+java -jar ~/path/to/ecj/ecj-28.jar -file ./ecj_TuneFiringRates.params
 \endcode
 
 The simulation should run to completion and output the best fitness each generation.
 
-This results in an ECJ out.stat file that we talk about in the next section.
-
-
-\section tut7s4_output_files 7.4 ECJ Output Files
-
-The output.stat file generated contains the best fitness for that generation along with the four
-parameter values associated with that individual. CARLsim users can then use these parameters for
-their tuned SNN models.
+An `out.stat` file should also appear in the current working directory, since we configured
+the `stat` parameter to create it there.  This will  contains the best fitness for that generation 
+along with the four parameter values associated with that individual. CARLsim users can then use 
+these parameters for their tuned SNN models.
 
 \see \ref ch10_ecj
 

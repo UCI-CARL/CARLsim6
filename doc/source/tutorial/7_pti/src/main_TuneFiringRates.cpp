@@ -51,6 +51,10 @@ public:
 	TuneFiringRatesExperiment(const SimMode simMode, const LoggerMode verbosity): simMode(simMode), verbosity(verbosity) {}
 
 	void run(const ParameterInstances &parameters, std::ostream &outputStream) const {
+
+		// Construct a CARLsim network on the heap.
+		CARLsim* const network = new CARLsim("tuneFiringRates", simMode, verbosity);
+
 		// Define constant Izhikevich parameters for two types of neurons
 		const float REG_IZH[] = { 0.02f, 0.2f, -65.0f, 8.0f };
 		const float FAST_IZH[] = { 0.1f, 0.2f, -65.0f, 2.0f };
@@ -74,9 +78,6 @@ public:
 		float inhError[indiNum];
 		float fitness[indiNum];
 
-		// Construct a CARLsim network on the heap.
-		CARLsim* const network = new CARLsim("tuneFiringRates", simMode, verbosity);
-
 		// We'll add groups for *all* the individuals to the same large CARLsim network object.
 		// This allows us to run multiple networks side-by-side on the same GPU: we treat them as
 		// a single mega-network with many non-interacting components.
@@ -95,7 +96,6 @@ public:
 			network->connect(excGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,1)), 0.5f, RangeDelay(1));
 			network->connect(excGroup[i], inhGroup[i], "random", RangeWeight(parameters.getParameter(i,2)), 0.5f, RangeDelay(1));
 			network->connect(inhGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,3)), 0.5f, RangeDelay(1));
-
 		}
 
 		// With all the groups and connections specified, we can now setup the mega-network
