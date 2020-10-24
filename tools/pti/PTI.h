@@ -20,7 +20,7 @@ using namespace std;
  * 
  * The intent is that PTI and an Experiment can be used in the main method of a simple program:
  * 
- * \snippet examples/AbortExample.cpp PTI
+ * \snippet test_examples/AbortExample.cpp PTI
  * 
  * A program like this can serve as the interface between CARLsim an an optimization tool (such as the <a 
  * href="https://cs.gmu.edu/~eclab/projects/ecj/">ECJ metaheuristics toolkit</a>).
