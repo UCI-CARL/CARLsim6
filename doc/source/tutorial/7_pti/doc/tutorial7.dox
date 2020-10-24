@@ -198,15 +198,12 @@ Create a new `.params` file and open it with an editor.  We'll start by inheriti
 parameters from a parent file at the top of our file:
 
 \code
-parent.0 =                                      $ecj_boiler_plate.params
+parent.0 =                                      ./ecj_boiler_plate.params
 \endcode
 
 The `ecj_boiler_plate` file contains quite a few standard parameter settings that we typically only alter
 in special circumstances—it defines things like the Java classes that manage the algorithm
 and population state.
-
-Notice there is a <tt>$</tt> before the filename. This indicates that the location of the 
-parent file is specified \em relative to the location of our parameter file.
 
 
 \subsection Problem
@@ -222,7 +219,7 @@ instance to evaluate many individuals at once, so we'll leave ECJ's `evalthreads
 
 \code
 eval.problem =                                  ec.app.command.CommandProblem
-eval.problem.command =                          $main_TuneFiringRates.out
+eval.problem.command =                          ./main_TuneFiringRates.out
 evalthreads = 				                    1
 \endcode
 
@@ -355,6 +352,10 @@ stat =					                        ec.simple.SimpleStatistics
 stat.file = 			                        $out.stat
 \endcode
 
+Notice there is a `$` in the output filename.  This indicates that the output path an "execution-relative"
+path, i.e. it is relative to the working directory that the ECJ process was launched from (rather than 
+relative to the parameter file we are writing).  The different types of paths ECJ supporst are explained 
+in the ECJ Manual.
 
 \section tut7s4_output_files 7.4 ECJ Output
 
