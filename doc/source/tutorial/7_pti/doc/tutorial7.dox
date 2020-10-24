@@ -37,7 +37,9 @@ This tutorial assumes:
 ECJ handles all steps of the EA except for \em fitness \em evaluation, which is done by 
 CARLsim through the implementation of an `Experiment` class function called <tt>run</tt>.
 
-A more in-depth overview of CARLsim and ECJ can be found in \ref ch10_ecj.
+\image html ECJ-Loop.png  "A general approach to parameter tuning. ECJ performs uses an EA to generate candidate parameter configurations, and passes the current generation of parameters (red arrow) to CARLsim for evaluation using the parameter tuning interface (PTI) code. CARLsim assigns each parameter set to an SNN and evaluates all the individuals in parallel, passing the fitness values back to ECJ for selection of individuals in the next generation (black arrow)."
+
+Source: Beyeler et al., 2015
 
 
 \section tut7s2_experiment_class 7.2 Wrapping the Simulation
@@ -370,6 +372,15 @@ the `stat` parameter to create it there.  This will  contains the best fitness f
 along with the four parameter values associated with the individual. CARLsim users can then use 
 these parameters for their tuned SNN models.
 
-\see \ref ch10_ecj
+\since v3.0
+
+\section tut7s5_references References
+
+Beyeler, M., Carlson, K. D., Chou, T. S., Dutt, N., Krichmar, J. L., CARLsim 3: A user-friendly
+and highly optimized library for the creation of neurobiologically detailed spiking
+neural networks. International Joint Confernece on Neural Networks (IJCNN), 2015.
+
+Carlson, K. D., Nageswaran, J. M., Dutt, N., Krichmar, J. L., An efficient automated parameter
+tuning framework for spiking neural networks, Front. Neurosci., vol. 8, no. 10, 2014.
 
 */
