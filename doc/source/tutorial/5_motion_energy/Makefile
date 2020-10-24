@@ -69,7 +69,7 @@ inc_files  := $(wildcard $(proj_inc_dir)/*.h)
 obj_files  := $(patsubst %.cpp, %-cpp.o, $(cpp_files))
 
 # handled by clean and distclean
-clean_files := $(obj_files) $(proj_target)
+clean_files := $(obj_files) $(proj_target).out
 distclean_files := $(clean_files) results/* *.dot *.dat *.csv *.log
 
 PROJ_FL := -I/opt/CARL/ME/inc -L/opt/CARL/ME/lib
@@ -86,7 +86,7 @@ default: $(proj_target)
 $(proj_target): $(main_src_file) $(inc_files) $(cpp_files) $(obj_files)
 	$(eval CARLSIM5_FLG += -Wno-deprecated-gpu-targets)
 	$(eval CARLSIM5_LIB += -lcurand)
-	$(NVCC) $(CARLSIM5_FLG) $(PROJ_FL) $(obj_files) $< -o $(proj_target) $(CARLSIM5_LIB) $(PROJ_LIB)
+	$(NVCC) $(CARLSIM5_FLG) $(PROJ_FL) $(obj_files) $< -o $(proj_target).out $(CARLSIM5_LIB) $(PROJ_LIB)
 
 $(proj_src_dir)/%-cpp.o: $(proj_src_dir)/%.cpp $(inc_files)
 	$(NVCC) -c $(NVCCINCFL) $(NVCCFL) $(PROJ_FL) $< -o $@ $(PROJ_LIB)

@@ -9,7 +9,7 @@ parent.0 =                                      $ecj_boiler_plate.params
 # Problem
 ##############################
 eval.problem =                                  ec.app.command.CommandProblem
-eval.problem.command =                          $main_TuneFiringRates
+eval.problem.command =                          $main_TuneFiringRates.out
 evalthreads = 				                    1
 
 

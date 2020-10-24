@@ -40,7 +40,7 @@ targets := $(patsubst %.cpp, %, $(cpp_files))
 obj_files    := $(patsubst %.cpp, obj/%.o, $(cpp_files))
 
 # handled by clean
-clean_files := $(obj_files) $(targets)
+clean_files := $(obj_files) $(patsubst %, %.out, $(targets))
 
 #------------------------------------------------------------------------------
 # Project targets and rules
@@ -52,7 +52,7 @@ default: all
 all: $(targets)
 
 $(targets): %: obj/%.o
-	$(CXX) $(CARLSIM5_FLG) $< -o $@ $(CARLSIM5_LIB) $(pti_lib)
+	$(CXX) $(CARLSIM5_FLG) $< -o $@.out $(CARLSIM5_LIB) $(pti_lib)
 
 obj/%.o: %.cpp
 	@test -d obj/ || mkdir -p obj/

@@ -220,7 +220,7 @@ instance to evaluate many individuals at once, so we'll leave ECJ's `evalthreads
 
 \code
 eval.problem =                                  ec.app.command.CommandProblem
-eval.problem.command =                          $main_TuneFiringRates
+eval.problem.command =                          $main_TuneFiringRates.out
 evalthreads = 				                    1
 \endcode
 

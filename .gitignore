@@ -24,6 +24,7 @@
 *.lai
 *.la
 *.a
+*.a.*
 
 # Build directories
 .build
@@ -33,15 +34,17 @@ doc/html
 # Docs build directory
 doc/html/
 
-# =====================
-# emacs ignore list
-# =====================
+# emacs and various IDE files
 *~
 *.desktop
 *.desktop.lock
 *.lib
+.vscode/
 
-# Executables
+# Outputs and executables
 *.exe
 *.out
 *.app
+*.log
+*.stat
+*.dat
