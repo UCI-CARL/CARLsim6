@@ -2,18 +2,20 @@
 
 \page tut7_pti Tutorial 7: Parameter Tuning Interface (PTI)
 \tableofcontents
+\author Eric O. Scott
 \author Kristofor D. Carlson
 
 
 \section tut7s1_intro 7.1 Introduction
 
-In this tutorial we introduce the parameter tuning interface and how to tune the weight ranges of a
+In this tutorial we introduce CARLsim's auxiliary <b>parameter-tuning interface</b> and how to tune the weight ranges of a
 simple SNN to achieve a particular target firing rate. We will be tuning four parameter values that
 represent the weight ranges, and we will use the 
-<a href="https://cs.gmu.edu/~eclab/projects/ecj/">ECJ evolutionary computation framework</a>.
+<a href="https://cs.gmu.edu/~eclab/projects/ecj/">ECJ evolutionary computation framework</a>
+to optimize our model with an <b>evolutionary algorithm</b> (EA).
 
-We will accomplish this by place our CARLsim model inside a program that accept parameter values on 
-`stdin`, runs the model, and then rights fitness values to `stdout`.  For example, once we've compiled 
+We will accomplish this by <b>wrapping</b> our CARLsim model inside a program that accepts parameter values on 
+`stdin`, runs the model, and then writes fitness values to `stdout`.  For example, once we've compiled 
 this model, we can pipe one or more comma-delimited vector of parameters staright into it, and a 
 fitness value will be returned (or multiple values, if we send multiple vectors):
 
@@ -23,26 +25,26 @@ $ echo "0.1,0.1,0.1,0.1" | ./main_TuneFiringRates
 \endcode
 
 This provides an interface that allows your CARLsim model to be tuned by external optimization tools such 
-as ECJ.
+as ECJ, or by your own parameter sweep scripts, etc.
 
 All the required files for the example we describe here are found in the `doc/source/tutorial/7_pti/src/`
-directory. We encourage you and experiment with the source code found there!
+directory. We encourage you to follow along and experiment with the source code found there!
 
 This tutorial assumes:
 - ECJ version 28 or greater is installed.  Find it at https://cs.gmu.edu/~eclab/projects/ecj/
 - CARLsim 5.0 is installed.
 
-The overview of parameter tuning is as follows. ECJ handles all steps of the evolutionary algorithm
-(EA) except for \em fitness \em evaluation which is done by CARLsim through the implementation of an
-experiment class function called <tt>run</tt>.
+ECJ handles all steps of the EA except for \em fitness \em evaluation, which is done by 
+CARLsim through the implementation of an `Experiment` class function called <tt>run</tt>.
 
 A more in-depth overview of CARLsim and ECJ can be found in \ref ch10_ecj.
 
 
-\section tut7s3_experiment_class 7.2 The Simulation to be Tuned
+\section tut7s2_experiment_class 7.2 Wrapping the Simulation
 
-Let's begin by building our CARLsim model.  The full example is found in <tt>main_TuneFiringRates.cpp</tt>.  You can 
-use it as a template for implementing your own parameter-tuning experiments.
+Let's begin by building our CARLsim model and fitness function.  The full example is found 
+in <tt>main_TuneFiringRates.cpp</tt>.  You can use it as a template for implementing your 
+own parameter-tuning experiments.
 
 We'll do three things a little differently from the previous tutorials:
 
@@ -51,257 +53,154 @@ We'll do three things a little differently from the previous tutorials:
  3. after the model runs, we'll write a fitness value to `stdout` for each parameter instance we received.
 
 
-\subsection The Main Method
+\subsection tut7s2a_main The Main Method
 
-For the high-level part of our program, we'll start by including CARLsim and `PTI.h`.  The latter cointains some high-level
+For the high-level entrypoint in `main()`, we'll start by including CARLsim and `PTI.h`.  The latter cointains some high-level
 code that helps us standardize our parameter-tuning interface across projects (namely the `Experiment` and `PTI` classes).
 
-Then for our `main`, we'll begin by loading a couple of CLI parameters.  The `verbosity` parameter in particular will allow us
+Then we'll begin by loading a couple of CLI parameters.  The `verbosity` parameter in particular will allow us
 to write CARLsim logs to stdout while we're debugging our model, but to keep them silent while tuning (so only fitness 
-values are written to `stdout`):
+values are written to `stdout`).  We're using a simple helper function `hasOpt()` for this (find it
+in the full source file):
 
-\code
-#include <iostream>
-#include <carlsim.h>
-#include "PTI.h"
-
-int main(int argc, char* argv[]) {
-	const SimMode simMode = hasOpt(argc, argv, "cpu") ? CPU_MODE : GPU_MODE;
-  	const LoggerMode verbosity = hasOpt(argc, argv, "v") ? USER : SILENT;
-\endcode
+\snippet src/main_TuneFiringRates.cpp includes
+\snippet src/main_TuneFiringRates.cpp main1
 
 Next, we'll instantiate our model.  We'll write the implementation of `TunefiringRatesExperiment` class in
 a moment below:
 
-\code
-	const TuneFiringRatesExperiment experiment(simMode, verbosity);
-\endcode
+\snippet src/main_TuneFiringRates.cpp main2
 
 To execute the model, we'll use the `PTI` class.  This is a simple class that orchestrates the loading of parameters from
 an input stream (usually `std::cin`), uses them to execute your `Experiment` subclass, and collects the results to an 
 output stream (`std::cout`).
 
-\code
-	const PTI pti(argc, argv, std::cout, std::cin);
-
-	pti.runExperiment(experiment);
-
-	return 0;
-}
-\endcode
+\snippet src/main_TuneFiringRates.cpp main3
 
 
-\subsection The Experiment Class
+\subsection tut7s2b_experiment The Experiment Class
 
 Now, at the top of the same file, we'll implement the `TuneFiringRatesExperiment` class that
 our `main()` uses.
 
-The layout of the SNN is as follows. We have 10 input excitatory
-neurons, 10 regular spiking (RS) excitatory neurons that receive this input, and 10 fast spiking
-(FS) izhikevich neurons that receive input from the excitatory RS neurons. Additionally, the
-inhibitory group is connected to the RS excitatory group and the RS excitatory group is connected to
-itself recurrently. There are therefore 4 connection weight ranges to be tuned. The goal of the
-tuning is make the RS excitatory group have an average firing rate of 10 Hz and make the FS
-inhibitory group have an average firing rate of 20 Hz.
+The layout of the SNN is as follows. We have a three groups of neurons, each configured to have
+`NUM_NEURONS_PER_GROUP = 100` neurons:
+
+ 1. a group `poisson` of excitatory, Poisson-spiking input neurons, 
+ 2. a group `exc` of excitatory regular-spiking (RS) neurons that receive this input, and
+ 3. a group `inh` of inhibitory fast-spiking (FS) izhikevich neurons that receive input from the excitatory RS neurons.
+ 
+Additionally, `inh` is connected to the RS `exh` group, and `exh` is connected to
+itself recurrently. There are therefore 4 connection weight ranges to be tuned
+
+\image html Network_groups.png  "Fig. 1. Structure of our SNN.  It's made of up 3 groups with a total of 4 sets of connections."
+
+
+The <b>goal of the our parameter-tuning problem</b> is to make the RS `exc` group have an average firing 
+rate of 10 Hz and make the FS `inh` group have an average firing rate of 20 Hz.
 
 First we'll inhereit from the `Experiment` base class and define some constants used by our model.
-This makes it possible to pass our model into into a `pti.runExperiment()` call. specific experiment
-class must be inherited from the base class and default constructor must be defined.:
+This makes it possible to pass our model into into a `pti.runExperiment()` call:
 
-\code
-class TuneFiringRatesExperiment : public Experiment {
-public:
-    // Various constants are defined here at the top that we'll use  later on
-\endcode
+\snippet src/main_TuneFiringRates.cpp experiment1
 
 For our constructor, we'll just pull in two parameters to define whether we're using a CPU or GPU, and
 what level of logging to use.
 
-\code
-    const LoggerMode verbosity;
-	const SimMode simMode;
-
-	TuneFiringRatesExperiment(const SimMode simMode, const LoggerMode verbosity): simMode(simMode), verbosity(verbosity) {}
-\endcode
+\snippet src/main_TuneFiringRates.cpp experiment2
 
 Now we'll implement the `run()` method, which handles the simulation meat and acts as the 
 fitness function for optimization.
 
-\code
-	void run(const ParameterInstances &parameters, std::ostream &outputStream) const {
+\snippet src/main_TuneFiringRates.cpp experiment3
 
-		// Construct a CARLsim network on the heap.
-		CARLsim* const network = new CARLsim("tuneFiringRates", simMode, verbosity);
-\endcode
-
-Now we are going to build many neural networks---one for each of the parameter vectors in 
-`ParameterInstances`---at the same time within a single `CARLsim` instance.  Doing this allows
+Now we are going to build many neural networks at the same time within a single `CARLsim` 
+instance---one for each of the parameter vectors in the `ParameterInstances`.  Doing this allows
 us to evaluate several separate networks at once on a GPU.
 
 We'll start by seting up `SpikeMonitor`s and variables to track the neuron groups for each
 individual's network:
 
-\code
-		// Define constant Izhikevich parameters for two types of neurons
-		const float REG_IZH[] = { 0.02f, 0.2f, -65.0f, 8.0f };
-		const float FAST_IZH[] = { 0.1f, 0.2f, -65.0f, 2.0f };
+\snippet src/main_TuneFiringRates.cpp experiment4
 
-		// The number of individuals (separate parameter configurations) we have received
-		int indiNum = parameters.getNumInstances();
-
-		// Groups for each individual
-		int poissonGroup[indiNum];
-		int excGroup[indiNum];
-		int inhGroup[indiNum];
-
-		// Measure spiking activity on each exc and inh group
-		SpikeMonitor* excMonitor[indiNum];
-		SpikeMonitor* inhMonitor[indiNum];
-\endcode
-
-Then we'll set up some more arrays to track the firing rates of each network, and the fitness values
+We'll also set up some more arrays to track the firing rates of each network, and the fitness values
 that we'll calculate from those firing rates:
 
-\code
-		// We'll process the spiking activity into a fitness value
-		float excHz[indiNum];
-		float inhHz[indiNum];
-		float excError[indiNum];
-		float inhError[indiNum];
-		float fitness[indiNum];
-\endcode
+\snippet src/main_TuneFiringRates.cpp experiment5
 
 Now we'll set up the actual groups for each network.  This involves iterating through all of the 
 `ParameterInstances` that we have been given, and using their values to set certain parameters of our
 network.  These are the values that will be tuned to maximize our measure of fitness:
 
-\code
-		// We'll add groups for *all* the individuals to the same large CARLsim network object.
-		// This allows us to run multiple networks side-by-side on the same GPU: we treat them as
-		// a single mega-network with many non-interacting components.
-		assert(parameters.getNumParameters() >= 4);
-		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
-			/** Decode a genome*/
-			poissonGroup[i] = network->createSpikeGeneratorGroup("poisson", NUM_NEURONS_PER_GROUP, EXCITATORY_NEURON);
-			excGroup[i] = network->createGroup("exc", NUM_NEURONS_PER_GROUP, EXCITATORY_NEURON);
-			inhGroup[i] = network->createGroup("inh", NUM_NEURONS_PER_GROUP, INHIBITORY_NEURON);
-
-			network->setNeuronParameters(excGroup[i], REG_IZH[0], REG_IZH[1], REG_IZH[2], REG_IZH[3]);
-			network->setNeuronParameters(inhGroup[i], FAST_IZH[0], FAST_IZH[1], FAST_IZH[2], FAST_IZH[3]);
-			network->setConductances(true,COND_tAMPA,COND_tNMDA,COND_tGABAa,COND_tGABAb);
-
-			network->connect(poissonGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,0)), 0.5f, RangeDelay(1));
-			network->connect(excGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,1)), 0.5f, RangeDelay(1));
-			network->connect(excGroup[i], inhGroup[i], "random", RangeWeight(parameters.getParameter(i,2)), 0.5f, RangeDelay(1));
-			network->connect(inhGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,3)), 0.5f, RangeDelay(1));
-		}
-\endcode
+\snippet src/main_TuneFiringRates.cpp experiment6
 
 Now we need to pause and compile the networks before attaching the monitors:
 
-\code
-		// With all the groups and connections specified, we can now setup the mega-network
-		network->setupNetwork();
-\endcode
+\snippet src/main_TuneFiringRates.cpp experiment7
 
-Now well hop back into a `for` loop to add the monitors:
+Now we'll hop back into a `for` loop to add the monitors:
 
-\code
-		// Configure the spiking rate for the Poisson inputs
-		PoissonRate* const in = new PoissonRate(NUM_NEURONS_PER_GROUP);
-		in->setRates(INPUT_TARGET_HZ);
-
-		// Assign the spiking rate and spikeMonitors for each sub-network
-		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
-			network->setSpikeRate(poissonGroup[i],in);
-
-			excMonitor[i] = network->setSpikeMonitor(excGroup[i], "/dev/null");
-			inhMonitor[i] = network->setSpikeMonitor(inhGroup[i], "/dev/null");
-
-			excMonitor[i]->startRecording();
-			inhMonitor[i]->startRecording();
-
-			// initialize all the error and fitness variables
-			excHz[i]=0; inhHz[i]=0;
-			excError[i]=0; inhError[i]=0;
-			fitness[i]=0;
-		}
-\endcode
+\snippet src/main_TuneFiringRates.cpp experiment8
 
 Now we can execute the networks:
 
-\code
-		// GO!
-		network->runNetwork(runTime,0);
-\endcode
+\snippet src/main_TuneFiringRates.cpp experiment9
 
-After the simulations complete, we can loop back through and compute fitness values for each network.
+After the simulation is complete, we can loop back through and compute fitness values for each network.
 
-The fitness function can be whatever you need it to be to solve your problem: just compute a float and 
+The fitness function can be whatever you need it to be to solve your problem: just compute a number and 
 write it to the `outputstream` variable that is passed into the `run()` method.
 
-In this tutorial, we compute fitness based on the distance between each group's mean firing rate and 
-our target firing rate.  We want to formulate the fitness function to follow a maximization problem,
-where higher values are better (because ECJ expects to be given maximization problems).  To effect this,
+In this tutorial, we compute fitness based on the difference between each group's mean firing rate and 
+our target firing rate.  We want our fitness function to define a maximization problem,
+where higher values are better (because ECJ expects to be given maximization problems).  To achieve this,
 we sum the errors for each group and then take the reciprocal:
 
-\code
-		// For each sub-network, extract the mean firing rate and compute a fitness value based on its difference from the target rate
-		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
-
-			excMonitor[i]->stopRecording();
-			inhMonitor[i]->stopRecording();
-
-			excHz[i] = excMonitor[i]->getPopMeanFiringRate();
-			inhHz[i] = inhMonitor[i]->getPopMeanFiringRate();
-
-			excError[i] = fabs(excHz[i] - EXC_TARGET_HZ);
-			inhError[i] = fabs(inhHz[i] - INH_TARGET_HZ);
-
-			fitness[i] = 1/(excError[i] + inhError[i]);
-			outputStream << fitness[i] << endl;
-		}
-\endcode
+\snippet src/main_TuneFiringRates.cpp experiment10
 
 Lastly, we'll close our `Experiment` with some cleanup, since we didn't use smart pointers:
 
-\code
-		delete network;
-		delete in;
-\endcode
+\snippet src/main_TuneFiringRates.cpp experiment11
+
+All done.  Compiling `main_TuneFiringRates.cpp` yields a program that takes comma-delimited parameter vectors 
+on `std::cin` and outputs fitness values.
 
 
 
 
 
+\section tut7s3_parameter_file 7.3 The ECJ Parameter File
 
-\section tut7s2_parameter_file 7.3 The ECJ Parameter File
+The other piece of the puzzle is the optimization algorithm.  You can use anything you want to search the 
+model's parameter space, but ECJ and CARLsim are specifically built to work together.  ECJ offers a wide 
+variety of evolutionary algorithms that can be used to tune complex, nonlinear parameter spaces.
 
-We'll start by configuring ECJ to optimize our model's parameter's with a simple evolutionary algorithm.
+We'll configure ECJ to optimize our model's parameter's with a simple evolutionary algorithm. To do so, we'll 
+write a <b>parameter file.</b>
 
-To do so, we'll write a parameter file.  ECJ uses big, centralized parameter files to coordinate the 
-interaction of a number of different algorithmic modules, traditionally ending with the extention 
+ECJ uses big, centralized parameter files to coordinate the 
+interaction of a number of different algorithmic modules, traditionally ending with the extension 
 `.params` (though they are in fact Java `.properties` files).  In this example, we'll implement a (μ, λ)-style 
 evolutionary algorithm (i.e., an algorithm that discards the parents at
-each generation) that evolves real-valued paramter vectores with Gaussian mutation of each real-valued gene,
+each generation) that evolves real-valued parameter vectors with Gaussian mutation of each real-valued gene,
 one-point crossover, and truncation selection.  You can find the complete example in
 <tt>ecj_TuneFiringRates.params</tt>.
 
-The <a href="https://cs.gmu.edu/~eclab/projects/ecj/manual.pdf">ECJ manual</a> is a great resource for 
+The <b><a href="https://cs.gmu.edu/~eclab/projects/ecj/manual.pdf">ECJ manual</a></b> is a great resource for 
 undertstanding these parameters and how to configure them in more detail.
 
 
-\subsection Boiler Plate
+\subsection tut7s3a_boiler Boiler Plate
 
-Create a new `.params` file and open it with an editor.  We'll start by inheriting some boiler plate 
+Create a new `.params` file and open it with an editor.  We'll start by inheriting some boiler-plate 
 parameters from a parent file at the top of our file:
 
 \code
 parent.0 =                                      $ecj_boiler_plate.params
 \endcode
 
-The `ecj_bioler_plate` file contains quite a few standard parameter settings that we typically only alter
-in special circumstances—it defines things like the Java classes that manages the algorithm
+The `ecj_boiler_plate` file contains quite a few standard parameter settings that we typically only alter
+in special circumstances—it defines things like the Java classes that manage the algorithm
 and population state.
 
 Notice there is a <tt>$</tt> before the filename. This indicates that the location of the 
@@ -310,7 +209,7 @@ parent file is specified \em relative to the location of our parameter file.
 
 \subsection Problem
 
-Next, and most importantly, we want to tell ECJ to use an external binary program to compute fitness.  
+Next, and most importantly, we want to tell ECJ to use an external binary program to compute fitness. 
 This is done by configuring the `problem` parameter to point to the `CommandProblem` class.  This is 
 a special ECJ fitness function that writes parameters to a program's `std::cin` and reads fitness
 values back that your model writes to `std::cout`.
@@ -340,12 +239,14 @@ generations =				                    50
 quit-on-run-complete =			                false
 \endcode
 
-Now we'll tell ECJ to general 20 individuals to population the initial population (i.e. the
+Now we'll tell ECJ to generate 20 individuals to populate the initial population (i.e. the
 very first generation, when individuals are generated randomly). It's sometimes a good idea 
 to create many individuals in the first generation, because this gives us a chance to find a 
 good starting point with random search, before we use evolution to refine it.  After that, 
 a (μ, λ) breeder takes over evolution, generating `es.lamda.0` children and selecting `es.mu.0` 
-parents at each generation.
+parents at each generation (the `*.0` at the end of these parameter names refers to the settings 
+for the "zeroeth subpopulation"; since we're using a single-population algorithm, this is the 
+only subpopulation).
 
 \code
 pop.subpop.0.size =			                    20
@@ -364,12 +265,12 @@ methods, such as tournament selection).
 \subsection Representation
 
 Now we'll add several parameters to define how solutions are represented in the EA.  The first 
-three are pretty standard, specifcying that we want to use floating-point vectors of numbers:
+three are pretty standard, specifying that we want to use floating-point vectors of numbers:
 
 \code
-pop.subpop.0.species =                          ec.vector.FloatVectorSpecies
-pop.subpop.0.species.ind =		                ec.vector.DoubleVectorIndividual
-pop.subpop.0.species.fitness =		            ec.simple.SimpleFitness
+pop.subpop.0.species =							ec.vector.FloatVectorSpecies
+pop.subpop.0.species.ind =						ec.vector.DoubleVectorIndividual
+pop.subpop.0.species.fitness =					ec.simple.SimpleFitness
 \endcode
 
 Now specify the numer of genes each individual should have, and the ranges within which they
@@ -383,7 +284,8 @@ pop.subpop.0.species.max-gene =         0.5
 
 In this case we've configured all four parameters so that they share the same parameter range 
 (0.0005, 0.5)—but each individual parameter can be given it's own range if need be 
-(see \ref ch10_ecj). 
+(see the discussion of ECJ's "segments" mechanism in the 
+<b><a href="https://cs.gmu.edu/~eclab/projects/ecj/manual.pdf">ECJ manual</a></b>). 
 
 
 \subsection Operators
@@ -393,8 +295,8 @@ individuals are created in each generation, and how parents are selected from th
 generation.
 
 In ECJ, we add operators by stringing together "pipelines," each of which takes one or more `source`
-parameters.  The following lines specify a pipeline that generates individuals via a mutation pipeline,
-takes its inputs from a crossover pipeline, which in turn receives individuals (in pairs) from 
+parameters.  The following entries specify a pipeline that generates individuals via a mutation pipeline,
+taking its inputs from a crossover pipeline, which in turn receives individuals (in pairs) from 
 an `ESSelection` operator.  `ESSelection` performs truncation selection (i.e. it deterministically
 chooses the best individuals in the population). When the algorithm runs, `ESSelection` is applied 
 first to the parent population, and mutation occurs last:
@@ -406,11 +308,19 @@ pop.subpop.0.species.pipe.source.0.source.0 =   ec.es.ESSelection
 pop.subpop.0.species.pipe.source.0.source.1 =   ec.es.ESSelection
 \endcode
 
+\note The `ESSelection` operator and the `MuCommaLambdaBreeder` (or, alternatively, `MuCommaPlusBreeder`)
+belong to ECJ's \em evolution \em strategies package, `ecj.es`, and are inteded to be used together.  You 
+cannot use `ESSelection` without one of these breeders, because they perform special bookeeping needed for
+elitist selection to work.  Likewise, if you want to use other (less elitist) selection operators such as 
+`TournamentSelection`, you may prefer to use ECJ's standard `SimpleBreeder` instead of these more complex 
+breeders.  See the <a href="https://cs.gmu.edu/~eclab/projects/ecj/manual.pdf">ECJ manual</a> for more
+information.
+
 With the high-level pipeline in place, now we'll add parameters for the individual operators.  The 
 first set informs `VectorMutationPipeline` that we want to use additive Gaussian mutation, that we 
 want mutation to be "bounded" (so that gene values cannot wander outside of their initial allowed 
-range of 0.0005–0.5), and that we will always mutation (probability 1.0) and use a mutation width
-(Gaussain standard deviation) of 0.5:
+range of 0.0005–0.5), and that we will always mutate every gene (probability 1.0) and use a mutation width
+(Gaussian standard deviation) of 0.5:
 
 \code
 pop.subpop.0.species.mutation-type =            gauss
@@ -426,23 +336,17 @@ point to split individuals at when performing genetic recombination):
 pop.subpop.0.species.crossover-type =           one
 \endcode
 
-The selection operator `ESSelection` does not require any parameters, but if you use other operators
-(such as the popular `TournamentSelection`) they may have parameters.
-
-\note{The `ESSelection` operator and the `MuCommaLambdaBreeder` (or, alternatively, `MuCommaPlusBreeder`
-belong to ECJ's evolutionary strategies package, `ecj.es`, and are inteded to be used together.  You 
-cannot use `ESSelection` without one of these breeders, because they perform special bookeeping needed for
-elitist selection to work.  Likewise, if you want to use other (less elitist) selection operators such as 
-`TournamentSelection`, you may prefer to use ECJ's standard `SimpleBreeder` instead of these more complex 
-breeders.  See the <a href="https://cs.gmu.edu/~eclab/projects/ecj/manual.pdf">ECJ manual</a> for more
-information.}
+The selection operator `ESSelection` does not require any parameters,  but if you use other operators
+(such as the popular `TournamentSelection`) they may have parameters of their own that you should also 
+set.
 
 
 \subsection Logging
 
 By default, ECJ writes some information about the best individual found at each generation to `stdout`.
 If we want more information that this, we'll typically write it to a file.  These two lines activate one 
-of ECJ's statistics collection modules and point it to write to the file `./out.stat` in the current directory.
+of ECJ's statistics collection modules (`SimpleStatistics`) and point it to write to the file `./out.stat`
+in the current directory.
 
 \code
 stat =					                        ec.simple.SimpleStatistics
@@ -452,8 +356,8 @@ stat.file = 			                        $out.stat
 
 \section tut7s4_output_files 7.4 ECJ Output
 
-With our model compiled and our parameter file complete, run ECJ with `java` and pass in the 
-parameter file to its `-file` argument:
+With our model compiled and our parameter file complete, we can tune the model by using the `java` command 
+to run ECJ, passing in our parameter file to its `-file` argument:
 
 \code
 java -jar ~/path/to/ecj/ecj-28.jar -file ./ecj_TuneFiringRates.params
@@ -462,8 +366,8 @@ java -jar ~/path/to/ecj/ecj-28.jar -file ./ecj_TuneFiringRates.params
 The simulation should run to completion and output the best fitness each generation.
 
 An `out.stat` file should also appear in the current working directory, since we configured
-the `stat` parameter to create it there.  This will  contains the best fitness for that generation 
-along with the four parameter values associated with that individual. CARLsim users can then use 
+the `stat` parameter to create it there.  This will  contains the best fitness for each generation 
+along with the four parameter values associated with the individual. CARLsim users can then use 
 these parameters for their tuned SNN models.
 
 \see \ref ch10_ecj

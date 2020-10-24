@@ -14,9 +14,11 @@
  *  values to std::cout (which are a function of the difference between the observed and target average firing rates).
  *
  */
+//! [includes]
 #include "PTI.h"
 #include <carlsim.h>
 #include <iostream>
+//! [includes]
 #include <cassert>
 #include <cmath>
 #include <cstdlib>
@@ -26,8 +28,11 @@
 
 using namespace std;
 
+//! [experiment1]
 class TuneFiringRatesExperiment : public Experiment {
 public:
+	// Various constants are defined here at the top that we'll use  later on
+//! [experiment1]
 	// Decay constants
 	const float COND_tAMPA=5.0, COND_tNMDA=150.0, COND_tGABAa=6.0, COND_tGABAb=150.0;
 	
@@ -42,6 +47,7 @@ public:
 	const float EXC_TARGET_HZ   = 10.0f;
 	const float INH_TARGET_HZ   = 20.0f;
 
+//! [experiment2]
     const LoggerMode verbosity;
 	const SimMode simMode;
 
@@ -49,12 +55,16 @@ public:
 	 * Set up an experiment object for a given architecture and logging level.
 	 */
 	TuneFiringRatesExperiment(const SimMode simMode, const LoggerMode verbosity): simMode(simMode), verbosity(verbosity) {}
+//! [experiment2]
 
+//! [experiment3]
 	void run(const ParameterInstances &parameters, std::ostream &outputStream) const {
 
 		// Construct a CARLsim network on the heap.
 		CARLsim* const network = new CARLsim("tuneFiringRates", simMode, verbosity);
+//! [experiment3]
 
+//! [experiment4]
 		// Define constant Izhikevich parameters for two types of neurons
 		const float REG_IZH[] = { 0.02f, 0.2f, -65.0f, 8.0f };
 		const float FAST_IZH[] = { 0.1f, 0.2f, -65.0f, 2.0f };
@@ -70,14 +80,18 @@ public:
 		// Measure spiking activity on each exc and inh group
 		SpikeMonitor* excMonitor[indiNum];
 		SpikeMonitor* inhMonitor[indiNum];
+//! [experiment4]
 
+//! [experiment5]
 		// We'll process the spiking activity into a fitness value
 		float excHz[indiNum];
 		float inhHz[indiNum];
 		float excError[indiNum];
 		float inhError[indiNum];
 		float fitness[indiNum];
+//! [experiment5]
 
+//! [experiment6]
 		// We'll add groups for *all* the individuals to the same large CARLsim network object.
 		// This allows us to run multiple networks side-by-side on the same GPU: we treat them as
 		// a single mega-network with many non-interacting components.
@@ -97,10 +111,14 @@ public:
 			network->connect(excGroup[i], inhGroup[i], "random", RangeWeight(parameters.getParameter(i,2)), 0.5f, RangeDelay(1));
 			network->connect(inhGroup[i], excGroup[i], "random", RangeWeight(parameters.getParameter(i,3)), 0.5f, RangeDelay(1));
 		}
+//! [experiment6]
 
+//! [experiment7]
 		// With all the groups and connections specified, we can now setup the mega-network
 		network->setupNetwork();
+//! [experiment7]
 
+//! [experiment8]
 		// Configure the spiking rate for the Poisson inputs
 		PoissonRate* const in = new PoissonRate(NUM_NEURONS_PER_GROUP);
 		in->setRates(INPUT_TARGET_HZ);
@@ -120,10 +138,14 @@ public:
 			excError[i]=0; inhError[i]=0;
 			fitness[i]=0;
 		}
+//! [experiment8]
 
+//! [experiment9]
 		// GO!
 		network->runNetwork(runTime,0);
+//! [experiment9]
 
+//! [experiment10]
 		// For each sub-network, extract the mean firing rate and compute a fitness value based on its difference from the target rate
 		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
 
@@ -139,10 +161,15 @@ public:
 			fitness[i] = 1/(excError[i] + inhError[i]);
 			outputStream << fitness[i] << endl;
 		}
+//! [experiment10]
+
+//! [experiment11]
 		delete network;
 		delete in;
 	}
 };
+
+//! [experiment11]
 
 /*! Some poor-man's CLI parsing: teturns true iff the command-line arguments contain "-parameter". */
 const bool hasOpt(int argc, const char * const argv[], const char * const parameter) {
@@ -160,6 +187,7 @@ const bool hasOpt(int argc, const char * const argv[], const char * const parame
   return false;
 }
 
+//! [main1]
 int main(int argc, char* argv[]) {
 	/* First we Initialize an Experiment and a PTI object.  The PTI parses CLI
 	* arguments, and then loads the Parameters from a file (if one has been
@@ -167,7 +195,11 @@ int main(int argc, char* argv[]) {
 
   	const SimMode simMode = hasOpt(argc, argv, "cpu") ? CPU_MODE : GPU_MODE;
   	const LoggerMode verbosity = hasOpt(argc, argv, "v") ? USER : SILENT;
+//! [main1]
+//! [main2]
 	const TuneFiringRatesExperiment experiment(simMode, verbosity);
+//! [main2]
+//! [main3]
 	const PTI pti(argc, argv, std::cout, std::cin);
 
 	/* The PTI will now cheerfully iterate through all the Parameter sets and
@@ -177,3 +209,4 @@ int main(int argc, char* argv[]) {
 
 	return 0;
 }
+//! [main3]
