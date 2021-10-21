@@ -1,0 +1,40 @@
+find_library(CARLSIM_LIBRARY carlsim)
+if(CARLSIM_LIBARY)
+   message("******** carlsim release found ********** ")
+else()
+  find_library(CARLSIM_LIBRARY carlsimd)   # try to find debug lib
+endif()
+find_path(CARLSIM_INCLUDE_DIR carlsim.h)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(carlsim DEFAULT_MSG
+    CARLSIM_LIBRARY
+    CARLSIM_INCLUDE_DIR
+)
+
+add_library(carlsim SHARED IMPORTED)
+
+set_target_properties(carlsim PROPERTIES
+    IMPORTED_LOCATION ${CARLSIM_LIBRARY}
+    INTERFACE_INCLUDE_DIRECTORIES ${CARLSIM_INCLUDE_DIR}
+)
+
+# LN 
+# https://cmake.org/cmake/help/latest/guide/using-dependencies/index.html#libraries-providing-config-file-packages
+# https://cmake.org/cmake/help/latest/manual/cmake-packages.7.html#config-file-packages
+# https://cmake.org/cmake/help/latest/command/get_filename_component.html
+get_filename_component(carlsim_LIB_DIR ${CARLSIM_LIBRARY} DIRECTORY)
+set(CARLSIM_LIB_DIR ${carlsim_LIB_DIR} CACHE PATH "" FORCE)
+get_filename_component(CUDA_CUDART_DIR "@CUDA_CUDART_LIBRARY@" DIRECTORY)
+set(CARLSIM_CUDA_LIB_DIR ${CUDA_CUDART_DIR} CACHE PATH "" FORCE)
+set(CARLSIM_NO_CUDA "@CARLSIM_NO_CUDA@" CACHE BOOL "" FORCE)
+
+mark_as_advanced(
+    CARLSIM_INCLUDE_DIR
+    CARLSIM_LIB_DIR
+    CARLSIM_CUDA_LIB_DIR
+    CARLSIM_NO_CUDA
+)
+
+
+

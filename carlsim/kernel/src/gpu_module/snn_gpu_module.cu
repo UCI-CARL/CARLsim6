@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -103,6 +104,7 @@ __device__ unsigned int spikeCountExtRxD1GPU;
 __device__ __constant__ RuntimeData     runtimeDataGPU;
 __device__ __constant__ NetworkConfigRT	networkConfigGPU;
 __device__ __constant__ GroupConfigRT   groupConfigsGPU[MAX_GRP_PER_SNN];
+__device__ __constant__ ConnectConfigRT   connectConfigsGPU[MAX_CONN_PER_SNN];
 
 __device__ __constant__ float               d_mulSynFast[MAX_CONN_PER_SNN];
 __device__ __constant__ float               d_mulSynSlow[MAX_CONN_PER_SNN];
@@ -532,40 +534,41 @@ __device__ void updateLTP(int* fireTablePtr, short int* fireGrpId, volatile unsi
 			for(unsigned int p  = runtimeDataGPU.cumulativePre[nid] + threadIdx.x % LTP_GROUPING_SZ;
 					p < end_p;
 					p+=LTP_GROUPING_SZ) {
+				short connId = runtimeDataGPU.connIdsPreIdx[p];
 				int stdp_tDiff = (simTime - runtimeDataGPU.synSpikeTime[p]);
 				if (stdp_tDiff > 0) {
-					if (groupConfigsGPU[grpId].WithESTDP) {
+					if (connectConfigsGPU[connId].WithESTDP) {
 						// Handle E-STDP curves
-						switch (groupConfigsGPU[grpId].WithESTDPcurve) {
+						switch (connectConfigsGPU[connId].WithESTDPcurve) {
 						case EXP_CURVE: // exponential curve
-							if (stdp_tDiff * groupConfigsGPU[grpId].TAU_PLUS_INV_EXC < 25)
-								runtimeDataGPU.wtChange[p] += STDP(stdp_tDiff, groupConfigsGPU[grpId].ALPHA_PLUS_EXC, groupConfigsGPU[grpId].TAU_PLUS_INV_EXC);
+							if (stdp_tDiff * connectConfigsGPU[connId].TAU_PLUS_INV_EXC < 25)
+								runtimeDataGPU.wtChange[p] += STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
 							break;
 						case TIMING_BASED_CURVE: // sc curve
-							if (stdp_tDiff * groupConfigsGPU[grpId].TAU_PLUS_INV_EXC < 25) {
-								if (stdp_tDiff <= groupConfigsGPU[grpId].GAMMA)
-									runtimeDataGPU.wtChange[p] += groupConfigsGPU[grpId].OMEGA + groupConfigsGPU[grpId].KAPPA * STDP(stdp_tDiff, groupConfigsGPU[grpId].ALPHA_PLUS_EXC, groupConfigsGPU[grpId].TAU_PLUS_INV_EXC);
+							if (stdp_tDiff * connectConfigsGPU[connId].TAU_PLUS_INV_EXC < 25) {
+								if (stdp_tDiff <= connectConfigsGPU[connId].GAMMA)
+									runtimeDataGPU.wtChange[p] += connectConfigsGPU[connId].OMEGA + connectConfigsGPU[connId].KAPPA * STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
 								else // stdp_tDiff > GAMMA
-									runtimeDataGPU.wtChange[p] -= STDP(stdp_tDiff, groupConfigsGPU[grpId].ALPHA_PLUS_EXC, groupConfigsGPU[grpId].TAU_PLUS_INV_EXC);
+									runtimeDataGPU.wtChange[p] -= STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
 							}
 							break;
 						default:
 							break;
 						}
 					}
-					if (groupConfigsGPU[grpId].WithISTDP) {
+					if (connectConfigsGPU[connId].WithISTDP) {
 						// Handle I-STDP curves
-						switch (groupConfigsGPU[grpId].WithISTDPcurve) {
+						switch (connectConfigsGPU[connId].WithISTDPcurve) {
 						case EXP_CURVE: // exponential curve
-							if (stdp_tDiff * groupConfigsGPU[grpId].TAU_PLUS_INV_INB < 25) { // LTP of inhibitory synapse, which decreases synapse weight
-								runtimeDataGPU.wtChange[p] -= STDP(stdp_tDiff, groupConfigsGPU[grpId].ALPHA_PLUS_INB, groupConfigsGPU[grpId].TAU_PLUS_INV_INB);
+							if (stdp_tDiff * connectConfigsGPU[connId].TAU_PLUS_INV_INB < 25) { // LTP of inhibitory synapse, which decreases synapse weight
+								runtimeDataGPU.wtChange[p] -= STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_INB, connectConfigsGPU[connId].TAU_PLUS_INV_INB);
 							}
 							break;
 						case PULSE_CURVE: // pulse curve
-							if (stdp_tDiff <= groupConfigsGPU[grpId].LAMBDA) { // LTP of inhibitory synapse, which decreases synapse weight
-								runtimeDataGPU.wtChange[p] -= groupConfigsGPU[grpId].BETA_LTP;
-							} else if (stdp_tDiff <= groupConfigsGPU[grpId].DELTA) { // LTD of inhibitory syanpse, which increase sysnapse weight
-								runtimeDataGPU.wtChange[p] -= groupConfigsGPU[grpId].BETA_LTD;
+							if (stdp_tDiff <= connectConfigsGPU[connId].LAMBDA) { // LTP of inhibitory synapse, which decreases synapse weight
+								runtimeDataGPU.wtChange[p] -= connectConfigsGPU[connId].BETA_LTP;
+							} else if (stdp_tDiff <= connectConfigsGPU[connId].DELTA) { // LTD of inhibitory syanpse, which increase sysnapse weight
+								runtimeDataGPU.wtChange[p] -= connectConfigsGPU[connId].BETA_LTD;
 							}
 							break;
 						default:
@@ -743,6 +746,9 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 		int2 threadLoad = getStaticThreadLoad(bufPos);
 		int  postNId = STATIC_LOAD_START(threadLoad) + threadIdx.x;
 		int  lastNId = STATIC_LOAD_SIZE(threadLoad);
+#ifdef LN_I_CALC_TYPES
+		int  grpId = STATIC_LOAD_GROUP(threadLoad);  //LN sanity check
+#endif
 
 		if ((threadIdx.x < lastNId) && (IS_REGULAR_NEURON(postNId, networkConfigGPU.numNReg, networkConfigGPU.numNPois))) {
 			// P6-1
@@ -797,7 +803,45 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 						// dI/dt = -I/tau_S + A * u^+ * x^- * \delta(t-t_{spk})
 						change *= groupConfigsGPU[preGrpId].STP_A * runtimeDataGPU.stpx[ind_minus] * runtimeDataGPU.stpu[ind_plus];
 					}
-
+#ifdef LN_I_CALC_TYPES
+					short int postGrpId = runtimeDataGPU.grpIds[postNId];
+					assert(postGrpId == grpId); // sanity check
+					auto &configs = groupConfigsGPU[postGrpId];
+					switch (configs.icalcType) {
+						case COBA:
+							short int connId = runtimeDataGPU.connIdsPreIdx[cum_pos + wtId];
+							if (type & TARGET_AMPA)
+								AMPA_sum += change * d_mulSynFast[connId];
+							if (type & TARGET_NMDA) {
+								if (configs.with_NMDA_rise) {
+									NMDA_r_sum += change * d_mulSynSlow[connId] * configs.sNMDA;
+									NMDA_d_sum += change * d_mulSynSlow[connId] * configs.sNMDA;
+								}
+								else {
+									NMDA_sum += change * d_mulSynSlow[connId];
+								}
+							}
+							if (type & TARGET_GABAa)
+								GABAa_sum += change * d_mulSynFast[connId];	// wt should be negative for GABAa and GABAb
+							if (type & TARGET_GABAb) {						// but that is dealt with below
+								if (configs.with_GABAb_rise) {
+									GABAb_r_sum += change * d_mulSynSlow[connId] * configs.sGABAb;
+									GABAb_d_sum += change * d_mulSynSlow[connId] * configs.sGABAb;
+								}
+								else {
+									GABAb_sum += change * d_mulSynSlow[connId];
+								}
+							}
+							break;
+						case CUBA:
+							// current based model with STP (CUBA)
+							// updated current for neuron 'post_nid'
+							AMPA_sum += change;									// \todo LN 2021 big issue is AMPA_sum really reused for CUBA -> this breaks the design  grp1 withCoba grp2 with Cuba -> both updates n.AMPAsum
+							break;
+						default:
+							; // do nothing
+					}
+#else
 					if (networkConfigGPU.sim_with_conductances) {
 						short int connId = runtimeDataGPU.connIdsPreIdx[cum_pos+wtId];
 						if (type & TARGET_AMPA)
@@ -826,7 +870,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 						// updated current for neuron 'post_nid'
 						AMPA_sum += change;
 					}
-
+#endif
 					tmp_I_cnt++;
 					tmp_I_set = tmp_I_set & (~(1 << (8 * cnt + wt_i)));
 				}
@@ -842,6 +886,36 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 			__syncthreads();
 
 			// P6-2
+#ifdef LN_I_CALC_TYPES
+			short int postGrpId = runtimeDataGPU.grpIds[postNId];
+			switch(groupConfigsGPU[postGrpId].icalcType) {
+				case COBA:
+					// don't add mulSynFast/mulSynSlow here, because they depend on the exact pre<->post connection, not
+					// just post_nid
+					runtimeDataGPU.gAMPA[postNId] += AMPA_sum;
+					runtimeDataGPU.gGABAa[postNId] -= GABAa_sum; // wt should be negative for GABAa and GABAb
+					if (groupConfigsGPU[postGrpId].with_NMDA_rise) {
+						runtimeDataGPU.gNMDA_r[postNId] += NMDA_r_sum;
+						runtimeDataGPU.gNMDA_d[postNId] += NMDA_d_sum;
+					}
+					else {
+						runtimeDataGPU.gNMDA[postNId] += NMDA_sum;
+					}
+					if (groupConfigsGPU[postGrpId].with_GABAb_rise) {
+						runtimeDataGPU.gGABAb_r[postNId] -= GABAb_r_sum;
+						runtimeDataGPU.gGABAb_d[postNId] -= GABAb_d_sum;
+					}
+					else {
+						runtimeDataGPU.gGABAb[postNId] -= GABAb_sum;
+					}
+					break;
+				case CUBA: 
+					runtimeDataGPU.current[postNId] += AMPA_sum;		// \todo LN 20210913 big isse, see above 
+					break;
+				default: 
+					; // do nothing
+			}
+#else
 			if (networkConfigGPU.sim_with_conductances) {
 				// don't add mulSynFast/mulSynSlow here, because they depend on the exact pre<->post connection, not
 				// just post_nid
@@ -863,6 +937,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 			else {
 				runtimeDataGPU.current[postNId] += AMPA_sum;
 			}
+#endif
 		}
 	}
 }
@@ -943,6 +1018,23 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 
 	float totalCurrent = runtimeDataGPU.extCurrent[nid];
 
+#ifdef LN_I_CALC_TYPES 
+	if (groupConfigsGPU[grpId].icalcType == COBA) {
+		NMDAtmp = (v + 80.0f) * (v + 80.0f) / 60.0f / 60.0f;
+		gNMDA = (groupConfigsGPU[grpId].with_NMDA_rise) ? (runtimeDataGPU.gNMDA_d[nid] - runtimeDataGPU.gNMDA_r[nid]) : runtimeDataGPU.gNMDA[nid];
+		gGABAb = (groupConfigsGPU[grpId].with_GABAb_rise) ? (runtimeDataGPU.gGABAb_d[nid] - runtimeDataGPU.gGABAb_r[nid]) : runtimeDataGPU.gGABAb[nid];
+
+		I_sum = -(runtimeDataGPU.gAMPA[nid] * (v - 0.0f)
+			+ gNMDA * NMDAtmp / (1.0f + NMDAtmp) * (v - 0.0f)
+			+ runtimeDataGPU.gGABAa[nid] * (v + 70.0f)
+			+ gGABAb * (v + 90.0f));
+
+		totalCurrent += I_sum;
+	}
+	else {
+		totalCurrent += runtimeDataGPU.current[nid];
+	}
+#else
 	if (networkConfigGPU.sim_with_conductances) {
 		NMDAtmp = (v + 80.0f) * (v + 80.0f) / 60.0f / 60.0f;
 		gNMDA = (networkConfigGPU.sim_with_NMDA_rise) ? (runtimeDataGPU.gNMDA_d[nid] - runtimeDataGPU.gNMDA_r[nid]) : runtimeDataGPU.gNMDA[nid];
@@ -958,6 +1050,7 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 	else {
 		totalCurrent += runtimeDataGPU.current[nid];
 	}
+#endif
 	if (groupConfigsGPU[grpId].withCompartments) {
 		totalCurrent += getCompCurrent_GPU(grpId, nid);
 	}
@@ -1120,6 +1213,15 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 
 	if(lastIteration)
 	{
+#ifdef LN_I_CALC_TYPES
+		if(groupConfigsGPU[grpId].icalcType == COBA) {
+			runtimeDataGPU.current[nid] = I_sum;
+		}
+		else {
+			// current must be reset here for CUBA and not kernel_STPUpdateAndDecayConductances
+			runtimeDataGPU.current[nid] = 0.0f;
+		}
+#else
 		if (networkConfigGPU.sim_with_conductances) {
 			runtimeDataGPU.current[nid] = I_sum;
 		}
@@ -1127,7 +1229,7 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 			// current must be reset here for CUBA and not kernel_STPUpdateAndDecayConductances
 			runtimeDataGPU.current[nid] = 0.0f;
 		}
-
+#endif
 		// log i value if any active neuron monitor is presented
 		if (networkConfigGPU.sim_with_nm && nid - groupConfigsGPU[grpId].lStartN < MAX_NEURON_MON_GRP_SZIE) {
 			int idxBase = networkConfigGPU.numGroups * MAX_NEURON_MON_GRP_SZIE * simTimeMs + grpId * MAX_NEURON_MON_GRP_SZIE;
@@ -1196,10 +1298,67 @@ __global__ void kernel_groupStateUpdate(int simTime) {
 	// P9
 	if (grpIdx < networkConfigGPU.numGroups) {
 		// decay dopamine concentration
+#ifndef LN_FIX_ALL_DECAY_GPU
+#ifndef LN_FIX_DA_DECAY_GPU
 		if ((groupConfigsGPU[grpIdx].WithESTDPtype == DA_MOD || groupConfigsGPU[grpIdx].WithISTDPtype == DA_MOD) && runtimeDataGPU.grpDA[grpIdx] > groupConfigsGPU[grpIdx].baseDP) {
 			runtimeDataGPU.grpDA[grpIdx] *= groupConfigsGPU[grpIdx].decayDP;
 		}
 		runtimeDataGPU.grpDABuffer[grpIdx * 1000 + simTime] = runtimeDataGPU.grpDA[grpIdx]; // log dopamine concentration
+#else
+		if ((groupConfigsGPU[grpIdx].WithESTDPtype == DA_MOD || groupConfigsGPU[grpIdx].WithISTDPtype == DA_MOD)) {
+			float baseDP_ = groupConfigsGPU[grpIdx].baseDP;
+			if (runtimeDataGPU.grpDA[grpIdx] > baseDP_) {
+				runtimeDataGPU.grpDA[grpIdx] *= groupConfigsGPU[grpIdx].decayDP;
+				if (runtimeDataGPU.grpDA[grpIdx] < baseDP_)
+					runtimeDataGPU.grpDA[grpIdx] = baseDP_;
+			}
+		}
+		runtimeDataGPU.grpDABuffer[grpIdx * 1000 + simTime] = runtimeDataGPU.grpDA[grpIdx]; // log dopamine concentration
+#endif
+
+#else
+
+		if (groupConfigsGPU[grpIdx].activeDP) {
+			float baseDP_ = groupConfigsGPU[grpIdx].baseDP;
+			if (runtimeDataGPU.grpDA[grpIdx] > baseDP_) {
+				runtimeDataGPU.grpDA[grpIdx] *= groupConfigsGPU[grpIdx].decayDP;
+				if (runtimeDataGPU.grpDA[grpIdx] < baseDP_)
+					runtimeDataGPU.grpDA[grpIdx] = baseDP_;
+			}
+			runtimeDataGPU.grpDABuffer[grpIdx * 1000 + simTime] = runtimeDataGPU.grpDA[grpIdx]; // log dopamine concentration
+		}
+
+		if (groupConfigsGPU[grpIdx].active5HT) {
+			float base5HT_ = groupConfigsGPU[grpIdx].base5HT;
+			if (runtimeDataGPU.grp5HT[grpIdx] > base5HT_) {
+				runtimeDataGPU.grp5HT[grpIdx] *= groupConfigsGPU[grpIdx].decay5HT;
+				if (runtimeDataGPU.grp5HT[grpIdx] < base5HT_)
+					runtimeDataGPU.grp5HT[grpIdx] = base5HT_;
+			}
+			runtimeDataGPU.grp5HTBuffer[grpIdx * 1000 + simTime] = runtimeDataGPU.grp5HT[grpIdx]; // log dopamine concentration
+		}
+
+		if (groupConfigsGPU[grpIdx].activeACh) {
+			float baseACh_ = groupConfigsGPU[grpIdx].baseACh;
+			if (runtimeDataGPU.grpACh[grpIdx] > baseACh_) {
+				runtimeDataGPU.grpACh[grpIdx] *= groupConfigsGPU[grpIdx].decayACh;
+				if (runtimeDataGPU.grpACh[grpIdx] < baseACh_)
+					runtimeDataGPU.grpACh[grpIdx] = baseACh_;
+			}
+			runtimeDataGPU.grpAChBuffer[grpIdx * 1000 + simTime] = runtimeDataGPU.grpACh[grpIdx]; // log dopamine concentration
+		}
+
+		if (groupConfigsGPU[grpIdx].activeNE) {
+			float baseNE_ = groupConfigsGPU[grpIdx].baseNE;
+			if (runtimeDataGPU.grpNE[grpIdx] > baseNE_) {
+				runtimeDataGPU.grpNE[grpIdx] *= groupConfigsGPU[grpIdx].decayNE;
+				if (runtimeDataGPU.grpNE[grpIdx] < baseNE_)
+					runtimeDataGPU.grpNE[grpIdx] = baseNE_;
+			}
+			runtimeDataGPU.grpNEBuffer[grpIdx * 1000 + simTime] = runtimeDataGPU.grpNE[grpIdx]; // log dopamine concentration
+		}
+
+#endif
 	}
 }
 
@@ -1224,7 +1383,28 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 		int lastId		= STATIC_LOAD_SIZE(threadLoad);
 		int grpId		= STATIC_LOAD_GROUP(threadLoad);
 
-
+#ifdef LN_I_CALC_TYPES
+		// update the conductane parameter of the current neron
+		auto &configs = groupConfigsGPU[grpId];
+		if (configs.icalcType == COBA && IS_REGULAR_NEURON(nid, networkConfigGPU.numNReg, networkConfigGPU.numNPois)) {
+			runtimeDataGPU.gAMPA[nid] *= configs.dAMPA;
+			if (configs.with_NMDA_rise) {
+				runtimeDataGPU.gNMDA_r[nid] *= configs.rNMDA;
+				runtimeDataGPU.gNMDA_d[nid] *= configs.dNMDA;
+			}
+			else {
+				runtimeDataGPU.gNMDA[nid] *= configs.dNMDA;
+			}
+			runtimeDataGPU.gGABAa[nid] *= configs.dGABAa;
+			if (configs.with_GABAb_rise) {
+				runtimeDataGPU.gGABAb_r[nid] *= configs.rGABAb;
+				runtimeDataGPU.gGABAb_d[nid] *= configs.dGABAb;
+			}
+			else {
+				runtimeDataGPU.gGABAb[nid] *= configs.dGABAb;
+			}
+		}
+#else
 		// update the conductane parameter of the current neron
 		if (networkConfigGPU.sim_with_conductances && IS_REGULAR_NEURON(nid, networkConfigGPU.numNReg, networkConfigGPU.numNPois)) {
 			runtimeDataGPU.gAMPA[nid]       *= networkConfigGPU.dAMPA;
@@ -1242,6 +1422,7 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 				runtimeDataGPU.gGABAb[nid] *= networkConfigGPU.dGABAb;
 			}
 		}
+#endif
 
 		if (groupConfigsGPU[grpId].WithSTP && (threadIdx.x < lastId) && (nid < networkConfigGPU.numN)) {
 			int ind_plus  = getSTPBufPos(nid, simTime);
@@ -1273,7 +1454,10 @@ __device__ void updateSynapticWeights(int nid, unsigned int synId, int grpId, fl
 	float t_effectiveWtChange = networkConfigGPU.stdpScaleFactor * t_wtChange;
 	float t_maxWt = runtimeDataGPU.maxSynWt[synId];
 
-	switch (groupConfigsGPU[grpId].WithESTDPtype) {
+	unsigned int pos = runtimeDataGPU.cumulativePre[nid] + synId;
+	short int connId = runtimeDataGPU.connIdsPreIdx[pos];
+
+	switch (connectConfigsGPU[connId].WithESTDPtype) {
 	case STANDARD:
 		if (groupConfigsGPU[grpId].WithHomeostasis) {
 			// this factor is slow
@@ -1283,11 +1467,16 @@ __device__ void updateSynapticWeights(int nid, unsigned int synId, int grpId, fl
 		}
 		break;
 	case DA_MOD:
+	case SE_MOD:
+	case AC_MOD:
+	case NE_MOD:
 		if (groupConfigsGPU[grpId].WithHomeostasis) {
-			t_effectiveWtChange = runtimeDataGPU.grpDA[grpId] * t_effectiveWtChange;
+			//t_effectiveWtChange = runtimeDataGPU.grpDA[grpId] * t_effectiveWtChange;
+			t_effectiveWtChange = (runtimeDataGPU.grpDA + connectConfigsGPU[connId].WithESTDPtype - DA_MOD)[grpId] * t_effectiveWtChange;
 			t_wt += (diff_firing*t_wt*homeostasisScale + t_effectiveWtChange) * baseFiring * avgTimeScaleInv / (1.0f+fabs(diff_firing)*50.0f);
 		} else {
-			t_wt += runtimeDataGPU.grpDA[grpId] * t_effectiveWtChange;
+			//t_wt += runtimeDataGPU.grpDA[grpId] * t_effectiveWtChange;
+			t_wt += (runtimeDataGPU.grpDA + connectConfigsGPU[connId].WithESTDPtype - DA_MOD)[grpId] * t_effectiveWtChange;
 		}
 		break;
 	case UNKNOWN_STDP:
@@ -1296,7 +1485,7 @@ __device__ void updateSynapticWeights(int nid, unsigned int synId, int grpId, fl
 		break;
 	}
 
-	switch (groupConfigsGPU[grpId].WithISTDPtype) {
+	switch (connectConfigsGPU[connId].WithISTDPtype) {
 	case STANDARD:
 		if (groupConfigsGPU[grpId].WithHomeostasis) {
 			// this factor is slow
@@ -1306,11 +1495,16 @@ __device__ void updateSynapticWeights(int nid, unsigned int synId, int grpId, fl
 		}
 		break;
 	case DA_MOD:
+	case SE_MOD:
+	case AC_MOD:
+	case NE_MOD:
 		if (groupConfigsGPU[grpId].WithHomeostasis) {
-			t_effectiveWtChange = runtimeDataGPU.grpDA[grpId] * t_effectiveWtChange;
+			//t_effectiveWtChange = runtimeDataGPU.grpDA[grpId] * t_effectiveWtChange;
+			t_effectiveWtChange = (runtimeDataGPU.grpDA + connectConfigsGPU[connId].WithISTDPtype - DA_MOD)[grpId] * t_effectiveWtChange;
 			t_wt += (diff_firing*t_wt*homeostasisScale + t_effectiveWtChange) * baseFiring * avgTimeScaleInv / (1.0f + fabs(diff_firing)*50.0f);
 		} else {
-			t_wt += runtimeDataGPU.grpDA[grpId] * t_effectiveWtChange;
+			//t_wt += runtimeDataGPU.grpDA[grpId] * t_effectiveWtChange;
+			t_wt += (runtimeDataGPU.grpDA + connectConfigsGPU[connId].WithISTDPtype - DA_MOD)[grpId] * t_effectiveWtChange;
 		}
 		break;
 	case UNKNOWN_STDP:
@@ -1498,6 +1692,8 @@ __device__ void generatePostSynapticSpike(int simTime, int preNId, int postNId, 
 	short int preGrpId = runtimeDataGPU.grpIds[preNId]; // STP uses preGrpId
 	short int postGrpId = runtimeDataGPU.grpIds[postNId]; // STDP uses postGrpId
 
+	short int connId = runtimeDataGPU.connIdsPreIdx[pos];
+
 	setFiringBitSynapses(postNId, synId);
 
 	// P1
@@ -1506,39 +1702,62 @@ __device__ void generatePostSynapticSpike(int simTime, int preNId, int postNId, 
 	// P2
 	// Got one spike from dopaminergic neuron, increase dopamine concentration in the target area
 	if (groupConfigsGPU[preGrpId].Type & TARGET_DA) {
-		atomicAdd(&(runtimeDataGPU.grpDA[postGrpId]), 0.04f);
+		//atomicAdd(&(runtimeDataGPU.grpDA[postGrpId]), 0.04f);  // LN20210818 \todo param see, snn_cpu_module.cpp
+		atomicAdd(&(runtimeDataGPU.grpDA[postGrpId]), groupConfigsGPU[postGrpId].releaseDP);  // LN20210818 \todo param see, snn_cpu_module.cpp
 	}
+
+	// LN20210818 same implementation as DA, suggestion Krichmar 17.08.2021
+	if (groupConfigsGPU[preGrpId].Type & TARGET_5HT) {
+		//atomicAdd(&(runtimeDataGPU.grp5HT[postGrpId]), 0.04f);  // LN20210818 \todo param see, snn_cpu_module.cpp
+		atomicAdd(&(runtimeDataGPU.grp5HT[postGrpId]), groupConfigsGPU[postGrpId].release5HT);  // LN20210818 \todo param see, snn_cpu_module.cpp
+	}
+	if (groupConfigsGPU[preGrpId].Type & TARGET_ACH) {
+		//atomicAdd(&(runtimeDataGPU.grpACh[postGrpId]), 0.04f);  // LN20210818 \todo param see, snn_cpu_module.cpp
+		atomicAdd(&(runtimeDataGPU.grpACh[postGrpId]), groupConfigsGPU[postGrpId].releaseACh);  // LN20210818 \todo param see, snn_cpu_module.cpp
+	}
+	if (groupConfigsGPU[preGrpId].Type & TARGET_NE) {
+		//atomicAdd(&(runtimeDataGPU.grpNE[postGrpId]), 0.04f);  // LN20210818 \todo param see, snn_cpu_module.cpp
+		atomicAdd(&(runtimeDataGPU.grpNE[postGrpId]), groupConfigsGPU[postGrpId].releaseNE);  // LN20210818 \todo param see, snn_cpu_module.cpp
+	}
+
+	// \todo ISSUE generic or not, NE / ACH might be not increments since .. p
+	/*
+	for all NM_TYPE in enum TARGET_DA, .. -> ENUM ???
+		if (groupConfigsGPU[preGrpId].Type & TARGET_NE) {
+			atomicAdd(&(runtimeDataGPU.grpNE[postGrpId]), 0.04f);  // LN20210818 \todo param see, snn_cpu_module.cpp
+	*/
+
 
 	// P3
 	// STDP calculation: the post-synaptic neuron fires before the arrival of pre-synaptic neuron's spike
 	if (groupConfigsGPU[postGrpId].WithSTDP && !networkConfigGPU.sim_in_testing) {
 		int stdp_tDiff = simTime - runtimeDataGPU.lastSpikeTime[postNId];
 		if (stdp_tDiff >= 0) {
-			if (groupConfigsGPU[postGrpId].WithESTDP) {
+			if (connectConfigsGPU[connId].WithESTDP) {
 				// Handle E-STDP curves
-				switch (groupConfigsGPU[postGrpId].WithESTDPcurve) {
+				switch (connectConfigsGPU[connId].WithESTDPcurve) {
 				case EXP_CURVE: // exponential curve
 				case TIMING_BASED_CURVE: // sc curve
-					if (stdp_tDiff * groupConfigsGPU[postGrpId].TAU_MINUS_INV_EXC < 25.0f)
-						runtimeDataGPU.wtChange[pos] += STDP(stdp_tDiff, groupConfigsGPU[postGrpId].ALPHA_MINUS_EXC, groupConfigsGPU[postGrpId].TAU_MINUS_INV_EXC); // uncoalesced access
+					if (stdp_tDiff * connectConfigsGPU[connId].TAU_MINUS_INV_EXC < 25.0f)
+						runtimeDataGPU.wtChange[pos] += STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_MINUS_EXC, connectConfigsGPU[connId].TAU_MINUS_INV_EXC); // uncoalesced access
 					break;
 				default:
 					break;
 				}
 			}
-			if (groupConfigsGPU[postGrpId].WithISTDP) {
+			if (connectConfigsGPU[connId].WithISTDP) {
 				// Handle I-STDP curves
-				switch (groupConfigsGPU[postGrpId].WithISTDPcurve) {
+				switch (connectConfigsGPU[connId].WithISTDPcurve) {
 				case EXP_CURVE: // exponential curve
-					if ((stdp_tDiff * groupConfigsGPU[postGrpId].TAU_MINUS_INV_INB) < 25.0f) { // LTD of inhibitory syanpse, which increase synapse weight
-						runtimeDataGPU.wtChange[pos] -= STDP(stdp_tDiff, groupConfigsGPU[postGrpId].ALPHA_MINUS_INB, groupConfigsGPU[postGrpId].TAU_MINUS_INV_INB);
+					if ((stdp_tDiff * connectConfigsGPU[connId].TAU_MINUS_INV_INB) < 25.0f) { // LTD of inhibitory syanpse, which increase synapse weight
+						runtimeDataGPU.wtChange[pos] -= STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_MINUS_INB, connectConfigsGPU[connId].TAU_MINUS_INV_INB);
 					}
 					break;
 				case PULSE_CURVE: // pulse curve
-					if (stdp_tDiff <= groupConfigsGPU[postGrpId].LAMBDA) { // LTP of inhibitory synapse, which decreases synapse weight
-						runtimeDataGPU.wtChange[pos] -= groupConfigsGPU[postGrpId].BETA_LTP;
-					} else if (stdp_tDiff <= groupConfigsGPU[postGrpId].DELTA) { // LTD of inhibitory syanpse, which increase synapse weight
-						runtimeDataGPU.wtChange[pos] -= groupConfigsGPU[postGrpId].BETA_LTD;
+					if (stdp_tDiff <= connectConfigsGPU[connId].LAMBDA) { // LTP of inhibitory synapse, which decreases synapse weight
+						runtimeDataGPU.wtChange[pos] -= connectConfigsGPU[connId].BETA_LTP;
+					} else if (stdp_tDiff <= connectConfigsGPU[connId].DELTA) { // LTD of inhibitory syanpse, which increase synapse weight
+						runtimeDataGPU.wtChange[pos] -= connectConfigsGPU[connId].BETA_LTD;
 					}
 					break;
 				default:
@@ -2040,6 +2259,7 @@ void SNN::copyConductanceAMPA(int netId, int lGrpId, RuntimeData* dest, RuntimeD
 void SNN::copyConductanceNMDA(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem, int destOffset) {
 	checkAndSetGPUDevice(netId);
 	checkDestSrcPtrs(dest, src, kind, allocateMem, lGrpId, destOffset);// check that the destination pointer is properly allocated..
+
 	assert(isSimulationWithCOBA());
 
 	int ptrPos, length;
@@ -2054,6 +2274,19 @@ void SNN::copyConductanceNMDA(int netId, int lGrpId, RuntimeData* dest, RuntimeD
 	assert(length <= networkConfigs[netId].numNReg);
 	assert(length > 0);
 
+#ifdef LN_I_CALC_TYPES
+	assert(src->gNMDA_r != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->gNMDA_r, sizeof(float) * length));
+	CUDA_CHECK_ERRORS(cudaMemcpy(&dest->gNMDA_r[ptrPos], &src->gNMDA_r[ptrPos], sizeof(float) * length, kind));
+
+	assert(src->gNMDA_d != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->gNMDA_d, sizeof(float) * length));
+	CUDA_CHECK_ERRORS(cudaMemcpy(&dest->gNMDA_d[ptrPos], &src->gNMDA_d[ptrPos], sizeof(float) * length, kind));
+
+	assert(src->gNMDA != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->gNMDA, sizeof(float) * length));
+	CUDA_CHECK_ERRORS(cudaMemcpy(&dest->gNMDA[ptrPos + destOffset], &src->gNMDA[ptrPos], sizeof(float) * length, kind));
+#else
 	if (isSimulationWithNMDARise()) {
 		assert(src->gNMDA_r != NULL);
 		if(allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**) &dest->gNMDA_r, sizeof(float) * length));
@@ -2067,6 +2300,7 @@ void SNN::copyConductanceNMDA(int netId, int lGrpId, RuntimeData* dest, RuntimeD
 		if(allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**) &dest->gNMDA, sizeof(float) * length));
 		CUDA_CHECK_ERRORS(cudaMemcpy(&dest->gNMDA[ptrPos + destOffset], &src->gNMDA[ptrPos], sizeof(float) * length, kind));
 	}
+#endif
 }
 
 /*!
@@ -2146,6 +2380,19 @@ void SNN::copyConductanceGABAb(int netId, int lGrpId, RuntimeData* dest, Runtime
 	assert(length <= networkConfigs[netId].numNReg);
 	assert(length > 0);
 
+#ifdef LN_I_CALC_TYPES
+	assert(src->gGABAb_r != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->gGABAb_r, sizeof(float) * length));
+	CUDA_CHECK_ERRORS(cudaMemcpy(&dest->gGABAb_r[ptrPos], &src->gGABAb_r[ptrPos], sizeof(float) * length, kind));
+
+	assert(src->gGABAb_d != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->gGABAb_d, sizeof(float) * length));
+	CUDA_CHECK_ERRORS(cudaMemcpy(&dest->gGABAb_d[ptrPos], &src->gGABAb_d[ptrPos], sizeof(float) * length, kind));
+
+	assert(src->gGABAb != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->gGABAb, sizeof(float) * length));
+	CUDA_CHECK_ERRORS(cudaMemcpy(&dest->gGABAb[ptrPos + destOffset], &src->gGABAb[ptrPos], sizeof(float) * length, kind));
+#else
 	if (isSimulationWithGABAbRise()) {
 		assert(src->gGABAb_r != NULL);
 		if(allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->gGABAb_r, sizeof(float) * length));
@@ -2159,6 +2406,7 @@ void SNN::copyConductanceGABAb(int netId, int lGrpId, RuntimeData* dest, Runtime
 		if(allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->gGABAb, sizeof(float) * length));
 		CUDA_CHECK_ERRORS(cudaMemcpy(&dest->gGABAb[ptrPos + destOffset], &src->gGABAb[ptrPos], sizeof(float) * length, kind));
 	}
+#endif
 }
 
 /*!
@@ -2591,6 +2839,14 @@ void SNN::copyNetworkConfig(int netId, cudaMemcpyKind kind) {
 void SNN::copyGroupConfigs(int netId){
 	checkAndSetGPUDevice(netId);
 	CUDA_CHECK_ERRORS(cudaMemcpyToSymbol(groupConfigsGPU, groupConfigs[netId], (networkConfigs[netId].numGroupsAssigned) * sizeof(GroupConfigRT), 0, cudaMemcpyHostToDevice));
+#ifdef LN_I_CALC_TYPES
+//\LN \todo for icalc sub structures
+#endif
+}
+
+void SNN::copyConnectConfigs(int netId){
+	checkAndSetGPUDevice(netId);
+	CUDA_CHECK_ERRORS(cudaMemcpyToSymbol(connectConfigsGPU, connectConfigs[netId], (networkConfigs[netId].numConnections) * sizeof(ConnectConfigRT), 0, cudaMemcpyHostToDevice));
 }
 
 /*!
@@ -2837,6 +3093,64 @@ void SNN::copyLastSpikeTime(int netId, cudaMemcpyKind kind) {
 	CUDA_CHECK_ERRORS(cudaMemcpy(managerRuntimeData.lastSpikeTime, runtimeData[netId].lastSpikeTime, sizeof(int) *  networkConfigs[netId].numN, cudaMemcpyDeviceToHost));
 }
 
+/*!
+* \brief GPU backend to fetch spikes for reg. neurons
+* LN20201101 featSpikes
+*/
+void SNN::copyCurSpikes(int netId, cudaMemcpyKind kind) {
+	checkAndSetGPUDevice(netId);
+
+	checkDestSrcPtrs(&managerRuntimeData, &runtimeData[netId], cudaMemcpyDeviceToHost, false, ALL, 0); // check that the destination pointer is properly allocated..
+	assert(kind == cudaMemcpyDeviceToHost);
+
+	CUDA_CHECK_ERRORS(cudaMemcpy(managerRuntimeData.curSpike, runtimeData[netId].curSpike, sizeof(bool) *  networkConfigs[netId].numNReg, cudaMemcpyDeviceToHost));
+}
+
+/*!
+* \brief GPU backend to fetch poisson neurons
+* LN20201101 featSpikes
+*/
+void SNN::copyRandNum(int netId, cudaMemcpyKind kind) {
+	checkAndSetGPUDevice(netId);
+
+	checkDestSrcPtrs(&managerRuntimeData, &runtimeData[netId], cudaMemcpyDeviceToHost, false, ALL, 0); // check that the destination pointer is properly allocated..
+	assert(kind == cudaMemcpyDeviceToHost);
+
+	int length = networkConfigs[netId].numNPois; //- networkConfigs[netId].numNSpikeGen;
+	CUDA_CHECK_ERRORS(cudaMemcpy(managerRuntimeData.randNum, runtimeData[netId].randNum, sizeof(float) * length, cudaMemcpyDeviceToHost));
+}
+
+
+/*!
+* \brief GPU backend to fetch poisson neurons
+* LN20201102 featSpikes
+*/
+void SNN::copyPoissonFireRate(int netId, cudaMemcpyKind kind) {
+	checkAndSetGPUDevice(netId);
+
+	checkDestSrcPtrs(&managerRuntimeData, &runtimeData[netId], cudaMemcpyDeviceToHost, false, ALL, 0); // check that the destination pointer is properly allocated..
+	assert(kind == cudaMemcpyDeviceToHost);
+
+	//int length = networkConfigs[netId].numNRateGen; // 0
+	int length = networkConfigs[netId].numNPois; // - networkConfigs[netId].numNSpikeGen;
+	CUDA_CHECK_ERRORS(cudaMemcpy(managerRuntimeData.poissonFireRate, runtimeData[netId].poissonFireRate, sizeof(float) *  length, cudaMemcpyDeviceToHost));
+}
+
+
+/*!
+* \brief GPU backend to fetch spike gen neurons
+* LN20201101 featSpikes
+*/
+void SNN::copySpikeGenBits(int netId, cudaMemcpyKind kind) {
+	checkAndSetGPUDevice(netId);
+
+	checkDestSrcPtrs(&managerRuntimeData, &runtimeData[netId], cudaMemcpyDeviceToHost, false, ALL, 0); // check that the destination pointer is properly allocated..
+	assert(kind == cudaMemcpyDeviceToHost);
+
+	CUDA_CHECK_ERRORS(cudaMemcpy(managerRuntimeData.spikeGenBits, runtimeData[netId].spikeGenBits, networkConfigs[netId].numNSpikeGen / 32 + 1, cudaMemcpyDeviceToHost));
+}
+
+
 // spikeGeneratorUpdate on GPUs..
 void SNN::spikeGeneratorUpdate_GPU(int netId) {
 	assert(runtimeData[netId].allocated);
@@ -2982,7 +3296,15 @@ void SNN::deleteRuntimeData_GPU(int netId) {
 	CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].lif_vReset) );
 	CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].lif_gain) );
 	CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].lif_bias) );
-
+#ifdef LN_I_CALC_TYPES
+	CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].gNMDA_r));
+	CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].gNMDA_d));
+	CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].gNMDA));
+	CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].gGABAa));
+	CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].gGABAb_r));
+	CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].gGABAb_d));
+	CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].gGABAb));
+#else
 	if (sim_with_NMDA_rise) {
 		CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].gNMDA_r) );
 		CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].gNMDA_d) );
@@ -2998,7 +3320,7 @@ void SNN::deleteRuntimeData_GPU(int netId) {
 	else {
 		CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].gGABAb) );
 	}
-
+#endif
 	CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].stpu) );
 	CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].stpx) );
 
@@ -3517,6 +3839,36 @@ void SNN::copyExtFiringTable(int netId, cudaMemcpyKind kind) {
 	//KERNEL_DEBUG("GPU0 D1ex:%d/D2ex:%d", managerRuntimeData.extFiringTableEndIdxD1[0], managerRuntimeData.extFiringTableEndIdxD2[0]);
 }
 
+/*! 
+* \brief return a set, not mandatory starting with 0 and with possible gaps 
+* 
+* \todo /featCARLsim6
+* background: device 0 must be the dedicated graphics devices for windows workstations 
+* also mainboards of developer workstations forces to put the graphics cards at specific locations for space reasons
+* also a desctop might contain an NVIDIA graphics card already which should _not_ be concluded: 
+* => config, provide a list of device ids  as 8, 16, 32, or 64bit set  
+* (LN20201017) 
+*/
+
+int SNN::cudaDeviceCount() {
+	int devCount; 
+	CUDA_CHECK_ERRORS(cudaGetDeviceCount(&devCount));
+	return devCount;
+} 
+
+void SNN::cudaDeviceDescription(unsigned ithGPU, const char **desc) {
+	int devCount;
+	cudaDeviceProp deviceProp;
+	CUDA_CHECK_ERRORS(cudaGetDeviceCount(&devCount));
+	if((int)ithGPU<devCount) {
+		CUDA_CHECK_ERRORS(cudaGetDeviceProperties(&deviceProp, ithGPU));
+		*desc = deviceProp.name;
+	} else {
+		*desc = ""; 
+	}
+}
+
+
 int SNN::configGPUDevice() {
 	int devCount, devMax;
 	cudaDeviceProp deviceProp;
@@ -3546,7 +3898,7 @@ int SNN::configGPUDevice() {
 		CUDA_DEVICE_RESET();
 	}
 
-	if (devCount >= 2) { // try to setup P2P access if more than 2 GPUs are presented
+	if (devCount >= 2) { // try to setup P2P access if more than 2 GPUs are presented  //\issue  ..more then 1 GPU.. (LN20201017)
 						 // FIXME: generalize the initialization for mulit-GPUs up to 4 or 8
 						 // enable P2P access
 		int canAccessPeer_0_1, canAccessPeer_1_0;
@@ -3555,9 +3907,9 @@ int SNN::configGPUDevice() {
 		// enable peer access between GPU0 and GPU1
 		if (canAccessPeer_0_1 & canAccessPeer_1_0) {
 			cudaSetDevice(0);
-			cudaDeviceEnablePeerAccess(1, 0);
+			cudaDeviceEnablePeerAccess(1, 0);		//LN20201017  https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__PEER.html
 			cudaSetDevice(1);
-			cudaDeviceEnablePeerAccess(0, 0);
+			cudaDeviceEnablePeerAccess(0, 0);					
 			KERNEL_INFO("* Peer Access is enabled");
 		} else {
 			KERNEL_INFO("* Peer Access is not enabled");
@@ -3719,22 +4071,22 @@ void SNN::allocateSNN_GPU(int netId) {
 		KERNEL_DEBUG("\tFixedInputWts: %d", (int)groupConfigs[netId][lGrpId].FixedInputWts);
 		KERNEL_DEBUG("\tMaxDelay: %d", (int)groupConfigs[netId][lGrpId].MaxDelay);
 		KERNEL_DEBUG("\tWithSTDP: %d", (int)groupConfigs[netId][lGrpId].WithSTDP);
-		if (groupConfigs[netId][lGrpId].WithSTDP) {
-			KERNEL_DEBUG("\t\tE-STDP type: %s", stdpType_string[groupConfigs[netId][lGrpId].WithESTDPtype]);
-			KERNEL_DEBUG("\t\tTAU_PLUS_INV_EXC: %f", groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC);
-			KERNEL_DEBUG("\t\tTAU_MINUS_INV_EXC: %f", groupConfigs[netId][lGrpId].TAU_MINUS_INV_EXC);
-			KERNEL_DEBUG("\t\tALPHA_PLUS_EXC: %f", groupConfigs[netId][lGrpId].ALPHA_PLUS_EXC);
-			KERNEL_DEBUG("\t\tALPHA_MINUS_EXC: %f", groupConfigs[netId][lGrpId].ALPHA_MINUS_EXC);
-			KERNEL_DEBUG("\t\tI-STDP type: %s", stdpType_string[groupConfigs[netId][lGrpId].WithISTDPtype]);
-			KERNEL_DEBUG("\t\tTAU_PLUS_INV_INB: %f", groupConfigs[netId][lGrpId].TAU_PLUS_INV_INB);
-			KERNEL_DEBUG("\t\tTAU_MINUS_INV_INB: %f", groupConfigs[netId][lGrpId].TAU_MINUS_INV_INB);
-			KERNEL_DEBUG("\t\tALPHA_PLUS_INB: %f", groupConfigs[netId][lGrpId].ALPHA_PLUS_INB);
-			KERNEL_DEBUG("\t\tALPHA_MINUS_INB: %f", groupConfigs[netId][lGrpId].ALPHA_MINUS_INB);
-			KERNEL_DEBUG("\t\tLAMBDA: %f", groupConfigs[netId][lGrpId].LAMBDA);
-			KERNEL_DEBUG("\t\tDELTA: %f", groupConfigs[netId][lGrpId].DELTA);
-			KERNEL_DEBUG("\t\tBETA_LTP: %f", groupConfigs[netId][lGrpId].BETA_LTP);
-			KERNEL_DEBUG("\t\tBETA_LTD: %f", groupConfigs[netId][lGrpId].BETA_LTD);
-		}
+		// if (groupConfigs[netId][lGrpId].WithSTDP) {
+		// 	KERNEL_DEBUG("\t\tE-STDP type: %s", stdpType_string[groupConfigs[netId][lGrpId].WithESTDPtype]);
+		// 	KERNEL_DEBUG("\t\tTAU_PLUS_INV_EXC: %f", groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC);
+		// 	KERNEL_DEBUG("\t\tTAU_MINUS_INV_EXC: %f", groupConfigs[netId][lGrpId].TAU_MINUS_INV_EXC);
+		// 	KERNEL_DEBUG("\t\tALPHA_PLUS_EXC: %f", groupConfigs[netId][lGrpId].ALPHA_PLUS_EXC);
+		// 	KERNEL_DEBUG("\t\tALPHA_MINUS_EXC: %f", groupConfigs[netId][lGrpId].ALPHA_MINUS_EXC);
+		// 	KERNEL_DEBUG("\t\tI-STDP type: %s", stdpType_string[groupConfigs[netId][lGrpId].WithISTDPtype]);
+		// 	KERNEL_DEBUG("\t\tTAU_PLUS_INV_INB: %f", groupConfigs[netId][lGrpId].TAU_PLUS_INV_INB);
+		// 	KERNEL_DEBUG("\t\tTAU_MINUS_INV_INB: %f", groupConfigs[netId][lGrpId].TAU_MINUS_INV_INB);
+		// 	KERNEL_DEBUG("\t\tALPHA_PLUS_INB: %f", groupConfigs[netId][lGrpId].ALPHA_PLUS_INB);
+		// 	KERNEL_DEBUG("\t\tALPHA_MINUS_INB: %f", groupConfigs[netId][lGrpId].ALPHA_MINUS_INB);
+		// 	KERNEL_DEBUG("\t\tLAMBDA: %f", groupConfigs[netId][lGrpId].LAMBDA);
+		// 	KERNEL_DEBUG("\t\tDELTA: %f", groupConfigs[netId][lGrpId].DELTA);
+		// 	KERNEL_DEBUG("\t\tBETA_LTP: %f", groupConfigs[netId][lGrpId].BETA_LTP);
+		// 	KERNEL_DEBUG("\t\tBETA_LTD: %f", groupConfigs[netId][lGrpId].BETA_LTD);
+		// }
 		KERNEL_DEBUG("\tWithSTP: %d", (int)groupConfigs[netId][lGrpId].WithSTP);
 		if (groupConfigs[netId][lGrpId].WithSTP) {
 			KERNEL_DEBUG("\t\tSTP_U: %f", groupConfigs[netId][lGrpId].STP_U);
@@ -3742,6 +4094,29 @@ void SNN::allocateSNN_GPU(int netId) {
 			//				KERNEL_DEBUG("\t\tSTP_tF: %f",groupConfigs[netId][lGrpId].STP_tF);
 		}
 		KERNEL_DEBUG("\tspikeGen: %s", groupConfigs[netId][lGrpId].isSpikeGenFunc ? "is Set" : "is not set ");
+	}
+
+	copyConnectConfigs(netId);
+	KERNEL_DEBUG("Transfering connection settings to GPU:");
+	for (int lConnId = 0; lConnId < networkConfigs[netId].numConnections; lConnId++) {
+		KERNEL_DEBUG("Settings for Connection from Group %s to Group %s:", groupConfigMap[connectConfigs[netId][lConnId].grpSrc].grpName.c_str(),groupConfigMap[connectConfigs[netId][lConnId].grpDest].grpName.c_str());
+		KERNEL_DEBUG("\tWithSTDP: %d", (int)connectConfigs[netId][lConnId].WithSTDP);
+		if (connectConfigs[netId][lConnId].WithSTDP) {
+			KERNEL_DEBUG("\t\tE-STDP type: %s", stdpType_string[connectConfigs[netId][lConnId].WithESTDPtype]);
+			KERNEL_DEBUG("\t\tTAU_PLUS_INV_EXC: %f", connectConfigs[netId][lConnId].TAU_PLUS_INV_EXC);
+			KERNEL_DEBUG("\t\tTAU_MINUS_INV_EXC: %f", connectConfigs[netId][lConnId].TAU_MINUS_INV_EXC);
+			KERNEL_DEBUG("\t\tALPHA_PLUS_EXC: %f", connectConfigs[netId][lConnId].ALPHA_PLUS_EXC);
+			KERNEL_DEBUG("\t\tALPHA_MINUS_EXC: %f", connectConfigs[netId][lConnId].ALPHA_MINUS_EXC);
+			KERNEL_DEBUG("\t\tI-STDP type: %s", stdpType_string[connectConfigs[netId][lConnId].WithISTDPtype]);
+			KERNEL_DEBUG("\t\tTAU_PLUS_INV_INB: %f", connectConfigs[netId][lConnId].TAU_PLUS_INV_INB);
+			KERNEL_DEBUG("\t\tTAU_MINUS_INV_INB: %f", connectConfigs[netId][lConnId].TAU_MINUS_INV_INB);
+			KERNEL_DEBUG("\t\tALPHA_PLUS_INB: %f", connectConfigs[netId][lConnId].ALPHA_PLUS_INB);
+			KERNEL_DEBUG("\t\tALPHA_MINUS_INB: %f", connectConfigs[netId][lConnId].ALPHA_MINUS_INB);
+			KERNEL_DEBUG("\t\tLAMBDA: %f", connectConfigs[netId][lConnId].LAMBDA);
+			KERNEL_DEBUG("\t\tDELTA: %f", connectConfigs[netId][lConnId].DELTA);
+			KERNEL_DEBUG("\t\tBETA_LTP: %f", connectConfigs[netId][lConnId].BETA_LTP);
+			KERNEL_DEBUG("\t\tBETA_LTD: %f", connectConfigs[netId][lConnId].BETA_LTD);
+		}
 	}
 
 	// allocation of gpu runtime data is done

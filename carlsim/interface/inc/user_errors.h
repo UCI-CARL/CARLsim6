@@ -1,6 +1,8 @@
 #ifndef _USER_ERRORS_H_
 #define _USER_ERRORS_H_
 
+#include "carlsim_api.h"
+
 #include <string>		// std::string
 
 /*!
@@ -10,7 +12,7 @@
  * of CARLsim core functions, conceptual/chronological errors in setting up a network, etc.
  * All these errors are supposed to be fatal; that is, an error message will be printed and CARLsim will exit.
  */
-class UserErrors {
+class CARLSIM_API UserErrors {
 public:
 	// +++++ PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 

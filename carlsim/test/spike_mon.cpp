@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -58,7 +59,6 @@
 // TODO: I should probably use a google tests figure for this to reduce the
 // amount of redundant code, but I don't need to do that right now. -- KDC
 // Two years later: And so no one will. Ever... -- MB
-
 
 
 /// ****************************************************************************
@@ -392,15 +392,22 @@ TEST(SpikeMon, spikeTimes) {
 			for (int j=0; j<spkVector[i].size(); j++)
 				EXPECT_EQ(spkVector[i][j] % isi, 0);
 
+		if (inputArray!=NULL) delete[] inputArray;
+		delete sim;
+	
+//FIXME LN20201010: after merging 4.1 the file cannot be deleted, needs debugging version
+//FIX LN20201011: Moved line after release of the sim. 
+//                The Monitor keeps file reference open until the destructor releases it, \sa SpikeMonitorCore::~SpikeMonitorCore()
 #if defined(WIN32) || defined(WIN64)
-		int ret = system("del spkG0.dat");
+		int ret = system("del spkG0.dat");		
 #else
 		int ret = system("rm -rf spkG0.dat");
 #endif
-		if (inputArray!=NULL) delete[] inputArray;
-		delete sim;
+
 	}
 }
+
+
 
 /*
  * This test checks for the correctness of the getGroupFiringRate method.
@@ -490,17 +497,21 @@ TEST(SpikeMon, getGroupFiringRate){
 		EXPECT_EQ(spikeMonG1->getPopNumSpikes(), g1Size/2);
 		EXPECT_FLOAT_EQ(spikeMonG1->getPopMeanFiringRate(), g1Size/(2.0*GRP_SIZE) * 1000.0/(runTimeMsOn+2*runTimeMsOff));
 
+		if (inputArray!=NULL) delete[] inputArray;
+		if (g1Array!=NULL) delete[] g1Array;
+		delete sim;
+
+//\sa FIX LN20201011
+
 #if defined(WIN32) || defined(WIN64)
-		int ret = system("del spkInputGrp.dat");
-		ret = system("del spkG1Grp.dat");
+		int ret = system("del spkInputGrp.dat");	//FIXME LN 20201010: after merging 4.1 the file cannot be deleted, needs debugging version
+		ret = system("del spkG1Grp.dat");			//FIXME LN 20201010: after merging 4.1 the file cannot be deleted, needs debugging version
 #else
 		int ret = system("rm -rf spkInputGrp.dat");
 		ret = system("rm -rf spkG1Grp.dat");
 #endif
 
-		if (inputArray!=NULL) delete[] inputArray;
-		if (g1Array!=NULL) delete[] g1Array;
-		delete sim;
+
 	}
 }
 
@@ -530,13 +541,6 @@ TEST(SpikeMon, getMaxMinNeuronFiringRate){
 
         sim->setupNetwork();
 
-#if defined(WIN32) || defined(WIN64)
-		int ret = system("del spkInputGrp.dat");
-		ret = system("del spkG1Grp.dat");
-#else
-		int ret = system("rm -rf spkInputGrp.dat");
-		ret = system("rm -rf spkG1Grp.dat");
-#endif
 		SpikeMonitor* spikeMonInput = sim->setSpikeMonitor(inputGroup,"spkInputGrp.dat");
 		SpikeMonitor* spikeMonG1 = sim->setSpikeMonitor(g1,"spkG1Grp.dat");
 
@@ -598,6 +602,14 @@ TEST(SpikeMon, getMaxMinNeuronFiringRate){
 		if (inputArray!=NULL) delete[] inputArray;
 		if (g1Array!=NULL) delete[] g1Array;
 		delete sim;
+
+#if defined(WIN32) || defined(WIN64)
+		int ret = system("del spkInputGrp.dat");
+		ret = system("del spkG1Grp.dat");
+#else
+		int ret = system("rm -rf spkInputGrp.dat");
+		ret = system("rm -rf spkG1Grp.dat");
+#endif
 	}
 }
 

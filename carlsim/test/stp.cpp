@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -68,7 +69,18 @@ TEST(STP, setSTPdeath) {
 	int g1=sim->createSpikeGeneratorGroup("excit", 10, EXCITATORY_NEURON);
 
 	// grpId
-	EXPECT_DEATH({sim->setSTP(-2,true,0.1f,10,10);},"");
+	//{fix LN 2020
+	//EXPECT_DEATH({sim->setSTP(-2,true,0.1f,10,10);},"due invalid neuron group");  
+	/*
+		tp.cpp(70): error: Death test: {sim->setSTP(-2,true,0.1f,10,10);}
+		Result: died but not with expected error.
+		Expected: contains regular expression "due invalid neuron group"
+		Actual msg:
+		[  DEATH   ] [31;1m[USER ERROR getGroupName(-2)] grpId must be in the range [0,getNumGroups()] or must be ALL.[0m
+		[  DEATH   ]
+	*/
+	EXPECT_DEATH({sim->setSTP(-2,true,0.1f,10,10);},"grpId must be in the range");
+	//}
 
 	// STP_U
 	EXPECT_DEATH({sim->setSTP(g1,true,0.0f,10,10);},"");

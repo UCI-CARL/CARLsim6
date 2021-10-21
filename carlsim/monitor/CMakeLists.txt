@@ -5,6 +5,8 @@
         connection_monitor.cpp
         group_monitor_core.cpp
         group_monitor.cpp
+        neuron_monitor_core.cpp
+        neuron_monitor.cpp
         spike_monitor_core.cpp
         spike_monitor.cpp
     )
@@ -27,6 +29,7 @@
     target_link_libraries(carlsim-monitor
         PRIVATE
             carlsim-kernel
+            carlsim-interface
     )
 
 # Installation
@@ -37,6 +40,11 @@
             connection_monitor.h
             group_monitor_core.h
             group_monitor.h
+            neuron_monitor_core.h
+            neuron_monitor.h
             spike_monitor_core.h
             spike_monitor.h
         DESTINATION include)
+
+# LN
+    install(TARGETS carlsim-monitor DESTINATION lib)

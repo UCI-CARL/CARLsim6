@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 05/24/2017
@@ -120,4 +121,45 @@ void NeuronMonitor::print() {
 	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
 
 	neuronMonitorCorePtr_->print();
+}
+
+
+
+
+bool NeuronMonitor::getPersistentData() {
+	return neuronMonitorCorePtr_->getPersistentData();
+}
+
+void NeuronMonitor::setPersistentData(bool persistentData) {
+	neuronMonitorCorePtr_->setPersistentData(persistentData);
+}
+
+
+int NeuronMonitor::getLastUpdated() {
+	std::string funcName = "getLastUpdated()";
+	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
+
+	return neuronMonitorCorePtr_->getLastUpdated();
+}
+
+
+std::vector<std::vector<float> > NeuronMonitor::getVectorV(){
+	std::string funcName = "getVectorV()";
+	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
+
+	return neuronMonitorCorePtr_->getVectorV();
+}
+
+std::vector<std::vector<float> > NeuronMonitor::getVectorU() {
+	std::string funcName = "getVectorU()";
+	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
+
+	return neuronMonitorCorePtr_->getVectorU();
+}
+
+std::vector<std::vector<float> > NeuronMonitor::getVectorI() {
+	std::string funcName = "getVectorI()";
+	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
+
+	return neuronMonitorCorePtr_->getVectorI();
 }

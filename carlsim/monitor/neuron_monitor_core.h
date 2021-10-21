@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 05/24/2017
@@ -49,6 +50,7 @@
 
 #ifndef _NEURON_MON_CORE_H_
 #define _NEURON_MON_CORE_H_
+
 
 #include <carlsim_datastructures.h>	// NeuronMonMode
 #include <stdio.h>					// FILE
@@ -89,6 +91,18 @@ public:
 
 	//! returns a pointer to the neuron state file
 	FILE* getNeuronFileId() { return neuronFileId_; }
+
+
+	//{ LN20201118 extensions
+
+	//! returns status of PersistentData mode	
+	bool getPersistentData() { return persistentData_; }
+
+	//! sets status of PersistentData mode
+	void setPersistentData(bool persistentData) { persistentData_ = persistentData; }
+
+	// }
+
 
     //! returns timestamp of last NeuronMonitor update
 	long int getLastUpdated() { return neuronMonLastUpdated_; }

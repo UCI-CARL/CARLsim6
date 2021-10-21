@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -69,8 +70,11 @@ TEST(COBA, synRiseTime) {
 
 	CARLsim* sim = NULL;
 
-	float time_abs_error = 2.0; // 2 ms
-	float wt_abs_error = 0.1; // error for wt
+	float time_abs_error = 2.0f; // 2 ms
+	float wt_abs_error = 0.1f; // error for wt   
+	// \todo LN isse conductances as double 
+	
+
 
 	for (int mode = 0; mode < TESTED_MODES; mode++) {
 		int tdAMPA  = 5;
@@ -81,7 +85,8 @@ TEST(COBA, synRiseTime) {
 		int tdGABAb = 150; // make sure it's larger than trGABAb
 
 		sim = new CARLsim("COBA.synRiseTime", mode ? GPU_MODE : CPU_MODE, SILENT, 1, 42);
-        Grid3D neur(1);
+		//sim = new CARLsim("COBA.synRiseTime", mode ? GPU_MODE : CPU_MODE, DEVELOPER, 1, 42);
+		Grid3D neur(1);
         Grid3D neur2(1);
 
 		int g1=sim->createGroup("excit", neur2, EXCITATORY_NEURON, 0);
@@ -97,14 +102,25 @@ TEST(COBA, synRiseTime) {
 		sim->connect(g2,g3,"one-to-one",RangeWeight(0.5f),1.0,RangeDelay(1),RadiusRF(-1.0),SYN_FIXED,0.0,1.0); // GABAb
 
 		sim->setConductances(true, tdAMPA, trNMDA, tdNMDA, tdGABAa, trGABAb, tdGABAb);
+		//sim->setConductances(g1, true, tdAMPA, trNMDA, tdNMDA, tdGABAa, trGABAb, tdGABAb);  // LN 20210912 group level settings -> no difference, NMDA remains inf at second iteration -> mem issu, doubel/float
+		//sim->setConductances(g3, true, tdAMPA, trNMDA, tdNMDA, tdGABAa, trGABAb, tdGABAb);  // LN 20210912 
+		//sim->setConductances(true);
 
 		// run network for a second first, so that we know spike will happen at simTimeMs==1000
+		// \todo LN issue; this is wrong, since true was passed to SpikeGen 
 		PeriodicSpikeGenerator* spk1 = new PeriodicSpikeGenerator(1.0f,true); // periodic spiking
 		PeriodicSpikeGenerator* spk2 = new PeriodicSpikeGenerator(1.0f,true); // periodic spiking
+
+		//PeriodicSpikeGenerator* spk1 = new PeriodicSpikeGenerator(1.0f, false); // periodic spiking
+		//PeriodicSpikeGenerator* spk2 = new PeriodicSpikeGenerator(1.0f, false); // periodic spiking
+
+
 		sim->setSpikeGenerator(g0, spk1);
 		sim->setSpikeGenerator(g2, spk2);
 		sim->setupNetwork();
-		sim->runNetwork(1,0,false);
+		sim->runNetwork(1, 0, false);
+		//sim->runNetwork(1, 0, true);  // LN patch
+		//sim->runNetwork(0, 999, false);
 
 		// now observe gNMDA, gGABAb after spike, and make sure that the time at which they're max matches the
 		// analytical solution, and that the peak conductance is actually equal to the weight we set
@@ -113,8 +129,23 @@ TEST(COBA, synRiseTime) {
 		int tmaxGABAb = -1;
 		double maxGABAb = -1;
 		int nMsec = (std::max)(trNMDA+tdNMDA,trGABAb+tdGABAb)+10;
+		//nMsec = 20; // LN patch
 		for (int i=0; i<nMsec; i++) {
 			sim->runNetwork(0,1);
+
+			//std::vector<float> g1AMPA = sim->getConductanceAMPA(g1);
+			//std::vector<float> g1GABAa = sim->getConductanceGABAa(g1);
+			//std::vector<float> g1GABAb = sim->getConductanceGABAb(g1);
+			//std::vector<float> g1NMDA = sim->getConductanceNMDA(g1);
+
+			//std::vector<float> g3AMPA = sim->getConductanceAMPA(g3);
+			//std::vector<float> g3GABAa = sim->getConductanceGABAa(g3);
+			//std::vector<float> g3GABAb = sim->getConductanceGABAb(g3);
+			//std::vector<float> g3NMDA = sim->getConductanceNMDA(g3);
+
+			//printf("t:%d  g1:: AMPA: %3f GABAa: %.3f GABAb: %.3f NMDA: %.3f  g3:: AMPA: %3f GABAa: %.3f GABAb: %.3f NMDA: %.3f \n", i + 999,
+			//	g1AMPA[0], g1GABAa[0], g1GABAb[0], g1NMDA[0],
+			//	g3AMPA[0], g3GABAa[0], g3GABAb[0], g3NMDA[0]); // LN patch
 
 			std::vector<float> gNMDA = sim->getConductanceNMDA(g1);
 			std::vector<float> gGABAb = sim->getConductanceGABAb(g3);
@@ -129,12 +160,13 @@ TEST(COBA, synRiseTime) {
 			}
 		}
 
-		double tmax = (-tdNMDA*trNMDA*log(1.0*trNMDA/tdNMDA))/(tdNMDA-trNMDA);
-		EXPECT_NEAR(tmaxNMDA,tmax,time_abs_error); // t_max should be near the analytical solution
+		double tmaxNMDA_ = (-tdNMDA*trNMDA*log(1.0*trNMDA/tdNMDA))/(tdNMDA-trNMDA);		// LN fix naming
+		EXPECT_NEAR(tmaxNMDA, tmaxNMDA_,time_abs_error); // t_max should be near the analytical solution
 		EXPECT_NEAR(maxNMDA,0.5,0.5*wt_abs_error); // max should be equal to the weight
 
-		tmax = (-tdGABAb*trGABAb*log(1.0*trGABAb/tdGABAb))/(tdGABAb-trGABAb);
-		EXPECT_NEAR(tmaxGABAb,tmaxGABAb,time_abs_error); // t_max should be near the analytical solution
+		double tmaxGABAb_ = (-tdGABAb*trGABAb*log(1.0*trGABAb/tdGABAb))/(tdGABAb-trGABAb);  // LN fix naming
+		//EXPECT_NEAR(tmaxGABAb, tmaxGABAb, time_abs_error); // t_max should be near the analytical solution     // \todo  LN is this a bug 
+		EXPECT_NEAR(tmaxGABAb, tmaxGABAb_, time_abs_error); // t_max should be near the analytical solution			 // \todo  LN is this the fix
 		EXPECT_NEAR(maxGABAb,0.5,0.5*wt_abs_error); // max should be equal to the weight times -1
 
 		delete spk1;
@@ -159,7 +191,7 @@ TEST(COBA, condSingleNeuronCPUvsGPU) {
 	const int runDurationMs = 2000;
 	int grps[nGrps] = { -1 };
 	std::string expectCond[nGrps] = { "AMPA","NMDA","AMPA+NMDA","GABAa","GABAb","GABAa+GABAb" };
-	float expectCondStd[nGrps] = { 0.01, 0.01, 0.01, 0.01, 0.01, 0.01 };
+	float expectCondStd[nGrps] = { 0.01f, 0.01f, 0.01f, 0.01f, 0.01f, 0.01f };
 
 	std::vector<float> gAMPA_CPU(runDurationMs, 0.0f);
 	std::vector<float> gNMDA_CPU(runDurationMs, 0.0f);
@@ -300,6 +332,9 @@ TEST(COBA, condSingleNeuronCPUvsGPU) {
  * The total simulation time, input rate, weight, and delay are chosen randomly.
  * Afterwards we make sure that CPU and GPU mode produce the same spike times and spike rates. 
  */
+
+
+
 TEST(COBA, firingRateCPUvsGPU) {
 	::testing::FLAGS_gtest_death_test_style = "threadsafe";
 

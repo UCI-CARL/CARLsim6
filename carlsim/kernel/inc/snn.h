@@ -41,7 +41,8 @@
  * CARLsim v2.0/v2.1/v2.2: JM, MDR, MA, MB, KDC
  * CARLsim3: MB, KDC, TSC
  * CARLsim4: TSC, HK
-* CARLsim5: HK, JX, KC
+ * CARLsim5: HK, JX, KC
+ * CARLsim6: LN, KC, JX, KW
  *
  * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
  * Ver 12/31/2016
@@ -76,6 +77,25 @@
 #ifndef _SNN_GOLD_H_
 #define _SNN_GOLD_H_
 
+
+//{ LN fixes for CARLsim6
+#define LN_FIX_DA_DECAY_GPU
+#define LN_FIX_DA_DECAY_CPU
+#define LN_FIX_ALL_DECAY_CPU
+#define LN_FIX_ALL_DECAY_GPU
+//}
+
+//{ LN feat for CARLsim6
+//#define LN_UPDATE_CURSPIKES
+//#define LN_UPDATE_CURSPIKES_MT
+//}
+
+//{ LN feat for CARLsim6, performance Issue Setup
+//#define LN_FIX_CONNLIST_
+//#define LN_SETUP_NETWORK_MT;  // featFastSetup LN 20201108
+//}
+
+
 #include <map>
 #include <list>
 #include <cmath>
@@ -83,6 +103,9 @@
 #include <cassert>
 #include <cstdio>
 #include <climits>
+
+// experimental
+#include <mutex>
 
 #include <carlsim.h>
 #include <callback_core.h>
@@ -135,7 +158,7 @@ public:
 
 	// +++++ PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
-	const static unsigned int MAJOR_VERSION = 5; //!< major release version, as in CARLsim X
+	const static unsigned int MAJOR_VERSION = 6; //!< major release version, as in CARLsim X
 	const static unsigned int MINOR_VERSION = 0; //!< minor release version, as in CARLsim 2.X
 
 
@@ -217,6 +240,7 @@ public:
 	*/
 	void setCompartmentParameters(int grpId, float couplingUp, float couplingDown);
 
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVE
 	/*!
 	 * \brief Sets custom values for conductance decay (\tau_decay) or disables conductances alltogether
 	 * These will be applied to all connections in a network
@@ -229,6 +253,16 @@ public:
 	 * \param tGABAb: time constant of GABAb decay (ms); for example, 150.0
 	 */
 	void setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb);
+
+#ifdef LN_I_CALC_TYPES
+	/*!
+	 *  No default params see above  LN 2021
+	 */
+	 // \todo LN transfer doc
+	void setConductances(int grpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb);
+
+	void setNM4weighted(int grpId, IcalcType type, float wDA, float w5HT, float wACh, float wNE, float wNorm, float wBase);
+#endif
 
 
 	/*!
@@ -320,6 +354,14 @@ public:
 	void setNeuromodulator(int grpId, float baseDP, float tauDP, float base5HT, float tau5HT,
 		float baseACh, float tauACh, float baseNE, float tauNE);
 
+	//! New config 
+	void setNeuromodulator(int grpId,
+		float baseDP, float tauDP, float releaseDP, bool activeDP,
+		float base5HT, float tau5HT, float release5HT, bool active5HT,
+		float baseACh, float tauACh, float releaseAch, bool activeACh,
+		float baseNE, float tauNE, float releaseNE, bool activeNE);
+
+
 	//! Set the spike-timing-dependent plasticity (STDP) for a neuron group.
 	/*
 	 * \brief STDP must be defined post-synaptically; that is, if STP should be implemented on the connections from group 0 to group 1,
@@ -332,7 +374,17 @@ public:
 	 * \param[in] alphaMinus max magnitude for LTD change (leave positive)
 	 * \param[in] tauMinus decay time constant for LTD
 	 */
-	void setESTDP(int grpId, bool isSet, STDPType type, STDPCurve curve, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus, float gamma);
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus, float gamma);
+
+#ifdef LN_I_CALC_TYPES
+	//! Set the spike-timing-dependent plasticity (STDP) for a connection group
+	/*
+	 * \brief STDP 
+	 * \param[in] ...
+	 */
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus, int nm_pka, float w_pka, int nm_plc, float w_plc);
+	void setConnectionModulation(int preGrpId, int postGrpId, IcalcType icalcType);
+#endif
 
 	//! Set the inhibitory spike-timing-dependent plasticity (STDP) with anti-hebbian curve for a neuron group
 	/*
@@ -347,7 +399,7 @@ public:
 	 * \param[in] tau1, the interval for LTP
 	 * \param[in] tau2, the interval for LTD
 	 */
-	void setISTDP(int grpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2);
+	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2);
 
 	/*!
 	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
@@ -371,6 +423,12 @@ public:
 	 */
 	void setSTP(int grpId, bool isSet, float STP_U, float STP_tau_u, float STP_tau_x);
 
+
+#ifdef LN_I_CALC_TYPES
+	void setNM4STP(int grpId, float wSTP_U[], float wSTP_tau_u[], float wSTP_tau_x[]);
+#endif
+
+
 	//! Sets the weight and weight change update parameters
 	/*!
 	 * \param[in] wtANDwtChangeUpdateInterval the interval between two wt (weight) and wtChange (weight change) update.
@@ -378,6 +436,8 @@ public:
 	 * \param[in] wtChangeDecay the decay ratio of weight change (wtChange)
 	 */
 	void setWeightAndWeightChangeUpdate(UpdateInterval wtANDwtChangeUpdateInterval, bool enableWtChangeDecay, float wtChangeDecay);
+
+
 
 	// +++++ PUBLIC METHODS: RUNNING A SIMULATION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
@@ -393,6 +453,11 @@ public:
 	 * \param[in] removeTempMemory 	remove temp memory after building network
 	 */
 	void setupNetwork();
+
+#ifdef LN_SETUP_NETWORK_MT
+	// LN experimental
+	void setupNetworkMT();
+#endif
 
 	// +++++ PUBLIC METHODS: INTERACTING WITH A SIMULATION ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
@@ -418,8 +483,9 @@ public:
 	/*!
 	 * \param[in] grpId ID of the neuron group
 	 * \param[in] fid file pointer for recording group status (neuromodulators)
+	 * \param[in] mode 0=DP, 1=ALL neurotransmitter (LN2020)
 	 */
-	GroupMonitor* setGroupMonitor(int grpId, FILE* fid);
+	GroupMonitor* setGroupMonitor(int grpId, FILE* fid, int mode = 0);
 
 	//! sets up a network monitor registered with a callback to process the spikes.
 	/*!
@@ -473,6 +539,16 @@ public:
 
 	//! access group status (currently the concentration of neuromodulator)
 	void updateGroupMonitor(int grpId = ALL);
+
+	
+#ifdef LN_UPDATE_CURSPIKES
+	//! LN20201101 test stub to develop featSpikes  
+	void updateCurSpike(std::vector<bool>& firings, int netId);
+#endif
+#ifdef LN_UPDATE_CURSPIKES_MT
+	//! LN20201101 test stub to develop featSpikes multithreaded
+	void updateCurSpikeMT(std::vector<bool>& firings, int netId);
+#endif 
 
 	/*!
 	 * \brief copy required spikes from firing buffer to spike buffer
@@ -530,6 +606,7 @@ public:
 
 	short int getConnectId(int grpIdPre, int grpIdPost); //!< find connection ID based on pre-post group pair, O(N)
 	ConnectConfig getConnectConfig(short int connectId); //!< required for homeostasis
+	ConnSTDPInfo getConnSTDPInfo(short int connId);
 
 	//! returns the RangeDelay struct of a connection
 	RangeDelay getDelayRange(short int connId);
@@ -548,7 +625,6 @@ public:
 	Grid3D getGroupGrid3D(int grpId);
 	int getGroupId(std::string grpName);
 	std::string getGroupName(int grpId);
-	GroupSTDPInfo getGroupSTDPInfo(int grpId);
 	GroupNeuromodulatorInfo getGroupNeuromodulatorInfo(int grpId);
 
 	LoggerMode getLoggerMode() { return loggerMode_; }
@@ -562,6 +638,10 @@ public:
 
 	Point3D getNeuronLocation3D(int neurId);
 	Point3D getNeuronLocation3D(int grpId, int relNeurId);
+
+	int getNeuronId(int gGrpId, Point3D location); //!< the inverse of getNeuronLocation3D
+	//int getRelNeuronId(int gGrpId, int x, int y, int z);  //!< normalized primtive bravis lattice 
+
 
 	int getNumConnections() { return numConnections; }
 	int getNumSynapticConnections(short int connectionId);		//!< gets number of connections associated with a connection ID
@@ -622,15 +702,58 @@ public:
 	bool isInhibitoryGroup(int gGrpId) { return (groupConfigMap[gGrpId].type & TARGET_GABAa) || (groupConfigMap[gGrpId].type & TARGET_GABAb); }
 	bool isPoissonGroup(int gGrpId) { return (groupConfigMap[gGrpId].type & POISSON_NEURON); }
 	bool isDopaminergicGroup(int gGrpId) { return (groupConfigMap[gGrpId].type & TARGET_DA); }
+	// LN2021 \todo LN
 
 	//! returns whether group has homeostasis enabled (true) or not (false)
 	bool isGroupWithHomeostasis(int grpId);
+
+#ifdef LN_I_CALC_TYPES
+    //! \todo LN2021
+	bool isGroupWith(int grpId, IcalcType icalcType) { return groupConfigMap[grpId].icalcType == icalcType; };
+	bool isGroupWithCOBA(int grpId) { return isGroupWith(grpId, COBA); };
+	bool isGroupWithCUBA(int grpId) { return isGroupWith(grpId, CUBA); };
+	bool isGroupWithNMDARise(int grpId) { return false; };
+	bool isGroupWithGABAbRise(int grpId) { return false; };
+
+	IcalcType getIcalcType(int grpId) { return groupConfigMap[grpId].icalcType; };
+  
+	// factors
+	void getConductanceConfig(int grpId, float &dAMPA, float &rNMDA, float &dNMDA, float &dGABAa, float &rGABAb, float &dGABAb) {
+		auto config = groupConfigMap[grpId].conductanceConfig;
+		dAMPA = config.dAMPA;
+		rNMDA = config.rNMDA;
+		dNMDA = config.dNMDA;
+		dGABAa = config.dGABAa;
+		rGABAb = config.rGABAb;
+		dGABAb = config.dGABAb;
+	};
+	
+	// times 
+	void getConductanceConfig(int grpId, int& tdAMPA, int& trNMDA, int& tdNMDA, int& tdGABAa, int& trGABAb, int& tdGABAb) {
+
+		//// caution: C++11 std::round<int>  does round 5.9999f to 5 instead of 6 !!!
+		//double d = 1.0 / (1.0 - 0.833333313);
+		//float f = 1.0f / (1.0f - 0.833333313f);
+		//int i = std::round<int>(f);
+
+		// \todo LN ensure at set that float does not goes below min precision
+
+		auto config = groupConfigMap[grpId].conductanceConfig;
+		tdAMPA = round(1.0f / (1.0f - config.dAMPA));   
+		trNMDA = abs(config.rNMDA) < 0.000001f ? 0 : round(1.0f / (1.0f - config.rNMDA));
+		tdNMDA = round(1.0f / (1.0f - config.dNMDA));
+		tdGABAa = round(1.0f / (1.0f - config.dGABAa));
+		trGABAb = abs(config.rGABAb) < 0.000001f ? 0 : round(1.0f / (1.0f - config.rGABAb));
+		tdGABAb = round(1.0f / (1.0f - config.dGABAb));
+	};
+#endif 
 
 	//! checks whether a point pre lies in the receptive field for point post
 	double getRFDist3D(const RadiusRF& radius, const Point3D& pre, const Point3D& post);
 	bool isPoint3DinRF(const RadiusRF& radius, const Point3D& pre, const Point3D& post);
 
-	bool isSimulationWithCompartments() { return sim_with_compartments; }
+    bool isSimulationWithCompartments() { return sim_with_compartments; }
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 	bool isSimulationWithCOBA() { return sim_with_conductances; }
 	bool isSimulationWithCUBA() { return !sim_with_conductances; }
 	bool isSimulationWithNMDARise() { return sim_with_NMDA_rise; }
@@ -640,6 +763,19 @@ public:
 	bool isSimulationWithPlasticWeights() { return !sim_with_fixedwts; }
 	bool isSimulationWithSTDP() { return sim_with_stdp; }
 	bool isSimulationWithSTP() { return sim_with_stp; }
+
+
+	//! Get Info of suitable Harware for integration of CARLsim in NeuroInf-IDEs NIIDEs (LN20201017)
+#ifndef __NO_CUDA__
+	// GPU backend: utility function
+	static int cudaDeviceCount();
+	static void cudaDeviceDescription(unsigned ithGPU, const char **desc);
+#else
+	static int cudaDeviceCount() { return 0; }
+	static void cuda_device_description(unsigned , const char **) {};
+#endif
+
+
 
 	// **************************************************************************************************************** //
 	// PRIVATE METHODS
@@ -690,6 +826,12 @@ private:
 	void connectGaussian(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);
 	void connectUserDefined(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);
 
+#ifdef LN_SETUP_NETWORK_MT
+	void connectNetworkMT();  //! featFastSetup LN20201108
+	inline void connectNeuronsMT(std::mutex &mtx, int netId, int srcGrp, int destGrp, int srcN, int destN, short int connId, int externalNetId);
+	void connectRandomMT(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);
+#endif
+
 	void deleteObjects();			//!< deallocates all used data structures in snn_cpu.cpp
 
 	void findMaxNumSynapsesGroups(int* _maxNumPostSynGrp, int* _maxNumPreSynGrp);
@@ -725,8 +867,11 @@ private:
 	void compileSNN();
 
 	void partitionSNN();
-
 	void generateRuntimeSNN();
+
+#ifdef LN_SETUP_NETWORK_MT
+	void partitionSNNMT();  // featFastSetup LN 20201108
+#endif
 
 	/*!
 	 * \brief generates spike times according to a Poisson process
@@ -828,6 +973,10 @@ private:
 	void fetchGrpIdsLookupArray(int netId);
 	void fetchConnIdsLookupArray(int netId);
 	void fetchLastSpikeTime(int netId);
+	void fetchCurSpike(int netId); //!< LN20201101, featSpikes
+	void fetchRandNum(int netId); //!< LN20201101, featSpikes
+	void fetchPoissonFireRate(int netId); //!< LN20201102, featSpikes
+	void fetchSpikeGenBits(int netId); //!< LN20201101, featSpikes
 	void fetchPreConnectionInfo(int netId);
 	void fetchPostConnectionInfo(int netId);
 	void fetchSynapseState(int netId);
@@ -887,7 +1036,7 @@ private:
 	int configGPUDevice();
 	void initGPU(int netId);
 #else
-	int configGPUDevice() { return 0; }
+	//int configGPUDevice() { return 0; }  
 #endif
 
 #ifndef __NO_CUDA__
@@ -910,9 +1059,14 @@ private:
 	void copyWeightState(int netId, int lGrpId, cudaMemcpyKind kind);
 	void copyNetworkConfig(int netId, cudaMemcpyKind kind);
 	void copyGroupConfigs(int netId);
+	void copyConnectConfigs(int netId);
 	void copyGrpIdsLookupArray(int netId, cudaMemcpyKind kind);
 	void copyConnIdsLookupArray(int netId, cudaMemcpyKind kind);
 	void copyLastSpikeTime(int netId, cudaMemcpyKind kind);
+	void copyCurSpikes(int netId, cudaMemcpyKind kind); // LN20201101 featSpikes	
+	void copyRandNum(int netId, cudaMemcpyKind kind); // LN20201101 featSpikes	
+	void copyPoissonFireRate(int netId, cudaMemcpyKind kind); // LN20201102 featSpikes	
+	void copySpikeGenBits(int netId, cudaMemcpyKind kind); // LN20201101 featSpikes		
 	void copyNetworkSpikeCount(int netId, cudaMemcpyKind kind,
 		unsigned int* spikeCountD1, unsigned int* spikeCountD2,
 		unsigned int* spikeCountExtD1, unsigned int* spikeCountExtD2);
@@ -948,6 +1102,10 @@ private:
 	void copyGrpIdsLookupArray(int netId, cudaMemcpyKind kind) { assert(false); }
 	void copyConnIdsLookupArray(int netId, cudaMemcpyKind kind) { assert(false); }
 	void copyLastSpikeTime(int netId, cudaMemcpyKind kind) { assert(false); }
+	void copyCurSpikes(int netId, cudaMemcpyKind kind) { assert(false); }  // LN20201101 featSpikes
+	void copyPoissonFireRate(int netId, cudaMemcpyKind kind) { assert(false); }  // LN20201102 featSpikes
+	void copyRandNum(int netId, cudaMemcpyKind kind) { assert(false); }  // LN20201101 featSpikes
+	void copySpikeGenBits(int netId, cudaMemcpyKind kind) { assert(false); }  // LN20201101 featSpikes
 	void copyNetworkSpikeCount(int netId, cudaMemcpyKind kind,
 	unsigned int* spikeCountD1, unsigned int* spikeCountD2,
 	unsigned int* spikeCountExtD1, unsigned int* spikeCountExtD2) { assert(false); }
@@ -1034,6 +1192,10 @@ private:
 	void copyGrpIdsLookupArray(int netId);
 	void copyConnIdsLookupArray(int netId);
 	void copyLastSpikeTime(int netId);
+	void copyCurSpikes(int netId); // LN20201101 featSpikes
+	void copyRandNum(int netId); // LN20201101 featSpikes
+	void copyPoissonFireRate(int netId); // LN20201102 featSpikes
+	void copySpikeGenBits(int netId); // LN20201101 featSpikes
 	void copyNetworkSpikeCount(int netId,
 	unsigned int* spikeCountD1, unsigned int* spikeCountD2,
 	unsigned int* spikeCountExtD1, unsigned int* spikeCountExtD2);
@@ -1083,8 +1245,12 @@ private:
 	std::list<ConnectConfig> externalConnectLists[MAX_NET_PER_SNN];
 	std::list<compConnectConfig> localCompConnectLists[MAX_NET_PER_SNN];
 
-	std::list<ConnectionInfo> connectionLists[MAX_NET_PER_SNN];
 
+#ifdef LN_FIX_CONNLIST_
+	std::vector<ConnectionInfo> connectionLists[MAX_NET_PER_SNN];
+#else
+	std::list<ConnectionInfo> connectionLists[MAX_NET_PER_SNN];
+#endif
 	std::list<RoutingTableEntry> spikeRoutingTable;
 
 	float 		*mulSynFast;	//!< scaling factor for fast synaptic currents, per connection
@@ -1093,9 +1259,11 @@ private:
 	//! Buffer to store spikes
 	SpikeBuffer* spikeBuf;
 
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 	bool sim_with_conductances; //!< flag to inform whether we run in COBA mode (true) or CUBA mode (false)
 	bool sim_with_NMDA_rise;    //!< a flag to inform whether to compute NMDA rise time
 	bool sim_with_GABAb_rise;   //!< a flag to inform whether to compute GABAb rise time
+#define LN_I_CALC_TYPES__REQUIRED_FOR_BACKWARD_COMPAT
 	double dAMPA;               //!< multiplication factor for decay time of AMPA conductance (gAMPA[i] *= dAMPA)
 	double rNMDA;               //!< multiplication factor for rise time of NMDA
 	double dNMDA;               //!< multiplication factor for decay time of NMDA
@@ -1175,6 +1343,7 @@ private:
 		int maxNumN;
 		int maxNumNReg;
 		int maxNumNSpikeGen;
+		int maxNumNPois; //!< featSpikes LN20201103
 		int maxNumNAssigned;
 		int maxNumGroups;
 		int maxNumConnections;

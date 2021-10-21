@@ -1,0 +1,45 @@
+
+// LN 2021 
+
+#ifndef CARLSIM_CONF_API_H
+#define CARLSIM_CONF_API_H
+
+
+#if defined _WIN32 || defined __CYGWIN__
+#  define CARLSIM_HELPER_DLL_IMPORT __declspec(dllimport)
+#  define CARLSIM_HELPER_DLL_EXPORT __declspec(dllexport)
+#  define CARLSIM_HELPER_DLL_LOCAL
+#  define CARLSIM_HELPER_DLL_IMPORT_EXTERN extern
+#  define CARLSIM_HELPER_DLL_EXPORT_EXTERN
+#elif (CARLSIM_COMPILER_IS_GNU && (__GNUC__ >= 4)) || CARLSIM_COMPILER_IS_Clang || CARLSIM_COMPILER_IS_AppleClang
+#  define CARLSIM_HELPER_DLL_IMPORT __attribute__ ((visibility ("default")))
+#  define CARLSIM_HELPER_DLL_EXPORT __attribute__ ((visibility ("default")))
+#  define CARLSIM_HELPER_DLL_LOCAL  __attribute__ ((visibility ("hidden")))
+#  define CARLSIM_HELPER_DLL_IMPORT_EXTERN
+#  define CARLSIM_HELPER_DLL_EXPORT_EXTERN
+#else
+#  define CARLSIM_HELPER_DLL_IMPORT
+#  define CARLSIM_HELPER_DLL_EXPORT
+#  define CARLSIM_HELPER_DLL_LOCAL
+#  define CARLSIM_HELPER_DLL_IMPORT_EXTERN
+#  define CARLSIM_HELPER_DLL_EXPORT_EXTERN
+#endif
+
+// Defined if CARLSIM is build as a shared library
+
+#if defined CARLSIM_DLL
+#  define CARLSIM_IMPORT CARLSIM_HELPER_DLL_IMPORT
+#  define CARLSIM_EXPORT CARLSIM_HELPER_DLL_EXPORT
+#  define CARLSIM_LOCAL  CARLSIM_HELPER_DLL_LOCAL
+#  define CARLSIM_IMPORT_EXTERN CARLSIM_HELPER_DLL_IMPORT_EXTERN
+#  define CARLSIM_EXPORT_EXTERN CARLSIM_HELPER_DLL_EXPORT_EXTERN
+#else
+#  define CARLSIM_IMPORT
+#  define CARLSIM_EXPORT
+#  define CARLSIM_LOCAL
+#  define CARLSIM_IMPORT_EXTERN
+#  define CARLSIM_EXPORT_EXTERN
+#endif
+
+
+#endif // CARLSIM_CONF_API_H

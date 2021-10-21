@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -138,6 +139,16 @@ ConnectionMonitorCore::~ConnectionMonitorCore() {
 // +++++ PUBLIC METHODS: +++++++++++++++++++++++++++++++++++++++++++++++//
 
 // calculate weight changes since last update (element-wise )
+std::vector< std::vector<float> > ConnectionMonitorCore::getWeights() {
+	return wtMat_;
+}
+
+// calculate weight changes since last update (element-wise )
+std::vector< std::vector<float> > ConnectionMonitorCore::getPrevWeights() {
+	return wtMatLast_;
+}
+
+// calculate weight changes since last update (element-wise )
 std::vector< std::vector<float> > ConnectionMonitorCore::calcWeightChanges() {
 	updateStoredWeights();
 	std::vector< std::vector<float> > wtChange(nNeurPre_, std::vector<float>(nNeurPost_));
@@ -168,7 +179,7 @@ int ConnectionMonitorCore::getFanIn(int neurPostId) {
 	assert(neurPostId<nNeurPost_);
 	int nSyn = 0;
 	for (int i=0; i<nNeurPre_; i++) {
-		if (!std::isnan(wtMat_[i][neurPostId])) {
+		if (!isnan(wtMat_[i][neurPostId])) {
 			nSyn++;
 		}
 	}
@@ -180,7 +191,7 @@ int ConnectionMonitorCore::getFanOut(int neurPreId) {
 	assert(neurPreId<nNeurPre_);
 	int nSyn = 0;
 	for (int j=0; j<nNeurPost_; j++) {
-		if (!std::isnan(wtMat_[neurPreId][j])) {
+		if (!isnan(wtMat_[neurPreId][j])) {
 			nSyn++;
 		}
 	}
@@ -196,7 +207,7 @@ float ConnectionMonitorCore::getMaxWeight(bool getCurrent) {
 		for (int i=0; i<nNeurPre_; i++) {
 			for (int j=0; j<nNeurPost_; j++) {
 				// skip entries in matrix where no synapse exists
-				if (std::isnan(wtMat_[i][j]))
+				if (isnan(wtMat_[i][j]))
 					continue;
 
 				if (wtMat_[i][j] > maxVal) {
@@ -221,7 +232,7 @@ float ConnectionMonitorCore::getMinWeight(bool getCurrent) {
 		for (int i=0; i<nNeurPre_; i++) {
 			for (int j=0; j<nNeurPost_; j++) {
 				// skip entries in matrix where no synapse exists
-				if (std::isnan(wtMat_[i][j]))
+				if (isnan(wtMat_[i][j]))
 					continue;
 
 				if (wtMat_[i][j] < minVal) {
@@ -246,7 +257,7 @@ int ConnectionMonitorCore::getNumWeightsChanged(double minAbsChange) {
 	for (int i=0; i<nNeurPre_; i++) {
 		for (int j=0; j<nNeurPost_; j++) {
 			// skip entries in matrix where no synapse exists
-			if (std::isnan(wtMat_[i][j]))
+			if (isnan(wtMat_[i][j]))
 				continue;
 
 			if (fabs(wtChange[i][j]) >= minAbsChange) {
@@ -272,7 +283,7 @@ int ConnectionMonitorCore::getNumWeightsInRange(double minVal, double maxVal) {
 	for (int i=0; i<nNeurPre_; i++) {
 		for (int j=0; j<nNeurPost_; j++) {
 			// skip entries in matrix where no synapse exists
-			if (std::isnan(wtMat_[i][j]))
+			if (isnan(wtMat_[i][j]))
 				continue;
 
 			if (wtMat_[i][j]>=minVal && wtMat_[i][j]<=maxVal) {
@@ -301,7 +312,7 @@ double ConnectionMonitorCore::getTotalAbsWeightChange() {
 	for (int i=0; i<nNeurPre_; i++) {
 		for (int j=0; j<nNeurPost_; j++) {
 			// skip entries in matrix where no synapse exists
-			if (std::isnan(wtMat_[i][j]))
+			if (isnan(wtMat_[i][j]))
 				continue;
 			wtTotalChange += fabs(wtChange[i][j]);
 		}
@@ -332,7 +343,7 @@ void ConnectionMonitorCore::print() {
 		std::stringstream line;
 		line << std::setw(9) << std::setfill(' ') << i << " |";
 		for (int j=0; j<nNeurPost_; j++) {
-			line << std::fixed << std::setprecision(4) << (std::isnan(wtMat_[i][j])?"      ":(wtMat_[i][j]>=0?"   ":"  "))
+			line << std::fixed << std::setprecision(4) << (isnan(wtMat_[i][j])?"      ":(wtMat_[i][j]>=0?"   ":"  "))
 				<< wtMat_[i][j]  << "  ";
 		}
 		KERNEL_INFO("%s",line.str().c_str());
@@ -377,14 +388,14 @@ void ConnectionMonitorCore::printSparse(int neurPostId, int maxConn, int connPer
 
 	std::stringstream line;
 	int nConn = 0;
-	int maxIntDigits = ceil(log10((double)std::max(nNeurPre_,nNeurPost_)));
+	int maxIntDigits = ceil(log10((double)std::max<int>(nNeurPre_,nNeurPost_)));  // LN2021 Fix c++17
 	for (int i=0; i<nNeurPre_; i++) {
 		for (int j = postA; j <= postZ; j++) {
 			// display only so many connections
 			if (nConn>=maxConn)
 				break;
 
-			if (!std::isnan(wtMat_[i][j])) {
+			if (!isnan(wtMat_[i][j])) {
 				line << "[" << std::setw(maxIntDigits) << i << "," << std::setw(maxIntDigits) << j << "] "
 					<< std::fixed << std::setprecision(4) << wtMat_[i][j];
 				if (isPlastic_) {

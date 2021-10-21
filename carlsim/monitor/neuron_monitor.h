@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 05/24/2017
@@ -50,13 +51,15 @@
 #ifndef _NEURON_MON_H_
 #define _NEURON_MON_H_
 
+#include "carlsim_api.h"
+
 #include <carlsim_datastructures.h> // NeuronMonMode
 #include <vector>					// std::vector
 
 class SNN; 			// forward declaration of SNN class
 class NeuronMonitorCore; // forward declaration of implementation
 
-class NeuronMonitor {
+class CARLSIM_API NeuronMonitor {
  public:
 	/*!
 	 * \brief NeuronMonitor constructor
@@ -80,6 +83,44 @@ class NeuronMonitor {
     void stopRecording();
     void setLogFile(const std::string& logFileName);
 	void print();
+
+	//{ LN20201118 extensions
+
+	/*!
+	* \brief Returns a flag that indicates whether PersistentMode is on (true) or off (false)
+	*
+	* This function returns a flag that indicates whether PersistentMode is currently on (true) or off (false).
+	* If PersistentMode is off, only the last recording period will be considered for calculating metrics.
+	* If PersistentMode is on, all the recording periods will be considered. By default, PersistentMode is off, but
+	* can be switched on at any point in time by calling setPersistentData(bool).
+	*/
+	bool getPersistentData();
+
+	/*!
+	* \brief Sets PersistentMode either on (true) or off (false)
+	*
+	* This function sets PersistentMode either on (true) or off (false).
+	* If PersistentMode is off, only the last recording period will be considered for calculating metrics.
+	* If PersistentMode is on, all the recording periods will be considered. By default, PersistentMode is off, but
+	* can be switched on at any point in time.
+	* The current state of PersistentMode can be retrieved by calling getPersistentData().
+	*/
+	void setPersistentData(bool persistentData);
+
+	/*!
+	* \brief Returns the ...
+	*
+	* This function returns 
+	*
+	*/
+	int getLastUpdated();
+
+	//! returns the Neuron state vectors
+	std::vector<std::vector<float> > getVectorV();
+	std::vector<std::vector<float> > getVectorU();
+	std::vector<std::vector<float> > getVectorI();
+
+	//}
 
  private:
   //! This is a pointer to the actual implementation of the class. The user should never directly instantiate it.

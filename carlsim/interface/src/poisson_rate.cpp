@@ -35,6 +35,8 @@
  *					(KDC) Kristofor Carlson <kdcarlso@uci.edu>
  *					(TSC) Ting-Shuo Chou <tingshuc@uci.edu>
  *
+ * CARLsim6: LN, JX, KC, KW
+ *
  * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
  * Ver 6/13/2016
  */
@@ -103,12 +105,14 @@ public:
 		assert(neurId>=0 && neurId<getNumNeurons());
 
 		if (isOnGPU()) {
-#ifndef __NO_CUDA__
 			// get data from device (might have kernel launch overhead because float is small)
 			float h_d_rate = 0.0f;
+//Fix LN20210211 
+// warning C4715: 'PoissonRate::Impl::getRate': not all control paths return a value
+#ifndef __NO_CUDA__
 			CUDA_CHECK_ERRORS( cudaMemcpy(&h_d_rate, &(d_rates_[neurId]), sizeof(float), cudaMemcpyDeviceToHost) );
-			return h_d_rate;
 #endif
+			return h_d_rate;
 		} else {
 			// data is on host
 			return h_rates_[neurId];
@@ -118,6 +122,8 @@ public:
 	// get all rates as vector
 	std::vector<float> getRates() {
 		if (isOnGPU()) {
+//Fix LN20210211 
+// warning C4715: 'PoissonRate::Impl::getRate': not all control paths return a value
 #ifndef __NO_CUDA__
 			// get data from device
 			float *h_d_rates = (float*)malloc(sizeof(float)*getNumNeurons());
@@ -128,6 +134,8 @@ public:
 			free(h_d_rates);
 
 			return rates;
+#else
+			return std::vector<float>(); // fix compiler warning C4715, this code shall be never reached
 #endif
 		} else {
 			// data is on host

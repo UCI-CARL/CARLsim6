@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -51,6 +52,8 @@
 
 #ifndef _SPIKE_MON_H_
 #define _SPIKE_MON_H_
+
+#include "carlsim_api.h"
 
 #include <carlsim_datastructures.h> // SpikeMonMode
 #include <vector>					// std::vector
@@ -117,7 +120,7 @@ class SpikeMonitorCore; // forward declaration of implementation
  *
  * \TODO finish documentation
  */
-class SpikeMonitor {
+class CARLSIM_API SpikeMonitor {
  public:
 	/*!
 	 * \brief SpikeMonitor constructor

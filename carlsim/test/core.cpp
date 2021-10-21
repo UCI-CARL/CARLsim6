@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -104,7 +105,12 @@ TEST(Core, getNeuronLocation3D) {
 	::testing::FLAGS_gtest_death_test_style = "threadsafe";
 
 	CARLsim* sim = new CARLsim("Core.getNeuronLocation3D",CPU_MODE,SILENT,1,42);
-	Grid3D grid(2,3,4);
+	Grid3D grid(2, 3, 4);
+	//Grid3D grid(2, 0, 0, 3, 0, 0, 4, 0, 0);
+	//LN
+//	printf("numX=%d distX=%f offsetX=%f\n", grid.numX, grid.distX, grid.offsetX);
+//	printf("numY=%d distY=%f offsetY=%f\n", grid.numY, grid.distY, grid.offsetY);
+//	printf("numZ=%d distZ=%f offsetZ=%f\n", grid.numZ, grid.distZ, grid.offsetZ);
 	int g2=sim->createGroup("excit2", grid, EXCITATORY_NEURON);
 	sim->setNeuronParameters(g2, 0.02f, 0.2f, -65.0f, 8.0f);
 	int g1=sim->createSpikeGeneratorGroup("excit", grid, EXCITATORY_NEURON);
@@ -112,8 +118,9 @@ TEST(Core, getNeuronLocation3D) {
 	sim->setupNetwork(); // need SETUP state for getNeuronLocation3D to work
 
 	// make sure the 3D location that is returned is correct
-	for (int grp=0; grp<=1; grp++) {
+	//for (int grp=0; grp<=1; grp++) {
 		// do for both spike gen and RS group
+	{int grp = 0;
 
 		int x = 0,y = 0, z = 0;
 		for (int neurId = grp * grid.N; neurId < (grp + 1) * grid.N; neurId++) {
@@ -121,6 +128,9 @@ TEST(Core, getNeuronLocation3D) {
 			EXPECT_FLOAT_EQ(loc.x, x * grid.distX + grid.offsetX);
 			EXPECT_FLOAT_EQ(loc.y, y * grid.distY + grid.offsetY);
 			EXPECT_FLOAT_EQ(loc.z, z * grid.distZ + grid.offsetZ);
+
+// LN debugging of gaussian issue
+//			printf("neurId=%d --> (%f,%f,%f) \n", neurId, loc.x, loc.y, loc.z);
 
 			x++;
 			if (x==grid.numX) {
@@ -137,6 +147,52 @@ TEST(Core, getNeuronLocation3D) {
 
 	delete sim;
 }
+
+
+
+// This test creates a group on a grid and ensure the correct neuron id for a given 3D location 
+// 
+// C:\test\GitHub\CARLsim4\x64\Release>carlsim_tests.exe --gtest_filter=Core.getNeuronId
+//
+TEST(Core, getNeuronId) {
+	::testing::FLAGS_gtest_death_test_style = "threadsafe";
+
+	CARLsim* sim = new CARLsim("Core.getNeuronLocation3D", CPU_MODE, SILENT, 1, 42);
+	Grid3D grid(2, 3, 4);
+//LN debugging of the gaussian issue
+//	printf("numX=%d distX=%f offsetX=%f\n", grid.numX, grid.distX, grid.offsetX);
+//	printf("numY=%d distY=%f offsetY=%f\n", grid.numY, grid.distY, grid.offsetY);
+//	printf("numZ=%d distZ=%f offsetZ=%f\n", grid.numZ, grid.distZ, grid.offsetZ);
+	int g2 = sim->createGroup("excit2", grid, EXCITATORY_NEURON);
+	sim->setNeuronParameters(g2, 0.02f, 0.2f, -65.0f, 8.0f);
+	int g1 = sim->createSpikeGeneratorGroup("excit", grid, EXCITATORY_NEURON);
+	sim->connect(g1, g2, "full", RangeWeight(0.1), 1.0, RangeDelay(1));
+	sim->setupNetwork(); // need SETUP state for getNeuronLocation3D to work
+
+	// Docu misleading
+	//for(double x = -0.5; x <= 0.5; x += 1.0) 
+	//	for(double y = -1; y <= 1.0; y += 1.0)
+	//		for (double z = -1.5; z <= 1.5; z += 1.0) {
+
+	for (double z = 1; z <= 4; z += 1.0)
+		for (double y = 1; y <= 3; y += 1.0)
+			for (double x = 1; x <= 2; x += 1.0)
+				{
+
+				int neurId = sim->getNeuronId(g1, Point3D(x, y, z));
+// LN debugging
+//				printf("(%f,%f,%f) --> neurId=%d\n", x, y, z, neurId);
+
+				Point3D loc = sim->getNeuronLocation3D(neurId);
+				EXPECT_FLOAT_EQ(loc.x, x);
+				EXPECT_FLOAT_EQ(loc.y, y);
+				EXPECT_FLOAT_EQ(loc.z, z);
+
+			}
+
+	delete sim;
+}
+
 
 // \TODO: using external current, make sure the Izhikevich model is correctly implemented
 // Run izhikevich.org MATLAB script to find number of spikes as a function of neuron type,
@@ -511,7 +567,7 @@ TEST(Core, startStopTestingPhase) {
 				RadiusRF(-1), SYN_PLASTIC);
 
 			// set E-STDP to be STANDARD (without neuromodulatory influence) with an EXP_CURVE type.
-			sim->setESTDP(gExc, true, STANDARD, ExpCurve(2e-4f,20.0f, -6.6e-5f,60.0f));
+			sim->setESTDP(gIn, gExc, true, STANDARD, ExpCurve(2e-4f,20.0f, -6.6e-5f,60.0f));
 			sim->setHomeostasis(gExc, true, 1.0f, 10.0f);  // homeo scaling factor, avg time scale
 			sim->setHomeoBaseFiringRate(gExc, 35.0f, 0.0f); // target firing, target firing st.d.
 
@@ -593,7 +649,7 @@ TEST(Core, saveLoadSimulation) {
 
 					sim->connect(gPre, gPost, "full", RangeWeight(0.0, 20.0f/100, 20.0f/100), 1.0f, RangeDelay(1, 5),
 						RadiusRF(-1), isPlastic?SYN_PLASTIC:SYN_FIXED);
-					sim->setSTDP(gPost, isPlastic, STANDARD, alphaPlus/100, tauPlus, alphaMinus/100, tauMinus);
+					sim->setSTDP(gPre, gPost, isPlastic, STANDARD, alphaPlus/100, tauPlus, alphaMinus/100, tauMinus);
 					sim->setConductances(coba>0);
 
 					if (loadSim) {

@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW 
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -49,6 +50,7 @@
 
 #ifndef _SNN_DEFINITIONS_H_
 #define _SNN_DEFINITIONS_H_
+
 
 // TODO: as Kris put it, this should really be called something like
 // some_random_macros_and_hardware_limitation_dependent_param_checks.h ... for example, the MAX_... defines
@@ -129,8 +131,14 @@
 
 // increasing the following numbers will increase the load on constant memory
 // until a hard limit is reached, which is given by the datatype of the variable
+#ifdef LN_I_CALC_TYPES
+	// Fix issue: File uses too much global constant data (0x12140 bytes, 0x10000 max)
+#define MAX_CONN_PER_SNN 128	// hard limit: 2^16
+#define MAX_GRP_PER_SNN 96		// hard limit: 2^16
+#else 
 #define MAX_CONN_PER_SNN 256	// hard limit: 2^16
 #define MAX_GRP_PER_SNN 128		// hard limit: 2^16
+#endif
 #define MAX_NET_PER_SNN 32		// the maximum number of local networks in a simulation
 
 #ifdef __NO_CUDA__

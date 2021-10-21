@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -51,8 +52,6 @@
 #include <user_errors.h>
 
 //#include <callback.h>
-
-
 
 #include <callback_core.h>
 
@@ -105,9 +104,12 @@ public:
 	}
 
 	~Impl() {
+
+
 		// save simulation
 		if (carlsimState_ == SETUP_STATE || carlsimState_ == RUN_STATE)
 			saveSimulation(def_save_fileName_,def_save_synapseInfo_);
+		//\issue: LN20201021: certainly _NOT_ in the desctructor - review this following the user manual regarding open file pointers
 
 		// deallocate all dynamically allocated structures
 		for (int i=0; i<spkGen_.size(); i++) {
@@ -124,6 +126,22 @@ public:
 			delete snn_;
 		snn_=NULL;
 	}
+
+
+//#ifdef __LN_EXT__
+//
+//	// LN Extension 20201017
+//	int cudaDeviceCount() {
+//		return snn_->cudaDeviceCount();
+//	}
+//
+//	// LN Extension 20201017
+//	void cudaDeviceDescription(unsigned ithGPU, const char **desc) {
+//		snn_->cudaDeviceDescription(ithGPU, desc);
+//	}
+//
+//#endif
+
 
 
 	// +++++++++ PUBLIC METHODS: SETTING UP A SIMULATION ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -432,18 +450,20 @@ public:
 		snn_->setCompartmentParameters(grpId, couplingUp, couplingDown);
 	}
 
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 
 	// set conductance values, use defaults
 	void setConductances(bool isSet) {
 		std::stringstream funcName; funcName << "setConductances(" << isSet << ")";
-		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
 			funcName.str(), "CONFIG.");
 		hasSetConductances_ = true;
 
 		if (isSet) { // enable conductances, use default values
-			snn_->setConductances(true,def_tdAMPA_,0,def_tdNMDA_,def_tdGABAa_,0,def_tdGABAb_);
-		} else { // disable conductances
-			snn_->setConductances(false,0,0,0,0,0,0);
+			snn_->setConductances(true, def_tdAMPA_, 0, def_tdNMDA_, def_tdGABAa_, 0, def_tdGABAb_);
+		}
+		else { // disable conductances
+			snn_->setConductances(false, 0, 0, 0, 0, 0, 0);
 		}
 	}
 
@@ -451,46 +471,140 @@ public:
 	void setConductances(bool isSet, int tdAMPA, int tdNMDA, int tdGABAa, int tdGABAb) {
 		std::stringstream funcName; funcName << "setConductances(" << isSet << "," << tdAMPA << "," << tdNMDA << ","
 			<< tdGABAa << "," << tdGABAb << ")";
-		UserErrors::assertTrue(!isSet||tdAMPA>0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdAMPA");
-		UserErrors::assertTrue(!isSet||tdNMDA>0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdNMDA");
-		UserErrors::assertTrue(!isSet||tdGABAa>0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdGABAa");
-		UserErrors::assertTrue(!isSet||tdGABAb>0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "trGABAb");
-		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
-			funcName.str(),"CONFIG.");
-		hasSetConductances_ = true;
-
-		if (isSet) { // enable conductances, use custom values
-			snn_->setConductances(true,tdAMPA,0,tdNMDA,tdGABAa,0,tdGABAb);
-		} else { // disable conductances
-			snn_->setConductances(false,0,0,0,0,0,0);
-		}
-	}
-
-	// set conductances values, custom
-	void setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, 
-		int tdGABAb)
-	{
-		std::stringstream funcName; funcName << "setConductances(" << isSet << "," << tdAMPA << "," << trNMDA << "," <<
-			tdNMDA << "," << tdGABAa << "," << trGABAb << "," << tdGABAb << ")";
-		UserErrors::assertTrue(!isSet||tdAMPA>0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdAMPA");
-		UserErrors::assertTrue(!isSet||trNMDA>=0, UserErrors::CANNOT_BE_NEGATIVE, funcName.str(), "trNMDA");
-		UserErrors::assertTrue(!isSet||tdNMDA>0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdNMDA");
-		UserErrors::assertTrue(!isSet||tdGABAa>0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdGABAa");
-		UserErrors::assertTrue(!isSet||trGABAb>=0, UserErrors::CANNOT_BE_NEGATIVE, funcName.str(), "trGABAb");
-		UserErrors::assertTrue(!isSet||tdGABAb>0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "trGABAb");
-		UserErrors::assertTrue(trNMDA!=tdNMDA, UserErrors::CANNOT_BE_IDENTICAL, funcName.str(), "trNMDA and tdNMDA");
-		UserErrors::assertTrue(trGABAb!=tdGABAb, UserErrors::CANNOT_BE_IDENTICAL, funcName.str(), 
-			"trGABAb and tdGABAb");
-		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
+		UserErrors::assertTrue(!isSet || tdAMPA > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdAMPA");
+		UserErrors::assertTrue(!isSet || tdNMDA > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdNMDA");
+		UserErrors::assertTrue(!isSet || tdGABAa > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdGABAa");
+		UserErrors::assertTrue(!isSet || tdGABAb > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "trGABAb");
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
 			funcName.str(), "CONFIG.");
 		hasSetConductances_ = true;
 
 		if (isSet) { // enable conductances, use custom values
-			snn_->setConductances(true,tdAMPA,trNMDA,tdNMDA,tdGABAa,trGABAb,tdGABAb);
-		} else { // disable conductances
-			snn_->setConductances(false,0,0,0,0,0,0);
+			snn_->setConductances(true, tdAMPA, 0, tdNMDA, tdGABAa, 0, tdGABAb);
+		}
+		else { // disable conductances
+			snn_->setConductances(false, 0, 0, 0, 0, 0, 0);
 		}
 	}
+
+	// set conductances values, custom
+	void setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb,
+		int tdGABAb)
+	{
+		std::stringstream funcName; funcName << "setConductances(" << isSet << "," << tdAMPA << "," << trNMDA << "," <<
+			tdNMDA << "," << tdGABAa << "," << trGABAb << "," << tdGABAb << ")";
+		UserErrors::assertTrue(!isSet || tdAMPA > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdAMPA");
+		UserErrors::assertTrue(!isSet || trNMDA >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName.str(), "trNMDA");
+		UserErrors::assertTrue(!isSet || tdNMDA > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdNMDA");
+		UserErrors::assertTrue(!isSet || tdGABAa > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdGABAa");
+		UserErrors::assertTrue(!isSet || trGABAb >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName.str(), "trGABAb");
+		UserErrors::assertTrue(!isSet || tdGABAb > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "trGABAb");
+		UserErrors::assertTrue(trNMDA != tdNMDA, UserErrors::CANNOT_BE_IDENTICAL, funcName.str(), "trNMDA and tdNMDA");
+		UserErrors::assertTrue(trGABAb != tdGABAb, UserErrors::CANNOT_BE_IDENTICAL, funcName.str(),
+			"trGABAb and tdGABAb");
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
+			funcName.str(), "CONFIG.");
+		hasSetConductances_ = true;
+
+		if (isSet) { // enable conductances, use custom values
+			snn_->setConductances(true, tdAMPA, trNMDA, tdNMDA, tdGABAa, trGABAb, tdGABAb);
+		}
+		else { // disable conductances
+			snn_->setConductances(false, 0, 0, 0, 0, 0, 0);
+		}
+	}
+
+
+
+#ifdef LN_I_CALC_TYPES
+// LN2021 
+
+	// set conductance values, use defaults
+	void setConductances(int grpId, bool isSet) {
+		std::stringstream funcName; funcName << "setConductances(" << grpId << "," << isSet << ")";
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
+			funcName.str(), "CONFIG.");
+		hasSetConductances_ = true;
+
+		if (isSet) { // enable conductances, use default values
+			snn_->setConductances(grpId, true, def_tdAMPA_, 0, def_tdNMDA_, def_tdGABAa_, 0, def_tdGABAb_);
+		}
+		else { // disable conductances
+			snn_->setConductances(grpId, false, 0, 0, 0, 0, 0, 0);
+		}
+	}
+
+
+	// set conductances values, CUSTOM
+	void setConductances(int grpId, bool isSet, int tdAMPA, int tdNMDA, int tdGABAa, int tdGABAb) {
+		std::stringstream funcName; funcName << "setConductances(" << grpId << "," << isSet << "," << tdAMPA << "," << tdNMDA << ","
+			<< tdGABAa << "," << tdGABAb << ")";
+		UserErrors::assertTrue(!isSet || tdAMPA > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdAMPA");
+		UserErrors::assertTrue(!isSet || tdNMDA > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdNMDA");
+		UserErrors::assertTrue(!isSet || tdGABAa > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdGABAa");
+		UserErrors::assertTrue(!isSet || tdGABAb > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "trGABAb");
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
+			funcName.str(), "CONFIG.");
+		hasSetConductances_ = true;
+
+		if (isSet) { // enable conductances, use custom values
+			snn_->setConductances(grpId, true, tdAMPA, 0, tdNMDA, tdGABAa, 0, tdGABAb);
+		}
+		else { // disable conductances
+			snn_->setConductances(grpId, false, 0, 0, 0, 0, 0, 0);
+		}
+	}
+
+	// set conductances values, custom
+	void setConductances(int grpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb,
+		int tdGABAb)
+	{
+		std::stringstream funcName; funcName << "setConductances(" << grpId << "," << isSet << "," << tdAMPA << "," << trNMDA << "," <<
+			tdNMDA << "," << tdGABAa << "," << trGABAb << "," << tdGABAb << ")";
+		UserErrors::assertTrue(!isSet || tdAMPA > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdAMPA");
+		UserErrors::assertTrue(!isSet || trNMDA >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName.str(), "trNMDA");
+		UserErrors::assertTrue(!isSet || tdNMDA > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdNMDA");
+		UserErrors::assertTrue(!isSet || tdGABAa > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "tdGABAa");
+		UserErrors::assertTrue(!isSet || trGABAb >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName.str(), "trGABAb");
+		UserErrors::assertTrue(!isSet || tdGABAb > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "trGABAb");
+		UserErrors::assertTrue(trNMDA != tdNMDA, UserErrors::CANNOT_BE_IDENTICAL, funcName.str(), "trNMDA and tdNMDA");
+		UserErrors::assertTrue(trGABAb != tdGABAb, UserErrors::CANNOT_BE_IDENTICAL, funcName.str(),
+			"trGABAb and tdGABAb");
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
+			funcName.str(), "CONFIG.");
+		hasSetConductances_ = true;
+
+		if (isSet) { // enable conductances, use custom values
+			snn_->setConductances(grpId, true, tdAMPA, trNMDA, tdNMDA, tdGABAa, trGABAb, tdGABAb);
+		}
+		else { // disable conductances
+			snn_->setConductances(grpId, false, 0, 0, 0, 0, 0, 0);
+		}
+	}
+
+#endif
+
+#ifdef LN_I_CALC_TYPES
+	void setACNE12(int grpId) {
+		//_snn->setACNE12(grpId);
+		// TODO LN2021
+	}
+
+	void setNM4weighted(int grpId, IcalcType icalc, float wDA, float w5HT, float wACh, float wNE, float wNorm, float wBase) {
+		std::stringstream funcName; funcName << "setNM4weighted(" << grpId << "," << icalc << "," 
+								<< wDA << "," << w5HT << "," << wACh << "," << wNE << "," << wNorm << "," << wBase << ")";
+// TODO ln  
+//		UserErrors::assertTrue(wNorm > 0, UserErrors::MUST_BE_POSITIVE, funcName.str(), "wNorm");
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName.str(),
+			funcName.str(), "CONFIG.");
+		hasSetConductances_ = true;		// API check 
+
+		if(icalc == alpha1_ADK13)  // set Conductance defaults 
+			snn_->setConductances(grpId, true, def_tdAMPA_, 0, def_tdNMDA_, def_tdGABAa_, 0, def_tdGABAb_); 
+
+		snn_->setNM4weighted(grpId, icalc, wDA, w5HT, wACh, wNE, wNorm, wBase);
+	}
+#endif
 
 	// set default homeostasis params
 	void setHomeostasis(int grpId, bool isSet) {
@@ -633,6 +747,32 @@ public:
 	}
 
 	// set parameters for each neuronmodulator
+	void setNeuromodulator(int grpId,
+		float baseDP, float tauDP, float releaseDP, bool activeDP,
+		float base5HT, float tau5HT, float release5HT, bool active5HT,
+		float baseACh, float tauACh, float releaseACh, bool activeACh,
+		float baseNE, float tauNE, float releaseNE, bool activeNE)
+	{
+		std::string funcName = "setNeuromodulator(\"" + getGroupName(grpId) + "\")";
+		UserErrors::assertTrue(baseDP >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName);	// LN2021: due to decay 
+		UserErrors::assertTrue(tauDP > 0, UserErrors::MUST_BE_POSITIVE, funcName);
+		UserErrors::assertTrue(base5HT >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName);
+		UserErrors::assertTrue(tau5HT > 0, UserErrors::MUST_BE_POSITIVE, funcName);
+		UserErrors::assertTrue(baseACh >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName);
+		UserErrors::assertTrue(tauACh > 0, UserErrors::MUST_BE_POSITIVE, funcName);
+		UserErrors::assertTrue(baseNE >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName);
+		UserErrors::assertTrue(tauNE > 0, UserErrors::MUST_BE_POSITIVE, funcName);
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName,
+			funcName, "CONFIG.");
+
+		snn_->setNeuromodulator(grpId, 
+			baseDP, tauDP, releaseDP, activeDP,
+			base5HT, tau5HT, release5HT, active5HT,
+			baseACh, tauACh, releaseACh, activeACh, 
+			baseNE, tauNE, releaseNE, activeNE);
+	}
+
+	// set parameters for each neuronmodulator
 	void setNeuromodulator(int grpId, float baseDP, float tauDP, float base5HT, float tau5HT, float baseACh, 
 		float tauACh, float baseNE, float tauNE)
 	{
@@ -664,125 +804,156 @@ public:
 	}
 
 	// set STDP, default, wrapper function
-	void setSTDP(int grpId, bool isSet) {
-		setESTDP(grpId, isSet);
+	void setSTDP(int preGrpId, int postGrpId, bool isSet) {
+		setESTDP(preGrpId, postGrpId, isSet);
 	}
 
 	// set STDP, custom, wrapper function
-	void setSTDP(int grpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, 
+	void setSTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, 
 		float tauMinus)
 	{
-		setESTDP(grpId, isSet, type, ExpCurve(alphaPlus, tauPlus, alphaMinus, tauMinus));
+		setESTDP(preGrpId, postGrpId, isSet, type, ExpCurve(alphaPlus, tauPlus, alphaMinus, tauMinus));
 	}
 
 	// set ESTDP, default
-	void setESTDP(int grpId, bool isSet) {
-		std::string funcName = "setESTDP(\""+getGroupName(grpId)+"\")";
-		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
+	void setESTDP(int preGrpId, int postGrpId, bool isSet) {
+		std::string funcName = "setESTDP(\""+getGroupName(preGrpId) + ", " + getGroupName(postGrpId) +"\")";
+		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(postGrpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
 			funcName);
 		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
 			funcName, "CONFIG.");
 
-		hasSetSTDPALL_ = grpId==ALL; // adding groups after this will not have conductances set
+		hasSetSTDPALL_ = postGrpId==ALL; // adding groups after this will not have conductances set
 
 		if (isSet) { // enable STDP, use default values and type
-			snn_->setESTDP(grpId, true, def_STDP_type_, EXP_CURVE, def_STDP_alphaLTP_, def_STDP_tauLTP_, 
+			snn_->setESTDP(preGrpId, postGrpId, true, def_STDP_type_, EXP_CURVE, def_STDP_alphaLTP_, def_STDP_tauLTP_, 
 				def_STDP_alphaLTD_, def_STDP_tauLTD_, 0.0f);
 		} else { // disable STDP
-			snn_->setESTDP(grpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
+			snn_->setESTDP(preGrpId, postGrpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
 		}
 	}
 
 	// set ESTDP by stdp curve
-	void setESTDP(int grpId, bool isSet, STDPType type, ExpCurve curve) {
-		std::string funcName = "setESTDP(\""+getGroupName(grpId)+","+stdpType_string[type]+"\")";
-		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve) {
+		std::string funcName = "setESTDP(\""+getGroupName(preGrpId) + ", " + getGroupName(postGrpId) +"\")";
+		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(postGrpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
 			funcName);
 		UserErrors::assertTrue(type!=UNKNOWN_STDP, UserErrors::CANNOT_BE_UNKNOWN, funcName, "Mode");
 		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
 			funcName, "CONFIG.");
 
-		hasSetSTDPALL_ = grpId==ALL; // adding groups after this will not have conductances set
+		hasSetSTDPALL_ = postGrpId==ALL; // adding groups after this will not have conductances set
 
 		if (isSet) { // enable STDP, use custom values
-			snn_->setESTDP(grpId, true, type, curve.stdpCurve, curve.alphaPlus, curve.tauPlus, curve.alphaMinus, 
+			snn_->setESTDP(preGrpId, postGrpId, true, type, curve.stdpCurve, curve.alphaPlus, curve.tauPlus, curve.alphaMinus, 
 				curve.tauMinus, 0.0f);
 		} else { // disable STDP and DA-STDP as well
-			snn_->setESTDP(grpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
+			snn_->setESTDP(preGrpId, postGrpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
 		}
 	}
 
+#ifdef LN_I_CALC_TYPES
 	// set ESTDP by stdp curve
-	void setESTDP(int grpId, bool isSet, STDPType type, TimingBasedCurve curve) {
-		std::string funcName = "setESTDP(\""+getGroupName(grpId)+","+stdpType_string[type]+"\")";
-		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve, PkaPlcModulation modulation) {
+		std::string funcName = "setESTDP(\"" + getGroupName(preGrpId) + ", " + getGroupName(postGrpId) + "\")";
+		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(postGrpId), UserErrors::WRONG_NEURON_TYPE, funcName,
+			funcName);
+		UserErrors::assertTrue(type == modulation.type, UserErrors::MUST_BE_IN_RANGE, funcName, "Mode");
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName,
+			funcName, "CONFIG.");
+
+		hasSetSTDPALL_ = postGrpId == ALL; // adding groups after this will not have conductances set
+
+		if (isSet) { // enable STDP, use custom values
+			snn_->setESTDP(preGrpId, postGrpId, true, type, 
+				curve.stdpCurve, curve.alphaPlus, curve.tauPlus, curve.alphaMinus, curve.tauMinus, 
+				modulation.nm_pka(), modulation.w_pka(), modulation.nm_plc(), modulation.w_plc()
+			);
+		}
+		else { // disable STDP and DA-STDP as well
+			snn_->setESTDP(preGrpId, postGrpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
+		}
+	}
+
+	// set connection nm 
+	void setConnectionModulation(int preGrpId, int postGrpId, IcalcType icalcType) {
+
+		snn_->setConnectionModulation(preGrpId, postGrpId, icalcType);
+
+	}
+#endif
+
+	// set ESTDP by stdp curve
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, TimingBasedCurve curve) {
+		std::string funcName = "setESTDP(\""+getGroupName(preGrpId) + ", " + getGroupName(postGrpId) +"\")";
+		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(postGrpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
 			funcName);
 		UserErrors::assertTrue(type!=UNKNOWN_STDP, UserErrors::CANNOT_BE_UNKNOWN, funcName, "Mode");
 		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
 			funcName, "CONFIG.");
 
-		hasSetSTDPALL_ = grpId==ALL; // adding groups after this will not have conductances set
+		hasSetSTDPALL_ = postGrpId==ALL; // adding groups after this will not have conductances set
 
 		if (isSet) { // enable STDP, use custom values
-			snn_->setESTDP(grpId, true, type, curve.stdpCurve, curve.alphaPlus, curve.tauPlus, curve.alphaMinus, 
+			snn_->setESTDP(preGrpId, postGrpId, true, type, curve.stdpCurve, curve.alphaPlus, curve.tauPlus, curve.alphaMinus, 
 				curve.tauMinus, curve.gamma);
 		} else { // disable STDP and DA-STDP as well
-			snn_->setESTDP(grpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
+			snn_->setESTDP(preGrpId, postGrpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
 		}
 	}
 
 	// set ISTDP, default
-	void setISTDP(int grpId, bool isSet) {
-		std::string funcName = "setISTDP(\""+getGroupName(grpId)+"\")";
-		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
+	void setISTDP(int preGrpId, int postGrpId, bool isSet) {
+		std::string funcName = "setISTDP(\""+getGroupName(preGrpId) + ", " + getGroupName(postGrpId) +"\")";
+		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(postGrpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
 			funcName);
 		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
 			funcName, "CONFIG.");
 
-		hasSetSTDPALL_ = grpId==ALL; // adding groups after this will not have conductances set
+		hasSetSTDPALL_ = postGrpId==ALL; // adding groups after this will not have conductances set
 
 		if (isSet) { // enable STDP, use default values and types
-			snn_->setISTDP(grpId, true, def_STDP_type_, PULSE_CURVE, def_STDP_betaLTP_, def_STDP_betaLTD_, 
+			snn_->setISTDP(preGrpId, postGrpId, true, def_STDP_type_, PULSE_CURVE, def_STDP_betaLTP_, def_STDP_betaLTD_, 
 				def_STDP_lambda_, def_STDP_delta_);
 		} else { // disable STDP
-			snn_->setISTDP(grpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 0.0f, 1.0f, 1.0f);
+			snn_->setISTDP(preGrpId, postGrpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 0.0f, 1.0f, 1.0f);
 		}
 	}
 
 	// set ISTDP by stdp curve
-	void setISTDP(int grpId, bool isSet, STDPType type, ExpCurve curve) {
-		std::string funcName = "setISTDP(\""+getGroupName(grpId)+","+stdpType_string[type]+"\")";
-		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
+	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve) {
+		std::string funcName = "setISTDP(\""+getGroupName(preGrpId) + ", " + getGroupName(postGrpId) +"\")";
+		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(postGrpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
 			funcName);
 		UserErrors::assertTrue(type!=UNKNOWN_STDP, UserErrors::CANNOT_BE_UNKNOWN, funcName, "Mode");
 		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
 			funcName, "CONFIG.");
 
-		hasSetSTDPALL_ = grpId==ALL; // adding groups after this will not have conductances set
+		hasSetSTDPALL_ = postGrpId==ALL; // adding groups after this will not have conductances set
 
 		if (isSet) { // enable STDP, use custom values
-			snn_->setISTDP(grpId, true, type, curve.stdpCurve, curve.alphaPlus, curve.alphaMinus, curve.tauPlus, 
+			snn_->setISTDP(preGrpId, postGrpId, true, type, curve.stdpCurve, curve.alphaPlus, curve.alphaMinus, curve.tauPlus, 
 				curve.tauMinus);
 		} else { // disable STDP and DA-STDP as well
-			snn_->setISTDP(grpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 0.0f, 1.0f, 1.0f);
+			snn_->setISTDP(preGrpId, postGrpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 0.0f, 1.0f, 1.0f);
 		}
 	}
 
 	// set ISTDP by stdp curve
-	void setISTDP(int grpId, bool isSet, STDPType type, PulseCurve curve) {
-		std::string funcName = "setISTDP(\""+getGroupName(grpId)+","+stdpType_string[type]+"\")";
-		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
+	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve) {
+		std::string funcName = "setISTDP(\""+getGroupName(preGrpId) + ", " + getGroupName(postGrpId) +"\")";
+		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(postGrpId), UserErrors::WRONG_NEURON_TYPE, funcName, 
 			funcName);
 		UserErrors::assertTrue(type!=UNKNOWN_STDP, UserErrors::CANNOT_BE_UNKNOWN, funcName, "Mode");
 		UserErrors::assertTrue(carlsimState_==CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, 
 			funcName, "CONFIG.");
 
-		hasSetSTDPALL_ = grpId==ALL; // adding groups after this will not have conductances set
+		hasSetSTDPALL_ = postGrpId==ALL; // adding groups after this will not have conductances set
 
 		if (isSet) { // enable STDP, use custom values
-			snn_->setISTDP(grpId, true, type, curve.stdpCurve, curve.betaLTP, curve.betaLTD, curve.lambda, curve.delta);
+			snn_->setISTDP(preGrpId, postGrpId, true, type, curve.stdpCurve, curve.betaLTP, curve.betaLTD, curve.lambda, curve.delta);
 		} else { // disable STDP and DA-STDP as well
-			snn_->setISTDP(grpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 0.0f, 1.0f, 1.0f);
+			snn_->setISTDP(preGrpId, postGrpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 0.0f, 1.0f, 1.0f);
 		}
 	}
 
@@ -827,6 +998,30 @@ public:
 			snn_->setSTP(grpId,false,0.0f,0.0f,0.0f);
 		}
 	}
+
+#ifdef LN_I_CALC_TYPES
+
+	// set neuromodulator targeting STP 
+	void setNM4STP(int grpId, float wSTP_U[], float wSTP_tau_u[], float wSTP_tau_x[]) {
+		std::string funcName = "setNM4STP(\"" + getGroupName(grpId) + "\")";
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName,
+			funcName, "CONFIG.");
+
+		//// \todo check wp in config group map 
+		// snn_->groupConfigMap[gGrpId].stpConfig.WithSTP
+		// -->
+		// snn_->isGroupWithSTP(grpId); 
+		//if (isSet) { 
+		//	UserErrors::assertTrue(isExcitatoryGroup(grpId) || isInhibitoryGroup(grpId), UserErrors::WRONG_NEURON_TYPE,
+		//		funcName, "setSTP");
+		//}
+
+		snn_->setNM4STP(grpId, wSTP_U, wSTP_tau_u, wSTP_tau_x);
+
+	}
+
+
+#endif
 
 	void setWeightAndWeightChangeUpdate(UpdateInterval wtANDwtChangeUpdateInterval, bool enableWtChangeDecay,
 		float wtChangeDecay)
@@ -874,6 +1069,18 @@ public:
 		carlsimState_ = SETUP_STATE;
 		snn_->setupNetwork();
 	}
+
+#ifdef LN_SETUP_NETWORK_MT
+	// setup network with custom options
+	void setupNetworkMT() {
+		std::string funcName = "setupNetworkMT()";
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName,
+			funcName, "CONFIG.");
+
+		carlsimState_ = SETUP_STATE;
+		snn_->setupNetworkMT();
+	}
+#endif
 
 
 	// +++++++++ PUBLIC METHODS: LOGGING / PLOTTING +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -1009,9 +1216,9 @@ public:
 			}
 		}
 
-		// return ConnectionMonitor object
-		return snn_->setConnectionMonitor(grpIdPre, grpIdPost, fid);
-	}
+	// return ConnectionMonitor object
+	return snn_->setConnectionMonitor(grpIdPre, grpIdPost, fid);
+}
 
 	void setExternalCurrent(int grpId, const std::vector<float>& current) {
 		std::string funcName = "setExternalCurrent(\""+getGroupName(grpId)+"\")";
@@ -1037,7 +1244,7 @@ public:
 	}
 
 	// set group monitor for a group
-	GroupMonitor* setGroupMonitor(int grpId, const std::string& fname) {
+	GroupMonitor* setGroupMonitor(int grpId, const std::string& fname, const int mode) {
 		std::string funcName = "setGroupMonitor(\""+getGroupName(grpId)+"\",\""+fname+"\")";
 		UserErrors::assertTrue(grpId!=ALL, UserErrors::ALL_NOT_ALLOWED, funcName, "grpId");		// grpId can't be ALL
 		UserErrors::assertTrue(grpId>=0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grpId"); // grpId can't be negative
@@ -1068,7 +1275,7 @@ public:
 		}
 
 		// return GroupMonitor object
-		return snn_->setGroupMonitor(grpId, fid);
+		return snn_->setGroupMonitor(grpId, fid, mode);
 	}
 
 	// sets up a spike generator
@@ -1191,6 +1398,20 @@ public:
 	// +++++++++ PUBLIC METHODS: SETTERS / GETTERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
 	CARLsimState getCARLsimState() { return carlsimState_; }
+
+#ifdef LN_GET_FIRING
+	// write store instead of get
+	void getFiring(std::vector<bool>& firings, int netId) {
+		snn_->updateCurSpike(firings, netId);
+	}
+#endif
+
+#ifdef LN_GET_FIRING_MT 
+	// write store instead of get
+	void getFiringMT(std::vector<bool>& firings, int netId) {
+		snn_->updateCurSpikeMT(firings, netId);
+	}
+#endif
 
 	std::vector<float> getConductanceAMPA(int grpId) {
 		std::string funcName = "getConductanceAMPA()";
@@ -1328,6 +1549,22 @@ public:
 		return snn_->getNeuronLocation3D(grpId, relNeurId);
 	}
 
+
+
+	int getNeuronId (int grpId, Point3D location) {
+		std::stringstream funcName;	funcName << "getNeuronId(" << grpId << "," << location << ")";
+	//	UserErrors::assertTrue(relNeurId != ALL, UserErrors::ALL_NOT_ALLOWED, funcName.str(), "neurId");
+		UserErrors::assertTrue(grpId >= 0 && grpId<getNumGroups(), UserErrors::MUST_BE_IN_RANGE, funcName.str(),
+			"grpId", "[0,getNumGroups()]");
+	//	UserErrors::assertTrue(relNeurId >= 0 && relNeurId<getGroupNumNeurons(grpId), UserErrors::MUST_BE_IN_RANGE,
+	//		funcName.str(), "relNeurId", "[0,getGroupNumNeurons()]");
+
+		//TODO LN   validate what to do if outsite the grid 
+
+		return snn_->getNeuronId(grpId, location);
+	}
+
+
 	int getNumConnections() { return snn_->getNumConnections(); }
 	int getMaxNumCompConnections() { return (int)MAX_NUM_COMP_CONN; }
 
@@ -1358,12 +1595,12 @@ public:
 		return snn_->getNumSynapses();
 	}
 
-	GroupSTDPInfo getGroupSTDPInfo(int grpId) {
-		std::stringstream funcName; funcName << "getGroupSTDPInfo(" << grpId << ")";
-		UserErrors::assertTrue(grpId >= 0 && grpId<getNumGroups(), UserErrors::MUST_BE_IN_RANGE, funcName.str(),
-			"grpId", "[0,getNumGroups()]");
+	ConnSTDPInfo getConnSTDPInfo(int connId) {
+		std::stringstream funcName; funcName << "getConnSTDPInfo(" << connId << ")";
+		UserErrors::assertTrue(connId >= 0 && connId<getNumConnections(), UserErrors::MUST_BE_IN_RANGE, funcName.str(),
+			"connId", "[0,getNumConnections]");
 
-		return snn_->getGroupSTDPInfo(grpId);
+		return snn_->getConnSTDPInfo(connId);
 	}
 
 	GroupNeuromodulatorInfo getGroupNeuromodulatorInfo(int grpId) {
@@ -1409,6 +1646,70 @@ public:
 
 		return snn_->isGroupWithHomeostasis(grpId);	
 	}
+
+	bool isSimulationWithCOBA() {
+		std::stringstream funcName; funcName << "isSimulationWithCOBA()";
+
+		return snn_->isSimulationWithCOBA();
+	}
+	
+	bool isSimulationWithCUBA() {
+		std::stringstream funcName; funcName << "isSimulationWithCUBA()";
+
+		return snn_->isSimulationWithCUBA();
+	}
+
+#ifdef LN_I_CALC_TYPES
+
+	bool isGroupWith(int grpId, IcalcType icalcType) {
+		std::stringstream funcName; funcName << "isGroupWith(" << grpId << "," << icalcType << ")";  // \todo name vs desc ?
+
+		return snn_->isGroupWith(grpId, icalcType);
+	}
+
+	const IcalcType getIcalcType(int grpId) {
+		std::stringstream funcName; funcName << "getIcalcType(" << grpId << ")";  // \todo name vs desc ?
+
+		return snn_->getIcalcType(grpId);
+	}
+
+
+	bool getConductanceConfig(int grpId, float& dAMPA, float& rNMDA, float& dNMDA, float& dGABAa, float& rGABAb, float& dGABAb) {
+		std::stringstream funcName; funcName << "getConductanceConfig(" << grpId << ")";
+
+		if(snn_->isGroupWithCOBA(grpId)) {
+			snn_->getConductanceConfig(grpId, dAMPA, rNMDA, dNMDA, dGABAa, rGABAb, dGABAb);
+			return true;
+		} else
+			return false;
+	}
+
+	bool getConductanceConfig(int grpId, int& tdAMPA, int& trNMDA, int& tdNMDA, int& tdGABAa, int& trGABAb, int& tdGABAb) {
+		std::stringstream funcName; funcName << "getConductanceConfig(" << grpId << ")";
+
+		if (snn_->isGroupWithCOBA(grpId)) {
+			snn_->getConductanceConfig(grpId, tdAMPA, trNMDA, tdNMDA, tdGABAa, trGABAb, tdGABAb);
+			return true;
+		}
+		else
+			return false;
+	}
+
+
+	bool isGroupWithCOBA(int grpId) {
+		std::stringstream funcName; funcName << "isGroupWithCOBA(" << grpId << ")";
+
+		return snn_->isGroupWithCOBA(grpId);
+	}
+
+	bool isGroupWithCUBA(int grpId) {
+		std::stringstream funcName; funcName << "isGroupWithCUBA(" << grpId << ")";
+
+		return snn_->isGroupWithCUBA(grpId);
+	}
+	
+#endif
+
 
 	bool isExcitatoryGroup(int grpId) {
 		std::stringstream funcName; funcName << "isExcitatoryGroup(" << grpId << ")";
@@ -1501,15 +1802,19 @@ public:
 		UserErrors::assertTrue(tauMinus > 0, UserErrors::MUST_BE_POSITIVE, funcName, "tauMinus");
 		switch(stdpType) {
 			case STANDARD:
-			def_STDP_type_ = STANDARD;
-			break;
+				def_STDP_type_ = STANDARD;
+				break;
 			case DA_MOD:
-			def_STDP_type_ = DA_MOD;
-			break;
+			case SE_MOD:
+			case AC_MOD:
+			case NE_MOD:
+				//def_STDP_type_ = DA_MOD;
+				def_STDP_type_ = stdpType;
+				break;
 			default:
-			stdpType=UNKNOWN_STDP;
-			UserErrors::assertTrue(stdpType != UNKNOWN_STDP,UserErrors::CANNOT_BE_UNKNOWN,funcName);
-			break;
+				stdpType=UNKNOWN_STDP;
+				UserErrors::assertTrue(stdpType != UNKNOWN_STDP,UserErrors::CANNOT_BE_UNKNOWN,funcName);
+				break;
 		}
 		def_STDP_alphaLTP_ = alphaPlus;
 		def_STDP_tauLTP_ = tauPlus;
@@ -1527,15 +1832,16 @@ public:
 		UserErrors::assertTrue(delta > 0, UserErrors::MUST_BE_POSITIVE, funcName);
 		switch(stdpType) {
 			case STANDARD:
-			def_STDP_type_ = STANDARD;
-			break;
+				def_STDP_type_ = STANDARD;
+				break;
 			case DA_MOD:
-			def_STDP_type_ = DA_MOD;
-			break;
+				//def_STDP_type_ = DA_MOD;
+				def_STDP_type_ = stdpType;
+				break;
 			default:
-			stdpType=UNKNOWN_STDP;
-			UserErrors::assertTrue(stdpType != UNKNOWN_STDP,UserErrors::CANNOT_BE_UNKNOWN,funcName);
-			break;
+				stdpType=UNKNOWN_STDP;
+				UserErrors::assertTrue(stdpType != UNKNOWN_STDP,UserErrors::CANNOT_BE_UNKNOWN,funcName);
+				break;
 		}
 		def_STDP_betaLTP_ = betaLTP;
 		def_STDP_betaLTD_ = betaLTD;
@@ -1785,6 +2091,7 @@ void CARLsim::setCompartmentParameters(int grpId, float couplingUp, float coupli
 	_impl->setCompartmentParameters(grpId, couplingUp, couplingDown);
 }
 
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 // set conductances
 void CARLsim::setConductances(bool isSet) {
 	_impl->setConductances(isSet);
@@ -1795,6 +2102,29 @@ void CARLsim::setConductances(bool isSet, int tdAMPA, int tdNMDA, int tdGABAa, i
 void CARLsim::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb) {
 	_impl->setConductances(isSet, tdAMPA, trNMDA, tdNMDA, tdGABAa, trGABAb, tdGABAb);
 }
+
+#ifdef LN_I_CALC_TYPES
+// set conductances at group level
+void CARLsim::setConductances(int grpId, bool isSet) {
+	_impl->setConductances(grpId, isSet);
+}
+
+void CARLsim::setConductances(int grpId, bool isSet, int tdAMPA, int tdNMDA, int tdGABAa, int tdGABAb) {
+	_impl->setConductances(grpId, isSet, tdAMPA, tdNMDA, tdGABAa, tdGABAb);
+}
+
+void CARLsim::setConductances(int grpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb) {
+	_impl->setConductances(grpId, isSet, tdAMPA, trNMDA, tdNMDA, tdGABAa, trGABAb, tdGABAb);
+}
+
+void CARLsim::setACNE12(int grpId) {
+	_impl->setACNE12(grpId);
+}
+
+void CARLsim::setNM4weighted(int grpId, IcalcType iCalc, float wDA, float w5HT, float wACh, float wNE, float wNorm, float wBase) {
+	_impl->setNM4weighted(grpId, iCalc, wDA, w5HT, wACh, wNE, wNorm, wBase);
+}
+#endif
 
 // set homeostasis params
 void CARLsim::setHomeostasis(int grpId, bool isSet, float homeoScale, float avgTimeScale) {
@@ -1843,6 +2173,19 @@ void CARLsim::setNeuronParametersLIF(int grpId, int tau_m, int tau_ref, float vT
 	_impl->setNeuronParametersLIF(grpId, tau_m, tau_ref, vTh, vReset, rMem);
 }
 
+void CARLsim::setNeuromodulator(int grpId,
+		float baseDP, float tauDP, float releaseDP, bool activeDP,
+		float base5HT, float tau5HT, float release5HT, bool active5HT,
+		float baseACh, float tauACh, float releaseACh, bool activeACh,
+		float baseNE, float tauNE, float releaseNE, bool activeNE)
+{
+	_impl->setNeuromodulator(grpId, 
+		baseDP, tauDP, releaseDP, activeDP,
+		base5HT, tau5HT, release5HT, active5HT, 
+		baseACh, tauACh, releaseACh, activeACh,
+		baseNE, tauNE, releaseNE, activeNE);
+}
+
 void CARLsim::setNeuromodulator(int grpId, float baseDP, float tauDP, float base5HT, float tau5HT, float baseACh, 
 	float tauACh, float baseNE, float tauNE)
 {
@@ -1855,39 +2198,50 @@ void CARLsim::setNeuromodulator(int grpId, float tauDP, float tau5HT, float tauA
 }
 
 // Sets default STDP mode and params
-void CARLsim::setSTDP(int grpId, bool isSet) { _impl->setSTDP(grpId, isSet); }
+void CARLsim::setSTDP(int preGrpId, int postGrpId, bool isSet) { _impl->setSTDP(preGrpId, postGrpId, isSet); }
 
 // Sets STDP params for a group, custom
-void CARLsim::setSTDP(int grpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, 
+void CARLsim::setSTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, 
 	float tauMinus)
 {
-	_impl->setSTDP(grpId, isSet, type, alphaPlus, tauPlus, alphaMinus, tauMinus);
+	_impl->setSTDP(preGrpId, postGrpId, isSet, type, alphaPlus, tauPlus, alphaMinus, tauMinus);
 }
 
 // Sets default E-STDP mode and parameters
-void CARLsim::setESTDP(int grpId, bool isSet) { _impl->setESTDP(grpId, isSet); }
+void CARLsim::setESTDP(int preGrpId, int postGrpId, bool isSet) { _impl->setESTDP(preGrpId, postGrpId, isSet); }
 
 // Sets E-STDP with the exponential curve
-void CARLsim::setESTDP(int grpId, bool isSet, STDPType type, ExpCurve curve) {
-	_impl->setESTDP(grpId, isSet, type, curve);
+void CARLsim::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve) {
+	_impl->setESTDP(preGrpId, postGrpId, isSet, type, curve);
 }
 
+#ifdef LN_I_CALC_TYPES
+// Sets E-STDP with the exponential curve
+void CARLsim::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve, PkaPlcModulation modulation) {
+	_impl->setESTDP(preGrpId, postGrpId, isSet, type, curve, modulation);
+}
+
+void CARLsim::setConnectionModulation(int preGrpId, int postGrpId, IcalcType icalcType) {
+	_impl->setConnectionModulation(preGrpId, postGrpId, icalcType);
+}
+#endif
+
 // Sets E-STDP with the timing-based curve
-void CARLsim::setESTDP(int grpId, bool isSet, STDPType type, TimingBasedCurve curve) {
-	_impl->setESTDP(grpId, isSet, type, curve);
+void CARLsim::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, TimingBasedCurve curve) {
+	_impl->setESTDP(preGrpId, postGrpId, isSet, type, curve);
 }
 
 // Sets default I-STDP mode and parameters
-void CARLsim::setISTDP(int grpId, bool isSet) { _impl->setESTDP(grpId, isSet); }
+void CARLsim::setISTDP(int preGrpId, int postGrpId,bool isSet) { _impl->setESTDP(preGrpId, postGrpId, isSet); }
 
 // Sets I-STDP with the exponential curve
-void CARLsim::setISTDP(int grpId, bool isSet, STDPType type, ExpCurve curve) {
-	_impl->setISTDP(grpId, isSet, type, curve);
+void CARLsim::setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve) {
+	_impl->setISTDP(preGrpId, postGrpId, isSet, type, curve);
 }
 
 // Sets I-STDP with the pulse curve
-void CARLsim::setISTDP(int grpId, bool isSet, STDPType type, PulseCurve curve) {
-	_impl->setISTDP(grpId, isSet, type, curve);
+void CARLsim::setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve) {
+	_impl->setISTDP(preGrpId, postGrpId, isSet, type, curve);
 }
 
 // Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
@@ -1897,6 +2251,14 @@ void CARLsim::setSTP(int grpId, bool isSet, float STP_U, float STP_tau_u, float 
 
 // Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically) using default values
 void CARLsim::setSTP(int grpId, bool isSet) { _impl->setSTP(grpId, isSet); }
+
+#ifdef LN_I_CALC_TYPES
+// Sets neuromodulator targeting STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
+void CARLsim::setNM4STP(int grpId, float wSTP_U[], float wSTP_tau_u[], float wSTP_tau_x[]) {
+	_impl->setNM4STP(grpId, wSTP_U, wSTP_tau_u, wSTP_tau_x);
+}
+#endif
+
 
 // Sets the weight and weight change update parameters
 void CARLsim::setWeightAndWeightChangeUpdate(UpdateInterval wtANDwtChangeUpdateInterval, bool enableWtChangeDecay, 
@@ -1913,6 +2275,11 @@ int CARLsim::runNetwork(int nSec, int nMsec, bool printRunSummary) {
 
 // build the network
 void CARLsim::setupNetwork() { _impl->setupNetwork(); }
+
+#ifdef LN_SETUP_NETWORK_MT
+// build the network
+void CARLsim::setupNetworkMT() { _impl->setupNetworkMT(); }
+#endif 
 
 const FILE* CARLsim::getLogFpInf() { return _impl->getLogFpInf(); }
 const FILE* CARLsim::getLogFpErr() { return _impl->getLogFpErr(); }
@@ -1960,8 +2327,8 @@ void CARLsim::setExternalCurrent(int grpId, const std::vector<float>& current) {
 void CARLsim::setExternalCurrent(int grpId, float current) { _impl->setExternalCurrent(grpId, current); }
 
 // Sets a group monitor for a group, custom GroupMonitor class
-GroupMonitor* CARLsim::setGroupMonitor(int grpId, const std::string& fname) {
-	return _impl->setGroupMonitor(grpId, fname);
+GroupMonitor* CARLsim::setGroupMonitor(int grpId, const std::string& fname, int mode) {
+	return _impl->setGroupMonitor(grpId, fname, mode);
 }
 
 // Associates a SpikeGenerator object with a group
@@ -1998,6 +2365,17 @@ void CARLsim::stopTesting() { _impl->stopTesting(); }
 // Returns the current CARLsim state
 CARLsimState CARLsim::getCARLsimState() { return _impl->getCARLsimState(); }
 
+
+#ifdef LN_GET_FIRING
+// LN20201101 
+void CARLsim::getFiring(std::vector<bool>& firing, int netId) { _impl->getFiring(firing, netId); }
+#endif
+
+#ifdef LN_GET_FIRING_MT
+// LN20201101 
+void CARLsim::getFiringMT(std::vector<bool>& firing, int netId) { _impl->getFiringMT(firing, netId); }
+#endif
+
 // gets AMPA vector of a group
 std::vector<float> CARLsim::getConductanceAMPA(int grpId) { return _impl->getConductanceAMPA(grpId); }
 
@@ -2031,6 +2409,10 @@ Point3D CARLsim::getNeuronLocation3D(int neurId) { return _impl->getNeuronLocati
 
 // returns the 3D location a neuron codes for
 Point3D CARLsim::getNeuronLocation3D(int grpId, int relNeurId) { return _impl->getNeuronLocation3D(grpId, relNeurId); }
+
+//
+int CARLsim::getNeuronId(int grpId, Point3D location) { return _impl->getNeuronId(grpId, location);  }
+
 
 // Returns the number of connections (pairs of pre-post groups) in the network
 int CARLsim::getNumConnections() { return _impl->getNumConnections(); }
@@ -2077,7 +2459,7 @@ int CARLsim::getGroupEndNeuronId(int grpId) { return _impl->getGroupEndNeuronId(
 int CARLsim::getGroupNumNeurons(int grpId) { return _impl->getGroupNumNeurons(grpId); }
 
 // returns the stdp information of a group specified by grpId
-GroupSTDPInfo CARLsim::getGroupSTDPInfo(int grpId) { return _impl->getGroupSTDPInfo(grpId); }
+ConnSTDPInfo CARLsim::getConnSTDPInfo(int grpId) { return _impl->getConnSTDPInfo(grpId); }
 
 // returns the neuromodulator information of a group specified by grpId
 GroupNeuromodulatorInfo CARLsim::getGroupNeuromodulatorInfo(int grpId) {
@@ -2101,6 +2483,40 @@ bool CARLsim::isConnectionPlastic(short int connId) { return _impl->isConnection
 
 // Returns whether a group has homeostasis enabled
 bool CARLsim::isGroupWithHomeostasis(int grpId) { return _impl->isGroupWithHomeostasis(grpId); }
+
+// LN Extensions ICALC  \todo define constants
+
+bool CARLsim::isSimulationWithCOBA() { return _impl->isSimulationWithCOBA(); }
+
+bool CARLsim::isSimulationWithCUBA() { return _impl->isSimulationWithCUBA(); }
+
+
+#ifdef LN_I_CALC_TYPES
+
+bool CARLsim::isGroupWith(int grpId, IcalcType icalcType) { return _impl->isGroupWith(grpId, icalcType); }
+
+bool CARLsim::isGroupWithCOBA(int grpId) { return _impl->isGroupWithCOBA(grpId); }
+
+bool CARLsim::isGroupWithCUBA(int grpId) { return _impl->isGroupWithCUBA(grpId); }
+
+IcalcType CARLsim::getIcalcType(int grpId) { return _impl->getIcalcType(grpId); }
+
+// returns the conductance paramaters as factor / as float, how they are stored internally
+bool CARLsim::getConductanceConfig(	int grpId,
+							float& dAMPA, float& rNMDA, float& dNMDA, float& dGABAa, float& rGABAb, float& dGABAb)
+{
+	return _impl->getConductanceConfig(grpId, dAMPA, rNMDA, dNMDA, dGABAa, rGABAb, dGABAb);
+}
+
+// returns the conductance parameters as times in ms (rounded)
+bool CARLsim::getConductanceConfig(int grpId,
+	int& tdAMPA, int& trNMDA, int& tdNMDA, int& tdGABAa, int& trGABAb, int& tdGABAb)
+{
+	return _impl->getConductanceConfig(grpId, tdAMPA, trNMDA, tdNMDA, tdGABAa, trGABAb, tdGABAb);
+}
+
+#endif
+
 
 bool CARLsim::isExcitatoryGroup(int grpId) { return _impl->isExcitatoryGroup(grpId); }
 
@@ -2143,3 +2559,35 @@ void CARLsim::setDefaultISTDPparams(float betaLTP, float betaLTD, float lambda, 
 void CARLsim::setDefaultSTPparams(int neurType, float STP_U, float STP_tau_u, float STP_tau_x) {
 	_impl->setDefaultSTPparams(neurType, STP_U, STP_tau_u, STP_tau_x);
 }
+
+
+
+#ifdef __LN_EXT__
+
+// LN20210227 CAUTION despite included carlsim_conf.h by the consumer, with correct set value 
+// the code is not active when entering by the Visual Studio Debugger from the consumer side.
+// therefor it is to be considered to pass the DEFINES over cMake ...
+// UPDATE: defining it in the Project Preprocessor Defines yields the same behavior
+//     furthermore the same seems to apply to _all_ define constants, like __WIN32__  as well. 
+// => When debugging in the external library code loaded Visual Studio, no conclusion about 
+// the code nested in define constants must be made. 
+// however stepping through it shows, if it is acutally active
+// => s.buids have the the whole source state consistant 
+// => this is a main and essential feature -> tell this D.
+// Mitigration: loading the conf header containing the external library defines
+// show the correct values e.g. __LN__EXT__ set.
+// Conclusion: This has to be considered as a general Visual Studio Bug
+// or a missing config or a missing feature only available in the enterprise editions  
+
+// LN Extension 20201017
+int CARLsim::cudaDeviceCount() {
+	return SNN::cudaDeviceCount();
+}
+
+// LN Extension 20201017
+void CARLsim::cudaDeviceDescription(unsigned ithGPU, const char** desc) {
+	SNN::cudaDeviceDescription(ithGPU, desc);
+}
+
+#endif
+

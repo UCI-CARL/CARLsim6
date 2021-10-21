@@ -35,12 +35,16 @@
  *					(KDC) Kristofor Carlson <kdcarlso@uci.edu>
  *					(TSC) Ting-Shuo Chou <tingshuc@uci.edu>
  *
+ * CARLsim6: LN, JX, KC, KW
+ *
  * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
  * Ver 11/26/2014
  */
 
 #ifndef _POISSON_RATE_H_
 #define _POISSON_RATE_H_
+
+#include <carlsim_api.h>
 
 #include <vector>
 
@@ -81,7 +85,7 @@
  * if the CARLsim simulation is run in GPU_MODE.
  * \since v3.0
  */
-class PoissonRate {
+class CARLSIM_API PoissonRate {
 public:
 	/*!
 	 * \brief PoissonRate constructor

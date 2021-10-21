@@ -42,7 +42,8 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
-*
+* CARLsim6: LN, JX, KC, KW
+* 
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
 */
@@ -480,30 +481,157 @@ void SNN::copyExtFiringTable(int netId) {
 			if (groupConfigs[netId][lGrpId].WithSTP) {
 				int ind_plus  = STP_BUF_POS(lNId, simTime, glbNetworkConfig.maxDelay);
 				int ind_minus = STP_BUF_POS(lNId, (simTime - 1), glbNetworkConfig.maxDelay);
+#ifdef LN_I_CALC_TYPES
+				float tau_u_inv = groupConfigs[netId][lGrpId].STP_tau_u_inv;
+				float tau_x_inv = groupConfigs[netId][lGrpId].STP_tau_x_inv;
+				if (groupConfigs[netId][lGrpId].WithNM4STP) {
+					std::vector<float> nm; 
+					nm.push_back(groupConfigs[netId][lGrpId].activeDP ? runtimeData[netId].grpDA[lGrpId] : 0.f);   // baseDP  is 0 at t=0 ???
+					nm.push_back(groupConfigs[netId][lGrpId].active5HT ? runtimeData[netId].grp5HT[lGrpId] : 0.f);
+					nm.push_back(groupConfigs[netId][lGrpId].activeACh ? runtimeData[netId].grpACh[lGrpId] : 0.f);
+					nm.push_back(groupConfigs[netId][lGrpId].activeNE ? runtimeData[netId].grpNE[lGrpId] : 0.f);
+					auto& config = groupConfigs[netId][lGrpId];
+					float tau_u = 1.0f / tau_u_inv;
+					float tau_x = 1.0f / tau_x_inv;
+					float w_tau_u = 0.0f;
+					float w_tau_x = 0.0f;
+					for (int i = 0; i < NM_NE + 1; i++) {						
+						w_tau_u += nm[i] * config.wstptauu[i];
+						w_tau_x += nm[i] * config.wstptaux[i];
+					}
+					w_tau_u *= config.wstptauu[NM_NE + 1];
+					w_tau_x *= config.wstptaux[NM_NE + 1];
+					tau_u *= w_tau_u + config.wstptauu[NM_NE + 2];
+					tau_x *= w_tau_x + config.wstptaux[NM_NE + 2];
+					tau_u_inv = 1.0f / tau_u;
+					tau_x_inv = 1.0f / tau_x;
+				}
+				//KERNEL_DEBUG("grp[%d] tau_u = %f  tau_x = %f\n", lGrpId, 1.0f/tau_u_inv, 1.0f/tau_x_inv);
+				runtimeData[netId].stpu[ind_plus] = runtimeData[netId].stpu[ind_minus] * (1.0f - tau_u_inv);
+				runtimeData[netId].stpx[ind_plus] = runtimeData[netId].stpx[ind_minus] + (1.0f - runtimeData[netId].stpx[ind_minus]) * tau_x_inv;
+#else
 				runtimeData[netId].stpu[ind_plus] = runtimeData[netId].stpu[ind_minus] * (1.0f - groupConfigs[netId][lGrpId].STP_tau_u_inv);
 				runtimeData[netId].stpx[ind_plus] = runtimeData[netId].stpx[ind_minus] + (1.0f - runtimeData[netId].stpx[ind_minus]) * groupConfigs[netId][lGrpId].STP_tau_x_inv;
+#endif
 			}
-
+ 
 			// decay conductances
+#ifdef LN_I_CALC_TYPES
+			auto& groupConfig = groupConfigs[netId][lGrpId];
+			switch (groupConfig.icalcType) {
+			case COBA:
+			case alpha1_ADK13:
+				if (IS_REGULAR_NEURON(lNId, networkConfigs[netId].numNReg, networkConfigs[netId].numNPois)) {
+					runtimeData[netId].gAMPA[lNId] *= groupConfig.dAMPA;
+					if (groupConfig.with_NMDA_rise) {
+						runtimeData[netId].gNMDA_r[lNId] *= groupConfig.rNMDA;	// rise
+						runtimeData[netId].gNMDA_d[lNId] *= groupConfig.dNMDA;	// decay
+					}
+					else {
+						runtimeData[netId].gNMDA[lNId] *= groupConfig.dNMDA;	// instantaneous rise
+					}
+
+					runtimeData[netId].gGABAa[lNId] *= groupConfig.dGABAa;
+					if (groupConfig.with_GABAb_rise) {
+						runtimeData[netId].gGABAb_r[lNId] *= groupConfig.rGABAb;	// rise
+						runtimeData[netId].gGABAb_d[lNId] *= groupConfig.dGABAb;	// decay
+					}
+					else {
+						runtimeData[netId].gGABAb[lNId] *= groupConfig.dGABAb;	// instantaneous rise
+					}
+				}
+				break;
+			}
+#else
 			if (networkConfigs[netId].sim_with_conductances && IS_REGULAR_NEURON(lNId, networkConfigs[netId].numNReg, networkConfigs[netId].numNPois)) {
-				runtimeData[netId].gAMPA[lNId]  *= dAMPA;
+				runtimeData[netId].gAMPA[lNId] *= dAMPA;
 				if (sim_with_NMDA_rise) {
 					runtimeData[netId].gNMDA_r[lNId] *= rNMDA;	// rise
 					runtimeData[netId].gNMDA_d[lNId] *= dNMDA;	// decay
-				} else {
-					runtimeData[netId].gNMDA[lNId]   *= dNMDA;	// instantaneous rise
+				}
+				else {
+					runtimeData[netId].gNMDA[lNId] *= dNMDA;	// instantaneous rise
 				}
 
 				runtimeData[netId].gGABAa[lNId] *= dGABAa;
 				if (sim_with_GABAb_rise) {
 					runtimeData[netId].gGABAb_r[lNId] *= rGABAb;	// rise
 					runtimeData[netId].gGABAb_d[lNId] *= dGABAb;	// decay
-				} else {
+				}
+				else {
 					runtimeData[netId].gGABAb[lNId] *= dGABAb;	// instantaneous rise
 				}
 			}
+#endif
 		}
 	}
+
+#ifdef LN_I_CALC_TYPES
+	//for (int lConnId = 0; lConnId < networkConfigs[netId].numConnections; lConnId++) {
+	//
+	//	auto config = connectConfigs[netId][lConnId];
+
+	// see defintion in  void SNN::generateConnectionRuntime(int netId) {
+	// see usage in  void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, int netId) {
+	//
+	for (std::map<int, ConnectConfig>::iterator connIt = connectConfigMap.begin(); connIt != connectConfigMap.end(); connIt++) {
+			// store scaling factors for synaptic currents in connection-centric array
+			
+		int lConnId = connIt->second.connId; // global ???
+
+		auto &config = connIt->second;
+		switch (config.icalcType) {
+		case alpha2A_ADK13:
+			if (groupConfigs[netId][config.grpDest].activeNE) {
+				float ne = runtimeData[netId].grpNE[config.grpDest]; // target group normalized
+				mulSynFast[lConnId] = 0.1f;	// AMPA 			
+				mulSynSlow[lConnId] = 15.0f - 10.0f * exp(-ne * 5.0f); // NMDA
+				//printf("ne[%d]=%f nmda=%f\n", config.grpDest, ne, mulSynSlow[lConnId]);
+			}
+			break;
+		case D1_ADK13:
+			if (groupConfigs[netId][config.grpDest].activeDP) {
+				float da = runtimeData[netId].grpDA[config.grpDest]; // target group normalized
+				mulSynFast[lConnId] = 1.0f + exp(-da * 5.0f); // AMPA
+				mulSynSlow[lConnId] = mulSynFast[lConnId]; // NMDA
+				//printf("da[%d]=%f nmda=%f\n", config.grpDest, da, mulSynSlow[lConnId]);
+			}
+			break;
+		case D2_AK15:
+			if (groupConfigs[netId][config.grpDest].activeDP) {
+				float da = runtimeData[netId].grpDA[config.grpDest]; // target group normalized
+				float mu = 0.0f; // da < 0 
+				float a = 18.f;
+				float y1, y2;
+				if (da >= 0 && da < 1.f / 6.f) {
+					y1 = 1.2f * 0.5f * tanh((0.f - 0.f / 3.f) * a);
+					y2 = 1.2f * 0.5f * tanh((1.f / 6.f - 0 / 3.f) * a);
+					mu = (0.6f - y2) + 1.2f * 0.5f * (tanh((da - 0.f / 3.f) * a));
+				} else
+				if (da >= 1.f / 6.f & da < 1.f / 2.f) {
+					y1 = 0.6f + 0.4f * 0.5f * (1.f + tanh((1.f / 6.f - 1.f / 3.f) * a));
+					y2 = 0.6f + 0.4f * 0.5f * (1.f + tanh((1.f / 2.f - 1.f / 3.f) * a));
+					mu = 0.6f + 0.4f * 0.5f * (1.f + 0.4f / (y2 - y1) * tanh((da - 1.f / 3.f) * a));
+				} else
+				if (da >= 1.f / 2.f & da < 5.f / 6.f) {
+					y1 = 1.0f + 0.8f * 0.5f * (1.f + tanh((1.f / 2.f - 2.f / 3.f) * a));
+					y2 = 1.0f + 0.8f * 0.5f * (1.f + tanh((5.f / 6.f - 2.f / 3.f) * a));
+					mu = 1.0f + 0.8f * 0.5f * (1.f + 0.8f / (y2 - y1) * tanh((da - 2.f / 3.f) * a));
+				} 
+				else {  // da >= 5/6
+					y1 = tanh((5.f / 6.f - 3.f / 3.f) * a);
+					y2 = tanh((1.f - 3.f / 3.f) * a);
+					mu = 1.8f + 1.6f * 0.5f * (1.f + 1.f / (y2 - y1) * tanh((da - 3.f / 3.f) * a));
+				}
+				mulSynFast[lConnId] = mu; // AMPA
+				mulSynSlow[lConnId] = mu; // NMDA
+				//printf("da[%d]=%f nmda=%f\n", config.grpDest, da, mulSynSlow[lConnId]);
+			}
+			break;
+		}
+	}	
+#endif
+
 }
 
 #if !defined(WIN32) && !defined(WIN64) && !defined(__APPLE__) // Linux or MAC
@@ -552,7 +680,7 @@ void SNN::copyExtFiringTable(int netId) {
 				}
 			}
 
-			// his flag is set if with_stdp is set and also grpType is set to have GROUP_SYN_FIXED
+			// this flag is set if with_stdp is set and also grpType is set to have GROUP_SYN_FIXED
 			if (needToWrite) {
 				bool hasSpace = false;
 				int fireId = -1;
@@ -627,45 +755,112 @@ void SNN::copyExtFiringTable(int netId) {
 
 void SNN::updateLTP(int lNId, int lGrpId, int netId) {
 	unsigned int pos_ij = runtimeData[netId].cumulativePre[lNId]; // the index of pre-synaptic neuron
+	short connId; 
 	for(int j = 0; j < runtimeData[netId].Npre_plastic[lNId]; pos_ij++, j++) {
 		int stdp_tDiff = (simTime - runtimeData[netId].synSpikeTime[pos_ij]);
 		assert(!((stdp_tDiff < 0) && (runtimeData[netId].synSpikeTime[pos_ij] != MAX_SIMULATION_TIME)));
 
+		auto weight_nm = [&](float& nm, int i_nm) {
+			switch (i_nm) {			// index
+			case NM_DA:	 nm *= runtimeData[netId].grpDA[lGrpId];
+				break;
+			case NM_5HT: nm *= runtimeData[netId].grp5HT[lGrpId];
+				break;
+			case NM_ACh: nm *= runtimeData[netId].grpACh[lGrpId];
+				break;
+			case NM_NE:  nm *= runtimeData[netId].grpNE[lGrpId];
+				break;
+			};
+		};
+
 		if (stdp_tDiff > 0) {
+			// identify connection ID
+			connId = runtimeData[netId].connIdsPreIdx[pos_ij];
 			// check this is an excitatory or inhibitory synapse
-			if (groupConfigs[netId][lGrpId].WithESTDP && runtimeData[netId].maxSynWt[pos_ij] >= 0) { // excitatory synapse
+			if (connectConfigMap[connId].stdpConfig.WithESTDP && runtimeData[netId].maxSynWt[pos_ij] >= 0) { // excitatory synapse
 				// Handle E-STDP curve
-				switch (groupConfigs[netId][lGrpId].WithESTDPcurve) {
+				switch (connectConfigMap[connId].stdpConfig.WithESTDPcurve) {
 				case EXP_CURVE: // exponential curve
-					if (stdp_tDiff * groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC < 25)
-						runtimeData[netId].wtChange[pos_ij] += STDP(stdp_tDiff, groupConfigs[netId][lGrpId].ALPHA_PLUS_EXC, groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC);
+#ifdef LN_I_CALC_TYPES
+					if (stdp_tDiff * connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC < 25) {
+						if (connectConfigMap[connId].stdpConfig.WithESTDPtype == PKA_PLC_MOD) {
+
+							float nm_pka = connectConfigMap[connId].stdpConfig.W_PKA;		
+							weight_nm(nm_pka, connectConfigMap[connId].stdpConfig.NM_PKA);
+
+							float nm_plc = connectConfigMap[connId].stdpConfig.W_PLC;
+							weight_nm(nm_plc, connectConfigMap[connId].stdpConfig.NM_PLC);
+
+							//printf("LTP nm_pka=%f  nm_plc=%f\n", nm_pka, nm_plc);
+
+							float a_p = connectConfigMap[connId].stdpConfig.ALPHA_PLUS_EXC;
+							float tau_p_inv = connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC;
+
+							// f_pka = ne * 2 * (a_p * exp(-t * tau_p_inv))
+							float pka = nm_pka * 2 * STDP(stdp_tDiff, a_p, tau_p_inv);
+						
+							//f_plc = ach * (-a_p * exp(-t * tau_p_inv))
+							float plc = nm_plc * STDP(stdp_tDiff, -a_p, tau_p_inv);
+
+							runtimeData[netId].wtChange[pos_ij] += pka + plc;
+						}
+						else {
+							runtimeData[netId].wtChange[pos_ij] += STDP(stdp_tDiff, connectConfigMap[connId].stdpConfig.ALPHA_PLUS_EXC, connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC);
+						}
+					}
 					break;
+#else
+					if (stdp_tDiff * connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC < 25) {
+						runtimeData[netId].wtChange[pos_ij] += STDP(stdp_tDiff, connectConfigMap[connId].stdpConfig.ALPHA_PLUS_EXC, connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC);
+					}
+					break;
+#endif
 				case TIMING_BASED_CURVE: // sc curve
-					if (stdp_tDiff * groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC < 25) {
-						if (stdp_tDiff <= groupConfigs[netId][lGrpId].GAMMA)
-							runtimeData[netId].wtChange[pos_ij] += groupConfigs[netId][lGrpId].OMEGA + groupConfigs[netId][lGrpId].KAPPA * STDP(stdp_tDiff, groupConfigs[netId][lGrpId].ALPHA_PLUS_EXC, groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC);
+					if (stdp_tDiff * connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC < 25) {
+						if (stdp_tDiff <= connectConfigMap[connId].stdpConfig.GAMMA)
+							runtimeData[netId].wtChange[pos_ij] += connectConfigMap[connId].stdpConfig.OMEGA + connectConfigMap[connId].stdpConfig.KAPPA * STDP(stdp_tDiff, connectConfigMap[connId].stdpConfig.ALPHA_PLUS_EXC, connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC);
 						else // stdp_tDiff > GAMMA
-							runtimeData[netId].wtChange[pos_ij] -= STDP(stdp_tDiff, groupConfigs[netId][lGrpId].ALPHA_PLUS_EXC, groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC);
+							runtimeData[netId].wtChange[pos_ij] -= STDP(stdp_tDiff, connectConfigMap[connId].stdpConfig.ALPHA_PLUS_EXC, connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC);
 					}
 					break;
 				default:
 					KERNEL_ERROR("Invalid E-STDP curve!");
 					break;
 				}
-			} else if (groupConfigs[netId][lGrpId].WithISTDP && runtimeData[netId].maxSynWt[pos_ij] < 0) { // inhibitory synapse
+			} else if (connectConfigMap[connId].stdpConfig.WithISTDP && runtimeData[netId].maxSynWt[pos_ij] < 0) { // inhibitory synapse
 				// Handle I-STDP curve																				 // Handle I-STDP curve
-				switch (groupConfigs[netId][lGrpId].WithISTDPcurve) {
+				switch (connectConfigMap[connId].stdpConfig.WithISTDPcurve) {
 				case EXP_CURVE: // exponential curve
-					if (stdp_tDiff * groupConfigs[netId][lGrpId].TAU_PLUS_INV_INB < 25) { // LTP of inhibitory synapse, which decreases synapse weight
-						runtimeData[netId].wtChange[pos_ij] -= STDP(stdp_tDiff, groupConfigs[netId][lGrpId].ALPHA_PLUS_INB, groupConfigs[netId][lGrpId].TAU_PLUS_INV_INB);
+#ifdef LN_I_CALC_TYPES
+					if (stdp_tDiff * connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB < 25) { // LTP of inhibitory synapse, which decreases synapse weight
+						if (connectConfigMap[connId].stdpConfig.WithESTDPtype == PKA_PLC_MOD) {
+
+							float nm_pka = connectConfigMap[connId].stdpConfig.W_PKA;
+							weight_nm(nm_pka, connectConfigMap[connId].stdpConfig.NM_PKA);
+
+							float nm_plc = connectConfigMap[connId].stdpConfig.W_PLC;
+							weight_nm(nm_plc, connectConfigMap[connId].stdpConfig.NM_PLC);
+
+							assert(0); // not implemented
+						} 
+						else
+						{
+							runtimeData[netId].wtChange[pos_ij] -= STDP(stdp_tDiff, connectConfigMap[connId].stdpConfig.ALPHA_PLUS_INB, connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB);
+						}
 					}
 					break;
+#else
+					if (stdp_tDiff * connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB < 25) { // LTP of inhibitory synapse, which decreases synapse weight
+						runtimeData[netId].wtChange[pos_ij] -= STDP(stdp_tDiff, connectConfigMap[connId].stdpConfig.ALPHA_PLUS_INB, connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB);
+					}
+					break;
+#endif
 				case PULSE_CURVE: // pulse curve
-					if (stdp_tDiff <= groupConfigs[netId][lGrpId].LAMBDA) { // LTP of inhibitory synapse, which decreases synapse weight
-						runtimeData[netId].wtChange[pos_ij] -= groupConfigs[netId][lGrpId].BETA_LTP;
+					if (stdp_tDiff <= connectConfigMap[connId].stdpConfig.LAMBDA) { // LTP of inhibitory synapse, which decreases synapse weight
+						runtimeData[netId].wtChange[pos_ij] -= connectConfigMap[connId].stdpConfig.BETA_LTP;
 						//printf("I-STDP LTP\n");
-					} else if (stdp_tDiff <= groupConfigs[netId][lGrpId].DELTA) { // LTD of inhibitory syanpse, which increase sysnapse weight
-						runtimeData[netId].wtChange[pos_ij] -= groupConfigs[netId][lGrpId].BETA_LTD;
+					} else if (stdp_tDiff <= connectConfigMap[connId].stdpConfig.DELTA) { // LTD of inhibitory syanpse, which increase sysnapse weight
+						runtimeData[netId].wtChange[pos_ij] -= connectConfigMap[connId].stdpConfig.BETA_LTD;
 						//printf("I-STDP LTD\n");
 					} else { /*do nothing*/}
 					break;
@@ -685,7 +880,29 @@ void SNN::firingUpdateSTP(int lNId, int lGrpId, int netId) {
 	int ind_minus = STP_BUF_POS(lNId, (simTime - 1), networkConfigs[netId].maxDelay); // index of right before the spike, such as in u^-
 
 	// du/dt = -u/tau_F + U * (1-u^-) * \delta(t-t_{spk})
+
+#ifdef LN_I_CALC_TYPES
+	auto& config = groupConfigs[netId][lGrpId];
+	float stp_u = config.STP_U;
+	if (config.WithNM4STP) {
+		std::vector<float> nm;
+		nm.push_back(groupConfigs[netId][lGrpId].activeDP ? runtimeData[netId].grpDA[lGrpId] : 0.f);   // baseDP  is 0 at t=0 ???
+		nm.push_back(groupConfigs[netId][lGrpId].active5HT ? runtimeData[netId].grp5HT[lGrpId] : 0.f);
+		nm.push_back(groupConfigs[netId][lGrpId].activeACh ? runtimeData[netId].grpACh[lGrpId] : 0.f);
+		nm.push_back(groupConfigs[netId][lGrpId].activeNE ? runtimeData[netId].grpNE[lGrpId] : 0.f);
+		auto& config = groupConfigs[netId][lGrpId];
+		float w_stp_u = 0.0f;
+		for (int i = 0; i < NM_NE + 1; i++) {
+			w_stp_u += nm[i] * config.wstpu[i];
+		}
+		w_stp_u *= config.wstpu[NM_NE + 1];
+		stp_u *= w_stp_u + config.wstpu[NM_NE + 2];
+		//KERNEL_DEBUG("grp[%d] stp_u %f\n", lGrpId, stp_u);
+	}
+	runtimeData[netId].stpu[ind_plus] += stp_u * (1.0f - runtimeData[netId].stpu[ind_minus]);
+#else
 	runtimeData[netId].stpu[ind_plus] += groupConfigs[netId][lGrpId].STP_U * (1.0f - runtimeData[netId].stpu[ind_minus]);
+#endif
 
 	// dx/dt = (1-x)/tau_D - u^+ * x^- * \delta(t-t_{spk})
 	runtimeData[netId].stpx[ind_plus] -= runtimeData[netId].stpu[ind_plus] * runtimeData[netId].stpx[ind_minus];
@@ -761,9 +978,30 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 		// I noticed that for connect(.., RangeDelay(1), ..) tD will be 0
 		int ind_minus = STP_BUF_POS(preNId, (simTime-tD-1), networkConfigs[netId].maxDelay);
 		int ind_plus  = STP_BUF_POS(preNId, (simTime-tD), networkConfigs[netId].maxDelay);
-
+#ifdef LN_I_CALC_TYPES		
+		auto& config = groupConfigs[netId][pre_grpId];
+		float stp_a = config.STP_A;
+		float stp_u = config.STP_U;
+		if (config.WithNM4STP) {
+			std::vector<float> nm;
+			nm.push_back(groupConfigs[netId][pre_grpId].activeDP ? runtimeData[netId].grpDA[pre_grpId] : 0.f);   // baseDP  is 0 at t=0 ???
+			nm.push_back(groupConfigs[netId][pre_grpId].active5HT ? runtimeData[netId].grp5HT[pre_grpId] : 0.f);
+			nm.push_back(groupConfigs[netId][pre_grpId].activeACh ? runtimeData[netId].grpACh[pre_grpId] : 0.f);
+			nm.push_back(groupConfigs[netId][pre_grpId].activeNE ? runtimeData[netId].grpNE[pre_grpId] : 0.f);
+			auto& config = groupConfigs[netId][pre_grpId];
+			float w_stp_u = 0.0f;
+			for (int i = 0; i < NM_NE + 1; i++) {
+				w_stp_u += nm[i] * config.wstpu[i];
+			}
+			w_stp_u *= config.wstpu[NM_NE + 1];
+			stp_u *= w_stp_u + config.wstpu[NM_NE + 2];
+			stp_a = (stp_u > 0.0f) ? 1.0 / stp_u : 1.0f; // scaling factor weighted
+			//KERNEL_DEBUG("grp[%d] stp_u = %f  stp_a = %f\n", pre_grpId, stp_u, stp_a);
+		}
+		change *=  stp_a * runtimeData[netId].stpu[ind_plus] * runtimeData[netId].stpx[ind_minus];
+#else
 		change *= groupConfigs[netId][pre_grpId].STP_A * runtimeData[netId].stpu[ind_plus] * runtimeData[netId].stpx[ind_minus];
-
+#endif
 		//printf("%d: %d[%d], numN=%d, td=%d, maxDelay_=%d, ind-=%d, ind+=%d, stpu=[%f,%f], stpx=[%f,%f], change=%f, wt=%f\n",
 		//	simTime, pre_grpId, preNId,
 		//	groupConfigs[netId][pre_grpId].numN, tD, networkConfigs[netId].maxDelay, ind_minus, ind_plus,
@@ -775,6 +1013,63 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 	// P3-1, P3-2
 	// update currents
 	// NOTE: it's faster to += 0.0 rather than checking for zero and not updating
+#ifdef LN_I_CALC_TYPES	
+// \todo this needs to be resolved   the argumentation for the post_grpId is that the local neuronIndex is also of the post neuron !!!  -_> therefore it must be the post group 
+	auto &groupConfig = groupConfigs[netId][post_grpId];
+//	auto& groupConfig = groupConfigs[netId][pre_grpId];  // Fix LN20210912   did not solve the issue with -inf  check data types float double
+	switch (groupConfig.icalcType) {   // \todo LN issue double check post_
+		case COBA:
+		case alpha1_ADK13:
+			if (pre_type & TARGET_AMPA) // if postNId expresses AMPAR
+				runtimeData[netId].gAMPA[postNId] += change * mulSynFast[mulIndex]; // scale by some factor
+//if (mulSynFast[mulIndex] != 1.0f)
+// printf("mulSynFast[%d]=%f\n", mulIndex, mulSynFast[mulIndex]);
+			if (pre_type & TARGET_NMDA) {
+				if (groupConfig.with_NMDA_rise) {
+					runtimeData[netId].gNMDA_r[postNId] += change * groupConfig.sNMDA * mulSynSlow[mulIndex]; 
+					runtimeData[netId].gNMDA_d[postNId] += change * groupConfig.sNMDA * mulSynSlow[mulIndex];
+				}
+				else {
+					runtimeData[netId].gNMDA[postNId] += change * mulSynSlow[mulIndex];
+//if(mulSynSlow[mulIndex] != 1.0f)
+// printf("mulSynSlow[%d]=%f\n", mulIndex, mulSynSlow[mulIndex]);
+				}
+			}
+			if (pre_type & TARGET_GABAa)
+				runtimeData[netId].gGABAa[postNId] -= change * mulSynFast[mulIndex]; // wt should be negative for GABAa and GABAb
+			if (pre_type & TARGET_GABAb) {
+				if (groupConfig.with_GABAb_rise) {
+					runtimeData[netId].gGABAb_r[postNId] -= change * groupConfig.sGABAb * mulSynSlow[mulIndex];
+					runtimeData[netId].gGABAb_d[postNId] -= change * groupConfig.sGABAb * mulSynSlow[mulIndex];
+				}
+				else {
+					runtimeData[netId].gGABAb[postNId] -= change * mulSynSlow[mulIndex];
+				}
+			}
+			break;
+		case CUBA:
+			runtimeData[netId].current[postNId] += change;
+			break;
+		case NM4W_LN21:
+			runtimeData[netId].current[postNId] += change;
+			break;
+
+			//if (groupConfig.Type & EXCITATORY_NEURON) {
+			//	assert(NM_UNKNOWN == NM_NE + 1);
+			//	float nm = .0f; // nm weighted
+			//	nm += runtimeData[netId].grpDA[post_grpId] * groupConfig.nm4w[NM_DA];
+			//	nm += runtimeData[netId].grp5HT[post_grpId] * groupConfig.nm4w[NM_5HT];
+			//	nm += runtimeData[netId].grpACh[post_grpId] * groupConfig.nm4w[NM_ACh];
+			//	nm += runtimeData[netId].grpNE[post_grpId] * groupConfig.nm4w[NM_NE];
+			//	nm *= groupConfig.nm4w[NM_UNKNOWN]; // normalize/boost
+			//	runtimeData[netId].current[postNId] += change * nm;
+			//};
+			//break;
+
+		default:
+			; // do nothing;
+	}
+#else
 	if (sim_with_conductances) {
 		if (pre_type & TARGET_AMPA) // if postNId expresses AMPAR
 			runtimeData[netId].gAMPA [postNId] += change * mulSynFast[mulIndex]; // scale by some factor
@@ -799,6 +1094,7 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 	} else {
 		runtimeData[netId].current[postNId] += change;
 	}
+#endif
 
 	// P4
 	runtimeData[netId].synSpikeTime[pos] = simTime;
@@ -806,41 +1102,104 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 	// P5
 	// Got one spike from dopaminergic neuron, increase dopamine concentration in the target area
 	if (pre_type & TARGET_DA) {
-		runtimeData[netId].grpDA[post_grpId] += 0.04;
+		//runtimeData[netId].grpDA[post_grpId] += 0.04;  // LN20201002 this is bug, fix: 0.04f  to avoid double conversion
+		//runtimeData[netId].grpDA[post_grpId] += 0.04f;  // LN20201002 this is bug, fix: 0.04f  to avoid double conversion
+		// \todo LN2021  increase must be at least be parameter, see base, tau
+		runtimeData[netId].grpDA[post_grpId] += groupConfigs[netId][post_grpId].releaseDP;
 	}
+	//\todo LN2021: // see abvove: *P5.Update DA, 5HT, ACh, NE accordingly
+	if (pre_type & TARGET_5HT) {
+		//runtimeData[netId].grp5HT[post_grpId] += 0.04f;  // \todo param
+		runtimeData[netId].grp5HT[post_grpId] += groupConfigs[netId][post_grpId].release5HT;
+	}
+	if (pre_type & TARGET_ACH) {
+		//runtimeData[netId].grpACh[post_grpId] += 0.04f;  // \todo param
+		runtimeData[netId].grpACh[post_grpId] += groupConfigs[netId][post_grpId].releaseACh;
+	}
+	if (pre_type & TARGET_NE) {
+		//runtimeData[netId].grpNE[post_grpId] += 0.04f; // \todo param
+		runtimeData[netId].grpNE[post_grpId] += groupConfigs[netId][post_grpId].releaseNE;
+	}
+
 
 	// P6
 	// STDP calculation: the post-synaptic neuron fires before the arrival of a pre-synaptic spike
-	if (!sim_in_testing && groupConfigs[netId][post_grpId].WithSTDP) {
+	if (!sim_in_testing && connectConfigMap[mulIndex].stdpConfig.WithSTDP) {
 		int stdp_tDiff = (simTime - runtimeData[netId].lastSpikeTime[postNId]);
 
 		if (stdp_tDiff >= 0) {
-			if (groupConfigs[netId][post_grpId].WithISTDP && ((pre_type & TARGET_GABAa) || (pre_type & TARGET_GABAb))) { // inhibitory syanpse
+			if (connectConfigMap[mulIndex].stdpConfig.WithISTDP && ((pre_type & TARGET_GABAa) || (pre_type & TARGET_GABAb))) { // inhibitory syanpse
 				// Handle I-STDP curve
-				switch (groupConfigs[netId][post_grpId].WithISTDPcurve) {
+				switch (connectConfigMap[mulIndex].stdpConfig.WithISTDPcurve) {
 				case EXP_CURVE: // exponential curve
-					if (stdp_tDiff * groupConfigs[netId][post_grpId].TAU_MINUS_INV_INB < 25) { // LTD of inhibitory syanpse, which increase synapse weight
-						runtimeData[netId].wtChange[pos] -= STDP(stdp_tDiff, groupConfigs[netId][post_grpId].ALPHA_MINUS_INB, groupConfigs[netId][post_grpId].TAU_MINUS_INV_INB);
+//LN2021 \todo see E-STDP
+					if (stdp_tDiff * connectConfigMap[mulIndex].stdpConfig.TAU_MINUS_INV_INB < 25) { // LTD of inhibitory syanpse, which increase synapse weight
+						runtimeData[netId].wtChange[pos] -= STDP(stdp_tDiff, connectConfigMap[mulIndex].stdpConfig.ALPHA_MINUS_INB, connectConfigMap[mulIndex].stdpConfig.TAU_MINUS_INV_INB);
 					}
 					break;
 				case PULSE_CURVE: // pulse curve
-					if (stdp_tDiff <= groupConfigs[netId][post_grpId].LAMBDA) { // LTP of inhibitory synapse, which decreases synapse weight
-						runtimeData[netId].wtChange[pos] -= groupConfigs[netId][post_grpId].BETA_LTP;
-					} else if (stdp_tDiff <= groupConfigs[netId][post_grpId].DELTA) { // LTD of inhibitory syanpse, which increase synapse weight
-						runtimeData[netId].wtChange[pos] -= groupConfigs[netId][post_grpId].BETA_LTD;
+					if (stdp_tDiff <= connectConfigMap[mulIndex].stdpConfig.LAMBDA) { // LTP of inhibitory synapse, which decreases synapse weight
+						runtimeData[netId].wtChange[pos] -= connectConfigMap[mulIndex].stdpConfig.BETA_LTP;
+					} else if (stdp_tDiff <= connectConfigMap[mulIndex].stdpConfig.DELTA) { // LTD of inhibitory syanpse, which increase synapse weight
+						runtimeData[netId].wtChange[pos] -= connectConfigMap[mulIndex].stdpConfig.BETA_LTD;
 					} else { /*do nothing*/ }
 					break;
 				default:
 					KERNEL_ERROR("Invalid I-STDP curve");
 					break;
 				}
-			} else if (groupConfigs[netId][post_grpId].WithESTDP && ((pre_type & TARGET_AMPA) || (pre_type & TARGET_NMDA))) { // excitatory synapse
+			} else if (connectConfigMap[mulIndex].stdpConfig.WithESTDP && ((pre_type & TARGET_AMPA) || (pre_type & TARGET_NMDA))) { // excitatory synapse
 				// Handle E-STDP curve
-				switch (groupConfigs[netId][post_grpId].WithESTDPcurve) {
+				switch (connectConfigMap[mulIndex].stdpConfig.WithESTDPcurve) {
+#ifdef LN_I_CALC_TYPES
 				case EXP_CURVE: // exponential curve
+					if (stdp_tDiff * connectConfigMap[mulIndex].stdpConfig.TAU_MINUS_INV_EXC < 25)
+
+						if (connectConfigMap[mulIndex].stdpConfig.WithESTDPtype == PKA_PLC_MOD) {
+
+							auto weight_nm = [&](float& nm, int i_nm) {
+								switch (i_nm) {			// index
+								case NM_DA:	 nm *= runtimeData[netId].grpDA[post_grpId];   // LN2021 \issue 
+									break;
+								case NM_5HT: nm *= runtimeData[netId].grp5HT[post_grpId];
+									break;
+								case NM_ACh: nm *= runtimeData[netId].grpACh[post_grpId];
+									break;
+								case NM_NE:  nm *= runtimeData[netId].grpNE[post_grpId];
+									break;
+								};
+							};
+
+							float nm_pka = connectConfigMap[mulIndex].stdpConfig.W_PKA;
+							weight_nm(nm_pka, connectConfigMap[mulIndex].stdpConfig.NM_PKA);
+
+							float nm_plc = connectConfigMap[mulIndex].stdpConfig.W_PLC;
+							weight_nm(nm_plc, connectConfigMap[mulIndex].stdpConfig.NM_PLC);
+
+							// printf("LTD nm_pka=%f  nm_plc=%f\n", nm_pka, nm_plc);
+
+							float a_m = connectConfigMap[mulIndex].stdpConfig.ALPHA_MINUS_EXC;
+							float tau_m_inv = connectConfigMap[mulIndex].stdpConfig.TAU_MINUS_INV_EXC;
+
+							// f_pka_m = ne * (-a_m * exp(t_m * tau_p_inv))
+							float pka_m = nm_pka * STDP(stdp_tDiff, -a_m, tau_m_inv);  // no sign switch, see below: -= instead of += 
+
+							//f_plc_m = ach * 2 * (a_m * exp(t_m * tau_p_inv))
+							float plc_m = nm_plc * 2 * STDP(stdp_tDiff, a_m, tau_m_inv);  // no sign spwtich, see below: -= instead of +=
+
+							runtimeData[netId].wtChange[pos] += pka_m + plc_m;
+						} 
+						else
+						{
+							runtimeData[netId].wtChange[pos] += STDP(stdp_tDiff, connectConfigMap[mulIndex].stdpConfig.ALPHA_MINUS_EXC, connectConfigMap[mulIndex].stdpConfig.TAU_MINUS_INV_EXC);
+						}
+					break;
+#else
+				case EXP_CURVE: // exponential curve
+#endif
 				case TIMING_BASED_CURVE: // sc curve
-					if (stdp_tDiff * groupConfigs[netId][post_grpId].TAU_MINUS_INV_EXC < 25)
-						runtimeData[netId].wtChange[pos] += STDP(stdp_tDiff, groupConfigs[netId][post_grpId].ALPHA_MINUS_EXC, groupConfigs[netId][post_grpId].TAU_MINUS_INV_EXC);
+					if (stdp_tDiff * connectConfigMap[mulIndex].stdpConfig.TAU_MINUS_INV_EXC < 25)
+						runtimeData[netId].wtChange[pos] += STDP(stdp_tDiff, connectConfigMap[mulIndex].stdpConfig.ALPHA_MINUS_EXC, connectConfigMap[mulIndex].stdpConfig.TAU_MINUS_INV_EXC);
 					break;
 				default:
 					KERNEL_ERROR("Invalid E-STDP curve");
@@ -929,6 +1288,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 				float u = runtimeData[netId].recovery[lNId];
 				float I_sum, NMDAtmp;
 				float gNMDA, gGABAb;
+				float gAMPA, gGABAa;
 
 				// pre-load izhikevich variables to avoid unnecessary memory accesses & unclutter the code.
 				float k = runtimeData[netId].Izh_k[lNId];
@@ -950,6 +1310,53 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 
 				float totalCurrent = runtimeData[netId].extCurrent[lNId];
 
+#ifdef LN_I_CALC_TYPES
+				auto& config = groupConfigs[netId][lGrpId];
+				switch(config.icalcType) {
+					case COBA:
+					case alpha1_ADK13:
+						NMDAtmp = (v + 80.0f) * (v + 80.0f) / 60.0f / 60.0f;
+						gNMDA = (config.with_NMDA_rise) ? (runtimeData[netId].gNMDA_d[lNId] - runtimeData[netId].gNMDA_r[lNId]) : runtimeData[netId].gNMDA[lNId];
+						gGABAb = (config.with_GABAb_rise) ? (runtimeData[netId].gGABAb_d[lNId] - runtimeData[netId].gGABAb_r[lNId]) : runtimeData[netId].gGABAb[lNId];
+						gAMPA = runtimeData[netId].gAMPA[lNId];
+						gGABAa = runtimeData[netId].gGABAa[lNId];
+						I_sum = -(gAMPA * (v - 0.0f)
+							+ gNMDA * NMDAtmp / (1.0f + NMDAtmp) * (v - 0.0f)
+							+ gGABAa * (v + 70.0f)
+							+ gGABAb * (v + 90.0f));
+						if (config.icalcType == alpha1_ADK13) {
+							float ne = runtimeData[netId].grpNE[lGrpId] * config.nm4w[NM_DA] / config.nm4w[NM_UNKNOWN]; // normalize
+							float da = runtimeData[netId].grpDA[lGrpId] * config.nm4w[NM_NE] / config.nm4w[NM_UNKNOWN]; // normalize
+							float lambda = config.nm4w[NM_UNKNOWN + 1];  // nm base = lambda
+							assert(lambda > 0.0f);
+							float mu = 1.0f - 0.5f * (exp((ne - 1.0f) / lambda) + exp((da - 1.0f) / lambda));
+							//if(I_sum > 0.0f)
+							//  printf("alpha1 mu=%f Isum=%f totalCurrent=%f (lGrpId=%d)\n", mu, I_sum, totalCurrent, lGrpId);
+							I_sum *= mu;
+						}
+						totalCurrent += I_sum;
+						break;
+					case CUBA:
+						totalCurrent += runtimeData[netId].current[lNId];
+						break;
+					case NM4W_LN21: 					
+						totalCurrent += runtimeData[netId].current[lNId];
+						{
+							float nm = .0f;
+							nm += runtimeData[netId].grpDA[lGrpId] * config.nm4w[NM_DA];
+							nm += runtimeData[netId].grp5HT[lGrpId] * config.nm4w[NM_5HT];
+							nm += runtimeData[netId].grpACh[lGrpId] * config.nm4w[NM_ACh];
+							nm += runtimeData[netId].grpNE[lGrpId] * config.nm4w[NM_NE];
+							nm *= config.nm4w[NM_UNKNOWN]; // normalize/boost
+							nm += runtimeData[netId].grpNE[NM_UNKNOWN + 1]; // nm base
+							//nm += config.nm4w[NM_UNKNOWN + 1]; // nm base    // \todo LN check 
+							totalCurrent *= nm;
+						}
+						break;
+					default:
+						; // do nothing
+				}
+#else
 				if (networkConfigs[netId].sim_with_conductances) {
 					NMDAtmp = (v + 80.0f) * (v + 80.0f) / 60.0f / 60.0f;
 					gNMDA = (networkConfigs[netId].sim_with_NMDA_rise) ? (runtimeData[netId].gNMDA_d[lNId] - runtimeData[netId].gNMDA_r[lNId]) : runtimeData[netId].gNMDA[lNId];
@@ -965,6 +1372,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 				else {
 					totalCurrent += runtimeData[netId].current[lNId];
 				}
+#endif
 				if (groupConfigs[netId][lGrpId].withCompartments) {
 					totalCurrent += getCompCurrent(netId, lGrpId, lNId);
 				}
@@ -1133,6 +1541,21 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 				// update current & average firing rate for homeostasis once per globalStateUpdate_CPU call
 				if (lastIter)
 				{
+#ifdef LN_I_CALC_TYPES
+					switch (groupConfigs[netId][lGrpId].icalcType) {
+						case COBA:
+						case alpha1_ADK13:
+							runtimeData[netId].current[lNId] = I_sum;
+							break;
+						case CUBA:
+						case NM4W_LN21:
+							// current must be reset here for CUBA and not STPUpdateAndDecayConductances
+							runtimeData[netId].current[lNId] = 0.0f;
+							break;
+						default:
+							; // do nothing
+					}
+#else
 					if (networkConfigs[netId].sim_with_conductances) {
 						runtimeData[netId].current[lNId] = I_sum;
 					}
@@ -1140,7 +1563,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 						// current must be reset here for CUBA and not STPUpdateAndDecayConductances
 						runtimeData[netId].current[lNId] = 0.0f;
 					}
-
+#endif
 					// P8
 					// update average firing rate for homeostasis
 					if (groupConfigs[netId][lGrpId].WithHomeostasis)
@@ -1159,10 +1582,81 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 			{
 				// P9
 				// decay dopamine concentration
+#ifndef LN_FIX_ALL_DECAY_CPU
+#ifndef LN_FIX_DA_DECAY_CPU
 				if ((groupConfigs[netId][lGrpId].WithESTDPtype == DA_MOD || groupConfigs[netId][lGrpId].WithISTDP == DA_MOD) && runtimeData[netId].grpDA[lGrpId] > groupConfigs[netId][lGrpId].baseDP) {
 					runtimeData[netId].grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
 				}
+#else
+				if (groupConfigs[netId][lGrpId].WithESTDPtype == DA_MOD || groupConfigs[netId][lGrpId].WithISTDP == DA_MOD) {
+					float baseDP_ = groupConfigs[netId][lGrpId].baseDP;
+					if(runtimeData[netId].grpDA[lGrpId] > baseDP_) {
+						runtimeData[netId].grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
+						if(runtimeData[netId].grpDA[lGrpId] < baseDP_)
+							runtimeData[netId].grpDA[lGrpId] = baseDP_;
+					}
+				}
+
 				runtimeData[netId].grpDABuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpDA[lGrpId];
+
+				// LN2021
+
+				if (groupConfigs[netId][lGrpId].WithESTDPtype == MOD_NE_A1 || groupConfigs[netId][lGrpId].WithISTDP == MOD_NE_A1) {
+					float baseNE_ = groupConfigs[netId][lGrpId].baseNE;
+					if (runtimeData[netId].grpNE[lGrpId] > baseNE_) {
+						runtimeData[netId].grpNE[lGrpId] *= groupConfigs[netId][lGrpId].decayNE;
+						if (runtimeData[netId].grpNE[lGrpId] < baseNE_)
+							runtimeData[netId].grpNE[lGrpId] = baseNE_;
+					}
+				}
+#endif
+#else
+
+				// LN2021 \todo refactor if design holds
+
+				if (groupConfigs[netId][lGrpId].activeDP) {
+					float baseDP_ = groupConfigs[netId][lGrpId].baseDP;
+					if (runtimeData[netId].grpDA[lGrpId] > baseDP_) {
+						runtimeData[netId].grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
+						if (runtimeData[netId].grpDA[lGrpId] < baseDP_)
+							runtimeData[netId].grpDA[lGrpId] = baseDP_;
+					}
+					runtimeData[netId].grpDABuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpDA[lGrpId];
+				}
+
+				if (groupConfigs[netId][lGrpId].active5HT) {
+					float base5HT_ = groupConfigs[netId][lGrpId].base5HT;
+					if (runtimeData[netId].grp5HT[lGrpId] > base5HT_) {
+						runtimeData[netId].grp5HT[lGrpId] *= groupConfigs[netId][lGrpId].decay5HT;
+						if (runtimeData[netId].grp5HT[lGrpId] < base5HT_)
+							runtimeData[netId].grp5HT[lGrpId] = base5HT_;
+					}
+					runtimeData[netId].grp5HTBuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grp5HT[lGrpId];
+				}
+
+				if (groupConfigs[netId][lGrpId].activeACh) {
+					float baseACh_ = groupConfigs[netId][lGrpId].baseACh;
+					if (runtimeData[netId].grpACh[lGrpId] > baseACh_) {
+						runtimeData[netId].grpACh[lGrpId] *= groupConfigs[netId][lGrpId].decayACh;
+						if (runtimeData[netId].grpACh[lGrpId] < baseACh_)
+							runtimeData[netId].grpACh[lGrpId] = baseACh_;
+					}
+					runtimeData[netId].grpAChBuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpACh[lGrpId];
+				}
+
+				if (groupConfigs[netId][lGrpId].activeNE) {
+					float baseNE_ = groupConfigs[netId][lGrpId].baseNE;
+					if (runtimeData[netId].grpNE[lGrpId] > baseNE_) {
+						runtimeData[netId].grpNE[lGrpId] *= groupConfigs[netId][lGrpId].decayNE;
+						if (runtimeData[netId].grpNE[lGrpId] < baseNE_)
+							runtimeData[netId].grpNE[lGrpId] = baseNE_;
+					}
+					runtimeData[netId].grpNEBuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpNE[lGrpId];
+				}
+
+#endif
+#ifdef LN_FIX_ALL_DECAY_CPU
+#endif
 			}
 		} // end numGroups
 
@@ -1201,6 +1695,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 		if (groupConfigs[netId][lGrpId].FixedInputWts || !(groupConfigs[netId][lGrpId].WithSTDP))
 			continue;
 
+		short int connId;
 		for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
 			assert(lNId < networkConfigs[netId].numNReg);
 			unsigned int offset = runtimeData[netId].cumulativePre[lNId];
@@ -1217,6 +1712,8 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 				KERNEL_DEBUG("Weights, Change at %d (diff_firing: %f)", simTimeSec, diff_firing);
 
 			for (int j = 0; j < runtimeData[netId].Npre_plastic[lNId]; j++) {
+				connId = runtimeData[netId].connIdsPreIdx[offset + j];
+
 				//	if (i==groupConfigs[0][g].StartN)
 				//		KERNEL_DEBUG("%1.2f %1.2f \t", wt[offset+j]*10, wtChange[offset+j]*10);
 				float effectiveWtChange = stdpScaleFactor_ * runtimeData[netId].wtChange[offset + j];
@@ -1225,8 +1722,9 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 
 								// homeostatic weight update
 								// FIXME: check WithESTDPtype and WithISTDPtype first and then do weight change update
-				switch (groupConfigs[netId][lGrpId].WithESTDPtype) {
+				switch (connectConfigMap[connId].stdpConfig.WithESTDPtype) {
 				case STANDARD:
+				case PKA_PLC_MOD:
 					if (groupConfigs[netId][lGrpId].WithHomeostasis) {
 						runtimeData[netId].wt[offset + j] += (diff_firing*runtimeData[netId].wt[offset + j] * homeostasisScale + runtimeData[netId].wtChange[offset + j])*runtimeData[netId].baseFiring[lNId] / groupConfigs[netId][lGrpId].avgTimeScale / (1 + fabs(diff_firing) * 50);
 					} else {
@@ -1235,11 +1733,16 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					}
 					break;
 				case DA_MOD:
-					if (groupConfigs[netId][lGrpId].WithHomeostasis) {
-						effectiveWtChange = runtimeData[netId].grpDA[lGrpId] * effectiveWtChange;
+				case SE_MOD:
+				case AC_MOD:
+				case NE_MOD:
+					if (groupConfigs[netId][lGrpId].WithHomeostasis) {						
+						//effectiveWtChange = runtimeData[netId].grpDA[lGrpId] * effectiveWtChange;
+						effectiveWtChange = (runtimeData[netId].grpDA + connectConfigMap[connId].stdpConfig.WithESTDPtype - DA_MOD)[lGrpId];
 						runtimeData[netId].wt[offset + j] += (diff_firing*runtimeData[netId].wt[offset + j] * homeostasisScale + effectiveWtChange)*runtimeData[netId].baseFiring[lNId] / groupConfigs[netId][lGrpId].avgTimeScale / (1 + fabs(diff_firing) * 50);
 					} else {
-						runtimeData[netId].wt[offset + j] += runtimeData[netId].grpDA[lGrpId] * effectiveWtChange;
+						//runtimeData[netId].wt[offset + j] += runtimeData[netId].grpDA[lGrpId] * effectiveWtChange;
+						runtimeData[netId].wt[offset + j] += (runtimeData[netId].grpDA + connectConfigMap[connId].stdpConfig.WithESTDPtype - DA_MOD)[lGrpId] * effectiveWtChange;
 					}
 					break;
 				case UNKNOWN_STDP:
@@ -1248,7 +1751,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					break;
 				}
 
-				switch (groupConfigs[netId][lGrpId].WithISTDPtype) {
+				switch (connectConfigMap[connId].stdpConfig.WithISTDPtype) {
 				case STANDARD:
 					if (groupConfigs[netId][lGrpId].WithHomeostasis) {
 						runtimeData[netId].wt[offset + j] += (diff_firing*runtimeData[netId].wt[offset + j] * homeostasisScale + runtimeData[netId].wtChange[offset + j])*runtimeData[netId].baseFiring[lNId] / groupConfigs[netId][lGrpId].avgTimeScale / (1 + fabs(diff_firing) * 50);
@@ -1258,11 +1761,16 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					}
 					break;
 				case DA_MOD:
+				case SE_MOD:
+				case AC_MOD:
+				case NE_MOD:
 					if (groupConfigs[netId][lGrpId].WithHomeostasis) {
-						effectiveWtChange = runtimeData[netId].grpDA[lGrpId] * effectiveWtChange;
+						//effectiveWtChange = runtimeData[netId].grpDA[lGrpId] * effectiveWtChange;
+						effectiveWtChange = (runtimeData[netId].grpDA + connectConfigMap[connId].stdpConfig.WithISTDPtype - DA_MOD)[lGrpId] * effectiveWtChange;
 						runtimeData[netId].wt[offset + j] += (diff_firing*runtimeData[netId].wt[offset + j] * homeostasisScale + effectiveWtChange)*runtimeData[netId].baseFiring[lNId] / groupConfigs[netId][lGrpId].avgTimeScale / (1 + fabs(diff_firing) * 50);
 					} else {
-						runtimeData[netId].wt[offset + j] += runtimeData[netId].grpDA[lGrpId] * effectiveWtChange;
+						//runtimeData[netId].wt[offset + j] += runtimeData[netId].grpDA[lGrpId] * effectiveWtChange;
+						runtimeData[netId].wt[offset + j] += (runtimeData[netId].grpDA + connectConfigMap[connId].stdpConfig.WithISTDPtype - DA_MOD)[lGrpId] * effectiveWtChange;
 					}
 					break;
 				case UNKNOWN_STDP:
@@ -1414,6 +1922,10 @@ void SNN::allocateSNN_CPU(int netId) {
 	//CUDA_CHECK_ERRORS(cudaMemcpyToSymbol(d_mulSynFast, mulSynFast, sizeof(float) * networkConfigs[netId].numConnections, 0, cudaMemcpyHostToDevice));
 	//CUDA_CHECK_ERRORS(cudaMemcpyToSymbol(d_mulSynSlow, mulSynSlow, sizeof(float) * networkConfigs[netId].numConnections, 0, cudaMemcpyHostToDevice));
 
+#ifdef LN_I_CALC_TYPES
+	// \todo LN 2021 group config extensions ?? in same functions?
+#endif
+
 	KERNEL_DEBUG("Transfering group settings to CPU:");
 	for (int lGrpId = 0; lGrpId < networkConfigs[netId].numGroupsAssigned; lGrpId++) {
 		KERNEL_DEBUG("Settings for Group %s:", groupConfigMap[groupConfigs[netId][lGrpId].gGrpId].grpName.c_str());
@@ -1425,23 +1937,24 @@ void SNN::allocateSNN_CPU(int netId) {
 		KERNEL_DEBUG("\tspikeGenerator: %d",(int)groupConfigs[netId][lGrpId].isSpikeGenerator);
 		KERNEL_DEBUG("\tFixedInputWts: %d",(int)groupConfigs[netId][lGrpId].FixedInputWts);
 		KERNEL_DEBUG("\tMaxDelay: %d",(int)groupConfigs[netId][lGrpId].MaxDelay);
-		KERNEL_DEBUG("\tWithSTDP: %d",(int)groupConfigs[netId][lGrpId].WithSTDP);
-		if (groupConfigs[netId][lGrpId].WithSTDP) {
-			KERNEL_DEBUG("\t\tE-STDP type: %s",stdpType_string[groupConfigs[netId][lGrpId].WithESTDPtype]);
-			KERNEL_DEBUG("\t\tTAU_PLUS_INV_EXC: %f",groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC);
-			KERNEL_DEBUG("\t\tTAU_MINUS_INV_EXC: %f",groupConfigs[netId][lGrpId].TAU_MINUS_INV_EXC);
-			KERNEL_DEBUG("\t\tALPHA_PLUS_EXC: %f",groupConfigs[netId][lGrpId].ALPHA_PLUS_EXC);
-			KERNEL_DEBUG("\t\tALPHA_MINUS_EXC: %f",groupConfigs[netId][lGrpId].ALPHA_MINUS_EXC);
-			KERNEL_DEBUG("\t\tI-STDP type: %s",stdpType_string[groupConfigs[netId][lGrpId].WithISTDPtype]);
-			KERNEL_DEBUG("\t\tTAU_PLUS_INV_INB: %f",groupConfigs[netId][lGrpId].TAU_PLUS_INV_INB);
-			KERNEL_DEBUG("\t\tTAU_MINUS_INV_INB: %f",groupConfigs[netId][lGrpId].TAU_MINUS_INV_INB);
-			KERNEL_DEBUG("\t\tALPHA_PLUS_INB: %f",groupConfigs[netId][lGrpId].ALPHA_PLUS_INB);
-			KERNEL_DEBUG("\t\tALPHA_MINUS_INB: %f",groupConfigs[netId][lGrpId].ALPHA_MINUS_INB);
-			KERNEL_DEBUG("\t\tLAMBDA: %f",groupConfigs[netId][lGrpId].LAMBDA);
-			KERNEL_DEBUG("\t\tDELTA: %f",groupConfigs[netId][lGrpId].DELTA);
-			KERNEL_DEBUG("\t\tBETA_LTP: %f",groupConfigs[netId][lGrpId].BETA_LTP);
-			KERNEL_DEBUG("\t\tBETA_LTD: %f",groupConfigs[netId][lGrpId].BETA_LTD);
-		}
+// LN2021 \todo Kexin port to Connect
+		// KERNEL_DEBUG("\tWithSTDP: %d",(int)groupConfigs[netId][lGrpId].WithSTDP);
+		// if (groupConfigs[netId][lGrpId].WithSTDP) {
+		// 	KERNEL_DEBUG("\t\tE-STDP type: %s",stdpType_string[groupConfigs[netId][lGrpId].WithESTDPtype]);
+		// 	KERNEL_DEBUG("\t\tTAU_PLUS_INV_EXC: %f",groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC);
+		// 	KERNEL_DEBUG("\t\tTAU_MINUS_INV_EXC: %f",groupConfigs[netId][lGrpId].TAU_MINUS_INV_EXC);
+		// 	KERNEL_DEBUG("\t\tALPHA_PLUS_EXC: %f",groupConfigs[netId][lGrpId].ALPHA_PLUS_EXC);
+		// 	KERNEL_DEBUG("\t\tALPHA_MINUS_EXC: %f",groupConfigs[netId][lGrpId].ALPHA_MINUS_EXC);
+		// 	KERNEL_DEBUG("\t\tI-STDP type: %s",stdpType_string[groupConfigs[netId][lGrpId].WithISTDPtype]);
+		// 	KERNEL_DEBUG("\t\tTAU_PLUS_INV_INB: %f",groupConfigs[netId][lGrpId].TAU_PLUS_INV_INB);
+		// 	KERNEL_DEBUG("\t\tTAU_MINUS_INV_INB: %f",groupConfigs[netId][lGrpId].TAU_MINUS_INV_INB);
+		// 	KERNEL_DEBUG("\t\tALPHA_PLUS_INB: %f",groupConfigs[netId][lGrpId].ALPHA_PLUS_INB);
+		// 	KERNEL_DEBUG("\t\tALPHA_MINUS_INB: %f",groupConfigs[netId][lGrpId].ALPHA_MINUS_INB);
+		// 	KERNEL_DEBUG("\t\tLAMBDA: %f",groupConfigs[netId][lGrpId].LAMBDA);
+		// 	KERNEL_DEBUG("\t\tDELTA: %f",groupConfigs[netId][lGrpId].DELTA);
+		// 	KERNEL_DEBUG("\t\tBETA_LTP: %f",groupConfigs[netId][lGrpId].BETA_LTP);
+		// 	KERNEL_DEBUG("\t\tBETA_LTD: %f",groupConfigs[netId][lGrpId].BETA_LTD);
+		// }
 		KERNEL_DEBUG("\tWithSTP: %d",(int)groupConfigs[netId][lGrpId].WithSTP);
 		if (groupConfigs[netId][lGrpId].WithSTP) {
 			KERNEL_DEBUG("\t\tSTP_U: %f", groupConfigs[netId][lGrpId].STP_U);
@@ -1685,6 +2198,38 @@ void SNN::copyNeuronState(int netId, int lGrpId, RuntimeData* dest, bool allocat
 		dest->current = new float[length];
 	memcpy(&dest->current[ptrPos], &managerRuntimeData.current[ptrPos], sizeof(float) * length);
 
+#ifdef LN_I_CALC_TYPES	
+	if (lGrpId == ALL) {
+	 	// LN20210913 if ommitted  crash at #491: runtimeData[netId].gAMPA[lNId] *= groupConfig.dAMPA;
+	 	// Exception thrown at 0x00007FFD1C9F807D (carlsimd.dll) in carlsim-tests.exe: 0xC0000005: Access violation reading location 0x0000000000000000.
+		// \todo LN 20210913 smell
+	    //  
+		// see void SNN::copyConductanceAMPA(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem, int destOffset) {			
+		if(sim_with_conductances) {
+			//conductance information
+			copyConductanceAMPA(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);																										
+			copyConductanceNMDA(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
+			copyConductanceGABAa(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
+			copyConductanceGABAb(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
+		}
+	} else {
+		switch (groupConfigs[netId][lGrpId].icalcType) {   // \todo LN verify that only the part of the group is copied
+		case COBA:
+		case alpha1_ADK13:
+			//conductance information
+			copyConductanceAMPA(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
+			copyConductanceNMDA(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
+			copyConductanceGABAa(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
+			copyConductanceGABAb(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
+			break;
+		case CUBA:
+		case NM4W_LN21:
+			; // do nothing
+		default:
+			; // do nothing
+		}
+	}
+#else
 	if (sim_with_conductances) {
 		//conductance information
 		copyConductanceAMPA(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
@@ -1692,6 +2237,7 @@ void SNN::copyNeuronState(int netId, int lGrpId, RuntimeData* dest, bool allocat
 		copyConductanceGABAa(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
 		copyConductanceGABAb(netId, lGrpId, dest, &managerRuntimeData, allocateMem, 0);
 	}
+#endif
 
 	// copying external current needs to be done separately because setExternalCurrent needs to call it, too
 	// do it only from host to device
@@ -1788,6 +2334,22 @@ void SNN::copyConductanceNMDA(int netId, int lGrpId, RuntimeData* dest, RuntimeD
 	assert(length  <= networkConfigs[netId].numNReg);
 	assert(length > 0);
 
+#ifdef LN_I_CALC_TYPES
+	assert(src->gNMDA_r != NULL);
+	if (allocateMem)
+		dest->gNMDA_r = new float[length];
+	memcpy(&dest->gNMDA_r[ptrPos], &src->gNMDA_r[ptrPos], sizeof(float) * length);
+
+	assert(src->gNMDA_d != NULL);
+	if (allocateMem)
+		dest->gNMDA_d = new float[length];
+	memcpy(&dest->gNMDA_d[ptrPos], &src->gNMDA_d[ptrPos], sizeof(float) * length);
+
+	assert(src->gNMDA != NULL);
+	if (allocateMem)
+		dest->gNMDA = new float[length];
+	memcpy(&dest->gNMDA[ptrPos + destOffset], &src->gNMDA[ptrPos], sizeof(float) * length);
+#else
 	if (isSimulationWithNMDARise()) {
 		assert(src->gNMDA_r != NULL);
 		if(allocateMem)
@@ -1804,6 +2366,7 @@ void SNN::copyConductanceNMDA(int netId, int lGrpId, RuntimeData* dest, RuntimeD
 			dest->gNMDA = new float[length];
 		memcpy(&dest->gNMDA[ptrPos + destOffset], &src->gNMDA[ptrPos], sizeof(float) * length);
 	}
+#endif
 }
 
 /*!
@@ -1878,6 +2441,22 @@ void SNN::copyConductanceGABAb(int netId, int lGrpId, RuntimeData* dest, Runtime
 	assert(length <= networkConfigs[netId].numNReg);
 	assert(length > 0);
 
+#ifdef LN_I_CALC_TYPES
+	assert(src->gGABAb_r != NULL);
+	if (allocateMem)
+		dest->gGABAb_r = new float[length];
+	memcpy(&dest->gGABAb_r[ptrPos], &src->gGABAb_r[ptrPos], sizeof(float) * length);
+
+	assert(src->gGABAb_d != NULL);
+	if (allocateMem)
+		dest->gGABAb_d = new float[length];
+	memcpy(&dest->gGABAb_d[ptrPos], &src->gGABAb_d[ptrPos], sizeof(float) * length);
+
+	assert(src->gGABAb != NULL);
+	if (allocateMem)
+		dest->gGABAb = new float[length];
+	memcpy(&dest->gGABAb[ptrPos + destOffset], &src->gGABAb[ptrPos], sizeof(float) * length);
+#else
 	if (isSimulationWithGABAbRise()) {
 		assert(src->gGABAb_r != NULL);
 		if(allocateMem)
@@ -1894,6 +2473,7 @@ void SNN::copyConductanceGABAb(int netId, int lGrpId, RuntimeData* dest, Runtime
 			dest->gGABAb = new float[length];
 		memcpy(&dest->gGABAb[ptrPos + destOffset], &src->gGABAb[ptrPos], sizeof(float) * length);
 	}
+#endif
 }
 
 /*!
@@ -2502,6 +3082,98 @@ void SNN::copyLastSpikeTime(int netId) {
 	memcpy(managerRuntimeData.lastSpikeTime, runtimeData[netId].lastSpikeTime, sizeof(int) *  networkConfigs[netId].numN);
 }
 
+/*! 
+* \brief Transfer all spikes from the backend to the host 
+* LN20201101 featSpikes
+*/
+void SNN::copyCurSpikes(int netId) {
+	// get a amount of regular (Izhikevich) neurons in the network
+	int length = networkConfigs[netId].numNReg; 
+
+	// .\carlsim\kernel\src\snn_cpu_module.cpp(1713):        dest->curSpike = new bool[length];
+	// memory is already allocated, \sa void SNN::allocateManagerRuntimeData()
+	memcpy(managerRuntimeData.curSpike, runtimeData[netId].curSpike,     sizeof(bool) * length );
+}
+
+/* Poisson Neurons 
+*/
+void SNN::copyRandNum(int netId) {
+
+	// snn_datastructure.h
+	//float* randNum;		//!< firing random number. max value is 10,000
+
+	//bool SNN::getPoissonSpike(int lNId, int netId) {
+	//// Random number value is less than the poisson firing probability
+	//// if poisson firing probability is say 1.0 then the random poisson ptr
+	//// will always be less than 1.0 and hence it will continiously fire
+	//return runtimeData[netId].randNum[lNId - networkConfigs[netId].numNReg] * 1000.0f
+	//		< runtimeData[netId].poissonFireRate[lNId - networkConfigs[netId].numNReg];
+	//}
+
+	// get a amount of Poisson neurons in the network
+	int length = networkConfigs[netId].numNPois; // - networkConfigs[netId].numNSpikeGen; 
+
+	memcpy(managerRuntimeData.randNum, runtimeData[netId].randNum,  sizeof(float) * length );
+
+	//memcpy(managerRuntimeData.poissonFireRate, runtimeData[netId].poissonFireRate,  sizeof(float) * length );
+}
+
+
+/* Poisson Neurons, fire Rate
+*/
+void SNN::copyPoissonFireRate(int netId) {
+
+	// snn_datastructure.h
+	//float* randNum;		//!< firing random number. max value is 10,000
+
+	//bool SNN::getPoissonSpike(int lNId, int netId) {
+	//// Random number value is less than the poisson firing probability
+	//// if poisson firing probability is say 1.0 then the random poisson ptr
+	//// will always be less than 1.0 and hence it will continiously fire
+	//return runtimeData[netId].randNum[lNId - networkConfigs[netId].numNReg] * 1000.0f
+	//		< runtimeData[netId].poissonFireRate[lNId - networkConfigs[netId].numNReg];
+	//}
+
+	// get a amount of Poisson neurons in the network
+	//int length = networkConfigs[netId].numNRateGen;   // should be equal to numNPois but is 0
+	int length = networkConfigs[netId].numNPois; // - networkConfigs[netId].numNSpikeGen;   
+
+	memcpy(managerRuntimeData.poissonFireRate, runtimeData[netId].poissonFireRate,  sizeof(float) * length );
+}
+
+
+
+
+/*! callback SpikeGenerator, aligned 32bit sizeof(int) vector
+*/
+void SNN::copySpikeGenBits(int netId) {
+
+	// snn_datastructure.h
+	//unsigned int* spikeGenBits;
+
+	//bool SNN::getSpikeGenBit(unsigned int nIdPos, int netId) {
+	//const int nIdBitPos = nIdPos % 32;
+	//const int nIdIndex  = nIdPos / 32;
+	//return ((runtimeData[netId].spikeGenBits[nIdIndex] >> nIdBitPos) & 0x1);
+	//}
+
+	// get a amount of neurons controlled by spike generator in the network
+	int length = networkConfigs[netId].numNSpikeGen; 
+
+	assert(sizeof(int) == 4); // 4 bytes = 32 bits
+
+	//assert(false); // test GPU ..
+
+	//// snn_cpu_module.cpp 81
+	//memset(managerRuntimeData.spikeGenBits, 0, sizeof(int) * (networkConfigs[netId].numNSpikeGen / 32 + 1));
+
+
+	//\todo spikeGenBits seems alrady by filled CAUTION 
+	//\todo ISSUE: offset 1ms, the spikeGenBits are _before_ the step, however, but then they are not yet in the runtime data 
+	memcpy(managerRuntimeData.spikeGenBits, runtimeData[netId].spikeGenBits, length / 32 + 1 );
+}
+
+
 /*!
 * \brief This function fetch the spike count in all local networks and sum the up
 */
@@ -2597,6 +3269,17 @@ void SNN::copySpikeTables(int netId) {
 	delete [] runtimeData[netId].lif_bias;
 
 	delete [] runtimeData[netId].gAMPA;
+#ifdef LN_I_CALC_TYPES
+	// group -> sim is mixed
+	// \todo check creation in cpu_module -> new, malloc 
+	delete[] runtimeData[netId].gNMDA_r;
+	delete[] runtimeData[netId].gNMDA_d;
+	delete[] runtimeData[netId].gNMDA;
+	delete[] runtimeData[netId].gGABAa;
+	delete[] runtimeData[netId].gGABAb_r;
+	delete[] runtimeData[netId].gGABAb_d;
+	delete[] runtimeData[netId].gGABAb;
+#else
 	if (sim_with_NMDA_rise) {
 		delete [] runtimeData[netId].gNMDA_r;
 		delete [] runtimeData[netId].gNMDA_d;
@@ -2612,6 +3295,7 @@ void SNN::copySpikeTables(int netId) {
 	else {
 		delete [] runtimeData[netId].gGABAb;
 	}
+#endif
 
 	delete [] runtimeData[netId].stpu;
 	delete [] runtimeData[netId].stpx;
@@ -2654,6 +3338,12 @@ void SNN::copySpikeTables(int netId) {
 
 	if (runtimeData[netId].randNum != NULL) delete [] runtimeData[netId].randNum;
 	runtimeData[netId].randNum = NULL;
+
+#ifdef LN_I_CALC_TYPES
+	//if(runtimeData[netId].!= NULL)
+	// \todo LN2021
+#endif
+
 }
 
 #if !defined(WIN32) && !defined(WIN64) && !defined(__APPLE__) // Linux or MAC

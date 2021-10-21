@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -49,6 +50,8 @@
 
 #ifndef _CONN_MON_H_
 #define _CONN_MON_H_
+
+#include "carlsim_api.h"
 
 #include <vector>					// std::vector
 #include <carlsim_definitions.h>	// ALL
@@ -146,7 +149,7 @@ class ConnectionMonitorCore; // forward declaration of implementation
  * \note A snapshot taken programmatically with ConnectionMonitor::takeSnapshot can be put in the binary file by
  * setting an optional input flag <tt>writeToFile</tt> to true.
  */
-class ConnectionMonitor {
+class CARLSIM_API ConnectionMonitor {
  public:
 	/*!
 	 * \brief ConnectionMonitor constructor
@@ -185,6 +188,13 @@ class ConnectionMonitor {
 	 * \since v3.0
 	 */
 	std::vector< std::vector<float> > calcWeightChanges();
+
+	//! LN20201118 returns calculates current and reports them in 2D weight matrix
+	std::vector< std::vector<float> > getWeights();
+
+	//! LN20201118 returns calculates previous weights and reports them in 2D weight matrix
+	std::vector< std::vector<float> > getPrevWeights();
+
 
 	/*!
 	 * \brief Returns the connection ID that this ConnectionMonitor is managing
@@ -504,6 +514,8 @@ class ConnectionMonitor {
 	 * \since v3.0
 	 */
 	std::vector< std::vector<float> > takeSnapshot();
+
+
 
 private:
 	//! This is a pointer to the actual implementation of the class. The user should never directly instantiate it.

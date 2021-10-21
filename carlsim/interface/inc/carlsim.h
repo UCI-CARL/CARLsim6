@@ -57,6 +57,7 @@
 
 #include <carlsim_definitions.h>
 #include <carlsim_datastructures.h>
+#include <carlsim_api.h>
 
 // include the following core functionalities instead of forward-declaring, so that the user only needs to include
 // carlsim.h
@@ -104,9 +105,13 @@ class SpikeGenerator;
 #include <sys/stat.h> // mkdir
 #include <unistd.h> //unix thread affinity macros
 
-
 #endif
 
+//set by cMake option CARLSIM_LN_FIRING
+//{ LN feat for CARLsim6
+//#define LN_GET_FIRING
+//#define LN_GET_FIRING_MT
+//}
 
 
 /*!
@@ -135,7 +140,7 @@ class SpikeGenerator;
  * Within these sections, methods and properties are ordered alphabetically.
  *
  */
-class CARLsim {
+class CARLSIM_API CARLsim {
 public:
 	// +++++ PUBLIC METHODS: CONSTRUCTOR / DESTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
@@ -407,6 +412,76 @@ public:
 	 */
 	void setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb);
 
+#ifdef LN_I_CALC_TYPES
+
+	/*!
+	 * \brief Sets default values for conduction decay and rise times or disables COBA for a specific neuron group
+	 *
+	 * This is the corresponding COBA setting at neuron group level, \sa network level, without the group id
+	 * Hint: By setting one group to COBA, the whole network property withConductance is enabled 
+	 * 
+	 * \STATE ::CONFIG_STATE
+	 * \param[in] grpId   the group ID of group to which Icalc is applied 
+	 * \param[in] isSet   a flag to inform whether calc I in COBA mode (true) or CUBA mode (false)
+	 *
+    */
+	void setConductances(int grpId, bool isSet);
+
+	/*!
+	 * \brief Sets IcalcType to COBA and configure custom values for conduction decay times (instantaneous rise time) for a specific neuron group
+	 *
+	 * This is the corresponding COBA setting at neuron group level, \sa network level, without the group id
+	 *
+	 * \STATE ::CONFIG_STATE
+	 * \param[in] grpId   the group ID of group to which Icalc is applied
+	 * \param[in] tdAMPA  time constant for AMPA decay (ms)
+	 * \param[in] tdNMDA  time constant for NMDA decay (ms)
+	 * \param[in] tdGABAa time constant for GABAa decay (ms)
+	 * \param[in] tdGABAb time constant for GABAb decay (ms)
+	 */
+	void setConductances(int grpId, bool isSet, int tdAMPA, int tdNMDA, int tdGABAa, int tdGABAb);
+
+	/*!
+	 * \brief Sets IcalcType to COBA and configure for conduction rise and decay times for a specific neuron group
+	 *
+	 * This is the corresponding COBA setting at neuron group level, \sa network level, without the group id
+	 *
+	 * \STATE ::CONFIG_STATE
+	 * \param[in] grpId   the group ID of group to which Icalc is applied
+	 * \param[in] tdAMPA  time constant for AMPA decay (ms)
+	 * \param[in] trNMDA  time constant for NMDA rise (ms), must be smaller than tdNMDA
+	 * \param[in] tdNMDA  time constant for NMDA decay (ms)
+	 * \param[in] tdGABAa time constant for GABAa decay (ms)
+	 * \param[in] trGABAb time constant for GABAb rise (ms), must be smaller than tdGABAb
+	 * \param[in] tdGABAb time constant for GABAb decay (ms)
+	 */
+	 void setConductances(int grpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb);
+
+
+	 /*!
+	  * \brief Sets IcalcType to ACNE12 for a specific neuron group
+	  *
+	  * ACNE12 is the Icalc type that is derived from Krichmar (2012)
+	  * 
+	  *
+	  * \STATE ::CONFIG_STATE
+	  * \param[in] grpId   the group ID of group to which ACNE12 is applied
+	  */
+	 void setACNE12(int grpId);
+
+	
+	/*!
+	  * \brief Sets IcalcType to NM4weighted for a specific neuron group
+	 *
+	 * This generalizes the concepts given in Krichmar 2012,2013 and Av 2015 and B 2019 
+	 * by .. considering all possible NM level in a target neuron group and .. with factor
+	 * e.g. for Krichmar 2021 type=ACNE12, wACh and wNE is .5f, wNorm=1.f, and .0f otherwise.
+	 * 
+	 */
+	void setNM4weighted(int grpId, IcalcType type, float wDA=1.f, float w5HT=1.f, float wACh=1.f, float wNE=1.f, float wNorm=4.f, float wBase=1.0f);
+
+#endif
+
 	/*!
 	 * \brief Sets custom values for implementation of homeostatic synaptic scaling
 	 *
@@ -615,6 +690,13 @@ public:
 	void setNeuromodulator(int grpId, float baseDP, float tauDP, float base5HT, float tau5HT,
 							float baseACh, float tauACh, float baseNE, float tauNE);
 
+	// new 
+	void setNeuromodulator(int grpId,
+		float baseDP, float tauDP, float releaseDP, bool activeDP,
+		float base5HT, float tau5HT, float release5HT, bool active5HT,
+		float baseACh, float tauACh, float releaseAch, bool activeACh,
+		float baseNE, float tauNE, float releaseNE, bool activeNE);
+
 	/*!
 	 * \brief Sets default neuromodulators
 	 *
@@ -635,7 +717,7 @@ public:
 	 * \deprecated For clearness, do not use default STDP settings.
 	 * \since v2.1
 	 */
-	void setSTDP(int grpId, bool isSet);
+	void setSTDP(int preGrpId, int postGrpId, bool isSet);
 
 	/*!
 	 * \brief Sets STDP params for a group, custom
@@ -646,7 +728,7 @@ public:
 	 * \deprecated For clearness, please use CARLsim::setESTDP() with E-STDP curve struct.
 	 * \since v2.1
 	 */
-	void setSTDP(int grpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus);
+	void setSTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus);
 
 	/*!
 	 * \brief Sets default E-STDP mode and parameters
@@ -657,7 +739,7 @@ public:
 	 * \deprecated For clearness, please do not use default STDP settings.
 	 * \since v3.0
 	 */
-	void setESTDP(int grpId, bool isSet);
+	void setESTDP(int preGrpId, int postGrpId, bool isSet);
 
 	/*!
 	 * \brief Sets E-STDP with the exponential curve
@@ -672,7 +754,25 @@ public:
 	 * \sa ExpCurve
 	 * \since v3.0
 	 */
-	void setESTDP(int grpId, bool isSet, STDPType type, ExpCurve curve);
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve);
+
+#ifdef LN_I_CALC_TYPES
+	/*!
+	 * \brief Sets neuromodulator controlled LTP and LTD by PKA and PCL pathways
+	 *
+	 * \param[in] preGrpId identitying the presynaptic group
+	 * \param[in] postGrpId identifying the postsynaptic group 
+	 * \param[in] type a STDPType utilizing PKA/PLC for modulating LTP/LTD
+	 * \param[in] curve the struct defining the exponential curve
+	 * \param[in] modulation the parameters for PKA(protein kinase) and PLC(phospholipase) 
+	 *
+	 */
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve, PkaPlcModulation modulation);
+
+	void setConnectionModulation(int preGrpId, int postGrpId, IcalcType icalcType);
+
+#endif
+
 
 	/*!
 	 * \brief Sets E-STDP with the timing-based curve
@@ -687,7 +787,8 @@ public:
 	 * \sa TimingBasedCurve
 	 * \since v3.0
 	 */
-	void setESTDP(int grpId, bool isSet, STDPType type, TimingBasedCurve curve);
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, TimingBasedCurve curve);
+
 
 	/*!
 	 * \brief Sets default I-STDP mode and parameters
@@ -698,7 +799,7 @@ public:
 	 * \deprecated For clearness, please do not use default STDP settings.
 	 * \since v3.0
 	 */
-	void setISTDP(int grpId, bool isSet);
+	void setISTDP(int preGrpId, int postGrpId, bool isSet);
 
 	/*!
 	 * \brief Sets I-STDP with the exponential curve
@@ -713,7 +814,7 @@ public:
 	 * \sa ExpCurve
 	 * \since v3.0
 	 */
-	void setISTDP(int grpId, bool isSet, STDPType type, ExpCurve curve);
+	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve);
 
 	/*!
 	 * \brief Sets I-STDP with the pulse curve
@@ -728,7 +829,7 @@ public:
 	 * \sa PulseCurve
 	 * \since v3.0
 	 */
-	void setISTDP(int grpId, bool isSet, STDPType type, PulseCurve curve);
+	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve);
 
 	/*!
 	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
@@ -784,6 +885,53 @@ public:
 	 */
 	void setSTP(int grpId, bool isSet);
 
+#ifdef LN_I_CALC_TYPES
+	/*!
+	 * \brief Sets neuromodulator targeting STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
+	 *
+	 * Uses Normalizing Weight Vectors 
+	 * Hint: Normalizing refers to 6 element array w1-4 for NMs (DA,..,NE), norm + boost, where boost is the Hill coefficient, default 2 -> 80%
+	 * CARLsim6 implements the short-term plasticity model 
+	 * targeted STDP by the 4 neuro modulators for CARLsim6
+	 * 
+	 * WP: requires the STP was set to true utilizing the former interface
+	 * 
+	 * U' = U * w / (1 + w) 
+	 * 
+	 *    w = 0 => U' = U
+	 *	  w -> oo => U' -> U = (U + w*U) / (1 + w) 
+	 *  
+	 * Hill-..  -> use the boost param as Hill-Koefficient
+	 * 
+	 * U'_k = U * w^k / (1 + w^k)  => for k->00 :  U' ~ w U,  for k = 0 = U' = U
+	 * 
+	 * Workaournd:  use boost factor, to retail valid ranges,  NM -> [a,b] =>   U' = U + w*[b-a] : U' \elem [0..1]  (w might be neg.)
+	 * over all goal: if nm is -> then it shall behave as former, whenn nm is at max, then nm shall determinate it
+	 * 
+	 * U'(nm) = U,  nm = 0
+	 * U'(nm) --> wU, nm = nm_max
+	 * 
+	 * U' = U * (w/1+w)^k, k = nm_max / ...
+	 * 
+	 * e^0 = 1
+	 * 
+	 * U' = U e^w,  w = 0
+	 * U' = U w  = U w e^w / e^w
+	 * 
+	 *  
+	 * 
+	 * Adopted from Source: Farzan Nadim / Dirk Bucher (2014) 
+	 *
+	 * \STATE ::CONFIG_STATE
+	 * \param[in] grpId			pre-synaptic group ID
+	 * \param[in] STP_U[]       normalizing weight vector for increment of u induced by a spike
+	 * \param[in] STP_tau_u[]   normalizing weight vector for decay constant of u (tau_F)
+	 * \param[in] STP_tau_x[]   normalizing weight vector for decay constant of x (tau_D)
+	 *
+	 */
+	void setNM4STP(int grpId, float wSTP_U[], float wSTP_tau_u[], float wSTP_tau_x[]);
+#endif
+
 	/*!
 	 * \brief Sets the weight and weight change update parameters
 	 *
@@ -813,6 +961,9 @@ public:
 	 * \STATE ::CONFIG_STATE. Will make CARLsim state switch from ::CONFIG_STATE to ::SETUP_STATE.
 	 */
 	void setupNetwork();
+
+	//! featFastSetup LN 20201108 
+	void setupNetworkMT();
 
 	// +++++ PUBLIC METHODS: LOGGING / PLOTTING +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
@@ -1076,8 +1227,10 @@ public:
 	 *
 	 * \TODO finish docu
 	 * \STATE ::SETUP_STATE
+	 * 
+	 * LN2020:  mode = DA_MODE -> dopamine, compatibility, ALL_MODE -> all neuro transmitter
 	 */
-	GroupMonitor* setGroupMonitor(int grpId, const std::string& fname);
+	 GroupMonitor* setGroupMonitor(int grpId, const std::string& fname, int mode=0); 
 
 	/*!
 	 * \brief A SpikeCounter keeps track of the number of spikes per neuron in a group.
@@ -1328,6 +1481,23 @@ public:
 	 */
 	CARLsimState getCARLsimState();
 
+
+#ifdef LN_GET_FIRING
+	/*!
+	 * \brief a boolean vector of all firings of all neurons in the local network lNId 
+	 *
+	 *  LN20201101 featSpikes
+	 *
+	 * \STATE ::RUN_STATE
+	 * \deprecated This function is deprecated. It will be replaced by FiringMonitor.
+	 */
+	 void getFiring(std::vector<bool>& firing, int netId=-1);
+#endif
+
+#ifdef LN_GET_FIRING_MT
+	 void getFiringMT(std::vector<bool>& firing, int netId);
+#endif
+
 	/*!
 	 * \brief gets AMPA vector of a group
 	 *
@@ -1468,6 +1638,18 @@ public:
 	Point3D getNeuronLocation3D(int grpId, int relNeurId);
 
 	/*!
+	* \brief returns the neuron ID for a 3D location 
+	*
+	* \STATE ::CONFIG_STATE, ::SETUP_STATE, ::EXE_STATE
+	* \param[in] grpId      the group ID
+	* \param[in] location	the 3D location a neuron codes for as a Point3D struct
+	* \returns relNeurId   the neuron ID (relative to the group) of the 3D location 
+	*/
+	int getNeuronId(int grpId, Point3D location);
+
+
+
+	/*!
 	 * \brief Returns the number of connections (pairs of pre-post groups) in the network
 	 *
 	 * This function returns the number of connections (pairs of pre-post groups) in the network. Each pre-post
@@ -1597,7 +1779,7 @@ public:
 	 * \STATE ::SETUP_STATE, ::RUN_STATE
 	 * \sa GroupSTDPInfo
 	 */
-	GroupSTDPInfo getGroupSTDPInfo(int grpId);
+	ConnSTDPInfo getConnSTDPInfo(int grpId);
 
 	/*!
 	 * \brief returns the neuromodulator information of a group specified by grpId
@@ -1723,6 +1905,57 @@ public:
 	 */
 	bool isGroupWithHomeostasis(int grpId);
 
+
+
+	/*!
+	 * \brief Returns true is the network is COBA enabled
+	 *
+	 * This returns true if the neurons in the networks can hold a conductances.
+	 *
+	 * \STATE ::CONFIG_STATE, ::SETUP_STATE, ::RUN_STATE
+	 * \param[in] grpId group ID
+	 * \since v6.0
+	 */
+	bool isSimulationWithCOBA();
+
+	/*!
+	 * \brief Returns true is the network exclusivle operate on current basis. 
+	 *
+	 * None of the neurons is enabled to hold the conductance state. 
+	 * This saves memory.
+	 *
+	 * \STATE ::CONFIG_STATE, ::SETUP_STATE, ::RUN_STATE
+	 * \param[in] grpId group ID
+	 * \since v6.0
+	 */
+	bool isSimulationWithCUBA();
+
+#ifdef LN_I_CALC_TYPES
+
+	bool CARLsim::isGroupWith(int grpId, IcalcType icalcType);
+
+	bool CARLsim::isGroupWithCOBA(int grpId);
+
+	bool CARLsim::isGroupWithCUBA(int grpId);
+
+
+	/*!
+	 * \brief Returns the iCalc of a group 
+	 *
+	 * This functions returns IcalcType of a neuron group
+	 *
+	 * \STATE ::CONFIG_STATE, ::SETUP_STATE, ::RUN_STATE
+	 * \param[in] grpId group ID
+	 * \since v6.0
+	 */
+	IcalcType getIcalcType(int grpId);
+
+	bool getConductanceConfig(int grpId, float& dAMPA, float& rNMDA, float& dNMDA, float& dGABAa, float& rGABAb, float& dGABAb);
+
+	bool getConductanceConfig(int grpId, int& tdAMPA, int& trNMDA, int& tdNMDA, int& tdGABAa, int& trGABAb, int& tdGABAb);
+
+#endif
+
 	/*!
 	 * \brief returns
 	 *
@@ -1830,6 +2063,18 @@ public:
 	 * \since v3.0
 	 */
 	void setDefaultSTPparams(int neurType, float STP_U, float STP_tau_u, float STP_tau_x);
+
+
+	/*!
+	 * \brief LN extension 20201017
+	 */
+	static int cudaDeviceCount();
+
+	/*!
+	 * \brief LN extension 20201017
+	 */
+	static void cudaDeviceDescription(unsigned ithGPU, const char **desc);
+		
 
 
 private:

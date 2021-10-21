@@ -1,0 +1,71 @@
+
+
+// configuration how the libary was build 
+
+// this file is to be included by the consumer to ensure consistent headers
+
+
+#define CARLSIM_NO_CUDA_@CARLSIM_NO_CUDA@
+#define CARLSIM_SHARED_@CARLSIM_SHARED@
+#define CARLSIM_STATIC_@CARLSIM_STATIC@
+#define CARLSIM_BENCHMARKS_@CARLSIM_BENCHMARKS@
+#define CARLSIM_SAMPLES_@CARLSIM_SAMPLES@
+#define CARLSIM_TUTORIALS_@CARLSIM_TUTORIALS@
+#define CARLSIM_PYCARL_@CARLSIM_PYCARL@
+#define CARLSIM_TOOLS_@CARLSIM_TOOLS@
+#define CARLSIM_TEST_@CARLSIM_TEST@
+#define CARLSIM_LN_EXT_@CARLSIM_LN_EXT@
+#define CARLSIM_LN_FIRING_@CARLSIM_LN_FIRING@
+#define CARLSIM_LN_FIRING_MT_@CARLSIM_LN_FIRING_MT@
+#define CARLSIM_LN_FIRING_DEBUG_@CARLSIM_LN_FIRING_DEBUG@
+#define CARLSIM_LN_FIX_DA_DECAY_@CARLSIM_LN_FIX_DA_DECAY@
+#define CARLSIM_LN_FIX_CONNLIST_@CARLSIM_LN_FIX_CONNLIST@
+#define CARLSIM_LN_SETUP_NETWORK_MT_@CARLSIM_LN_SETUP_NETWORK_MT@
+#define CARLSIM_LN_GPU_INFO_@CARLSIM_LN_GPU_INFO@
+
+
+#ifdef CARLSIM_NO_CUDA_ON
+#  define __NO_CUDA__
+#else
+#  define __CUDA@CUDA_VERSION_MAJOR@__
+#endif
+
+#ifdef CARLSIM_LN_EXT_ON
+#  define __LN_EXT__
+#endif
+
+#ifdef CARLSIM_LN_FIRING_ON 
+#  define LN_GET_FIRING
+#  define LN_UPDATE_CURSPIKES
+#endif 
+
+#ifdef CARLSIM_LN_FIRING_MT_ON 
+#  define LN_GET_FIRING_MT
+#  define LN_UPDATE_CURSPIKES_MT
+#endif 
+
+#ifdef CARLSIM_LN_FIX_DA_DECAY_ON 
+#  define LN_FIX_DA_DECAY_CPU
+#  ifdef CARLSIM_NO_CUDA_OFF
+#       define LN_FIX_DA_DECAY_GPU
+#  endif
+#endif 
+
+#ifdef CARLSIM_LN_FIX_CONNLIST_ON
+#  define LN_FIX_CONNLIST_
+#endif
+
+#ifdef CARLSIM_LN_SETUP_NETWORK_MT_ON
+#  define LN_SETUP_NETWORK_MT         
+#endif
+
+#ifdef CARLSIM_LN_GPU_INFO_ON
+#  define LN_GPU_INFO         //\todo nyi
+#endif
+
+#ifdef CARLSIM_LN_FIRING_DEBUG_ON
+//#  define DEBUG_GET_CURSPIKES2_LN         
+//#  define DEBUG_GET_CURSPIKES2_LN_PERF         
+#  define  DEBUG_GET_CURSPIKES2_LN_MON         
+#  define  DEBUG_GET_CURSPIKES2_LN_CHECKS         
+#endif      

@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -176,6 +177,20 @@ void SNN::printConnectionInfo(short int connId) {
 	float avgPreM  = ((float)connConfig.numberOfConnections)/groupConfigMap[connConfig.grpDest].numN;
 	KERNEL_INFO("  - Avg numPreSynapses         = %8.2f", avgPreM );
 	KERNEL_INFO("  - Avg numPostSynapses        = %8.2f", avgPostM );
+
+	if(connConfig.stdpConfig.WithSTDP) {
+		KERNEL_INFO("  - STDP:")
+		KERNEL_INFO("      - E-STDP TYPE            = %s",    stdpType_string[connConfig.stdpConfig.WithESTDPtype]);
+		KERNEL_INFO("      - I-STDP TYPE            = %s",    stdpType_string[connConfig.stdpConfig.WithISTDPtype]);
+		KERNEL_INFO("      - ALPHA_PLUS_EXC         = %8.5f", connConfig.stdpConfig.ALPHA_PLUS_EXC);
+		KERNEL_INFO("      - ALPHA_MINUS_EXC        = %8.5f", connConfig.stdpConfig.ALPHA_MINUS_EXC);
+		KERNEL_INFO("      - TAU_PLUS_INV_EXC       = %8.5f", connConfig.stdpConfig.TAU_PLUS_INV_EXC);
+		KERNEL_INFO("      - TAU_MINUS_INV_EXC      = %8.5f", connConfig.stdpConfig.TAU_MINUS_INV_EXC);
+		KERNEL_INFO("      - BETA_LTP               = %8.5f", connConfig.stdpConfig.BETA_LTP);
+		KERNEL_INFO("      - BETA_LTD               = %8.5f", connConfig.stdpConfig.BETA_LTD);
+		KERNEL_INFO("      - LAMBDA                 = %8.5f", connConfig.stdpConfig.LAMBDA);
+		KERNEL_INFO("      - DELTA                  = %8.5f", connConfig.stdpConfig.DELTA);
+	}
 }
 
 // print connection info, akin to printGroupInfo
@@ -198,13 +213,42 @@ void SNN::printConnectionInfo(int netId, std::list<ConnectConfig>::iterator conn
 	float avgPreM  = ((float)connIt->numberOfConnections)/groupConfigMap[connIt->grpDest].numN;
 	KERNEL_INFO("    |- Avg numPreSynapses         = %8.2f", avgPreM );
 	KERNEL_INFO("    |- Avg numPostSynapses        = %8.2f", avgPostM );
+
+	ConnectConfig connConfig = connectConfigMap[connIt->connId];
+		if(connConfig.stdpConfig.WithSTDP) {
+	KERNEL_INFO("    |-+ STDP:")
+	KERNEL_INFO("      |- E-STDP TYPE            = %s",    stdpType_string[connConfig.stdpConfig.WithESTDPtype]);
+	KERNEL_INFO("      |- I-STDP TYPE            = %s",    stdpType_string[connConfig.stdpConfig.WithISTDPtype]);
+	KERNEL_INFO("      |- ALPHA_PLUS_EXC         = %8.5f", connConfig.stdpConfig.ALPHA_PLUS_EXC);
+	KERNEL_INFO("      |- ALPHA_MINUS_EXC        = %8.5f", connConfig.stdpConfig.ALPHA_MINUS_EXC);
+	KERNEL_INFO("      |- TAU_PLUS_INV_EXC       = %8.5f", connConfig.stdpConfig.TAU_PLUS_INV_EXC);
+	KERNEL_INFO("      |- TAU_MINUS_INV_EXC      = %8.5f", connConfig.stdpConfig.TAU_MINUS_INV_EXC);
+	KERNEL_INFO("      |- BETA_LTP               = %8.5f", connConfig.stdpConfig.BETA_LTP);
+	KERNEL_INFO("      |- BETA_LTD               = %8.5f", connConfig.stdpConfig.BETA_LTD);
+	KERNEL_INFO("      |- LAMBDA                 = %8.5f", connConfig.stdpConfig.LAMBDA);
+	KERNEL_INFO("      |- DELTA                  = %8.5f", connConfig.stdpConfig.DELTA);
+#ifdef LN_I_CALC_TYPES
+	KERNEL_INFO("      |- NM_PKA                 = %8d",   connConfig.stdpConfig.NM_PKA);
+	KERNEL_INFO("      |- NM_PLC                 = %8d",   connConfig.stdpConfig.NM_PLC);
+	KERNEL_INFO("      |- W_PKA                  = %8.5f", connConfig.stdpConfig.W_PKA);
+	KERNEL_INFO("      |- W_PLC                  = %8.5f", connConfig.stdpConfig.W_PLC);
+#endif
+	}
 }
 
 void SNN::printGroupInfo(int gGrpId) {
 	KERNEL_INFO("Group %s(%d): ", groupConfigMap[gGrpId].grpName.c_str(), gGrpId);
-	KERNEL_INFO("  - Type                       =  %s", isExcitatoryGroup(gGrpId) ? "  EXCIT" :
-		(isInhibitoryGroup(gGrpId) ? "  INHIB" : (isPoissonGroup(gGrpId)?" POISSON" :
-		(isDopaminergicGroup(gGrpId) ? "  DOPAM" : " UNKNOWN"))) );
+//{BUG: a DOPMINERIC group is also EXCIT, see datastruct header for details  (same issue applies to POISSON)
+//	KERNEL_INFO("  - Type                       =  %s", isExcitatoryGroup(gGrpId) ? "  EXCIT" :
+//		(isInhibitoryGroup(gGrpId) ? "  INHIB" : (isPoissonGroup(gGrpId)?" POISSON" :
+//		(isDopaminergicGroup(gGrpId) ? "  DOPAM" : " UNKNOWN"))) );
+// FIX: LN20201002
+	KERNEL_INFO("  - Type                       =  %s%s", 
+					isDopaminergicGroup(gGrpId) ? "  DOPAM" : 
+					isExcitatoryGroup(gGrpId)   ? "  EXCIT" : 
+					isInhibitoryGroup(gGrpId) 	? "  INHIB" : "  UNKNOWN",
+					isPoissonGroup(gGrpId)		? "_POISSON" : "" );
+//}
 	KERNEL_INFO("  - Size                       = %8d", groupConfigMap[gGrpId].numN);
 	KERNEL_INFO("  - Start Id                   = %8d", groupConfigMDMap[gGrpId].gStartN);
 	KERNEL_INFO("  - End Id                     = %8d", groupConfigMDMap[gGrpId].gEndN);
@@ -221,36 +265,66 @@ void SNN::printGroupInfo(int gGrpId) {
 	}
 
 	if (groupConfigMap[gGrpId].stpConfig.WithSTP) {
+#ifdef LN_I_CALC_TYPES		
+		auto &stp = groupConfigMap[gGrpId].stpConfig;
+		auto &nm4 = groupConfigMap[gGrpId].nm4StpConfig;
+		KERNEL_INFO("  - STP%s:", nm4.WithNM4STP?"(modulated)":"");
+		KERNEL_INFO("      - STP_A                  = %8.5f", stp.STP_A);
+		KERNEL_INFO("      - STP_U                  = %8.5f", stp.STP_U);
+		if(nm4.WithNM4STP)
+		KERNEL_INFO("        (%1.1f% 2.1f% 2.1f% 2.1f |% 2.1f || %1.1f)", 
+			nm4.w_STP_U[0], nm4.w_STP_U[1], nm4.w_STP_U[2], nm4.w_STP_U[3], 
+			nm4.w_STP_U[4], nm4.w_STP_U[5]);
+		KERNEL_INFO("      - STP_tau_u              = %8d", (int)(1.0f / stp.STP_tau_u_inv));
+		if(nm4.WithNM4STP)
+		KERNEL_INFO("        (%1.1f %1.1f %1.1f %1.1f | %1.1f || %1.1f)",
+			nm4.w_STP_tau_u[0], nm4.w_STP_tau_u[1], nm4.w_STP_tau_u[2], nm4.w_STP_tau_u[3],
+			nm4.w_STP_tau_u[4], nm4.w_STP_tau_u[5]);
+		KERNEL_INFO("      - STP_tau_x              = %8d", (int)(1.0f / stp.STP_tau_x_inv));
+		if(nm4.WithNM4STP)
+		KERNEL_INFO("        (%1.1f %1.1f %1.1f %1.1f | %1.1f || %1.1f)",
+			nm4.w_STP_tau_x[0], nm4.w_STP_tau_x[1], nm4.w_STP_tau_x[2], nm4.w_STP_tau_x[3],
+			nm4.w_STP_tau_x[4], nm4.w_STP_tau_x[5]);
+#else
 		KERNEL_INFO("  - STP:");
 		KERNEL_INFO("      - STP_A                  = %8.5f", groupConfigMap[gGrpId].stpConfig.STP_A);
 		KERNEL_INFO("      - STP_U                  = %8.5f", groupConfigMap[gGrpId].stpConfig.STP_U);
 		KERNEL_INFO("      - STP_tau_u              = %8d", (int) (1.0f/groupConfigMap[gGrpId].stpConfig.STP_tau_u_inv));
 		KERNEL_INFO("      - STP_tau_x              = %8d", (int) (1.0f/groupConfigMap[gGrpId].stpConfig.STP_tau_x_inv));
+#endif
 	}
 
-	if(groupConfigMap[gGrpId].stdpConfig.WithSTDP) {
-		KERNEL_INFO("  - STDP:")
-		KERNEL_INFO("      - E-STDP TYPE            = %s",     groupConfigMap[gGrpId].stdpConfig.WithESTDPtype == STANDARD ? "STANDARD" :
-			(groupConfigMap[gGrpId].stdpConfig.WithESTDPtype == DA_MOD ? "  DA_MOD" : " UNKNOWN"));
-		KERNEL_INFO("      - I-STDP TYPE            = %s",     groupConfigMap[gGrpId].stdpConfig.WithISTDPtype == STANDARD ? "STANDARD" :
-			(groupConfigMap[gGrpId].stdpConfig.WithISTDPtype == DA_MOD?"  DA_MOD":" UNKNOWN"));
-		KERNEL_INFO("      - ALPHA_PLUS_EXC         = %8.5f", groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_EXC);
-		KERNEL_INFO("      - ALPHA_MINUS_EXC        = %8.5f", groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_EXC);
-		KERNEL_INFO("      - TAU_PLUS_INV_EXC       = %8.5f", groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_EXC);
-		KERNEL_INFO("      - TAU_MINUS_INV_EXC      = %8.5f", groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_EXC);
-		KERNEL_INFO("      - BETA_LTP               = %8.5f", groupConfigMap[gGrpId].stdpConfig.BETA_LTP);
-		KERNEL_INFO("      - BETA_LTD               = %8.5f", groupConfigMap[gGrpId].stdpConfig.BETA_LTD);
-		KERNEL_INFO("      - LAMBDA                 = %8.5f", groupConfigMap[gGrpId].stdpConfig.LAMBDA);
-		KERNEL_INFO("      - DELTA                  = %8.5f", groupConfigMap[gGrpId].stdpConfig.DELTA);
-	}
+	// if(groupConfigMap[gGrpId].stdpConfig.WithSTDP) {
+	// 	KERNEL_INFO("  - STDP:")
+	// 	KERNEL_INFO("      - E-STDP TYPE            = %s",     groupConfigMap[gGrpId].stdpConfig.WithESTDPtype == STANDARD ? "STANDARD" :
+	// 		(groupConfigMap[gGrpId].stdpConfig.WithESTDPtype == DA_MOD ? "  DA_MOD" : " UNKNOWN"));
+	// 	KERNEL_INFO("      - I-STDP TYPE            = %s",     groupConfigMap[gGrpId].stdpConfig.WithISTDPtype == STANDARD ? "STANDARD" :
+	// 		(groupConfigMap[gGrpId].stdpConfig.WithISTDPtype == DA_MOD?"  DA_MOD":" UNKNOWN"));
+	// 	KERNEL_INFO("      - ALPHA_PLUS_EXC         = %8.5f", groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_EXC);
+	// 	KERNEL_INFO("      - ALPHA_MINUS_EXC        = %8.5f", groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_EXC);
+	// 	KERNEL_INFO("      - TAU_PLUS_INV_EXC       = %8.5f", groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_EXC);
+	// 	KERNEL_INFO("      - TAU_MINUS_INV_EXC      = %8.5f", groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_EXC);
+	// 	KERNEL_INFO("      - BETA_LTP               = %8.5f", groupConfigMap[gGrpId].stdpConfig.BETA_LTP);
+	// 	KERNEL_INFO("      - BETA_LTD               = %8.5f", groupConfigMap[gGrpId].stdpConfig.BETA_LTD);
+	// 	KERNEL_INFO("      - LAMBDA                 = %8.5f", groupConfigMap[gGrpId].stdpConfig.LAMBDA);
+	// 	KERNEL_INFO("      - DELTA                  = %8.5f", groupConfigMap[gGrpId].stdpConfig.DELTA);
+	// }
 }
 
 void SNN::printGroupInfo(int netId, std::list<GroupConfigMD>::iterator grpIt) {
 	int gGrpId = grpIt->gGrpId;
 	KERNEL_INFO("  |-+ %s Group %s(G:%d,L:%d): ", netId == grpIt->netId ? "Local" : "External", groupConfigMap[grpIt->gGrpId].grpName.c_str(), grpIt->gGrpId, grpIt->lGrpId);
-	KERNEL_INFO("    |- Type                       =  %s", isExcitatoryGroup(grpIt->gGrpId) ? "  EXCIT" :
-		(isInhibitoryGroup(grpIt->gGrpId) ? "  INHIB" : (isPoissonGroup(grpIt->gGrpId)?" POISSON" :
-		(isDopaminergicGroup(grpIt->gGrpId) ? "  DOPAM" : " UNKNOWN"))) );
+//{BUG: a DOPMINERIC group is also EXCIT, see datastruct header for details (same issue applies to POISSON)
+//	KERNEL_INFO("    |- Type                       =  %s", isExcitatoryGroup(grpIt->gGrpId) ? "  EXCIT" :
+//		(isInhibitoryGroup(grpIt->gGrpId) ? "  INHIB" : (isPoissonGroup(grpIt->gGrpId)?" POISSON" :
+//		(isDopaminergicGroup(grpIt->gGrpId) ? "  DOPAM" : " UNKNOWN"))) );
+// FIX: LN20201002
+	KERNEL_INFO("    |- Type                       =  %s%s", 
+						isDopaminergicGroup(gGrpId) ? "  DOPAM" : 
+						isExcitatoryGroup(gGrpId)   ? "  EXCIT" : 
+						isInhibitoryGroup(gGrpId) 	? "  INHIB" : "  UNKNOWN",
+						isPoissonGroup(gGrpId)		? "_POISSON" : "" );
+//}
 	KERNEL_INFO("    |- Num of Neurons             = %8d", groupConfigMap[grpIt->gGrpId].numN);
 	KERNEL_INFO("    |- Start Id                   = (G:%d,L:%d)", grpIt->gStartN, grpIt->lStartN);
 	KERNEL_INFO("    |- End Id                     = (G:%d,L:%d)", grpIt->gEndN, grpIt->lEndN);
@@ -267,28 +341,50 @@ void SNN::printGroupInfo(int netId, std::list<GroupConfigMD>::iterator grpIt) {
 	}
 
 	if (groupConfigMap[gGrpId].stpConfig.WithSTP) {
+#ifdef LN_I_CALC_TYPES
+		auto& stp = groupConfigMap[gGrpId].stpConfig;
+		auto& nm4 = groupConfigMap[gGrpId].nm4StpConfig;
+		KERNEL_INFO("    |-+ STP%s:", nm4.WithNM4STP ? "(modulated)" : "");
+		KERNEL_INFO("      |- STP_A                  = %8.5f", groupConfigMap[gGrpId].stpConfig.STP_A);
+		KERNEL_INFO("      |- STP_U                  = %8.5f", groupConfigMap[gGrpId].stpConfig.STP_U);
+		if(nm4.WithNM4STP)
+		KERNEL_INFO("      |  (%1.1f% 2.1f% 2.1f% 2.1f |% 2.1f ) % 2.5f",
+								nm4.w_STP_U[0], nm4.w_STP_U[1], nm4.w_STP_U[2], nm4.w_STP_U[3],
+								nm4.w_STP_U[4], nm4.w_STP_U[5]);
+		KERNEL_INFO("      |- STP_tau_u              = %8d", (int)(1.0f / groupConfigMap[gGrpId].stpConfig.STP_tau_u_inv));
+		if(nm4.WithNM4STP)
+		KERNEL_INFO("      |  (%1.1f %1.1f %1.1f %1.1f | %1.1f ) % 8.0f",
+								nm4.w_STP_tau_u[0], nm4.w_STP_tau_u[1], nm4.w_STP_tau_u[2], nm4.w_STP_tau_u[3],
+								nm4.w_STP_tau_u[4], nm4.w_STP_tau_u[5]);
+		KERNEL_INFO("      |- STP_tau_x              = %8d", (int)(1.0f / groupConfigMap[gGrpId].stpConfig.STP_tau_x_inv));
+		if(nm4.WithNM4STP)
+		KERNEL_INFO("      |  (%1.1f %1.1f %1.1f %1.1f | %1.1f ) % 8.0f",
+								nm4.w_STP_tau_x[0], nm4.w_STP_tau_x[1], nm4.w_STP_tau_x[2], nm4.w_STP_tau_x[3],
+								nm4.w_STP_tau_x[4], nm4.w_STP_tau_x[5]);
+#else
 		KERNEL_INFO("    |-+ STP:");
 		KERNEL_INFO("      |- STP_A                  = %8.5f", groupConfigMap[gGrpId].stpConfig.STP_A);
 		KERNEL_INFO("      |- STP_U                  = %8.5f", groupConfigMap[gGrpId].stpConfig.STP_U);
 		KERNEL_INFO("      |- STP_tau_u              = %8d", (int)(1.0f / groupConfigMap[gGrpId].stpConfig.STP_tau_u_inv));
 		KERNEL_INFO("      |- STP_tau_x              = %8d", (int)(1.0f / groupConfigMap[gGrpId].stpConfig.STP_tau_x_inv));
+#endif
 	}
 
-	if (groupConfigMap[gGrpId].stdpConfig.WithSTDP) {
-		KERNEL_INFO("    |-+ STDP:")
-		KERNEL_INFO("      |- E-STDP TYPE            = %s", groupConfigMap[gGrpId].stdpConfig.WithESTDPtype == STANDARD ? "STANDARD" :
-			(groupConfigMap[gGrpId].stdpConfig.WithESTDPtype == DA_MOD ? "  DA_MOD" : " UNKNOWN"));
-		KERNEL_INFO("      |- I-STDP TYPE            = %s", groupConfigMap[gGrpId].stdpConfig.WithISTDPtype == STANDARD ? "STANDARD" :
-			(groupConfigMap[gGrpId].stdpConfig.WithISTDPtype == DA_MOD ? "  DA_MOD" : " UNKNOWN"));
-		KERNEL_INFO("      |- ALPHA_PLUS_EXC         = %8.5f", groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_EXC);
-		KERNEL_INFO("      |- ALPHA_MINUS_EXC        = %8.5f", groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_EXC);
-		KERNEL_INFO("      |- TAU_PLUS_INV_EXC       = %8.5f", groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_EXC);
-		KERNEL_INFO("      |- TAU_MINUS_INV_EXC      = %8.5f", groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_EXC);
-		KERNEL_INFO("      |- BETA_LTP               = %8.5f", groupConfigMap[gGrpId].stdpConfig.BETA_LTP);
-		KERNEL_INFO("      |- BETA_LTD               = %8.5f", groupConfigMap[gGrpId].stdpConfig.BETA_LTD);
-		KERNEL_INFO("      |- LAMBDA                 = %8.5f", groupConfigMap[gGrpId].stdpConfig.LAMBDA);
-		KERNEL_INFO("      |- DELTA                  = %8.5f", groupConfigMap[gGrpId].stdpConfig.DELTA);
-	}
+	// if (groupConfigMap[gGrpId].stdpConfig.WithSTDP) {
+	// 	KERNEL_INFO("    |-+ STDP:")
+	// 	KERNEL_INFO("      |- E-STDP TYPE            = %s", groupConfigMap[gGrpId].stdpConfig.WithESTDPtype == STANDARD ? "STANDARD" :
+	// 		(groupConfigMap[gGrpId].stdpConfig.WithESTDPtype == DA_MOD ? "  DA_MOD" : " UNKNOWN"));
+	// 	KERNEL_INFO("      |- I-STDP TYPE            = %s", groupConfigMap[gGrpId].stdpConfig.WithISTDPtype == STANDARD ? "STANDARD" :
+	// 		(groupConfigMap[gGrpId].stdpConfig.WithISTDPtype == DA_MOD ? "  DA_MOD" : " UNKNOWN"));
+	// 	KERNEL_INFO("      |- ALPHA_PLUS_EXC         = %8.5f", groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_EXC);
+	// 	KERNEL_INFO("      |- ALPHA_MINUS_EXC        = %8.5f", groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_EXC);
+	// 	KERNEL_INFO("      |- TAU_PLUS_INV_EXC       = %8.5f", groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_EXC);
+	// 	KERNEL_INFO("      |- TAU_MINUS_INV_EXC      = %8.5f", groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_EXC);
+	// 	KERNEL_INFO("      |- BETA_LTP               = %8.5f", groupConfigMap[gGrpId].stdpConfig.BETA_LTP);
+	// 	KERNEL_INFO("      |- BETA_LTD               = %8.5f", groupConfigMap[gGrpId].stdpConfig.BETA_LTD);
+	// 	KERNEL_INFO("      |- LAMBDA                 = %8.5f", groupConfigMap[gGrpId].stdpConfig.LAMBDA);
+	// 	KERNEL_INFO("      |- DELTA                  = %8.5f", groupConfigMap[gGrpId].stdpConfig.DELTA);
+	// }
 }
 
 void SNN::printSikeRoutingInfo() {

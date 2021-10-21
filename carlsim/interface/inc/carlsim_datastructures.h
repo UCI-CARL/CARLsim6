@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -146,29 +147,148 @@ static const char* integrationMethod_string[] = {
  * CARLsim supports execution on standard x86 CPU Cores or off-the-shelf NVIDIA GPU (CUDA Cores) 
  */
 enum ComputingBackend {
-	CPU_CORES,
-	GPU_CORES
+	CPU_CORES, //!< x86/x64 Multi Core Processor (LN20201016)
+	GPU_CORES  //!< NVIDIA Many CUDA Core Processor (LN20201016)
 };
+//! LN20201016
+static const char* ComputingBackend_string[] = {
+	"CPU (x86/x64 Multi Core Processor)", 
+	"GPU (NVIDIA Many CUDA Core Processor)",
+};
+
 
 // \TODO: extend documentation, add relevant references
 /*!
  * \brief STDP flavors
  *
- * CARLsim supports two different flavors of STDP.
+ * CARLsim6 supports extents the two different flavors of STDP.
  * STANDARD:	The standard model of Bi & Poo (2001), nearest-neighbor.
  * DA_MOD:      Dopamine-modulated STDP, nearest-neighbor.
  */
 enum STDPType {
 	STANDARD,         //!< standard STDP of Bi & Poo (2001), nearest-neighbor
 	DA_MOD,           //!< dopamine-modulated STDP, nearest-neighbor
+	SE_MOD,           //!< serotonin-modulated STDP, nearest-neighbor
+	AC_MOD,           //!< acetylcholine-modulated STDP, nearest-neighbor
+	NE_MOD,           //!< norepinephrine-modulated STDP, nearest-neighbor
+#ifdef LN_I_CALC_TYPES
+	AC_DA_MOD,		  //!< acetylcholine-influenced dopamine-modulated STDP, Belkaid & Krichmar (2019)
+	AC_NE_MOD,		  //!< acetylcholine-norephinephrine encoded uncertainty, Avery & Krichmar (2017)	
+	SE_DA_MOD,		  //!< serotonin-dopamin cost/reward assessment, Asher, Craig, Zaldivar, Brewer, Krichmar (2013)		
+	NM4_MOD,	      //!< multivariate modulatated STDP, (experimental)
+	PKA_PLC_MOD,	  //!< protein kinase/phospholiphase controlled LTP/LPD adopted from Nadim & Bucher (2014)
+	//MOD_DA_D1,       //!< dopamine-modulated STDP, receptor D1 (experimental)
+	//MOD_DA_D2,       //!< serotonin-modulated STDP, receptor D2 (experimental)
+	//MOD_5HT_R1,      //!< serotonin-modulated STDP, (experimental)
+	//MOD_ACH_N,		 //!< acetylcholine-modulated STDP, nicotinic receptor (experimental)
+	//MOD_ACH_M,		 //!< acetylcholine-modulated STDP, muscarinic receptor (experimental)
+	//			 // LN2021 \todo metabotropic -> change cell param instead of synap properties
+	//MOD_NE_A1,	 //!< norepinephrine-modulated STDP, receptor \alpha 1 (experimental)
+	//MOD_NE_A2,	 //!< norepinephrine-modulated STDP, receptor \alpha 2 (experimental)
+	//MOD_NE_B1,	 //!< norepinephrine-modulated STDP, receptor \beta 1 (experimental)
+	//MOD_NE_B2,	 //!< norepinephrine-modulated STDP, receptor \beta 2 (experimental)
+#endif
 	UNKNOWN_STDP
 };
 
 static const char* stdpType_string[] = {
+	"STANDARD",
+	"DA_MOD",
+	"SE_MOD",
+	"AC_MOD",
+	"NE_MOD",
+#ifdef LN_I_CALC_TYPES
+	"AC_DA_MOD",
+	"AC_NE_MOD",
+	"SE_DA_MOD",
+	"NM4_MOD",
+	"PKA_PLC_MOD",
+	//"MOD_DA_D1",
+	//"MOD_DA_D2",
+	//"MOD_5HT_R1",
+	//"MOD_ACH_N",
+	//"MOD_ACH_M",
+	//"MOD_NE_A1",
+	//"MOD_NE_A2",
+	//"MOD_NE_B1",
+	//"MOD_NE_B2",
+#endif
+	"UNKNOWN_STDP"
+};
+
+static const char* stdpType_desc[] = {
 	"Standard STDP",
 	"Dopamine-modulated STDP",
+	"Serotonin-modulated STDP",
+	"Acetylcholine-modulated STDP",
+	"Norepinphrine-modulated STDP",
+#ifdef LN_I_CALC_TYPES
+	"Acetylcholine-influenced-Dopamine-modulated STDP",
+	"Acetylcholine-Norephinephrine encoded uncertainty STDP",
+	"Serotonin-Dopamin encoded cost/reward STDP",
+	"Multivariate-modulated STDP",
+	"PKA/PLC-modulated STDP",
+	//"MOD_DA_D1",
+	//"MOD_DA_D2",
+	//"MOD_5HT_R1",
+	//"MOD_ACH_N",
+	//"MOD_ACH_M",
+	//"MOD_NE_A1",
+	//"MOD_NE_A2",
+	//"MOD_NE_B1",
+	//"MOD_NE_B2",
+#endif
 	"Unknown mode"
 };
+
+#ifdef LN_I_CALC_TYPES
+/*!
+ * \brief input current calculation \todo LN2021
+ *
+ * CARLsim6 extends the current calculation for the post synaptic neuron 
+ * that was CUBA and COBA in the following ways: 
+ * it now can be configured on neuron group level, for instance on group 
+ * is CUBA and the other COBA. Also the conductance parameters can be configured 
+ * individually on distinct groups to be more biorealistic. 
+ * More than that, CARlsim6 respects now the distinct neuromodulator state in the target neuron group
+ * that affects the receptors and so the the effective input current used by the Izhikevich model. 
+ */
+enum IcalcType {
+	CUBA,			//!< current 
+	COBA,			//!< conductance 
+	NM4W_LN21,		//!< 4 NM weighted (and normalized,boosted,damped), Niedermeier (2021)
+	GPCR_NB14,		//!< G protein-coupled receptors for 2 modulators and conductance, Nadim, Bucher (2014)
+	DASEAC_CK09,	//!< dopamine,serotonin,acetylcholine modulated Cox, Krichmar (2009)
+	ACNE_ANCK12,	//!< acetylcholin, norepinephrine modulated Avery, Nitz, Chiba, Krichmar (2012)
+	ACNE_K12,		//!< acetylcholin, norepinephrine modulated Krichmar (2012)
+	ACNE_K13,		//!< acetylcholin, norepinephrine modulated Krichmar (2013)
+	D1D2_AK12,		//!< D1,D2 dopamine receptors Avery, Krichmar (2012)
+	ACDA_BK19,		//!< acetylcholin influence to dopamine, Belkaid, Krichmar (2019)
+	alpha1_ADK13,	//!< NE alpha1 receptor with DA antagonist, Avery, Dutt, Krichmar (2013)
+	alpha2A_ADK13,	//!< NE alpha2 receptor (connection), Avery, Dutt, Krichmar (2013)
+	D1_ADK13,		//!< DA D1 receptor (connection), Avery, Dutt, Krichmar (2013)
+	D2_AK15,		//!< DA D2 receptor (connection), Avery, Krichmar (2015)
+	UNKNOWN_ICALC	//!< used to initialize by default constructor
+};
+
+static const char* IcalcType_string[] = {
+	"CUBA",
+	"COBA",
+	"NM4-mod.(LN21)",
+	"GPCRs(NB14)"
+	"DA/5HT/ACh-mod.(CK09)",
+	"ACh/NE-mod.(ANCK12)",
+	"ACh/NE-mod.(K12)",
+	"ACh/NE-mod.(K13)",
+	"D1,D2-rec.(AK12)",
+	"ACh->DA(BK19)",
+	"alpha1(ADK13)",
+	"alpha2A(ADK13)",
+	"D1(ADK13)",
+	"D2(AK15)",
+	"Unknown mode"
+};
+#endif
 
 /*!
  * \brief STDP curves
@@ -220,11 +340,15 @@ enum Neuromodulator {
 	NM_DA,		//!< dopamine
 	NM_5HT,		//!< serotonin
 	NM_ACh,		//!< acetylcholine
-	NM_NE,		//!< noradrenaline
+	NM_NE,		//!< noradrenaline	// \FIXME synonym norepinephrine
 	NM_UNKNOWN	//!< unknown type
 };
 static const char* neuromodulator_string[] = {
-	"Dopamine", "Serotonin", "Acetylcholine", "Noradrenaline", "Unknown neuromodulator"
+	"Dopamine", 
+	"Serotonin", 
+	"Acetylcholine", 
+	"Noradrenaline",	// \FIXME synonym norepinephrine
+	"Unknown neuromodulator"  
 };
 
 /*!
@@ -401,15 +525,15 @@ struct RangeRmem{
 
 
 /*!
- * \brief A struct for retrieving STDP related information of a group
+ * \brief A struct for retrieving STDP related information of a connection
  *
- * The struct is used in test suite only. CARLsim API call provides a getter function CARLsim::getGroupSTDPInfo()
- * for retrieving STDP related information of a group. A developer can write his/her test cases to test the
+ * The struct is used in test suite only. CARLsim API call provides a getter function CARLsim::getConnSTDPInfo()
+ * for retrieving STDP related information of a connection. A developer can write his/her test cases to test the
  * STDP parameters
  *
- * \sa CARLsim::getGroupSTDPInfo()
+ * \sa CARLsim::getConnSTDPInfo()
  */
-typedef struct GroupSTDPInfo_s {
+typedef struct ConnSTDPInfo_s {
 	bool 		WithSTDP;			//!< enable STDP flag
 	bool		WithESTDP;			//!< enable E-STDP flag
 	bool		WithISTDP;			//!< enable I-STDP flag
@@ -430,7 +554,7 @@ typedef struct GroupSTDPInfo_s {
 	float		BETA_LTD;			//!< the amplitude of inhibitory LTD if the pulse I-STDP curve is used
 	float		LAMBDA;				//!< the range of inhibitory LTP if the pulse I-STDP curve is used
 	float		DELTA;				//!< the range of inhibitory LTD if the pulse I-STDP curve is used
-} GroupSTDPInfo;
+} ConnSTDPInfo;
 
 /*!
  * \brief A struct for retrieving neuromodulator information of a group
@@ -446,10 +570,30 @@ typedef struct GroupNeuromodulatorInfo_s {
 	float		base5HT;	//!< baseline concentration of Serotonin
 	float		baseACh;	//!< baseline concentration of Acetylcholine
 	float		baseNE;		//!< baseline concentration of Noradrenaline
+
 	float		decayDP;		//!< decay rate for Dopaamine
 	float		decay5HT;		//!< decay rate for Serotonin
 	float		decayACh;		//!< decay rate for Acetylcholine
 	float		decayNE;		//!< decay rate for Noradrenaline
+
+	float		releaseDP;		//!< release per spike for Dopaamine
+	float		release5HT;		//!< release per spike for Serotonin
+	float		releaseACh;		//!< release per spike for Acetylcholine
+	float		releaseNE;		//!< release per spike for Noradrenaline
+
+	bool		activeDP;		//!< flag for Dopaamine
+	bool		active5HT;		//!< flag for Serotonin
+	bool		activeACh;		//!< flag for Acetylcholine
+	bool		activeNE;		//!< flag for Noradrenaline
+
+// \todo LN2021  doc:  mol   concentration   in ppm / mol /   acting molecules in the group 
+
+// \todo LN2021 
+	//float		maxDP;		//!< max concentration of Dopamine
+	//float		max5HT;	//!< baseline concentration of Serotonin
+	//float		maxACh;	//!< baseline concentration of Acetylcholine
+	//float		maxNE;		//!< baseline concentration of Noradrenaline
+
 } GroupNeuromodulatorInfo;
 
 /*!
@@ -664,5 +808,57 @@ struct PulseCurve {
 	float lambda; //!< the range of inhibitory LTP
 	float delta; //!< the range of inhibitory LTD
 };
+
+
+#ifdef LN_I_CALC_TYPES
+/*
+ * mapping structure config for Nadim/Bucher 
+ * neuromodulator nm 
+ * \param[in] nm_pka	index of nm induces PKA 
+ * \param[in] w_pka		weigth of PKA targeting nm
+ * \param[in] nm_plc	index of nm inducing PLC
+ * \param[in] w_plc		weigth of PLCA targeting nm
+*/
+struct PkaPlcModulation {
+
+	PkaPlcModulation(int nm_pka, float w_pka, int nm_plc, float w_plc) {
+
+		UserErrors::assertTrue(nm_pka != nm_plc, UserErrors::CANNOT_BE_IDENTICAL, "PkaPlcModulation", "nm_pka,plc");
+		UserErrors::assertTrue(w_pka != .0f, UserErrors::CANNOT_BE_ZERO, "PkaPlcModulation", "w_pka");
+		UserErrors::assertTrue(w_plc != .0f, UserErrors::CANNOT_BE_ZERO, "PkaPlcModulation", "w_plc");
+
+		i_nm[i_pka] = nm_pka;		w_nm[i_pka] = w_pka;	desc[i_pka] = neuromodulator_string[nm_pka];
+		i_nm[i_plc] = nm_plc;		w_nm[i_plc] = w_plc;	desc[i_plc] = neuromodulator_string[nm_plc];
+ 	}
+
+	// members 
+	const STDPType type = PKA_PLC_MOD;
+	const int i_pka = 0;	//!< index of nm induces PKA 
+	const int i_plc = 1;	//!< index of nm inducing PLC
+	float	w_nm[2];			//!< weigth of PKA/PLCA targeting nm
+	int		i_nm[2];			//!< indizes of PKA/PLC targeting nm
+	const char* desc[2];	//!< description of of PKA/PLC nm
+
+	// symbolic accessor 
+	int nm_pka() { return i_nm[i_pka]; }
+	int nm_plc() { return i_nm[i_plc]; }
+	float w_pka() { return w_nm[i_pka]; }
+	float w_plc() { return w_nm[i_plc]; }
+	const char* lingat_pka() { return desc[nm_pka()]; }
+	const char* lingat_plc() { return desc[nm_plc()]; }
+
+};
+
+
+/*
+
+generalization:
+struct Nm4w {
+
+};
+
+*/
+
+#endif
 
 #endif

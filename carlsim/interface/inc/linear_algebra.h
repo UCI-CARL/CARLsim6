@@ -35,6 +35,8 @@
  *					(KDC) Kristofor Carlson <kdcarlso@uci.edu>
  *					(TSC) Ting-Shuo Chou <tingshuc@uci.edu>
  *
+ * CARLsim6: LN, JX, KC, KW
+ *
  * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
  * Ver 10/11/2014
  */

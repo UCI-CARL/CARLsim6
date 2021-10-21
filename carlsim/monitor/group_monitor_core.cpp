@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -54,10 +55,11 @@
 #include <algorithm>			// std::sort
 
 // we aren't using namespace std so pay attention!
-GroupMonitorCore::GroupMonitorCore(SNN* snn, int monitorId, int grpId) {
+GroupMonitorCore::GroupMonitorCore(SNN* snn, int monitorId, int grpId, int mode) {
 	snn_ = snn;
 	grpId_= grpId;
 	monitorId_ = monitorId;
+	mode_ = mode; 
 
 	groupFileId_ = NULL;
 	recordSet_ = false;
@@ -76,6 +78,8 @@ GroupMonitorCore::GroupMonitorCore(SNN* snn, int monitorId, int grpId) {
 void GroupMonitorCore::init() {
 	nNeurons_ = snn_->getGroupNumNeurons(grpId_);
 	assert(nNeurons_> 0);
+
+
 
 	clear();
 
@@ -115,8 +119,22 @@ void GroupMonitorCore::pushData(int time, float data) {
 	dataVector_.push_back(data);
 }
 
+void GroupMonitorCore::pushData(int time, float _DA, float _5HT, float _ACh, float _NE) {
+	assert(isRecording());
+
+	timeVector_.push_back(time);
+	data4Vector_[0].push_back(_DA);
+	data4Vector_[1].push_back(_5HT);
+	data4Vector_[2].push_back(_ACh);
+	data4Vector_[3].push_back(_NE);
+}
+
 std::vector<float> GroupMonitorCore::getDataVector(){
 	return dataVector_;
+}
+
+std::vector<float> GroupMonitorCore::getDataVector(transmitter_t transmitter){
+	return data4Vector_[transmitter];
 }
 
 std::vector<int> GroupMonitorCore::getTimeVector(){
@@ -257,15 +275,39 @@ void GroupMonitorCore::writeGroupFileHeader() {
 	int tmpInt = grid.numX;
 	if (!fwrite(&tmpInt,sizeof(int), 1, groupFileId_))
 		KERNEL_ERROR("GroupMonitorCore: writeGroupFileHeader has fwrite error");
+	//printf("group file header tmpInt/grid.numX: %d\n", tmpInt);
 
 	tmpInt = grid.numY;
 	if (!fwrite(&tmpInt,sizeof(int),1,groupFileId_))
 		KERNEL_ERROR("GroupMonitorCore: writeGroupFileHeader has fwrite error");
+	//printf("group file header tmpInt/grid.numY: %d\n", tmpInt);
 
 	tmpInt = grid.numZ;
 	if (!fwrite(&tmpInt,sizeof(int),1,groupFileId_))
 		KERNEL_ERROR("GroupMonitorCore: writeGroupFileHeader has fwrite error");
+	//printf("group file header tmpInt/grid.numZ: %d\n", tmpInt);
 
+	// the header is written once at the beginning, so the actual size is not known
+	//// LN: write number of time stamps -> check what is contained in grid, shoud by #time x #neurotransm
+	//tmpInt = timeVector_.size(); 
+	//if (!fwrite(&tmpInt,sizeof(int),1,groupFileId_))
+	//	KERNEL_ERROR("ConnectionMonitor: writeConnectFileHeader has fwrite error");
+	//printf("group file header tmpInt/timeVector_.size(): %d \n", tmpInt);
+
+	// LN: issue: how to handle remainting Neurotransmitter 5HT, ACL and NOR ? 
+	// Var 1: handle each transmitter seprately 
+	// Var 2: make a new array t x 4  (-) backward comp -> irrelevant, du it is not yet implemented
+
+	// V2 feat: compression => store only data <> base concentration
+	// V2 feat: bit mask from header:  e.g. ACH | DA  => stores and retrieves DA, ACH in that order
+			
+	// LN: DA or ALL Transmitter 
+	tmpInt = mode_;  
+	if (!fwrite(&tmpInt,sizeof(int),1,groupFileId_))
+		KERNEL_ERROR("ConnectionMonitor: writeConnectFileHeader has fwrite error");
+	//printf("group file header tmpInt/mode_: %d\n", tmpInt);
+
+	//printf("header size %d\n", sizeof(int)*5+sizeof(float)*1); 
 
 	needToWriteFileHeader_ = false;
 }

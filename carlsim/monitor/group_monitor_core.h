@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -49,6 +50,7 @@
 
 #ifndef _GROUP_MON_CORE_H_
 #define _GROUP_MON_CORE_H_
+
 
 #include <carlsim_datastructures.h>	// Neuromodulator
 #include <stdio.h>					// FILE
@@ -63,8 +65,21 @@ class SNN; // forward declaration of SNN class
  */
 class GroupMonitorCore {
 public: 
+
+	/*
+	 * 	\brief 
+	 *
+	 * LN TODO backward compatibility  DA_MODE default
+	 * 
+	 */
+	
+	// 1>src\snn_manager.cpp(1099): error C2664: 'GroupMonitorCore::GroupMonitorCore(const GroupMonitorCore &)': cannot convert argument 4 from 'int' to 'GroupMonitorCore::mode_t'
+	//enum mode_t {DA_MODE=0, ALL_MODE};  
+	static const int DA_MODE = 0;
+	static const int ALL_MODE = 1; 
+
 	//! constructor (called by CARLsim::setGroupMonitor)
-	GroupMonitorCore(SNN* snn, int monitorId, int grpId); 
+	GroupMonitorCore(SNN* snn, int monitorId, int grpId, int mode = DA_MODE); 
 
 	//! destructor, cleans up all the memory upon object deletion
 	~GroupMonitorCore();
@@ -99,8 +114,14 @@ public:
 	//! returns recording status
 	bool isRecording() { return recordSet_; }
 
-	//! inserts group data (time, value) into the vectors
+	bool isInAllMode() { return mode_ == ALL_MODE; }; 
+
+	//! inserts group data (time, value) into the vectors , if monitor is in DA_MODE
 	void pushData(int time, float data);
+
+	//! if the monitor is in ALL_MODE, all transmitter must be set at once
+	void pushData(int time, float _DA, float _5HT, float _ACh, float _NE);
+
 
 	//! sets status of PersistentData mode
 	void setPersistentData(bool persistentData) { persistentData_ = persistentData; }
@@ -111,8 +132,14 @@ public:
 	//! stops recording group data
 	void stopRecording();
 
+
+		
 	//! get the group data
 	std::vector<float> getDataVector();
+
+	enum transmitter_t {_DA,_5HT,_ACh,_NE}; 
+	//! LN get the group data for a specific transmitter (
+	std::vector<float> getDataVector(transmitter_t transmitter);   
 
 	//! get the timestamps for group data
 	std::vector<int> getTimeVector();
@@ -160,14 +187,16 @@ private:
 	int monitorId_;	//!< current GroupMonitor ID
 	int grpId_;		//!< current group ID
 	int nNeurons_;	//!< number of neurons in the group
+	int mode_;   //!< default DA_MODE, in ALL_MODE all 4 neuro transmitter DA,5HT,ACh,NE are supported 
 
 	FILE* groupFileId_;	//!< file pointer to the group data file or NULL
 	int groupFileSignature_; //!< int signature of group data file
 	float groupFileVersion_; //!< version number of group data file
 
-	//! Used for analyzing the group data (only support dopamine concentration for now)
+	//! Used for analyzing the group data (only support dopamine concentration for now) UPDATE LN20202003, all neuro transmitter are supported includuding write and OAT  
 	std::vector<int> timeVector_;
-	std::vector<float> dataVector_;
+	std::vector<float> dataVector_;  //!< LN2020: DA concentration (backward compatible)
+	std::vector<float> data4Vector_[4];  //!< LN2020: DA,5HT,ACh,NE neuro transmitter
 
 	bool recordSet_;			//!< flag that indicates whether we're currently recording
 	int startTime_;	 			//!< time (ms) of first call to startRecording

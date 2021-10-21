@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -51,6 +52,8 @@
 
 #ifndef _GROUP_MON_H_
 #define _GROUP_MON_H_
+
+#include "carlsim_api.h"
 
 #include <carlsim_datastructures.h>
 #include <vector>					// std::vector
@@ -101,7 +104,7 @@ class GroupMonitorCore; // forward declaration of implementation
  *
  * \TODO finish documentation
  */
-class GroupMonitor {
+class CARLSIM_API GroupMonitor {
  public:
 	/*!
 	 * \brief GroupMonitor constructor

@@ -1,0 +1,20 @@
+
+// LN 2021 
+
+#ifndef CARLSIM_MONITOR_API_H
+#define CARLSIM_MONITOR_API_H
+
+#include <carlsim_conf_api.h>
+
+#ifndef CARLSIM_MONITOR_API
+#  ifdef carlsim_monitor_EXPORTS
+#    define CARLSIM_MONITOR_API CARLSIM_EXPORT
+#    define CARLSIM_MONITOR_EXTERN CARLSIM_EXPORT_EXTERN
+#  else
+#    define CARLSIM_MONITOR_API CARLSIM_IMPORT
+#    define CARLSIM_MONITOR_EXTERN CARLSIM_EXPORT_EXTERN
+#  endif
+#endif
+
+
+#endif // CARLSIM_MONITOR_API_H

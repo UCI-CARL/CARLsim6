@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -184,6 +185,7 @@ short int SNN::connect(int grpId1, int grpId2, ConnectionGeneratorCore* conn, fl
 
 	// initialize the configuration of a connection
 	ConnectConfig connConfig;
+	STDPConfig stdpConfig;
 
 	connConfig.grpSrc   = grpId1;
 	connConfig.grpDest  = grpId2;
@@ -199,6 +201,8 @@ short int SNN::connect(int grpId1, int grpId2, ConnectionGeneratorCore* conn, fl
 	connConfig.connectionMonitorId = -1;
 	connConfig.connId = -1;
 	connConfig.numberOfConnections = 0;
+	connConfig.stdpConfig = stdpConfig;
+
 
 	// assign a connection id
 	assert(connConfig.connId == -1);
@@ -276,6 +280,9 @@ int SNN::createGroup(const std::string& grpName, const Grid3D& grid, int neurTyp
 	grpConfig.grid = grid;
 	grpConfig.isLIF = false;
 
+	grpConfig.WithSTDP = false;
+	grpConfig.WithDA_MOD = false;
+
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
 	} else if (preferredBackend == CPU_CORES) {
@@ -323,6 +330,9 @@ int SNN::createGroupLIF(const std::string& grpName, const Grid3D& grid, int neur
 	grpConfig.isSpikeGenerator = false;
 	grpConfig.grid = grid;
 
+	grpConfig.WithSTDP = false;
+	grpConfig.WithDA_MOD = false;
+
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
 	} else if (preferredBackend == CPU_CORES) {
@@ -366,6 +376,9 @@ int SNN::createSpikeGeneratorGroup(const std::string& grpName, const Grid3D& gri
 	grpConfig.grid = grid;
 	grpConfig.isLIF = false;
 
+	grpConfig.WithSTDP = false;
+	grpConfig.WithDA_MOD = false;
+
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
 	}
@@ -404,7 +417,8 @@ void SNN::setCompartmentParameters(int gGrpId, float couplingUp, float couplingD
 	}
 }
 
-
+#define LN_I_CALC_TYPES__REQUIRED_FOR_BACKWARD_COMPAT
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 // set conductance values for a simulation (custom values or disable conductances alltogether)
 void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb) {
 	if (isSet) {
@@ -429,8 +443,8 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		double tmax = (-tdNMDA*trNMDA*log(1.0*trNMDA/tdNMDA))/(tdNMDA-trNMDA); // t at which cond will be max
 		sNMDA = 1.0/(exp(-tmax/tdNMDA)-exp(-tmax/trNMDA)); // scaling factor, 1 over max amplitude
-		assert(!std::isinf(tmax) && !std::isnan(tmax) && tmax>=0);
-		assert(!std::isinf(sNMDA) && !std::isnan(sNMDA) && sNMDA>0);
+		assert(!std::isinf<double>(tmax) && !std::isnan<double>(tmax) && tmax>=0);
+		assert(!std::isinf<double>(sNMDA) && !std::isnan<double>(sNMDA) && sNMDA>0);
 	}
 
 	if (trGABAb>0) {
@@ -442,7 +456,7 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		double tmax = (-tdGABAb*trGABAb*log(1.0*trGABAb/tdGABAb))/(tdGABAb-trGABAb); // t at which cond will be max
 		sGABAb = 1.0/(exp(-tmax/tdGABAb)-exp(-tmax/trGABAb)); // scaling factor, 1 over max amplitude
-		assert(!std::isinf(tmax) && !std::isnan(tmax)); assert(!std::isinf(sGABAb) && !std::isnan(sGABAb) && sGABAb>0);
+		assert(!std::isinf<double>(tmax) && !std::isnan<double>(tmax)); assert(!std::isinf<double>(sGABAb) && !std::isnan<double>(sGABAb) && sGABAb>0);
 	}
 
 	if (sim_with_conductances) {
@@ -456,6 +470,107 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 		KERNEL_INFO("Running CUBA mode (all synaptic conductances disabled)");
 	}
 }
+#ifdef LN_I_CALC_TYPES
+// set conductance values for a group (custom values or disable conductances)
+// LN2021
+// control conductance values at group level
+// same interface design is used in order to maintain backward compatibilty
+// Defaul CUBA => singel group(s) opt in to COBA with special paramters; however Network does need to support COBA despite
+// Default COBA => single group(s) opt out with CUBA; Network already does support COBA 
+// Default CUBA & NMweighted => other context, here irrelevant
+void SNN::setConductances(int gGrpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb) {
+
+	if (isSet) {
+		assert(tdAMPA > 0); assert(tdNMDA > 0); assert(tdGABAa > 0); assert(tdGABAb > 0);
+		assert(trNMDA >= 0); assert(trGABAb >= 0); // 0 to disable rise times
+		assert(trNMDA != tdNMDA); assert(trGABAb != tdGABAb); // singularity
+	}
+
+	// set conductances globaly for all connections
+	sim_with_conductances |= isSet;
+
+	// however,  group default CUBA  => and globally set to COBA 
+	// => Default set to UNKNOWN, then how ever it needs to be defined if COBA or CUBA
+	// => need some basic to set CUBA ? or use the same interface than isSet = false is used to set CUBA 
+	// and sim_with_conductances is .. l
+
+	// globalGroup ID 
+	auto &groupConfig = groupConfigMap[gGrpId];
+	groupConfig.icalcType = isSet ? COBA : CUBA;  // generic reused method, in CUBA the conductance params are 0
+
+	auto &config = groupConfig.conductanceConfig;
+	config.dAMPA = 1.0f-1.0f/tdAMPA;;
+	config.dNMDA = 1.0f-1.0f/tdNMDA;
+	config.dGABAa = 1.0f-1.0f/tdGABAa;
+	config.dGABAb = 1.0f-1.0f/tdGABAb;
+
+	if (trNMDA > 0) {
+		// use rise time for NMDA
+		sim_with_NMDA_rise = true;
+		groupConfig.with_NMDA_rise = true;
+		config.rNMDA = 1.0f-1.0f/trNMDA;
+
+		// compute max conductance under this model to scale it back to 1
+		// otherwise the peak conductance will not be equal to the weight
+		float tmax = (-tdNMDA * trNMDA * log(1.0f * trNMDA / tdNMDA)) / (tdNMDA - trNMDA); // t at which cond will be max
+		config.sNMDA = 1.0f / (exp(-tmax / tdNMDA) - exp(-tmax / trNMDA)); // scaling factor, 1 over max amplitude
+		assert(!std::isinf<float>(tmax) && !std::isnan<float>(tmax) && tmax >= 0.0f);
+		assert(!std::isinf<float>(config.sNMDA) && !std::isnan<float>(config.sNMDA) && config.sNMDA > 0.0f);
+	}
+
+	if (trGABAb > 0) {
+		// use rise time for GABAb
+		sim_with_GABAb_rise = true;
+		groupConfig.with_GABAb_rise = true;
+		config.rGABAb = 1.0f-1.0f/trGABAb;
+
+		// compute max conductance under this model to scale it back to 1
+		// otherwise the peak conductance will not be equal to the weight
+		float tmax = (-tdGABAb * trGABAb * log(1.0f * trGABAb / tdGABAb)) / (tdGABAb - trGABAb); // t at which cond will be max
+		config.sGABAb = 1.0f / (exp(-tmax / tdGABAb) - exp(-tmax / trGABAb)); // scaling factor, 1 over max amplitude
+		assert(!std::isinf<float>(tmax) && !std::isnan<float>(tmax)); assert(!std::isinf<float>(config.sGABAb) && !std::isnan<float>(config.sGABAb) && config.sGABAb > 0.0f);
+	}
+
+	if (isSet) {
+		KERNEL_INFO("Running group (G:%d) COBA mode:", gGrpId);
+		KERNEL_INFO("  - AMPA decay time            = %5d ms", tdAMPA);
+		KERNEL_INFO("  - NMDA rise time %s  = %5d ms", (trNMDA > 0) ? "          " : "(disabled)", trNMDA);
+		KERNEL_INFO("  - GABAa decay time           = %5d ms", tdGABAa);
+		KERNEL_INFO("  - GABAb rise time %s = %5d ms", (trGABAb > 0) ? "          " : "(disabled)", trGABAb);
+		KERNEL_INFO("  - GABAb decay time           = %5d ms", tdGABAb);
+	}
+	else {
+		KERNEL_INFO("Running group %d in CUBA mode (synaptic conductances disabled)", gGrpId);
+	}
+}
+
+
+void SNN::setNM4weighted(int gGrpId, IcalcType icalc, float wDA, float w5HT, float wACh, float wNE, float wNorm, float wBase) {
+
+	// globalGroup ID 
+	auto &groupConfig = groupConfigMap[gGrpId];
+
+	groupConfig.icalcType = icalc;
+
+	auto &w = groupConfig.nm4wConfig.w;
+
+	w[NM_DA]		= wDA;
+	w[NM_5HT]		= w5HT;
+	w[NM_ACh]		= wACh;
+	w[NM_NE]		= wNE;
+	w[NM_NE+1]		= wNorm;
+	w[NM_NE+2]		= wBase;
+	
+	KERNEL_INFO("Running group (G:%d) IcalcType: %s", gGrpId, IcalcType_string[icalc]);
+	KERNEL_INFO("  - Weights (DA, 5HT, ACh, NE)     = %.1f %.1f %.1f %.1f ", wDA, w5HT, wACh, wNE);
+	KERNEL_INFO("  - Normalization/Boost, Base      = %.1f %.1f", wNorm, wBase);
+
+}
+
+
+
+
+#endif
 
 // set homeostasis for group
 void SNN::setHomeostasis(int gGrpId, bool isSet, float homeoScale, float avgTimeScale) {
@@ -594,106 +709,220 @@ void SNN::setNeuronParametersLIF(int gGrpId, int tau_m, int tau_ref, float vTh, 
 	}
 }
 
-void SNN::setNeuromodulator(int gGrpId, float baseDP, float tauDP, float base5HT, float tau5HT, float baseACh,
-	float tauACh, float baseNE, float tauNE) {
 
+void SNN::setNeuromodulator(int gGrpId,
+	float baseDP, float tauDP,
+	float base5HT, float tau5HT,
+	float baseACh, float tauACh,
+	float baseNE, float tauNE)
+{
+	return setNeuromodulator(gGrpId,
+		baseDP, tauDP, 0.04f, true,
+		base5HT, tau5HT, 0.04f, true,
+		baseACh, tauACh, 0.04f, true,
+		baseNE, tauNE, 0.04f, true);
+}
+
+void SNN::setNeuromodulator(int gGrpId, 
+	float baseDP,  float tauDP, float releaseDP, bool activeDP, 
+	float base5HT, float tau5HT, float release5HT, bool active5HT,
+	float baseACh, float tauACh, float releaseACh, bool activeACh,
+	float baseNE,  float tauNE, float releaseNE, bool activeNE)
+{
 	assert(gGrpId >= -1);
-	assert(baseDP > 0.0f); assert(base5HT > 0.0f); assert(baseACh > 0.0f); assert(baseNE > 0.0f);
+	assert(baseDP >= 0.0f); assert(base5HT >= 0.0f); assert(baseACh >= 0.0f); assert(baseNE >= 0.0f);  // LN2021 relexed to non-negative
 	assert(tauDP > 0); assert(tau5HT > 0); assert(tauACh > 0); assert(tauNE > 0);
 
 	if (gGrpId == ALL) { // shortcut for all groups
 		for (int grpId = 0; grpId < numGroups; grpId++) {
-			setNeuromodulator(grpId, baseDP, tauDP, base5HT, tau5HT, baseACh, tauACh, baseNE, tauNE);
+			setNeuromodulator(grpId, 
+				baseDP, tauDP, releaseDP, activeDP,
+				base5HT, tau5HT, release5HT, active5HT,
+				baseACh, tauACh, releaseACh, activeACh,
+				baseNE, tauNE, releaseNE, activeNE);
 		}
 	} else {
 		groupConfigMap[gGrpId].neuromodulatorConfig.baseDP = baseDP;
 		groupConfigMap[gGrpId].neuromodulatorConfig.decayDP = 1.0f - (1.0f / tauDP);
+		groupConfigMap[gGrpId].neuromodulatorConfig.releaseDP = releaseDP;
+		groupConfigMap[gGrpId].neuromodulatorConfig.activeDP = activeDP;
+
 		groupConfigMap[gGrpId].neuromodulatorConfig.base5HT = base5HT;
 		groupConfigMap[gGrpId].neuromodulatorConfig.decay5HT = 1.0f - (1.0f / tau5HT);
+		groupConfigMap[gGrpId].neuromodulatorConfig.release5HT = release5HT;
+		groupConfigMap[gGrpId].neuromodulatorConfig.active5HT = active5HT;
+
 		groupConfigMap[gGrpId].neuromodulatorConfig.baseACh = baseACh;
 		groupConfigMap[gGrpId].neuromodulatorConfig.decayACh = 1.0f - (1.0f / tauACh);
+		groupConfigMap[gGrpId].neuromodulatorConfig.releaseACh = releaseACh;
+		groupConfigMap[gGrpId].neuromodulatorConfig.activeACh = activeACh;
+
 		groupConfigMap[gGrpId].neuromodulatorConfig.baseNE = baseNE;
 		groupConfigMap[gGrpId].neuromodulatorConfig.decayNE = 1.0f - (1.0f / tauNE);
+		groupConfigMap[gGrpId].neuromodulatorConfig.releaseNE = releaseNE;
+		groupConfigMap[gGrpId].neuromodulatorConfig.activeNE = activeNE;
 	}
 }
 
 // set ESTDP params
-void SNN::setESTDP(int gGrpId, bool isSet, STDPType type, STDPCurve curve, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus, float gamma) {
-	assert(gGrpId >= -1);
+void SNN::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus, float gamma) {
+	assert(preGrpId >= -1);
+	assert(postGrpId >= -1);
+
 	if (isSet) {
 		assert(type!=UNKNOWN_STDP);
 		assert(tauPlus > 0.0f); assert(tauMinus > 0.0f); assert(gamma >= 0.0f);
 	}
 
-	if (gGrpId == ALL) { // shortcut for all groups
-		for(int grpId = 0; grpId < numGroups; grpId++) {
-			setESTDP(grpId, isSet, type, curve, alphaPlus, tauPlus, alphaMinus, tauMinus, gamma);
-		}
-	} else {
-		// set STDP for a given group
-		// set params for STDP curve
-		groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_EXC 	= alphaPlus;
-		groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_EXC 	= alphaMinus;
-		groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_EXC 	= 1.0f / tauPlus;
-		groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_EXC	= 1.0f / tauMinus;
-		groupConfigMap[gGrpId].stdpConfig.GAMMA				= gamma;
-		groupConfigMap[gGrpId].stdpConfig.KAPPA				= (1 + exp(-gamma / tauPlus)) / (1 - exp(-gamma / tauPlus));
-		groupConfigMap[gGrpId].stdpConfig.OMEGA				= alphaPlus * (1 - groupConfigMap[gGrpId].stdpConfig.KAPPA);
-		// set flags for STDP function
-		groupConfigMap[gGrpId].stdpConfig.WithESTDPtype	= type;
-		groupConfigMap[gGrpId].stdpConfig.WithESTDPcurve = curve;
-		groupConfigMap[gGrpId].stdpConfig.WithESTDP		= isSet;
-		groupConfigMap[gGrpId].stdpConfig.WithSTDP		|= groupConfigMap[gGrpId].stdpConfig.WithESTDP;
-		sim_with_stdp									|= groupConfigMap[gGrpId].stdpConfig.WithSTDP;
-
-		KERNEL_INFO("E-STDP %s for %s(%d)", isSet?"enabled":"disabled", groupConfigMap[gGrpId].grpName.c_str(), gGrpId);
+	short int connId = getConnectId(preGrpId, postGrpId);
+	if (connId < 0) {
+		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
+			postGrpId, getGroupName(postGrpId).c_str());
+		exitSimulation(1);
 	}
+
+	// set STDP for a given connection
+	// set params for STDP curve
+	connectConfigMap[connId].stdpConfig.ALPHA_PLUS_EXC 	    = alphaPlus;
+	connectConfigMap[connId].stdpConfig.ALPHA_MINUS_EXC 	= alphaMinus;
+	connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC 	= 1.0f / tauPlus;
+	connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_EXC	= 1.0f / tauMinus;
+	connectConfigMap[connId].stdpConfig.GAMMA				= gamma;
+	connectConfigMap[connId].stdpConfig.KAPPA				= (1 + exp(-gamma / tauPlus)) / (1 - exp(-gamma / tauPlus));
+	connectConfigMap[connId].stdpConfig.OMEGA				= alphaPlus * (1 - connectConfigMap[connId].stdpConfig.KAPPA);
+	// set flags for STDP function
+	connectConfigMap[connId].stdpConfig.WithESTDPtype	= type;
+	connectConfigMap[connId].stdpConfig.WithESTDPcurve  = curve;
+	connectConfigMap[connId].stdpConfig.WithESTDP		= isSet;
+	connectConfigMap[connId].stdpConfig.WithSTDP		|= connectConfigMap[connId].stdpConfig.WithESTDP;
+	sim_with_stdp										|= connectConfigMap[connId].stdpConfig.WithSTDP;
+
+	groupConfigMap[postGrpId].WithSTDP					|= connectConfigMap[connId].stdpConfig.WithSTDP;
+	groupConfigMap[postGrpId].WithDA_MOD				|= (type == DA_MOD);
+#ifdef LN_I_CALC_TYPES
+	groupConfigMap[postGrpId].WithPKA_PLC_MOD			|= (type == PKA_PLC_MOD);
+#endif
+
+	KERNEL_INFO("E-STDP %s for %s(%d) to %s(%d)", isSet?"enabled":"disabled", groupConfigMap[preGrpId].grpName.c_str(), preGrpId,
+																				groupConfigMap[postGrpId].grpName.c_str(), postGrpId);
 }
 
+#ifdef LN_I_CALC_TYPES
+// set ESTDP params
+void SNN::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus, int nm_pka, float w_pka, int nm_plc, float w_plc)
+{
+	assert(preGrpId >= -1);
+	assert(postGrpId >= -1);
+
+	if (isSet) {
+		assert(type != UNKNOWN_STDP);
+		assert(tauPlus > 0.0f); assert(tauMinus > 0.0f); 
+		assert(w_pka >= 0.0f);  assert(w_plc >= 0.0f);
+		assert(nm_pka >= 0);  assert(nm_plc >= 0); 
+	}
+
+	short int connId = getConnectId(preGrpId, postGrpId);
+	if (connId < 0) {
+		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
+			postGrpId, getGroupName(postGrpId).c_str());
+		exitSimulation(1);
+	}
+
+	// set STDP for a given connection
+	// set params for STDP curve
+	connectConfigMap[connId].stdpConfig.ALPHA_PLUS_EXC = alphaPlus;
+	connectConfigMap[connId].stdpConfig.ALPHA_MINUS_EXC = alphaMinus;
+	connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC = 1.0f / tauPlus;
+	connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_EXC = 1.0f / tauMinus;
+	connectConfigMap[connId].stdpConfig.GAMMA = 0.0f;
+	connectConfigMap[connId].stdpConfig.KAPPA = 0.0f;
+	connectConfigMap[connId].stdpConfig.OMEGA = 0.0f;
+	connectConfigMap[connId].stdpConfig.NM_PKA = nm_pka;
+	connectConfigMap[connId].stdpConfig.NM_PLC = nm_plc;
+	connectConfigMap[connId].stdpConfig.W_PKA = w_pka;
+	connectConfigMap[connId].stdpConfig.W_PLC = w_plc;
+	// set flags for STDP function
+	connectConfigMap[connId].stdpConfig.WithESTDPtype = type;
+	connectConfigMap[connId].stdpConfig.WithESTDPcurve = curve;
+	connectConfigMap[connId].stdpConfig.WithESTDP = isSet;
+	connectConfigMap[connId].stdpConfig.WithSTDP |= connectConfigMap[connId].stdpConfig.WithESTDP;
+	sim_with_stdp |= connectConfigMap[connId].stdpConfig.WithSTDP;
+
+	groupConfigMap[postGrpId].WithSTDP |= connectConfigMap[connId].stdpConfig.WithSTDP;
+	groupConfigMap[postGrpId].WithDA_MOD |= (type == DA_MOD);
+	groupConfigMap[postGrpId].WithPKA_PLC_MOD |= (type == PKA_PLC_MOD);
+
+	KERNEL_INFO("PKA/PLC E-STDP %s for %s(%d) to %s(%d)", isSet ? "enabled" : "disabled", groupConfigMap[preGrpId].grpName.c_str(), preGrpId,
+		groupConfigMap[postGrpId].grpName.c_str(), postGrpId);
+}
+
+
+// 
+void SNN::setConnectionModulation(int preGrpId, int postGrpId, IcalcType icalcType)
+{
+	assert(preGrpId >= -1);
+	assert(postGrpId >= -1);
+
+	short int connId = getConnectId(preGrpId, postGrpId);
+
+	connectConfigMap[connId].icalcType = icalcType;
+}
+#endif
+
+
 // set ISTDP params
-void SNN::setISTDP(int gGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2) {
-	assert(gGrpId >= -1);
+void SNN::setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2) {
+	assert(preGrpId >= -1);
+	assert(postGrpId >= -1);
+
 	if (isSet) {
 		assert(type != UNKNOWN_STDP);
 		assert(tau1 > 0); assert(tau2 > 0);
 	}
 
-	if (gGrpId==ALL) { // shortcut for all groups
-		for(int grpId = 0; grpId < numGroups; grpId++) {
-			setISTDP(grpId, isSet, type, curve, ab1, ab2, tau1, tau2);
-		}
-	} else {
-		// set STDP for a given group
-		// set params for STDP curve
-		if (curve == EXP_CURVE) {
-			groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_INB = ab1;
-			groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_INB = ab2;
-			groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_INB = 1.0f / tau1;
-			groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_INB = 1.0f / tau2;
-			groupConfigMap[gGrpId].stdpConfig.BETA_LTP 		= 0.0f;
-			groupConfigMap[gGrpId].stdpConfig.BETA_LTD 		= 0.0f;
-			groupConfigMap[gGrpId].stdpConfig.LAMBDA			= 1.0f;
-			groupConfigMap[gGrpId].stdpConfig.DELTA			= 1.0f;
-		} else {
-			groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_INB = 0.0f;
-			groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_INB = 0.0f;
-			groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_INB = 1.0f;
-			groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_INB = 1.0f;
-			groupConfigMap[gGrpId].stdpConfig.BETA_LTP 		= ab1;
-			groupConfigMap[gGrpId].stdpConfig.BETA_LTD 		= ab2;
-			groupConfigMap[gGrpId].stdpConfig.LAMBDA			= tau1;
-			groupConfigMap[gGrpId].stdpConfig.DELTA			= tau2;
-		}
-		// set flags for STDP function
-		//FIXME: separate STDPType to ESTDPType and ISTDPType
-		groupConfigMap[gGrpId].stdpConfig.WithISTDPtype	= type;
-		groupConfigMap[gGrpId].stdpConfig.WithISTDPcurve = curve;
-		groupConfigMap[gGrpId].stdpConfig.WithISTDP		= isSet;
-		groupConfigMap[gGrpId].stdpConfig.WithSTDP		|= groupConfigMap[gGrpId].stdpConfig.WithISTDP;
-		sim_with_stdp					|= groupConfigMap[gGrpId].stdpConfig.WithSTDP;
-
-		KERNEL_INFO("I-STDP %s for %s(%d)", isSet?"enabled":"disabled", groupConfigMap[gGrpId].grpName.c_str(), gGrpId);
+	short int connId = getConnectId(preGrpId, postGrpId);
+	if (connId < 0) {
+		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
+			postGrpId, getGroupName(postGrpId).c_str());
+		exitSimulation(1);
 	}
+
+	// set STDP for a given connection
+	// set params for STDP curve
+	if (curve == EXP_CURVE) {
+		connectConfigMap[connId].stdpConfig.ALPHA_PLUS_INB = ab1;
+		connectConfigMap[connId].stdpConfig.ALPHA_MINUS_INB = ab2;
+		connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB = 1.0f / tau1;
+		connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_INB = 1.0f / tau2;
+		connectConfigMap[connId].stdpConfig.BETA_LTP 		= 0.0f;
+		connectConfigMap[connId].stdpConfig.BETA_LTD 		= 0.0f;
+		connectConfigMap[connId].stdpConfig.LAMBDA			= 1.0f;
+		connectConfigMap[connId].stdpConfig.DELTA			= 1.0f;
+	} else {
+		connectConfigMap[connId].stdpConfig.ALPHA_PLUS_INB = 0.0f;
+		connectConfigMap[connId].stdpConfig.ALPHA_MINUS_INB = 0.0f;
+		connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB = 1.0f;
+		connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_INB = 1.0f;
+		connectConfigMap[connId].stdpConfig.BETA_LTP 		= ab1;
+		connectConfigMap[connId].stdpConfig.BETA_LTD 		= ab2;
+		connectConfigMap[connId].stdpConfig.LAMBDA			= tau1;
+		connectConfigMap[connId].stdpConfig.DELTA			= tau2;
+	}
+	// set flags for STDP function
+	//FIXME: separate STDPType to ESTDPType and ISTDPType
+	connectConfigMap[connId].stdpConfig.WithISTDPtype	= type;
+	connectConfigMap[connId].stdpConfig.WithISTDPcurve  = curve;
+	connectConfigMap[connId].stdpConfig.WithISTDP		= isSet;
+	connectConfigMap[connId].stdpConfig.WithSTDP	   |= connectConfigMap[connId].stdpConfig.WithISTDP;
+	sim_with_stdp									   |= connectConfigMap[connId].stdpConfig.WithSTDP;
+
+	groupConfigMap[postGrpId].WithSTDP				   |= connectConfigMap[connId].stdpConfig.WithSTDP;
+	groupConfigMap[postGrpId].WithDA_MOD			   |= (type == DA_MOD);
+#ifdef LN_I_CALC_TYPES
+	groupConfigMap[postGrpId].WithPKA_PLC_MOD		   |= (type == PKA_PLC_MOD);
+#endif
+	KERNEL_INFO("I-STDP %s for %s(%d) to %s(%d)", isSet?"enabled":"disabled", groupConfigMap[preGrpId].grpName.c_str(), preGrpId,
+																				groupConfigMap[postGrpId].grpName.c_str(), postGrpId);
 }
 
 // set STP params
@@ -708,7 +937,7 @@ void SNN::setSTP(int gGrpId, bool isSet, float STP_U, float STP_tau_u, float STP
 			setSTP(grpId, isSet, STP_U, STP_tau_u, STP_tau_x);
 		}
 	} else {
-		// set STDP for a given group
+		// set STP for a given group
 		sim_with_stp									|= isSet;
 		groupConfigMap[gGrpId].stpConfig.WithSTP		= isSet;
 		groupConfigMap[gGrpId].stpConfig.STP_A			= (STP_U > 0.0f) ? 1.0 / STP_U : 1.0f; // scaling factor
@@ -720,6 +949,28 @@ void SNN::setSTP(int gGrpId, bool isSet, float STP_U, float STP_tau_u, float STP
 					gGrpId, groupConfigMap[gGrpId].grpName.c_str(), groupConfigMap[gGrpId].stpConfig.STP_A, STP_U, STP_tau_u, STP_tau_x);
 	}
 }
+
+
+#ifdef LN_I_CALC_TYPES
+void SNN::setNM4STP(int gGrpId, float wSTP_U[], float wSTP_tau_u[], float wSTP_tau_x[]) {
+	assert(gGrpId >= -1);
+	if (!groupConfigMap[gGrpId].stpConfig.WithSTP) {
+		KERNEL_ERROR("STP must be set to be targeted");
+	}
+
+	auto& config = groupConfigMap[gGrpId].nm4StpConfig;
+
+	config.WithNM4STP = true;
+
+	for (int i = 0; i < NM_NE + 3; i++) {
+		config.w_STP_U[i] = wSTP_U[i];
+		config.w_STP_tau_u[i] = wSTP_tau_u[i];
+		config.w_STP_tau_x[i] = wSTP_tau_x[i];
+	}
+
+}
+#endif
+
 
 void SNN::setWeightAndWeightChangeUpdate(UpdateInterval wtANDwtChangeUpdateInterval, bool enableWtChangeDecay, float wtChangeDecay) {
 	assert(wtChangeDecay > 0.0f && wtChangeDecay < 1.0f);
@@ -767,6 +1018,8 @@ void SNN::setWeightAndWeightChangeUpdate(UpdateInterval wtANDwtChangeUpdateInter
 /// PUBLIC METHODS: GENERATE A SIMULATION
 /// ************************************************************************************************************ ///
 
+
+
 // reorganize the network and do the necessary allocation
 // of all variable for carrying out the simulation..
 // this code is run only one time during network initialization
@@ -786,6 +1039,45 @@ void SNN::setupNetwork() {
 		break;
 	}
 }
+
+#ifdef LN_SETUP_NETWORK_MT
+// LN Test
+#include <chrono>
+// reorganize the network and do the necessary allocation
+// of all variable for carrying out the simulation..
+// this code is run only one time during network initialization
+void SNN::setupNetworkMT() {
+	auto t0 = std::chrono::steady_clock::now();
+	auto t1 = std::chrono::steady_clock::now();
+	std::chrono::duration<double> d = t1 - t0; // \todo double 
+	switch (snnState) {
+	case CONFIG_SNN:
+		t0 = std::chrono::steady_clock::now();
+		compileSNN();
+		t1 = std::chrono::steady_clock::now();
+		d = t1 - t0;
+		printf("compileSNN: %.1fs\n", d);
+	case COMPILED_SNN:
+		t0 = std::chrono::steady_clock::now();
+		partitionSNNMT();
+		t1 = std::chrono::steady_clock::now();
+		d = t1 - t0;
+		printf("partitionSNNMT: %.1fs\n", d);
+	case PARTITIONED_SNN:
+		t0 = std::chrono::steady_clock::now();
+		generateRuntimeSNN();
+		t1 = std::chrono::steady_clock::now();
+		d = t1 - t0;
+		printf("generateRuntimeSNN: %.1fs\n", d);
+		break;
+	case EXECUTABLE_SNN:
+		break;
+	default:
+		KERNEL_ERROR("Unknown SNN state");
+		break;
+	}
+}
+#endif
 
 /// ************************************************************************************************************ ///
 /// PUBLIC METHODS: RUNNING A SIMULATION
@@ -827,7 +1119,7 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	}
 
 	// set the Poisson generation time slice to be at the run duration up to MAX_TIME_SLICE
-	setGrpTimeSlice(ALL, std::max(1, std::min(runDurationMs, MAX_TIME_SLICE)));
+	setGrpTimeSlice(ALL, std::max<int>(1, std::min<int>(runDurationMs, MAX_TIME_SLICE)));  // LN2021 Fix Issue illegal tocken, unknown-type c++17 
 
 #ifndef __NO_CUDA__
 	CUDA_RESET_TIMER(timer);
@@ -949,9 +1241,9 @@ void SNN::biasWeights(short int connId, float bias, bool updateWeightRange) {
 				} else {
 					// constrain weight to boundary values
 					// compared to above, we swap minWt/maxWt logic
-					weight = std::min(weight, connectConfigMap[connId].maxWt);
+					weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
 //					weight = fmax(weight, connInfo->minWt);
-					weight = std::max(weight, 0.0f);
+					weight = std::max<float>(weight, 0.0f);
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("biasWeights(%d,%f,%s): constrained weight %f to [%f,%f]", connId, bias,
 							(updateWeightRange?"true":"false"), weight, 0.0f, connectConfigMap[connId].maxWt);
@@ -1033,7 +1325,7 @@ void SNN::scaleWeights(short int connId, float scale, bool updateWeightRange) {
 					// if this flag is set, we need to update minWt,maxWt accordingly
 					// will be saving new maxSynWt and copying to GPU below
 //					connInfo->minWt = fmin(connInfo->minWt, weight);
-					connectConfigMap[connId].maxWt = std::max(connectConfigMap[connId].maxWt, weight);
+					connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("scaleWeights(%d,%f,%s): updated weight ranges to [%f,%f]", connId, scale,
 							(updateWeightRange?"true":"false"), 0.0f, connectConfigMap[connId].maxWt);
@@ -1041,9 +1333,9 @@ void SNN::scaleWeights(short int connId, float scale, bool updateWeightRange) {
 				} else {
 					// constrain weight to boundary values
 					// compared to above, we swap minWt/maxWt logic
-					weight = std::min(weight, connectConfigMap[connId].maxWt);
+					weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
 //					weight = fmax(weight, connInfo->minWt);
-					weight = std::max(weight, 0.0f);
+					weight = std::max<float>(weight, 0.0f);
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("scaleWeights(%d,%f,%s): constrained weight %f to [%f,%f]", connId, scale,
 							(updateWeightRange?"true":"false"), weight, 0.0f, connectConfigMap[connId].maxWt);
@@ -1085,7 +1377,7 @@ void SNN::scaleWeights(short int connId, float scale, bool updateWeightRange) {
 
 // FIXME: distinguish the function call at CONFIG_STATE and SETUP_STATE, where groupConfigs[0][] might not be available
 // or groupConfigMap is not sync with groupConfigs[0][]
-GroupMonitor* SNN::setGroupMonitor(int gGrpId, FILE* fid) {
+GroupMonitor* SNN::setGroupMonitor(int gGrpId, FILE* fid, int mode) {
 	int netId = groupConfigMDMap[gGrpId].netId;
 	int lGrpId = groupConfigMDMap[gGrpId].lGrpId;
 
@@ -1097,7 +1389,7 @@ GroupMonitor* SNN::setGroupMonitor(int gGrpId, FILE* fid) {
 
 	// create new GroupMonitorCore object in any case and initialize analysis components
 	// grpMonObj destructor (see below) will deallocate it
-	GroupMonitorCore* grpMonCoreObj = new GroupMonitorCore(this, numGroupMonitor, gGrpId);
+	GroupMonitorCore* grpMonCoreObj = new GroupMonitorCore(this, numGroupMonitor, gGrpId, mode);
 	groupMonCoreList[numGroupMonitor] = grpMonCoreObj;
 
 	// assign group status file ID if we selected to write to a file, else it's NULL
@@ -1739,13 +2031,21 @@ std::vector<float> SNN::getConductanceAMPA(int gGrpId) {
 }
 
 std::vector<float> SNN::getConductanceNMDA(int gGrpId) {
+#ifdef LN_I_CALC_TYPES
+	assert(groupConfigMap[gGrpId].icalcType == COBA);
+#else
 	assert(isSimulationWithCOBA());
+#endif
 
 	// copy data to the manager runtime
 	fetchConductanceNMDA(gGrpId);
 
 	std::vector<float> gNMDAvec;
-	if (isSimulationWithNMDARise()) {
+#ifdef LN_I_CALC_TYPES
+		if(groupConfigMap[gGrpId].with_NMDA_rise) {
+#else
+		if (isSimulationWithNMDARise()) {
+#endif
 		// need to construct conductance from rise and decay parts
 		for (int gNId = groupConfigMDMap[gGrpId].gStartN; gNId <= groupConfigMDMap[gGrpId].gEndN; gNId++) {
 			gNMDAvec.push_back(managerRuntimeData.gNMDA_d[gNId] - managerRuntimeData.gNMDA_r[gNId]);
@@ -1772,13 +2072,21 @@ std::vector<float> SNN::getConductanceGABAa(int gGrpId) {
 }
 
 std::vector<float> SNN::getConductanceGABAb(int gGrpId) {
+#ifdef LN_I_CALC_TYPES
+	assert(groupConfigMap[gGrpId].icalcType == COBA);
+#else
 	assert(isSimulationWithCOBA());
+#endif
 
 	// copy data to the manager runtime
 	fetchConductanceGABAb(gGrpId);
 
 	std::vector<float> gGABAbVec;
+#ifdef LN_I_CALC_TYPES
+	if (groupConfigMap[gGrpId].with_GABAb_rise) {
+#else
 	if (isSimulationWithGABAbRise()) {
+#endif
 		// need to construct conductance from rise and decay parts
 		for (int gNId = groupConfigMDMap[gGrpId].gStartN; gNId <= groupConfigMDMap[gGrpId].gEndN; gNId++) {
 			gGABAbVec.push_back(managerRuntimeData.gGABAb_d[gNId] - managerRuntimeData.gGABAb_r[gNId]);
@@ -1871,31 +2179,31 @@ std::string SNN::getGroupName(int gGrpId) {
 	return groupConfigMap[gGrpId].grpName;
 }
 
-GroupSTDPInfo SNN::getGroupSTDPInfo(int gGrpId) {
-	GroupSTDPInfo gInfo;
+ConnSTDPInfo SNN::getConnSTDPInfo(short int connId) {
+	ConnSTDPInfo cInfo;
 
-	gInfo.WithSTDP = groupConfigMap[gGrpId].stdpConfig.WithSTDP;
-	gInfo.WithESTDP = groupConfigMap[gGrpId].stdpConfig.WithESTDP;
-	gInfo.WithISTDP = groupConfigMap[gGrpId].stdpConfig.WithISTDP;
-	gInfo.WithESTDPtype = groupConfigMap[gGrpId].stdpConfig.WithESTDPtype;
-	gInfo.WithISTDPtype = groupConfigMap[gGrpId].stdpConfig.WithISTDPtype;
-	gInfo.WithESTDPcurve = groupConfigMap[gGrpId].stdpConfig.WithESTDPcurve;
-	gInfo.WithISTDPcurve = groupConfigMap[gGrpId].stdpConfig.WithISTDPcurve;
-	gInfo.ALPHA_MINUS_EXC = groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_EXC;
-	gInfo.ALPHA_PLUS_EXC = groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_EXC;
-	gInfo.TAU_MINUS_INV_EXC = groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_EXC;
-	gInfo.TAU_PLUS_INV_EXC = groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_EXC;
-	gInfo.ALPHA_MINUS_INB = groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_INB;
-	gInfo.ALPHA_PLUS_INB = groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_INB;
-	gInfo.TAU_MINUS_INV_INB = groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_INB;
-	gInfo.TAU_PLUS_INV_INB = groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_INB;
-	gInfo.GAMMA = groupConfigMap[gGrpId].stdpConfig.GAMMA;
-	gInfo.BETA_LTP = groupConfigMap[gGrpId].stdpConfig.BETA_LTP;
-	gInfo.BETA_LTD = groupConfigMap[gGrpId].stdpConfig.BETA_LTD;
-	gInfo.LAMBDA = groupConfigMap[gGrpId].stdpConfig.LAMBDA;
-	gInfo.DELTA = groupConfigMap[gGrpId].stdpConfig.DELTA;
+	cInfo.WithSTDP = connectConfigMap[connId].stdpConfig.WithSTDP;
+	cInfo.WithESTDP = connectConfigMap[connId].stdpConfig.WithESTDP;
+	cInfo.WithISTDP = connectConfigMap[connId].stdpConfig.WithISTDP;
+	cInfo.WithESTDPtype = connectConfigMap[connId].stdpConfig.WithESTDPtype;
+	cInfo.WithISTDPtype = connectConfigMap[connId].stdpConfig.WithISTDPtype;
+	cInfo.WithESTDPcurve = connectConfigMap[connId].stdpConfig.WithESTDPcurve;
+	cInfo.WithISTDPcurve = connectConfigMap[connId].stdpConfig.WithISTDPcurve;
+	cInfo.ALPHA_MINUS_EXC = connectConfigMap[connId].stdpConfig.ALPHA_MINUS_EXC;
+	cInfo.ALPHA_PLUS_EXC = connectConfigMap[connId].stdpConfig.ALPHA_PLUS_EXC;
+	cInfo.TAU_MINUS_INV_EXC = connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_EXC;
+	cInfo.TAU_PLUS_INV_EXC = connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC;
+	cInfo.ALPHA_MINUS_INB = connectConfigMap[connId].stdpConfig.ALPHA_MINUS_INB;
+	cInfo.ALPHA_PLUS_INB = connectConfigMap[connId].stdpConfig.ALPHA_PLUS_INB;
+	cInfo.TAU_MINUS_INV_INB = connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_INB;
+	cInfo.TAU_PLUS_INV_INB = connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB;
+	cInfo.GAMMA = connectConfigMap[connId].stdpConfig.GAMMA;
+	cInfo.BETA_LTP = connectConfigMap[connId].stdpConfig.BETA_LTP;
+	cInfo.BETA_LTD = connectConfigMap[connId].stdpConfig.BETA_LTD;
+	cInfo.LAMBDA = connectConfigMap[connId].stdpConfig.LAMBDA;
+	cInfo.DELTA = connectConfigMap[connId].stdpConfig.DELTA;
 
-	return gInfo;
+	return cInfo;
 }
 
 GroupNeuromodulatorInfo SNN::getGroupNeuromodulatorInfo(int gGrpId) {
@@ -1905,10 +2213,21 @@ GroupNeuromodulatorInfo SNN::getGroupNeuromodulatorInfo(int gGrpId) {
 	gInfo.base5HT = groupConfigMap[gGrpId].neuromodulatorConfig.base5HT;
 	gInfo.baseACh = groupConfigMap[gGrpId].neuromodulatorConfig.baseACh;
 	gInfo.baseNE = groupConfigMap[gGrpId].neuromodulatorConfig.baseNE;
+
 	gInfo.decayDP = groupConfigMap[gGrpId].neuromodulatorConfig.decayDP;
 	gInfo.decay5HT = groupConfigMap[gGrpId].neuromodulatorConfig.decay5HT;
 	gInfo.decayACh = groupConfigMap[gGrpId].neuromodulatorConfig.decayACh;
 	gInfo.decayNE = groupConfigMap[gGrpId].neuromodulatorConfig.decayNE;
+
+	gInfo.releaseDP = groupConfigMap[gGrpId].neuromodulatorConfig.releaseDP;
+	gInfo.release5HT = groupConfigMap[gGrpId].neuromodulatorConfig.release5HT;
+	gInfo.releaseACh = groupConfigMap[gGrpId].neuromodulatorConfig.releaseACh;
+	gInfo.releaseNE = groupConfigMap[gGrpId].neuromodulatorConfig.releaseNE;
+
+	gInfo.activeDP = groupConfigMap[gGrpId].neuromodulatorConfig.activeDP;
+	gInfo.active5HT = groupConfigMap[gGrpId].neuromodulatorConfig.active5HT;
+	gInfo.activeACh = groupConfigMap[gGrpId].neuromodulatorConfig.activeACh;
+	gInfo.activeNE = groupConfigMap[gGrpId].neuromodulatorConfig.activeNE;
 
 	return gInfo;
 }
@@ -1944,6 +2263,51 @@ Point3D SNN::getNeuronLocation3D(int gGrpId, int relNeurId) {
 	double coordZ = grid.distZ * intZ + grid.offsetZ;
 	return Point3D(coordX, coordY, coordZ);
 }
+
+
+// LN DEBUG  gaussian problem  
+// TODO check latest CARLsim 4.1 and 5.0
+
+int SNN::getNeuronId(int gGrpId, Point3D location) {
+
+	Grid3D grid = groupConfigMap[gGrpId].grid;
+	assert(gGrpId >= 0 && gGrpId < numGroups);
+	
+	// translate coordinates center around origin
+	int intX = round((location.x - grid.offsetX) / grid.distX);  // location.x = grid.distX * intX + grid.offsetX;
+	int intY = round((location.y - grid.offsetY) / grid.distY);  // location.y = grid.distY * intY + grid.offsetY;
+	int intZ = round((location.z - grid.offsetZ) / grid.distZ);  // location.z = grid.distZ * intZ + grid.offsetZ;
+
+//	int intX = roundf((location.x - grid.offsetX - 1) / grid.distX - (-(grid.numX - 1) / 2));  // location.x = grid.distX * intX + grid.offsetX;
+//	int intY = roundf((location.y - grid.offsetY - 1) / grid.distY - (-(grid.numY - 1) / 2)); ;	// location.y = grid.distY * intY + grid.offsetY;
+//	int intZ = roundf((location.z - grid.offsetZ - 1) / grid.distZ - (-(grid.numZ - 1) / 2)); ;  // location.z = grid.distZ * intZ + grid.offsetZ;
+
+//	int intX = roundf(location.x + (grid.numX - 1) / 2);  // location.x = grid.distX * intX + grid.offsetX;
+//	int intY = roundf(location.y + (grid.numY - 1) / 2);  // location.y = grid.distY * intY + grid.offsetY;
+//	int intZ = roundf(location.z + (grid.numZ - 1) / 2);  // location.z = grid.distZ * intZ + grid.offsetZ;
+
+//	printf("intX=%d, intY=%d, intZ=%d\n", intX, intY, intZ);
+
+	// solve function that fullfils: 
+	//	intX = relNeurId % grid.numX;
+	//	intY = (relNeurId / grid.numX) % grid.numY;
+	//	intZ = relNeurId / (grid.numX * grid.numY);
+	//int relNeurId = intX + intY * grid.numX + intY + intZ * (grid.numX * grid.numY) + intZ;
+	int relNeurId = intX + intY * grid.numX + intZ * (grid.numX * grid.numY);
+	assert(relNeurId >= 0 && relNeurId < getGroupNumNeurons(gGrpId));
+
+/*
+	Nx = 2
+	[-(Nx-1)/2, (Nx-1)/2]
+
+	x_min = -(Nx-1)/2 = -(2-1)/2 = -0.5
+
+	= offset
+*/
+
+	return relNeurId;
+}
+
 
 // returns the number of synaptic connections associated with this connection.
 int SNN::getNumSynapticConnections(short int connId) {
@@ -2137,6 +2501,7 @@ void SNN::SNNinit() {
 
 	sim_with_compartments = false;
 	sim_with_fixedwts = true; // default is true, will be set to false if there are any plastic synapses
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 	sim_with_conductances = false; // default is false
 	sim_with_stdp = false;
 	sim_with_modulated_stdp = false;
@@ -2146,9 +2511,12 @@ void SNN::SNNinit() {
 
 	loadSimFID = NULL;
 
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 	// conductance info struct for simulation
 	sim_with_NMDA_rise = false;
 	sim_with_GABAb_rise = false;
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
+#ifndef LN_I_CALC_TYPES
 	dAMPA  = 1.0-1.0/5.0;		// some default decay and rise times
 	rNMDA  = 1.0-1.0/10.0;
 	dNMDA  = 1.0-1.0/150.0;
@@ -2157,7 +2525,7 @@ void SNN::SNNinit() {
 	rGABAb = 1.0-1.0/100.0;
 	dGABAb = 1.0-1.0/150.0;
 	sGABAb = 1.0;
-
+#endif
 	// default integration method: Forward-Euler with 0.5ms integration step
 	setIntegrationMethod(FORWARD_EULER, 2);
 
@@ -2179,7 +2547,7 @@ void SNN::SNNinit() {
 	// reset all runtime data
 	// GPU/CPU runtime data
 	memset(runtimeData, 0, sizeof(RuntimeData) * MAX_NET_PER_SNN);
-	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) // FIXME: redundant??
+	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) // FIXME: redundant??   //LN2021 Yes, 0 --> false 
 		runtimeData[netId].allocated = false;
 
 	// Manager runtime data
@@ -2928,6 +3296,10 @@ void SNN::allocateManagerRuntimeData() {
 
 	managerRuntimeData.spikeGenBits = new unsigned int[managerRTDSize.maxNumNSpikeGen / 32 + 1];
 
+	managerRuntimeData.randNum  = new float[managerRTDSize.maxNumNPois];  //!< featSpikes LN20201103
+	managerRuntimeData.poissonFireRate  = new float[managerRTDSize.maxNumNPois]; //!< featSpikes LN20201103
+
+
 	// Confirm allocation of SNN runtime data in main memory
 	managerRuntimeData.allocated = true;
 	managerRuntimeData.memType = CPU_MEM;
@@ -2997,15 +3369,21 @@ void SNN::generateRuntimeGroupConfigs() {
 			groupConfigs[netId][lGrpId].numPreSynapses = grpIt->numPreSynapses;
 			groupConfigs[netId][lGrpId].isSpikeGenerator = groupConfigMap[gGrpId].isSpikeGenerator;
 			groupConfigs[netId][lGrpId].isSpikeGenFunc = groupConfigMap[gGrpId].spikeGenFunc != NULL ? true : false;
-			groupConfigs[netId][lGrpId].WithSTP =  groupConfigMap[gGrpId].stpConfig.WithSTP;
-			groupConfigs[netId][lGrpId].WithSTDP =  groupConfigMap[gGrpId].stdpConfig.WithSTDP;
-			groupConfigs[netId][lGrpId].WithESTDP =  groupConfigMap[gGrpId].stdpConfig.WithESTDP;
-			groupConfigs[netId][lGrpId].WithISTDP = groupConfigMap[gGrpId].stdpConfig.WithISTDP;
-			groupConfigs[netId][lGrpId].WithESTDPtype = groupConfigMap[gGrpId].stdpConfig.WithESTDPtype;
-			groupConfigs[netId][lGrpId].WithISTDPtype =  groupConfigMap[gGrpId].stdpConfig.WithISTDPtype;
-			groupConfigs[netId][lGrpId].WithESTDPcurve =  groupConfigMap[gGrpId].stdpConfig.WithESTDPcurve;
-			groupConfigs[netId][lGrpId].WithISTDPcurve =  groupConfigMap[gGrpId].stdpConfig.WithISTDPcurve;
-			groupConfigs[netId][lGrpId].WithHomeostasis =  groupConfigMap[gGrpId].homeoConfig.WithHomeostasis;
+			groupConfigs[netId][lGrpId].WithSTP = groupConfigMap[gGrpId].stpConfig.WithSTP;
+			groupConfigs[netId][lGrpId].WithSTDP = groupConfigMap[gGrpId].WithSTDP;
+			groupConfigs[netId][lGrpId].WithDA_MOD = groupConfigMap[gGrpId].WithDA_MOD;
+
+			// groupConfigs[netId][lGrpId].WithESTDP =  groupConfigMap[gGrpId].stdpConfig.WithESTDP;
+			// groupConfigs[netId][lGrpId].WithISTDP = groupConfigMap[gGrpId].stdpConfig.WithISTDP;
+			// groupConfigs[netId][lGrpId].WithESTDPtype = groupConfigMap[gGrpId].stdpConfig.WithESTDPtype;
+			// groupConfigs[netId][lGrpId].WithISTDPtype =  groupConfigMap[gGrpId].stdpConfig.WithISTDPtype;
+			// groupConfigs[netId][lGrpId].WithESTDPcurve =  groupConfigMap[gGrpId].stdpConfig.WithESTDPcurve;
+			// groupConfigs[netId][lGrpId].WithISTDPcurve =  groupConfigMap[gGrpId].stdpConfig.WithISTDPcurve;
+			groupConfigs[netId][lGrpId].WithHomeostasis = groupConfigMap[gGrpId].homeoConfig.WithHomeostasis;
+#ifdef LN_I_CALC_TYPES
+			groupConfigs[netId][lGrpId].with_NMDA_rise = groupConfigMap[gGrpId].with_NMDA_rise;
+			groupConfigs[netId][lGrpId].with_GABAb_rise = groupConfigMap[gGrpId].with_GABAb_rise;
+#endif
 			groupConfigs[netId][lGrpId].FixedInputWts = grpIt->fixedInputWts;
 			groupConfigs[netId][lGrpId].hasExternalConnect = grpIt->hasExternalConnect;
 			groupConfigs[netId][lGrpId].Noffset = grpIt->Noffset; // Note: Noffset is not valid at this time
@@ -3014,28 +3392,28 @@ void SNN::generateRuntimeGroupConfigs() {
 			groupConfigs[netId][lGrpId].STP_U = groupConfigMap[gGrpId].stpConfig.STP_U;
 			groupConfigs[netId][lGrpId].STP_tau_u_inv = groupConfigMap[gGrpId].stpConfig.STP_tau_u_inv;
 			groupConfigs[netId][lGrpId].STP_tau_x_inv = groupConfigMap[gGrpId].stpConfig.STP_tau_x_inv;
-			groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC = groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_EXC;
-			groupConfigs[netId][lGrpId].TAU_MINUS_INV_EXC = groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_EXC;
-			groupConfigs[netId][lGrpId].ALPHA_PLUS_EXC = groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_EXC;
-			groupConfigs[netId][lGrpId].ALPHA_MINUS_EXC = groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_EXC;
-			groupConfigs[netId][lGrpId].GAMMA = groupConfigMap[gGrpId].stdpConfig.GAMMA;
-			groupConfigs[netId][lGrpId].KAPPA = groupConfigMap[gGrpId].stdpConfig.KAPPA;
-			groupConfigs[netId][lGrpId].OMEGA = groupConfigMap[gGrpId].stdpConfig.OMEGA;
-			groupConfigs[netId][lGrpId].TAU_PLUS_INV_INB = groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_INB;
-			groupConfigs[netId][lGrpId].TAU_MINUS_INV_INB = groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_INB;
-			groupConfigs[netId][lGrpId].ALPHA_PLUS_INB = groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_INB;
-			groupConfigs[netId][lGrpId].ALPHA_MINUS_INB = groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_INB;
-			groupConfigs[netId][lGrpId].BETA_LTP = groupConfigMap[gGrpId].stdpConfig.BETA_LTP;
-			groupConfigs[netId][lGrpId].BETA_LTD = groupConfigMap[gGrpId].stdpConfig.BETA_LTD;
-			groupConfigs[netId][lGrpId].LAMBDA = groupConfigMap[gGrpId].stdpConfig.LAMBDA;
-			groupConfigs[netId][lGrpId].DELTA = groupConfigMap[gGrpId].stdpConfig.DELTA;
+			// groupConfigs[netId][lGrpId].TAU_PLUS_INV_EXC = groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_EXC;
+			// groupConfigs[netId][lGrpId].TAU_MINUS_INV_EXC = groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_EXC;
+			// groupConfigs[netId][lGrpId].ALPHA_PLUS_EXC = groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_EXC;
+			// groupConfigs[netId][lGrpId].ALPHA_MINUS_EXC = groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_EXC;
+			// groupConfigs[netId][lGrpId].GAMMA = groupConfigMap[gGrpId].stdpConfig.GAMMA;
+			// groupConfigs[netId][lGrpId].KAPPA = groupConfigMap[gGrpId].stdpConfig.KAPPA;
+			// groupConfigs[netId][lGrpId].OMEGA = groupConfigMap[gGrpId].stdpConfig.OMEGA;
+			// groupConfigs[netId][lGrpId].TAU_PLUS_INV_INB = groupConfigMap[gGrpId].stdpConfig.TAU_PLUS_INV_INB;
+			// groupConfigs[netId][lGrpId].TAU_MINUS_INV_INB = groupConfigMap[gGrpId].stdpConfig.TAU_MINUS_INV_INB;
+			// groupConfigs[netId][lGrpId].ALPHA_PLUS_INB = groupConfigMap[gGrpId].stdpConfig.ALPHA_PLUS_INB;
+			// groupConfigs[netId][lGrpId].ALPHA_MINUS_INB = groupConfigMap[gGrpId].stdpConfig.ALPHA_MINUS_INB;
+			// groupConfigs[netId][lGrpId].BETA_LTP = groupConfigMap[gGrpId].stdpConfig.BETA_LTP;
+			// groupConfigs[netId][lGrpId].BETA_LTD = groupConfigMap[gGrpId].stdpConfig.BETA_LTD;
+			// groupConfigs[netId][lGrpId].LAMBDA = groupConfigMap[gGrpId].stdpConfig.LAMBDA;
+			// groupConfigs[netId][lGrpId].DELTA = groupConfigMap[gGrpId].stdpConfig.DELTA;
 
 			groupConfigs[netId][lGrpId].numCompNeighbors = 0;
 			groupConfigs[netId][lGrpId].withCompartments = groupConfigMap[gGrpId].withCompartments;
 			groupConfigs[netId][lGrpId].compCouplingUp = groupConfigMap[gGrpId].compCouplingUp;
 			groupConfigs[netId][lGrpId].compCouplingDown = groupConfigMap[gGrpId].compCouplingDown;
-			memset(&groupConfigs[netId][lGrpId].compNeighbors, 0, sizeof(groupConfigs[netId][lGrpId].compNeighbors[0])*MAX_NUM_COMP_CONN);
-			memset(&groupConfigs[netId][lGrpId].compCoupling, 0, sizeof(groupConfigs[netId][lGrpId].compCoupling[0])*MAX_NUM_COMP_CONN);
+			memset(&groupConfigs[netId][lGrpId].compNeighbors, 0, sizeof(groupConfigs[netId][lGrpId].compNeighbors[0]) * MAX_NUM_COMP_CONN);
+			memset(&groupConfigs[netId][lGrpId].compCoupling, 0, sizeof(groupConfigs[netId][lGrpId].compCoupling[0]) * MAX_NUM_COMP_CONN);
 
 			//!< homeostatic plasticity variables
 			groupConfigs[netId][lGrpId].avgTimeScale = groupConfigMap[gGrpId].homeoConfig.avgTimeScale;
@@ -3052,6 +3430,52 @@ void SNN::generateRuntimeGroupConfigs() {
 			groupConfigs[netId][lGrpId].decay5HT = groupConfigMap[gGrpId].neuromodulatorConfig.decay5HT;
 			groupConfigs[netId][lGrpId].decayACh = groupConfigMap[gGrpId].neuromodulatorConfig.decayACh;
 			groupConfigs[netId][lGrpId].decayNE = groupConfigMap[gGrpId].neuromodulatorConfig.decayNE;
+			groupConfigs[netId][lGrpId].releaseDP = groupConfigMap[gGrpId].neuromodulatorConfig.releaseDP;
+			groupConfigs[netId][lGrpId].release5HT = groupConfigMap[gGrpId].neuromodulatorConfig.release5HT;
+			groupConfigs[netId][lGrpId].releaseACh = groupConfigMap[gGrpId].neuromodulatorConfig.releaseACh;
+			groupConfigs[netId][lGrpId].releaseNE = groupConfigMap[gGrpId].neuromodulatorConfig.releaseNE;
+			groupConfigs[netId][lGrpId].activeDP = groupConfigMap[gGrpId].neuromodulatorConfig.activeDP;
+			groupConfigs[netId][lGrpId].active5HT = groupConfigMap[gGrpId].neuromodulatorConfig.active5HT;
+			groupConfigs[netId][lGrpId].activeACh = groupConfigMap[gGrpId].neuromodulatorConfig.activeACh;
+			groupConfigs[netId][lGrpId].activeNE = groupConfigMap[gGrpId].neuromodulatorConfig.activeNE;
+
+#ifdef LN_I_CALC_TYPES
+			// parameters of IcalcTypes
+			if (groupConfigMap[gGrpId].icalcType == UNKNOWN_ICALC)
+			{
+				KERNEL_ERROR("IcalcType is unknwon in group [%d] ", gGrpId);
+				exitSimulation(-100);
+			}
+			else {
+				groupConfigs[netId][lGrpId].icalcType = groupConfigMap[gGrpId].icalcType;
+			}
+			// conductances
+			groupConfigs[netId][lGrpId].dAMPA = groupConfigMap[gGrpId].conductanceConfig.dAMPA;
+			groupConfigs[netId][lGrpId].rNMDA = groupConfigMap[gGrpId].conductanceConfig.rNMDA;
+			groupConfigs[netId][lGrpId].dNMDA = groupConfigMap[gGrpId].conductanceConfig.dNMDA;
+			groupConfigs[netId][lGrpId].sNMDA = groupConfigMap[gGrpId].conductanceConfig.sNMDA;
+			groupConfigs[netId][lGrpId].dGABAa = groupConfigMap[gGrpId].conductanceConfig.dGABAa;
+			groupConfigs[netId][lGrpId].rGABAb = groupConfigMap[gGrpId].conductanceConfig.rGABAb;
+			groupConfigs[netId][lGrpId].dGABAb = groupConfigMap[gGrpId].conductanceConfig.dGABAb;
+			groupConfigs[netId][lGrpId].sGABAb = groupConfigMap[gGrpId].conductanceConfig.sGABAb;
+			// NM4
+			for (int i = 0; i < NM_NE + 3; i++)  // \todo LN doc intern  <= due NM_UNKNOWN+2 , last elements are normalization and base
+				groupConfigs[netId][lGrpId].nm4w[i] = groupConfigMap[gGrpId].nm4wConfig.w[i];
+			// NM4STP
+			groupConfigs[netId][lGrpId].WithNM4STP = groupConfigMap[gGrpId].nm4StpConfig.WithNM4STP;
+			for (int i = 0; i < NM_NE + 3; i++) {
+				groupConfigs[netId][lGrpId].wstpu[i] = groupConfigMap[gGrpId].nm4StpConfig.w_STP_U[i];
+				groupConfigs[netId][lGrpId].wstptauu[i] = groupConfigMap[gGrpId].nm4StpConfig.w_STP_tau_u[i];
+				groupConfigs[netId][lGrpId].wstptaux[i] = groupConfigMap[gGrpId].nm4StpConfig.w_STP_tau_x[i];
+			}
+
+			// NM4STP 128
+			//assert(groupConfigs[netId][lGrpId].nm4stp == nullptr);  // must be called only once, memset(0) see SNN::SNNinit()
+			//groupConfigs[netId][lGrpId].nm4stp = new NM4STPConfig(groupConfigMap[gGrpId].nm4StpConfig); 
+			//printf("DEBUG: groupConfigs[%d][%d].nm4stp = new NM4STPConfig(groupConfigMap[%d].nm4StpConfig); %s %d \n", netId, lGrpId, gGrpId, __FILE__, __LINE__);
+			// \todo memory management, -> delete groupConfigs[netId][lGrpId].nm4stp;			
+
+#endif
 
 			// sync groupConfigs[][] and groupConfigMDMap[]
 			if (netId == grpIt->netId) {
@@ -3093,11 +3517,80 @@ void SNN::generateRuntimeConnectConfigs() {
 	// sync localConnectLists and connectConfigMap
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		for (std::list<ConnectConfig>::iterator connIt = localConnectLists[netId].begin(); connIt != localConnectLists[netId].end(); connIt++) {
-			connectConfigMap[connIt->connId] = *connIt;
+			int lConnId = connIt->connId;
+			connectConfigMap[lConnId] = *connIt;
+
+			connectConfigs[netId][lConnId].grpSrc =  connIt->grpSrc;
+			connectConfigs[netId][lConnId].grpDest =  connIt->grpDest;
+
+			connectConfigs[netId][lConnId].WithSTDP =  connectConfigMap[lConnId].stdpConfig.WithSTDP;
+			connectConfigs[netId][lConnId].WithESTDP =  connectConfigMap[lConnId].stdpConfig.WithESTDP;
+			connectConfigs[netId][lConnId].WithISTDP = connectConfigMap[lConnId].stdpConfig.WithISTDP;
+			connectConfigs[netId][lConnId].WithESTDPtype = connectConfigMap[lConnId].stdpConfig.WithESTDPtype;
+			connectConfigs[netId][lConnId].WithISTDPtype =  connectConfigMap[lConnId].stdpConfig.WithISTDPtype;
+			connectConfigs[netId][lConnId].WithESTDPcurve =  connectConfigMap[lConnId].stdpConfig.WithESTDPcurve;
+			connectConfigs[netId][lConnId].WithISTDPcurve =  connectConfigMap[lConnId].stdpConfig.WithISTDPcurve;
+
+			connectConfigs[netId][lConnId].TAU_PLUS_INV_EXC = connectConfigMap[lConnId].stdpConfig.TAU_PLUS_INV_EXC;
+			connectConfigs[netId][lConnId].TAU_MINUS_INV_EXC = connectConfigMap[lConnId].stdpConfig.TAU_MINUS_INV_EXC;
+			connectConfigs[netId][lConnId].ALPHA_PLUS_EXC = connectConfigMap[lConnId].stdpConfig.ALPHA_PLUS_EXC;
+			connectConfigs[netId][lConnId].ALPHA_MINUS_EXC = connectConfigMap[lConnId].stdpConfig.ALPHA_MINUS_EXC;
+			connectConfigs[netId][lConnId].GAMMA = connectConfigMap[lConnId].stdpConfig.GAMMA;
+			connectConfigs[netId][lConnId].KAPPA = connectConfigMap[lConnId].stdpConfig.KAPPA;
+			connectConfigs[netId][lConnId].OMEGA = connectConfigMap[lConnId].stdpConfig.OMEGA;
+			connectConfigs[netId][lConnId].TAU_PLUS_INV_INB = connectConfigMap[lConnId].stdpConfig.TAU_PLUS_INV_INB;
+			connectConfigs[netId][lConnId].TAU_MINUS_INV_INB = connectConfigMap[lConnId].stdpConfig.TAU_MINUS_INV_INB;
+			connectConfigs[netId][lConnId].ALPHA_PLUS_INB = connectConfigMap[lConnId].stdpConfig.ALPHA_PLUS_INB;
+			connectConfigs[netId][lConnId].ALPHA_MINUS_INB = connectConfigMap[lConnId].stdpConfig.ALPHA_MINUS_INB;
+			connectConfigs[netId][lConnId].BETA_LTP = connectConfigMap[lConnId].stdpConfig.BETA_LTP;
+			connectConfigs[netId][lConnId].BETA_LTD = connectConfigMap[lConnId].stdpConfig.BETA_LTD;
+			connectConfigs[netId][lConnId].LAMBDA = connectConfigMap[lConnId].stdpConfig.LAMBDA;
+			connectConfigs[netId][lConnId].DELTA = connectConfigMap[lConnId].stdpConfig.DELTA;
+#ifdef LN_I_CALC_TYPES
+			connectConfigs[netId][lConnId].NM_PKA = connectConfigMap[lConnId].stdpConfig.NM_PKA;
+			connectConfigs[netId][lConnId].NM_PLC = connectConfigMap[lConnId].stdpConfig.NM_PLC;
+			connectConfigs[netId][lConnId].W_PKA = connectConfigMap[lConnId].stdpConfig.W_PKA;
+			connectConfigs[netId][lConnId].W_PLC = connectConfigMap[lConnId].stdpConfig.W_PLC;
+			connectConfigs[netId][lConnId].icalcType = connectConfigMap[lConnId].icalcType;
+#endif
 		}
 
 		for (std::list<ConnectConfig>::iterator connIt = externalConnectLists[netId].begin(); connIt != externalConnectLists[netId].end(); connIt++) {
-			connectConfigMap[connIt->connId] = *connIt;
+			int lConnId = connIt->connId;
+			connectConfigMap[lConnId] = *connIt;
+
+			connectConfigs[netId][lConnId].grpSrc =  connIt->grpSrc;
+			connectConfigs[netId][lConnId].grpDest =  connIt->grpDest;
+
+			connectConfigs[netId][lConnId].WithSTDP =  connectConfigMap[lConnId].stdpConfig.WithSTDP;
+			connectConfigs[netId][lConnId].WithESTDP =  connectConfigMap[lConnId].stdpConfig.WithESTDP;
+			connectConfigs[netId][lConnId].WithISTDP = connectConfigMap[lConnId].stdpConfig.WithISTDP;
+			connectConfigs[netId][lConnId].WithESTDPtype = connectConfigMap[lConnId].stdpConfig.WithESTDPtype;
+			connectConfigs[netId][lConnId].WithISTDPtype =  connectConfigMap[lConnId].stdpConfig.WithISTDPtype;
+			connectConfigs[netId][lConnId].WithESTDPcurve =  connectConfigMap[lConnId].stdpConfig.WithESTDPcurve;
+			connectConfigs[netId][lConnId].WithISTDPcurve =  connectConfigMap[lConnId].stdpConfig.WithISTDPcurve;
+
+			connectConfigs[netId][lConnId].TAU_PLUS_INV_EXC = connectConfigMap[lConnId].stdpConfig.TAU_PLUS_INV_EXC;
+			connectConfigs[netId][lConnId].TAU_MINUS_INV_EXC = connectConfigMap[lConnId].stdpConfig.TAU_MINUS_INV_EXC;
+			connectConfigs[netId][lConnId].ALPHA_PLUS_EXC = connectConfigMap[lConnId].stdpConfig.ALPHA_PLUS_EXC;
+			connectConfigs[netId][lConnId].ALPHA_MINUS_EXC = connectConfigMap[lConnId].stdpConfig.ALPHA_MINUS_EXC;
+			connectConfigs[netId][lConnId].GAMMA = connectConfigMap[lConnId].stdpConfig.GAMMA;
+			connectConfigs[netId][lConnId].KAPPA = connectConfigMap[lConnId].stdpConfig.KAPPA;
+			connectConfigs[netId][lConnId].OMEGA = connectConfigMap[lConnId].stdpConfig.OMEGA;
+			connectConfigs[netId][lConnId].TAU_PLUS_INV_INB = connectConfigMap[lConnId].stdpConfig.TAU_PLUS_INV_INB;
+			connectConfigs[netId][lConnId].TAU_MINUS_INV_INB = connectConfigMap[lConnId].stdpConfig.TAU_MINUS_INV_INB;
+			connectConfigs[netId][lConnId].ALPHA_PLUS_INB = connectConfigMap[lConnId].stdpConfig.ALPHA_PLUS_INB;
+			connectConfigs[netId][lConnId].ALPHA_MINUS_INB = connectConfigMap[lConnId].stdpConfig.ALPHA_MINUS_INB;
+			connectConfigs[netId][lConnId].BETA_LTP = connectConfigMap[lConnId].stdpConfig.BETA_LTP;
+			connectConfigs[netId][lConnId].BETA_LTD = connectConfigMap[lConnId].stdpConfig.BETA_LTD;
+			connectConfigs[netId][lConnId].LAMBDA = connectConfigMap[lConnId].stdpConfig.LAMBDA;
+			connectConfigs[netId][lConnId].DELTA = connectConfigMap[lConnId].stdpConfig.DELTA;
+#ifdef LN_I_CALC_TYPES
+			connectConfigs[netId][lConnId].NM_PKA = connectConfigMap[lConnId].stdpConfig.NM_PKA;
+			connectConfigs[netId][lConnId].NM_PLC = connectConfigMap[lConnId].stdpConfig.NM_PLC;
+			connectConfigs[netId][lConnId].W_PKA = connectConfigMap[lConnId].stdpConfig.W_PKA;
+			connectConfigs[netId][lConnId].W_PLC = connectConfigMap[lConnId].stdpConfig.W_PLC;
+#endif
 		}
 	}
 }
@@ -3111,6 +3604,7 @@ void SNN::generateRuntimeNetworkConfigs() {
 
 			// configurations for execution features
 			networkConfigs[netId].sim_with_fixedwts = sim_with_fixedwts;
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 			networkConfigs[netId].sim_with_conductances = sim_with_conductances;
 			networkConfigs[netId].sim_with_homeostasis = sim_with_homeostasis;
 			networkConfigs[netId].sim_with_stdp = sim_with_stdp;
@@ -3129,8 +3623,10 @@ void SNN::generateRuntimeNetworkConfigs() {
 			networkConfigs[netId].wtChangeDecay = wtChangeDecay_;
 
 			// conductance configurations
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 			networkConfigs[netId].sim_with_NMDA_rise = sim_with_NMDA_rise;
 			networkConfigs[netId].sim_with_GABAb_rise = sim_with_GABAb_rise;
+#ifndef LN_I_CALC_TYPES
 			networkConfigs[netId].dAMPA = dAMPA;
 			networkConfigs[netId].rNMDA = rNMDA;
 			networkConfigs[netId].dNMDA = dNMDA;
@@ -3139,7 +3635,7 @@ void SNN::generateRuntimeNetworkConfigs() {
 			networkConfigs[netId].rGABAb = rGABAb;
 			networkConfigs[netId].dGABAb = dGABAb;
 			networkConfigs[netId].sGABAb = sGABAb;
-
+#endif
 			networkConfigs[netId].simIntegrationMethod = glbNetworkConfig.simIntegrationMethod;
 			networkConfigs[netId].simNumStepsPerMs = glbNetworkConfig.simNumStepsPerMs;
 			networkConfigs[netId].timeStep = glbNetworkConfig.timeStep;
@@ -3188,6 +3684,10 @@ void SNN::generateRuntimeNetworkConfigs() {
 
 			// find the maximum number of numNSpikeGen among local networks
 			if (networkConfigs[netId].numNSpikeGen > managerRTDSize.maxNumNSpikeGen) managerRTDSize.maxNumNSpikeGen = networkConfigs[netId].numNSpikeGen;
+
+			//! calc the memory need for poisson neurons,  LN20201103  featSpikes 
+			// \note maxNumNPois is used for both numRand and poissonFireRates
+			if (networkConfigs[netId].numNPois > managerRTDSize.maxNumNPois) managerRTDSize.maxNumNPois = networkConfigs[netId].numNPois;  //!< LN20201103 featSpikes
 
 			// find the maximum number of numGroups and numConnections among local networks
 			if (networkConfigs[netId].numGroups > managerRTDSize.maxNumGroups) managerRTDSize.maxNumGroups = networkConfigs[netId].numGroups;
@@ -3247,7 +3747,11 @@ void SNN::generateConnectionRuntime(int netId) {
 	memset(managerRuntimeData.Npost, 0, sizeof(short) * networkConfigs[netId].numNAssigned);
 	memset(managerRuntimeData.Npre, 0, sizeof(short) * networkConfigs[netId].numNAssigned);
 	memset(managerRuntimeData.Npre_plastic, 0, sizeof(short) * networkConfigs[netId].numNAssigned);
+#ifdef LN_FIX_CONNLIST_
+	for (std::vector<ConnectionInfo>::iterator connIt = connectionLists[netId].begin(); connIt != connectionLists[netId].end(); connIt++) {
+#else
 	for (std::list<ConnectionInfo>::iterator connIt = connectionLists[netId].begin(); connIt != connectionLists[netId].end(); connIt++) {
+#endif
 		connIt->srcGLoffset = GLoffset[connIt->grpSrc];
 		if (managerRuntimeData.Npost[connIt->nSrc + GLoffset[connIt->grpSrc]] == SYNAPSE_ID_MASK) {
 			KERNEL_ERROR("Error: the number of synapses exceeds maximum limit (%d) for neuron %d (group %d)", SYNAPSE_ID_MASK, connIt->nSrc, connIt->grpSrc);
@@ -3300,7 +3804,11 @@ void SNN::generateConnectionRuntime(int netId) {
 	// generate preSynapticIds, parse plastic connections first
 	memset(managerRuntimeData.Npre, 0, sizeof(short) * networkConfigs[netId].numNAssigned); // reset managerRuntimeData.Npre to zero, so that it can be used as synId
 	parsedConnections = 0;
+#ifdef LN_FIX_CONNLIST_
+	for (std::vector<ConnectionInfo>::iterator connIt = connectionLists[netId].begin(); connIt != connectionLists[netId].end(); connIt++) {
+#else
 	for (std::list<ConnectionInfo>::iterator connIt = connectionLists[netId].begin(); connIt != connectionLists[netId].end(); connIt++) {
+#endif
 		if (GET_FIXED_PLASTIC(connectConfigMap[connIt->connId].connProp) == SYN_PLASTIC) {
 			int pre_pos = managerRuntimeData.cumulativePre[connIt->nDest + GLoffset[connIt->grpDest]] + managerRuntimeData.Npre[connIt->nDest + GLoffset[connIt->grpDest]];
 			assert(pre_pos < networkConfigs[netId].numPreSynNet);
@@ -3317,7 +3825,11 @@ void SNN::generateConnectionRuntime(int netId) {
 		}
 	}
 	// parse fixed connections
+#ifdef LN_FIX_CONNLIST_
+	for (std::vector<ConnectionInfo>::iterator connIt = connectionLists[netId].begin(); connIt != connectionLists[netId].end(); connIt++) {
+#else
 	for (std::list<ConnectionInfo>::iterator connIt = connectionLists[netId].begin(); connIt != connectionLists[netId].end(); connIt++) {
+#endif
 		if (GET_FIXED_PLASTIC(connectConfigMap[connIt->connId].connProp) == SYN_FIXED) {
 			int pre_pos = managerRuntimeData.cumulativePre[connIt->nDest + GLoffset[connIt->grpDest]] + managerRuntimeData.Npre[connIt->nDest + GLoffset[connIt->grpDest]];
 			assert(pre_pos < networkConfigs[netId].numPreSynNet);
@@ -3337,7 +3849,11 @@ void SNN::generateConnectionRuntime(int netId) {
 	//printf("parsed pre connections %d\n", parsedConnections);
 
 	// generate postSynapticIds
+#ifdef LN_FIX_CONNLIST_
+	//\todo FIX_CONLIST  implement splice sort(compareSrcNeuron) for vector
+#else
 	connectionLists[netId].sort(compareSrcNeuron); // sort by local nSrc id
+#endif
 	memset(managerRuntimeData.postDelayInfo, 0, sizeof(DelayInfo) * (networkConfigs[netId].numNAssigned * (glbNetworkConfig.maxDelay + 1)));
 	for (int lNId = 0; lNId < networkConfigs[netId].numNAssigned; lNId++) { // pre-neuron order, local nId
 		if (managerRuntimeData.Npost[lNId] > 0) {
@@ -3345,14 +3861,23 @@ void SNN::generateConnectionRuntime(int netId) {
 			ConnectionInfo targetConn;
 			targetConn.nSrc = lNId ; // the other fields does not matter, use local nid to search
 
+#ifdef LN_FIX_CONNLIST_
+			std::list<ConnectionInfo>::iterator firstPostConn;
+			// \todo  FIX_CONLIST   rewrite find()
+#else	
 			std::list<ConnectionInfo>::iterator firstPostConn = std::find(connectionLists[netId].begin(), connectionLists[netId].end(), targetConn);
+#endif
 			std::list<ConnectionInfo>::iterator lastPostConn = firstPostConn;
 			std::advance(lastPostConn, managerRuntimeData.Npost[lNId]);
 			managerRuntimeData.Npost[lNId] = 0; // reset managerRuntimeData.Npost[lNId] to zero, so that it can be used as synId
 
+#ifdef LN_FIX_CONNLIST_			
+			// \todo  FIX_CONLIST   implement splice(...) for vector
+			// Assertion failed : connectionLists[netId].empty(), file src\snn_manager.cpp, line 3531
+#else
 			postConnectionList.splice(postConnectionList.begin(), connectionLists[netId], firstPostConn, lastPostConn);
 			postConnectionList.sort(compareDelay);
-
+#endif
 			int post_pos, pre_pos, lastDelay = 0;
 			parsedConnections = 0;
 			//memset(&managerRuntimeData.postDelayInfo[lNId * (glbNetworkConfig.maxDelay + 1)], 0, sizeof(DelayInfo) * (glbNetworkConfig.maxDelay + 1));
@@ -3497,6 +4022,8 @@ void SNN::generateCompConnectionRuntime(int netId)
 
 
 void SNN::generatePoissonGroupRuntime(int netId, int lGrpId) {
+	resetNeuromodulator(netId, lGrpId); // Fix LN2021
+
 	for(int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++)
 		resetPoissonNeuron(netId, lGrpId, lNId);
 }
@@ -3631,6 +4158,29 @@ void SNN::compileGroupConfig() {
 	}
 	//assert(availableNeuronId == numN);
 	assert(assignedGroup == numGroups);
+
+#ifdef LN_I_CALC_TYPES
+	// group based IcalcType
+	auto networkDefault = sim_with_conductances ? COBA : CUBA;
+	for (int gGrpId = 0; gGrpId < numGroups; gGrpId++) {
+		if (groupConfigMap[gGrpId].icalcType == UNKNOWN_ICALC) {
+			groupConfigMap[gGrpId].icalcType = networkDefault;
+			groupConfigMap[gGrpId].with_NMDA_rise = sim_with_NMDA_rise;
+			groupConfigMap[gGrpId].with_GABAb_rise = sim_with_GABAb_rise;
+#define LN_I_CALC_TYPES__REQUIRED_FOR_BACKWARD_COMP
+			auto& config = groupConfigMap[gGrpId].conductanceConfig;
+			config.dAMPA = dAMPA;  // loss of precision is acceptable
+			config.dGABAa = dGABAa;
+			config.dGABAb = dGABAb;
+			config.dNMDA = dNMDA;
+			config.rGABAb = rGABAb;
+			config.rNMDA = rNMDA;
+			config.sGABAb = sGABAb;
+			config.sNMDA = sNMDA;
+		}
+	}
+#endif
+
 }
 
 void SNN::connectNetwork() {
@@ -3693,6 +4243,161 @@ void SNN::connectNetwork() {
 	}
 }
 
+
+////featFastSetup LN20201108
+//// works correct, but gains only 20% => to few threads
+//#include <thread>
+//void SNN::connectNetworkMT() {
+//	// this parse generates local connections
+//
+//	std::vector<std::thread> pool;
+//
+//	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+//
+//		pool.push_back(move(std::thread([&, netId]() {
+//
+//			for (std::list<ConnectConfig>::iterator connIt = localConnectLists[netId].begin(); connIt != localConnectLists[netId].end(); connIt++) {
+//				switch (connIt->type) {
+//				case CONN_RANDOM:
+//					//connectRandomMT(netId, connIt, false); // does not work
+//					connectRandom(netId, connIt, false);
+//					break;
+//				case CONN_FULL:
+//					connectFull(netId, connIt, false);
+//					break;
+//				case CONN_FULL_NO_DIRECT:
+//					connectFull(netId, connIt, false);
+//					break;
+//				case CONN_ONE_TO_ONE:
+//					connectOneToOne(netId, connIt, false);
+//					break;
+//				case CONN_GAUSSIAN:
+//					connectGaussian(netId, connIt, false);
+//					break;
+//				case CONN_USER_DEFINED:
+//					connectUserDefined(netId, connIt, false);
+//					break;
+//				default:
+//					KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
+//					exitSimulation(-1);
+//				}
+//			}
+//
+//		})));
+//	}
+//
+//	for (int i = 0; i < pool.size(); i++)
+//		pool[i].join();
+//
+//
+//	pool.clear();
+//
+//	// this parse generates external connections
+//	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+//
+//		pool.push_back(move(std::thread([&, netId]() {
+//
+//			for (std::list<ConnectConfig>::iterator connIt = externalConnectLists[netId].begin(); connIt != externalConnectLists[netId].end(); connIt++) {
+//				switch (connIt->type) {
+//				case CONN_RANDOM:
+//					//connectRandomMT(netId, connIt, true);
+//					connectRandom(netId, connIt, true);
+//					break;
+//				case CONN_FULL:
+//					connectFull(netId, connIt, true);
+//					break;
+//				case CONN_FULL_NO_DIRECT:
+//					connectFull(netId, connIt, true);
+//					break;
+//				case CONN_ONE_TO_ONE:
+//					connectOneToOne(netId, connIt, true);
+//					break;
+//				case CONN_GAUSSIAN:
+//					connectGaussian(netId, connIt, true);
+//					break;
+//				case CONN_USER_DEFINED:
+//					connectUserDefined(netId, connIt, true);
+//					break;
+//				default:
+//					KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
+//					exitSimulation(-1);
+//				}
+//			}
+//
+//		})));
+//	}
+//
+//	for (int i = 0; i < pool.size(); i++)
+//		pool[i].join();
+//}
+//
+
+#ifdef LN_SETUP_NETWORK_MT
+//featFastSetup LN20201108
+// 100% util but does not work correct
+void SNN::connectNetworkMT() {
+	// this parse generates local connections
+
+	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {	
+		for (std::list<ConnectConfig>::iterator connIt = localConnectLists[netId].begin(); connIt != localConnectLists[netId].end(); connIt++) {
+			switch (connIt->type) {
+			case CONN_RANDOM:
+				connectRandomMT(netId, connIt, false); // does not work correctly
+				break;
+			case CONN_FULL:
+				connectFull(netId, connIt, false);
+				break;
+			case CONN_FULL_NO_DIRECT:
+				connectFull(netId, connIt, false);
+				break;
+			case CONN_ONE_TO_ONE:
+				connectOneToOne(netId, connIt, false);
+				break;
+			case CONN_GAUSSIAN:
+				connectGaussian(netId, connIt, false);
+				break;
+			case CONN_USER_DEFINED:
+				connectUserDefined(netId, connIt, false);
+				break;
+			default:
+				KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
+				exitSimulation(-1);
+			}
+		}
+	}
+
+	// this parse generates external connections
+	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+		for (std::list<ConnectConfig>::iterator connIt = externalConnectLists[netId].begin(); connIt != externalConnectLists[netId].end(); connIt++) {
+			switch (connIt->type) {
+			case CONN_RANDOM:
+				connectRandomMT(netId, connIt, true); // does not work correctly
+				break;
+			case CONN_FULL:
+				connectFull(netId, connIt, true);
+				break;
+			case CONN_FULL_NO_DIRECT:
+				connectFull(netId, connIt, true);
+				break;
+			case CONN_ONE_TO_ONE:
+				connectOneToOne(netId, connIt, true);
+				break;
+			case CONN_GAUSSIAN:
+				connectGaussian(netId, connIt, true);
+				break;
+			case CONN_USER_DEFINED:
+				connectUserDefined(netId, connIt, true);
+				break;
+			default:
+				KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
+				exitSimulation(-1);
+			}
+		}
+	}
+
+}
+#endif 
+
 //! set one specific connection from neuron id 'src' to neuron id 'dest'
 inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc, int _nDest, short int _connId, int externalNetId) {
 	//assert(destN <= CONN_SYN_NEURON_MASK); // total number of neurons is less than 1 million within a GPU
@@ -3726,6 +4431,56 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	if (externalNetId >= 0)
 		connectionLists[externalNetId].push_back(connInfo);
 }
+
+#ifdef LN_SETUP_NETWORK_MT
+//! set one specific connection from neuron id 'src' to neuron id 'dest'
+inline void SNN::connectNeuronsMT(std::mutex &mtx, int netId, int _grpSrc, int _grpDest, int _nSrc, int _nDest, short int _connId, int externalNetId) {
+	//assert(destN <= CONN_SYN_NEURON_MASK); // total number of neurons is less than 1 million within a GPU
+	ConnectionInfo connInfo;
+	connInfo.grpSrc = _grpSrc;
+	connInfo.grpDest = _grpDest;
+	connInfo.nSrc = _nSrc;
+	connInfo.nDest = _nDest;
+	connInfo.srcGLoffset = 0;
+	connInfo.connId = _connId;
+	connInfo.preSynId = -1;
+	connInfo.initWt = 0.0f;
+	connInfo.maxWt = 0.0f;
+	connInfo.delay = 0;
+
+	// generate the delay vaule
+	connInfo.delay = connectConfigMap[_connId].minDelay + rand() % (connectConfigMap[_connId].maxDelay - connectConfigMap[_connId].minDelay + 1);
+	assert((connInfo.delay >= connectConfigMap[_connId].minDelay) && (connInfo.delay <= connectConfigMap[_connId].maxDelay));
+	// generate the max weight and initial weight
+	//float initWt = generateWeight(connectConfigMap[it->connId].connProp, connectConfigMap[it->connId].initWt, connectConfigMap[it->connId].maxWt, it->nSrc, it->grpSrc);
+	float initWt = connectConfigMap[_connId].initWt;
+	float maxWt = connectConfigMap[_connId].maxWt;
+	// adjust sign of weight based on pre-group (negative if pre is inhibitory)
+	// this access is fine, isExcitatoryGroup() use global grpId
+	connInfo.maxWt = isExcitatoryGroup(_grpSrc) ? fabs(maxWt) : -1.0 * fabs(maxWt);
+	connInfo.initWt = isExcitatoryGroup(_grpSrc) ? fabs(initWt) : -1.0 * fabs(initWt);
+
+	// 
+	/*
+	mutex works but slows down with 100% util
+	partitionSNNMT: 206.8s
+	generateRuntimeSNN: 191.5s
+
+	without: 
+	24s
+	Assertion failed: parsedConnections == networkConfigs[netId].numPostSynNet && parsedConnections == networkConfigs[netId].numPreSynNet, file src\snn_manager.cpp, line 3385
+
+	*/
+	//std::lock_guard<std::mutex> guard(mtx);  
+
+	connectionLists[netId].push_back(connInfo);
+	
+	// If the connection is external, copy the connection info to the external network
+	if (externalNetId >= 0)
+		connectionLists[externalNetId].push_back(connInfo);
+}
+#endif
+
 
 //! set one specific connection from neuron id 'src' to neuron id 'dest'
 inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc, int _nDest, short int _connId, float initWt, float maxWt, uint8_t delay, int externalNetId) {
@@ -3985,6 +4740,131 @@ void SNN::connectRandom(int netId, std::list<ConnectConfig>::iterator connIt, bo
 		grpIt->numPreSynapses += connIt->numberOfConnections;
 	}
 }
+
+#ifdef LN_SETUP_NETWORK_MT
+#include <thread>
+#include <atomic>
+#include <mutex>
+//#define DEBUG_connectRandomMT_SEQ
+// make 'C' random connections from grpSrc to grpDest
+/* fast but not correct:
+partitionSNNMT: 14.7s
+Assertion failed: parsedConnections == networkConfigs[netId].numPostSynNet && parsedConnections == networkConfigs[netId].numPreSynNet, file src\snn_manager.cpp, line 3385
+*/
+void SNN::connectRandomMT(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal) {
+	int grpSrc = connIt->grpSrc;
+	int grpDest = connIt->grpDest;
+	int externalNetId = -1;
+
+	if (isExternal) {
+		externalNetId = groupConfigMDMap[grpDest].netId;
+		assert(netId != externalNetId);
+	}
+
+	int gPreStart = groupConfigMDMap[grpSrc].gStartN;
+
+#ifdef DEBUG_connectRandomMT_SEQ
+
+
+	for (int gPreN = groupConfigMDMap[grpSrc].gStartN; gPreN <= groupConfigMDMap[grpSrc].gEndN; gPreN++) {
+		Point3D locPre = getNeuronLocation3D(grpSrc, gPreN - gPreStart); // 3D coordinates of i
+		int gPostStart = groupConfigMDMap[grpDest].gStartN;
+// 7.5s
+		for (int gPostN = groupConfigMDMap[grpDest].gStartN; gPostN <= groupConfigMDMap[grpDest].gEndN; gPostN++) {
+			// check whether pre-neuron location is in RF of post-neuron
+			Point3D locPost = getNeuronLocation3D(grpDest, gPostN - gPostStart); // 3D coordinates of j
+			if (!isPoint3DinRF(connIt->connRadius, locPre, locPost))
+				continue;
+// 32.5s
+			if (drand48() < connIt->connProbability) {
+				connectNeurons(netId, grpSrc, grpDest, gPreN, gPostN, connIt->connId, externalNetId);
+				connIt->numberOfConnections++;
+			}
+// 75.7
+		}
+
+	}
+
+#else 
+
+	std::atomic_int numberOfConnections = connIt->numberOfConnections; 
+	std::mutex mtx;           // mutex for critical section
+
+	auto worker = [&, netId, externalNetId, grpSrc, grpDest, gPreStart]
+			(int gPreN, RadiusRF &connRadius, float connProbability, int connId) {
+
+		Point3D locPre = getNeuronLocation3D(grpSrc, gPreN - gPreStart); // 3D coordinates of i
+		int gPostStart = groupConfigMDMap[grpDest].gStartN;
+		for (int gPostN = groupConfigMDMap[grpDest].gStartN; gPostN <= groupConfigMDMap[grpDest].gEndN; gPostN++) {
+			// check whether pre-neuron location is in RF of post-neuron
+			Point3D locPost = getNeuronLocation3D(grpDest, gPostN - gPostStart); // 3D coordinates of j
+			if (!isPoint3DinRF(connRadius, locPre, locPost))
+				continue;
+			
+			//double r = drand48();  //  bingo drand48 -> rand is not thread safe!
+			//srand::
+			//double r = (double)(srand() / RAND_MAX); 
+			// https://stackoverflow.com/questions/6161322/using-stdlibs-rand-from-multiple-threads
+			//double r = drand48_r(); 
+			double r = gPostN % 10; 
+			if (r < connProbability) {			
+				//std::lock_guard<std::mutex> guard(mtx);
+				connectNeuronsMT(mtx, netId, grpSrc, grpDest, gPreN, gPostN, connId, externalNetId);  // ISSUE order dependent?
+				numberOfConnections++;
+			}
+		}
+		
+	};
+
+	//std::vector<std::thread> pool(groupConfigMDMap[grpSrc].gEndN - groupConfigMDMap[grpSrc].gStartN + 1);
+	std::vector<std::thread> pool;
+
+	for (int gPreN = groupConfigMDMap[grpSrc].gStartN; gPreN <= groupConfigMDMap[grpSrc].gEndN; gPreN++) 
+		pool.push_back(move(std::thread(worker, gPreN, 
+			connIt->connRadius,
+			connIt->connProbability,
+			connIt->connId)));
+
+	for (int i = 0; i < pool.size(); i++)
+		pool[i].join(); 
+
+	connIt->numberOfConnections = numberOfConnections;
+
+#endif
+
+	printf("connectRandomMT connIt->connId: %d, ->numberOfConnections: %-10d\n", connIt->connId, connIt->numberOfConnections);
+
+	std::list<GroupConfigMD>::iterator grpIt;
+	GroupConfigMD targetGrp;
+
+	// update numPostSynapses and numPreSynapses of groups in the local network
+	targetGrp.gGrpId = grpSrc; // the other fields does not matter
+	grpIt = std::find(groupPartitionLists[netId].begin(), groupPartitionLists[netId].end(), targetGrp);
+	assert(grpIt != groupPartitionLists[netId].end());
+	grpIt->numPostSynapses += connIt->numberOfConnections;
+
+	targetGrp.gGrpId = grpDest; // the other fields does not matter
+	grpIt = std::find(groupPartitionLists[netId].begin(), groupPartitionLists[netId].end(), targetGrp);
+	assert(grpIt != groupPartitionLists[netId].end());
+	grpIt->numPreSynapses += connIt->numberOfConnections;
+
+
+	// also update numPostSynapses and numPreSynapses of groups in the external network if the connection is external
+	if (isExternal) {
+		targetGrp.gGrpId = grpSrc; // the other fields does not matter
+		grpIt = std::find(groupPartitionLists[externalNetId].begin(), groupPartitionLists[externalNetId].end(), targetGrp);
+		assert(grpIt != groupPartitionLists[externalNetId].end());
+		grpIt->numPostSynapses += connIt->numberOfConnections;
+
+		targetGrp.gGrpId = grpDest; // the other fields does not matter
+		grpIt = std::find(groupPartitionLists[externalNetId].begin(), groupPartitionLists[externalNetId].end(), targetGrp);
+		assert(grpIt != groupPartitionLists[externalNetId].end());
+		grpIt->numPreSynapses += connIt->numberOfConnections;
+	}
+
+
+}
+#endif
 
 // FIXME: rewrite user-define call-back function
 // user-defined functions called here...
@@ -4294,6 +5174,10 @@ void SNN::deleteObjects() {
 	// deallocate objects
 	resetMonitors(true);
 	resetConnectionConfigs(true);
+#ifdef LN_I_CALC_TYPES
+	resetGroupConfigs(true);
+#endif
+
 
 	// delete manager runtime data
 	deleteManagerRuntimeData();
@@ -4348,7 +5232,11 @@ void SNN::findMaxNumSynapsesNeurons(int _netId, int& _maxNumPostSynN, int& _maxN
 	}
 
 	// calculate number of pre- and post- connections of each neuron
+#ifdef LN_FIX_CONNLIST_
+	for (std::vector<ConnectionInfo>::iterator connIt = connectionLists[_netId].begin(); connIt != connectionLists[_netId].end(); connIt++) {
+#else
 	for (std::list<ConnectionInfo>::iterator connIt = connectionLists[_netId].begin(); connIt != connectionLists[_netId].end(); connIt++) {
+#endif
 		nSrc = connIt->nSrc + globalToLocalOffset[connIt->grpSrc];
 		nDest = connIt->nDest + globalToLocalOffset[connIt->grpDest];
 		assert(nSrc < numNeurons); assert(nDest < numNeurons);
@@ -4585,6 +5473,58 @@ void SNN::fetchLastSpikeTime(int netId) {
 	else
 		copyLastSpikeTime(netId);
 }
+
+/*! Fetch the spikes of the all Izhikevich neurons.
+This must be called for every network partition and the host for hybrid.
+LN20201111 featSpikes */
+void SNN::fetchCurSpike(int netId) {
+    assert(netId < MAX_NET_PER_SNN);
+
+    if (netId < CPU_RUNTIME_BASE) { // GPU runtime
+        copyCurSpikes(netId, cudaMemcpyDeviceToHost);
+    } else { // CPU runtime
+        copyCurSpikes(netId);
+    }
+}
+
+/*! 
+LN20201111 featSpikes */
+void SNN::fetchRandNum(int netId) {
+    assert(netId < MAX_NET_PER_SNN);
+
+    if (netId < CPU_RUNTIME_BASE) { // GPU runtime
+        copyRandNum(netId, cudaMemcpyDeviceToHost);
+    } else { // CPU runtime
+        copyRandNum(netId);
+    }
+}
+
+/*! 
+LN20201111 featSpikes */
+void SNN::fetchPoissonFireRate(int netId) {
+    assert(netId < MAX_NET_PER_SNN);
+
+    if (netId < CPU_RUNTIME_BASE) { // GPU runtime
+        copyPoissonFireRate(netId, cudaMemcpyDeviceToHost);
+    } else { // CPU runtime
+        copyPoissonFireRate(netId);
+    }
+}
+
+/*! 
+LN20201111 featSpikes */
+void SNN::fetchSpikeGenBits(int netId) {
+    assert(netId < MAX_NET_PER_SNN);
+
+    if (netId < CPU_RUNTIME_BASE) { // GPU runtime
+        copySpikeGenBits(netId, cudaMemcpyDeviceToHost);
+    } else { // CPU runtime
+        copySpikeGenBits(netId);
+    }
+}
+
+
+
 
 void SNN::fetchPreConnectionInfo(int netId) {
 	if (netId < CPU_RUNTIME_BASE)
@@ -4972,36 +5912,45 @@ void SNN::verifyCompartments() {
 	}
 }
 
-// checks whether STDP is set on a post-group with incoming plastic connections
+// checks whether STDP is set on a plastic connection
 void SNN::verifySTDP() {
 	for (int gGrpId=0; gGrpId<getNumGroups(); gGrpId++) {
-		if (groupConfigMap[gGrpId].stdpConfig.WithSTDP) {
-			// for each post-group, check if any of the incoming connections are plastic
-			bool isAnyPlastic = false;
+		if (groupConfigMap[gGrpId].WithSTDP) {
+		 	// for each post-group, check if any of the incoming connections are plastic
+		 	bool isAnyPlastic = false;
 			for (std::map<int, ConnectConfig>::iterator it = connectConfigMap.begin(); it != connectConfigMap.end(); it++) {
-				if (it->second.grpDest == gGrpId) {
-					// get syn wt type from connection property
-					isAnyPlastic |= GET_FIXED_PLASTIC(it->second.connProp);
-					if (isAnyPlastic) {
-						// at least one plastic connection found: break while
-						break;
-					}
+//LN2021 Adhoc Fix -> Kexin ?
+// 
+				//// get syn wt type from connection property
+				//if (it->second.stdpConfig.WithSTDP) {
+				//	if (GET_FIXED_PLASTIC(it->second.connProp)) {
+				//		break;
+				//	} else {
+				//		KERNEL_ERROR("If STDP on connection %d is set, connection must be plastic.",it->second.connId);
+				//		exitSimulation(1);
+				//	}
+				//}
+				isAnyPlastic |= GET_FIXED_PLASTIC(it->second.connProp);
+				if (isAnyPlastic) {
+				 	// at least one plastic connection found: break while
+				 	break;
 				}
 			}
-			if (!isAnyPlastic) {
-				KERNEL_ERROR("If STDP on group %d (%s) is set, group must have some incoming plastic connections.",
-					gGrpId, groupConfigMap[gGrpId].grpName.c_str());
-				exitSimulation(1);
-			}
-		}
-	}
+			 if (!isAnyPlastic) {
+			 	KERNEL_ERROR("If STDP on group %d (%s) is set, group must have some incoming plastic connections.",
+			 		gGrpId, groupConfigMap[gGrpId].grpName.c_str());
+			 	exitSimulation(1);
+			 }
+	 	}
+	 }
 }
 
 // checks whether every group with Homeostasis also has STDP
 void SNN::verifyHomeostasis() {
 	for (int gGrpId=0; gGrpId<getNumGroups(); gGrpId++) {
 		if (groupConfigMap[gGrpId].homeoConfig.WithHomeostasis) {
-			if (!groupConfigMap[gGrpId].stdpConfig.WithSTDP) {
+			KERNEL_INFO("group %d STDP %d", gGrpId, groupConfigMap[gGrpId].WithSTDP);
+			if (!groupConfigMap[gGrpId].WithSTDP) {
 				KERNEL_ERROR("If homeostasis is enabled on group %d (%s), then STDP must be enabled, too.",
 					gGrpId, groupConfigMap[gGrpId].grpName.c_str());
 				exitSimulation(1);
@@ -5097,8 +6046,10 @@ double SNN::getRFDist3D(const RadiusRF& radius, const Point3D& pre, const Point3
 void SNN::partitionSNN() {
 	int numAssignedNeurons[MAX_NET_PER_SNN] = {0};
 
+#ifndef __NO_CUDA__
 	// get number of available GPU card(s) in the present machine
 	numAvailableGPUs = configGPUDevice();
+#endif
 
 	for (std::map<int, GroupConfigMD>::iterator grpIt = groupConfigMDMap.begin(); grpIt != groupConfigMDMap.end(); grpIt++) {
 		// assign a group to the GPU specified by users
@@ -5272,6 +6223,197 @@ void SNN::partitionSNN() {
 
 	snnState = PARTITIONED_SNN;
 }
+
+#ifdef LN_SETUP_NETWORK_MT
+// featFastSetup LN20201108
+void SNN::partitionSNNMT() {
+	int numAssignedNeurons[MAX_NET_PER_SNN] = { 0 };
+
+	// get number of available GPU card(s) in the present machine
+	numAvailableGPUs = configGPUDevice();
+
+	for (std::map<int, GroupConfigMD>::iterator grpIt = groupConfigMDMap.begin(); grpIt != groupConfigMDMap.end(); grpIt++) {
+		// assign a group to the GPU specified by users
+		int gGrpId = grpIt->second.gGrpId;
+		int netId = groupConfigMap[gGrpId].preferredNetId;
+		if (netId != ANY) {
+			assert(netId > ANY && netId < MAX_NET_PER_SNN);
+			grpIt->second.netId = netId;
+			numAssignedNeurons[netId] += groupConfigMap[gGrpId].numN;
+			groupPartitionLists[netId].push_back(grpIt->second); // Copy by value, create a copy
+		}
+		else { // netId == ANY
+			   // TODO: add callback function that allow user to partition network by theirself
+			   // FIXME: make sure GPU(s) is available first
+			   // this parse separates groups into each local network and assign each group a netId
+			if (preferredSimMode_ == CPU_MODE) {
+				grpIt->second.netId = CPU_RUNTIME_BASE; // CPU 0
+				numAssignedNeurons[CPU_RUNTIME_BASE] += groupConfigMap[gGrpId].numN;
+				groupPartitionLists[CPU_RUNTIME_BASE].push_back(grpIt->second); // Copy by value, create a copy
+			}
+			else if (preferredSimMode_ == GPU_MODE) {
+				grpIt->second.netId = GPU_RUNTIME_BASE; // GPU 0
+				numAssignedNeurons[GPU_RUNTIME_BASE] += groupConfigMap[gGrpId].numN;
+				groupPartitionLists[GPU_RUNTIME_BASE].push_back(grpIt->second); // Copy by value, create a copy
+			}
+			else  if (preferredSimMode_ == HYBRID_MODE) {
+				// TODO: implement partition algorithm, use naive partition for now (allocate to CPU 0)
+				grpIt->second.netId = CPU_RUNTIME_BASE; // CPU 0
+				numAssignedNeurons[CPU_RUNTIME_BASE] += groupConfigMap[gGrpId].numN;
+				groupPartitionLists[CPU_RUNTIME_BASE].push_back(grpIt->second); // Copy by value, create a copy
+			}
+			else {
+				KERNEL_ERROR("Unkown simulation mode");
+				exitSimulation(-1);
+			}
+		}
+
+		if (grpIt->second.netId == -1) { // the group was not assigned to any computing backend
+			KERNEL_ERROR("Can't assign the group [%d] to any partition", grpIt->second.gGrpId);
+			exitSimulation(-1);
+		}
+	}
+
+	// this parse finds local connections (i.e., connection configs that conect local groups)
+	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+		if (!groupPartitionLists[netId].empty()) {
+			for (std::map<int, ConnectConfig>::iterator connIt = connectConfigMap.begin(); connIt != connectConfigMap.end(); connIt++) {
+				if (groupConfigMDMap[connIt->second.grpSrc].netId == netId && groupConfigMDMap[connIt->second.grpDest].netId == netId) {
+					localConnectLists[netId].push_back(connectConfigMap[connIt->second.connId]); // Copy by value
+				}
+			}
+
+			//printf("The size of compConnectConfigMap is: %i\n", compConnectConfigMap.size());
+			for (std::map<int, compConnectConfig>::iterator connIt = compConnectConfigMap.begin(); connIt != compConnectConfigMap.end(); connIt++) {
+				if (groupConfigMDMap[connIt->second.grpSrc].netId == netId && groupConfigMDMap[connIt->second.grpDest].netId == netId) {
+					localCompConnectLists[netId].push_back(compConnectConfigMap[connIt->second.connId]); // Copy by value
+				}
+			}
+		}
+	}
+
+	// this parse finds external groups and external connections
+	spikeRoutingTable.clear();
+	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+		if (!groupPartitionLists[netId].empty()) {
+			for (std::map<int, ConnectConfig>::iterator connIt = connectConfigMap.begin(); connIt != connectConfigMap.end(); connIt++) {
+				int srcNetId = groupConfigMDMap[connIt->second.grpSrc].netId;
+				int destNetId = groupConfigMDMap[connIt->second.grpDest].netId;
+				if (srcNetId == netId && destNetId != netId) {
+					// search the source group in groupPartitionLists and mark it as having external connections
+					GroupConfigMD targetGroup;
+					std::list<GroupConfigMD>::iterator srcGrpIt, destGrpIt;
+
+					targetGroup.gGrpId = connIt->second.grpSrc;
+					srcGrpIt = find(groupPartitionLists[srcNetId].begin(), groupPartitionLists[srcNetId].end(), targetGroup);
+					assert(srcGrpIt != groupPartitionLists[srcNetId].end());
+					srcGrpIt->hasExternalConnect = true;
+
+					// FIXME: fail to write external group if the only one external link across GPUs is uni directional (GPU0 -> GPU1, no GPU1 -> GPU0)
+					targetGroup.gGrpId = connIt->second.grpDest;
+					destGrpIt = find(groupPartitionLists[srcNetId].begin(), groupPartitionLists[srcNetId].end(), targetGroup);
+					if (destGrpIt == groupPartitionLists[srcNetId].end()) { // the "external" dest group has not yet been copied to te "local" group partition list
+						numAssignedNeurons[srcNetId] += groupConfigMap[connIt->second.grpDest].numN;
+						groupPartitionLists[srcNetId].push_back(groupConfigMDMap[connIt->second.grpDest]);
+					}
+
+					targetGroup.gGrpId = connIt->second.grpSrc;
+					srcGrpIt = find(groupPartitionLists[destNetId].begin(), groupPartitionLists[destNetId].end(), targetGroup);
+					if (srcGrpIt == groupPartitionLists[destNetId].end()) {
+						numAssignedNeurons[destNetId] += groupConfigMap[connIt->second.grpSrc].numN;
+						groupPartitionLists[destNetId].push_back(groupConfigMDMap[connIt->second.grpSrc]);
+					}
+
+					externalConnectLists[srcNetId].push_back(connectConfigMap[connIt->second.connId]); // Copy by value
+
+																									   // build the spike routing table by the way
+																									   //printf("%d,%d -> %d,%d\n", srcNetId, connIt->second.grpSrc, destNetId, connIt->second.grpDest);
+					RoutingTableEntry rte(srcNetId, destNetId);
+					spikeRoutingTable.push_back(rte);
+				}
+			}
+		}
+	}
+
+	spikeRoutingTable.unique();
+
+	// assign local neuron ids and, local group ids for each local network in the order
+	// MPORTANT : NEURON ORGANIZATION/ARRANGEMENT MAP
+	// <--- Excitatory --> | <-------- Inhibitory REGION ----------> | <-- Excitatory --> | <-- External -->
+	// Excitatory-Regular  | Inhibitory-Regular | Inhibitory-Poisson | Excitatory-Poisson | External Neurons
+	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+		if (!groupPartitionLists[netId].empty()) {
+			int availableNeuronId = 0;
+			int localGroupId = 0;
+			for (int order = 0; order < 5; order++) {
+				for (std::list<GroupConfigMD>::iterator grpIt = groupPartitionLists[netId].begin(); grpIt != groupPartitionLists[netId].end(); grpIt++) {
+					unsigned int type = groupConfigMap[grpIt->gGrpId].type;
+					if (IS_EXCITATORY_TYPE(type) && (type & POISSON_NEURON) && order == 3 && grpIt->netId == netId) {
+						availableNeuronId = assignGroup(grpIt, localGroupId, availableNeuronId);
+						localGroupId++;
+					}
+					else if (IS_INHIBITORY_TYPE(type) && (type & POISSON_NEURON) && order == 2 && grpIt->netId == netId) {
+						availableNeuronId = assignGroup(grpIt, localGroupId, availableNeuronId);
+						localGroupId++;
+					}
+					else if (IS_EXCITATORY_TYPE(type) && !(type & POISSON_NEURON) && order == 0 && grpIt->netId == netId) {
+						availableNeuronId = assignGroup(grpIt, localGroupId, availableNeuronId);
+						localGroupId++;
+					}
+					else if (IS_INHIBITORY_TYPE(type) && !(type & POISSON_NEURON) && order == 1 && grpIt->netId == netId) {
+						availableNeuronId = assignGroup(grpIt, localGroupId, availableNeuronId);
+						localGroupId++;
+					}
+					else if (order == 4 && grpIt->netId != netId) {
+						availableNeuronId = assignGroup(grpIt, localGroupId, availableNeuronId);
+						localGroupId++;
+					}
+				}
+			}
+			assert(availableNeuronId == numAssignedNeurons[netId]);
+			assert(localGroupId == groupPartitionLists[netId].size());
+		}
+	}
+
+
+	// generation connections among groups according to group and connect configs
+	// update ConnectConfig::numberOfConnections
+	// update GroupConfig::numPostSynapses, GroupConfig::numPreSynapses
+	if (loadSimFID == NULL) {
+		connectNetworkMT();
+	}
+	else {
+		KERNEL_INFO("Load Simulation");
+		loadSimulation_internal(false);  // true or false doesn't matter here
+	}
+
+	collectGlobalNetworkConfigP();
+
+	// print group and connection overview
+	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+		if (!groupPartitionLists[netId].empty()) {
+			KERNEL_INFO("\n+ Local Network (%d)", netId);
+			KERNEL_INFO("|-+ Group List:");
+			for (std::list<GroupConfigMD>::iterator grpIt = groupPartitionLists[netId].begin(); grpIt != groupPartitionLists[netId].end(); grpIt++)
+				printGroupInfo(netId, grpIt);
+		}
+
+		if (!localConnectLists[netId].empty() || !externalConnectLists[netId].empty()) {
+			KERNEL_INFO("|-+ Connection List:");
+			for (std::list<ConnectConfig>::iterator connIt = localConnectLists[netId].begin(); connIt != localConnectLists[netId].end(); connIt++)
+				printConnectionInfo(netId, connIt);
+
+			for (std::list<ConnectConfig>::iterator connIt = externalConnectLists[netId].begin(); connIt != externalConnectLists[netId].end(); connIt++)
+				printConnectionInfo(netId, connIt);
+		}
+	}
+
+	// print spike routing table
+	printSikeRoutingInfo();
+
+	snnState = PARTITIONED_SNN;
+}
+#endif 
 
 int SNN::loadSimulation_internal(bool onlyPlastic) {
 	// TSC: so that we can restore the file position later...
@@ -5465,6 +6607,8 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 			float maxWeight;
 			int delay;
 
+// LN2021 TODO issue ignore warning VS2019, 
+// 1>C:\Test\github\carlsim6-src\carlsim\kernel\src\snn_manager.cpp(6168,12): warning C4552: '!=': result of expression not used
 			// read gGrpIdPre
 			result = fread(&gGrpIdPre, sizeof(int), 1, loadSimFID);
 			readErr != (result!=1);
@@ -5691,6 +6835,19 @@ void SNN::generateRuntimeSNN() {
 }
 
 void SNN::resetConductances(int netId) {
+#ifdef LN_I_CALC_TYPES
+	// always allocate memory for explicid rise/decay as it may be partitionated by groups
+	if (networkConfigs[netId].sim_with_conductances) {
+		memset(managerRuntimeData.gAMPA, 0, sizeof(float) * networkConfigs[netId].numNReg);
+		memset(managerRuntimeData.gNMDA_r, 0, sizeof(float) * networkConfigs[netId].numNReg);
+		memset(managerRuntimeData.gNMDA_d, 0, sizeof(float) * networkConfigs[netId].numNReg);
+		memset(managerRuntimeData.gNMDA, 0, sizeof(float) * networkConfigs[netId].numNReg);
+		memset(managerRuntimeData.gGABAa, 0, sizeof(float) * networkConfigs[netId].numNReg);
+		memset(managerRuntimeData.gGABAb_r, 0, sizeof(float) * networkConfigs[netId].numNReg);
+		memset(managerRuntimeData.gGABAb_d, 0, sizeof(float) * networkConfigs[netId].numNReg);
+		memset(managerRuntimeData.gGABAb, 0, sizeof(float) * networkConfigs[netId].numNReg);
+	}
+#else
 	if (networkConfigs[netId].sim_with_conductances) {
 		memset(managerRuntimeData.gAMPA, 0, sizeof(float) * networkConfigs[netId].numNReg);
 		if (networkConfigs[netId].sim_with_NMDA_rise) {
@@ -5707,6 +6864,7 @@ void SNN::resetConductances(int netId) {
 			memset(managerRuntimeData.gGABAb, 0, sizeof(float) * networkConfigs[netId].numNReg);
 		}
 	}
+#endif
 }
 
 void SNN::resetCurrent(int netId) {
@@ -5863,6 +7021,16 @@ void SNN::deleteManagerRuntimeData() {
 	if (spikeBuf!=NULL) delete spikeBuf;
 	if (managerRuntimeData.spikeGenBits!=NULL) delete[] managerRuntimeData.spikeGenBits;
 	spikeBuf=NULL; managerRuntimeData.spikeGenBits=NULL;
+
+	// LN20201103 featSpikes poisson
+	if (managerRuntimeData.randNum!=NULL) {
+		delete[] managerRuntimeData.randNum; 
+		managerRuntimeData.randNum = NULL;
+	}
+	if (managerRuntimeData.poissonFireRate!=NULL) {
+		delete[] managerRuntimeData.poissonFireRate; 
+		managerRuntimeData.poissonFireRate = NULL;
+	}
 
 	// clear data (i.e., concentration of neuromodulator) of groups
 	if (managerRuntimeData.grpDA != NULL) delete [] managerRuntimeData.grpDA;
@@ -6332,23 +7500,48 @@ void SNN::updateGroupMonitor(int gGrpId) {
 		FILE* grpFileId = groupMonCoreList[monitorId]->getGroupFileId();
 		bool writeGroupToFile = grpFileId != NULL;
 		bool writeGroupToArray = grpMonObj->isRecording();
-		float data;
+		//{ /featGroupMonitorFileWrite  
+		//float data; 
+		// LN20201003
+		float data[4] = {.0f, .0f, .0f, .0f};  // DA,5HT,ACh,NE   --> solution: DA or all 4 -> 1 flag in monitor creation: full .. ..
+			// -> header 
+			// argumentation: most applications are DA , her a definitive need for OAT 
+			// if "Krichmar.full" .. is implemented, usually all neurotransmitter work in concert, 
+			// then all are neccessary  => flag:  DA only  or all neuro transmitter  4 ? 
+		size_t nTransM = grpMonObj->isInAllMode()?4:1; // nTransmitter, FULL = 4,  DA = 1  --> init, mode , header
+		//}
 
 		// Read one peice of data at a time from the buffer and put the data to an appopriate monitor buffer. Later the user
 		// may need need to dump these group status data to an output file
 		for(int t = numMsMin; t < numMsMax; t++) {
 			// fetch group status data, support dopamine concentration currently
-			data = managerRuntimeData.grpDABuffer[lGrpId * 1000 + t];
-
+			data[0] = managerRuntimeData.grpDABuffer[lGrpId * 1000 + t];				
+			// prepared for full mode 
+			if(grpMonObj->isInAllMode()) {
+#define LN_FIX_GRP_ALL_BUFFER
+				data[1] = managerRuntimeData.grp5HTBuffer[lGrpId * 1000 + t];  // ISSUE, does this work ? if no recording 
+				//printf("data[1]=%f\n", data[1]); 
+				data[2] = managerRuntimeData.grpAChBuffer[lGrpId * 1000 + t];
+				//data[4] = managerRuntimeData.grpNEBuffer[lGrpId * 1000 + t]; // LN20201017 Ooopsi   1>c:\test\github\carlsim4\carlsim\kernel\src\snn_manager.cpp(6402): warning C4789: buffer 'data' of size 16 bytes will be overrun; 4 bytes will be written starting at offset 16
+				data[3] = managerRuntimeData.grpNEBuffer[lGrpId * 1000 + t]; // LN20201017 Ooopsi   1>c:\test\github\carlsim4\carlsim\kernel\src\snn_manager.cpp(6402): warning C4789: buffer 'data' of size 16 bytes will be overrun; 4 bytes will be written starting at offset 16
+			}
 			// current time is last completed second plus whatever is leftover in t
 			int time = currentTimeSec * 1000 + t;
 
 			if (writeGroupToFile) {
 				// TODO: write to group status file
+				//{ /featGroupMonitorFileWrite LN20201003  --> to monitor DA concentration with OAT 
+				size_t cnt;
+				cnt = fwrite(&time, sizeof(int), 1, grpFileId); assert(cnt==1);
+				cnt = fwrite(&data,  sizeof(float), nTransM, grpFileId); assert(cnt==nTransM); // DA[,HT,ACh,NE]
+				//}
 			}
 
 			if (writeGroupToArray) {
-				grpMonObj->pushData(time, data);
+				if(grpMonObj->isInAllMode()) 
+					grpMonObj->pushData(time, data[0], data[1], data[2], data[3]);	
+				else 
+					grpMonObj->pushData(time, data[0]);  // LN backward compatibilty DA only
 			}
 		}
 
@@ -6377,7 +7570,7 @@ void SNN::userDefinedSpikeGenerator(int gGrpId) {
 
 		// the end of the valid time window is either the length of the scheduling time slice from now (because that
 		// is the max of the allowed propagated buffer size) or simply the end of the simulation
-		int endOfTimeWindow = std::min(currTime+timeSlice, simTimeRunStop);
+		int endOfTimeWindow = std::min<int>(currTime+timeSlice, simTimeRunStop);
 
 		done = false;
 		while (!done) {
@@ -6474,6 +7667,314 @@ bool SNN::updateTime() {
 
 	return finishedOneSec;
 }
+
+#ifdef LN_UPDATE_CURSPIKES
+//#define DEBUG_UPDATE_CURSPIKES
+// LN20201101 mock to test fetchCurSpikes
+void SNN::updateCurSpike(std::vector<bool>& gFiring, int netId) {
+
+	if (netId == ALL) {
+		for (int id = 0; id  < MAX_NET_PER_SNN; id ++)
+			if (!groupPartitionLists[id].empty())
+				updateCurSpike(gFiring, id);
+	} 
+	else {
+		// translate CurSpike of regular neurons into firing 
+		int regLength = networkConfigs[netId].numNReg;
+		assert(gFiring.size() >= regLength);
+
+		int genLength = networkConfigs[netId].numNSpikeGen;
+		assert(gFiring.size() >= regLength + genLength);
+
+		int nPois = networkConfigs[netId].numNPois;
+		int poisLength = nPois - genLength;
+		assert(gFiring.size() >= regLength + poisLength);
+
+		assert(networkConfigs[netId].numN >= regLength + genLength + poisLength);  // lif
+
+		int rateGenLength = networkConfigs[netId].numNRateGen;
+
+		int length = networkConfigs[netId].numN;
+		std::vector<bool> lFiring(length, false);
+
+#ifdef DEBUG_UPDATE_CURSPIKES
+		printf("numN: %d numNReg:%d  numNPois:%d numNSpikeGen:%d numNPoisGen:%d\n",
+			length, regLength, poisLength, genLength, rateGenLength);
+#endif
+
+		// copy the neuron firing information to the manager runtime
+		fetchCurSpike(netId);
+
+		// copy Poisson neuron firing to the manager runtime
+		if (poisLength > 0) {
+			fetchRandNum(netId);
+			fetchPoissonFireRate(netId);
+		}
+
+		// copy SpikeGenerator neuron firing to the manager runtime
+		if (genLength > 0) {
+			fetchSpikeGenBits(netId);
+		}
+
+
+		if (genLength > 0) {
+#ifdef DEBUG_UPDATE_CURSPIKES
+			printf("SpikGen: %d, Spikes (t=%01d.%03ds): ", regLength, simTimeMs / 1000, simTimeMs); // gen is captured before the step
+#endif
+			for (int lNId = regLength; lNId < genLength + regLength; lNId++) {
+				const int nIdPos = lNId - regLength;
+				//\sa getSpikeGenBit (crashes on GPU)
+				const int nIdBitPos = nIdPos % 32;
+				const int nIdIndex = nIdPos / 32;
+				bool fired = ((managerRuntimeData.spikeGenBits[nIdIndex] >> nIdBitPos) & 0x1);
+				lFiring[lNId] = fired;
+#ifdef DEBUG_UPDATE_CURSPIKES
+				printf("%s", fired ? "^" : "-");
+#endif
+			}
+#ifdef DEBUG_UPDATE_CURSPIKES
+			printf("\n");
+#endif
+		}
+
+		if (poisLength > 0) {
+#ifdef DEBUG_UPDATE_CURSPIKES
+			printf("Poisson: %d, Spikes (t=%01d.%03ds): ", regLength, simTimeMs / 1000, simTimeMs);
+#endif
+			for (int lNId = regLength + genLength; lNId < regLength + genLength + poisLength; lNId++) {
+				//\sa getPoissonSpike (crashes on GPU)
+				bool fired = managerRuntimeData.randNum[lNId - regLength] * 1000.0f
+					< managerRuntimeData.poissonFireRate[lNId - regLength];
+				lFiring[lNId] = fired;
+#ifdef DEBUG_UPDATE_CURSPIKES
+				printf("%s", fired ? "^" : "-");
+#endif
+			}
+#ifdef DEBUG_UPDATE_CURSPIKES
+			printf("\n");
+#endif
+		}
+
+#ifdef DEBUG_UPDATE_CURSPIKES
+		printf("Regular: %d, Spikes (t=%01d.%03ds): ", regLength, simTimeMs / 1000, simTimeMs);
+#endif
+
+		for (int lNId = 0; lNId < regLength; lNId++) {
+			bool fired = managerRuntimeData.curSpike[lNId];
+			lFiring[lNId] = fired;
+#ifdef DEBUG_UPDATE_CURSPIKES
+			printf("%s", fired ? "^" : "-");
+#endif
+		}
+#ifdef DEBUG_UPDATE_CURSPIKES
+		printf("\n");
+#endif
+
+		// translate local to global 	
+		//std::map<int, GroupConfigMD>
+		for (auto iter = groupConfigMDMap.begin(); iter != groupConfigMDMap.end(); iter++) {
+			int gGrpId = iter->first;
+			GroupConfigMD &groupConfig = iter->second;
+			if (groupConfig.netId == netId) {
+				for (int lNId = groupConfig.lStartN, gNId = groupConfig.gStartN;
+					lNId <= groupConfig.lEndN && gNId <= groupConfig.gEndN;
+					lNId++, gNId++)
+				{
+					assert(gNId == lNId + groupConfig.LtoGOffset);
+					assert(lNId == gNId + groupConfig.GtoLOffset);
+					gFiring[gNId] = lFiring[lNId];
+				}
+			}
+		}
+
+	}
+}
+#endif
+
+#ifdef LN_UPDATE_CURSPIKES_MT
+//#define DEBUG_UPDATE_CURSPIKES_MT
+//#define DEBUG_UPDATE_CURSPIKES_MT_TIMING
+//#define DEBUG_UPDATE_CURSPIKES_MT_MAP_TIMING
+//#define DEBUG_UPDATE_CURSPIKES_MT_MAP_SEQ
+#include <thread>
+#include <chrono>
+//#define DEBUG_UPDATE_CURSPIKES
+// LN20201101 mock to test fetchCurSpikes
+// https://en.cppreference.com/w/cpp/language/lambda
+// https://en.cppreference.com/w/cpp/thread/thread/join
+void SNN::updateCurSpikeMT(std::vector<bool>& gFiring, int netId) {
+
+	// prototype does not support -1 see Single Threaded solution 
+
+	//if (netId == ALL) {
+	//	for (int id = 0; id < MAX_NET_PER_SNN; id++)
+	//		if (!groupPartitionLists[id].empty())
+	//			updateCurSpike(gFiring, id);
+	//}
+	//else {
+
+
+	// translate CurSpike of regular neurons into firing 
+	int regLength = networkConfigs[netId].numNReg;
+	assert(gFiring.size() >= regLength);
+
+	int genLength = networkConfigs[netId].numNSpikeGen;
+	assert(gFiring.size() >= regLength + genLength);
+
+	int nPois = networkConfigs[netId].numNPois;
+	int poisLength = nPois - genLength;
+	assert(gFiring.size() >= regLength + poisLength);
+
+	assert(networkConfigs[netId].numN >= regLength + genLength + poisLength);  // lif
+
+	int rateGenLength = networkConfigs[netId].numNRateGen;
+
+	int length = networkConfigs[netId].numN;
+	std::vector<bool> lFiring(length, false);
+
+#ifdef DEBUG_UPDATE_CURSPIKES_MT
+	printf("numN: %d numNReg:%d  numNPois:%d numNSpikeGen:%d numNPoisGen:%d\n",
+		length, regLength, poisLength, genLength, rateGenLength);
+#endif
+
+	// copy the neuron firing information to the manager runtime
+	fetchCurSpike(netId);
+
+	// copy Poisson neuron firing to the manager runtime
+	if (poisLength > 0) {
+		fetchRandNum(netId);
+		fetchPoissonFireRate(netId);
+	}
+
+	// copy SpikeGenerator neuron firing to the manager runtime
+	if (genLength > 0) {
+		fetchSpikeGenBits(netId);
+	}
+
+	std::vector<std::thread> gen_workers(genLength);  // avoid less performant push_back
+	std::vector<std::thread> pois_workers(poisLength);  // avoid less performant push_back
+	std::vector<std::thread> reg_workers(regLength);  // avoid less performant push_back
+
+	if (genLength > 0) {
+		for (int lNId = regLength; lNId < genLength + regLength; lNId++) {
+			auto worker = [&, lNId]() {  // all be ref, except lNId by copy
+				const int nIdPos = lNId - regLength;
+				//\sa getSpikeGenBit (crashes on GPU)
+				const int nIdBitPos = nIdPos % 32;
+				const int nIdIndex = nIdPos / 32;
+				bool fired = ((managerRuntimeData.spikeGenBits[nIdIndex] >> nIdBitPos) & 0x1);
+#ifdef DEBUG_UPDATE_CURSPIKES_MT_TIMING
+				std::this_thread::sleep_for(std::chrono::seconds(2));
+#endif
+				lFiring[lNId] = fired;
+			};
+			gen_workers[lNId-regLength] = std::thread(worker);
+		}
+		assert(gen_workers.size() == genLength);
+	}
+
+	if (poisLength>0) {
+		for (int lNId = regLength + genLength; lNId<regLength + genLength + poisLength; lNId++) {
+			auto worker = [&, lNId]() {
+				//\sa getPoissonSpike (crashes on GPU)
+				bool fired = managerRuntimeData.randNum[lNId - regLength] * 1000.0f
+					< managerRuntimeData.poissonFireRate[lNId - regLength];
+#ifdef DEBUG_UPDATE_CURSPIKES_MT_TIMING
+				std::this_thread::sleep_for(std::chrono::seconds(8));
+#endif
+				lFiring[lNId] = fired;
+			}; 
+			pois_workers[lNId - regLength - genLength] = std::thread(worker);
+		}
+		assert(pois_workers.size() == poisLength);
+	}
+
+	if (regLength > 0) {
+		for (int lNId = 0; lNId < regLength; lNId++) {
+			auto worker = [&, lNId]() {
+				bool fired = managerRuntimeData.curSpike[lNId];
+#ifdef DEBUG_UPDATE_CURSPIKES_MT_TIMING
+				std::this_thread::sleep_for(std::chrono::seconds(10));
+#endif
+				lFiring[lNId] = fired;
+			};
+			reg_workers[lNId] = std::thread(worker);
+		}
+		assert(reg_workers.size() == regLength);
+	}
+
+	// later
+	for (int lNId = regLength; lNId < genLength + regLength; lNId++)
+		gen_workers[lNId-regLength].join();
+
+	for (int lNId = regLength + genLength; lNId<regLength + genLength + poisLength; lNId++)
+		pois_workers[lNId - regLength - genLength].join();
+
+	for (int lNId = 0; lNId<regLength; lNId++)
+		reg_workers[lNId].join();
+
+
+	// after join later
+#ifdef DEBUG_UPDATE_CURSPIKES_MT
+	if (genLength > 0) {
+		printf("SpikGen: %d, Spikes (t=%01d.%03ds): ", regLength, simTimeMs / 1000, simTimeMs); // gen is captured before the step
+		for (int lNId = regLength; lNId < genLength + regLength; lNId++)
+			printf("%s", lFiring[lNId] ? "^" : "-");
+		printf("\n");
+	}
+	if (poisLength > 0) {
+		printf("Poisson: %d, Spikes (t=%01d.%03ds): ", regLength, simTimeMs / 1000, simTimeMs);
+		for (int lNId = regLength + genLength; lNId < regLength + genLength + poisLength; lNId++)
+			printf("%s", lFiring[lNId] ? "^" : "-");
+		printf("\n");
+	}
+	if (regLength > 0) {
+		printf("Regular: %d, Spikes (t=%01d.%03ds): ", regLength, simTimeMs / 1000, simTimeMs);
+		for (int lNId = 0; lNId < regLength; lNId++)
+			printf("%s", lFiring[lNId] ? "^" : "-");
+		printf("\n");
+	}
+#endif
+
+
+	// translate local to global 	
+	int threadIdx = 0;
+	std::vector<std::thread> map_workers(groupConfigMDMap.size());  // avoid less performant push_back
+	for (auto iter = groupConfigMDMap.begin(); iter != groupConfigMDMap.end(); iter++) {
+			auto worker = [&, iter]() {  // copy iter and therefor the reference to groupConfig
+				int gGrpId = iter->first;
+				GroupConfigMD &groupConfig = iter->second;  // ref groupConfig				
+				if (groupConfig.netId == netId) {
+					for (int lNId = groupConfig.lStartN, gNId = groupConfig.gStartN;
+						lNId <= groupConfig.lEndN && gNId <= groupConfig.gEndN;
+						lNId++, gNId++)
+					{
+						assert(gNId == lNId + groupConfig.LtoGOffset);
+						assert(lNId == gNId + groupConfig.GtoLOffset);
+#ifdef DEBUG_UPDATE_CURSPIKES_MT_MAP_TIMING
+						//std::this_thread::sleep_for(std::chrono::seconds(1));  // pretty deterministic randomness
+						std::this_thread::sleep_for(std::chrono::milliseconds(lNId));  // pretty deterministic randomness
+#endif
+						gFiring[gNId] = lFiring[lNId];
+					}
+				}
+			};
+#ifdef DEBUG_UPDATE_CURSPIKES_MT_MAP_SEQ
+			worker(); // sequencial: sum all groups * 1s = 12s  reg 
+#else
+			map_workers[threadIdx++] = std::thread(worker);  // parallel: 1s * largest group = 4s
+#endif
+	}
+#ifndef DEBUG_UPDATE_CURSPIKES_MT_MAP_SEQ 
+	assert(threadIdx == groupConfigMDMap.size());   // hint: comment out to run sequ
+	for(threadIdx=0; threadIdx<map_workers.size(); threadIdx++)
+		map_workers[threadIdx].join();
+#endif
+
+}
+
+#endif //CURSPIKES_MT
+
 
 // FIXME: modify this for multi-GPUs
 void SNN::updateSpikeMonitor(int gGrpId) {

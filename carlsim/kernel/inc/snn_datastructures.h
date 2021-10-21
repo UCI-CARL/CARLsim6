@@ -42,19 +42,25 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
-* Ver 12/31/2016
+* Ver 12/31/2021
 */
 
 #ifndef _SNN_DATASTRUCTURES_H_
 #define _SNN_DATASTRUCTURES_H_
+
+
 
 // include CUDA version-dependent macros and include files
 #ifndef __NO_CUDA__
 	#include <cuda_version_control.h>
 	#include <curand.h>
 #endif
+
+
+
 
 /*!
 * \brief type of memory pointer
@@ -92,6 +98,157 @@ typedef struct SynInfo_s {
 	int nId; //!< neuron id
 } SynInfo;
 
+//!< long-term plasiticity configurations
+typedef struct STDPConfig_s {
+	STDPConfig_s() : WithSTDP(false), WithESTDP(false), WithISTDP(false),
+		WithESTDPtype(UNKNOWN_STDP), WithISTDPtype(UNKNOWN_STDP), WithESTDPcurve(UNKNOWN_CURVE), WithISTDPcurve(UNKNOWN_CURVE)
+	{}
+	bool WithSTDP;
+	bool WithESTDP;				// LN2021 FIXME: consolidate E/I as it is connection based now
+	bool WithISTDP;
+	STDPType WithESTDPtype;		// LN2021 FIXME: dito
+	STDPType WithISTDPtype;		
+	STDPCurve WithESTDPcurve;	// LN2021 FIXME: dito
+	STDPCurve WithISTDPcurve;
+	float        TAU_PLUS_INV_EXC;
+	float        TAU_MINUS_INV_EXC;
+	float        ALPHA_PLUS_EXC;
+	float        ALPHA_MINUS_EXC;
+	float        GAMMA;		// LN2021 FIXME: apply unit (C++11) or variant (C++17)
+	float        KAPPA;		
+	float        OMEGA;		
+	float        TAU_PLUS_INV_INB;		// LN2021 FIXME : redundant, see dito
+	float        TAU_MINUS_INV_INB;	
+	float        ALPHA_PLUS_INB;	
+	float        ALPHA_MINUS_INB;	
+	float        BETA_LTP;			// LN2021 FIXME: variant
+	float        BETA_LTD;			
+	float        LAMBDA;
+	float        DELTA;
+#ifdef LN_I_CALC_TYPES
+	// PKA_PLC_MOD				// LN2021 FIXME: when applying variant
+	int			 NM_PKA;
+	int			 NM_PLC;
+	float		 W_PLC;
+	float		 W_PKA;
+#endif
+} STDPConfig;
+
+//!< short-term plasiticity configurations
+typedef struct STPConfig_s {
+	STPConfig_s() : WithSTP(false), STP_A(-1.0f), STP_U(-1.0f), STP_tau_u_inv(-1.0f), STP_tau_x_inv(-1.0f)
+	{}
+
+	bool WithSTP;
+	float STP_A; // scaling factor
+	float STP_U;
+	float STP_tau_u_inv; // facilitatory
+	float STP_tau_x_inv; // depressive
+} STPConfig;
+
+//!< homeostatic plasticity configurations
+typedef struct HomeostasisConfig_s {
+	HomeostasisConfig_s() : WithHomeostasis(false), baseFiring(-1.0f), baseFiringSD(-1.0f),
+							avgTimeScale(-1.0f), avgTimeScaleInv(-1.0f), avgTimeScaleDecay(-1.0f),
+							homeostasisScale(-1.0f)
+	{}
+
+	bool WithHomeostasis;
+	float baseFiring;
+	float baseFiringSD;
+	float avgTimeScale;
+	float avgTimeScaleInv;
+	float avgTimeScaleDecay;
+	float homeostasisScale;
+} HomeostasisConfig;
+
+//!< neuromodulator configurations
+typedef struct NeuromodulatorConfig_s {
+	NeuromodulatorConfig_s() : baseDP(1.0f), base5HT(1.0f), baseACh(1.0f), baseNE(1.0f),
+		decayDP(0.99f), decay5HT(0.99f), decayACh(0.99f), decayNE(0.99f),
+		releaseDP(0.04f), release5HT(0.04f), releaseACh(0.04f), releaseNE(0.04f),
+		activeDP(true), active5HT(true), activeACh(true), activeNE(true)
+	{}
+
+	float baseDP;   //!< baseline concentration of Dopamine
+	float base5HT;  //!< baseline concentration of Serotonin
+	float baseACh;  //!< baseline concentration of Acetylcholine
+	float baseNE;   //!< baseline concentration of Noradrenaline
+	
+	float decayDP;  //!< decay rate for Dopamine
+	float decay5HT; //!< decay rate for Serotonin
+	float decayACh; //!< decay rate for Acetylcholine
+	float decayNE;  //!< decay rate for Noradrenaline
+
+	float		releaseDP;		//!< release per spike for Dopaamine
+	float		release5HT;		//!< release per spike for Serotonin
+	float		releaseACh;		//!< release per spike for Acetylcholine
+	float		releaseNE;		//!< release per spike for Noradrenaline
+
+	bool		activeDP;		//!< flag for Dopaamine
+	bool		active5HT;		//!< flag for Serotonin
+	bool		activeACh;		//!< flag for Acetylcholine
+	bool		activeNE;		//!< flag for Noradrenaline
+} NeuromodulatorConfig;
+
+#ifdef LN_I_CALC_TYPES
+//!< conductance configurations
+typedef struct ConductanceConfig_s {
+	ConductanceConfig_s(): dAMPA(.0), rNMDA(.0), dNMDA(.0), sNMDA(.0), dGABAa(.0), rGABAb(.0), dGABAb(.0), sGABAb(.0) {};
+	// rollbacked back, due to .. backward compatibilty,  needs to be copied from sim / network like ... icalctype  see \todo   compileNetwork ... setupNetwork etc
+	// apply same defaults as in SNNinit former global .. to ensure backward compatibility (deprecated)
+	//ConductanceConfig_s() {
+	//	dAMPA = float(1.0 - 1.0 / 5.0);		// some default decay and rise times
+	//	rNMDA = float(1.0 - 1.0 / 10.0);
+	//	dNMDA = float(1.0 - 1.0 / 150.0);
+	//	sNMDA = float(1.0);
+	//	dGABAa = float(1.0 - 1.0 / 6.0);
+	//	rGABAb = float(1.0 - 1.0 / 100.0);
+	//	dGABAb = float(1.0 - 1.0 / 150.0);
+	//	sGABAb = float(1.0);
+	//};
+
+	float dAMPA;             //!< multiplication factor for decay time of AMPA conductance (gAMPA[i] *= dAMPA)
+	float rNMDA;             //!< multiplication factor for rise time of NMDA
+	float dNMDA;             //!< multiplication factor for decay time of NMDA
+	float sNMDA;             //!< scaling factor for NMDA amplitude
+	float dGABAa;            //!< multiplication factor for decay time of GABAa
+	float rGABAb;            //!< multiplication factor for rise time of GABAb
+	float dGABAb;            //!< multiplication factor for decay time of GABAb
+	float sGABAb;            //!< scaling factor for GABAb amplitude
+} ConductanceConfig;
+
+
+
+
+//!< ACh,NE configurations (ANCK12, K12,K13,..)
+typedef struct ACNE12Config_s {
+	ACNE12Config_s() : p1(.0f), p2(.0f) {};
+	float p1;			 //!< sample param 1 for ACh
+	float p2;			 //!< sample param 2 for NE
+} ACNE12Config;
+ 
+//!< NM4w weighted and normalized (LN21)
+//!< w_i*NM_i, i=1..4; w_5*(Sum_i(w_i)) normalize (boost/damp)		 
+//!< Array size = last index + 1 + norm + baseline
+typedef struct NM4wConfig_s {
+	float w[NM_NE+3] = { 1.f, 1.f, 1.f, 1.f, 0.25f, 1.0f };	
+} NM4wConfig;
+
+//!< Array size = last index + 1 + norm + baseline
+//!< default constuctor by inline initializations for one nm
+typedef struct NM4STPConfig_s {
+	bool WithNM4STP					= false;
+	float w_STP_U[NM_NE + 3]		= { 1.f, 0.f, 0.f, 0.f, 1.f, 1.f };
+	float w_STP_tau_u[NM_NE + 3]	= { 1.f, 0.f, 0.f, 0.f, 1.f, 1.f };
+	float w_STP_tau_x[NM_NE + 3]	= { 1.f, 0.f, 0.f, 0.f, 1.f, 1.f };
+} NM4STPConfig;
+
+
+#endif
+
+
+
 typedef struct ConnectionInfo_s {
 	int grpSrc;
 	int grpDest;
@@ -103,6 +260,7 @@ typedef struct ConnectionInfo_s {
 	int preSynId;
 	short int connId;
 	uint8_t delay;
+	// bool withSTDP;
 
 	bool operator== (const struct ConnectionInfo_s& conn) {
 		return (nSrc + srcGLoffset == conn.nSrc);
@@ -117,7 +275,11 @@ typedef struct ConnectionInfo_s {
  * be linked.
  * \see CARLsimState
  */
-typedef struct ConnectConfig_s {
+typedef struct ConnectConfig_s
+{
+#ifdef LN_I_CALC_TYPES
+	ConnectConfig_s(): icalcType(UNKNOWN_ICALC) {};
+#endif
 	int                      grpSrc;
 	int                      grpDest;
 	uint8_t                  maxDelay;
@@ -135,6 +297,10 @@ typedef struct ConnectConfig_s {
 	float                    connProbability; //!< connection probability
 	short int                connId; //!< connectID of the element in the linked list
 	int                      numberOfConnections; // ToDo: move to ConnectConfigMD
+	STDPConfig stdpConfig;
+#ifdef LN_I_CALC_TYPES
+	IcalcType				 icalcType; //!< conduction of receptor determined by connection 
+#endif
 } ConnectConfig;
 
 /*!
@@ -160,8 +326,44 @@ typedef struct ConnectConfigMD_s {
 * \see SNNState
 */
 typedef struct ConnectConfigRT_s {
+
 	float* mulSynFast; //!< factor to be applied to either gAMPA or gGABAa
 	float* mulSynSlow; //!< factor to be applied to either gNMDA or gGABAb
+
+	int          grpSrc;
+	int          grpDest;
+
+	// LN2021 FIXME refact   ptxas error : File uses too much global constant data (0x105c0 bytes, 0x10000 max)
+
+	bool         WithSTDP;          //!< published by GroupConfig \sa GroupConfig
+	bool         WithESTDP;         //!< published by GroupConfig \sa GroupConfig
+	bool         WithISTDP;         //!< published by GroupConfig \sa GroupConfig
+	STDPType     WithESTDPtype;     //!< published by GroupConfig \sa GroupConfig
+	STDPType     WithISTDPtype;     //!< published by GroupConfig \sa GroupConfig
+	STDPCurve    WithESTDPcurve;    //!< published by GroupConfig \sa GroupConfig
+	STDPCurve    WithISTDPcurve;    //!< published by GroupConfig \sa GroupConfig
+	float        TAU_PLUS_INV_EXC;  //!< published by GroupConfig \sa GroupConfig
+	float        TAU_MINUS_INV_EXC; //!< published by GroupConfig \sa GroupConfig
+	float        ALPHA_PLUS_EXC;    //!< published by GroupConfig \sa GroupConfig
+	float        ALPHA_MINUS_EXC;   //!< published by GroupConfig \sa GroupConfig
+	float        GAMMA;             //!< published by GroupConfig \sa GroupConfig
+	float        KAPPA;             //!< published by GroupConfig \sa GroupConfig
+	float        OMEGA;             //!< published by GroupConfig \sa GroupConfig
+	float        TAU_PLUS_INV_INB;  //!< published by GroupConfig \sa GroupConfig
+	float        TAU_MINUS_INV_INB; //!< published by GroupConfig \sa GroupConfig
+	float        ALPHA_PLUS_INB;    //!< published by GroupConfig \sa GroupConfig
+	float        ALPHA_MINUS_INB;   //!< published by GroupConfig \sa GroupConfig
+	float        BETA_LTP;          //!< published by GroupConfig \sa GroupConfig
+	float        BETA_LTD;          //!< published by GroupConfig \sa GroupConfig
+	float        LAMBDA;            //!< published by GroupConfig \sa GroupConfig
+	float        DELTA;             //!< published by GroupConfig \sa GroupConfig
+#ifdef LN_I_CALC_TYPES
+	int			 NM_PKA;            //!< published by GroupConfig \sa GroupConfig
+	int			 NM_PLC;            //!< published by GroupConfig \sa GroupConfig
+	float        W_PKA;				//!< published by GroupConfig \sa GroupConfig
+	float        W_PLC;             //!< published by GroupConfig \sa GroupConfig
+	IcalcType	 icalcType;			//!< published by GroupConfig \sa GroupConfig
+#endif LN_I_CALC_TYPES
 } ConnectConfigRT;
 
 typedef struct compConnectionInfo_s {
@@ -218,79 +420,6 @@ typedef struct NeuralDynamicsConfig_s {
 	double		lif_maxRmem;
 } NeuralDynamicsConfig;
 
-//!< long-term plasiticity configurations
-typedef struct STDPConfig_s {
-	STDPConfig_s() : WithSTDP(false), WithESTDP(false), WithISTDP(false),
-		WithESTDPtype(UNKNOWN_STDP), WithISTDPtype(UNKNOWN_STDP), WithESTDPcurve(UNKNOWN_CURVE), WithISTDPcurve(UNKNOWN_CURVE)
-	{}
-	bool WithSTDP;
-	bool WithESTDP;
-	bool WithISTDP;
-	STDPType WithESTDPtype;
-	STDPType WithISTDPtype;
-	STDPCurve WithESTDPcurve;
-	STDPCurve WithISTDPcurve;
-	float        TAU_PLUS_INV_EXC;
-	float        TAU_MINUS_INV_EXC;
-	float        ALPHA_PLUS_EXC;
-	float        ALPHA_MINUS_EXC;
-	float        GAMMA;
-	float        KAPPA;
-	float        OMEGA;
-	float        TAU_PLUS_INV_INB;
-	float        TAU_MINUS_INV_INB;
-	float        ALPHA_PLUS_INB;
-	float        ALPHA_MINUS_INB;
-	float        BETA_LTP;
-	float        BETA_LTD;
-	float        LAMBDA;
-	float        DELTA;
-} STDPConfig;
-
-//!< short-term plasiticity configurations
-typedef struct STPConfig_s {
-	STPConfig_s() : WithSTP(false), STP_A(-1.0f), STP_U(-1.0f), STP_tau_u_inv(-1.0f), STP_tau_x_inv(-1.0f)
-	{}
-
-	bool WithSTP;
-	float STP_A; // scaling factor
-	float STP_U;
-	float STP_tau_u_inv; // facilitatory
-	float STP_tau_x_inv; // depressive
-} STPConfig;
-
-//!< homeostatic plasticity configurations
-typedef struct HomeostasisConfig_s {
-	HomeostasisConfig_s() : WithHomeostasis(false), baseFiring(-1.0f), baseFiringSD(-1.0f),
-							avgTimeScale(-1.0f), avgTimeScaleInv(-1.0f), avgTimeScaleDecay(-1.0f),
-							homeostasisScale(-1.0f)
-	{}
-
-	bool WithHomeostasis;
-	float baseFiring;
-	float baseFiringSD;
-	float avgTimeScale;
-	float avgTimeScaleInv;
-	float avgTimeScaleDecay;
-	float homeostasisScale;
-} HomeostasisConfig;
-
-//!< neuromodulator configurations
-typedef struct NeuromodulatorConfig_s {
-	NeuromodulatorConfig_s() : baseDP(1.0f), base5HT(1.0f), baseACh(1.0f), baseNE(1.0f),
-							   decayDP(0.99f), decay5HT(0.99f), decayACh(0.99f), decayNE(0.99f)
-	{}
-
-	float baseDP;   //!< baseline concentration of Dopamine
-	float base5HT;  //!< baseline concentration of Serotonin
-	float baseACh;  //!< baseline concentration of Acetylcholine
-	float baseNE;   //!< baseline concentration of Noradrenaline
-	float decayDP;  //!< decay rate for Dopamine
-	float decay5HT; //!< decay rate for Serotonin
-	float decayACh; //!< decay rate for Acetylcholine
-	float decayNE;  //!< decay rate for Noradrenaline
-} NeuromodulatorConfig;
-
 /*!
  * \brief The configuration of a group
  *
@@ -300,7 +429,13 @@ typedef struct NeuromodulatorConfig_s {
  * \see CARLsimState
  */
 typedef struct GroupConfig_s {
-	GroupConfig_s() : grpName("N/A"), preferredNetId(-2), type(0), numN(-1), isSpikeGenerator(false), spikeGenFunc(NULL)
+	GroupConfig_s() : grpName("N/A"), preferredNetId(-2), type(0), numN(-1), isSpikeGenerator(false), spikeGenFunc(NULL), 
+	WithSTDP(false), WithDA_MOD(false)
+#ifdef LN_I_CALC_TYPES
+		, icalcType(UNKNOWN_ICALC)
+		, with_NMDA_rise(false)
+		, with_GABAb_rise(false)
+#endif
 	{}
 
 	// properties of neural group size and location
@@ -316,14 +451,29 @@ typedef struct GroupConfig_s {
 	float compCouplingUp;
 	float compCouplingDown;
 
+	bool WithSTDP; 		// LN20210822 smell   might not be initialized
+	bool WithDA_MOD; 	// LN20210822 smell 
+#ifdef LN_I_CALC_TYPES
+	bool WithPKA_PLC_MOD; // 
+#endif
+
 	SpikeGeneratorCore* spikeGenFunc;
 
 	Grid3D grid; //<! location information of neurons
 	NeuralDynamicsConfig neuralDynamicsConfig;
-	STDPConfig stdpConfig;
+	// STDPConfig stdpConfig;
 	STPConfig stpConfig;
 	HomeostasisConfig homeoConfig;
 	NeuromodulatorConfig neuromodulatorConfig;
+#ifdef LN_I_CALC_TYPES
+	IcalcType icalcType;  //!< calculation of input current is defined at group level and replaces the COBA/CUBA flags
+	bool with_NMDA_rise;  //!< replaces sim_with_NMDA_rise
+	bool with_GABAb_rise; //!< replaces sim_with_GABAb_rise  
+	ConductanceConfig conductanceConfig; //!< conductance config at group level
+	ACNE12Config acneConfig; //!< ACNE config at group level
+	NM4wConfig nm4wConfig; //!< NM4 config at group level
+	NM4STPConfig nm4StpConfig;  //!< NM4 weighted STP param
+#endif
 } GroupConfig;
 
 typedef struct GroupConfigMD_s {
@@ -389,12 +539,13 @@ typedef struct GroupConfigRT_s {
 	bool         isSpikeGenFunc;    //!< published by GroupConfig \sa GroupConfig
 	bool         WithSTP;           //!< published by GroupConfig \sa GroupConfig
 	bool         WithSTDP;          //!< published by GroupConfig \sa GroupConfig
-	bool         WithESTDP;         //!< published by GroupConfig \sa GroupConfig
-	bool         WithISTDP;         //!< published by GroupConfig \sa GroupConfig
-	STDPType     WithESTDPtype;     //!< published by GroupConfig \sa GroupConfig
-	STDPType     WithISTDPtype;     //!< published by GroupConfig \sa GroupConfig
-	STDPCurve    WithESTDPcurve;    //!< published by GroupConfig \sa GroupConfig
-	STDPCurve    WithISTDPcurve;    //!< published by GroupConfig \sa GroupConfig
+	bool 		 WithDA_MOD;  // \todo LN smell
+	// bool         WithESTDP;         //!< published by GroupConfig \sa GroupConfig
+	// bool         WithISTDP;         //!< published by GroupConfig \sa GroupConfig
+	// STDPType     WithESTDPtype;     //!< published by GroupConfig \sa GroupConfig
+	// STDPType     WithISTDPtype;     //!< published by GroupConfig \sa GroupConfig
+	// STDPCurve    WithESTDPcurve;    //!< published by GroupConfig \sa GroupConfig
+	// STDPCurve    WithISTDPcurve;    //!< published by GroupConfig \sa GroupConfig
 	bool         WithHomeostasis;   //!< published by GroupConfig \sa GroupConfig
 	bool         FixedInputWts;     //!< published by GroupConfigMD \sa GroupConfigMD
 	bool         hasExternalConnect;//!< published by GroupConfigMD \sa GroupConfigMD
@@ -405,21 +556,21 @@ typedef struct GroupConfigRT_s {
 	float        STP_U;             //!< published by GroupConfig \sa GroupConfig
 	float        STP_tau_u_inv;     //!< published by GroupConfig \sa GroupConfig
 	float        STP_tau_x_inv;     //!< published by GroupConfig \sa GroupConfig
-	float        TAU_PLUS_INV_EXC;  //!< published by GroupConfig \sa GroupConfig
-	float        TAU_MINUS_INV_EXC; //!< published by GroupConfig \sa GroupConfig
-	float        ALPHA_PLUS_EXC;    //!< published by GroupConfig \sa GroupConfig
-	float        ALPHA_MINUS_EXC;   //!< published by GroupConfig \sa GroupConfig
-	float        GAMMA;             //!< published by GroupConfig \sa GroupConfig
-	float        KAPPA;             //!< published by GroupConfig \sa GroupConfig
-	float        OMEGA;             //!< published by GroupConfig \sa GroupConfig
-	float        TAU_PLUS_INV_INB;  //!< published by GroupConfig \sa GroupConfig
-	float        TAU_MINUS_INV_INB; //!< published by GroupConfig \sa GroupConfig
-	float        ALPHA_PLUS_INB;    //!< published by GroupConfig \sa GroupConfig
-	float        ALPHA_MINUS_INB;   //!< published by GroupConfig \sa GroupConfig
-	float        BETA_LTP;          //!< published by GroupConfig \sa GroupConfig
-	float        BETA_LTD;          //!< published by GroupConfig \sa GroupConfig
-	float        LAMBDA;            //!< published by GroupConfig \sa GroupConfig
-	float        DELTA;             //!< published by GroupConfig \sa GroupConfig
+	// float        TAU_PLUS_INV_EXC;  //!< published by GroupConfig \sa GroupConfig
+	// float        TAU_MINUS_INV_EXC; //!< published by GroupConfig \sa GroupConfig
+	// float        ALPHA_PLUS_EXC;    //!< published by GroupConfig \sa GroupConfig
+	// float        ALPHA_MINUS_EXC;   //!< published by GroupConfig \sa GroupConfig
+	// float        GAMMA;             //!< published by GroupConfig \sa GroupConfig
+	// float        KAPPA;             //!< published by GroupConfig \sa GroupConfig
+	// float        OMEGA;             //!< published by GroupConfig \sa GroupConfig
+	// float        TAU_PLUS_INV_INB;  //!< published by GroupConfig \sa GroupConfig
+	// float        TAU_MINUS_INV_INB; //!< published by GroupConfig \sa GroupConfig
+	// float        ALPHA_PLUS_INB;    //!< published by GroupConfig \sa GroupConfig
+	// float        ALPHA_MINUS_INB;   //!< published by GroupConfig \sa GroupConfig
+	// float        BETA_LTP;          //!< published by GroupConfig \sa GroupConfig
+	// float        BETA_LTD;          //!< published by GroupConfig \sa GroupConfig
+	// float        LAMBDA;            //!< published by GroupConfig \sa GroupConfig
+	// float        DELTA;             //!< published by GroupConfig \sa GroupConfig
 
 									//!< homeostatic plasticity variables
 	float avgTimeScale;             //!< published by GroupConfig \sa GroupConfig
@@ -436,6 +587,14 @@ typedef struct GroupConfigRT_s {
 	float decay5HT;//!< decay rate for Serotonin, published by GroupConfig \sa GroupConfig
 	float decayACh;//!< decay rate for Acetylcholine, published by GroupConfig \sa GroupConfig
 	float decayNE; //!< decay rate for Noradrenaline, published by GroupConfig \sa GroupConfig
+	float		releaseDP;		//!< release per spike for Dopaamine
+	float		release5HT;		//!< release per spike for Serotonin
+	float		releaseACh;		//!< release per spike for Acetylcholine
+	float		releaseNE;		//!< release per spike for Noradrenaline
+	bool		activeDP;		//!< flag for Dopaamine
+	bool		active5HT;		//!< flag for Serotonin
+	bool		activeACh;		//!< flag for Acetylcholine
+	bool		activeNE;		//!< flag for Noradrenaline
 
 	bool withParamModel_9; //!< False = 4 parameter model; 1 = 9 parameter model.
 	bool isLIF; //!< True = a LIF spiking group
@@ -446,6 +605,39 @@ typedef struct GroupConfigRT_s {
 	int   compNeighbors[4];
 	float compCoupling[4];
 	short numCompNeighbors;
+
+#ifdef LN_I_CALC_TYPES	
+	unsigned int icalcType;	
+	bool with_NMDA_rise;	//!< replaces sim_with_NMDA_rise
+	bool with_GABAb_rise;	//!< replaces sim_with_GABAb_rise  
+	// flattened struct ConductanceConfig (GroupConfig.conductanceConfig)
+	float dAMPA;             //!< multiplication factor for decay time of AMPA conductance (gAMPA[i] *= dAMPA)
+	float rNMDA;             //!< multiplication factor for rise time of NMDA
+	float dNMDA;             //!< multiplication factor for decay time of NMDA
+	float sNMDA;             //!< scaling factor for NMDA amplitude
+	float dGABAa;            //!< multiplication factor for decay time of GABAa
+	float rGABAb;            //!< multiplication factor for rise time of GABAb
+	float dGABAb;            //!< multiplication factor for decay time of GABAb
+	float sGABAb;            //!< scaling factor for GABAb amplitude
+	// flattened struct ACNE12Config (GroupConfig.acne12Config)
+	float acne12p1;			 //!< sample param 1 for ACNE15 
+	float acne12p2;			 //!< sample param 2 for ACNE15 
+	// flattened struct NM4wConfig (GroupConfig.nm4wConfig)
+	float nm4w[NM_NE+3];	 //!< Array size = last index + 1 + additional elementsnorm + base
+	
+	//flattend struct NM4STPConfig (GroupConfig.nm4StpConfig), requires MAX_GRP_PER_SNN << 128
+	bool WithNM4STP;		     //!< if group has targeted STP
+	float wstpu[NM_NE + 3];	     //!< Array size = last index + 1 + additional elementsnorm + base
+	float wstptauu[NM_NE + 3];	 //!< Array size = last index + 1 + additional elementsnorm + base
+	float wstptaux[NM_NE + 3];	 //!< Array size = last index + 1 + additional elementsnorm + base
+
+	//flattend struct NM4STPConfig for MAX_GRP_PER_SNN << 2^16
+	// GPU issue:  ptxas error : File uses too much global constant data (0x12140 bytes, 0x10000 max)
+	//NM4STPConfig* nm4stp;			 //!< Array size = last index + 1 + additional elementsnorm + base
+
+#endif
+
+
 } GroupConfigRT;
 
 typedef struct RuntimeData_s {
@@ -491,6 +683,7 @@ typedef struct RuntimeData_s {
 	//! so that we don't produce more than 1 spike per ms.
 	bool* curSpike;
 
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 	// conductances and stp values
 	float* gNMDA;   //!< conductance of gNMDA
 	float* gNMDA_r;
@@ -660,6 +853,7 @@ typedef struct NetworkConfigRT_s  {
 
 	// configurations for execution features
 	bool sim_with_fixedwts;
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 	bool sim_with_conductances;
 	bool sim_with_compartments;
 	bool sim_with_stdp;
@@ -677,8 +871,10 @@ typedef struct NetworkConfigRT_s  {
 	float wtChangeDecay;   //!< the wtChange decay
 
 	// conductance configurations
+#define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 	bool sim_with_NMDA_rise;  //!< a flag to inform whether to compute NMDA rise time
 	bool sim_with_GABAb_rise; //!< a flag to inform whether to compute GABAb rise time
+#ifndef LN_I_CALC_TYPES
 	double dAMPA;             //!< multiplication factor for decay time of AMPA conductance (gAMPA[i] *= dAMPA)
 	double rNMDA;             //!< multiplication factor for rise time of NMDA
 	double dNMDA;             //!< multiplication factor for decay time of NMDA
@@ -687,6 +883,7 @@ typedef struct NetworkConfigRT_s  {
 	double rGABAb;            //!< multiplication factor for rise time of GABAb
 	double dGABAb;            //!< multiplication factor for decay time of GABAb
 	double sGABAb;            //!< scaling factor for GABAb amplitude
+#endif
 
 	integrationMethod_t simIntegrationMethod; //!< integration method (forward-Euler or Fourth-order Runge-Kutta)
 	int simNumStepsPerMs;					  //!< number of steps per 1 millisecond

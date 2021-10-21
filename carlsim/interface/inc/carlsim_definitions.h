@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -69,13 +70,16 @@
 #define TARGET_GABAa	(1 << 3)
 #define TARGET_GABAb	(1 << 4)
 #define TARGET_DA		(1 << 5)
-#define TARGET_5HT		(1 << 6)
-#define TARGET_ACh		(1 << 7)
+#define TARGET_5HT		(1 << 6) // LN2021 \todo check if following CARLsim lagacy, meaning already reserved?
+#define TARGET_ACH		(1 << 7)
 #define TARGET_NE		(1 << 8)
 
 #define INHIBITORY_NEURON 		(TARGET_GABAa | TARGET_GABAb)
 #define EXCITATORY_NEURON 		(TARGET_NMDA | TARGET_AMPA)
-#define DOPAMINERGIC_NEURON		(TARGET_DA | EXCITATORY_NEURON)
+#define DOPAMINERGIC_NEURON		(TARGET_DA  | EXCITATORY_NEURON)  // CARLsim legacy
+#define SEROTONERGIC_NEURON		(TARGET_5HT | EXCITATORY_NEURON)  // extension for V6, 
+#define CHOLINERGIC_NEURON		(TARGET_ACH | EXCITATORY_NEURON)  // naming according to Breedlove, Rosenzweig, Watson
+#define NORADRENERGIC_NEURON	(TARGET_NE  | EXCITATORY_NEURON)  // 
 #define EXCITATORY_POISSON 		(EXCITATORY_NEURON | POISSON_NEURON)
 #define INHIBITORY_POISSON		(INHIBITORY_NEURON | POISSON_NEURON)
 #define IS_INHIBITORY_TYPE(type)	(((type) & TARGET_GABAa) || ((type) & TARGET_GABAb))
@@ -89,5 +93,29 @@
 
 // maximum number of compartmental connections allowed per group
 #define MAX_NUM_COMP_CONN 4
+
+
+
+//{ LN enforce clean compilation for Windows 
+#if defined(_WIN32) 
+
+//warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+//warning C4244: 'return': conversion from '__int64' to 'long', possible loss of data (compiling source file connection_monitor_core.cpp)
+#pragma warning(disable:4244)
+
+// warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+#pragma warning(disable:4267)
+
+// warning C4800: 'unsigned int': forcing value to bool 'true' or 'false' (performance warning) 
+#pragma warning(disable:4800)
+
+// warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+#pragma warning(disable:4996)
+
+
+#endif
+//}
+
+
 
 #endif

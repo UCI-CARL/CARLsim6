@@ -42,12 +42,14 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
 */
 #ifndef _CONN_MON_CORE_H_
 #define _CONN_MON_CORE_H_
+
 
 #include <stdio.h>					// FILE
 #include <vector>					// std::vector
@@ -75,6 +77,12 @@ public:
 	
 
 	// +++++ PUBLIC METHODS: +++++++++++++++++++++++++++++++++++++++++++++++//
+
+	//! LN20201118 returns calculates current and reports them in 2D weight matrix
+	std::vector< std::vector<float> > getWeights();
+
+	//! LN20201118 returns calculates previous weights and reports them in 2D weight matrix
+	std::vector< std::vector<float> > getPrevWeights();
 
 	//! calculates weight changes since last snapshot and reports them in 2D weight change matrix
 	std::vector< std::vector<float> > calcWeightChanges();

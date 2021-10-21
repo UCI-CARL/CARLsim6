@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -67,6 +68,15 @@ ConnectionMonitor::~ConnectionMonitor() {
 std::vector< std::vector<float> > ConnectionMonitor::calcWeightChanges() {
 	return connMonCorePtr_->calcWeightChanges();
 }
+
+std::vector< std::vector<float> > ConnectionMonitor::getWeights() {
+	return connMonCorePtr_->getWeights();
+}
+
+std::vector< std::vector<float> > ConnectionMonitor::getPrevWeights() {
+	return connMonCorePtr_->getPrevWeights();
+}
+
 
 short int ConnectionMonitor::getConnectId() {
 	return connMonCorePtr_->getConnectId();

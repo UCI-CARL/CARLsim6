@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -49,6 +50,7 @@
 
 #ifndef _SPIKE_MON_CORE_H_
 #define _SPIKE_MON_CORE_H_
+
 
 #include <carlsim_datastructures.h>	// SpikeMonMode
 #include <stdio.h>					// FILE

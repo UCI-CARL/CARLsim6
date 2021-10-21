@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -123,7 +124,7 @@ TEST(GroupMon, interfaceDeath) {
 	CARLsim* sim = new CARLsim("GroupMon.interfaceDeath", CPU_MODE, SILENT, 1, 42);
 
 	int g1 = sim->createGroup("g1", 5, EXCITATORY_NEURON);		
-	sim->setNeuronParameters(g1, 0.02, 0.2, -65.0, 8.0);
+	sim->setNeuronParameters(g1, 0.02f, 0.2f, -65.0f, 8.0f);
 
 	int g0 = sim->createSpikeGeneratorGroup("Input", 5, EXCITATORY_NEURON);
 	GroupMonitor* grpMon = sim->setGroupMonitor(g0, "NULL");
@@ -225,7 +226,7 @@ TEST(GroupMon, peakTimeAndValue) {
 		// we are testing dopamine values of the post-synaptic group, not spikes. Set weight close to zero
 		sim->connect(g0, g1, "one-to-one", RangeWeight(1.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_PLASTIC);
 
-		sim->setESTDP(g1, true, DA_MOD, ExpCurve(0.1f/100, 20, -0.12f/100, 20));
+		sim->setESTDP(g0, g1, true, DA_MOD, ExpCurve(0.1f/100, 20, -0.12f/100, 20));
 
 		sim->setNeuromodulator(ALL);
 
@@ -269,4 +270,6 @@ TEST(GroupMon, peakTimeAndValue) {
 		delete spkGen;
 		delete sim;
 	}
+
 }
+
