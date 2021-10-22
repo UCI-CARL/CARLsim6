@@ -1233,7 +1233,7 @@ void SNN::biasWeights(short int connId, float bias, bool updateWeightRange) {
 					// if this flag is set, we need to update minWt,maxWt accordingly
 					// will be saving new maxSynWt and copying to GPU below
 //					connInfo->minWt = fmin(connInfo->minWt, weight);
-					connectConfigMap[connId].maxWt = std::max(connectConfigMap[connId].maxWt, weight);
+					connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("biasWeights(%d,%f,%s): updated weight ranges to [%f,%f]", connId, bias,
 							(updateWeightRange?"true":"false"), 0.0f, connectConfigMap[connId].maxWt);

@@ -2584,10 +2584,12 @@ int CARLsim::cudaDeviceCount() {
 	return SNN::cudaDeviceCount();
 }
 
+#ifndef __NO_CUDA__
 // LN Extension 20201017
 void CARLsim::cudaDeviceDescription(unsigned ithGPU, const char** desc) {
 	SNN::cudaDeviceDescription(ithGPU, desc);
 }
+#endif 
 
 #endif
 
