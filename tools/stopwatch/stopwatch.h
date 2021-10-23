@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -55,6 +56,8 @@
 	#include <sys/time.h>
 	#include <ctime>
 #endif
+
+#include "carlsim_stopwatch_api.h"
 
 #include <stdint.h>
 #include <vector>	// std::vector
@@ -112,7 +115,7 @@
  * 
  * \since v3.1
  */
-class Stopwatch {
+class CARLSIM_STOPWATCH_API Stopwatch {
 public:
 	/*!
 	 * \brief Utility to measure script execution time (wall-clock time) in milliseconds

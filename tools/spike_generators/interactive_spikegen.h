@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -49,12 +50,14 @@
 #ifndef _INTERACTIVE_SPIKEGEN_H_
 #define _INTERACTIVE_SPIKEGEN_H_
 
+#include "carlsim_spike_generators_api.h"
+
 #include <callback.h>
 
 /*!
  * \brief A interactive spike generator that generate spikes upon users' request
  */
-class InteractiveSpikeGenerator: public SpikeGenerator {
+class CARLSIM_SPIKE_GENERATORS_API InteractiveSpikeGenerator: public SpikeGenerator {
 private:
 	int* quota;
 	unsigned int isi;

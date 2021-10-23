@@ -5,6 +5,8 @@ initOAT;
 
 % Read the spike files
 SR = SpikeReader('../results/spk_output.dat');
+%SR = SpikeReader('../../1_basic_concepts/results/spk_output.dat');
+
 
 % Bin the data into 1s (1000 ms) intervals
 spkData = SR.readSpikes(1000);
@@ -18,10 +20,10 @@ figure(1);
 hold on;
 
 % plot the average output neuron firing rate in blue
-plot(time,spkData,'blue');
+plot(time,spkData,'color','b');
 
 % plot the target firing rate in red
-plot(time,targetFR,'red');
+plot(time,targetFR,'color','r');
 
 % make labels and title
 xlabel('Time (sec)');
@@ -54,10 +56,10 @@ figure(2);
 hold on;
 
 % plot the initial weights in red (first row of data).
-plot(x1,allWeights(1,:),'red');
+plot(x1,allWeights(1,:),'color','r');
 
 % plot the final weights in blue (second row of data).S\
-plot(x1,allWeights(2,:),'blue');
+plot(x1,allWeights(2,:),'color','b');
 xlabel('Neuron ID');
 ylabel('Synaptic Weight Strength');
 title('Synaptic Weight Strength vs. Neuron ID');

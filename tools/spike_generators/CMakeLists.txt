@@ -1,12 +1,23 @@
 # Targets
 
-    add_library(carlsim-spike-generators
-        interactive_spikegen.cpp
-        periodic_spikegen.cpp
-        pre_post_group_spikegen.cpp
-        spikegen_from_file.cpp
-        spikegen_from_vector.cpp
-    )
+    add_library(carlsim-spike-generators SHARED)
+
+    target_compile_definitions(carlsim-spike-generators PRIVATE CARLSIM_DLL)
+    
+    set(SRCS    interactive_spikegen.cpp
+                periodic_spikegen.cpp
+                pre_post_group_spikegen.cpp
+                spikegen_from_file.cpp
+                spikegen_from_vector.cpp)
+
+    set(HDRS    interactive_spikegen.h
+                periodic_spikegen.h
+                pre_post_group_spikegen.h
+                spikegen_from_file.h
+                spikegen_from_vector.h )
+
+    target_sources(carlsim-spike-generators  PRIVATE ${SRCS} 
+                                             ${HDRS})
 
 # Properties
 
@@ -23,19 +34,24 @@
 
 # Linking
 
-    target_link_libraries(carlsim-spike-generators
-        PUBLIC
-            carlsim-interface
-            carlsim-monitor
-    )
+    target_link_libraries(carlsim-spike-generators PUBLIC carlsim)
 
 # Installation
 
-    install(
-        FILES
-            interactive_spikegen.h
-            periodic_spikegen.h
-            pre_post_group_spikegen.h
-            spikegen_from_file.h
-            spikegen_from_vector.h
-        DESTINATION include)
+  set_property(TARGET carlsim-spike-generators  PROPERTY PUBLIC_HEADER ${HDRS})
+
+    install(TARGETS carlsim-spike-generators  
+        EXPORT carlsim-spike-generators 
+        RUNTIME 
+            DESTINATION bin 
+            COMPONENT carlsim-spike-generators 
+        LIBRARY
+            DESTINATION lib
+            COMPONENT carlsim-spike-generators 
+        ARCHIVE
+            DESTINATION lib
+            COMPONENT carlsim-spike-generators 
+        PUBLIC_HEADER
+            DESTINATION include
+            COMPONENT carlsim-spike-generators           
+     )

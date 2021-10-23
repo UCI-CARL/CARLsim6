@@ -341,15 +341,6 @@ if(CARLSIM_SHARED)
 #%(AdditionalOptions) /machine:x64 /wholearchive:carlsim-interface      1.7                                                                
 #%(AdditionalOptions) /machine:x64 /wholearchive:carlsim-kernel         1.4
 
-# => entweder fehlen DLL_DECL der Classen, sodass nur Rümfe, oder libs sind so redundant...
-# release: 127 KB => nur Rümpfe => mal das interface mit DECL EXPORT versehen
-
-#  target_link_libraries(carlsim PUBLIC carlsim-interface )
-
-# und mit hello world ausprobieren, => auch die carlsim.lib ist quasi leer (d.h. keine Symbole)!!!
-
-# Yeah: die interface lib ist immer gleich gross, unabhängig ob debug oder release, siehe Nemo
-# C:\Test\NeMo-0.7.2\bin
 
 endif()
 
@@ -365,6 +356,6 @@ endif()
 #    add_subdirectory(pycarl)   
 #  endif()  
   
-#  add_subdirectory(doc)
+  add_subdirectory(doc)
 
   

@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -53,7 +54,7 @@
 
 SpikeGeneratorFromVector::SpikeGeneratorFromVector(std::vector<int> spkTimes) {
 	spkTimes_ = spkTimes;
-	size_ = spkTimes.size();
+	size_ = int(spkTimes.size());
 	currentIndex_ = 0;
 
 	checkSpikeVector();

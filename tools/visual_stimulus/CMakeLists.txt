@@ -1,8 +1,19 @@
 # Targets
 
-    add_library(carlsim-visual-stimulus STATIC
-        visual_stimulus.cpp
-    )
+    add_library(carlsim-visual-stimulus SHARED)
+
+    target_compile_definitions(carlsim-visual-stimulus PRIVATE CARLSIM_DLL)
+
+    
+    set(SRCS visual_stimulus.cpp)
+    set(HDRS visual_stimulus.h)
+
+    source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}"
+                 PREFIX "Header Files"
+                 FILES ${HDRS})
+
+    target_sources(carlsim-visual-stimulus PRIVATE ${SRCS} 
+                                             ${HDRS})
 
 # Properties
 
@@ -12,11 +23,24 @@
 
 # Linking
 
-    target_link_libraries(carlsim-visual-stimulus
-        PRIVATE
-            carlsim-interface
-    )
+    target_link_libraries(carlsim-visual-stimulus PRIVATE carlsim)
 
 # Installation
 
-    install(FILES visual_stimulus.h DESTINATION include)
+    set_property(TARGET carlsim-visual-stimulus PROPERTY PUBLIC_HEADER ${HDRS})
+
+    install(TARGETS carlsim-visual-stimulus 
+        EXPORT carlsim-visual-stimulus
+        RUNTIME 
+            DESTINATION bin 
+            COMPONENT carlsim-visual-stimulus
+        LIBRARY
+            DESTINATION lib
+            COMPONENT carlsim-visual-stimulus
+        ARCHIVE
+            DESTINATION lib
+            COMPONENT carlsim-visual-stimulus
+        PUBLIC_HEADER
+            DESTINATION include
+            COMPONENT carlsim-visual-stimulus          
+     )

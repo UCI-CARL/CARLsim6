@@ -78,7 +78,7 @@ int main() {
 	float alpha_LTD=0.00033f/5; float tau_LTD=60.0f;
 
 	// set E-STDP to be STANDARD (without neuromodulatory influence) with an EXP_CURVE type.
-	sim.setESTDP(gExc, true, STANDARD, ExpCurve(alpha_LTP, tau_LTP, -alpha_LTD, tau_LTD));
+	sim.setESTDP(gPois, gExc, true, STANDARD, ExpCurve(alpha_LTP, tau_LTP, -alpha_LTD, tau_LTD));
 
 	// homeostasis constants
 	float alpha = 1.0; // homeostatic scaling factor

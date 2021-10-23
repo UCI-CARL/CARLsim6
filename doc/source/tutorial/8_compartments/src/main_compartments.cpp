@@ -98,11 +98,13 @@ int main() {
 	sim->connectCompartments(grpSoma, grpD_three);
 
 	// Ignore STDP for this tutorial.
-	sim->setSTDP(grpD_one, false);
-	sim->setSTDP(grpD_two, false);
-	sim->setSTDP(grpD_three, false);
-	sim->setSTDP(grpSoma, false);
-
+	// \LN2021 \todo Kexin Review connection based STDP in tutorials
+	////sim->setSTDP(grpD_one, false);
+	////sim->setSTDP(grpD_two, false);
+	////sim->setSTDP(grpD_three, false);
+	////sim->setSTDP(grpSoma, false);
+	sim->setSTDP(gin, grpSoma, false);	
+	
 	sim->setupNetwork();
 
 	// Set-up spike monitors so that we can observe the neurons' spike times.
@@ -119,7 +121,10 @@ int main() {
 
 	// Continuously inject 600mA of current into soma layer.
 	sim->setExternalCurrent(grpSoma, 600);
+
 	sim->runNetwork(1, 0);
+	// \LN021 \todo Jinwei Benchmark/Perftest GPU Util 77%, x4 TitanXp
+	//sim->runNetwork(100, 0);
 
 	spkMonSoma->stopRecording();
 	spkMonDOne->stopRecording();

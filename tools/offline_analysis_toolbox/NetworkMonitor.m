@@ -371,7 +371,8 @@ classdef NetworkMonitor < handle
             
             % reset abort flag, set up callback for key press events
             obj.plotAbortPlotting = false;
-            set(gcf,'KeyPressFcn',@obj.ntwMonOnKeyPressCallback)
+ % LN geht nicht mit Octave          
+ %           set(gcf,'KeyPressFcn',@obj.ntwMonOnKeyPressCallback)
             
             % display frames in specified axes
             grpNames = obj.groupNames;

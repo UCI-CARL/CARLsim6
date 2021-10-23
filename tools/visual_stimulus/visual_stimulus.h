@@ -1,6 +1,8 @@
 #ifndef _VISUAL_STIMULUS_H_
 #define _VISUAL_STIMULUS_H_
 
+#include "carlsim_visual_stimulus_api.h"
+
 #include <string>
 class PoissonRate;
 
@@ -53,7 +55,7 @@ class PoissonRate;
  * }
  * \endcode
  */
-class VisualStimulus {
+class CARLSIM_VISUAL_STIMULUS_API VisualStimulus {
 public:
 	// +++++ PUBLIC METHODS: CONSTRUCTOR / DESTRUCTOR / MEMBERS +++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 

@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -56,8 +57,17 @@
 
 PeriodicSpikeGenerator::PeriodicSpikeGenerator(float rate, bool spikeAtZero) {
 	assert(rate>0);
-	rate_ = rate;	  // spike rate
-	isi_ = 1000/rate; // inter-spike interval in ms
+	//  FIX: LN 20202002  does not work :  assertion seems not to work from different context (compiler flag!?)
+	// assert(rate>.0f);  
+	//}
+	rate_ = rate;	  // spike rate  
+	// ISSUE: warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+	// ISSUE: :\test\github\carlsim4\tools\spike_generators\periodic_spikegen.cpp(62): warning C4723: potential divide by 0
+	//isi_ = 1000/rate; // inter-spike interval in ms
+	// FIX1: LN20201002 explicit cast (trunc)  (int)(float expression)
+	// FIX2: LN20201002 solve numericical
+	isi_ = std::abs(rate)<0.00001f ? INT_MAX : int(1000.f/rate); // inter-spike interval in ms
+	
 	spikeAtZero_ = spikeAtZero;
 
 	checkFiringRate();

@@ -42,12 +42,15 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
 */
 #ifndef _PERIODIC_SPIKEGEN_H_
 #define _PERIODIC_SPIKEGEN_H_
+
+#include "carlsim_spike_generators_api.h"
 
 #include <callback.h>
 #include <vector>
@@ -59,7 +62,7 @@
  * For example, a PeriodicSpikeGenerator with rate=10Hz will schedule spikes for each neuron in the group at t=100,
  * t=200, t=300, etc. If spikeAtZero is set to true, then the first spike will be scheduled at t=0.
  */
-class PeriodicSpikeGenerator : public SpikeGenerator {
+class CARLSIM_SPIKE_GENERATORS_API PeriodicSpikeGenerator : public SpikeGenerator {
 public:
 	/*!
 	 * \brief PeriodicSpikeGenerator constructor

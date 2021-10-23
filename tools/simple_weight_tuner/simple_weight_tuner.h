@@ -42,12 +42,15 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
 */
 #ifndef _SIMPLE_WEIGHT_TUNER_H_
 #define _SIMPLE_WEIGHT_TUNER_H_
+
+#include "carlsim_simple_weight_tuner_api.h"
 
 class CARLsim;
 class SpikeMonitor;
@@ -86,7 +89,7 @@ struct RangeWeight;
  * \see Code example: <tt>tutorial/12_advanced_topics/simple_weight_tuner/main_simple_weight_tuner.cpp</tt>
  * \since v3.0
  */
-class SimpleWeightTuner {
+class CARLSIM_SIMPLE_WEIGHT_TUNER_API SimpleWeightTuner {
 public:
 	/*!
 	 * \brief Creates a new instance of class SimpleWeightTuner

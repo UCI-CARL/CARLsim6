@@ -1,0 +1,20 @@
+
+// LN 2021 
+
+#ifndef CARLSIM_STOPWATCH_API_H
+#define CARLSIM_STOPWATCH_API_H
+
+#include <carlsim_conf_api.h>
+
+#ifndef CARLSIM_STOPWATCH_API
+#  ifdef carlsim_stopwatch_EXPORTS
+#    define CARLSIM_STOPWATCH_API CARLSIM_EXPORT
+#    define CARLSIM_STOPWATCH_EXTERN CARLSIM_EXPORT_EXTERN
+#  else
+#    define CARLSIM_STOPWATCH_API CARLSIM_IMPORT
+#    define CARLSIM_STOPWATCH_EXTERN CARLSIM_EXPORT_EXTERN
+#  endif
+#endif
+
+
+#endif // CARLSIM_STOPWATCH_API_H

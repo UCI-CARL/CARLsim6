@@ -298,7 +298,8 @@ classdef GroupMonitor < handle
             % reset abort flag, set up callback for key press events
             if obj.plotInteractiveMode
                 obj.plotAbortPlotting = false;
-                set(gcf,'KeyPressFcn',@obj.pauseOnKeyPressCallback)
+                % LN 20201001 not supported by Octave
+                % set(gcf,'KeyPressFcn',@obj.pauseOnKeyPressCallback)
             end
             
             % load data and reshape for plotting if necessary

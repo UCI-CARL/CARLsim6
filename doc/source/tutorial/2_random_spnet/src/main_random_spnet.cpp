@@ -86,8 +86,9 @@ int main(int argc, const char* argv[]) {
 
 	// enable STDP on all incoming synapses to gExc
 	float alphaPlus = 0.1f, tauPlus = 20.0f, alphaMinus = 0.1f, tauMinus = 20.0f;
-	sim.setESTDP(gExc, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
-	sim.setISTDP(gExc, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
+	sim.setESTDP(gExc,gExc, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+	sim.setESTDP(gExc,gInh, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+	sim.setISTDP(gInh,gExc, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
 
 	// run CUBA mode
 	sim.setConductances(false);

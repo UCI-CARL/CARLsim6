@@ -42,12 +42,15 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
 */
 #ifndef _SPIKEGEN_FROM_FILE_H_
 #define _SPIKEGEN_FROM_FILE_H_
+
+#include "carlsim_spike_generators_api.h"
 
 #include <callback.h>
 #include <string>
@@ -118,7 +121,7 @@ class CARLsim;
  * take up a lot of memory if you have a large and highly active neuron group.
  * \since v3.0
  */
-class SpikeGeneratorFromFile : public SpikeGenerator {
+class CARLSIM_SPIKE_GENERATORS_API SpikeGeneratorFromFile : public SpikeGenerator {
 public:
 	/*!
 	 * \brief SpikeGeneratorFromFile constructor
