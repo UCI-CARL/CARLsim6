@@ -51,6 +51,7 @@
 
 #include <group_monitor_core.h>	// GroupMonitor private implementation
 #include <user_errors.h>		// fancy user error messages
+#include <carlsim_datastructures.h>	// Neuromodulator
 
 #include <sstream>				// std::stringstream
 
@@ -126,6 +127,16 @@ std::vector<float> GroupMonitor::getDataVector(){
 
 	return groupMonitorCorePtr_->getDataVector();
 }
+
+std::vector<float> GroupMonitor::getDataVector(int transmitter) {
+	std::string funcName = "getDataVector(int)";
+	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
+
+	return groupMonitorCorePtr_->getDataVector((GroupMonitorCore::transmitter_t) transmitter);
+}
+
+
+
 
 std::vector<int> GroupMonitor::getTimeVector(){
 	std::string funcName = "getTimeVector()";

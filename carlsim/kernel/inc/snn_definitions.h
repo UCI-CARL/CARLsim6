@@ -156,6 +156,11 @@
 #define NEURON_MAX_FIRING_RATE 500
 
 #define STDP(t,a,b)       ((a)*exp(-(t)*(b))) // consider to use __expf(), which is accelerated by GPU hardware
+#ifdef LN_GPU_STDP
+	#define STDPf(t,a,b)       ((a)*(__expf(-(t)*(b)))) // simple precision float device fuction that is faster on most GPUs
+#else
+	#define STDPf(t,a,b)       ((a)*exp(-(t)*(b))) 
+#endif
 
 #define MAX_TIME_SLICE 1000
 #define MAX_SIMULATION_TIME     INT_MAX

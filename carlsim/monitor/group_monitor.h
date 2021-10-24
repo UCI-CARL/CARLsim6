@@ -227,6 +227,8 @@ class CARLSIM_API GroupMonitor {
 	 */
 	std::vector<float> getDataVector();
 
+	std::vector<float> getDataVector(int nm);
+
 	/*!
 	 * \brief return a vector of the timestamps for group data
 	 *

@@ -578,6 +578,7 @@ void SNN::copyExtFiringTable(int netId) {
 			// store scaling factors for synaptic currents in connection-centric array
 			
 		int lConnId = connIt->second.connId; // global ???
+		//printf("lConnId=%d\n", lConnId);
 
 		auto &config = connIt->second;
 		switch (config.icalcType) {
@@ -586,7 +587,7 @@ void SNN::copyExtFiringTable(int netId) {
 				float ne = runtimeData[netId].grpNE[config.grpDest]; // target group normalized
 				mulSynFast[lConnId] = 0.1f;	// AMPA 			
 				mulSynSlow[lConnId] = 15.0f - 10.0f * exp(-ne * 5.0f); // NMDA
-				//printf("ne[%d]=%f nmda=%f\n", config.grpDest, ne, mulSynSlow[lConnId]);
+				//printf("ne[%d]=%f lConnId=%d nmda=%f\n", config.grpDest, ne, lConnId, mulSynSlow[lConnId]);
 			}
 			break;
 		case D1_ADK13:
@@ -890,7 +891,7 @@ void SNN::firingUpdateSTP(int lNId, int lGrpId, int netId) {
 		nm.push_back(groupConfigs[netId][lGrpId].active5HT ? runtimeData[netId].grp5HT[lGrpId] : 0.f);
 		nm.push_back(groupConfigs[netId][lGrpId].activeACh ? runtimeData[netId].grpACh[lGrpId] : 0.f);
 		nm.push_back(groupConfigs[netId][lGrpId].activeNE ? runtimeData[netId].grpNE[lGrpId] : 0.f);
-		auto& config = groupConfigs[netId][lGrpId];
+		auto& config = groupConfigs[netId][lGrpId]; // LN2021 \todo refact duplicate
 		float w_stp_u = 0.0f;
 		for (int i = 0; i < NM_NE + 1; i++) {
 			w_stp_u += nm[i] * config.wstpu[i];
@@ -1051,7 +1052,7 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 			runtimeData[netId].current[postNId] += change;
 			break;
 		case NM4W_LN21:
-			runtimeData[netId].current[postNId] += change;
+			runtimeData[netId].current[postNId] += change;		// LN2021 \todo refact see above COBA
 			break;
 
 			//if (groupConfig.Type & EXCITATORY_NEURON) {
@@ -1348,8 +1349,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 							nm += runtimeData[netId].grpACh[lGrpId] * config.nm4w[NM_ACh];
 							nm += runtimeData[netId].grpNE[lGrpId] * config.nm4w[NM_NE];
 							nm *= config.nm4w[NM_UNKNOWN]; // normalize/boost
-							nm += runtimeData[netId].grpNE[NM_UNKNOWN + 1]; // nm base
-							//nm += config.nm4w[NM_UNKNOWN + 1]; // nm base    // \todo LN check 
+							nm += config.nm4w[NM_UNKNOWN + 1]; // nm base
 							totalCurrent *= nm;
 						}
 						break;

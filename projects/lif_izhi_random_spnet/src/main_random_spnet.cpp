@@ -123,12 +123,21 @@ int main(int argc, const char* argv[]) {
 
 	// enable STDP on all incoming synapses to gExc
 	float alphaPlus = 0.1f, tauPlus = 20.0f, alphaMinus = 0.1f, tauMinus = 20.0f;
-	sim.setESTDP(gExc1, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
-	sim.setISTDP(gExc1, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
-	sim.setESTDP(gExc2, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
-	sim.setISTDP(gExc2, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
-	sim.setESTDP(gExc3, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
-	sim.setISTDP(gExc3, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
+	sim.setESTDP(gExc1, gExc1, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+	sim.setESTDP(gExc2, gExc1, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+	sim.setESTDP(gExc3, gExc1, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+
+	sim.setISTDP(gInh, gExc1, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
+	sim.setISTDP(gInh, gExc2, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
+	sim.setISTDP(gInh, gExc3, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
+
+	sim.setESTDP(gExc1, gExc2, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+	sim.setESTDP(gExc2, gExc2, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+	sim.setESTDP(gExc3, gExc2, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+
+	sim.setESTDP(gExc1, gExc3, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+	sim.setESTDP(gExc2, gExc3, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+	sim.setESTDP(gExc3, gExc3, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus)); // LN2021 \todo Kexin review 
 
 	// run CUBA mode
 	sim.setConductances(false);

@@ -53,6 +53,7 @@
 #include <error_code.h>
 #include <cuda_runtime.h>
 
+
 #define NUM_THREADS 128
 #define NUM_BLOCKS 64
 #define WARP_SIZE 32
@@ -106,8 +107,14 @@ __device__ __constant__ NetworkConfigRT	networkConfigGPU;
 __device__ __constant__ GroupConfigRT   groupConfigsGPU[MAX_GRP_PER_SNN];
 __device__ __constant__ ConnectConfigRT   connectConfigsGPU[MAX_CONN_PER_SNN];
 
+#ifdef LN_I_CALC_TYPES
+__device__ float               d_mulSynFast[MAX_CONN_PER_SNN];
+__device__ float               d_mulSynSlow[MAX_CONN_PER_SNN];
+#else
 __device__ __constant__ float               d_mulSynFast[MAX_CONN_PER_SNN];
 __device__ __constant__ float               d_mulSynSlow[MAX_CONN_PER_SNN];
+#endif
+
 
 __device__  int	  loadBufferCount; 
 __device__  int   loadBufferSize;
@@ -353,10 +360,33 @@ __device__ void firingUpdateSTP (int nid, int simTime, short int grpId) {
 	// at this point, stpu[ind_plus] has already been assigned, and the decay applied
 	// so add the spike-dependent part to that
 	// du/dt = -u/tau_F + U * (1-u^-) * \delta(t-t_{spk})
-	runtimeDataGPU.stpu[ind_plus] += groupConfigsGPU[grpId].STP_U * (1.0f - runtimeDataGPU.stpu[ind_minus]);
 
+#ifdef LN_I_CALC_TYPES
+	auto& config = groupConfigsGPU[grpId];
+	float stp_u = config.STP_U;
+	if (config.WithNM4STP) {
+		float nm[NM_NE + 1];
+		int i = 0;
+		nm[i++] = config.activeDP ? runtimeDataGPU.grpDA[grpId] : 0.f;   // baseDP  is 0 at t=0 ???
+		nm[i++] = config.active5HT ? runtimeDataGPU.grp5HT[grpId] : 0.f;
+		nm[i++] = config.activeACh ? runtimeDataGPU.grpACh[grpId] : 0.f;
+		nm[i++] = config.activeNE ? runtimeDataGPU.grpNE[grpId] : 0.f;
+		float w_stp_u = 0.0f;
+		for (int i = 0; i < NM_NE + 1; i++) {
+			w_stp_u += nm[i] * config.wstpu[i];
+		}
+		w_stp_u *= config.wstpu[NM_NE + 1];
+		stp_u *= w_stp_u + config.wstpu[NM_NE + 2];
+		//KERNEL_DEBUG("grp[%d] stp_u %f\n", lGrpId, stp_u);
+	}
+	runtimeDataGPU.stpu[ind_plus] += stp_u * (1.0f - runtimeDataGPU.stpu[ind_minus]);
+#else
+	runtimeDataGPU.stpu[ind_plus] += groupConfigsGPU[grpId].STP_U * (1.0f - runtimeDataGPU.stpu[ind_minus]);
+#endif
 	// dx/dt = (1-x)/tau_D - u^+ * x^- * \delta(t-t_{spk})
 	runtimeDataGPU.stpx[ind_plus] -= runtimeDataGPU.stpu[ind_plus] * runtimeDataGPU.stpx[ind_minus];
+
+
 }
 
 __device__ void resetFiredNeuron(int lNId, short int lGrpId, int simTime) {
@@ -541,15 +571,60 @@ __device__ void updateLTP(int* fireTablePtr, short int* fireGrpId, volatile unsi
 						// Handle E-STDP curves
 						switch (connectConfigsGPU[connId].WithESTDPcurve) {
 						case EXP_CURVE: // exponential curve
+#ifdef LN_I_CALC_TYPES
 							if (stdp_tDiff * connectConfigsGPU[connId].TAU_PLUS_INV_EXC < 25)
-								runtimeDataGPU.wtChange[p] += STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
+								if (connectConfigsGPU[connId].WithESTDPtype == PKA_PLC_MOD) {
+
+									auto weight_nm = [&](float& nm, int i_nm) {
+										switch (i_nm) {			// index
+										case NM_DA:	 nm *= runtimeDataGPU.grpDA[grpId];
+											break;
+										case NM_5HT: nm *= runtimeDataGPU.grp5HT[grpId];
+											break;
+										case NM_ACh: nm *= runtimeDataGPU.grpACh[grpId];
+											break;
+										case NM_NE:  nm *= runtimeDataGPU.grpNE[grpId];
+											break;
+										};
+									};
+
+									float nm_pka = connectConfigsGPU[connId].W_PKA;
+									weight_nm(nm_pka, connectConfigsGPU[connId].NM_PKA);
+
+									float nm_plc = connectConfigsGPU[connId].W_PLC;
+									weight_nm(nm_plc, connectConfigsGPU[connId].NM_PLC);
+
+									float a_p = connectConfigsGPU[connId].ALPHA_PLUS_EXC;
+									float tau_p_inv = connectConfigsGPU[connId].TAU_PLUS_INV_EXC;
+
+									// f_pka = ne * 2 * (a_p * exp(-t * tau_p_inv))
+									float pka = nm_pka * 2 * STDPf(stdp_tDiff, a_p, tau_p_inv);
+								
+									// f_plc = ach * (-a_p * exp(-t * tau_p_inv))
+									float plc = nm_plc * STDPf(stdp_tDiff, -a_p, tau_p_inv);
+
+									//float x = __expf(0.f);
+									//float pka_plus_plc = pka + plc;
+									//float wtChange_p = runtimeDataGPU.wtChange[p]; 
+									//float wtChange_p_sum = wtChange_p + pka_plus_plc;
+
+									runtimeDataGPU.wtChange[p] += pka + plc;
+								}
+								else {
+									runtimeDataGPU.wtChange[p] += STDPf(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
+								}
 							break;
+#else
+							if (stdp_tDiff * connectConfigsGPU[connId].TAU_PLUS_INV_EXC < 25)
+								runtimeDataGPU.wtChange[p] += STDPf(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
+							break;
+#endif
 						case TIMING_BASED_CURVE: // sc curve
 							if (stdp_tDiff * connectConfigsGPU[connId].TAU_PLUS_INV_EXC < 25) {
 								if (stdp_tDiff <= connectConfigsGPU[connId].GAMMA)
-									runtimeDataGPU.wtChange[p] += connectConfigsGPU[connId].OMEGA + connectConfigsGPU[connId].KAPPA * STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
+									runtimeDataGPU.wtChange[p] += connectConfigsGPU[connId].OMEGA + connectConfigsGPU[connId].KAPPA * STDPf(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
 								else // stdp_tDiff > GAMMA
-									runtimeDataGPU.wtChange[p] -= STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
+									runtimeDataGPU.wtChange[p] -= STDPf(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_EXC, connectConfigsGPU[connId].TAU_PLUS_INV_EXC);
 							}
 							break;
 						default:
@@ -561,7 +636,7 @@ __device__ void updateLTP(int* fireTablePtr, short int* fireGrpId, volatile unsi
 						switch (connectConfigsGPU[connId].WithISTDPcurve) {
 						case EXP_CURVE: // exponential curve
 							if (stdp_tDiff * connectConfigsGPU[connId].TAU_PLUS_INV_INB < 25) { // LTP of inhibitory synapse, which decreases synapse weight
-								runtimeDataGPU.wtChange[p] -= STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_INB, connectConfigsGPU[connId].TAU_PLUS_INV_INB);
+								runtimeDataGPU.wtChange[p] -= STDPf(stdp_tDiff, connectConfigsGPU[connId].ALPHA_PLUS_INB, connectConfigsGPU[connId].TAU_PLUS_INV_INB);
 							}
 							break;
 						case PULSE_CURVE: // pulse curve
@@ -746,9 +821,9 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 		int2 threadLoad = getStaticThreadLoad(bufPos);
 		int  postNId = STATIC_LOAD_START(threadLoad) + threadIdx.x;
 		int  lastNId = STATIC_LOAD_SIZE(threadLoad);
-#ifdef LN_I_CALC_TYPES
-		int  grpId = STATIC_LOAD_GROUP(threadLoad);  //LN sanity check
-#endif
+//#ifdef LN_I_CALC_TYPES
+//		int  grpId = STATIC_LOAD_GROUP(threadLoad);  //LN sanity check
+//#endif
 
 		if ((threadIdx.x < lastNId) && (IS_REGULAR_NEURON(postNId, networkConfigGPU.numNReg, networkConfigGPU.numNPois))) {
 			// P6-1
@@ -801,15 +876,40 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 						int ind_minus = getSTPBufPos(preNId, (simTime - tD - 1)); // \FIXME should be adjusted for delay
 						int ind_plus = getSTPBufPos(preNId, (simTime - tD));
 						// dI/dt = -I/tau_S + A * u^+ * x^- * \delta(t-t_{spk})
+#ifdef LN_I_CALC_TYPES
+						auto& config = groupConfigsGPU[preGrpId];
+						float stp_a = config.STP_A;
+						float stp_u = config.STP_U;
+						if (config.WithNM4STP) {
+							float nm[NM_NE + 1];
+							int i = 0;
+							nm[i++] = config.activeDP ? runtimeDataGPU.grpDA[preGrpId] : 0.f;   // baseDP  is 0 at t=0 ???
+							nm[i++] = config.active5HT ? runtimeDataGPU.grp5HT[preGrpId] : 0.f;
+							nm[i++] = config.activeACh ? runtimeDataGPU.grpACh[preGrpId] : 0.f;
+							nm[i++] = config.activeNE ? runtimeDataGPU.grpNE[preGrpId] : 0.f;
+							float w_stp_u = 0.0f;
+							for (int i = 0; i < NM_NE + 1; i++) {
+								w_stp_u += nm[i] * config.wstpu[i];
+							}
+							w_stp_u *= config.wstpu[NM_NE + 1];
+							stp_u *= w_stp_u + config.wstpu[NM_NE + 2];
+							stp_a = (stp_u > 0.0f) ? 1.0 / stp_u : 1.0f; // scaling factor weighted
+							//KERNEL_DEBUG("grp[%d] stp_u = %f  stp_a = %f\n", pre_grpId, stp_u, stp_a);
+						}
+						change *= stp_a * runtimeDataGPU.stpx[ind_minus] * runtimeDataGPU.stpu[ind_plus];
+#else
 						change *= groupConfigsGPU[preGrpId].STP_A * runtimeDataGPU.stpx[ind_minus] * runtimeDataGPU.stpu[ind_plus];
+#endif
 					}
 #ifdef LN_I_CALC_TYPES
 					short int postGrpId = runtimeDataGPU.grpIds[postNId];
-					assert(postGrpId == grpId); // sanity check
+					//assert(postGrpId == grpId); // sanity check
 					auto &configs = groupConfigsGPU[postGrpId];
+					short int connId;
 					switch (configs.icalcType) {
 						case COBA:
-							short int connId = runtimeDataGPU.connIdsPreIdx[cum_pos + wtId];
+						case alpha1_ADK13: 
+							connId = runtimeDataGPU.connIdsPreIdx[cum_pos + wtId];
 							if (type & TARGET_AMPA)
 								AMPA_sum += change * d_mulSynFast[connId];
 							if (type & TARGET_NMDA) {
@@ -832,8 +932,9 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 									GABAb_sum += change * d_mulSynSlow[connId];
 								}
 							}
-							break;
+							break;						
 						case CUBA:
+						case NM4W_LN21:
 							// current based model with STP (CUBA)
 							// updated current for neuron 'post_nid'
 							AMPA_sum += change;									// \todo LN 2021 big issue is AMPA_sum really reused for CUBA -> this breaks the design  grp1 withCoba grp2 with Cuba -> both updates n.AMPAsum
@@ -890,6 +991,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 			short int postGrpId = runtimeDataGPU.grpIds[postNId];
 			switch(groupConfigsGPU[postGrpId].icalcType) {
 				case COBA:
+				case alpha1_ADK13:
 					// don't add mulSynFast/mulSynSlow here, because they depend on the exact pre<->post connection, not
 					// just post_nid
 					runtimeDataGPU.gAMPA[postNId] += AMPA_sum;
@@ -910,7 +1012,10 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 					}
 					break;
 				case CUBA: 
-					runtimeDataGPU.current[postNId] += AMPA_sum;		// \todo LN 20210913 big isse, see above 
+					runtimeDataGPU.current[postNId] += AMPA_sum;		// \todo LN 20210913 big isse, see above \todo Jinwei
+					break;
+				case NM4W_LN21:
+					runtimeDataGPU.current[postNId] += AMPA_sum;		// \todo LN 20210913 big isse, see above \todo Jinwei
 					break;
 				default: 
 					; // do nothing
@@ -1019,20 +1124,46 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 	float totalCurrent = runtimeDataGPU.extCurrent[nid];
 
 #ifdef LN_I_CALC_TYPES 
-	if (groupConfigsGPU[grpId].icalcType == COBA) {
+	auto& config = groupConfigsGPU[grpId];
+	switch(config.icalcType) {
+	case COBA:
+	case alpha1_ADK13:
 		NMDAtmp = (v + 80.0f) * (v + 80.0f) / 60.0f / 60.0f;
-		gNMDA = (groupConfigsGPU[grpId].with_NMDA_rise) ? (runtimeDataGPU.gNMDA_d[nid] - runtimeDataGPU.gNMDA_r[nid]) : runtimeDataGPU.gNMDA[nid];
-		gGABAb = (groupConfigsGPU[grpId].with_GABAb_rise) ? (runtimeDataGPU.gGABAb_d[nid] - runtimeDataGPU.gGABAb_r[nid]) : runtimeDataGPU.gGABAb[nid];
+		gNMDA = (config.with_NMDA_rise) ? (runtimeDataGPU.gNMDA_d[nid] - runtimeDataGPU.gNMDA_r[nid]) : runtimeDataGPU.gNMDA[nid];
+		gGABAb = (config.with_GABAb_rise) ? (runtimeDataGPU.gGABAb_d[nid] - runtimeDataGPU.gGABAb_r[nid]) : runtimeDataGPU.gGABAb[nid];
 
 		I_sum = -(runtimeDataGPU.gAMPA[nid] * (v - 0.0f)
 			+ gNMDA * NMDAtmp / (1.0f + NMDAtmp) * (v - 0.0f)
 			+ runtimeDataGPU.gGABAa[nid] * (v + 70.0f)
 			+ gGABAb * (v + 90.0f));
 
+		if (config.icalcType == alpha1_ADK13) {
+			float ne = runtimeDataGPU.grpNE[grpId] * config.nm4w[NM_DA] / config.nm4w[NM_UNKNOWN]; // normalize
+			float da = runtimeDataGPU.grpDA[grpId] * config.nm4w[NM_NE] / config.nm4w[NM_UNKNOWN]; // normalize
+			float lambda = config.nm4w[NM_UNKNOWN + 1];  // nm base = lambda
+			assert(lambda > 0.0f);
+			float mu = 1.0f - 0.5f * (__expf((ne - 1.0f) / lambda) + __expf((da - 1.0f) / lambda)); 
+			I_sum *= mu;
+		}
+
 		totalCurrent += I_sum;
-	}
-	else {
+		break;
+	case CUBA:
 		totalCurrent += runtimeDataGPU.current[nid];
+		break;
+	case NM4W_LN21:
+		totalCurrent += runtimeDataGPU.current[nid];
+		{
+			float nm = .0f;			
+			nm += runtimeDataGPU.grpDA[grpId] * config.nm4w[NM_DA];
+			nm += runtimeDataGPU.grp5HT[grpId] * config.nm4w[NM_5HT];
+			nm += runtimeDataGPU.grpACh[grpId] * config.nm4w[NM_ACh];
+			nm += runtimeDataGPU.grpNE[grpId] * config.nm4w[NM_NE];
+			nm *= config.nm4w[NM_UNKNOWN]; // normalize/boost
+			nm += config.nm4w[NM_UNKNOWN + 1]; // nm base
+			totalCurrent *= nm;
+		}
+		break;		
 	}
 #else
 	if (networkConfigGPU.sim_with_conductances) {
@@ -1214,12 +1345,16 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 	if(lastIteration)
 	{
 #ifdef LN_I_CALC_TYPES
-		if(groupConfigsGPU[grpId].icalcType == COBA) {
+		switch(groupConfigsGPU[grpId].icalcType) {
+		case COBA:
+		case alpha1_ADK13:
 			runtimeDataGPU.current[nid] = I_sum;
-		}
-		else {
+			break;
+		case CUBA: 
+		case NM4W_LN21:
 			// current must be reset here for CUBA and not kernel_STPUpdateAndDecayConductances
 			runtimeDataGPU.current[nid] = 0.0f;
+			break;
 		}
 #else
 		if (networkConfigGPU.sim_with_conductances) {
@@ -1386,23 +1521,28 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 #ifdef LN_I_CALC_TYPES
 		// update the conductane parameter of the current neron
 		auto &configs = groupConfigsGPU[grpId];
-		if (configs.icalcType == COBA && IS_REGULAR_NEURON(nid, networkConfigGPU.numNReg, networkConfigGPU.numNPois)) {
-			runtimeDataGPU.gAMPA[nid] *= configs.dAMPA;
-			if (configs.with_NMDA_rise) {
-				runtimeDataGPU.gNMDA_r[nid] *= configs.rNMDA;
-				runtimeDataGPU.gNMDA_d[nid] *= configs.dNMDA;
+		switch (configs.icalcType) {
+		case COBA:
+		case alpha1_ADK13:
+			if (IS_REGULAR_NEURON(nid, networkConfigGPU.numNReg, networkConfigGPU.numNPois)) {
+				runtimeDataGPU.gAMPA[nid] *= configs.dAMPA;
+				if (configs.with_NMDA_rise) {
+					runtimeDataGPU.gNMDA_r[nid] *= configs.rNMDA;
+					runtimeDataGPU.gNMDA_d[nid] *= configs.dNMDA;
+				}
+				else {
+					runtimeDataGPU.gNMDA[nid] *= configs.dNMDA;
+				}
+				runtimeDataGPU.gGABAa[nid] *= configs.dGABAa;
+				if (configs.with_GABAb_rise) {
+					runtimeDataGPU.gGABAb_r[nid] *= configs.rGABAb;
+					runtimeDataGPU.gGABAb_d[nid] *= configs.dGABAb;
+				}
+				else {
+					runtimeDataGPU.gGABAb[nid] *= configs.dGABAb;
+				}
 			}
-			else {
-				runtimeDataGPU.gNMDA[nid] *= configs.dNMDA;
-			}
-			runtimeDataGPU.gGABAa[nid] *= configs.dGABAa;
-			if (configs.with_GABAb_rise) {
-				runtimeDataGPU.gGABAb_r[nid] *= configs.rGABAb;
-				runtimeDataGPU.gGABAb_d[nid] *= configs.dGABAb;
-			}
-			else {
-				runtimeDataGPU.gGABAb[nid] *= configs.dGABAb;
-			}
+			break;
 		}
 #else
 		// update the conductane parameter of the current neron
@@ -1427,10 +1567,111 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 		if (groupConfigsGPU[grpId].WithSTP && (threadIdx.x < lastId) && (nid < networkConfigGPU.numN)) {
 			int ind_plus  = getSTPBufPos(nid, simTime);
 			int ind_minus = getSTPBufPos(nid, (simTime-1)); // \FIXME sure?
-			runtimeDataGPU.stpu[ind_plus] = runtimeDataGPU.stpu[ind_minus]*(1.0f-groupConfigsGPU[grpId].STP_tau_u_inv);
-			runtimeDataGPU.stpx[ind_plus] = runtimeDataGPU.stpx[ind_minus] + (1.0f-runtimeDataGPU.stpx[ind_minus])*groupConfigsGPU[grpId].STP_tau_x_inv;
+#ifdef LN_I_CALC_TYPES
+			auto config = groupConfigsGPU[grpId];
+			float tau_u_inv = config.STP_tau_u_inv;
+			float tau_x_inv = config.STP_tau_x_inv;
+			if (config.WithNM4STP) {
+				float nm[NM_NE + 1];
+				int i = 0;
+				nm[i++] = config.activeDP ? runtimeDataGPU.grpDA[grpId] : 0.f;   // baseDP  is 0 at t=0 ???
+				nm[i++] = config.active5HT ? runtimeDataGPU.grp5HT[grpId] : 0.f;
+				nm[i++] = config.activeACh ? runtimeDataGPU.grpACh[grpId] : 0.f;
+				nm[i++] = config.activeNE ? runtimeDataGPU.grpNE[grpId] : 0.f;
+				float tau_u = 1.0f / tau_u_inv;
+				float tau_x = 1.0f / tau_x_inv;
+				float w_tau_u = 0.0f;
+				float w_tau_x = 0.0f;
+				for (int i = 0; i < NM_NE + 1; i++) {
+					w_tau_u += nm[i] * config.wstptauu[i];
+					w_tau_x += nm[i] * config.wstptaux[i];
+				}
+				w_tau_u *= config.wstptauu[NM_NE + 1];
+				w_tau_x *= config.wstptaux[NM_NE + 1];
+				tau_u *= w_tau_u + config.wstptauu[NM_NE + 2];
+				tau_x *= w_tau_x + config.wstptaux[NM_NE + 2];
+				tau_u_inv = 1.0f / tau_u;
+				tau_x_inv = 1.0f / tau_x;
+			}
+			runtimeDataGPU.stpu[ind_plus] = runtimeDataGPU.stpu[ind_minus] * (1.0f - tau_u_inv);
+			runtimeDataGPU.stpx[ind_plus] = runtimeDataGPU.stpx[ind_minus] + (1.0f - runtimeDataGPU.stpx[ind_minus]) * tau_x_inv;
+#else
+			runtimeDataGPU.stpu[ind_plus] = runtimeDataGPU.stpu[ind_minus] * (1.0f - groupConfigsGPU[grpId].STP_tau_u_inv);
+			runtimeDataGPU.stpx[ind_plus] = runtimeDataGPU.stpx[ind_minus] + (1.0f - runtimeDataGPU.stpx[ind_minus]) * groupConfigsGPU[grpId].STP_tau_x_inv;
+#endif
 		}
 	}
+
+#ifdef LN_I_CALC_TYPES	
+
+	if (blockIdx.x == 0 && threadIdx.x == 0 && threadIdx.y == 0) {
+
+		for (int connId = 0; connId < networkConfigGPU.numConnections; connId++) {
+
+			auto& connConfig = connectConfigsGPU[connId];
+
+			//printf("%5d: connId %d\n", simTime, connId);
+
+			switch (connConfig.icalcType) {
+			case alpha2A_ADK13:
+				if (groupConfigsGPU[connConfig.grpDest].activeNE) {
+					float ne = runtimeDataGPU.grpNE[connConfig.grpDest]; // target group normalized
+						/*
+						\todo crashes in Release version, check fix KXN first, likely cause: write into unalloacted memory
+						CUDA error at C:/cockroach-ut3/src/CARLsim6/carlsim/kernel/src/gpu_module/snn_gpu_module.cu:3383 code=719(cudaErrorLaunchFailure) "cudaMemcpy(managerRuntimeData.lastSpikeTime, runtimeData[netId].lastSpikeTime, sizeof(int) * networkConfigs[netId].numN, cudaMemcpyDeviceToHost)"
+						CUDA_CHECK_ERRORS(cudaMemcpyToSymbol(d_mulSynFast, mulSynFast, sizeof(float) * networkConfigs[netId].numConnections, 0, cudaMemcpyHostToDevice));
+						*/
+					d_mulSynFast[connId] = 0.1f;	// AMPA 		
+					d_mulSynSlow[connId] = 15.0f - 10.0f * __expf(-ne * 5.0f); // NMDA
+					//printf("ne[%d]=%f connId=%d nmda=%f\n", grpId, ne, connId, d_mulSynSlow[connId]);
+				}
+				break;
+			case D1_ADK13:
+				if (groupConfigsGPU[connConfig.grpDest].activeDP) {
+					float da = runtimeDataGPU.grpDA[connConfig.grpDest]; // target group normalized
+					d_mulSynFast[connId] = 1.0f + __expf(-da * 5.0f); // AMPA
+					d_mulSynSlow[connId] = d_mulSynFast[connId]; // NMDA
+					//printf("da[%d]=%f nmda=%f\n", grpId, da, d_mulSynSlow[connId]);
+				}
+				break;
+			case D2_AK15:
+				if (groupConfigsGPU[connConfig.grpDest].activeDP) {
+					float da = runtimeDataGPU.grpDA[connConfig.grpDest]; // target group normalized
+					float mu = 0.0f; // da < 0 
+					float a = 18.f;
+					float y1, y2;
+					if (da >= 0 && da < 1.f / 6.f) {
+						y1 = 1.2f * 0.5f * tanh((0.f - 0.f / 3.f) * a);
+						y2 = 1.2f * 0.5f * tanh((1.f / 6.f - 0 / 3.f) * a);
+						mu = (0.6f - y2) + 1.2f * 0.5f * (tanh((da - 0.f / 3.f) * a));
+					}
+					else
+						if (da >= 1.f / 6.f & da < 1.f / 2.f) {
+							y1 = 0.6f + 0.4f * 0.5f * (1.f + tanh((1.f / 6.f - 1.f / 3.f) * a));
+							y2 = 0.6f + 0.4f * 0.5f * (1.f + tanh((1.f / 2.f - 1.f / 3.f) * a));
+							mu = 0.6f + 0.4f * 0.5f * (1.f + 0.4f / (y2 - y1) * tanh((da - 1.f / 3.f) * a));
+						}
+						else
+							if (da >= 1.f / 2.f & da < 5.f / 6.f) {
+								y1 = 1.0f + 0.8f * 0.5f * (1.f + tanh((1.f / 2.f - 2.f / 3.f) * a));
+								y2 = 1.0f + 0.8f * 0.5f * (1.f + tanh((5.f / 6.f - 2.f / 3.f) * a));
+								mu = 1.0f + 0.8f * 0.5f * (1.f + 0.8f / (y2 - y1) * tanh((da - 2.f / 3.f) * a));
+							}
+							else {  // da >= 5/6
+								y1 = tanh((5.f / 6.f - 3.f / 3.f) * a);
+								y2 = tanh((1.f - 3.f / 3.f) * a);
+								mu = 1.8f + 1.6f * 0.5f * (1.f + 1.f / (y2 - y1) * tanh((da - 3.f / 3.f) * a));
+							}
+					d_mulSynFast[connId] = mu; // AMPA
+					d_mulSynSlow[connId] = mu; // NMDA
+					//printf("da[%d]=%f nmda=%f\n", grpId, da, d_mulSynSlow[connId]);
+				}
+				break;
+			}
+		}
+	}
+	
+#endif
 }
 
 //********************************UPDATE SYNAPTIC WEIGHTS EVERY SECOND  *************************************************************
@@ -1454,15 +1695,25 @@ __device__ void updateSynapticWeights(int nid, unsigned int synId, int grpId, fl
 	float t_effectiveWtChange = networkConfigGPU.stdpScaleFactor * t_wtChange;
 	float t_maxWt = runtimeDataGPU.maxSynWt[synId];
 
-	unsigned int pos = runtimeDataGPU.cumulativePre[nid] + synId;
-	short int connId = runtimeDataGPU.connIdsPreIdx[pos];
+	short int connId = runtimeDataGPU.connIdsPreIdx[synId];  // Fix Kexin Sep21th
 
 	switch (connectConfigsGPU[connId].WithESTDPtype) {
 	case STANDARD:
 		if (groupConfigsGPU[grpId].WithHomeostasis) {
 			// this factor is slow
+			t_wt += (diff_firing * t_wt * homeostasisScale + t_effectiveWtChange) * baseFiring * avgTimeScaleInv / (1.0f + fabs(diff_firing) * 50.0f);
+		}
+		else {
+			//t_wt += t_effectiveWtChange;
+			t_wt += t_effectiveWtChange;
+		}
+		break;
+	case PKA_PLC_MOD:
+		if (groupConfigsGPU[grpId].WithHomeostasis) {
+			// this factor is slow
 			t_wt += (diff_firing*t_wt*homeostasisScale + t_effectiveWtChange) * baseFiring * avgTimeScaleInv / (1.0f+fabs(diff_firing)*50.0f);
 		} else {
+			//t_wt += t_effectiveWtChange;
 			t_wt += t_effectiveWtChange;
 		}
 		break;
@@ -1727,7 +1978,6 @@ __device__ void generatePostSynapticSpike(int simTime, int preNId, int postNId, 
 			atomicAdd(&(runtimeDataGPU.grpNE[postGrpId]), 0.04f);  // LN20210818 \todo param see, snn_cpu_module.cpp
 	*/
 
-
 	// P3
 	// STDP calculation: the post-synaptic neuron fires before the arrival of pre-synaptic neuron's spike
 	if (groupConfigsGPU[postGrpId].WithSTDP && !networkConfigGPU.sim_in_testing) {
@@ -1736,10 +1986,51 @@ __device__ void generatePostSynapticSpike(int simTime, int preNId, int postNId, 
 			if (connectConfigsGPU[connId].WithESTDP) {
 				// Handle E-STDP curves
 				switch (connectConfigsGPU[connId].WithESTDPcurve) {
+#ifdef LN_I_CALC_TYPES
 				case EXP_CURVE: // exponential curve
+					if (stdp_tDiff * connectConfigsGPU[connId].TAU_MINUS_INV_EXC < 25.0f) 
+						if(connectConfigsGPU[connId].WithESTDPtype == PKA_PLC_MOD) {
+
+							auto weight_nm = [&](float& nm, int i_nm) {
+								switch (i_nm) {			// index
+								case NM_DA:	 nm *= runtimeDataGPU.grpDA[postGrpId];
+									break;
+								case NM_5HT: nm *= runtimeDataGPU.grp5HT[postGrpId];
+									break;
+								case NM_ACh: nm *= runtimeDataGPU.grpACh[postGrpId];
+									break;
+								case NM_NE:  nm *= runtimeDataGPU.grpNE[postGrpId];
+									break;
+								};
+							};
+
+							float nm_pka = connectConfigsGPU[connId].W_PKA;
+							weight_nm(nm_pka, connectConfigsGPU[connId].NM_PKA);
+
+							float nm_plc = connectConfigsGPU[connId].W_PLC;
+							weight_nm(nm_plc, connectConfigsGPU[connId].NM_PLC);
+
+							float a_m = connectConfigsGPU[connId].ALPHA_MINUS_EXC;
+							float tau_m_inv = connectConfigsGPU[connId].TAU_MINUS_INV_EXC;
+
+							// f_pka_m = ne * (-a_m * exp(t_m * tau_p_inv))
+							float pka_m = nm_pka * STDPf(stdp_tDiff, -a_m, tau_m_inv);  // no sign switch, see below: -= instead of += 
+
+							//f_plc_m = ach * 2 * (a_m * exp(t_m * tau_p_inv))
+							float plc_m = nm_plc * 2 * STDPf(stdp_tDiff, a_m, tau_m_inv);  // no sign spwtich, see below: -= instead of +=
+								
+							runtimeDataGPU.wtChange[pos] += pka_m + plc_m;
+						} 
+						else {
+							runtimeDataGPU.wtChange[pos] += STDPf(stdp_tDiff, connectConfigsGPU[connId].ALPHA_MINUS_EXC, connectConfigsGPU[connId].TAU_MINUS_INV_EXC); // uncoalesced access
+						}
+					break;
+#else
+				case EXP_CURVE: // exponential curve
+#endif
 				case TIMING_BASED_CURVE: // sc curve
 					if (stdp_tDiff * connectConfigsGPU[connId].TAU_MINUS_INV_EXC < 25.0f)
-						runtimeDataGPU.wtChange[pos] += STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_MINUS_EXC, connectConfigsGPU[connId].TAU_MINUS_INV_EXC); // uncoalesced access
+						runtimeDataGPU.wtChange[pos] += STDPf(stdp_tDiff, connectConfigsGPU[connId].ALPHA_MINUS_EXC, connectConfigsGPU[connId].TAU_MINUS_INV_EXC); // uncoalesced access
 					break;
 				default:
 					break;
@@ -1750,7 +2041,7 @@ __device__ void generatePostSynapticSpike(int simTime, int preNId, int postNId, 
 				switch (connectConfigsGPU[connId].WithISTDPcurve) {
 				case EXP_CURVE: // exponential curve
 					if ((stdp_tDiff * connectConfigsGPU[connId].TAU_MINUS_INV_INB) < 25.0f) { // LTD of inhibitory syanpse, which increase synapse weight
-						runtimeDataGPU.wtChange[pos] -= STDP(stdp_tDiff, connectConfigsGPU[connId].ALPHA_MINUS_INB, connectConfigsGPU[connId].TAU_MINUS_INV_INB);
+						runtimeDataGPU.wtChange[pos] -= STDPf(stdp_tDiff, connectConfigsGPU[connId].ALPHA_MINUS_INB, connectConfigsGPU[connId].TAU_MINUS_INV_INB);
 					}
 					break;
 				case PULSE_CURVE: // pulse curve

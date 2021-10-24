@@ -45,6 +45,7 @@ endif()
     option(CARLSIM_LN_SETUP_NETWORK_MT  "Fix Performance Setup Network (experimental)" OFF)
     option(CARLSIM_LN_GPU_INFO "Enables Control which GPU to be used" ON)  # feature (buggy due dependency) 
 	option(CARLSIM_LN_I_CALC_TYPES "Enables enhanced current calculation" ON)  # feature NM4R6 (experimental) )
+	option(CARLSIM_LN_GPU_STDP "Enables GPU accelerated functions for STDP" ON)  # feature GPU device functions (experimental) )
         
 # Dependencies
 
@@ -221,6 +222,12 @@ if(CARLSIM_SHARED)
       target_compile_definitions(carlsim PUBLIC LN_I_CALC_TYPES)   
 	  if(NOT CARLSIM_NO_CUDA)
 		target_compile_definitions(carlsim-cuda PUBLIC LN_I_CALC_TYPES)
+	  endif()
+    endif()
+
+    if(CARLSIM_LN_GPU_STDP)
+	  if(NOT CARLSIM_NO_CUDA)
+		target_compile_definitions(carlsim-cuda PUBLIC LN_GPU_STDP)
 	  endif()
     endif()
 	

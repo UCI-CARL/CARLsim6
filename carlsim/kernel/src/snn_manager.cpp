@@ -3590,6 +3590,7 @@ void SNN::generateRuntimeConnectConfigs() {
 			connectConfigs[netId][lConnId].NM_PLC = connectConfigMap[lConnId].stdpConfig.NM_PLC;
 			connectConfigs[netId][lConnId].W_PKA = connectConfigMap[lConnId].stdpConfig.W_PKA;
 			connectConfigs[netId][lConnId].W_PLC = connectConfigMap[lConnId].stdpConfig.W_PLC;
+			connectConfigs[netId][lConnId].icalcType = connectConfigMap[lConnId].icalcType; // Fix LN 2021
 #endif
 		}
 	}

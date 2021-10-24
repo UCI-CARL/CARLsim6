@@ -6,8 +6,11 @@ CARLSIM RELEASE NOTES
 CARLsim 6.0
 -------------------------------------------------------------------------------
 
-- ...
-
+- Support for CUDA 11
+- Windos Support (inc. Visual Studio) 
+- cMake based build
+- Unit Test split
+- 
 
                                   
 -------------------------------------------------------------------------------
