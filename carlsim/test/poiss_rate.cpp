@@ -55,9 +55,10 @@
 // trigger all UserErrors
 TEST(PoissRate, constructDeath) {
 	::testing::FLAGS_gtest_death_test_style = "threadsafe";
-
+#ifndef NDEBUG
 	EXPECT_DEATH({PoissonRate poiss(0);},""); // nNeur==0
 	EXPECT_DEATH({PoissonRate poiss(-1);},""); // nNeur<0
+#endif
 }
 
 // testing getRate(neurId)

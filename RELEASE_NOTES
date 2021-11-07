@@ -6,12 +6,14 @@ CARLSIM RELEASE NOTES
 CARLsim 6.0
 -------------------------------------------------------------------------------
 
-- Support for CUDA 11
+- cMake build
+- CUDA 11 support
 - Windos Support (inc. Visual Studio) 
-- cMake based build
 - Unit Test split
-- 
-
+- Neuromodulation (Krichmar 2008,..)
+- Connection based STDP
+- ... 
+    
                                   
 -------------------------------------------------------------------------------
 CARLsim 5.0

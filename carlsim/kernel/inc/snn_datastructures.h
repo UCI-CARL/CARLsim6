@@ -363,7 +363,7 @@ typedef struct ConnectConfigRT_s {
 	float        W_PKA;				//!< published by GroupConfig \sa GroupConfig
 	float        W_PLC;             //!< published by GroupConfig \sa GroupConfig
 	IcalcType	 icalcType;			//!< published by GroupConfig \sa GroupConfig
-#endif LN_I_CALC_TYPES
+#endif
 } ConnectConfigRT;
 
 typedef struct compConnectionInfo_s {

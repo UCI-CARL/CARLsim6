@@ -78,8 +78,8 @@ int main() {
 	Grid3D gridOut(3,3,1); // post is on a 3x3 grid
 
 #ifdef __NO_CUDA__
-	int gin=sim.createSpikeGeneratorGroup("input", gridIn, EXCITATORY_NEURON);
-	int gout=sim.createGroup("output", gridOut, EXCITATORY_NEURON);
+	int gin=sim.createSpikeGeneratorGroup("input", gridIn, EXCITATORY_NEURON, 0, CPU_CORES);
+	int gout=sim.createGroup("output", gridOut, EXCITATORY_NEURON, 0, CPU_CORES);
 #else
 	int gin = sim.createSpikeGeneratorGroup("input", gridIn, EXCITATORY_NEURON, 0, GPU_CORES);
 	//int gout = sim.createGroup("output", gridOut, EXCITATORY_NEURON, 1, GPU_CORES);
@@ -114,7 +114,7 @@ int main() {
 	// run for a total of 10 seconds
 	// at the end of each runNetwork call, SpikeMonitor stats will be printed
 	for (int i=0; i<10; i++) {
-		sim.runNetwork(1,0);
+		sim.runNetwork(1,0, true);
 	}
 
 	// print stopwatch summary

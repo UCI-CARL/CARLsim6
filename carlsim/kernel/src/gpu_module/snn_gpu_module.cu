@@ -1708,6 +1708,7 @@ __device__ void updateSynapticWeights(int nid, unsigned int synId, int grpId, fl
 			t_wt += t_effectiveWtChange;
 		}
 		break;
+#ifdef LN_I_CALC_TYPES
 	case PKA_PLC_MOD:
 		if (groupConfigsGPU[grpId].WithHomeostasis) {
 			// this factor is slow
@@ -1717,6 +1718,7 @@ __device__ void updateSynapticWeights(int nid, unsigned int synId, int grpId, fl
 			t_wt += t_effectiveWtChange;
 		}
 		break;
+#endif
 	case DA_MOD:
 	case SE_MOD:
 	case AC_MOD:

@@ -443,8 +443,9 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		double tmax = (-tdNMDA*trNMDA*log(1.0*trNMDA/tdNMDA))/(tdNMDA-trNMDA); // t at which cond will be max
 		sNMDA = 1.0/(exp(-tmax/tdNMDA)-exp(-tmax/trNMDA)); // scaling factor, 1 over max amplitude
-		assert(!std::isinf<double>(tmax) && !std::isnan<double>(tmax) && tmax>=0);
-		assert(!std::isinf<double>(sNMDA) && !std::isnan<double>(sNMDA) && sNMDA>0);
+		//assert(!std::isinf<double>(tmax) && !std::isnan<double>(tmax) && tmax >= 0);
+		assert(!std::isinf(tmax) && !std::isnan(tmax) && tmax >= 0);
+		assert(!std::isinf(sNMDA) && !std::isnan(sNMDA) && sNMDA>0);
 	}
 
 	if (trGABAb>0) {
@@ -456,7 +457,7 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		double tmax = (-tdGABAb*trGABAb*log(1.0*trGABAb/tdGABAb))/(tdGABAb-trGABAb); // t at which cond will be max
 		sGABAb = 1.0/(exp(-tmax/tdGABAb)-exp(-tmax/trGABAb)); // scaling factor, 1 over max amplitude
-		assert(!std::isinf<double>(tmax) && !std::isnan<double>(tmax)); assert(!std::isinf<double>(sGABAb) && !std::isnan<double>(sGABAb) && sGABAb>0);
+		assert(!std::isinf(tmax) && !std::isnan(tmax)); assert(!std::isinf(sGABAb) && !std::isnan(sGABAb) && sGABAb>0);
 	}
 
 	if (sim_with_conductances) {
@@ -514,8 +515,10 @@ void SNN::setConductances(int gGrpId, bool isSet, int tdAMPA, int trNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		float tmax = (-tdNMDA * trNMDA * log(1.0f * trNMDA / tdNMDA)) / (tdNMDA - trNMDA); // t at which cond will be max
 		config.sNMDA = 1.0f / (exp(-tmax / tdNMDA) - exp(-tmax / trNMDA)); // scaling factor, 1 over max amplitude
-		assert(!std::isinf<float>(tmax) && !std::isnan<float>(tmax) && tmax >= 0.0f);
-		assert(!std::isinf<float>(config.sNMDA) && !std::isnan<float>(config.sNMDA) && config.sNMDA > 0.0f);
+		assert(!std::isinf(tmax) && !std::isnan(tmax) && tmax >= 0.0f);
+		assert(!std::isinf(config.sNMDA) && !std::isnan(config.sNMDA) && config.sNMDA > 0.0f);
+		//assert(!std::isinf<float>(tmax) && !std::isnan<float>(tmax) && tmax >= 0.0f);
+		//assert(!std::isinf<float>(config.sNMDA) && !std::isnan<float>(config.sNMDA) && config.sNMDA > 0.0f);
 	}
 
 	if (trGABAb > 0) {
@@ -528,7 +531,8 @@ void SNN::setConductances(int gGrpId, bool isSet, int tdAMPA, int trNMDA, int td
 		// otherwise the peak conductance will not be equal to the weight
 		float tmax = (-tdGABAb * trGABAb * log(1.0f * trGABAb / tdGABAb)) / (tdGABAb - trGABAb); // t at which cond will be max
 		config.sGABAb = 1.0f / (exp(-tmax / tdGABAb) - exp(-tmax / trGABAb)); // scaling factor, 1 over max amplitude
-		assert(!std::isinf<float>(tmax) && !std::isnan<float>(tmax)); assert(!std::isinf<float>(config.sGABAb) && !std::isnan<float>(config.sGABAb) && config.sGABAb > 0.0f);
+		assert(!std::isinf(tmax) && !std::isnan(tmax)); assert(!std::isinf(config.sGABAb) && !std::isnan(config.sGABAb) && config.sGABAb > 0.0f); // LN2021 fix gcc
+		//assert(!std::isinf<float>(tmax) && !std::isnan<float>(tmax)); assert(!std::isinf<float>(config.sGABAb) && !std::isnan<float>(config.sGABAb) && config.sGABAb > 0.0f);  // obsolete
 	}
 
 	if (isSet) {
@@ -1119,8 +1123,8 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	}
 
 	// set the Poisson generation time slice to be at the run duration up to MAX_TIME_SLICE
-	setGrpTimeSlice(ALL, std::max<int>(1, std::min<int>(runDurationMs, MAX_TIME_SLICE)));  // LN2021 Fix Issue illegal tocken, unknown-type c++17 
-
+	setGrpTimeSlice(ALL, std::max<int>(1, std::min(runDurationMs, MAX_TIME_SLICE)));  // LN2021 Fix Issue illegal token, unknown-type c++17 // gcc
+	//setGrpTimeSlice(ALL, std::max<int>(1, std::min<int>(runDurationMs, MAX_TIME_SLICE)));  // LN2021 Fix Issue illegal token, unknown-type c++17 
 #ifndef __NO_CUDA__
 	CUDA_RESET_TIMER(timer);
 	CUDA_START_TIMER(timer);
@@ -1233,7 +1237,8 @@ void SNN::biasWeights(short int connId, float bias, bool updateWeightRange) {
 					// if this flag is set, we need to update minWt,maxWt accordingly
 					// will be saving new maxSynWt and copying to GPU below
 //					connInfo->minWt = fmin(connInfo->minWt, weight);
-					connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
+					connectConfigMap[connId].maxWt = std::max(connectConfigMap[connId].maxWt, weight);  // LN2021 fix gcc
+					//connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("biasWeights(%d,%f,%s): updated weight ranges to [%f,%f]", connId, bias,
 							(updateWeightRange?"true":"false"), 0.0f, connectConfigMap[connId].maxWt);
@@ -1241,9 +1246,10 @@ void SNN::biasWeights(short int connId, float bias, bool updateWeightRange) {
 				} else {
 					// constrain weight to boundary values
 					// compared to above, we swap minWt/maxWt logic
-					weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
-//					weight = fmax(weight, connInfo->minWt);
-					weight = std::max<float>(weight, 0.0f);
+					weight = std::min(weight, connectConfigMap[connId].maxWt);  // LN2021 gcc, Workaround for VC no longer neccessary
+					//weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
+					//					weight = fmax(weight, connInfo->minWt);
+					weight = std::max(weight, 0.0f);
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("biasWeights(%d,%f,%s): constrained weight %f to [%f,%f]", connId, bias,
 							(updateWeightRange?"true":"false"), weight, 0.0f, connectConfigMap[connId].maxWt);
@@ -1325,7 +1331,8 @@ void SNN::scaleWeights(short int connId, float scale, bool updateWeightRange) {
 					// if this flag is set, we need to update minWt,maxWt accordingly
 					// will be saving new maxSynWt and copying to GPU below
 //					connInfo->minWt = fmin(connInfo->minWt, weight);
-					connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
+					connectConfigMap[connId].maxWt = std::max(connectConfigMap[connId].maxWt, weight);
+					//connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("scaleWeights(%d,%f,%s): updated weight ranges to [%f,%f]", connId, scale,
 							(updateWeightRange?"true":"false"), 0.0f, connectConfigMap[connId].maxWt);
@@ -1333,9 +1340,11 @@ void SNN::scaleWeights(short int connId, float scale, bool updateWeightRange) {
 				} else {
 					// constrain weight to boundary values
 					// compared to above, we swap minWt/maxWt logic
-					weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
+					//weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
+					weight = std::min(weight, connectConfigMap[connId].maxWt);	// LN2021 gcc
 //					weight = fmax(weight, connInfo->minWt);
-					weight = std::max<float>(weight, 0.0f);
+//					weight = std::max<float>(weight, 0.0f);   // \todo Issue 
+					weight = std::max(weight, 0.0f);   // \todo Issue  lower bound
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("scaleWeights(%d,%f,%s): constrained weight %f to [%f,%f]", connId, scale,
 							(updateWeightRange?"true":"false"), weight, 0.0f, connectConfigMap[connId].maxWt);
@@ -4111,7 +4120,19 @@ void SNN::compileSNN() {
 }
 
 void SNN::compileConnectConfig() {
-	// for future  use
+
+	// LN2021 fix for failing UnitTest Interface.setSTDPDeath. \todo review by Kexin
+	bool synWtType;
+	for (std::map<int, ConnectConfig>::iterator connIt = connectConfigMap.begin(); connIt != connectConfigMap.end(); connIt++) {
+		ConnectConfig &config = connIt->second;
+		if (connIt->second.stdpConfig.WithSTDP) {
+			synWtType = GET_FIXED_PLASTIC(connIt->second.connProp);  // derived from compileGroupConfig()
+			if (synWtType != SYN_PLASTIC) {
+				KERNEL_ERROR("STDP requires plastic connection");
+				exitSimulation(-1);
+			}
+		}
+	}
 }
 
 void SNN::compileGroupConfig() {

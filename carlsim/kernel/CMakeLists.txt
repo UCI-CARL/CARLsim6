@@ -6,15 +6,26 @@
 
 # Targets
 
+
     if(NOT CARLSIM_NO_CUDA)
-# 2>cl : Command line warning D9002: ignoring unknown option '-fPIC'
-        cuda_add_library(carlsim-kernel-cuda
-            src/gpu_module/snn_gpu_module.cu
-            OPTIONS
-#                -Xcompiler
-#                 -fPIC
-                -gencode arch=compute_61,code=sm_61
-        )
+		if(MSVC)
+			# 2>cl : Command line warning D9002: ignoring unknown option '-fPIC'
+	        cuda_add_library(carlsim-kernel-cuda
+	            src/gpu_module/snn_gpu_module.cu
+	            OPTIONS
+	                -gencode arch=compute_61,code=sm_61
+	        )
+		endif()
+		if(UNIX)
+	        cuda_add_library(carlsim-kernel-cuda
+	            src/gpu_module/snn_gpu_module.cu
+	            OPTIONS
+	                -Xcompiler
+	                -fPIC
+	                -gencode arch=compute_61,code=sm_61
+	        )
+
+		endif()
     endif()
 
     add_library(carlsim-kernel 
@@ -63,8 +74,14 @@
                 inc
                 ${CUDA_INCLUDE_DIRS}
                 ${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc
-                "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v11.2/common/inc"            
           )
+		if(MSVC)
+			# patch cMake.CUDA
+	        target_include_directories(carlsim-kernel-cuda
+	            PUBLIC
+	                "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v11.2/common/inc"            
+	          )
+		endif()
     endif()
 
     target_include_directories(carlsim-kernel
@@ -74,11 +91,10 @@
 
 # Linking
 
-    if(UNIX)
-        target_link_libraries(carlsim-kernel
-            PRIVATE
-                pthread
-        )
+	if(UNIX)
+	    set(THREADS_PREFER_PTHREAD_FLAG ON)
+		find_package(Threads REQUIRED)
+		target_link_libraries(carlsim-kernel PRIVATE Threads::Threads)
     endif()
 
     if(NOT CARLSIM_NO_CUDA)

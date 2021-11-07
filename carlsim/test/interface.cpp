@@ -76,6 +76,7 @@ TEST(Interface, connectDeath) {
 	sim->setNeuronParameters(g2, 0.02f, 0.2f,-65.0f,8.0f);
 
 	// regular connect call
+#ifndef NDEBUG
 	EXPECT_DEATH(sim->connect(g1,g1,"random",RangeWeight(0.1f),0.1f),""); // g-post cannot be PoissonGroup
 	EXPECT_DEATH(sim->connect(g1,g2,"random",RangeWeight(-0.01f),0.1f),""); // weight cannot be negative
 	EXPECT_DEATH(sim->connect(g1,g2,"random",RangeWeight(0.01f,0.1f,0.1f),0.1f),""); // wt.min>0
@@ -85,18 +86,23 @@ TEST(Interface, connectDeath) {
 	EXPECT_DEATH(sim->connect(g1,g2,"one-to-one",RangeWeight(0.1f),0.1f,RangeDelay(1),RadiusRF(3,0,0)),""); // rad>0
 	EXPECT_DEATH(sim->connect(g1,g2,"random",RangeWeight(0.1f),0.1f,RangeDelay(1),RadiusRF(-1),SYN_FIXED,-1.0f,0.0f),""); // mulSynFast<0
 	EXPECT_DEATH(sim->connect(g1,g2,"random",RangeWeight(0.1f),0.1f,RangeDelay(1),RadiusRF(-1),SYN_FIXED,0.0f,-1.0f),""); // mulSynSlow<0
+#endif
 
 	// custom ConnectionGenerator
 	ConnectionGenerator* CGNULL = NULL;
 	DummyCG* CG = new DummyCG;
+#ifndef NDEBUG
 	EXPECT_DEATH({sim->connect(g1,g2,CGNULL);},""); // CG=NULL
 	EXPECT_DEATH({sim->connect(g1,g1,CG);},""); // g-post cannot be PoissonGroup
+#endif
 
 	// custom ConnectionGenerator with mulSyns
+#ifndef NDEBUG
 	EXPECT_DEATH({sim->connect(g1,g2,CGNULL,1.0f,1.0f);},""); // CG=NULL
 	EXPECT_DEATH({sim->connect(g1,g1,CG,1.0f,1.0f);},""); // g-post cannot be PoissonGroup
 	EXPECT_DEATH({sim->connect(g1,g2,CG,-1.0f,1.0f,SYN_FIXED);},""); // mulSynFast<0
 	EXPECT_DEATH({sim->connect(g1,g2,CG,1.0f,-1.0f,SYN_FIXED);},""); // mulSynSlow<0
+#endif
 
 	delete CG;
 	delete sim;
@@ -216,12 +222,14 @@ TEST(Interface, createSpikeGeneratorGroupDeath) {
 
 	// set silly values to all possible input arguments
 	// e.g., negative values for things>=0, values>numGroups, etc.
+#ifndef NDEBUG
 	EXPECT_DEATH({sim->createSpikeGeneratorGroup("excit", -10, EXCITATORY_NEURON);},"");
 	EXPECT_DEATH({sim->createSpikeGeneratorGroup("excit", 10, -3);},"");
 	EXPECT_DEATH({sim->createSpikeGeneratorGroup("excit", Grid3D(-10,1,1), EXCITATORY_NEURON);},"");
 	EXPECT_DEATH({sim->createSpikeGeneratorGroup("excit", Grid3D(1,-1,1), EXCITATORY_NEURON);},"");
 	EXPECT_DEATH({sim->createSpikeGeneratorGroup("excit", Grid3D(10,1,-1), EXCITATORY_NEURON);},"");
 	EXPECT_DEATH({sim->createSpikeGeneratorGroup("excit", Grid3D(1,1,1), -3);},"");
+#endif
 
 	if (sim!=NULL)
 		delete sim;
@@ -312,16 +320,20 @@ TEST(Interface, scaleWeightsDeath) {
 	sim->setNeuronParameters(g1, 0.02f, 0.2f,-65.0f,8.0f);
 	int c1=sim->connect(g1, g1, "full", RangeWeight(0.01), 1.0f, RangeDelay(1));
 
+#ifndef NDEBUG
 	EXPECT_DEATH({sim->scaleWeights(c1, 0.1, false);},""); // CONFIG state
+#endif
 
 	sim->setConductances(true);
 	sim->setupNetwork();
 	sim->runNetwork(0,20);
 
+#ifndef NDEBUG
 	EXPECT_DEATH({sim->scaleWeights(c1+1, 0.1, false);},""); // invalid connId
 	EXPECT_DEATH({sim->scaleWeights(-1,   0.1, false);},""); // invalid connId
 	EXPECT_DEATH({sim->scaleWeights(0,   -1.0, false);},""); // scale<0
-	
+#endif
+
 	if (sim!=NULL)
 		delete sim;
 }
@@ -334,12 +346,15 @@ TEST(Interface, setWeightDeath) {
 	sim->setNeuronParameters(g1, 0.02f, 0.2f,-65.0f,8.0f);
 	int c1=sim->connect(g1, g1, "full", RangeWeight(0.01), 1.0f, RangeDelay(1));
 
+#ifndef NDEBUG
 	EXPECT_DEATH({sim->setWeight(c1, 0, 0, 0.1, false);},""); // CONFIG state
+#endif
 
 	sim->setConductances(true);
 	sim->setupNetwork();
 	sim->runNetwork(0,20);
 
+#ifndef NDEBUG
 	EXPECT_DEATH({sim->setWeight(c1+1, 0,  0,  0.1, false);},""); // invalid connId
 	EXPECT_DEATH({sim->setWeight(-1,   0,  0,  0.1, false);},""); // connId<0
 	EXPECT_DEATH({sim->setWeight(0,   -1,  0,  0.1, false);},""); // neurIdPre<0
@@ -347,6 +362,7 @@ TEST(Interface, setWeightDeath) {
 	EXPECT_DEATH({sim->setWeight(0,    0, -1,  0.1, false);},""); // neurIdPost<0
 	EXPECT_DEATH({sim->setWeight(0,    0,101,  0.1, false);},""); // invalid neurIdPost
 	EXPECT_DEATH({sim->setWeight(0,    0,  0, -1.0, false);},""); // weight<0
+#endif
 
 	if (sim!=NULL)
 		delete sim;
@@ -504,6 +520,7 @@ TEST(Interface, setNeuronParametersDeath) {
 
 	// set silly values to all possible input arguments
 	// e.g., negative values for things>=0, values>numGroups, etc.
+#ifndef NDEBUG
 	EXPECT_DEATH({sim->setNeuronParameters(-2, 0.02f, 0.2f, -65.0f, 8.0f);},"");
 	EXPECT_DEATH({sim->setNeuronParameters(g0+1, 0.02f, 0.2f, -65.0f, 8.0f);},"");
 
@@ -513,6 +530,7 @@ TEST(Interface, setNeuronParametersDeath) {
 	EXPECT_DEATH({sim->setNeuronParameters(g0, 0.02f, 0.0f, 0.2f, -10.0f, -65.0f, 0.0f, 8.0f, 0.0f);},"");
 	EXPECT_DEATH({sim->setNeuronParameters(g0, 0.02f, 0.0f, 0.2f, 0.0f, -65.0f, -10.0f, 8.0f, 0.0f);},"");
 	EXPECT_DEATH({sim->setNeuronParameters(g0, 0.02f, 0.0f, 0.2f, 0.0f, -65.0f, 0.0f, 8.0f, -10.0f);},"");
+#endif
 
 	if (sim!=NULL)
 		delete sim;
@@ -706,9 +724,7 @@ TEST(Interface, setSTDPDeath) {
 	sim->connect(g0, g1, "random", RangeWeight(0.1f), 0.1f);
 	sim->setConductances(true);
 	sim->setSTDP(g0,g1,true,STANDARD,1.0f,2.0f,3.0f,4.0f);
-
-
-	EXPECT_DEATH({sim->setupNetwork();},"");
+	EXPECT_DEATH({sim->setupNetwork();},"");  // Fixed issue for CARLsim6 feature connection based STDP: User error was not thrown. See SNN::compileConnectConfig() for details. (LN2021)
 
 	delete sim;
 }

@@ -83,14 +83,13 @@ class SpikeGenerator;
 #include <float.h>
 #include <time.h>
 
-#ifndef isnan
-#define isnan(x) _isnan(x)
-#endif
-
-#ifndef isinf
-#define isinf(x) (!_finite(x))
-#endif
-
+//#ifndef isnan
+//#define isnan(x) _isnan(x)
+//#endif
+//
+//#ifndef isinf
+//#define isinf(x) (!_finite(x))
+//#endif
 #ifndef srand48
 #define srand48(x) srand(x)
 #endif
@@ -1932,11 +1931,11 @@ public:
 
 #ifdef LN_I_CALC_TYPES
 
-	bool CARLsim::isGroupWith(int grpId, IcalcType icalcType);
+	bool isGroupWith(int grpId, IcalcType icalcType);
 
-	bool CARLsim::isGroupWithCOBA(int grpId);
+	bool isGroupWithCOBA(int grpId);
 
-	bool CARLsim::isGroupWithCUBA(int grpId);
+	bool isGroupWithCUBA(int grpId);
 
 
 	/*!

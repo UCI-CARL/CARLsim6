@@ -1724,7 +1724,9 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 								// FIXME: check WithESTDPtype and WithISTDPtype first and then do weight change update
 				switch (connectConfigMap[connId].stdpConfig.WithESTDPtype) {
 				case STANDARD:
+#ifdef LN_I_CALC_TYPES
 				case PKA_PLC_MOD:
+#endif
 					if (groupConfigs[netId][lGrpId].WithHomeostasis) {
 						runtimeData[netId].wt[offset + j] += (diff_firing*runtimeData[netId].wt[offset + j] * homeostasisScale + runtimeData[netId].wtChange[offset + j])*runtimeData[netId].baseFiring[lNId] / groupConfigs[netId][lGrpId].avgTimeScale / (1 + fabs(diff_firing) * 50);
 					} else {

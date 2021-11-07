@@ -84,12 +84,10 @@ TEST(setSpikeMon, grpId){
 		int g2 = sim->createGroup("g2", GRP_SIZE, EXCITATORY_NEURON, 0);
 		sim->setNeuronParameters(g1, 0.02f, 0.0f, 0.2f, 0.0f, -65.0f, 0.0f, 8.0f, 0.0f);
 		sim->setNeuronParameters(g2, 0.02f, 0.0f, 0.2f, 0.0f, -65.0f, 0.0f, 8.0f, 0.0f);
-
 		EXPECT_DEATH(sim->setSpikeMonitor(ALL,"Default"),"");  // grpId = ALL (-1) and less than 0
 		EXPECT_DEATH(sim->setSpikeMonitor(-4,"Default"),"");  // less than 0
 		EXPECT_DEATH(sim->setSpikeMonitor(2,"Default"),""); // greater than number of groups
 		EXPECT_DEATH(sim->setSpikeMonitor(MAX_GRP_PER_SNN,"Default"),""); // greater than number of group & and greater than max groups
-
 		delete sim;
 	}
 }
@@ -203,7 +201,9 @@ TEST(SpikeMon, interfaceDeath) {
 	EXPECT_DEATH(spkMon->getSpikeVector2D(),"");
 	EXPECT_DEATH(spkMon->print(),"");
 	EXPECT_DEATH(spkMon->startRecording(),"");
+#ifndef NDEBUG
 	EXPECT_DEATH(spkMon->setLogFile("meow.dat"),"");
+#endif
 }
 
 

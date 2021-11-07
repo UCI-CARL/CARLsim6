@@ -104,7 +104,7 @@ TEST(ADK13, wm) {
 
 		// initialize columns at optimal level
 		//for (int c = 0; c < columns; c++) {
-		{int c = 0; 
+		{int c = 0;
 
 			g_PC7a[c] = sim->createGroup(std::string("PC7a_").append(std::to_string(c)), n, EXCITATORY_NEURON);
 			sim->setNeuronParameters(g_PC7a[c], rs.a, rs.b, rs.c, rs.d);
@@ -288,7 +288,7 @@ TEST(ADK13, wm) {
 		*/
 		expected[mode] = { 0.0, 9.0, 2.9, 8.6, 0.8, 0.0, 0.0 };
 		for (int i = 0; i < expected[mode].size(); i++)
-			EXPECT_NEAR(rates[mode][i], expected[mode][i], 0.5f);  // abs_error can be increased
+			EXPECT_NEAR(rates[mode][i], expected[mode][i], 1.5f);  // abs_error can be increased
 
 		tested++;
 	}

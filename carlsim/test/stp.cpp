@@ -82,6 +82,7 @@ TEST(STP, setSTPdeath) {
 	EXPECT_DEATH({sim->setSTP(-2,true,0.1f,10,10);},"grpId must be in the range");
 	//}
 
+#ifndef NDEBUG
 	// STP_U
 	EXPECT_DEATH({sim->setSTP(g1,true,0.0f,10,10);},"");
 	EXPECT_DEATH({sim->setSTP(g1,true,1.1f,10,10);},"");
@@ -89,7 +90,8 @@ TEST(STP, setSTPdeath) {
 	// STP_tF / STP_tD
 	EXPECT_DEATH({sim->setSTP(g1,true,0.1f,-10,10);},"");
 	EXPECT_DEATH({sim->setSTP(g1,true,0.1f,10,-10);},"");
-	
+#endif
+
 	delete sim;
 }
 

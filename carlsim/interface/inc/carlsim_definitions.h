@@ -70,7 +70,7 @@
 #define TARGET_GABAa	(1 << 3)
 #define TARGET_GABAb	(1 << 4)
 #define TARGET_DA		(1 << 5)
-#define TARGET_5HT		(1 << 6) // LN2021 \todo check if following CARLsim lagacy, meaning already reserved?
+#define TARGET_5HT		(1 << 6) // LN2021 \todo check if following CARLsim legacy, meaning already reserved?
 #define TARGET_ACH		(1 << 7)
 #define TARGET_NE		(1 << 8)
 

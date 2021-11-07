@@ -53,6 +53,11 @@ endif()
         find_package(CUDA 11 REQUIRED)
     endif()
 
+	if(UNIX)
+  		set(THREADS_PREFER_PTHREAD_FLAG ON)
+		find_package(Threads REQUIRED)
+	endif()
+
 # Targets
  
 if(CARLSIM_SHARED)
@@ -116,9 +121,7 @@ if(CARLSIM_SHARED)
     source_group("Header Files\\Interface" FILES ${interface_HDRS})
     source_group("Header Files\\Kernel" FILES ${kernel_HDRS})    
     source_group("Header Files\\Monitor" FILES ${monitor_HDRS})
-
     
-
     target_sources(carlsim PRIVATE
         ${interface_SRCS} 
         ${interface_HDRS}
@@ -129,31 +132,41 @@ if(CARLSIM_SHARED)
     )
 
     if(NOT CARLSIM_NO_CUDA)
-# 2>cl : Command line warning D9002: ignoring unknown option '-fPIC'
-        cuda_add_library(carlsim-cuda
+	
+		# LN2021 \todo set CACHE prop: CARLSIM_CUDA_ARCH=compute_61  CARLSIM_CODE=sm_61   
+		if(MSVC)
+			# 2>cl : Command line warning D9002: ignoring unknown option '-fPIC'
+			cuda_add_library(carlsim-cuda
+				carlsim/kernel/src/gpu_module/snn_gpu_module.cu
+				OPTIONS
+					-gencode arch=compute_61,code=sm_61
+			)
+		endif()
+
+		if(UNIX)
+			cuda_add_library(carlsim-cuda
             carlsim/kernel/src/gpu_module/snn_gpu_module.cu
             OPTIONS
-#                -Xcompiler
-#                 -fPIC
+                -Xcompiler
+                -fPIC
                 -gencode arch=compute_61,code=sm_61
-        )
+			)
+		endif()
+
     endif()
+     
 
 # Properties
 
     set_property(TARGET carlsim PROPERTY VERSION "6.0.0")
-
-#    # Since we build shared library enable position independent code
-#    set_property(TARGET carlsim PROPERTY POSITION_INDEPENDENT_CODE TRUE)
-
-
-
+	if(UNIX)
+		# Since we build shared library enable position independent code
+#		set_property(TARGET carlsim PROPERTY POSITION_INDEPENDENT_CODE TRUE)   
+	endif()
+	
 # Definitions
-
-        
-
+      
     target_compile_definitions(carlsim PRIVATE CARLSIM_DLL)
-
 
 
     if(CARLSIM_NO_CUDA)
@@ -249,8 +262,14 @@ if(CARLSIM_SHARED)
                 carlsim/monitor
                 ${CUDA_INCLUDE_DIRS}
                 ${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc
-                "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v11.2/common/inc"            
           )
+		if(MSVC)
+			# patch for cMake
+			target_include_directories(carlsim-cuda
+				PUBLIC
+					"C:/ProgramData/NVIDIA Corporation/CUDA Samples/v11.2/common/inc"            
+			  )
+		endif()
     endif()
 
 # Linking 
@@ -263,7 +282,11 @@ if(CARLSIM_SHARED)
         )
     endif()
 
+	if(UNIX)
+		target_link_libraries(carlsim PRIVATE Threads::Threads)
+	endif()
 
+	
 # Installation
 
     #install(TARGETS carlsim DESTINATION bin)
@@ -362,7 +385,7 @@ endif()
 #  if(CARLSIM_PYCARL)
 #    add_subdirectory(pycarl)   
 #  endif()  
-  
-  add_subdirectory(doc)
 
-  
+if(MSVC)  
+  add_subdirectory(doc)
+endif()

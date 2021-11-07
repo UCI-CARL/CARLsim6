@@ -13,6 +13,9 @@
 
 #include <vector>
 
+#include <cmath>
+
+
 /*!
  * \brief test config icalc on connections  
  * 
@@ -117,7 +120,7 @@ TEST(ADK13, alpha1) {
 			g_L3e[c] = sim->createGroup(std::string("L3e_").append(std::to_string(c)), n, EXCITATORY_NEURON); // 2585
 			sim->setNeuronParameters(g_L3e[c], rs.a, rs.b, rs.c, rs.d); 
 			// _mu_DA,NE,grp
-			sim->setNM4weighted(g_L3e[c], alpha1_ADK13, 1.f, 0.f, 0.f, 1.0f, 1.f, -1.0f / 6.0f / log(1.0f / 3.0f));
+			sim->setNM4weighted(g_L3e[c], alpha1_ADK13, 1.f, 0.f, 0.f, 1.0f, 1.f, -1.0f / 6.0f / std::log(1.0f / 3.0f));
 
 			g_L3i[c] = sim->createGroup(std::string("L3i_").append(std::to_string(c)), n, INHIBITORY_NEURON);  // 729
 			sim->setNeuronParameters(g_L3i[c], fs.a, fs.b, fs.c, fs.d);

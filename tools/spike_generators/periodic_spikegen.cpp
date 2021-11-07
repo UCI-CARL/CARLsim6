@@ -65,7 +65,10 @@ PeriodicSpikeGenerator::PeriodicSpikeGenerator(float rate, bool spikeAtZero) {
 	// ISSUE: :\test\github\carlsim4\tools\spike_generators\periodic_spikegen.cpp(62): warning C4723: potential divide by 0
 	//isi_ = 1000/rate; // inter-spike interval in ms
 	// FIX1: LN20201002 explicit cast (trunc)  (int)(float expression)
-	// FIX2: LN20201002 solve numericical
+	// FIX2: LN20201002 solve numerical
+#ifndef INT_MAX			// LN2021 g++
+#define INT_MAX    2147483647	
+#endif
 	isi_ = std::abs(rate)<0.00001f ? INT_MAX : int(1000.f/rate); // inter-spike interval in ms
 	
 	spikeAtZero_ = spikeAtZero;
