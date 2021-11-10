@@ -46,6 +46,7 @@ endif()
     option(CARLSIM_LN_GPU_INFO "Enables Control which GPU to be used" ON)  # feature (buggy due dependency) 
 	option(CARLSIM_LN_I_CALC_TYPES "Enables enhanced current calculation" ON)  # feature NM4R6 (experimental) )
 	option(CARLSIM_LN_GPU_STDP "Enables GPU accelerated functions for STDP" ON)  # feature GPU device functions (experimental) )
+	option(CARLSIM_JK_CA3_SSN "J. Koppsick extensions for Neuron-Type Specific CA3 SNN" OFF) # feature ported from CARLsim 
         
 # Dependencies
 
@@ -243,6 +244,10 @@ if(CARLSIM_SHARED)
 		target_compile_definitions(carlsim-cuda PUBLIC LN_GPU_STDP)
 	  endif()
     endif()
+
+	if(CARLSIM_JK_CA3_SSN) 
+		target_compile_definitions(carlsim PUBLIC JK_CA3_SNN) 
+	endif()
 	
 
 # Includes
