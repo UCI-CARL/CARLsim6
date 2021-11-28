@@ -21,60 +21,144 @@ If the Prerequisites cannot be met consider using a former version like CARLsim5
 
 
 The latest release was tested on the following platforms:
-Linux:  Ubuntu 20.04 LTS
-Mac OS X:  
-Windows 10 Professional, 11 Education
-
-CUDA: 11.2, 11.4, 11.5
-
-GPUs: A100, RTX 3090ti, Titan Xp, A100, ...  
-
-
-
-## Using CMake on Linux Ubunutu  
-
---> Quick Start: cmake-gui  
-
-1. Clone repositor from GIT 
-
-2. Create a build directory (you can make it anywhere)
-
-   ```
-   $ mkdir .build
-   ```
-
-3. Proceed into build directory and do configuration:
-
-   ```
-   $ cd .build
-   $ cmake \
-       -DCMAKE_BUILD_TYPE=Release \
-       -DCMAKE_INSTALL_PREFIX=/usr/local/carlsim \
-       -DCARLSIM_NO_CUDA=OFF \
-       <path-to-carlsim>
-   ```
-
-   As you can see `cmake` accepts several options `-D<name>=<value>`: they define cmake variables.
-   `CMAKE_BUILD_TYPE=Release` means that we are going to build release version of the library.
-   If you need debug version then pass `Debug`.
-   `CMAKE_INSTALL_PREFIX` specifies a directory which we are going to install the library into.
-   `CARLSIM_NO_CUDA` switches on/off support of CUDA inside the library.
-   `<path-to-carlsim>` must be replaced with the path to the CARLsim5's source directory.
-
-4. Build:
-
-   ```
-   make -j <jobs-num>
-   ```
-   
-   Set `<jobs-num>` to the number of logical processors your computer has plus one,
-   this will employ parallel building.
-
-5. Install:
-
-   ```
-   sudo make install
-   ```
+Linux:  Ubuntu 20.04 LTS  
+Windows: Windows 10 Professional, Windows 11 Education  
+Mac OS X:   
+CUDA: 11.2, 11.4, 11.5  
+GPUs: Titan Xp, 1080ti, RTX 3090, A100  
+  
+...  
+  
    
 
+# Setup CARLsim6 as data scientist
+
+## Preliminaries
+
+This setup guide is intended for data scientists using Linux. 
+Usually the models and experiments are developed on a workstation having a NVIDIA GeForce
+and to be evaluated later on a supercomputer like the DGX A100.
+The following preliminaries are derived from the NVIDIA documentation for CUDA 11.5:
+1. Linux: Ubuntu 20.04 LTS
+2. cMake: 3.22 
+3. Google Test: 1.11 
+
+In this guide, the following file structure is used as a reference for the local development. 
+Please replace the placeholder user1 with the actual user name:
+``` 
+/home/user1/
+	carlsim6/    # local installation CARLsim6
+		includes/
+		lib/
+		samples/
+	cmake-3.22/  # local installation of cMake
+		bin/
+		share/
+	gtest-1.11/  # local installation of Google Test
+		inclues/
+		lib/
+	git/         # cloned repositories from Github
+		featCARLsim6/	  
+		googletest/	  
+```	
+
+
+## Setup Ubuntu
+
+Ideally Ubuntu 20.04 LTS Desktop is installed from scratch on the workstation. 
+For CUDA 11.5 please follow the official [setup guides](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_local).
+Also the user should be setup from scratch to avoid any side effects.
+While it is technically possible to use multiple CUDA and CARLsim versions side by side 
+and switching between them utilizing some kind of `setenv.sh` script, 
+such szenarios also depend strongly on the specific requirements and are therefore out of scope. 
+A dedicated environment is furthermore essential to find the root cause of potential issues.  
+
+Prepare the .bashrc like the following (replace user1 with the actual user name). 
+```
+export PATH=/home/user1/cmake-3.22/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/home/user1/gtest-1.11/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export LD_LIBRARY_PATH=/home/user1/carlsim6/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+```
+
+Validate that the CUDA 11.5 installation has added the following lines:
+```
+export PATH=/usr/local/cuda-11.5/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-11.5/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+```
+
+Install *pthreads* from the distribution: `sudo apt-get install libpthreads-dev`
+
+
+## Setup cMake
+
+Download the latest binary (e.g. 3.22) from Kitware and install it to `/home/user1/cMake-3.22`.
+
+Restart the terminal and validate the installation with `cmake --version`.
+```
+$ cmake --version
+cmake version 3.22.0-rc2
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+```
+
+
+## Setup Google Test
+
+Clone the latest stable version (e.g. 1.11) of [Googletest at GitHub](https://github.com/google/googletest) and build it from source.
+
+```
+cd ~/git
+git clone https://github.com/google/googletest.git
+cd googletest
+mkdir .build
+cd .build
+cmake -DCMAKE_INSTALL_PREFIX=/home/user1/gtest-1.11 -DBUILD_SHARED_LIBS=1 -DGTEST_HAS_PTHREAD=1 -DBUILD_GMOCK=OFF ../.
+make install
+```
+
+
+## Setup CARLsim6
+
+Until the official release, CARLsim6 is a feature branch in the CARLsim5 repository. 
+
+```
+cd ~/git
+git clone https://github.com/UCI-CARL/CARLsim5.git featCARLsim6
+git checkout feat/CARLsim6
+cd featCARLsim6
+mkdir .build
+cd .build
+cmake -DCMAKE_INSTALL_PREFIX=/home/user1/carlsim6  ../.
+make install
+```
+
+> Hint: If cmake does not find the *GTest_DIR* set it manually in cmake-gui to `/home/user1/gtest/lib/cmake/GTest`.
+
+
+Follow the following sequence to repeat builds  
+```
+make clean
+make -j8
+make install
+```
+
+
+## Validate the installation
+
+Open a new terminal and validate the settings with `env`.
+
+Start `~/carlsim6/samples/hello_world`
+
+Run the unit tests, e.g.  
+```
+cd ~/git/featCARLsim6/.build/carlsim/test
+./carlsim-tests
+```
+
+To run all tests in parallel with monitoring the GPU utilization
+```
+gnome-terminal -- /bin/sh -c '~/git/featCARLsim6/.build/carlsim/test/carlsim-tests;exec bash' &
+gnome-terminal -- /bin/sh -c '~/git/featCARLsim6/.build/carlsim/test6/carlsim-tests6;exec bash' &
+gnome-terminal -- /bin/sh -c '~/git/featCARLsim6/.build/carlsim/testadv/carlsim-testsadv --gtest_filter=-*GPU_MultiGPU*;exec bash' &
+gnome-terminal -- /bin/sh -c 'nvidia-smi -l 1' &
+```
 

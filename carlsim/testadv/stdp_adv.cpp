@@ -223,7 +223,7 @@ TEST(STDP, ESTDPExpCurveCPUvsGPU_Adv) {
 
 					// enable COBA, set up ESTDP
 					sim->setConductances(true, 5, 150, 6, 150);
-					sim->setESTDP(gex1, g1, true, STANDARD, ExpCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTP));
+					//sim->setESTDP(gex1, g1, true, STANDARD, ExpCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTP)); // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setESTDP(gex2, g1, true, STANDARD, ExpCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTP));
 				}
 				else { // current-based
@@ -232,7 +232,7 @@ TEST(STDP, ESTDPExpCurveCPUvsGPU_Adv) {
 
 					// set up ESTDP
 					sim->setConductances(false);
-					sim->setESTDP(gex1, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP));
+					//sim->setESTDP(gex1, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP));  // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setESTDP(gex2, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP));
 				}
 
@@ -319,7 +319,7 @@ TEST(STDP, ESTDPExpCurve_Adv) {
 
 					// enable COBA, set up ESTDP
 					sim->setConductances(true,5,150,6,150);
-					sim->setESTDP(gex1, g1, true, STANDARD, ExpCurve(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP));
+					//sim->setESTDP(gex1, g1, true, STANDARD, ExpCurve(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP)); // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setESTDP(gex2, g1, true, STANDARD, ExpCurve(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP));
 				} else { // current-based
 					sim->connect(gex1, g1, "one-to-one", RangeWeight(40.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED);
@@ -327,7 +327,7 @@ TEST(STDP, ESTDPExpCurve_Adv) {
 
 					// set up ESTDP
 					sim->setConductances(false);
-					sim->setESTDP(gex1, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP));
+					//sim->setESTDP(gex1, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP));  // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setESTDP(gex2, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP));
 				}
 
@@ -426,7 +426,7 @@ TEST(STDP, ESTDPTimingBasedCurveCPUvsGPU_Adv) {
 
 					// enable COBA, set up ESTDP
 					sim->setConductances(true, 5, 150, 6, 150);
-					sim->setESTDP(gex1, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTP, GAMMA));
+					//sim->setESTDP(gex1, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTP, GAMMA));  // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setESTDP(gex2, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTP, GAMMA));
 				}
 				else { // current-based
@@ -435,7 +435,7 @@ TEST(STDP, ESTDPTimingBasedCurveCPUvsGPU_Adv) {
 
 					// set up ESTDP
 					sim->setConductances(false, 0, 0, 0, 0);
-					sim->setESTDP(gex1, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP, GAMMA));
+					//sim->setESTDP(gex1, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP, GAMMA)); // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setESTDP(gex2, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP, GAMMA));
 				}
 
@@ -508,15 +508,15 @@ TEST(STDP, ESTDPTimingBasedCurve_Adv) {
 
 					// enable COBA, set up ESTDP
 					sim->setConductances(true,5,150,6,150);
-					sim->setESTDP(gex1, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP, GAMMA));
+					//sim->setESTDP(gex1, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP, GAMMA)); // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setESTDP(gex2, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP, GAMMA));
 				} else { // current-based
-					sim->connect(gex1, g1, "one-to-one", RangeWeight(40.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED);
+					sim->connect(gex1, g1, "one-to-one", RangeWeight(40.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED); 
 					sim->connect(gex2, g1, "one-to-one", RangeWeight(minInhWeight, initWeight, maxInhWeight), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_PLASTIC);
 
 					// set up ESTDP
 					sim->setConductances(false,0,0,0,0);
-					sim->setESTDP(gex1, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP, GAMMA));
+					//sim->setESTDP(gex1, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP, GAMMA));  // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setESTDP(gex2, g1, true, STANDARD, TimingBasedCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP, GAMMA));
 				}
 
@@ -607,7 +607,7 @@ TEST(STDP, ISTDPPulseCurveCPUvsGPU_Adv) {
 
 					// enable COBA, set up ISTDP
 					sim->setConductances(true, 5, 150, 6, 150);
-					sim->setISTDP(gex, g1, true, STANDARD, PulseCurve(BETA_LTP / 100, BETA_LTD / 100, LAMBDA, DELTA));
+					//sim->setISTDP(gex, g1, true, STANDARD, PulseCurve(BETA_LTP / 100, BETA_LTD / 100, LAMBDA, DELTA));  // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setISTDP(gin, g1, true, STANDARD, PulseCurve(BETA_LTP / 100, BETA_LTD / 100, LAMBDA, DELTA));
 				}
 				else { // current-based
@@ -616,7 +616,7 @@ TEST(STDP, ISTDPPulseCurveCPUvsGPU_Adv) {
 
 					// set up ISTDP
 					sim->setConductances(false, 0, 0, 0, 0);
-					sim->setISTDP(gex, g1, true, STANDARD, PulseCurve(BETA_LTP, BETA_LTD, LAMBDA, DELTA));
+					//sim->setISTDP(gex, g1, true, STANDARD, PulseCurve(BETA_LTP, BETA_LTD, LAMBDA, DELTA)); // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setISTDP(gin, g1, true, STANDARD, PulseCurve(BETA_LTP, BETA_LTD, LAMBDA, DELTA));
 				}
 
@@ -705,7 +705,7 @@ TEST(STDP, ISTDPulseCurve_Adv) {
 
 					// enable COBA, set up ISTDP
 					sim->setConductances(true,5,150,6,150);
-					sim->setISTDP(gex, g1, true, STANDARD, PulseCurve(BETA_LTP / 100, BETA_LTD / 100, LAMBDA, DELTA));
+					//sim->setISTDP(gex, g1, true, STANDARD, PulseCurve(BETA_LTP / 100, BETA_LTD / 100, LAMBDA, DELTA)); // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setISTDP(gin, g1, true, STANDARD, PulseCurve(BETA_LTP / 100, BETA_LTD / 100, LAMBDA, DELTA));
 				} else { // current-based
 					sim->connect(gex, g1, "one-to-one", RangeWeight(40.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED);
@@ -713,7 +713,7 @@ TEST(STDP, ISTDPulseCurve_Adv) {
 
 					// set up ISTDP
 					sim->setConductances(false,0,0,0,0);
-					sim->setISTDP(gex, g1, true, STANDARD, PulseCurve(BETA_LTP, BETA_LTD, LAMBDA, DELTA));
+					//sim->setISTDP(gex, g1, true, STANDARD, PulseCurve(BETA_LTP, BETA_LTD, LAMBDA, DELTA)); // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setISTDP(gin, g1, true, STANDARD, PulseCurve(BETA_LTP, BETA_LTD, LAMBDA, DELTA));
 				}
 
@@ -812,7 +812,7 @@ TEST(STDP, ISTDPExpCurveCPUvsGPU_Adv) {
 
 					// enable COBA, set up ISTDP
 					sim->setConductances(true, 5, 150, 6, 150);
-					sim->setISTDP(gex, g1, true, STANDARD, ExpCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTD));
+					//sim->setISTDP(gex, g1, true, STANDARD, ExpCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTD));  // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setISTDP(gin, g1, true, STANDARD, ExpCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTD));
 				}
 				else { // current-based
@@ -821,7 +821,7 @@ TEST(STDP, ISTDPExpCurveCPUvsGPU_Adv) {
 
 					// set up ISTDP
 					sim->setConductances(false, 0, 0, 0, 0);
-					sim->setISTDP(gex, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTD));
+					//sim->setISTDP(gex, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTD));  // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setISTDP(gin, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTD));
 				}
 
@@ -913,7 +913,7 @@ TEST(STDP, ISTDPExpCurve_Adv) {
 
 					// enable COBA, set up ISTDP
 					sim->setConductances(true, 5, 150, 6, 150);
-					sim->setISTDP(gex, g1, true, STANDARD, ExpCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTD));
+					//sim->setISTDP(gex, g1, true, STANDARD, ExpCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTD));  // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setISTDP(gin, g1, true, STANDARD, ExpCurve(ALPHA_LTP / 100, TAU_LTP, ALPHA_LTD / 100, TAU_LTD));
 				}
 				else { // current-based
@@ -922,7 +922,7 @@ TEST(STDP, ISTDPExpCurve_Adv) {
 
 					// set up ISTDP
 					sim->setConductances(false, 0, 0, 0, 0);
-					sim->setISTDP(gex, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTD));
+					//sim->setISTDP(gex, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTD));  // STDP requires SYN_PLASIC \todo review Kexin
 					sim->setISTDP(gin, g1, true, STANDARD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTD));
 				}
 

@@ -49,6 +49,7 @@
 */
 
 #include <snn.h>
+#include <error_code.h>
 
 #include <spike_buffer.h>
 
@@ -1532,7 +1533,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					break;
 				case UNKNOWN_INTEGRATION:
 				default:
-					exitSimulation(1);
+					exitSimulation(KERNEL_ERROR_UNKNOWN_INTEG);
 				}
 
 				runtimeData[netId].nextVoltage[lNId] = v_next;

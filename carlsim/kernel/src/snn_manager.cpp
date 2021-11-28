@@ -157,7 +157,7 @@ short int SNN::connect(int grpId1, int grpId2, const std::string& _type, float i
 		connConfig.type   = CONN_GAUSSIAN;
 	} else {
 		KERNEL_ERROR("Invalid connection type (should be 'random', 'full', 'one-to-one', 'full-no-direct', or 'gaussian')");
-		exitSimulation(-1);
+		exitSimulation(KERNEL_ERROR_INVALID_CONN);
 	}
 
 	// assign connection id
@@ -261,7 +261,7 @@ int SNN::createGroup(const std::string& grpName, const Grid3D& grid, int neurTyp
 	if ( (!(neurType & TARGET_AMPA) && !(neurType & TARGET_NMDA) &&
 		  !(neurType & TARGET_GABAa) && !(neurType & TARGET_GABAb)) || (neurType & POISSON_NEURON)) {
 		KERNEL_ERROR("Invalid type using createGroup... Cannot create poisson generators here.");
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_POISSON_1);
 	}
 
 	// initialize group configuration
@@ -314,7 +314,7 @@ int SNN::createGroupLIF(const std::string& grpName, const Grid3D& grid, int neur
 	if ( (!(neurType & TARGET_AMPA) && !(neurType & TARGET_NMDA) &&
 		  !(neurType & TARGET_GABAa) && !(neurType & TARGET_GABAb)) || (neurType & POISSON_NEURON)) {
 		KERNEL_ERROR("Invalid type using createGroup... Cannot create poisson generators here.");
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_POISSON_2);
 	}
 
 	// initialize group configuration
@@ -782,7 +782,7 @@ void SNN::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPC
 	if (connId < 0) {
 		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
 			postGrpId, getGroupName(postGrpId).c_str());
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_CONN_MISSING);
 	}
 
 	// set STDP for a given connection
@@ -829,7 +829,7 @@ void SNN::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPC
 	if (connId < 0) {
 		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
 			postGrpId, getGroupName(postGrpId).c_str());
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_CONN_MISSING2);
 	}
 
 	// set STDP for a given connection
@@ -888,7 +888,7 @@ void SNN::setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPC
 	if (connId < 0) {
 		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
 			postGrpId, getGroupName(postGrpId).c_str());
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_CONN_MISSING3);
 	}
 
 	// set STDP for a given connection
@@ -1122,9 +1122,12 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 		updateConnectionMonitor();
 	}
 
-	// set the Poisson generation time slice to be at the run duration up to MAX_TIME_SLICE
-	setGrpTimeSlice(ALL, std::max<int>(1, std::min(runDurationMs, MAX_TIME_SLICE)));  // LN2021 Fix Issue illegal token, unknown-type c++17 // gcc
-	//setGrpTimeSlice(ALL, std::max<int>(1, std::min<int>(runDurationMs, MAX_TIME_SLICE)));  // LN2021 Fix Issue illegal token, unknown-type c++17 
+	// set the Poisson generation time slice to be at the run duration up to MAX_TIME_SLICE	
+#if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
+	setGrpTimeSlice(ALL, std::max<int>(1, std::min<int>(runDurationMs, MAX_TIME_SLICE)));  // LN2021 Fix Issue illegal token, unknown-type c++17 
+#else
+	setGrpTimeSlice(ALL, std::max(1, std::min(runDurationMs, MAX_TIME_SLICE)));  // LN2021 Fix Issue illegal token, unknown-type c++17 // gcc
+#endif
 #ifndef __NO_CUDA__
 	CUDA_RESET_TIMER(timer);
 	CUDA_START_TIMER(timer);
@@ -1237,8 +1240,11 @@ void SNN::biasWeights(short int connId, float bias, bool updateWeightRange) {
 					// if this flag is set, we need to update minWt,maxWt accordingly
 					// will be saving new maxSynWt and copying to GPU below
 //					connInfo->minWt = fmin(connInfo->minWt, weight);
-					connectConfigMap[connId].maxWt = std::max(connectConfigMap[connId].maxWt, weight);  // LN2021 fix gcc
-					//connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
+#if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
+					connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
+#else
+					connectConfigMap[connId].maxWt = std::max(connectConfigMap[connId].maxWt, weight);  
+#endif
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("biasWeights(%d,%f,%s): updated weight ranges to [%f,%f]", connId, bias,
 							(updateWeightRange?"true":"false"), 0.0f, connectConfigMap[connId].maxWt);
@@ -1246,10 +1252,17 @@ void SNN::biasWeights(short int connId, float bias, bool updateWeightRange) {
 				} else {
 					// constrain weight to boundary values
 					// compared to above, we swap minWt/maxWt logic
+#if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
+					weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
+#else
 					weight = std::min(weight, connectConfigMap[connId].maxWt);  // LN2021 gcc, Workaround for VC no longer neccessary
-					//weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
+#endif
 					//					weight = fmax(weight, connInfo->minWt);
+#if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
+					weight = std::max<float>(weight, 0.0f);
+#else
 					weight = std::max(weight, 0.0f);
+#endif
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("biasWeights(%d,%f,%s): constrained weight %f to [%f,%f]", connId, bias,
 							(updateWeightRange?"true":"false"), weight, 0.0f, connectConfigMap[connId].maxWt);
@@ -1331,8 +1344,11 @@ void SNN::scaleWeights(short int connId, float scale, bool updateWeightRange) {
 					// if this flag is set, we need to update minWt,maxWt accordingly
 					// will be saving new maxSynWt and copying to GPU below
 //					connInfo->minWt = fmin(connInfo->minWt, weight);
+#if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
+					connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
+#else
 					connectConfigMap[connId].maxWt = std::max(connectConfigMap[connId].maxWt, weight);
-					//connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
+#endif
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("scaleWeights(%d,%f,%s): updated weight ranges to [%f,%f]", connId, scale,
 							(updateWeightRange?"true":"false"), 0.0f, connectConfigMap[connId].maxWt);
@@ -1340,11 +1356,17 @@ void SNN::scaleWeights(short int connId, float scale, bool updateWeightRange) {
 				} else {
 					// constrain weight to boundary values
 					// compared to above, we swap minWt/maxWt logic
-					//weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
+#if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
+					weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
+#else
 					weight = std::min(weight, connectConfigMap[connId].maxWt);	// LN2021 gcc
+#endif
 //					weight = fmax(weight, connInfo->minWt);
-//					weight = std::max<float>(weight, 0.0f);   // \todo Issue 
+#if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
+					weight = std::max<float>(weight, 0.0f);   // \todo Issue 
+#else
 					weight = std::max(weight, 0.0f);   // \todo Issue  lower bound
+#endif
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("scaleWeights(%d,%f,%s): constrained weight %f to [%f,%f]", connId, scale,
 							(updateWeightRange?"true":"false"), weight, 0.0f, connectConfigMap[connId].maxWt);
@@ -1393,7 +1415,7 @@ GroupMonitor* SNN::setGroupMonitor(int gGrpId, FILE* fid, int mode) {
 	// check whether group already has a GroupMonitor
 	if (groupConfigMDMap[gGrpId].groupMonitorId >= 0) {
 		KERNEL_ERROR("setGroupMonitor has already been called on Group %d (%s).", gGrpId, groupConfigMap[gGrpId].grpName.c_str());
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_GROUPMON_SET);
 	}
 
 	// create new GroupMonitorCore object in any case and initialize analysis components
@@ -1429,13 +1451,13 @@ ConnectionMonitor* SNN::setConnectionMonitor(int grpIdPre, int grpIdPost, FILE* 
 	if (connId<0) {
 		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", grpIdPre, getGroupName(grpIdPre).c_str(),
 			grpIdPost, getGroupName(grpIdPost).c_str());
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_CONN_MISSING4);
 	}
 
 	// check whether connection already has a connection monitor
 	if (connectConfigMap[connId].connectionMonitorId >= 0) {
 		KERNEL_ERROR("setConnectionMonitor has already been called on Connection %d (MonitorId=%d)", connId, connectConfigMap[connId].connectionMonitorId);
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_CONNMON_SET);
 	}
 
 	// inform the connection that it is being monitored...
@@ -2323,7 +2345,7 @@ int SNN::getNumSynapticConnections(short int connId) {
 	//we didn't find the connection.
 	if (connectConfigMap.find(connId) == connectConfigMap.end()) {
 		KERNEL_ERROR("Connection ID was not found.  Quitting.");
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_CONN_MISSING5);
 	}
 
 	return connectConfigMap[connId].numberOfConnections;
@@ -3453,7 +3475,7 @@ void SNN::generateRuntimeGroupConfigs() {
 			if (groupConfigMap[gGrpId].icalcType == UNKNOWN_ICALC)
 			{
 				KERNEL_ERROR("IcalcType is unknwon in group [%d] ", gGrpId);
-				exitSimulation(-100);
+				exitSimulation(KERNEL_ERROR_UNKNOWN_ICALC);
 			}
 			else {
 				groupConfigs[netId][lGrpId].icalcType = groupConfigMap[gGrpId].icalcType;
@@ -4010,7 +4032,7 @@ void SNN::generateCompConnectionRuntime(int netId)
 		if (i >= MAX_NUM_COMP_CONN) {
 			KERNEL_ERROR("Group %s(%d) exceeds max number of allowed compartmental connections (%d).",
 				groupConfigMap[grpLower].grpName.c_str(), grpLower, (int)MAX_NUM_COMP_CONN);
-			exitSimulation(1);
+			exitSimulation(KERNEL_ERROR_COMP_CONNS_EXCEEDED);
 		}
 		groupConfigs[netId][GLgrpId[grpLower]].compNeighbors[i] = grpUpper;
 		groupConfigs[netId][GLgrpId[grpLower]].compCoupling[i] = groupConfigs[netId][GLgrpId[grpUpper]].compCouplingDown; // get down-coupling from upper neighbor
@@ -4020,7 +4042,7 @@ void SNN::generateCompConnectionRuntime(int netId)
 		if (j >= MAX_NUM_COMP_CONN) {
 			KERNEL_ERROR("Group %s(%d) exceeds max number of allowed compartmental connections (%d).",
 				groupConfigMap[grpUpper].grpName.c_str(), grpUpper, (int)MAX_NUM_COMP_CONN);
-			exitSimulation(1);
+			exitSimulation(KERNEL_ERROR_COMP_CONNS_EXCEEDED2);
 		}
 		groupConfigs[netId][GLgrpId[grpUpper]].compNeighbors[j] = grpLower;
 		groupConfigs[netId][GLgrpId[grpUpper]].compCoupling[j] = groupConfigs[netId][GLgrpId[grpLower]].compCouplingUp; // get up-coupling from lower neighbor
@@ -4121,7 +4143,7 @@ void SNN::compileSNN() {
 
 void SNN::compileConnectConfig() {
 
-	// LN2021 fix for failing UnitTest Interface.setSTDPDeath. \todo review by Kexin
+	// Fix (reviewed) for failing UnitTest Interface.setSTDPDeath.
 	bool synWtType;
 	for (std::map<int, ConnectConfig>::iterator connIt = connectConfigMap.begin(); connIt != connectConfigMap.end(); connIt++) {
 		ConnectConfig &config = connIt->second;
@@ -4129,7 +4151,7 @@ void SNN::compileConnectConfig() {
 			synWtType = GET_FIXED_PLASTIC(connIt->second.connProp);  // derived from compileGroupConfig()
 			if (synWtType != SYN_PLASTIC) {
 				KERNEL_ERROR("STDP requires plastic connection");
-				exitSimulation(-1);
+				exitSimulation(KERNEL_ERROR_STDP_SYN_PLASIC);
 			}
 		}
 	}
@@ -4230,7 +4252,7 @@ void SNN::connectNetwork() {
 					break;
 				default:
 					KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
-					exitSimulation(-1);
+					exitSimulation(KERNEL_ERROR_INVALID_CONN2);
 			}
 		}
 	}
@@ -4259,7 +4281,7 @@ void SNN::connectNetwork() {
 					break;
 				default:
 					KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
-					exitSimulation(-1);
+					exitSimulation(KERNEL_ERROR_INVALID_CONN3);
 			}
 		}
 	}
@@ -5309,7 +5331,7 @@ void SNN::findNumN(int _netId, int& _numN, int& _numNExternal, int& _numNAssigne
 			_numNExternal += sizeN;
 		} else {
 			KERNEL_ERROR("Can't find catagory for the group [%d] ", grpIt->gGrpId);
-			exitSimulation(-1);
+			exitSimulation(KERNEL_ERROR_NO_CATAGORY);
 		}
 		_numNAssigned += sizeN;
 	}
@@ -5905,12 +5927,12 @@ void SNN::verifyNetwork() {
 	// \FIXME: need to figure out STP buffer for delays > 1
 	if (sim_with_stp && glbNetworkConfig.maxDelay > 1) {
 		KERNEL_ERROR("STP with delays > 1 ms is currently not supported.");
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_MAX_STP_DELAY);
 	}
 
 	if (glbNetworkConfig.maxDelay > MAX_SYN_DELAY) {
 		KERNEL_ERROR("You are using a synaptic delay (%d) greater than MAX_SYN_DELAY defined in config.h", glbNetworkConfig.maxDelay);
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_MAX_SYN_DELAY);
 	}
 }
 
@@ -5924,12 +5946,12 @@ void SNN::verifyCompartments() {
 		if (!groupConfigMap[grpLower].withCompartments) {
 			KERNEL_ERROR("Group %s(%d) is not compartmentally enabled, cannot be part of a compartmental connection.",
 				groupConfigMap[grpLower].grpName.c_str(), grpLower);
-			exitSimulation(1);
+			exitSimulation(KERNEL_ERROR_COMPARTMENT_DISABLED);
 		}
 		if (!groupConfigMap[grpUpper].withCompartments) {
 			KERNEL_ERROR("Group %s(%d) is not compartmentally enabled, cannot be part of a compartmental connection.",
 				groupConfigMap[grpUpper].grpName.c_str(), grpUpper);
-			exitSimulation(1);
+			exitSimulation(KERNEL_ERROR_COMPARTMENT_DISABLED2);
 		}
 	}
 }
@@ -5961,7 +5983,7 @@ void SNN::verifySTDP() {
 			 if (!isAnyPlastic) {
 			 	KERNEL_ERROR("If STDP on group %d (%s) is set, group must have some incoming plastic connections.",
 			 		gGrpId, groupConfigMap[gGrpId].grpName.c_str());
-			 	exitSimulation(1);
+			 	exitSimulation(KERNEL_ERROR_STDP_NO_IN_PLASTIC);
 			 }
 	 	}
 	 }
@@ -5975,7 +5997,7 @@ void SNN::verifyHomeostasis() {
 			if (!groupConfigMap[gGrpId].WithSTDP) {
 				KERNEL_ERROR("If homeostasis is enabled on group %d (%s), then STDP must be enabled, too.",
 					gGrpId, groupConfigMap[gGrpId].grpName.c_str());
-				exitSimulation(1);
+				exitSimulation(KERNEL_ERROR_STDP_HOMEO_INCONSIST);
 			}
 		}
 	}
@@ -6101,13 +6123,13 @@ void SNN::partitionSNN() {
 				groupPartitionLists[CPU_RUNTIME_BASE].push_back(grpIt->second); // Copy by value, create a copy
 			} else {
 				KERNEL_ERROR("Unkown simulation mode");
-				exitSimulation(-1);
+				exitSimulation(KERNEL_ERROR_UNKNOWN_SIM_MODE);
 			}
 		}
 
 		if (grpIt->second.netId == -1) { // the group was not assigned to any computing backend
 			KERNEL_ERROR("Can't assign the group [%d] to any partition", grpIt->second.gGrpId);
-			exitSimulation(-1);
+			exitSimulation(KERNEL_ERROR_NO_PARTION_ASSIGNED);
 		}
 	}
 
@@ -6459,7 +6481,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 	if (tmpInt != 294338571) {
 		KERNEL_ERROR("loadSimulation: Unknown file signature. This does not seem to be a "
 			"simulation file created with CARLsim::saveSimulation.");
-		exitSimulation(-1);
+		exitSimulation(KERNEL_ERROR_UNKNOWN_FILE_SIGNATURE);
 	}
 
 	// read file version number
@@ -6467,7 +6489,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 	readErr |= (result!=1);
 	if (tmpFloat > 0.3f) {
 		KERNEL_ERROR("loadSimulation: Unsupported version number (%f)",tmpFloat);
-		exitSimulation(-1);
+		exitSimulation(KERNEL_ERROR_UNSUPPORTED_VERSION);
 	}
 
 	// read simulation time
@@ -6484,7 +6506,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 	if (tmpInt != glbNetworkConfig.numN) {
 		KERNEL_ERROR("loadSimulation: Number of neurons in file (%d) and simulation (%d) don't match.",
 			tmpInt, glbNetworkConfig.numN);
-		exitSimulation(-1);
+		exitSimulation(KERNEL_ERROR_NEURON_MISMATCH);
 	}
 
 	// skip save and read pre-synapses & post-synapses in CARLsim5 since they are now netID based
@@ -6512,13 +6534,13 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 	if (tmpInt != numGroups) {
 		KERNEL_ERROR("loadSimulation: Number of groups in file (%d) and simulation (%d) don't match.",
 			tmpInt, numGroups);
-		exitSimulation(-1);
+		exitSimulation(KERNEL_ERROR_GROUP_MISMATCH);
 	}
 
 	// throw reading error instead of proceeding
 	if (readErr) {
-		fprintf(stderr,"loadSimulation: Error while reading file header");
-		exitSimulation(-1);
+		fprintf(stderr,"loadSimulation: Error while reading file header");  // \todo Jinwei: why fprintf instead of KERNEL_ERROR
+		exitSimulation(KERNEL_ERROR_INVALID_HEADER);
 	}
 
 
@@ -6530,7 +6552,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 		if (tmpInt != groupConfigMDMap[g].gStartN) {
 			KERNEL_ERROR("loadSimulation: StartN in file (%d) and grpInfo (%d) for group %d don't match.",
 				tmpInt, groupConfigMDMap[g].gStartN, g);
-			exitSimulation(-1);
+			exitSimulation(KERNEL_ERROR_INVALID_START);
 		}
 
 		// read EndN
@@ -6539,7 +6561,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 		if (tmpInt != groupConfigMDMap[g].gEndN) {
 			KERNEL_ERROR("loadSimulation: EndN in file (%d) and grpInfo (%d) for group %d don't match.",
 				tmpInt, groupConfigMDMap[g].gEndN, g);
-			exitSimulation(-1);
+			exitSimulation(KERNEL_ERROR_INVALID_END);
 		}
 
 		// read SizeX
@@ -6548,7 +6570,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 		if (tmpInt != groupConfigMap[g].grid.numX) {
 			KERNEL_ERROR("loadSimulation: numX in file (%d) and grpInfo (%d) for group %d don't match.",
 				tmpInt, groupConfigMap[g].grid.numX, g);
-			exitSimulation(-1);
+			exitSimulation(KERNEL_ERROR_NUMX);
 		}
 
 
@@ -6558,7 +6580,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 		if (tmpInt != groupConfigMap[g].grid.numY) {
 			KERNEL_ERROR("loadSimulation: numY in file (%d) and grpInfo (%d) for group %d don't match.",
 				tmpInt, groupConfigMap[g].grid.numY, g);
-			exitSimulation(-1);
+			exitSimulation(KERNEL_ERROR_NUMY);
 		}
 
 
@@ -6568,7 +6590,7 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 		if (tmpInt != groupConfigMap[g].grid.numZ) {
 			KERNEL_ERROR("loadSimulation: numZ in file (%d) and grpInfo (%d) for group %d don't match.",
 				tmpInt, groupConfigMap[g].grid.numZ, g);
-			exitSimulation(-1);
+			exitSimulation(KERNEL_ERROR_NUMZ);
 		}
 
 
@@ -6579,13 +6601,13 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 		if (strcmp(name,groupConfigMap[g].grpName.c_str()) != 0) {
 			KERNEL_ERROR("loadSimulation: Group names in file (%s) and grpInfo (%s) don't match.", name,
 				groupConfigMap[g].grpName.c_str());
-			exitSimulation(-1);
+			exitSimulation(KERNEL_ERROR_GROUP_NAMES_MISMATCH);
 		}
 	}
 
 	if (readErr) {
 		KERNEL_ERROR("loadSimulation: Error while reading group info");
-		exitSimulation(-1);
+		exitSimulation(KERNEL_ERROR_INVALID_GROUP_INFO);
 	}
 	//		// read weight
 	//		result = fread(&weight, sizeof(float), 1, loadSimFID);
@@ -6629,51 +6651,50 @@ int SNN::loadSimulation_internal(bool onlyPlastic) {
 			float maxWeight;
 			int delay;
 
-// LN2021 TODO issue ignore warning VS2019, 
-// 1>C:\Test\github\carlsim6-src\carlsim\kernel\src\snn_manager.cpp(6168,12): warning C4552: '!=': result of expression not used
 			// read gGrpIdPre
 			result = fread(&gGrpIdPre, sizeof(int), 1, loadSimFID);
-			readErr != (result!=1);
+			readErr |= (result!=1);	// FIX  warning C4552: '!=': result of expression not used
 
 			// read gGrpIdPost
 			result = fread(&gGrpIdPost, sizeof(int), 1, loadSimFID);
-			readErr != (result!=1);
+			readErr |= (result!=1); // FIX  warning C4552: '!=': result of expression not used
 
 			// read grpNIdPre
 			result = fread(&grpNIdPre, sizeof(int), 1, loadSimFID);
-			readErr != (result!=1);
+			readErr |= (result!=1); // FIX  warning C4552: '!=': result of expression not used
 
 			// read grpNIdPost
 			result = fread(&grpNIdPost, sizeof(int), 1, loadSimFID);
-			readErr != (result!=1);
+			readErr |= (result!=1);	// FIX  warning C4552: '!=': result of expression not used
 
 			// read connId
 			result = fread(&connId, sizeof(int), 1, loadSimFID);
-			readErr != (result!=1);
+			readErr |= (result!=1);	// FIX  warning C4552: '!=': result of expression not used
 
 			// read weight
 			result = fread(&weight, sizeof(float), 1, loadSimFID);
-			readErr != (result!=1);
+			readErr |= (result!=1); // FIX  warning C4552: '!=': result of expression not used
 
 			// read maxWeight
 			result = fread(&maxWeight, sizeof(float), 1, loadSimFID);
-			readErr != (result!=1);
+			readErr |= (result!=1);	// FIX  warning C4552: '!=': result of expression not used
 
 			// read delay
 			result = fread(&delay, sizeof(int), 1, loadSimFID);
-			readErr != (result!=1);
+			readErr |= (result!=1);  // FIX  warning C4552: '!=': result of expression not used
+
 
 			// check connection
 			if (connectConfigMap[connId].grpSrc != gGrpIdPre) {
 				KERNEL_ERROR("loadSimulation: source group in file (%d) and in simulation (%d) for connection %d don't match.",
 					gGrpIdPre , connectConfigMap[connId].grpSrc, connId);
-				exitSimulation(-1);
+				exitSimulation(KERNEL_ERROR_SRC_GRP_CONN);
 			}
 
 			if (connectConfigMap[connId].grpDest != gGrpIdPost) {
 				KERNEL_ERROR("loadSimulation: dest group in file (%d) and in simulation (%d) for connection %d don't match.",
 					gGrpIdPost , connectConfigMap[connId].grpDest, connId);
-				exitSimulation(-1);
+				exitSimulation(KERNEL_ERROR_DEST_GRP_CONN);
 			}
 
 			// connect synapse
@@ -6930,12 +6951,12 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 
 	if (groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_a == -1 && groupConfigMap[gGrpId].isLIF == 0) {
 		KERNEL_ERROR("setNeuronParameters must be called for group %s (G:%d,L:%d)",groupConfigMap[gGrpId].grpName.c_str(), gGrpId, lGrpId);
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_IZH_PARAMS_NOT_SET);
 	}
 
 	if (groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_m == -1 && groupConfigMap[gGrpId].isLIF == 1) {
 		KERNEL_ERROR("setNeuronParametersLIF must be called for group %s (G:%d,L:%d)",groupConfigMap[gGrpId].grpName.c_str(), gGrpId, lGrpId);
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_LIF_PARAMS_NOT_SET);
 	}
 
 	managerRuntimeData.Izh_a[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_a + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_a_sd * (float)drand48();
@@ -8073,7 +8094,7 @@ void SNN::updateSpikeMonitor(int gGrpId) {
 			unsigned int* timeTablePtr = (k == 0) ? managerRuntimeData.timeTableD2 : managerRuntimeData.timeTableD1;
 			int* fireTablePtr = (k == 0) ? managerRuntimeData.firingTableD2 : managerRuntimeData.firingTableD1;
 			for(int t = numMsMin; t < numMsMax; t++) {
-				for(int i = timeTablePtr[t + glbNetworkConfig.maxDelay]; i < timeTablePtr[t + glbNetworkConfig.maxDelay + 1]; i++) {
+				for(auto i = timeTablePtr[t + glbNetworkConfig.maxDelay]; i < timeTablePtr[t + glbNetworkConfig.maxDelay + 1]; i++) {
 					// retrieve the neuron id
 					int lNId = fireTablePtr[i];
 

@@ -13,7 +13,12 @@
 	        cuda_add_library(carlsim-kernel-cuda
 	            src/gpu_module/snn_gpu_module.cu
 	            OPTIONS
-	                -gencode arch=compute_61,code=sm_61
+					${CARLSIM_CUDA_GENCODE}
+					# -gencode arch=compute_61,code=sm_61
+					# https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#cuda-compilation-trajectory__cuda-compilation-from-cu-to-executable
+					# set(CARLSIM_CUDA_GENCODE "61" CACHE STRING "CUDA target architecture and device, e.g. 80 for Ampere/A100, 86 for Ampere/RTX3090" )  
+	                #-gencode arch=compute_${CARLSIM_CUDA_GENCODE},code=sm_${CARLSIM_CUDA_GENCODE}
+	                #-gencode arch=compute_61,code=sm_61
 	        )
 		endif()
 		if(UNIX)
@@ -22,7 +27,7 @@
 	            OPTIONS
 	                -Xcompiler
 	                -fPIC
-	                -gencode arch=compute_61,code=sm_61
+					${CARLSIM_CUDA_GENCODE}
 	        )
 
 		endif()

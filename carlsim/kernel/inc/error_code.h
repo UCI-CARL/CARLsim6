@@ -97,4 +97,147 @@
 
 #define ID_OVERFLOW_ERROR					0x8003
 
+
+
+// \todo review by Jinwei
+
+// -1 ERRORS
+
+//KERNEL_ERROR("Invalid connection type (should be 'random', 'full', 'one-to-one', 'full-no-direct', or 'gaussian')");
+#define KERNEL_ERROR_INVALID_CONN				0xFF001
+
+//KERNEL_ERROR("STDP requires plastic connection");
+#define KERNEL_ERROR_STDP_SYN_PLASIC			0xFF002
+
+//KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
+#define KERNEL_ERROR_INVALID_CONN2				0xFF003
+
+//KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
+#define KERNEL_ERROR_INVALID_CONN3				0xFF004
+
+//KERNEL_ERROR("Can't find catagory for the group [%d] ", grpIt->gGrpId);
+#define KERNEL_ERROR_NO_CATAGORY 				0xFF005
+
+//KERNEL_ERROR("Unkown simulation mode");
+#define KERNEL_ERROR_UNKNOWN_SIM_MODE 			0xFF006
+
+//KERNEL_ERROR("Can't assign the group [%d] to any partition", grpIt->second.gGrpId);
+#define KERNEL_ERROR_NO_PARTION_ASSIGNED 		0xFF007
+
+//KERNEL_ERROR("loadSimulation: Unknown file signature. This does not seem to be a "
+#define KERNEL_ERROR_UNKNOWN_FILE_SIGNATURE		0xFF008
+
+// KERNEL_ERROR("loadSimulation: Unsupported version number (%f)",tmpFloat);
+#define KERNEL_ERROR_UNSUPPORTED_VERSION		0xFF009
+
+// KERNEL_ERROR("loadSimulation: Number of neurons in file (%d) and simulation (%d) don't match.",
+#define KERNEL_ERROR_NEURON_MISMATCH			0xFF010
+
+//KERNEL_ERROR("loadSimulation: Number of groups in file (%d) and simulation (%d) don't match.",
+#define KERNEL_ERROR_GROUP_MISMATCH				0xFF011
+
+//fprintf(stderr,"loadSimulation: Error while reading file header");  // \todo Jinwei: why fprintf instead of KERNEL_ERROR
+#define KERNEL_ERROR_INVALID_HEADER				0xFF012
+
+//KERNEL_ERROR("loadSimulation: StartN in file (%d) and grpInfo (%d) for group %d don't match.",
+#define KERNEL_ERROR_INVALID_START				0xFF013
+
+//KERNEL_ERROR("loadSimulation: EndN in file (%d) and grpInfo (%d) for group %d don't match.",
+#define KERNEL_ERROR_INVALID_END				0xFF014
+
+//KERNEL_ERROR("loadSimulation: numX in file (%d) and grpInfo (%d) for group %d don't match.",
+#define KERNEL_ERROR_NUMX						0xFF015
+
+//KERNEL_ERROR("loadSimulation: numY in file (%d) and grpInfo (%d) for group %d don't match.",
+#define KERNEL_ERROR_NUMY						0xFF016
+
+//KERNEL_ERROR("loadSimulation: numZ in file (%d) and grpInfo (%d) for group %d don't match.",
+#define KERNEL_ERROR_NUMZ						0xFF017
+
+//KERNEL_ERROR("loadSimulation: Group names in file (%s) and grpInfo (%s) don't match.", name,
+#define KERNEL_ERROR_GROUP_NAMES_MISMATCH		0xFF018
+
+//KERNEL_ERROR("loadSimulation: Error while reading group info");
+#define KERNEL_ERROR_INVALID_GROUP_INFO			0xFF019
+
+//KERNEL_ERROR("loadSimulation: source group in file (%d) and in simulation (%d) for connection %d don't match.",
+#define KERNEL_ERROR_SRC_GRP_CONN				0xFF020
+
+//KERNEL_ERROR("loadSimulation: dest group in file (%d) and in simulation (%d) for connection %d don't match.",
+#define KERNEL_ERROR_DEST_GRP_CONN				0xFF021
+
+//KERNEL_ERROR("setNeuronParameters must be called for group %s (G:%d,L:%d)",groupConfigMap[gGrpId].grpName.c_str(), gGrpId, lGrpId);
+#define KERNEL_ERROR_IZH_PARAMS_NOT_SET			0xFF022
+
+//KERNEL_ERROR("setNeuronParametersLIF must be called for group %s (G:%d,L:%d)",groupConfigMap[gGrpId].grpName.c_str(), gGrpId, lGrpId);
+#define KERNEL_ERROR_LIF_PARAMS_NOT_SET			0xFF023
+
+//KERNEL_ERROR("IcalcType is unknwon in group [%d] ", gGrpId);
+#define KERNEL_ERROR_UNKNOWN_ICALC				0xFF024
+
+
+// 1 ERRORS
+
+//KERNEL_ERROR("Wrong Host-Device copy direction");
+#define KERNEL_ERROR_GPU_WRONG_COPY			0xFE001
+
+//KERNEL_ERROR("GPU Memory already allocated...");
+#define KERNEL_ERROR_GPU_REALLOC			0xFE002
+
+//case UNKNOWN_INTEGRATION:
+#define KERNEL_ERROR_UNKNOWN_INTEG			0xFE003
+
+//KERNEL_ERROR("Invalid type using createGroup... Cannot create poisson generators here.");
+#define KERNEL_ERROR_POISSON_1				0xFE004
+
+//KERNEL_ERROR("Invalid type using createGroup... Cannot create poisson generators here.");
+#define KERNEL_ERROR_POISSON_2				0xFE005
+
+//KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
+#define KERNEL_ERROR_CONN_MISSING			0xFE006
+
+//KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
+#define KERNEL_ERROR_CONN_MISSING2			0xFE007
+
+//KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
+#define KERNEL_ERROR_CONN_MISSING3			0xFE008
+
+//KERNEL_ERROR("setGroupMonitor has already been called on Group %d (%s).", gGrpId, groupConfigMap[gGrpId].grpName.c_str());
+#define KERNEL_ERROR_GROUPMON_SET			0xFE009
+
+//KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", grpIdPre, getGroupName(grpIdPre).c_str(),
+#define KERNEL_ERROR_CONN_MISSING4			0xFE010
+
+//KERNEL_ERROR("setConnectionMonitor has already been called on Connection %d (MonitorId=%d)", connId, connectConfigMap[connId].connectionMonitorId);
+#define KERNEL_ERROR_CONNMON_SET			0xFE011
+
+//KERNEL_ERROR("Connection ID was not found.  Quitting.");
+#define KERNEL_ERROR_CONN_MISSING5			0xFE012
+
+//KERNEL_ERROR("Group %s(%d) exceeds max number of allowed compartmental connections (%d).",
+#define KERNEL_ERROR_COMP_CONNS_EXCEEDED	0xFE013
+
+//KERNEL_ERROR("Group %s(%d) exceeds max number of allowed compartmental connections (%d).",
+#define KERNEL_ERROR_COMP_CONNS_EXCEEDED2	0xFE014
+
+//KERNEL_ERROR("STP with delays > 1 ms is currently not supported.");
+#define KERNEL_ERROR_MAX_STP_DELAY			0xFE015
+
+//KERNEL_ERROR("You are using a synaptic delay (%d) greater than MAX_SYN_DELAY defined in config.h", glbNetworkConfig.maxDelay);
+#define KERNEL_ERROR_MAX_SYN_DELAY			0xFE016
+
+//KERNEL_ERROR("Group %s(%d) is not compartmentally enabled, cannot be part of a compartmental connection.",
+#define KERNEL_ERROR_COMPARTMENT_DISABLED	0xFE017
+
+//KERNEL_ERROR("Group %s(%d) is not compartmentally enabled, cannot be part of a compartmental connection.",
+#define KERNEL_ERROR_COMPARTMENT_DISABLED2	0xFE018
+
+//KERNEL_ERROR("If STDP on group %d (%s) is set, group must have some incoming plastic connections.",
+#define KERNEL_ERROR_STDP_NO_IN_PLASTIC		0xFE019
+
+//KERNEL_ERROR("If homeostasis is enabled on group %d (%s), then STDP must be enabled, too.",
+#define KERNEL_ERROR_STDP_HOMEO_INCONSIST	0xFE020
+
+
+
 #endif

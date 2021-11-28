@@ -984,7 +984,11 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 				__syncthreads();
 			}
 
+#ifdef JK_CA3_SNN  
+			//__syncthreads();  // \todo JK review 
+#else
 			__syncthreads();
+#endif
 
 			// P6-2
 #ifdef LN_I_CALC_TYPES
@@ -2483,7 +2487,7 @@ void SNN::checkDestSrcPtrs(RuntimeData* dest, RuntimeData* src, cudaMemcpyKind k
 			assert(destOffset == 0); // if copy all content, only local-to-local is allowed
 	} else {
 		KERNEL_ERROR("Wrong Host-Device copy direction");
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_GPU_WRONG_COPY);
 	}
 }
 
@@ -2910,7 +2914,7 @@ void SNN::copyNeuronParameters(int netId, int lGrpId, RuntimeData* dest, cudaMem
 	// cannot use checkDestSrcPtrs here because src pointer would be NULL
 	if (dest->allocated && allocateMem) {
 		KERNEL_ERROR("GPU Memory already allocated...");
-		exitSimulation(1);
+		exitSimulation(KERNEL_ERROR_GPU_REALLOC);
 	}
 
 	// when allocating we are allocating the memory.. we need to do it completely... to avoid memory fragmentation..

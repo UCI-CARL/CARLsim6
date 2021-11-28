@@ -25,29 +25,33 @@ endif()
 
     option(CARLSIM_NO_CUDA "Turn off CUDA support" OFF)         # more for boot straping and quality ensurance
     option(CARLSIM_SHARED "Build CARLSIM als shared libray" ON)     # this is the primary supported way
-    option(CARLSIM_STATIC "Build CARLSIM als static libray" ON)     # for trouble shooting and special requirements (e.g. single image appliances)
+    option(CARLSIM_STATIC "Build CARLSIM als static libray" OFF)     # for trouble shooting and special requirements (e.g. single image appliances)
     option(CARLSIM_BENCHMARKS "Build CARLSIM benchmark tests" ON)   # 
     option(CARLSIM_SAMPLES "Build CARLSIM samples" ON)          # not for minimal version
-    option(CARLSIM_TUTORIALS "Build CARLSIM tutrials" ON)       # not for minimal version and production     
+    option(CARLSIM_TUTORIALS "Build CARLSIM tutorials" OFF)      # not for minimal version and production     
     option(CARLSIM_PYCARL "Build CARLSIM PyCARL" ON)            # not for CR but SNN
     option(CARLSIM_TOOLS "Build CARLSIM Tools" ON)              # check for dependecies
     option(CARLSIM_TEST "Build CARLSIM Tests" ON)               # mandadory for development
-     
-     
+         
     # an option translates to one or more compile definitions assigned to one or multiple targets
-    # it can be set manually or by the super build optionally paramized applying a specific profil (LN20210225)
-    option(CARLSIM_LN_EXT "LN's Extension" ON)									# a option is ON, if it is working (DONE), and can switched off by the context (s.build / profile)
-    option(CARLSIM_LN_FIRING "Firing information for integration as plugin" ON)      # essential for blinking
-    option(CARLSIM_LN_FIRING_MT "Multi Threaded Firing (experimental)" OFF)    # still experimental
-    option(CARLSIM_LN_FIRING_DEBUG "Debug Firing and its Tests" OFF)   # \todo ON
-    option(CARLSIM_LN_FIX_DA_DECAY "Fix DA Decay for CPU and GPU" ON )
+    # it can be set manually or by a super build customized to a specific profil
+    option(CARLSIM_LN_EXT "LN's Extension" ON)	# a option is ON, if it is working (DONE), and can switched off by the context (s.build / profile)
+    option(CARLSIM_LN_FIRING "Firing information for integration as plugin" ON) 
+    #option(CARLSIM_LN_FIRING_MT "Multi Threaded Firing (experimental)" OFF)    # still experimental
+    #option(CARLSIM_LN_FIRING_DEBUG "Debug Firing and its tests" OFF)   # optional
+    option(CARLSIM_LN_FIX_ALL_DECAY "Fix NM4 Decay for CPU and GPU" ON )  # generalization of fix for DA Decay
+    #option(CARLSIM_LN_FIX_DA_DECAY "Fix DA Decay for CPU and GPU" OFF )  # obsolete
     option(CARLSIM_LN_FIX_CONNLIST "Fix Connection List " OFF)    # \todo issue -> what was the status of VS2015
-    option(CARLSIM_LN_SETUP_NETWORK_MT  "Fix Performance Setup Network (experimental)" OFF)
+    #option(CARLSIM_LN_SETUP_NETWORK_MT  "Fix Performance Setup Network (experimental)" OFF)
     option(CARLSIM_LN_GPU_INFO "Enables Control which GPU to be used" ON)  # feature (buggy due dependency) 
 	option(CARLSIM_LN_I_CALC_TYPES "Enables enhanced current calculation" ON)  # feature NM4R6 (experimental) )
 	option(CARLSIM_LN_GPU_STDP "Enables GPU accelerated functions for STDP" ON)  # feature GPU device functions (experimental) )
-	option(CARLSIM_JK_CA3_SSN "J. Koppsick extensions for Neuron-Type Specific CA3 SNN" OFF) # feature ported from CARLsim 
-        
+
+	option(CARLSIM_JK_CA3_SSN "J. Koppsick extensions for Neuron-Type Specific CA3 SNN" OFF) # feature ported on basis of CARLsim4 branch
+
+	set(CARLSIM_CUDA_GENCODE "-gencode arch=compute_61,code=sm_61" CACHE STRING "CUDA target architecture and device, e.g. _80 for Ampere/A100, _86 for Ampere/RTX3090" )  
+			
+
 # Dependencies
 
     if(NOT CARLSIM_NO_CUDA)
@@ -134,13 +138,12 @@ if(CARLSIM_SHARED)
 
     if(NOT CARLSIM_NO_CUDA)
 	
-		# LN2021 \todo set CACHE prop: CARLSIM_CUDA_ARCH=compute_61  CARLSIM_CODE=sm_61   
 		if(MSVC)
 			# 2>cl : Command line warning D9002: ignoring unknown option '-fPIC'
 			cuda_add_library(carlsim-cuda
 				carlsim/kernel/src/gpu_module/snn_gpu_module.cu
 				OPTIONS
-					-gencode arch=compute_61,code=sm_61
+					${CARLSIM_CUDA_GENCODE}
 			)
 		endif()
 
@@ -150,7 +153,7 @@ if(CARLSIM_SHARED)
             OPTIONS
                 -Xcompiler
                 -fPIC
-                -gencode arch=compute_61,code=sm_61
+				${CARLSIM_CUDA_GENCODE}
 			)
 		endif()
 
@@ -192,7 +195,6 @@ if(CARLSIM_SHARED)
     endif()
 
     if(CARLSIM_LN_EXT)
-        #target_compile_definitions(carlsim PUBLIC -D__LN_EXT__)            # \todo kick off obsolete form of -D after successfully tested
         target_compile_definitions(carlsim PUBLIC __LN_EXT__)               # target_precompile_headers 
     endif()
 
@@ -209,7 +211,14 @@ if(CARLSIM_SHARED)
     if(CARLSIM_LN_FIX_DA_DECAY)
       target_compile_definitions(carlsim PUBLIC LN_FIX_DA_DECAY_CPU)         
       if(NOT CARLSIM_NO_CUDA)
-        target_compile_definitions(carlsim PUBLIC LN_FIX_DA_DECAY_GPU)         
+        target_compile_definitions(carlsim-cuda PUBLIC LN_FIX_DA_DECAY_GPU)         
+      endif()
+    endif()
+
+    if(CARLSIM_LN_FIX_ALL_DECAY)
+	  target_compile_definitions(carlsim PUBLIC LN_FIX_ALL_DECAY_CPU)
+      if(NOT CARLSIM_NO_CUDA)
+        target_compile_definitions(carlsim-cuda PUBLIC LN_FIX_ALL_DECAY_GPU)         
       endif()
     endif()
 
@@ -247,6 +256,9 @@ if(CARLSIM_SHARED)
 
 	if(CARLSIM_JK_CA3_SSN) 
 		target_compile_definitions(carlsim PUBLIC JK_CA3_SNN) 
+		if(NOT CARLSIM_NO_CUDA)
+			target_compile_definitions(carlsim-cuda PUBLIC JK_CA3_SNN)
+		endif()
 	endif()
 	
 
@@ -331,66 +343,24 @@ if(CARLSIM_SHARED)
     #add_library(carlsim STATIC carlsim/dummy.cpp )
 
 
-# Linking
-
-#    # Combine archives into shared library using this macro
-#    macro(link_archive name)
-#        target_link_libraries(carlsim PUBLIC
-#            -Wl,--whole-archive ${name} -Wl,--no-whole-archive
-#        )
-#    endmacro()
-
-# /WHOLEARCHIVE (Include All Library Object Files)
-# The /WHOLEARCHIVE option was introduced in Visual Studio 2015 Update 2.
-# https://docs.microsoft.com/en-us/cpp/build/reference/wholearchive-include-all-library-object-files?view=msvc-160
-
-# --whole-archive
-# For each archive mentioned on the command line after the --whole-archive option, include every object file in the archive in the link, rather than searching the archive for the required object files. This is normally used to turn an archive file into a shared library, forcing every object to be included in the resulting shared library. This option may be used more than once.
-# https://ftp.gnu.org/old-gnu/Manuals/ld-2.9.1/html_node/ld_3.html
-
-# gcc -Wl,-option passes the linker specific option -option to the linker.
-# https://renenyffenegger.ch/notes/development/languages/C-C-plus-plus/GCC/options/Wl/index
-
-#    link_archive(carlsim-interface)
-#    link_archive(carlsim-kernel)
-#    link_archive(carlsim-monitor)
-#    link_archive(carlsim-simple-weight-tuner)
-#    link_archive(carlsim-spike-generators)
-#    link_archive(carlsim-stopwatch)
-#    link_archive(carlsim-visual-stimulus)
-
-# target_link_libraries(carlsim PUBLIC
-#    carlsim-interface
-#    carlsim-kernel
-#    carlsim-monitor
-#    carlsim-simple-weight-tuner
-#    carlsim-spike-generators
-#    carlsim-stopwatch
-#    carlsim-visual-stimulus
-# )
-
-# CMAKE_SHARED_LINKER_FLAGS  /machine:x64 /wholearchive:carlsim-interface /wholearchive:carlsim-kernel /wholearchive:carlsim-monitor /wholearchive:carlsim-simple-weight-tuner /wholearchive:carlsim-spike-generators /wholearchive:carlsim-stopwatch /wholearchive:carlsim-visual-stimulus
-# .dll -> 1.8 MB
-
-#%(AdditionalOptions) /machine:x64 /wholearchive:carlsim-monitor        1.4
-#%(AdditionalOptions) /machine:x64 /wholearchive:carlsim-interface      1.7                                                                
-#%(AdditionalOptions) /machine:x64 /wholearchive:carlsim-kernel         1.4
-
-
 endif()
 
 # Subdirectories
 
   add_subdirectory(carlsim)
    
-  add_subdirectory(tools)
+  if(CARLSIM_TOOLS)
+	add_subdirectory(tools)
+  endif()
    
-  add_subdirectory(projects)
+  if(CARLSIM_SAMPLES)
+	add_subdirectory(projects)
+  endif()
   
 #  if(CARLSIM_PYCARL)
 #    add_subdirectory(pycarl)   
 #  endif()  
 
-if(MSVC)  
+if(CARLSIM_TUTORIALS)  
   add_subdirectory(doc)
 endif()

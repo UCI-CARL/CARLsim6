@@ -79,10 +79,10 @@
 
 
 //{ LN fixes for CARLsim6
-#define LN_FIX_DA_DECAY_GPU
-#define LN_FIX_DA_DECAY_CPU
-#define LN_FIX_ALL_DECAY_CPU
-#define LN_FIX_ALL_DECAY_GPU
+//#define LN_FIX_DA_DECAY_GPU
+//#define LN_FIX_DA_DECAY_CPU
+//#define LN_FIX_ALL_DECAY_CPU
+//#define LN_FIX_ALL_DECAY_GPU
 //}
 
 //{ LN feat for CARLsim6
