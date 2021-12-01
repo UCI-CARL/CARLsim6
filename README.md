@@ -132,7 +132,10 @@ make install
 ```
 
 > Hint: If cmake does not find the *GTest_DIR* set it manually in cmake-gui to `/home/user1/gtest/lib/cmake/GTest`.
-
+> Also, setting the following environment variables in Linux in ~/.bashrc may help (replace user1 with username):
+> export GTEST_LIBRARY=/home/user1/gtest-1.11/lib/libgtest.a
+> export GTEST_MAIN_LIBRARY=/home/user1/gtest-1.11/lib/libgtest_main.a
+> export GTEST_ROOT=/home/user1/gtest-1.11/
 
 Follow the following sequence to repeat builds  
 ```
