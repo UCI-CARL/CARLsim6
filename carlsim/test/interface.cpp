@@ -720,6 +720,17 @@ TEST(Interface, setSTDPDeath) {
 	EXPECT_DEATH({sim->setISTDP(g1, g0, true, STANDARD, ExpCurve(1.0f,2.0f,3.0f,4.0f));},"");
 	EXPECT_DEATH({sim->setISTDP(g1, g0, true, STANDARD, PulseCurve(1.0f,-2.0f,3.0f,4.0f));},"");
 
+	int	g2 = sim->createGroup("inhib", 800, INHIBITORY_NEURON);
+
+	// setting ESTDP on inhibitory group
+	EXPECT_DEATH({sim->setESTDP(g2, g1, true);},"");
+	EXPECT_DEATH({sim->setESTDP(g2, g1, true, STANDARD, ExpCurve(1.0f,2.0f,3.0f,4.0f));},"");
+	EXPECT_DEATH({sim->setESTDP(g2, g1, true, STANDARD, TimingBasedCurve(1.0f,2.0f,-3.0f,4.0f,5.0f));},"");
+	// setting ISTDP on excitatory group
+	EXPECT_DEATH({sim->setISTDP(g1, g2, true);},"");
+	EXPECT_DEATH({sim->setISTDP(g1, g2, true, STANDARD, ExpCurve(1.0f,2.0f,3.0f,4.0f));},"");
+	EXPECT_DEATH({sim->setISTDP(g1, g2, true, STANDARD, PulseCurve(1.0f,-2.0f,3.0f,4.0f));},"");
+
 	// setting on fixed synapses
 	sim->connect(g0, g1, "random", RangeWeight(0.1f), 0.1f);
 	sim->setConductances(true);

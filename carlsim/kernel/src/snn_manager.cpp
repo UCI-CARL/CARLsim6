@@ -772,6 +772,7 @@ void SNN::setNeuromodulator(int gGrpId,
 void SNN::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus, float gamma) {
 	assert(preGrpId >= -1);
 	assert(postGrpId >= -1);
+	assert(IS_EXCITATORY_TYPE(groupConfigMap[preGrpId].type) == true);
 
 	if (isSet) {
 		assert(type!=UNKNOWN_STDP);
@@ -817,6 +818,7 @@ void SNN::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPC
 {
 	assert(preGrpId >= -1);
 	assert(postGrpId >= -1);
+	assert(IS_EXCITATORY_TYPE(groupConfigMap[preGrpId].type) == true);
 
 	if (isSet) {
 		assert(type != UNKNOWN_STDP);
@@ -878,6 +880,7 @@ void SNN::setConnectionModulation(int preGrpId, int postGrpId, IcalcType icalcTy
 void SNN::setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2) {
 	assert(preGrpId >= -1);
 	assert(postGrpId >= -1);
+	assert(IS_INHIBITORY_TYPE(groupConfigMap[preGrpId].type) == true);
 
 	if (isSet) {
 		assert(type != UNKNOWN_STDP);
