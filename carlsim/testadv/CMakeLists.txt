@@ -19,7 +19,6 @@
                 -DGTEST_LINKED_AS_SHARED_LIBRARY=1
         )
 
-
 # pthread see snn.h and carlsim.h
 # //#define LN_GET_FIRING
 # needs to be rebuild vs142
@@ -44,10 +43,11 @@
 #            C:/Test/github/PTHREADS-BUILT/lib/pthreadVC3d.lib
     )
 
+if(MSVC)
     # Fixed Explorer Issue, see Release Notes of GTest Adapter
     # Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)
     target_link_options(carlsim-testsadv PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
-
+endif()
 
 # Release
 # Param.  --gtest_filter=-*Gauss*:*eath*:*LN*
