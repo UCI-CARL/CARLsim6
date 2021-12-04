@@ -1,6 +1,6 @@
 project(carlsim)
 
-cmake_minimum_required(VERSION 3.19.4)
+cmake_minimum_required(VERSION 3.21.0)
 
 # specify the C++ standard aligned to YARP
 set(CMAKE_CXX_STANDARD 14)
@@ -24,6 +24,7 @@ endif()
     # all options have to be captured in the carlsim_conf.h.in, see below
 
     option(CARLSIM_NO_CUDA "Turn off CUDA support" OFF)         # more for boot straping and quality ensurance
+    option(CARLSIM_NO_PTHREADS "Turn off PTHREADS" ON)          # since CARLsim5, Linux Release builds throw segmentation violation 
     option(CARLSIM_SHARED "Build CARLSIM als shared libray" ON)     # this is the primary supported way
     option(CARLSIM_STATIC "Build CARLSIM als static libray" OFF)     # for trouble shooting and special requirements (e.g. single image appliances)
     option(CARLSIM_BENCHMARKS "Build CARLSIM benchmark tests" ON)   # 
@@ -58,7 +59,7 @@ endif()
         find_package(CUDA 11 REQUIRED)
     endif()
 
-	if(UNIX)
+	if(UNIX AND NOT CARLSIM_NO_PTHREADS)
   		set(THREADS_PREFER_PTHREAD_FLAG ON)
 		find_package(Threads REQUIRED)
 	endif()
@@ -185,6 +186,9 @@ if(CARLSIM_SHARED)
         )
     endif()
 
+	if(CARLSIM_NO_PTHREADS)
+		target_compile_definitions(carlsim PUBLIC __NO_PTHREADS__)         
+	endif()
 
     # Template 
     if(CARLSIM_LN_XYZ)
@@ -299,7 +303,7 @@ if(CARLSIM_SHARED)
         )
     endif()
 
-	if(UNIX)
+	if(UNIX AND NOT CARLSIM_NO_PTHREADS)
 		target_link_libraries(carlsim PRIVATE Threads::Threads)
 	endif()
 

@@ -1120,7 +1120,7 @@ private:
 	void allocateSNN_CPU(int netId); 
 
 	// runNetwork functions - multithreaded in LINUX using pthreads
-#if defined(WIN32) || defined(WIN64) || defined(__APPLE__)
+#ifdef __NO_PTHREADS__
 	void assignPoissonFiringRate_CPU(int netId);
 	void clearExtFiringTable_CPU(int netId);
 	void convertExtSpikesD2_CPU(int netId, int startIdx, int endIdx, int GtoLOffset);
