@@ -43,8 +43,9 @@
             ${GTEST_LIBRARIES}
     )
 
+if(MSVC)
     # Fixed Explorer Issue, see Release Notes of GTest Adapter
     # Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)
     target_link_options(carlsim-tests6 PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
-
+endif()
 

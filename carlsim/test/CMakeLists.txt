@@ -47,7 +47,9 @@
 #            C:/Test/github/gtest-1-10_dist/lib/gtest.lib
     )
 
+
+if(MSVC)
     # Fixed Explorer Issue, see Release Notes of GTest Adapter
     # Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)
     target_link_options(carlsim-tests PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
-
+endif()
