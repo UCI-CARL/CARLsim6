@@ -50,7 +50,7 @@ endif()
 
 	option(CARLSIM_JK_CA3_SSN "J. Koppsick extensions for Neuron-Type Specific CA3 SNN" OFF) # feature ported on basis of CARLsim4 branch
 
-	set(CARLSIM_CUDA_GENCODE "-gencode arch=compute_61,code=sm_61" CACHE STRING "CUDA target architecture and device, e.g. _80 for Ampere/A100, _86 for Ampere/RTX3090" )  
+	set(CARLSIM_CUDA_GENCODE "-gencode arch=compute_86,code=sm_86" CACHE STRING "CUDA target architecture and device, e.g. _80 for Ampere/A100, _86 for Ampere/RTX3090" )  
 			
 
 # Dependencies

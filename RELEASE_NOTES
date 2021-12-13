@@ -8,7 +8,7 @@ CARLsim 6.0
 
 - cMake build
 - CUDA 11 support
-- Windos Support (inc. Visual Studio) 
+- Windows Support (incl. Visual Studio) 
 - Unit Test split
 - Neuromodulation (Krichmar 2008,..)
 - Connection based STDP

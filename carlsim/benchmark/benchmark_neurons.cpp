@@ -70,24 +70,24 @@ int main(int argc, char* argv[]) {
 	// create CARLsim object
 	Stopwatch watch(false);
 	CARLsim sim("benchmark_neurons", GPU_MODE, SILENT, NUM_GPUS, randSeed);
-		
+
 	// configure the network
 	watch.start();
-	gExc = sim.createGroup("exc", numExc, EXCITATORY_NEURON, 0);
+	gExc = sim.createGroup("exc", numExc, EXCITATORY_NEURON, 0, GPU_CORES);
 	sim.setNeuronParameters(gExc, 0.02f, 0.2f, -65.0f, 8.0f); // RS
 
-	gExc2 = sim.createGroup("exc2", numExc, EXCITATORY_NEURON, gpuId);
+	gExc2 = sim.createGroup("exc2", numExc, EXCITATORY_NEURON, gpuId, GPU_CORES);
 	sim.setNeuronParameters(gExc2, 0.02f, 0.2f, -65.0f, 8.0f);
 
-	gInh = sim.createGroup("inh", numInh, INHIBITORY_NEURON, gpuId);
+	gInh = sim.createGroup("inh", numInh, INHIBITORY_NEURON, gpuId, GPU_CORES);
 	sim.setNeuronParameters(gInh, 0.1f, 0.2f, -65.0f, 2.0f); // FS
 
-	gInh2 = sim.createGroup("inh2", numInh, INHIBITORY_NEURON, 0);
+	gInh2 = sim.createGroup("inh2", numInh, INHIBITORY_NEURON, 0, GPU_CORES);
 	sim.setNeuronParameters(gInh2, 0.1f, 0.2f, -65.0f, 2.0f);
 
-	gInput = sim.createSpikeGeneratorGroup("input", numExc / 100, EXCITATORY_NEURON, 0);
+	gInput = sim.createSpikeGeneratorGroup("input", numExc / 100, EXCITATORY_NEURON, 0, GPU_CORES);
 
-	gInput2 = sim.createSpikeGeneratorGroup("input2", numExc / 100, EXCITATORY_NEURON, gpuId);
+	gInput2 = sim.createSpikeGeneratorGroup("input2", numExc / 100, EXCITATORY_NEURON, gpuId, GPU_CORES);
 
 	sim.connect(gInput, gExc, "random", RangeWeight(30.0f), pConn, RangeDelay(1, 20), RadiusRF(-1), SYN_FIXED);
 	sim.connect(gExc, gExc, "random", RangeWeight(6.0f), pConn, RangeDelay(1, 20), RadiusRF(-1), SYN_FIXED);

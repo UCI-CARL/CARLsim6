@@ -1,0 +1,610 @@
+/*! 
+\page ch20_neuromodulation Chapter 20: Neuromodulation
+\tableofcontents
+
+\section ch20s1_neuromodulators_overview 20.1 Neuromodulation
+\author Lars Niedermeier
+
+Neuromodulation is the key mechanism in shaping electrophysiological activity.
+All nervous systemfunctions from simple reflexes to higher congnitive tasks result from activity 
+of neural circuits and so are influcenced by neuromodulators. 
+Individual neuromodulators can have divergent action in a neuron by targeting multiple pysiological mechanisms. 
+Multiple neuromodulators may have convergent actions through overlapping targets. 
+Divergent and convergent neuromodulator actions can be synergistic and anatonistic.
+Neuromodulation often balance adjustment of nonlinear membrane and synaptic properties by targeting ion channels and synaptic dynamics
+rather than just excitablitly or synaptic strength (Nadim & Bucher, 2014).  
+
+\image html Neuromodulation_Fig2a_NadimBucher2014.png "Fig. 1. Neuromodulators can have convergent or divergent actions in a cell. Different modulators can converge on the same pathways to target the same or different ion channel types. One neuromodulator may activate different intracellular pathways depending on the receptor type (Nadim & Bucher, 2014, Fig. 2a, with permission)."
+
+
+\subsection ch20s1s1 20.1.1 New neuromodulation features with CARLsim 6.0 
+
+CARLsim neuromodulation features:
+- Equal support for the four major neuromodulators (NM4): DA, 5-HT, ACh, NE    
+- Neuromodulator-ergic target groups are NM4 multivariate 
+- Eligibility trace based DA-STDP, extended for 5-HT, ACh, and NE
+- OAT extensions for monitoring NM4 molarity in target groups
+- CUBA, COBA can be configured on group level (instead of network level only)
+- NM4 multivariate input current types on group level 
+- G-Protein Coupled Receptors (GPCRs) and PLK/PLC pathways
+- PLK/PLC modulated LTP/LTP STDP (NM1,NM2 multivariate)  
+- STP modulated (NM4 multivariate) 
+- Optimized Neuron Types for tonic to phasic translation
+
+\note The new neuromodulation features in CARLsim are implemented to be highly backward compatible to the former versions 5 down to 3. 
+Key here is to re-use (but maybe reinterprete) the same memory structures and also to stick to the established design patterns as close as possible. 
+This enables current users to continue to use their implementations with minimal effort.
+Also the existing quality assurance given by the matured unit test suite does hold. 
+
+\since v6.0
+
+
+\subsection ch20s1s2 20.1.2 Neuromodulators vs. Neurotransmitters 
+
+Neuromodulators (NM) and neurotransmitters (NT) are often used interchageable.
+
+A NM is a substance that influences the activiety of synaptic transmitters.  
+However, the destinction between NM and NT shifted in the last years (Breedlove & Watson, 2019).
+
+As the biological plausibility is highly relevant for CARLsim, 
+we define those terms more precisely by its differences and similarities (adopted from Lakna, 2019).
+In the final section, the NM is formally defined by its components and implemented features in CARLsim.  
+
+Similarities
+- NT and NM refer to the same substance like DA, 5HT, ACh, and NE. This substance is defined as ligand in the micro biological and medical context.
+- The substance is released by NM-ergic neurons is certain brain area and project ot allmost all other regions. 
+
+Differences   
+| NM  | NT  |
+|-----|-----|
+| Affects the group of the post-synaptic neuron | Affects the post-synaptic neuron |
+| Indirectly effects on the post-synaptic targets via second messengers | Affects the adjected post-synaptic target directly |
+| dissolves slow | ligand is consumed fast |
+| metobtropic, indirect (enzyme) | ionotropic, direct |
+
+\note A NT may become an NM when it does leak out of the synptic cleft.
+This may happen due to phasic activity of the NM-ergic neuron.   
+                                            
+                                              
+\subsection ch20s13  20.1.3 Receptors 
+
+Basically the receptor defines, if a ligand acts as a neurotransmitter or a neuromodulator.
+Receptors can be classified as iontropic and metabotropic (Breedlove & Watson, 2019).  
+The following table gives a quick overview of the relevant receptors for CARLsim and its application. 
+
+| Ligand   |  Ionotropic    | Metabotropic |  Function                          |
+|----------|---------------|--------------|------------------------------------|
+| Glutamate | \f$ AMPA \f$  |              | most important exitatory transmitter |
+|          | \f$ NMDA \f$  |              | implicated for learning & memory |
+|          |               | \f$ mGluR's \f$  |  |
+| GABA      | \f$ GABA_A \f$ |              | mediate inhibitory activity to balance excitatory actions of glutamat (e.g. preventing seizures)  |
+|          |               | \f$ GABA_B \f$  | (same, but different mechanism) |
+| [ACh](https://www.rcsb.org/ligand/ACH)| \f$ Nicotinic \f$  |  | mediate cholinergic transmission in the cortex  |
+|          |               | \f$ Muscarinic \f$  | (same, but different mechanism)  |               
+| DA | | \f$D1, D2,..\f$ | involved in complex behaviors, including motor function, reward, higher cognition |
+| NE | | \f$\alpha_1 - \alpha_2 \f$ | "fight or flight" responses, alerting, arouding |
+| | | \f$\beta_1 - \beta_2 \f$ | (same) |
+| [5HT](https://www.rcsb.org/ligand/5HT) |\f$5-HT_1\f$(5x) |  | mood, sleep, higher cognition, nausea|
+| | | \f$5-HT_2\f$(3x)  | (same) |
+| | \f$5-HT3\f$  |  | particulary involved in nausea |
+| Peptides | | opiates, neurotensin, and dozens more | many differnt functions  |
+            
+                                               
+\subsection ch20s1s4 20.1.4 GPCRs and pathways
+
+As Fig. 1. suggests, the actual processes are far more complicate than originally thought. 
+
+When the ligand molecule docks on a metabotronic receptor, a messager protein (G-Protein) is release into the cell
+that then further interacts with enzymes to activate or deactivate ion channels.
+Such receptors a called G-Protein Coupled Receptors (GPCRs). 
+A reference source of current state of the knowledge is provided by [GproteinDb 2021](https://gproteindb.org/signprot/couplings) (Pandy-Szekeres et. al. 2021; Kooistra et. al 2020).
+Here for instance all known GPCRs can be search by providing the lingand like dopamine, serotonin (5-hydroxytryptamine), acetylcholine, norepinephine (noradrenaline)
+
+The actual effect the NM then has is further defined by its pathways and in which other NMs are in its context. 
+
+
+\subsection ch20s1s5 20.1.5 Summary - Neuromodulators in CARLsim
+
+An NM is defined by the following properties that are implemented in CARLsim as follows.
+
+| NM-property  |  CARLsim-feature |  
+|-------------|-----------|
+| ligand (molecule) | DA, 5-HT, ACh, NE | 
+| release | amount configurable nm-ergic group or by direct setting in the target group | 
+| effect | neuron group of the the nm-target projects |
+| dissolving/decomposition | configurable decay (exponential) with upper and lower bondaries |
+| receptor | excitablitly: ICalcType, synaptic: STDPType, STPType |
+| GPCRs | see receptor |  
+| synergetic/antagonistic pathways  | see receptor |
+  
+\note While the biological plausibility is important for CARLsim, it is also necessary to abstract the biological details for performance and modelling reasons. Therefore there properties Receptor, GPRS, and Passways are mapped to the presented types. 
+ 
+\since v6.0
+
+
+\section ch20s2_nm4 20.2 NM-ergic targetgroups
+\author Lars Niedermeier
+
+\subsection ch20s2s1_example 20.2.1 Target groups of modulatory systems
+
+In the last decades, the areas in the brain which produces the neuromodulators, 
+like the Substancia Nigra for DA, or the Raphe Nucleus for ACh have been clearly identified. 
+Also the pathways are well understood to which areas the nm-ergic neurons project, for instance the neo cortex. 
+Furthermore the neuromodury systems is highly interconnected and influence each other, so that the source might also become a target, 
+like the Raphe Nucleus projects to VTA (Krichmar 2008, Krichmar & Avery 2017).
+
+Such a target area can be modelled by one or more neuron groups depending on the requirements. 
+Each group can hold all four NMs in parallel and can therefore used multivariate.
+An example in which each of the major targed brain areas of a rodent 
+is modelled by a single neuron group is presented in Fig. 2. 
+The amount of neurons had been sized accordingly.
+
+\image html sim_groupMon_krichmar2008_rodent.png "Fig. 2., Example target groups of neuromodulary system (similar to Krichmar, 2008)"
+
+\since v6.0
+
+
+\subsection ch20s2s2_config 20.2.2 Configuration of targetgroups
+
+Configuration example for nm-ergic target groups
+\code{.cpp}
+	// control without nm projections
+	int g_control = sim->createGroup("control", n, EXCITATORY_NEURON);
+
+	// nm1 DA
+	int g_nm1 = sim->createGroup("nm1", n, EXCITATORY_NEURON);
+
+	// nm2 NE
+	int g_nm2 = sim->createGroup("nm2", n, EXCITATORY_NEURON);
+
+	// nm12 DA,NE
+	int g_nm12 = sim->createGroup("nm12", n, EXCITATORY_NEURON);
+
+	std::vector<int> groups = { g_control, g_nm1, g_nm2, g_nm12 };
+
+	for_each(groups.begin(), groups.end(), [&](int g) {
+		sim->setNeuronParameters(g, a, b, c, d); // IB
+		sim->setNeuromodulator(g,
+			baseNM, tauNM, releaseNM, true,
+			0.001f, 1.f, 0.f, false,
+			0.001f, 1.f, 0.f, false,
+			baseNM, tauNM, releaseNM, true);
+		});
+
+
+	//nm-ergic
+
+	// nm1 DA
+	int g_nm1ergic = sim->createGroup("nm1ergic", 1, DOPAMINERGIC_NEURON);
+	sim->setNeuronParameters(g_nm1ergic, 0.02f, 0.2f, -65.0f, 8.0f); // RS
+
+	// nm2 NE
+	int g_nm2ergic = sim->createGroup("nm2ergic", 1, NORADRENERGIC_NEURON);
+	sim->setNeuronParameters(g_nm2ergic, 0.02f, 0.2f, -65.0f, 8.0f); // RS
+	
+	// w = 0 => do not trigger neural activity directly
+	sim->connect(g_nm1ergic, g_nm1,	 "full", RangeWeight(.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED);	
+	sim->connect(g_nm2ergic, g_nm2,  "full", RangeWeight(.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED);
+	sim->connect(g_nm1ergic, g_nm12, "full", RangeWeight(.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED);
+	sim->connect(g_nm2ergic, g_nm12, "full", RangeWeight(.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED);
+		
+\endcode
+
+\since v6.0
+
+
+\section ch20s3_pka_plc_stdp 20.3 PKA/PLC modulated STDP
+\author Lars Niedermeier
+
+Neuromodulators play an important role in long-term potentiation (LTP) and depression (LTD) of mammalian central synapses. 
+Different neuromodulators can change the balance of LTP and LTD and the effects on spike-timing-dependent plasticity (STDP) 
+reveal a simple rule: the activation of the PKA pathway, e.g. by beta-adrenergic receptors, promotes and gates LTP, 
+whereas the activation of the phospholipase C (PLC) pathway, e.g. by M1 muscarinic receptors, promotes LTD. 
+Also the activation of each pathway suppresses the other, suggesting a push-pull rule for the neuromodulation of long-term synaptic 
+plasticity that seems to be independent of the underlying mechanisms of LTP and LTD (Nadim & Bucher 2014). 
+
+\image html Neuromodulation_Fig1b_NadimBucher2014.png "Fig. 3. Modulator controlled LTP/LTD (Nadim & Bucher 2014, Fig. 1b, with permission)."
+
+
+\subsection ch20s3s1_pka_plc_mod 20.3.1 Dynamic PKA/PLC modulated SDTP
+With CARLsim the PKA/PLC modulation is accomplished not only for the described scenario.
+The two modulators induce a dynamic adoptation of the learning with seamless transformation
+of the usually statically configured parameters of STDP. 
+
+\image html pka_plc_mod1.PNG "Fig. 4. PKA/PLC modulated STDP in CARLsim"
+
+\sa \ref ch5s2s1_phenemological_model 
+
+
+\subsection ch20s3s2_configuration 20.3.2 configuration of the PKA/PLC pathways 
+
+Below the configuration of the PKA/PLC pathways as described as shown in the figures.
+It is validated with the Unit Test case of STDP where
+ 
+\note the actual configuration takes place in a single line by calling the setESDTP interface function 
+with STDPType PKA_PLC_MOD and just assiging the modulators to PKA/PLC.
+
+\code
+	int nm_pka = NM_NE;
+	int nm_plc = NM_ACh;
+	enum FigNr          {   _a,     _b,      _c,     _ d,     _e,    _f,       _g    };
+	float ne [_g + 1] = {  1.00f,   1.00f,  0.00f,  0.00f,  0.600f,  1.400f,  1.25f  };
+	float ach[_g + 1] = {  1.00f,   0.00f,  1.00f,  0.00f,  0.600f,  1.400f,  0.75f  };
+	float a_p[_g + 1] = {  0.08f,  0.16f,  -0.08f,  0.00f,  0.048f,  0.112f,  0.14f  };
+	float a_m[_g + 1] = { -0.12f,  0.12f,  -0.24f,  0.00f, -0.072f, -0.168f, -0.03f  };
+\endcode 
+
+configuation nm-ergic target groups 
+\code
+					g2 = sim->createGroup("excit", 1, EXCITATORY_NEURON, 0);
+					sim->setNeuronParameters(g2, 0.02f, 0.2f, -65.0f, 8.0f);
+					sim->setNeuromodulator(g2, 
+						1.0f, 1.0f, 1.0f, false, // DA
+						1.0f, 1.0f, 1.0f, false, // 5HT
+						ach[fig], 1000000, 0.000001f, true, // hold base line
+						ne[fig],  1000000, 0.000001f, true);
+\endcode
+
+configure PKA/PLC modulated and standard STDP as reference 
+\code
+						// set up ESTDP with reference values from matlab script
+						sim->setConductances(false);
+						sim->setESTDP(gex2, g1, true, STANDARD, ExpCurve(a_p[fig], TAU_LTP, a_m[fig], TAU_LTP));
+						
+						// set up PKA_PLC_MOD ESTDP
+						sim->setConductances(false);					
+						sim->setESTDP(gex2, g2, true, PKA_PLC_MOD, ExpCurve(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP), PkaPlcModulation(nm_pka, 1.0f, nm_plc, 1.0f));
+\endcode
+
+Validation: compare reference against modulated for pre-post and post-pro  
+\code
+					std::vector<std::vector<float> > weights1 = CM1->takeSnapshot();
+					std::vector<std::vector<float> > weights2 = CM2->takeSnapshot();
+					EXPECT_NEAR(weights1[0][0], weights2[0][0], 0.5f);
+\endcode
+
+\since v6.0
+
+
+\section ch20s4_nmstdp 20.4 Eligibiity based STDP
+\author Lars Niedermeier
+
+\subsection ch20s4s1_nmstdp_nm4 20.4.1 NM4 support
+
+With CARLsim all four neuromodulator can be configured for eligibility trace
+based STDP. Also important to note is, that with CARLsim6 the STDP take now
+place on the connection level (not as before on the group level). 
+This enables a full new range of applications. 
+
+\code
+enum STDPType {
+	STANDARD,         // standard STDP of Bi & Poo (2001), nearest-neighbor
+	DA_MOD,           // dopamine-modulated STDP, nearest-neighbor
+	SE_MOD,           // serotonin-modulated STDP, nearest-neighbor
+	AC_MOD,           // acetylcholine-modulated STDP, nearest-neighbor
+	NE_MOD,           // norepinephrine-modulated STDP, nearest-neighbor
+	PKA_PLC_MOD,	    // proteinkinase/phospholiphase controlled LTP/LPD
+                    // ...
+  UNKNOWN_STDP	
+}	
+\endcode 
+
+\since v6.0
+
+
+\subsection ch20s4s2_nmstdp_mon 20.4.2 NMstdp monitoring OAT
+
+For it is essential 
+The OAT was extended to support the monitoring of the DA level and the eligibilit
+trace the the configured NM (e.g. DA).
+Please refer to tutorial 9 for more details.
+
+\image html damstdpOAT.png "Fig. 5., Increase of synaptic weight according to reward induced DA."
+
+\since v6.0
+ 
+\section ch20s5_nm4stp 20.5 GRPC impacted STP 
+\author Lars Niedermeier
+
+Neuromodulators can also act on short-term synaptic plasticity (STP). 
+The effect of modulators can be drastic and in some cases can 
+switch the sign of synaptic dynamics from depression to facilitation. 
+If the presynaptic neuron is active repetitively, STP can act as a gain-control mechanism, 
+modifying synaptic strength as a function of the frequency of presynaptic activity (Nadim & Bucher, 2014). 
+
+\image html Neuromodulation_Fig1a_NadimBucher2014.png "Fig. 6. Neuromodulators can target synaptic strength, which modifies the response to a single presynaptic input, as well as short-term synaptic plasticity, which modifies the synaptic efficacy in response to sustained input. These two effects can be functionally opposite (Nadim & Bucher, 2014, Fig 1a, with permission)."
+
+\subsection ch20s5s1_nm4stp 20.5.1 Configuration NM4STP
+ 
+The configuring of NM4 modulated STP (NM4STP) is shown in a unit test, that validats the NM4STP against static variants. 
+
+\code
+      	float baseDA = 1.0f;
+      	float base5HT = 1.0f;
+      	sim->setSTP(g0, true, 0.45f, 50.0f, 750.0f); // depressive
+      	if(hasNM4) {
+      		float u[] = { 1.0f, 0.0f, 0.0f, 0.0f, -0.30f / 0.45f, 1.0f };
+      		float tau_u[] = { 1.0f, 0.0f, 0.0f, 0.0f, 700.0f / 50.0f, 1.0f };
+      		float tau_x[] = { 1.0f, 0.0f, 0.0f, 0.0f, -700.0f / 750.0f, 1.0f };
+      		sim->setNM4STP(g0, u, tau_u, tau_x);
+      		sim->setNeuromodulator(g0,
+      			baseDA, 1.f, 0.f, true,	// never goes below base
+      			0.001f, 1.f, 0.f, false,
+      			0.001f, 1.f, 0.f, false,
+      			0.001f, 1.f, 0.f, false);
+      	}
+      	sim->setSTP(g1, true, 0.15f, 750.0f, 50.0f); // facilitative
+      	if(hasNM4) {
+      		float u[] = { 0.0f, 1.0f, 0.0f, 0.0f, 0.30f / 0.15f, 1.0f };
+      		float tau_u[] = { 0.0f, 1.0f, 0.0f, 0.0f, -700.0f / 750.0f, 1.0f };
+      		float tau_x[] = { 0.0f, 1.0f, 0.0f, 0.0f, 700.0f / 50.0f, 1.0f };
+      		sim->setNM4STP(g1, u, tau_u, tau_x);
+      		sim->setNeuromodulator(g1,
+      			0.001f, 1.f, 0.f, false,
+      			base5HT, 1.f, 0.f, true,
+      			0.001f, 1.f, 0.f, false,
+      			0.001f, 1.f, 0.f, false);
+      	}
+\endcode
+
+
+\code
+      	// if STP is on: compare spike rate to the one recorded without STP
+      	if (isRunLong) {
+      		if (!hasNM4) {
+      			// the run time was relatively long, so STP should have its expected effect
+      			EXPECT_TRUE(spkMonG2->getPopMeanFiringRate() < rateG2noSTP); // depressive
+      			EXPECT_TRUE(spkMonG3->getPopMeanFiringRate() > rateG3noSTP); // facilitative
+      		}								
+      		else {
+      			// the effect is reversed
+      			EXPECT_TRUE(spkMonG2->getPopMeanFiringRate() > rateG2noSTP); // facilitative due modulation 
+      			EXPECT_TRUE(spkMonG3->getPopMeanFiringRate() < rateG3noSTP); // depressive due modulation 
+      		}
+      	}
+      	else {
+      		// the run time was really short, so STP should have no effect (because we scale STP_A so
+      		// that STP has no weakening/strengthening effect on the first spike)
+      		EXPECT_FLOAT_EQ(spkMonG2->getPopMeanFiringRate(), rateG2noSTP); // equivalent
+      		EXPECT_FLOAT_EQ(spkMonG3->getPopMeanFiringRate(), rateG3noSTP); // equivalent
+      	}
+\endcode
+
+\image html stp_4nm_validation.PNG "Fig. 7., NM4 modulated STP "
+
+\since v6.0
+
+
+\section ch20s6_icalc 20.6 Nonlinear Excitabilty 
+\author Lars Niedermeier
+
+Multiple modulators can act on the same synapse to modify its strength, 
+presumably depending on the behavioral need. Such effects can be drastic: 5-HT can 
+functionally silence synapses, whereas dopamine can unmask synapses that are normally silent.
+The combined action of multiple neuromodulators on synapses can be more than simply additive, 
+and the same neuromodulator can have opposing actions on synaptic strength (Nadim & Bucher, 2014).
+
+\image html Neuromodulation_Fig2b_NadimBucher2014.png "Fig. 8. , (Nadim & Bucher, 2014, Fig. 2b, with permission)."
+
+\since v6.0
+
+
+\subsection ch20s6s1_icalc_nm4 20.6.1 Neurons as dynamic system 
+
+Choosing the right Izhikevich neuron configuration allows modelling of non-linear excitabilty.
+
+The non-linearity the aready an intrinsic property of the neurons, the network, 
+and the neuromodulatory system itself. This is still the case if the current is a linear combination
+of a weight vector and molarity of the NMs. 
+The observed activity is highly non-linear despite of a linear raise of the input current.
+
+Design a new neuron type, that is optimally suited for tonic to phasic transformation. 
+Phasic is essiential for nm-neurons to dedicated behavior shift (Krichmar, 2012).
+The goal of the design is, that the neuron shall implement the transformation from tonic to phasic 
+merely due its input current (following the Izhikevich representation [Simple Model of Spiking Neurons](https://www.izhikevich.org/publications/izhik.pdf) 
+and therefor significantly simplify the algorithmic description "formulas" of the neuromodulated excitability.
+
+\image html optimized_phasic_neuron.png "Fig. 9., Izhikevich neurons, e.g. RS for tonic, optimized variant for phasic crossover." 
+
+The regular spiking neuron (RS) shows linear frequence curve (I_c) that denotes tonic mode. 
+I_c is the constant current for neuron. e.g. neuron[9] receives 9_muA input 
+the spikes are shown on the x-axis (ms), for n[9] = 7 spikes in the first 300ms
+
+The intrisic bursting neuron (IB) has also a tonic in the lower current range
+up to about 10 than goes gradually over to busting which ultimatively ends in phasic just below 30
+
+The chattering neuron (CH) as a clear cut over at 15 and toggles instananousely to phasic mode. 
+Below is the chattering range which can be seen as some mix of tonic and phasic. 
+
+The custom design (LN) defines a clear tonic mode, that maps more linar with a dedicated 
+transformation to phasic at 25 but without the hard cut over (Unstetigkeitsstelle) seen at CH.
+
+\since v6.0
+
+
+\subsection ch20s6s2_icalc_phasic 20.6.2 Tonic to phasic crossover with synergistic neuromodulators
+
+The transmission from tonic to phasic that is essential for attention effort Krichmar2008, ..
+ 
+\image html nonlinear_excitabilty_1.png "Fig. 10., Nonlinear from tonic to phasic by synergetic NE ACh"
+
+
+\since v6.0
+
+
+\subsection ch20s6s4_icalc_types 20.6.4 IcalcTypes at neuron group level 
+
+CARLsim extends the current calculation for the post synaptic neuron 
+that was CUBA and COBA in the following ways: 
+it now can be configured at neuron group level, for instance one group 
+to CUBA and the other to COBA. Also the conductance parameters can be configured 
+individually on distinct groups to be more bio-realistic. 
+More than that, CARlsim respects now the distinct neuromodulator state in the target neuron group
+that affects the receptors and so the the effective input current used by the Izhikevich model. 
+
+\code
+enum IcalcType {
+	CUBA,			// current 
+	COBA,			// conductance 
+	NM4W_LN21,		// 4 NM weighted (and normalized,boosted/damped), Niedermeier (2021)
+	GPCR_NB14,		// G protein-coupled receptors for 2 modulators and conductance, Nadim, Bucher (2014) (planned)
+	DASEAC_CK09,	// dopamine,serotonin,acetylcholine modulated Cox, Krichmar (2009) (planned, if not in NM4W)
+	ACNE_ANCK12,	// acetylcholin, norepinephrine modulated Avery, Nitz, Chiba, Krichmar (2012) (planned, if not in NM4W)
+	ACNE_K12,		// acetylcholin, norepinephrine modulated Krichmar (2012) (planned, if not in NM4W)
+	ACNE_K13,		// acetylcholin, norepinephrine modulated Krichmar (2013) (planned, if not in NM4W)
+	D1D2_AK12,		// D1,D2 dopamine receptors Avery, Krichmar (2012) (planned, if not in NM4W)
+	ACDA_BK19,		// acetylcholin influence to dopamine, Belkaid, Krichmar (2019) (planned)
+	UNKNOWN_ICALC	// used to initialize by default constructor
+};
+\endcode
+
+configuring input current calculation of the nm-target groups
+\code
+	sim->setNM4weighted(g_nm1, NM4W_LN21, 1.f, 0.f, 0.f, 0.f, 1.f);   
+	sim->setNM4weighted(g_nm2, NM4W_LN21, 0.f, 0.f, 0.f, 2.f, 1.f);
+	sim->setNM4weighted(g_nm12, NM4W_LN21, 1.f, 0.f, 0.f, -1.f, 1.f);	
+\endcode
+
+\sa sample target groups
+
+\since v6.0
+
+
+\subsection ch20s6s3_icalc_anta 20.6.3 Example antagonistic neuromodulators  
+
+Interaction of NE and 5HT
+
+\image html nonlinear_excitabilty_2.png "Fig. 11., Exploration by NE, subression by 5-HT, tonic at eliquibrium"
+
+\since v6.0
+
+
+\section ch20s7_mcoba 20.7 Conductance Modulation 
+\author Lars Niedermeier
+
+
+\subsection ch20s7s1_m_coba 20.7.1 Example working memory at optimal DA/NE levels
+
+Fig. 12 shows the working memory designed after Avery, Dutt, Krichmar (2013) with dopaminergic receptor D1 and noadrenergic receptors alpha1 and alpha2A. 
+It exposes the same spiking behavior for storing, keeping, and releasing a cue in the deep supragranular layer (layer 3) of the dorsal lateral prefrontal cortex (dlPFC). 
+The bivariate optimal levels of DA and NE were translated to the descrete normalized concentration of 0.5.
+At 1.0s the spacial information of the cue is simulated by a 500ms Poisson spike train. 
+The activation is kept for 2.5s in the corresponding L3e column and then cleared by a simulated corolliary discharge. 
+
+\image html alpha1_da_opt_ne_opt.png "Fig. 12., Working memory at optimal DA/NE levels (similar to Avery, Dutt, Krichmar, 2013)"
+
+The noadrenergic alpha2A receptor is configured for the recurrent connection by providing its pre- and postsynaptic group and the IcalcType. 
+
+\code 
+			sim->setConnectionModulation(g_L3e[c], g_L3e[c], alpha2A_ADK13);
+\endcode
+
+The dopaminergic D1 receptor is configured accordingly.
+
+\code 
+			sim->setConnectionModulation(g_L3e_npref[d], g_L3e[c], D1_ADK13);
+\endcode
+
+The dopaminergic D2 receptor defined by Avery & Krichmar (2015) is configured the in the same way.
+
+\code 
+			sim->setConnectionModulation(g_L5e[c], g_L5e[c], D2_AK15);
+			sim->setConnectionModulation(g_MD_SC, g_L5e[c], D2_AK15);
+\endcode
+
+Fig. 13 shows the low, optimal, and high implemented a continuous function 
+with stable plateaus with an eps of 1/24 and soft crossovers. 
+
+\image html d2_mu_adk15.png "Fig. 13., Continous mapping of D2 discrete levels that were defined by Avery & Krichmar (2015)"
+
+\note The configuration of the receptors alpha2A and D1, D2 is at connection level. 
+
+\since v6.0
+ 
+
+\subsection ch20s7s2_m_coba 20.7.2 Impact of insufficient NE on working memory
+
+\image html wm_impacts_by_ne.png "Fig. 14., Impact of insufficient NE on working memory. A) Drain of NE at 2.5s induces memory loss. B) Insufficient NE prevents storing content in memory."
+
+\since v6.0
+
+
+\subsection ch20s7s3_m_coba 20.7.3 Memory impairment due high levels of DA/NE
+
+Stress increases the levels of NE and DA to high levels (e.g. flight and fight situation). 
+The input to neurons of working memory is markable decreased making it functionally disconnect (Avery, Dutt, & Krichmar , 2013)
+ 
+Fig. 15 shows how the discrete bivariate levels of DA and NE (low, optimum, high) 
+are mapped to a grid of 1/3 in a two dimensional normalized space (plane with length 1).
+For instance, high (optimal) levels of DA and NE are mapped to the field with 5/6 (1/2) as its center marked red (green).
+
+\image html mu_alpha1_da_ne._L3e.png "Fig. 15., Continuous bivariate _mu_alpha1 of L3e fitting discrete bivariate levels"
+
+In order to avoid points of discontinuity (Unstetigkeitsstellen), a continuous function 
+is integrated in CARLsim that fits the experimental data. It is configured by providing the icalctype and 
+the boost parameter.
+\code
+			// _mu_DA,NE,grp
+			sim->setNM4weighted(g_L3e[c], alpha1_ADK13, 1.f, 0.f, 0.f, 1.0f, 1.f, -1.0f / 6.0f / log(1.0f / 3.0f));
+\endcode
+
+Fig. 16 shows, how high levels DA and NE at the alpha1 receptor effectively disable the working memory. 
+As _mu_apha1 is bivariate and continuous, a more detailed analysis will be possible of how exactly the working memory will be impared. 
+
+\image html alpha1_da_high_ne_high.png "Fig. 16., Impairment of working memory at high levels of DA/NE"
+
+\since v6.0
+
+
+
+\section ch20s8_misc  20.8 Further readings
+\author Lars Niedermeier
+
+Farzan Nadim: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4252488
+
+Dirk Bucher: https://doi.org/10.1016/j.cell.2013.09.047
+
+\br
+
+
+\section ch20s9_references 20.9 References 
+
+Asher*, D.A., Craig*, A.B., Zaldivar*, A., Brewer, A.A., and Krichmar, J.L. (2013). A dynamic, embodied paradigm to investigate the role of serotonin in cost and decision-making. Frontiers in Integrative Neuroscience 7(78). (*co-first authors)
+
+Avery, M., Dutt, N., Krichmar, J.L. (2013). A large-scale neural network model of the influence of neuromodulatory levels on working memory and behavior. Frontiers in computational neuroscience. 7. 133. 10.3389/fncom.2013.00133. 
+
+Avery, M., Krichmar, J.L., Dutt, N. (2012). Spiking Neuron Model of Basal Forebrain Enhancement of Visual Attention. Paper presented at: IEEE World Congress on Computational Intelligence (Brisbane, Australia).
+
+Avery, M., Krichmar, J.L. (2015). Improper activation of D1 and D2 receptors leads to excess noise in prefrontal cortex. Frontiers in Computational Neuroscience Vol. 9, Article 31, 1-15.
+
+Avery, M.C., Nitz, D.A., Chiba, A.A., and Krichmar, J.L. (2012). Simulation of Cholinergic and Noradrenergic Modulation of Behavior in Uncertain Environments. Frontiers in Computational Neuroscience 6, 1-16.
+
+Beyeler, M., Dutt, N.D., and Krichmar, J.L. (2013). Categorization and decision-making in a neurobiologically plausible spiking network using a STDP-like learning rule. Neural Networks 48, 109-124.
+
+Breedlove M. & Watson N., (2019). Behavioral Neuroscience, 9th Edition. Oxford University Press   
+
+Bucher D, Marder E. SnapShot: Neuromodulation. Cell. 2013;155:482 482. e481.
+
+Cox BR, Krichmar JL. (2009) Neuromodulation as a Robot Controller: A Brain Inspired Design Strategy for Controlling Autonomous Robots. IEEE Robotics & Automation Magazine September 2009.
+
+Kooistra AJ, Mordalski S, Pandy-Szekeres G, Esguerra M, Mamyrbekov A, Munk C, Keseru GM, Gloriam DE (2020). GPCRdb in 2021: integrating GPCR sequence, structure and function. Nucleic Acids Research, 2020, 49:D335-D343
+
+Krichmar, J.L. (2008). The Neuromodulatory System - A Framework for Survival and Adaptive Behavior in a Challenging World. Adaptive Behavior, 16, 385-399.
+
+Krichmar, J.L. (2012). A Biologically Inspired Action Selection Algorithm Based on Principles of Neuromodulation. Paper presented at: IEEE World Congress on Computational Intelligence (Brisbane, Australia).
+
+Krichmar, J.L. (2012). Design principles for biologically inspired cognitive robotics. Biologically Inspired Cognitive Architectures 1, 73-81.
+
+Krichmar, J.L. (2013). A neurorobotic platform to test the influence of neuromodulatory signaling on anxious and curious behavior. Frontiers in neurorobotics 7, 1-17.
+
+Krichmar, J.L., and Rohrbein, F. (2013). Value and Reward Based Learning in Neurorobots. Frontiers in neurorobotics 7.
+
+Lakna (2019) . What is the difference betwieen Neurotransmitter and Neuromodulator. PEDIAA, https://pediaa.com/what-is-the-difference-between-neurotransmitter-and-neuromodulator  
+
+Nadim, F., & Bucher, D. (2014). Neuromodulation of neurons and synapses. Current opinion in neurobiology, 29, 48 - 56. https://doi.org/10.1016/j.conb.2014.05.003
+
+Oros, N., Chiba, A.A., Nitz, D.A., Krichmar, J.L. (2014). Learning to ignore - A modeling study of the decremental cholinergic pathway and its influence on attention and learning. Learning and Memory, 21: 105-118
+
+Pandy-Szekeres G, Esguerra M, Hauser AS, Caroli J, Munk C, Pilger S, Keseru GM, Kooistra AJ, Gloriam DE (2021). The G protein database, GproteinDb 2021, Submitted
+
+*/

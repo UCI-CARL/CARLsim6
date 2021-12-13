@@ -21,23 +21,20 @@ target_link_libraries(benchmark PRIVATE
 target_include_directories(benchmark PRIVATE
     ../../tools/stopwatch
 )
-    
-#if(NOT CARLSIM_NO_CUDA)
-#    target_link_libraries(benchmark PRIVATE
-#        cudart
-#        curand
-#    )
-#endif()
+
         
 # Installation
    
 install(TARGETS benchmark
     EXPORT carlsim
     RUNTIME 
-        DESTINATION $<$<CONFIG:Debug>:debug/>samples 
+        DESTINATION $<$<CONFIG:Debug>:debug/>samples
         COMPONENT benchmark
         )
-#TODO install .bat /setenv,.. 
+
+install( FILES 
+  run_benchmark  
+  DESTINATION $<$<CONFIG:Debug>:debug/>samples )
 
   
 # TODO  cMake debugging environment

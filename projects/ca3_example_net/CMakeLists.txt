@@ -38,7 +38,7 @@ target_include_directories(ca3_snn_GPU PRIVATE
 install(TARGETS ca3_snn_GPU
     EXPORT carlsim
     RUNTIME 
-        DESTINATION $<$<CONFIG:Debug>:debug/>samples 
+        DESTINATION $<$<CONFIG:Debug>:debug/>samples
         COMPONENT ca3_snn_GPU
         )
 

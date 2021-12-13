@@ -1,0 +1,273 @@
+Note: Google Test filter = ADK13.wm
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ADK13
+[ RUN      ] ADK13.wm
+*********************************************************************************
+********************      Welcome to CARLsim 6.0      ***************************
+*********************************************************************************
+
+***************************** Configuring Network ********************************
+Starting CARLsim simulation "adk13_wm" in USER mode
+Random number seed: 42
+Running COBA mode:
+  - AMPA decay time            =     5 ms
+  - NMDA rise time (disabled)  =     0 ms
+  - GABAa decay time           =     6 ms
+  - GABAb rise time (disabled) =     0 ms
+  - GABAb decay time           =   150 ms
+connection-id( L3e[0] --> L3e[0] ) = 0
+SpikeMonitor set for group 1 (L3e_0)
+SpikeMonitor set for group 2 (L3i_0)
+
+
+************************** Global Network Configuration *******************************
+The number of neurons in the network (numN) = 602
+The number of regular neurons in the network (numNReg:numNExcReg:numNInhReg) = 600:400:200
+The number of poisson neurons in the network (numNPois:numNExcPois:numInhPois) = 2:2:0
+The maximum axonal delay in the network (maxDelay) = 1
+CUDA devices Configuration:
+  - Number of CUDA devices          =         3
+  - CUDA device ID with max GFLOPs  =         0
+  + Use CUDA device[0]              =  TITAN Xp
+  + CUDA Compute Capability (CC)    =       6.1
+  + Use CUDA device[1]              =  TITAN Xp
+  + CUDA Compute Capability (CC)    =       6.1
+  + Use CUDA device[2]              = TITAN Xp COLLECTORS EDITION
+  + CUDA Compute Capability (CC)    =       6.1
+* Peer Access is not enabled
+
++ Local Network (8)
+|-+ Group List:
+  |-+ Local Group PC7a_0(G:0,L:0):
+    |- Type                       =    EXCIT
+    |- Num of Neurons             =      100
+    |- Start Id                   = (G:0,L:0)
+    |- End Id                     = (G:99,L:99)
+    |- numPostSynapses            =      200
+    |- numPreSynapses             =      100
+  |-+ Local Group L3e_0(G:1,L:1):
+    |- Type                       =    EXCIT
+    |- Num of Neurons             =      100
+    |- Start Id                   = (G:100,L:100)
+    |- End Id                     = (G:199,L:199)
+    |- numPostSynapses            =      343
+    |- numPreSynapses             =      451
+  |-+ Local Group L3i_0(G:2,L:4):
+    |- Type                       =    INHIB
+    |- Num of Neurons             =      100
+    |- Start Id                   = (G:400,L:400)
+    |- End Id                     = (G:499,L:499)
+    |- numPostSynapses            =      204
+    |- numPreSynapses             =      396
+  |-+ Local Group L5e_0(G:3,L:2):
+    |- Type                       =    EXCIT
+    |- Num of Neurons             =      100
+    |- Start Id                   = (G:200,L:200)
+    |- End Id                     = (G:299,L:299)
+    |- numPostSynapses            =        0
+    |- numPreSynapses             =        0
+  |-+ Local Group L5i_0(G:4,L:5):
+    |- Type                       =    INHIB
+    |- Num of Neurons             =      100
+    |- Start Id                   = (G:500,L:500)
+    |- End Id                     = (G:599,L:599)
+    |- numPostSynapses            =        0
+    |- numPreSynapses             =        0
+  |-+ Local Group ctx(G:5,L:6):
+    |- Type                       =    EXCIT_POISSON
+    |- Num of Neurons             =        1
+    |- Start Id                   = (G:600,L:600)
+    |- End Id                     = (G:600,L:600)
+    |- numPostSynapses            =      100
+    |- numPreSynapses             =        0
+    |- Refractory period          = -107374176.00000
+  |-+ Local Group bg(G:6,L:7):
+    |- Type                       =    EXCIT_POISSON
+    |- Num of Neurons             =        1
+    |- Start Id                   = (G:601,L:601)
+    |- End Id                     = (G:601,L:601)
+    |- numPostSynapses            =      100
+    |- numPreSynapses             =        0
+    |- Refractory period          = -107374176.00000
+  |-+ Local Group bg(G:7,L:3):
+    |- Type                       =    EXCIT
+    |- Num of Neurons             =      100
+    |- Start Id                   = (G:300,L:300)
+    |- End Id                     = (G:399,L:399)
+    |- numPostSynapses            =      100
+    |- numPreSynapses             =      100
+|-+ Connection List:
+  |-+ Local Connection Id 0: L3e_0(1) => L3e_0(1)
+    |- Type                       =    FIXED
+    |- Min weight                 =  0.00000
+    |- Max weight                 =  0.04725
+    |- Initial weight             =  0.04725
+    |- Min delay                  =        1
+    |- Max delay                  =        1
+    |- Radius X                   =    -1.00
+    |- Radius Y                   =    -1.00
+    |- Radius Z                   =    -1.00
+    |- Num of synapses            = 252
+    |- Avg numPreSynapses         =     2.52
+    |- Avg numPostSynapses        =     2.52
+  |-+ Local Connection Id 1: L3e_0(1) => L3i_0(2)
+    |- Type                       =    FIXED
+    |- Min weight                 =  0.00000
+    |- Max weight                 =  0.04000
+    |- Initial weight             =  0.04000
+    |- Min delay                  =        1
+    |- Max delay                  =        1
+    |- Radius X                   =    -1.00
+    |- Radius Y                   =    -1.00
+    |- Radius Z                   =    -1.00
+    |- Num of synapses            = 91
+    |- Avg numPreSynapses         =     0.91
+    |- Avg numPostSynapses        =     0.91
+  |-+ Local Connection Id 2: L3i_0(2) => L3e_0(1)
+    |- Type                       =    FIXED
+    |- Min weight                 =  0.00000
+    |- Max weight                 =  0.40000
+    |- Initial weight             =  0.40000
+    |- Min delay                  =        1
+    |- Max delay                  =        1
+    |- Radius X                   =    -1.00
+    |- Radius Y                   =    -1.00
+    |- Radius Z                   =    -1.00
+    |- Num of synapses            = 99
+    |- Avg numPreSynapses         =     0.99
+    |- Avg numPostSynapses        =     0.99
+  |-+ Local Connection Id 3: L3i_0(2) => L3i_0(2)
+    |- Type                       =    FIXED
+    |- Min weight                 =  0.00000
+    |- Max weight                 =  0.20000
+    |- Initial weight             =  0.20000
+    |- Min delay                  =        1
+    |- Max delay                  =        1
+    |- Radius X                   =    -1.00
+    |- Radius Y                   =    -1.00
+    |- Radius Z                   =    -1.00
+    |- Num of synapses            = 105
+    |- Avg numPreSynapses         =     1.05
+    |- Avg numPostSynapses        =     1.05
+  |-+ Local Connection Id 4: PC7a_0(0) => L3e_0(1)
+    |- Type                       =    FIXED
+    |- Min weight                 =  0.00000
+    |- Max weight                 =  0.10000
+    |- Initial weight             =  0.10000
+    |- Min delay                  =        1
+    |- Max delay                  =        1
+    |- Radius X                   =    -1.00
+    |- Radius Y                   =    -1.00
+    |- Radius Z                   =    -1.00
+    |- Num of synapses            = 100
+    |- Avg numPreSynapses         =     1.00
+    |- Avg numPostSynapses        =     1.00
+  |-+ Local Connection Id 5: PC7a_0(0) => L3i_0(2)
+    |- Type                       =    FIXED
+    |- Min weight                 =  0.00000
+    |- Max weight                 =  0.10000
+    |- Initial weight             =  0.10000
+    |- Min delay                  =        1
+    |- Max delay                  =        1
+    |- Radius X                   =    -1.00
+    |- Radius Y                   =    -1.00
+    |- Radius Z                   =    -1.00
+    |- Num of synapses            = 100
+    |- Avg numPreSynapses         =     1.00
+    |- Avg numPostSynapses        =     1.00
+  |-+ Local Connection Id 6: ctx(5) => PC7a_0(0)
+    |- Type                       =    FIXED
+    |- Min weight                 =  0.00000
+    |- Max weight                 =  0.40000
+    |- Initial weight             =  0.40000
+    |- Min delay                  =        1
+    |- Max delay                  =        1
+    |- Radius X                   =    -1.00
+    |- Radius Y                   =    -1.00
+    |- Radius Z                   =    -1.00
+    |- Num of synapses            = 100
+    |- Avg numPreSynapses         =     1.00
+    |- Avg numPostSynapses        =   100.00
+  |-+ Local Connection Id 7: bg(6) => bg(7)
+    |- Type                       =    FIXED
+    |- Min weight                 =  0.00000
+    |- Max weight                 =  0.40000
+    |- Initial weight             =  0.40000
+    |- Min delay                  =        1
+    |- Max delay                  =        1
+    |- Radius X                   =    -1.00
+    |- Radius Y                   =    -1.00
+    |- Radius Z                   =    -1.00
+    |- Num of synapses            = 100
+    |- Avg numPreSynapses         =     1.00
+    |- Avg numPostSynapses        =   100.00
+  |-+ Local Connection Id 8: bg(7) => L3i_0(2)
+    |- Type                       =    FIXED
+    |- Min weight                 =  0.00000
+    |- Max weight                 =  0.40000
+    |- Initial weight             =  0.40000
+    |- Min delay                  =        1
+    |- Max delay                  =        1
+    |- Radius X                   =    -1.00
+    |- Radius Y                   =    -1.00
+    |- Radius Z                   =    -1.00
+    |- Num of synapses            = 100
+    |- Avg numPreSynapses         =     1.00
+    |- Avg numPostSynapses        =     1.00
+
+*****************      Initializing CPU 0 Runtime      *************************
+
+******************** Running the simulation on 0 GPU(s) and 1 CPU(s) ***************************
+
+(t=1.000s) SpikeMonitor for group L3e_0(1) has 0 spikes in 1000ms (0.00 +/- 0.00 Hz)
+(t=1.000s) SpikeMonitor for group L3i_0(2) has 0 spikes in 1000ms (0.00 +/- 0.00 Hz)
+
+(t=1.500s) SpikeMonitor for group L3e_0(1) has 453 spikes in 500ms (9.06 +/- 6.47 Hz)
+(t=1.500s) SpikeMonitor for group L3i_0(2) has 852 spikes in 500ms (17.04 +/- 14.84 Hz)
+
+(t=2.000s) SpikeMonitor for group L3e_0(1) has 144 spikes in 500ms (2.88 +/- 2.59 Hz)
+(t=2.000s) SpikeMonitor for group L3i_0(2) has 0 spikes in 500ms (0.00 +/- 0.00 Hz)
+
+(t=4.000s) SpikeMonitor for group L3e_0(1) has 1733 spikes in 2000ms (8.66 +/- 5.04 Hz)
+(t=4.000s) SpikeMonitor for group L3i_0(2) has 23 spikes in 2000ms (0.12 +/- 0.45 Hz)
+
+(t=4.500s) SpikeMonitor for group L3e_0(1) has 49 spikes in 500ms (0.98 +/- 1.74 Hz)
+(t=4.500s) SpikeMonitor for group L3i_0(2) has 13615 spikes in 500ms (272.30 +/- 260.37 Hz)
+
+(t=5.000s) SpikeMonitor for group L3e_0(1) has 0 spikes in 500ms (0.00 +/- 0.00 Hz)
+(t=5.000s) SpikeMonitor for group L3i_0(2) has 6360 spikes in 500ms (127.20 +/- 122.41 Hz)
+
+(t=7.000s) SpikeMonitor for group L3e_0(1) has 0 spikes in 2000ms (0.00 +/- 0.00 Hz)
+(t=7.000s) SpikeMonitor for group L3i_0(2) has 0 spikes in 2000ms (0.00 +/- 0.00 Hz)
+
+
+********************    Simulation Summary      ***************************
+Network Parameters:     numNeurons = 602 (numNExcReg:numNInhReg = 66.4:33.2)
+                        numSynapses = 1047
+                        maxDelay = 1
+Simulation Mode:        COBA
+Random Seed:            42
+Timing:                 Model Simulation Time = 7 sec
+                        Actual Execution Time = 431603.03 sec
+Average Firing Rate:    2+ms delay = 0.000 Hz
+                        1ms delay = 7.942 Hz
+                        Overall = 7.942 Hz
+Overall Spike Count Transferred:
+                        2+ms delay = 0
+                        1ms delay = 0
+Overall Spike Count:    2+ms delay = 0
+                        1ms delay = 33469
+                        Total = 33469
+*********************************************************************************
+
+[       OK ] ADK13.wm (1665 ms)
+[----------] 1 test from ADK13 (1666 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (1674 ms total)
+[  PASSED  ] 1 test.
+
+C:\cockroach-ut3\build\src\CARLsim6\carlsim\test\Debug\carlsim-tests.exe (process 9016) exited with code 0.
+To automatically close the console when debugging stops, enable Tools->Options->Debugging->Automatically close the console when debugging stops.
+Press any key to close this window . . .

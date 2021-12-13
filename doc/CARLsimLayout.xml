@@ -77,6 +77,17 @@
                 <tab type="user" visible="no" title="13.3 Supported Features" url="@ref ch14s3_features"/>
             </tab>
 
+
+		    <tab type="usergroup" visible="yes" title="20. Neuromodulation" url="@ref ch20_neuromodulation">
+				<tab type="user" visible="no" title="20.1 Neuromodulators (NM)" url="@ref ch20s1_neuromodulators_overview"/>        	
+				<tab type="user" visible="no" title="20.2 NM-ergic targetgroups" url="@ref ch20s2_nm4"/>
+				<tab type="user" visible="no" title="20.3 PKA/PLC modulated STDP" url="@ref ch20s3_pka_plc_mod"/>
+				<tab type="user" visible="no" title="20.4 Eligibiity based STDP" url="@ref ch20s4_nmstdp"/>
+				<tab type="user" visible="no" title="20.5 GRPC impacted STP" url="@ref ch20s5_nm4stp"/>
+				<tab type="user" visible="no" title="20.6 Nonlinear Excitabilty" url="@ref ch20s6_icalc_nm4w"/>
+				<tab type="user" visible="no" title="20.7 References" url="@ref ch20s7_references"/>
+			</tab>
+
 		</tab>
 		<tab type="usergroup" visible="yes" title="Tutorial">
 			<tab type="usergroup" visible="yes" title="1. Basic Concepts" url="@ref tut1_basic_concepts">

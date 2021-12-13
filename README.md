@@ -127,15 +127,17 @@ git checkout feat/CARLsim6
 cd featCARLsim6
 mkdir .build
 cd .build
-cmake -DCMAKE_INSTALL_PREFIX=/home/user1/carlsim6  ../.
+cmake -DCMAKE_INSTALL_PREFIX=/home/user1/carlsim6 -DCMAKE_BUILD_TYPE=Release ../.
 make install
 ```
 
 > Hint: If cmake does not find the *GTest_DIR* set it manually in cmake-gui to `/home/user1/gtest/lib/cmake/GTest`.
 > Also, setting the following environment variables in Linux in ~/.bashrc may help (replace user1 with username):
+> ```
 > export GTEST_LIBRARY=/home/user1/gtest-1.11/lib/libgtest.a
 > export GTEST_MAIN_LIBRARY=/home/user1/gtest-1.11/lib/libgtest_main.a
 > export GTEST_ROOT=/home/user1/gtest-1.11/
+> ```
 
 Follow the following sequence to repeat builds  
 ```
@@ -143,6 +145,13 @@ make clean
 make -j8
 make install
 ```
+
+> Hint: The defaults for cMake are configured to support the latest version of CUDA 
+> and the current generation of GeForce graphics card (Ampere achritecture).
+> Check which compute capability your your GPU actually has and adopt *CARLSIM_CUDA_GENCODE* accordingly
+> either in `cmake-gui` or by passing it as a parameter to the CLI. 
+> E.g. for a Titan Xp the parameter is set by `-DCARLSIM_CUDA_GENCODE=-gencode arch=compute_61,code=sm_61`
+
 
 
 ## Validate the installation
@@ -165,3 +174,13 @@ gnome-terminal -- /bin/sh -c '~/git/featCARLsim6/.build/carlsim/testadv/carlsim-
 gnome-terminal -- /bin/sh -c 'nvidia-smi -l 1' &
 ```
 
+
+
+## Running the samples
+
+The executables of the samples are installed to $CMAKE_INSTALL_PREFIX/carlsim6/samples.
+Add the path to the .bashrc to repetitive start it from the bash. 
+As most of the samples create a result directory or write other files,
+create a new working directory to capture the indiviual runs.
+
+Alternative the samples can run directly from the build directory. 

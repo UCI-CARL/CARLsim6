@@ -82,48 +82,51 @@ TEST(STDP, setSTDPTrue) {
 			for(int stdpCurve = 0; stdpCurve < 2; stdpCurve++) { // we have four stdp curves, two for ESTDP, two for ISTDP
 				sim = new CARLsim("STDP.setSTDPTrue",mode?GPU_MODE:CPU_MODE,SILENT,1,42);
 
-				int g1=sim->createGroup("excit", 10, EXCITATORY_NEURON);
-				int g2=sim->createGroup("excit", 10, EXCITATORY_NEURON);
+				int g1 = sim->createGroup("excit", 10, EXCITATORY_NEURON);
+				int g2 = sim->createGroup("excit", 10, EXCITATORY_NEURON);
+				int g3 = sim->createGroup("inhib", 10, INHIBITORY_NEURON);
 
-				short int connId = sim->connect(g1,g2,"one-to-one", RangeWeight(0.0, 1.0f/100, 20.0f/100), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_PLASTIC);
+				short int connId = sim->connect(g1, g2, "one-to-one", RangeWeight(0.0, 1.0f / 100, 20.0f / 100), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_PLASTIC);
+				short int connId2 = sim->connect(g3, g2, "one-to-one", RangeWeight(0.0, 1.0f / 100, 20.0f / 100), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_PLASTIC);
 
 				sim->setNeuronParameters(g1, 0.02f, 0.2f, -65.0f, 8.0f);
 				if (stdpType == 0) {
 					if (stdpCurve == 0) {
 						sim->setESTDP(g1, g2, true, STANDARD, ExpCurve(alphaPlus,tauPlus,alphaMinus,tauMinus));
-						sim->setISTDP(g1, g2, true, STANDARD, ExpCurve(alphaPlus,tauPlus,alphaMinus,tauMinus));
+						sim->setISTDP(g3, g2, true, STANDARD, ExpCurve(alphaPlus,tauPlus,alphaMinus,tauMinus));
 					} else { //stdpCurve == 1
 						sim->setESTDP(g1, g2, true, STANDARD, TimingBasedCurve(alphaPlus,tauPlus,alphaMinus,tauMinus, gamma));
-						sim->setISTDP(g1, g2, true, STANDARD, PulseCurve(betaLTP,betaLTD,lambda,delta));
+						sim->setISTDP(g3, g2, true, STANDARD, PulseCurve(betaLTP,betaLTD,lambda,delta));
 					}
 				} else { // stdpType == 1
 					if (stdpCurve == 0) {
 						sim->setESTDP(g1, g2, true, DA_MOD, ExpCurve(alphaPlus,tauPlus,alphaMinus,tauMinus));
-						sim->setISTDP(g1, g2, true, DA_MOD, ExpCurve(alphaPlus,tauPlus,alphaMinus,tauMinus));
+						sim->setISTDP(g3, g2, true, DA_MOD, ExpCurve(alphaPlus,tauPlus,alphaMinus,tauMinus));
 					} else { //stdpCurve == 1
 						sim->setESTDP(g1, g2, true, DA_MOD, TimingBasedCurve(alphaPlus,tauPlus,alphaMinus,tauMinus, gamma));
-						sim->setISTDP(g1, g2, true, DA_MOD, PulseCurve(betaLTP,betaLTD,lambda,delta));
+						sim->setISTDP(g3, g2, true, DA_MOD, PulseCurve(betaLTP,betaLTD,lambda,delta));
 					}
 				}
 
 				ConnSTDPInfo gInfo = sim->getConnSTDPInfo(connId);
+				ConnSTDPInfo gInfo2 = sim->getConnSTDPInfo(connId2);
 				EXPECT_TRUE(gInfo.WithSTDP);
 				EXPECT_TRUE(gInfo.WithESTDP);
-				EXPECT_TRUE(gInfo.WithISTDP);
+				EXPECT_TRUE(gInfo2.WithISTDP);
 				if (stdpType == 0) {
 					EXPECT_TRUE(gInfo.WithESTDPtype == STANDARD);
-					EXPECT_TRUE(gInfo.WithESTDPtype == STANDARD);
+					EXPECT_TRUE(gInfo2.WithISTDPtype == STANDARD);
 				} else { // stdpType == 1
 					EXPECT_TRUE(gInfo.WithESTDPtype == DA_MOD);
-					EXPECT_TRUE(gInfo.WithISTDPtype == DA_MOD);
+					EXPECT_TRUE(gInfo2.WithISTDPtype == DA_MOD);
 				}
 
 				if (stdpCurve == 0) {
 					EXPECT_TRUE(gInfo.WithESTDPcurve == EXP_CURVE);
-					EXPECT_TRUE(gInfo.WithISTDPcurve == EXP_CURVE);
+					EXPECT_TRUE(gInfo2.WithISTDPcurve == EXP_CURVE);
 				} else {
 					EXPECT_TRUE(gInfo.WithESTDPcurve == TIMING_BASED_CURVE);
-					EXPECT_TRUE(gInfo.WithISTDPcurve == PULSE_CURVE);
+					EXPECT_TRUE(gInfo2.WithISTDPcurve == PULSE_CURVE);
 				}
 
 				EXPECT_FLOAT_EQ(gInfo.ALPHA_PLUS_EXC,alphaPlus);
@@ -131,16 +134,16 @@ TEST(STDP, setSTDPTrue) {
 				EXPECT_FLOAT_EQ(gInfo.TAU_PLUS_INV_EXC,1.0/tauPlus);
 				EXPECT_FLOAT_EQ(gInfo.TAU_MINUS_INV_EXC,1.0/tauMinus);
 				if (stdpCurve == 0) {
-					EXPECT_FLOAT_EQ(gInfo.ALPHA_PLUS_INB,alphaPlus);
-					EXPECT_FLOAT_EQ(gInfo.ALPHA_MINUS_INB,alphaMinus);
-					EXPECT_FLOAT_EQ(gInfo.TAU_PLUS_INV_INB,1.0/tauPlus);
-					EXPECT_FLOAT_EQ(gInfo.TAU_MINUS_INV_INB,1.0/tauMinus);
+					EXPECT_FLOAT_EQ(gInfo2.ALPHA_PLUS_INB,alphaPlus);
+					EXPECT_FLOAT_EQ(gInfo2.ALPHA_MINUS_INB,alphaMinus);
+					EXPECT_FLOAT_EQ(gInfo2.TAU_PLUS_INV_INB,1.0/tauPlus);
+					EXPECT_FLOAT_EQ(gInfo2.TAU_MINUS_INV_INB,1.0/tauMinus);
 					EXPECT_FLOAT_EQ(gInfo.GAMMA, 0.0f);
 				} else {
-					EXPECT_FLOAT_EQ(gInfo.BETA_LTP,betaLTP);
-					EXPECT_FLOAT_EQ(gInfo.BETA_LTD,betaLTD);
-					EXPECT_FLOAT_EQ(gInfo.LAMBDA,lambda);
-					EXPECT_FLOAT_EQ(gInfo.DELTA,delta);
+					EXPECT_FLOAT_EQ(gInfo2.BETA_LTP,betaLTP);
+					EXPECT_FLOAT_EQ(gInfo2.BETA_LTD,betaLTD);
+					EXPECT_FLOAT_EQ(gInfo2.LAMBDA,lambda);
+					EXPECT_FLOAT_EQ(gInfo2.DELTA,delta);
 					EXPECT_FLOAT_EQ(gInfo.GAMMA, gamma);
 				}
 
@@ -168,19 +171,25 @@ TEST(STDP, setSTDPFalse) {
 	for (int mode = 0; mode < TESTED_MODES; mode++) {
 		sim = new CARLsim("STDP.setSTDPFalse",mode?GPU_MODE:CPU_MODE,SILENT,1,42);
 
-		int g1=sim->createGroup("excit", 10, EXCITATORY_NEURON);
-		int g2=sim->createGroup("excit", 10, EXCITATORY_NEURON);
+		int g1=sim->createGroup("excit1", 10, EXCITATORY_NEURON);
+		int g2 = sim->createGroup("excit2", 10, EXCITATORY_NEURON);
+		int g3 = sim->createGroup("inhib", 10, INHIBITORY_NEURON);
 
-		short int connId = sim->connect(g1,g2,"one-to-one", RangeWeight(0.0, 1.0f/100, 20.0f/100), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_PLASTIC);
+		short int connId = sim->connect(g1, g2, "one-to-one", RangeWeight(0.0, 1.0f / 100, 20.0f / 100), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_PLASTIC);
+		short int connId2 = sim->connect(g3, g2, "one-to-one", RangeWeight(0.0, 1.0f / 100, 20.0f / 100), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_PLASTIC);
 
 		sim->setNeuronParameters(g1, 0.02f, 0.2f, -65.0f, 8.0f);
 		sim->setESTDP(g1,g2,false,STANDARD, ExpCurve(alphaPlus,tauPlus,alphaMinus,tauMinus));
-		sim->setISTDP(g1,g2,false,STANDARD, PulseCurve(betaLTP,betaLTD,lambda,delta));
+		sim->setISTDP(g3,g2,false,STANDARD, PulseCurve(betaLTP,betaLTD,lambda,delta));
 
 		ConnSTDPInfo gInfo = sim->getConnSTDPInfo(connId);
+		ConnSTDPInfo gInfo2 = sim->getConnSTDPInfo(connId2);
 		EXPECT_FALSE(gInfo.WithSTDP);
+		EXPECT_FALSE(gInfo2.WithSTDP);
 		EXPECT_FALSE(gInfo.WithESTDP);
 		EXPECT_FALSE(gInfo.WithISTDP);
+		EXPECT_FALSE(gInfo2.WithESTDP);
+		EXPECT_FALSE(gInfo2.WithISTDP);
 
 		EXPECT_FLOAT_EQ(gInfo.ALPHA_PLUS_EXC, 0.0f);
 		EXPECT_FLOAT_EQ(gInfo.ALPHA_MINUS_EXC, 0.0f);
@@ -190,10 +199,10 @@ TEST(STDP, setSTDPFalse) {
 		EXPECT_FLOAT_EQ(gInfo.ALPHA_MINUS_EXC, 0.0f);
 		EXPECT_FLOAT_EQ(gInfo.TAU_PLUS_INV_EXC, 1.0f);
 		EXPECT_FLOAT_EQ(gInfo.TAU_MINUS_INV_EXC, 1.0f);
-		EXPECT_FLOAT_EQ(gInfo.BETA_LTP, 0.0f);
-		EXPECT_FLOAT_EQ(gInfo.BETA_LTD, 0.0f);
-		EXPECT_FLOAT_EQ(gInfo.LAMBDA, 1.0f);
-		EXPECT_FLOAT_EQ(gInfo.DELTA, 1.0f);
+		EXPECT_FLOAT_EQ(gInfo2.BETA_LTP, 0.0f);
+		EXPECT_FLOAT_EQ(gInfo2.BETA_LTD, 0.0f);
+		EXPECT_FLOAT_EQ(gInfo2.LAMBDA, 1.0f);
+		EXPECT_FLOAT_EQ(gInfo2.DELTA, 1.0f);
 		EXPECT_FLOAT_EQ(gInfo.GAMMA, 0.0f);
 
 		delete sim;
