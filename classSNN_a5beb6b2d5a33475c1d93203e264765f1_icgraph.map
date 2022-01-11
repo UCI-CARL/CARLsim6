@@ -1,0 +1,4 @@
+<map id="getNumNeuronsGenInh" name="getNumNeuronsGenInh">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a5beb6b2d5a33475c1d93203e264765f1" title="CARLsim::Impl::getNumNeurons\lGenInh" alt="" coords="212,5,427,47"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a5beb6b2d5a33475c1d93203e264765f1" title="returns the total number of inhibitory spike generator neurons " alt="" coords="475,13,699,39"/>
+</map>

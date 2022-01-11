@@ -1,0 +1,4 @@
+<map id="getMaxFiringRate" name="getMaxFiringRate">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#ab245e956a782d7d5fc8dc4257d94ecfa" title="returns the largest neuronal mean firing rate in the group " alt="" coords="179,5,388,32"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#a1f1e21d6e994001e7b7e6acbb88990be" title="returns number of neurons in the group " alt="" coords="214,56,353,83"/>
+</map>

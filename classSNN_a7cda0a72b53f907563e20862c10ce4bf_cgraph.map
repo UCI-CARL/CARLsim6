@@ -1,0 +1,3 @@
+<map id="setNeuromodulator" name="setNeuromodulator">
+<area shape="rect" id="node2" href="$classSNN.html#a88198ca833c0d254d5e7d75d2c8ee4fb" title="Sets baseline concentration and decay time constant of neuromodulators (DP, 5HT, ACh, NE) for a neuron group. " alt="" coords="185,5,317,32"/>
+</map>

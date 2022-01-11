@@ -1,0 +1,8 @@
+<map id="setNeuromodulator" name="setNeuromodulator">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="getGroupName" alt="" coords="215,56,325,83"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="403,5,557,32"/>
+<area shape="rect" id="node7" href="$classSNN.html#a88198ca833c0d254d5e7d75d2c8ee4fb" title="Sets baseline concentration and decay time constant of neuromodulators (DP, 5HT, ACh, NE) for a neuron group. " alt="" coords="185,107,355,133"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="425,56,535,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="407,107,553,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="605,56,752,83"/>
+</map>

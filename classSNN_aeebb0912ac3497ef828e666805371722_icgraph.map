@@ -1,0 +1,4 @@
+<map id="loadSimulation" name="loadSimulation">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aeebb0912ac3497ef828e666805371722" title="CARLsim::Impl::loadSimulation" alt="" coords="160,5,365,32"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#aeebb0912ac3497ef828e666805371722" title="Loads a simulation (and network state) from file. The file pointer fid must point to a valid CARLsim ..." alt="" coords="413,5,585,32"/>
+</map>

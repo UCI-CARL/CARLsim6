@@ -1,0 +1,4 @@
+<map id="setSpikeGenerator" name="setSpikeGenerator">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#adc71069e71cd551526ddafb3d873d649" title="CARLsim::Impl::setSpikeGenerator" alt="" coords="184,5,412,32"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#adc71069e71cd551526ddafb3d873d649" title="A SpikeCounter keeps track of the number of spikes per neuron in a group. " alt="" coords="460,5,655,32"/>
+</map>

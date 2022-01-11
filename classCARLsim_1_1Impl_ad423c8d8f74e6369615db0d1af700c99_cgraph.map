@@ -1,0 +1,12 @@
+<map id="setGroupMonitor" name="setGroupMonitor">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="getGroupName" alt="" coords="194,56,305,83"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="392,5,547,32"/>
+<area shape="rect" id="node6" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="396,107,543,133"/>
+<area shape="rect" id="node7" href="$classSNN.html#a61ef9df510c9eecbdbda7ec787f2db4b" title="sets up a group monitor registered with a callback to process the spikes. " alt="" coords="172,157,327,184"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="414,56,525,83"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="641,56,788,83"/>
+<area shape="rect" id="node8" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="399,157,540,184"/>
+<area shape="rect" id="node9" href="$classGroupMonitorCore.html#ac455fddf546e804839052af1614b4b15" title="sets pointer to group data file " alt="" coords="375,209,564,250"/>
+<area shape="rect" id="node10" href="$classGroupMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="612,191,817,217"/>
+<area shape="rect" id="node11" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="SNN::getGroupGrid3D" alt="" coords="638,241,791,268"/>
+</map>

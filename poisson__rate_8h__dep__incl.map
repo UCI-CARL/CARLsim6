@@ -1,0 +1,16 @@
+<map id="poisson_rate.h" name="poisson_rate.h">
+<area shape="rect" id="node2" href="$carlsim_8h.html" title="carlsim.h" alt="" coords="809,80,884,107"/>
+<area shape="rect" id="node4" href="$snn_8h.html" title="snn.h" alt="" coords="690,155,745,181"/>
+<area shape="rect" id="node14" href="$poisson__rate_8cpp.html" title="poisson_rate.cpp" alt="" coords="909,80,1030,107"/>
+<area shape="rect" id="node15" href="$visual__stimulus_8cpp.html" title="visual_stimulus.cpp" alt="" coords="1054,80,1191,107"/>
+<area shape="rect" id="node3" href="$carlsim_8cpp.html" title="carlsim.cpp" alt="" coords="1199,237,1289,263"/>
+<area shape="rect" id="node12" href="$spikegen__from__file_8cpp.html" title="spikegen_from_file.cpp" alt="" coords="769,155,925,181"/>
+<area shape="rect" id="node13" href="$simple__weight__tuner_8cpp.html" title="simple_weight_tuner.cpp" alt="" coords="949,155,1115,181"/>
+<area shape="rect" id="node5" href="$print__snn__info_8cpp.html" title="print_snn_info.cpp" alt="" coords="5,237,133,263"/>
+<area shape="rect" id="node6" href="$snn__cpu__module_8cpp.html" title="snn_cpu_module.cpp" alt="" coords="158,237,303,263"/>
+<area shape="rect" id="node7" href="$snn__manager_8cpp.html" title="snn_manager.cpp" alt="" coords="328,237,453,263"/>
+<area shape="rect" id="node8" href="$connection__monitor__core_8cpp.html" title="connection_monitor\l_core.cpp" alt="" coords="478,229,613,271"/>
+<area shape="rect" id="node9" href="$group__monitor__core_8cpp.html" title="group_monitor_core.cpp" alt="" coords="637,237,798,263"/>
+<area shape="rect" id="node10" href="$neuron__monitor__core_8cpp.html" title="neuron_monitor_core.cpp" alt="" coords="823,237,991,263"/>
+<area shape="rect" id="node11" href="$spike__monitor__core_8cpp.html" title="spike_monitor_core.cpp" alt="" coords="1015,237,1175,263"/>
+</map>

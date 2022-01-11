@@ -1,0 +1,7 @@
+<map id="clear" name="clear">
+<area shape="rect" id="node2" href="$classGroupMonitorCore.html#abbe561f1d7285414b1a9333fc09ac382" title="constructor (called by CARLsim::setGroupMonitor) " alt="" coords="104,5,232,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording group data " alt="" coords="115,56,221,83"/>
+<area shape="rect" id="node4" href="$classGroupMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="280,31,473,57"/>
+<area shape="rect" id="node5" href="$classGroupMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="313,81,440,108"/>
+<area shape="rect" id="node6" href="$classGroupMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="521,81,735,108"/>
+</map>

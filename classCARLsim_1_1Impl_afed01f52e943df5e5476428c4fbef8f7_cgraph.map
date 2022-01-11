@@ -1,0 +1,14 @@
+<map id="connect" name="connect">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="getGroupName" alt="" coords="142,107,253,133"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="339,56,493,83"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="isPoissonGroup" alt="" coords="140,157,255,184"/>
+<area shape="rect" id="node9" href="$classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" title="getGroupNumNeurons" alt="" coords="121,5,273,32"/>
+<area shape="rect" id="node11" href="$classSNN.html#a6eec2a657455176862ab71d4ee762e07" title="make from each neuron in grpId1 to &#39;numPostSynapses&#39; neurons in grpId2 " alt="" coords="145,233,250,260"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="361,157,471,184"/>
+<area shape="rect" id="node6" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="343,107,489,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="559,157,705,184"/>
+<area shape="rect" id="node8" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="341,208,491,235"/>
+<area shape="rect" id="node10" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="SNN::getGroupNumNeurons" alt="" coords="321,5,511,32"/>
+<area shape="rect" id="node12" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="SNN::getGroupGrid3D" alt="" coords="339,309,493,336"/>
+<area shape="rect" id="node13" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="345,259,487,285"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="getNeuronLocation3D" name="getNeuronLocation3D">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aba1eac7ee46971637423204a63e9892b" title="CARLsim::Impl::getNeuron\lLocation3D" alt="" coords="201,49,381,90"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="459,5,614,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" title="CARLsim::Impl::getNumNeurons" alt="" coords="429,56,644,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#aba1eac7ee46971637423204a63e9892b" title="SNN::getNeuronLocation3D" alt="" coords="444,107,629,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a00ddee44990cd4763a7d4df074e6d405" title="SNN::getNumNeurons" alt="" coords="692,56,847,83"/>
+</map>

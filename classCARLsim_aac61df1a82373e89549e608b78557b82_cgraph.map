@@ -1,0 +1,9 @@
+<map id="setNM4STP" name="setNM4STP">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aac61df1a82373e89549e608b78557b82" title="CARLsim::Impl::setNM4STP" alt="" coords="148,56,340,83"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="CARLsim::Impl::getGroupName" alt="" coords="388,56,596,83"/>
+<area shape="rect" id="node4" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="671,5,825,32"/>
+<area shape="rect" id="node8" href="$classSNN.html#aac61df1a82373e89549e608b78557b82" title="SNN::setNM4STP" alt="" coords="427,107,557,133"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="644,56,852,83"/>
+<area shape="rect" id="node7" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="675,107,821,133"/>
+<area shape="rect" id="node6" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="900,56,1047,83"/>
+</map>

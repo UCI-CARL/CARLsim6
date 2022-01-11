@@ -1,0 +1,5 @@
+<map id="setPersistentData" name="setPersistentData">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="180,13,391,39"/>
+<area shape="rect" id="node3" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="439,5,583,47"/>
+<area shape="rect" id="node4" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="631,5,775,47"/>
+</map>

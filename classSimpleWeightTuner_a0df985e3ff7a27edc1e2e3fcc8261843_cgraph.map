@@ -1,0 +1,51 @@
+<map id="iterate" name="iterate">
+<area shape="rect" id="node2" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="112,443,256,484"/>
+<area shape="rect" id="node3" href="$classSimpleWeightTuner_1_1Impl.html#a8b87c194b99fb577cd3e69256a4c7503" title="SimpleWeightTuner::\lImpl::done" alt="" coords="337,232,481,273"/>
+<area shape="rect" id="node4" href="$classSpikeMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="304,399,515,426"/>
+<area shape="rect" id="node31" href="$classSpikeMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="587,349,777,375"/>
+<area shape="rect" id="node34" href="$classCARLsim.html#aafb2d44405c96aafe089f96ff867018d" title="run the simulation for time=(nSec*seconds + nMsec*milliseconds) " alt="" coords="332,501,487,527"/>
+<area shape="rect" id="node40" href="$classSpikeMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="Ends a recording period. " alt="" coords="587,450,777,477"/>
+<area shape="rect" id="node41" href="$classSpikeMonitor.html#ae62d623e8edfc6b05309256c1d825bbd" title="Returns the mean firing rate of the entire neuronal population. " alt="" coords="593,265,771,307"/>
+<area shape="rect" id="node42" href="$classCARLsim.html#a075514437469255e73d058ce7a31092b" title="Adds a constant bias to the weight of every synapse in the connection. " alt="" coords="330,551,489,578"/>
+<area shape="rect" id="node46" href="$classCARLsim.html#a4afa2f85f5939e81ec45c7760e23d932" title="returns the RangeWeight struct for a specific connection ID " alt="" coords="317,606,501,633"/>
+<area shape="rect" id="node49" href="$classCARLsim.html#adca40e384322cbaa6bfda0fe6a6f3159" title="Writes population weights from gIDpre to gIDpost to file fname in binary. " alt="" coords="313,667,506,694"/>
+<area shape="rect" id="node5" href="$classSpikeMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="563,399,801,426"/>
+<area shape="rect" id="node6" href="$classSpikeMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording AER data " alt="" coords="859,365,1078,391"/>
+<area shape="rect" id="node16" href="$classSpikeMonitorCore.html#ac8bb3912a3ce86b15842e79d0b421204" title="deletes data from the 2D spike vector " alt="" coords="1158,238,1321,265"/>
+<area shape="rect" id="node30" href="$classSpikeMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="stops recording AER data " alt="" coords="859,415,1078,442"/>
+<area shape="rect" id="node7" href="$classSpikeMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="1391,75,1593,102"/>
+<area shape="rect" id="node17" href="$classSNN.html#a876185f4e003c98fb227861e7b84fded" title="copy required spikes from firing buffer to spike buffer " alt="" coords="1152,390,1327,417"/>
+<area shape="rect" id="node22" href="$classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" title="SNN::getSimTimeMs" alt="" coords="1419,679,1565,706"/>
+<area shape="rect" id="node27" href="$classSNN.html#a85facd004ae52ee52e72451b5d874fae" title="SNN::getSimTimeSec" alt="" coords="1416,629,1568,655"/>
+<area shape="rect" id="node8" href="$classSpikeMonitorCore.html#af0ba89c38f6852cdf9d914687ad6a445" title="prints the AER vector in human&#45;readable format " alt="" coords="1673,126,1832,153"/>
+<area shape="rect" id="node15" href="$classSpikeMonitorCore.html#a6e116c2994e0449c41e56d03370fa54c" title="inserts a (time,neurId) tupel into the 2D spike vector " alt="" coords="1657,243,1848,270"/>
+<area shape="rect" id="node9" href="$classSNN.html#a5fd2b156623d78138bcb44167eabab78" title="SNN::getSimTime" alt="" coords="1935,806,2064,833"/>
+<area shape="rect" id="node10" href="$classSpikeMonitorCore.html#af6c333e6cefff92d0e354eca70625cdc" title="returns the total number of recorded spikes in the group " alt="" coords="2153,35,2327,76"/>
+<area shape="rect" id="node13" href="$classSpikeMonitorCore.html#a9cf20c30ff0efdbc5e3c5194648a7fb3" title="returns the total recorded time in ms " alt="" coords="2135,109,2345,151"/>
+<area shape="rect" id="node14" href="$classSpikeMonitorCore.html#ae62d623e8edfc6b05309256c1d825bbd" title="returns the recorded mean firing rate of the group " alt="" coords="1912,25,2087,67"/>
+<area shape="rect" id="node11" href="$classSpikeMonitorCore.html#a005a2f884f6260054483d4fa6ed6ddbb" title="returns the number of recorded spikes of a specific neuron " alt="" coords="2393,177,2588,219"/>
+<area shape="rect" id="node12" href="$classSpikeMonitorCore.html#abe76071e1ac3632d55f2455b239b3d12" title="returns recording mode " alt="" coords="2636,243,2820,270"/>
+<area shape="rect" id="node18" href="$classSpikeMonitorCore.html#a102f8a26e80c556ee9a2ac503cd38ec9" title="returns timestamp of last SpikeMonitor update " alt="" coords="1403,396,1581,437"/>
+<area shape="rect" id="node19" href="$classSpikeMonitorCore.html#a3a0e4e77a2b83f5dd0e86aafcf227595" title="returns the total accumulated time " alt="" coords="1641,485,1864,511"/>
+<area shape="rect" id="node20" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="SNN::getGroupNumNeurons" alt="" coords="1397,126,1587,153"/>
+<area shape="rect" id="node21" href="$classSpikeMonitorCore.html#aaeb6a64ac5d9fd3b7a979f0f12ec87dc" title="returns true if spike buffer is close to maxAllowedBufferSize " alt="" coords="1653,381,1852,407"/>
+<area shape="rect" id="node28" href="$classSpikeMonitorCore.html#a38f87732cc929797d9648e68cd509f1b" title="sets timestamp of last SpikeMonitor update " alt="" coords="1403,461,1581,503"/>
+<area shape="rect" id="node29" href="$classSpikeMonitorCore.html#a46187d03667c0fa3cc4dc3a654ee52e8" title="returns a pointer to the spike file " alt="" coords="1399,177,1585,219"/>
+<area shape="rect" id="node23" href="$classSNN.html#a866a9c6e2b2630816fc66adda1381655" title="Returns pointer to existing SpikeMonitor object, NULL else. " alt="" coords="1676,654,1829,681"/>
+<area shape="rect" id="node24" href="$classSNN.html#ad25000cd1457c9b9869122534ada6fdd" title="SNN::getSpikeMonitorCore" alt="" coords="1662,705,1843,731"/>
+<area shape="rect" id="node25" href="$classSNN.html#a0eb87addfa5eebdfee4bd6b927b8945f" title="Returns pointer to existing NeuronMonitor object, NULL else. " alt="" coords="1671,755,1834,782"/>
+<area shape="rect" id="node26" href="$classSNN.html#a9aa73fa9478383c4af1eed8387d82db9" title="SNN::getNeuronMonitorCore" alt="" coords="1657,603,1848,630"/>
+<area shape="rect" id="node32" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="891,466,1046,493"/>
+<area shape="rect" id="node33" href="$classSpikeMonitor.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="Recording status (true=recording, false=not recording) " alt="" coords="881,263,1056,290"/>
+<area shape="rect" id="node35" href="$classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" title="CARLsim::Impl::runNetwork" alt="" coords="589,501,775,527"/>
+<area shape="rect" id="node36" href="$classSNN.html#a3df37c7539f784fe7a939c5da922f41b" title="run the simulation for n sec " alt="" coords="905,517,1032,543"/>
+<area shape="rect" id="node37" href="$classSNN.html#a68862cb4e6c749219c20c38aeab06986" title="polls connection weights " alt="" coords="1136,806,1343,833"/>
+<area shape="rect" id="node38" href="$classSNN.html#a14317186d53aeff564b126a41a333d3c" title="access group status (currently the concentration of neuromodulator) " alt="" coords="1151,643,1327,670"/>
+<area shape="rect" id="node39" href="$classSNN.html#a8dd319bdd9a54e38f9254cbec099c30a" title="copy required neuron state values from ??? buffer to ??? buffer " alt="" coords="1148,694,1331,721"/>
+<area shape="rect" id="node43" href="$classCARLsim_1_1Impl.html#af71e7773ae33e0f23e91ff46d014e1e8" title="CARLsim::Impl::biasWeights" alt="" coords="586,551,778,578"/>
+<area shape="rect" id="node44" href="$classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" title="CARLsim::Impl::getNumConnections" alt="" coords="849,618,1088,645"/>
+<area shape="rect" id="node45" href="$classSNN.html#a075514437469255e73d058ce7a31092b" title="SNN::biasWeights" alt="" coords="903,567,1034,594"/>
+<area shape="rect" id="node47" href="$classCARLsim_1_1Impl.html#a4afa2f85f5939e81ec45c7760e23d932" title="CARLsim::Impl::getWeight\lRange" alt="" coords="593,603,771,644"/>
+<area shape="rect" id="node48" href="$classSNN.html#a4afa2f85f5939e81ec45c7760e23d932" title="returns RangeWeight struct of a connection " alt="" coords="891,669,1047,695"/>
+<area shape="rect" id="node50" href="$classCARLsim_1_1Impl.html#adca40e384322cbaa6bfda0fe6a6f3159" title="CARLsim::Impl::getCARLsim\lState" alt="" coords="585,668,779,709"/>
+</map>

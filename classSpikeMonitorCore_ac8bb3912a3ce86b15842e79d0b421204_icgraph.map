@@ -1,0 +1,10 @@
+<map id="clear" name="clear">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#ac8bb3912a3ce86b15842e79d0b421204" title="Truncates the 2D spike vector. " alt="" coords="104,5,239,32"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#ad925d84fd6af2e2d1565a65987c11e43" title="constructor (called by CARLsim::setSpikeMonitor) " alt="" coords="108,56,235,83"/>
+<area shape="rect" id="node4" href="$classSpikeMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording AER data " alt="" coords="118,107,225,133"/>
+<area shape="rect" id="node8" href="$classSpikeMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="287,157,413,184"/>
+<area shape="rect" id="node5" href="$classSpikeMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="471,107,662,133"/>
+<area shape="rect" id="node6" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="720,125,864,166"/>
+<area shape="rect" id="node7" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="912,125,1056,166"/>
+<area shape="rect" id="node9" href="$classSpikeMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="461,157,672,184"/>
+</map>

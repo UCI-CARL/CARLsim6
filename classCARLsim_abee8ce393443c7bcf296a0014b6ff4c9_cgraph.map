@@ -1,0 +1,5 @@
+<map id="setWeightAndWeightChangeUpdate" name="setWeightAndWeightChangeUpdate">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a94b3b953bb658e1a96cd8a6a6163a5fe" title="CARLsim::Impl::setWeight\lAndWeightChangeUpdate" alt="" coords="244,27,423,69"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="507,5,661,32"/>
+<area shape="rect" id="node4" href="$classSNN.html#a94b3b953bb658e1a96cd8a6a6163a5fe" title="Sets the weight and weight change update parameters. " alt="" coords="471,57,697,98"/>
+</map>

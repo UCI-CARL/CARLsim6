@@ -1,0 +1,3 @@
+<map id="getTimeMsCurrentSnapshot" name="getTimeMsCurrentSnapshot">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#a1025cfe9db2e3f4eddc8a93928ec1a99" title="returns the timestamp of the current snapshot (not necessarily CARLsim::getSimTime) ..." alt="" coords="239,5,432,47"/>
+</map>

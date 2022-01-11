@@ -1,0 +1,13 @@
+<map id="setDefaultSTPparams" name="setDefaultSTPparams">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#abb10cfa3d0f3a246442e1187ecb837ae" title="CARLsim::Impl::setDefault\lSTPparams" alt="" coords="211,141,391,182"/>
+<area shape="rect" id="node9" href="$classCARLsim.html#a8e1efea50fcff581761bd7730d0afc59" title="LN extension 20201017. " alt="" coords="238,207,365,233"/>
+<area shape="rect" id="node10" href="$classSNN.html#a8e1efea50fcff581761bd7730d0afc59" title="Get Info of suitable Harware for integration of CARLsim in NeuroInf&#45;IDEs NIIDEs (LN20201017) ..." alt="" coords="220,257,383,284"/>
+<area shape="rect" id="node11" href="$classCARLsim.html#ad9125d9ca019b694240d64c9af9b11d7" title="LN extension 20201017. " alt="" coords="223,308,380,335"/>
+<area shape="rect" id="node12" href="$classSNN.html#ad9125d9ca019b694240d64c9af9b11d7" title="SNN::cudaDeviceDescription" alt="" coords="204,359,399,385"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="683,148,837,175"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a19dee0cb90e81a639376e253cf142d3f" title="CARLsim::Impl::setDefault\lConductanceTimeConstants" alt="" coords="447,42,635,83"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a800d13fcd2488793532832fb094c252f" title="CARLsim::Impl::setDefault\lESTDPparams" alt="" coords="451,107,631,149"/>
+<area shape="rect" id="node6" href="$classCARLsim_1_1Impl.html#a5640d10d796eb10b044cfc8c2e021619" title="CARLsim::Impl::setDefault\lISTDPparams" alt="" coords="451,173,631,214"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#a13fbb8775775a31cb974b709430a6d30" title="CARLsim::Impl::setDefault\lHomeostasisParams" alt="" coords="451,238,631,279"/>
+<area shape="rect" id="node8" href="$classCARLsim_1_1Impl.html#a47e42a4aff33749f6040039bdff2bf9a" title="CARLsim::Impl::setDefault\lSaveOptions" alt="" coords="451,303,631,345"/>
+</map>

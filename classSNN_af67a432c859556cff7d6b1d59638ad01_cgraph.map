@@ -1,0 +1,7 @@
+<map id="setWeight" name="setWeight">
+<area shape="rect" id="node2" href="$classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" title="getNumConnections" alt="" coords="140,5,281,32"/>
+<area shape="rect" id="node5" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="getGroupNumNeurons" alt="" coords="135,56,287,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a13067d0c1634b4e91f819e06e5fd634f" title="isExcitatoryGroup" alt="" coords="147,107,274,133"/>
+<area shape="rect" id="node3" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="335,5,527,32"/>
+<area shape="rect" id="node4" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="575,5,679,32"/>
+</map>

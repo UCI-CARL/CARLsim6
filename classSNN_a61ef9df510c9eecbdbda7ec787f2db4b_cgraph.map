@@ -1,0 +1,6 @@
+<map id="setGroupMonitor" name="setGroupMonitor">
+<area shape="rect" id="node2" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="215,5,319,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitorCore.html#ac455fddf546e804839052af1614b4b15" title="sets pointer to group data file " alt="" coords="172,57,361,98"/>
+<area shape="rect" id="node4" href="$classGroupMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="409,39,615,65"/>
+<area shape="rect" id="node5" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="getGroupGrid3D" alt="" coords="454,89,570,116"/>
+</map>

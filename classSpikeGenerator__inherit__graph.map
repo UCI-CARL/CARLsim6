@@ -1,0 +1,7 @@
+<map id="SpikeGenerator" name="SpikeGenerator">
+<area shape="rect" id="node2" href="$classInteractiveSpikeGenerator.html" title="A interactive spike generator that generate spikes upon users&#39; request. " alt="" coords="176,5,349,32"/>
+<area shape="rect" id="node3" href="$classPeriodicSpikeGenerator.html" title="a periodic SpikeGenerator (constant ISI) creating spikes at a certain rate " alt="" coords="183,56,342,83"/>
+<area shape="rect" id="node4" href="$classPrePostGroupSpikeGenerator.html" title="spike generator for spike timing control " alt="" coords="165,107,360,133"/>
+<area shape="rect" id="node5" href="$classSpikeGeneratorFromFile.html" title="a SpikeGeneratorFromFile schedules spikes from a spike file binary " alt="" coords="181,157,344,184"/>
+<area shape="rect" id="node6" href="$classSpikeGeneratorFromVector.html" title="a SpikeGenerator that schedules spikes from a vector of spike times " alt="" coords="173,208,353,235"/>
+</map>

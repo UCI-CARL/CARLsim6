@@ -1,0 +1,5 @@
+<map id="createGroup" name="createGroup">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="147,5,301,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#a2301fb7a8931b6b91de61c19255a4dcc" title="Creates a group of Izhikevich spiking neurons. " alt="" coords="159,56,289,83"/>
+<area shape="rect" id="node4" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="349,56,491,83"/>
+</map>

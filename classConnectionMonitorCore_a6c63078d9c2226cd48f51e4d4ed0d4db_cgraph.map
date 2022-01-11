@@ -1,0 +1,8 @@
+<map id="getNumWeightsInRange" name="getNumWeightsInRange">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#aa096d9983144b3323d6f370e37b0859c" title="returns min weight in the connection (getCurrent=false: RangeWeight.min, true: current smallest) ..." alt="" coords="635,5,738,32"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#a30f10c789ec0f272848c2a68cd35fa97" title="returns max weight in the connection (getCurrent=false: RangeWeight.max, true: current largest) ..." alt="" coords="633,81,740,108"/>
+<area shape="rect" id="node4" href="$classConnectionMonitorCore.html#a7373a8cecde25ccd48b3df967b5b0417" title="returns number of synapses that exist in the connection " alt="" coords="219,132,345,159"/>
+<area shape="rect" id="node5" href="$classConnectionMonitorCore.html#ad094dca7a9d2ac2c46e89f1035706eba" title="returns number of weights with &gt;=minAbsChanged weight change since last snapshot " alt="" coords="397,132,565,159"/>
+<area shape="rect" id="node7" href="$classConnectionMonitorCore.html#af0258258ab62c21e22a4bc98dcaa050e" title="returns number of weights that have a certain value " alt="" coords="393,31,569,57"/>
+<area shape="rect" id="node6" href="$classConnectionMonitorCore.html#a730c0ec47d470c8920ab57288c31ca3b" title="calculates weight changes since last snapshot and reports them in 2D weight change matrix ..." alt="" coords="617,132,756,159"/>
+</map>

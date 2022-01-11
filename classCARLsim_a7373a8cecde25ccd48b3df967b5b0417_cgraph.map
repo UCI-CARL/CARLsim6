@@ -1,0 +1,5 @@
+<map id="getNumSynapses" name="getNumSynapses">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a7373a8cecde25ccd48b3df967b5b0417" title="CARLsim::Impl::getNumSynapses" alt="" coords="180,31,404,57"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="456,5,611,32"/>
+<area shape="rect" id="node4" href="$classSNN.html#a7373a8cecde25ccd48b3df967b5b0417" title="SNN::getNumSynapses" alt="" coords="452,56,615,83"/>
+</map>

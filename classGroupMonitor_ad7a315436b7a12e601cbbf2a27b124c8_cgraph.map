@@ -1,0 +1,6 @@
+<map id="getRecordingLastStartTime" name="getRecordingLastStartTime">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="264,5,419,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitor.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="Recording status (true=recording, false=not recording) " alt="" coords="296,56,387,83"/>
+<area shape="rect" id="node5" href="$classGroupMonitorCore.html#ad7a315436b7a12e601cbbf2a27b124c8" title="returns the timestamp of the last startRecording in ms " alt="" coords="235,107,448,149"/>
+<area shape="rect" id="node4" href="$classGroupMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="496,56,701,83"/>
+</map>

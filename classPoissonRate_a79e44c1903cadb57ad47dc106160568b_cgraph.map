@@ -1,0 +1,4 @@
+<map id="getRatePtrGPU" name="getRatePtrGPU">
+<area shape="rect" id="node2" href="$classPoissonRate_1_1Impl.html#ae29243d4f13523ed70b2d5cc907923d7" title="PoissonRate::Impl::\lgetRatePtrGPU" alt="" coords="168,5,307,47"/>
+<area shape="rect" id="node3" href="$classPoissonRate_1_1Impl.html#a0bc9734220de46306a6db7b2b33f7902" title="PoissonRate::Impl::\lisOnGPU" alt="" coords="355,5,493,47"/>
+</map>

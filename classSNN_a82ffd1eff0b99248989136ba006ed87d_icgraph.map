@@ -1,0 +1,5 @@
+<map id="saveSimulation" name="saveSimulation">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aa665c758ce50f34c0a66dffe3a2a6476" title="CARLsim::Impl::saveSimulation" alt="" coords="164,31,373,57"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#a024997d941d0dff7ef89aa5ecddbc1ac" title="CARLsim::Impl::~Impl" alt="" coords="433,5,586,32"/>
+<area shape="rect" id="node4" href="$classCARLsim.html#a3b08150d9a98f80df57852450c0d87ed" title="Saves important simulation and network infos to file. " alt="" coords="421,56,597,83"/>
+</map>

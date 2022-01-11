@@ -1,0 +1,51 @@
+<map id="getMode" name="getMode">
+<area shape="rect" id="node2" href="$classSNN.html#a876185f4e003c98fb227861e7b84fded" title="copy required spikes from firing buffer to spike buffer " alt="" coords="1876,1166,2051,1193"/>
+<area shape="rect" id="node13" href="$classSpikeMonitor.html#abe76071e1ac3632d55f2455b239b3d12" title="Returns the current SpikeMonitor mode. " alt="" coords="1353,71,1509,98"/>
+<area shape="rect" id="node17" href="$classSpikeMonitorCore.html#a005a2f884f6260054483d4fa6ed6ddbb" title="returns the number of recorded spikes of a specific neuron " alt="" coords="125,1059,276,1086"/>
+<area shape="rect" id="node43" href="$classSpikeMonitorCore.html#a6e116c2994e0449c41e56d03370fa54c" title="inserts a (time,neurId) tupel into the 2D spike vector " alt="" coords="1392,1135,1471,1162"/>
+<area shape="rect" id="node44" href="$classSpikeMonitorCore.html#a1d57dedf987505ea4cdcd4475578ce68" title="sets pointer to spike file " alt="" coords="1379,1369,1484,1395"/>
+<area shape="rect" id="node3" href="$classSNN.html#a3df37c7539f784fe7a939c5da922f41b" title="run the simulation for n sec " alt="" coords="2119,1095,2245,1122"/>
+<area shape="rect" id="node7" href="$classSpikeMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording AER data " alt="" coords="2129,730,2235,757"/>
+<area shape="rect" id="node11" href="$classSpikeMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="stops recording AER data " alt="" coords="2129,350,2235,377"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" title="CARLsim::Impl::runNetwork" alt="" coords="2295,954,2482,981"/>
+<area shape="rect" id="node5" href="$classCARLsim.html#aafb2d44405c96aafe089f96ff867018d" title="run the simulation for time=(nSec*seconds + nMsec*milliseconds) " alt="" coords="2560,935,2715,962"/>
+<area shape="rect" id="node6" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="2791,723,2935,764"/>
+<area shape="rect" id="node8" href="$classSpikeMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="2293,730,2484,757"/>
+<area shape="rect" id="node9" href="$classSpikeMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="2325,679,2452,706"/>
+<area shape="rect" id="node10" href="$classSpikeMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="2532,679,2743,706"/>
+<area shape="rect" id="node12" href="$classSpikeMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="Ends a recording period. " alt="" coords="2293,350,2484,377"/>
+<area shape="rect" id="node14" href="$classSpikeMonitor.html#af6c333e6cefff92d0e354eca70625cdc" title="Returns the total number of spikes in the group. " alt="" coords="1587,71,1802,98"/>
+<area shape="rect" id="node15" href="$classSpikeMonitor.html#a005a2f884f6260054483d4fa6ed6ddbb" title="returns the total number of spikes of a specific neuron in the group " alt="" coords="1597,5,1792,47"/>
+<area shape="rect" id="node16" href="$classSpikeMonitor.html#a64ccdac1d5dacee8b6e45e8a2a9fc40b" title="returns the 2D spike vector " alt="" coords="1589,173,1801,199"/>
+<area shape="rect" id="node18" href="$classSpikeMonitorCore.html#af6c333e6cefff92d0e354eca70625cdc" title="returns the total number of recorded spikes in the group " alt="" coords="324,705,455,731"/>
+<area shape="rect" id="node35" href="$classSpikeMonitorCore.html#aed09edf4583ac05d42fccc7e3556e3c5" title="returns the recorded mean firing rate for a specific neuron " alt="" coords="1344,1085,1519,1111"/>
+<area shape="rect" id="node36" href="$classSpikeMonitorCore.html#a3e33677ab9388f1e907302d2a48fdc6b" title="returns the SpikeMonitor ID " alt="" coords="1916,1090,2011,1117"/>
+<area shape="rect" id="node19" href="$classSpikeMonitorCore.html#ae62d623e8edfc6b05309256c1d825bbd" title="returns the recorded mean firing rate of the group " alt="" coords="503,730,657,757"/>
+<area shape="rect" id="node23" href="$classSpikeMonitorCore.html#af0ba89c38f6852cdf9d914687ad6a445" title="prints the AER vector in human&#45;readable format " alt="" coords="936,730,983,757"/>
+<area shape="rect" id="node49" href="$classSpikeMonitorCore.html#a9542be607f3f644e04e0bd9181c9f70e" title="returns status of PersistentData mode " alt="" coords="896,173,1023,199"/>
+<area shape="rect" id="node20" href="$classSpikeMonitor.html#ae62d623e8edfc6b05309256c1d825bbd" title="Returns the mean firing rate of the entire neuronal population. " alt="" coords="1605,897,1784,939"/>
+<area shape="rect" id="node21" href="$classSpikeMonitorCore.html#ad0c4b32bb5cc0c7a8d95ed6023a2695f" title="computes the standard deviation of firing rates in the group " alt="" coords="705,473,848,499"/>
+<area shape="rect" id="node22" href="$classSpikeMonitor.html#ad0c4b32bb5cc0c7a8d95ed6023a2695f" title="Returns the standard deviation of firing rates in the entire neuronal population. ..." alt="" coords="1581,223,1808,250"/>
+<area shape="rect" id="node24" href="$classSpikeMonitor.html#aa1bdcf4ac22267e52bcb8c3cba660c84" title="prints the 2D spike vector. " alt="" coords="1629,274,1760,301"/>
+<area shape="rect" id="node25" href="$classSpikeMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="1131,781,1221,807"/>
+<area shape="rect" id="node26" href="$classSpikeMonitor.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="Recording status (true=recording, false=not recording) " alt="" coords="1344,477,1519,503"/>
+<area shape="rect" id="node31" href="$classSpikeMonitorCore.html#ac8bb3912a3ce86b15842e79d0b421204" title="deletes data from the 2D spike vector " alt="" coords="1406,730,1457,757"/>
+<area shape="rect" id="node32" href="$classSpikeMonitorCore.html#a0fc20fcc5876030d796debd148ae7cee" title="returns a list of firing rates for all neurons in the group (sorted by neuron ID ascending) ..." alt="" coords="1370,274,1493,301"/>
+<area shape="rect" id="node33" href="$classSpikeMonitorCore.html#ab245e956a782d7d5fc8dc4257d94ecfa" title="returns the largest recorded firing rate " alt="" coords="1632,527,1757,554"/>
+<area shape="rect" id="node34" href="$classSpikeMonitorCore.html#a30bedc8503ea2e68ce042291f25fd0f8" title="returns the smallest recorded firing rate " alt="" coords="1634,629,1755,655"/>
+<area shape="rect" id="node37" href="$classSpikeMonitorCore.html#ac0d8bd3f92fa0eae87b37f9245e0e13a" title="returns a list of firing rates for all neurons in the group (sorted by firing rate ascending) ..." alt="" coords="1351,629,1511,655"/>
+<area shape="rect" id="node38" href="$classSpikeMonitorCore.html#a81857cacf011acddd1791775c34ae4fb" title="returns number of neurons whose firing rate was in [min,max] during recording " alt="" coords="1329,882,1533,909"/>
+<area shape="rect" id="node39" href="$classSpikeMonitorCore.html#a576be2fdd29d7b433d7c3645cb9f3b1f" title="returns number of neurons that didn&#39;t spike while recording " alt="" coords="1619,963,1770,990"/>
+<area shape="rect" id="node40" href="$classSpikeMonitorCore.html#ad8dc4f8eb304b0bcbeaf80076f892b72" title="returns percentage of neurons whose firing rate was in [min,max] during recording ..." alt="" coords="1584,1065,1805,1091"/>
+<area shape="rect" id="node41" href="$classSpikeMonitorCore.html#abcba6b94670385ff0bb843586d87ecb3" title="returns percentage of neurons that didn&#39;t spike during recording " alt="" coords="1611,1115,1778,1142"/>
+<area shape="rect" id="node42" href="$classSpikeMonitorCore.html#a64ccdac1d5dacee8b6e45e8a2a9fc40b" title="returns the 2D AER vector " alt="" coords="1367,426,1495,453"/>
+<area shape="rect" id="node27" href="$classSpikeMonitor.html#ac8bb3912a3ce86b15842e79d0b421204" title="Truncates the 2D spike vector. " alt="" coords="1627,578,1762,605"/>
+<area shape="rect" id="node28" href="$classSpikeMonitor.html#ab245e956a782d7d5fc8dc4257d94ecfa" title="returns the largest neuronal mean firing rate in the group " alt="" coords="1859,490,2068,517"/>
+<area shape="rect" id="node29" href="$classSpikeMonitor.html#a30bedc8503ea2e68ce042291f25fd0f8" title="returns the smallest neuronal mean firing rate in the group " alt="" coords="1861,566,2066,593"/>
+<area shape="rect" id="node30" href="$classSpikeMonitor.html#aed09edf4583ac05d42fccc7e3556e3c5" title="returns the mean firing rate of a specific neuron in the group " alt="" coords="1595,832,1794,873"/>
+<area shape="rect" id="node45" href="$classSNN.html#ace11f3a7995a24298caf842498eebbaf" title="sets up a spike monitor registered with a callback to process the spikes, there can only be one Spike..." alt="" coords="1618,1521,1771,1547"/>
+<area shape="rect" id="node47" href="$classSpikeMonitor.html#a11168f8252e1416f1706b5f7cae0be1e" title="Sets the name of the spike file binary. " alt="" coords="1611,1419,1778,1446"/>
+<area shape="rect" id="node48" href="$classSpikeMonitorCore.html#a46187d03667c0fa3cc4dc3a654ee52e8" title="returns a pointer to the spike file " alt="" coords="1642,1369,1747,1395"/>
+<area shape="rect" id="node46" href="$classCARLsim_1_1Impl.html#a76311719fdd8a942d292caead86cf0e6" title="CARLsim::Impl::setSpikeMonitor" alt="" coords="1856,1521,2071,1547"/>
+<area shape="rect" id="node50" href="$classSpikeMonitor.html#a9542be607f3f644e04e0bd9181c9f70e" title="Returns a flag that indicates whether PersistentMode is on (true) or off (false) " alt="" coords="1071,173,1281,199"/>
+</map>

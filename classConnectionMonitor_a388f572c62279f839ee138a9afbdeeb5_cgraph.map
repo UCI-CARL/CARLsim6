@@ -1,0 +1,5 @@
+<map id="print" name="print">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#a388f572c62279f839ee138a9afbdeeb5" title="prints current weight state as 2D matrix (non&#45;existent synapses: NAN, existent but zero weigth: 0..." alt="" coords="100,35,259,76"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#a1025cfe9db2e3f4eddc8a93928ec1a99" title="returns the timestamp of the current snapshot (not necessarily CARLsim::getSimTime) ..." alt="" coords="307,5,500,47"/>
+<area shape="rect" id="node4" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="330,71,477,98"/>
+</map>

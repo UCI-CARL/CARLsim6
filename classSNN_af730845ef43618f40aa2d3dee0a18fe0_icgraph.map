@@ -1,0 +1,4 @@
+<map id="getNumNeuronsRegExc" name="getNumNeuronsRegExc">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#af730845ef43618f40aa2d3dee0a18fe0" title="CARLsim::Impl::getNumNeurons\lRegExc" alt="" coords="217,5,432,47"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#af730845ef43618f40aa2d3dee0a18fe0" title="returns the total number of regular (Izhikevich) excitatory neurons " alt="" coords="480,13,709,39"/>
+</map>

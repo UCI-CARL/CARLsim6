@@ -1,0 +1,6 @@
+<map id="getConnectFileId" name="getConnectFileId">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#a46e73089106a296d8a0b2c4a5066f079" title="returns number of incoming synapses to post&#45;synaptic neuron " alt="" coords="191,5,265,32"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#aa1f808f36c992cd6bd10ffe41a3053e8" title="returns number of outgoing synapses of pre&#45;synaptic neuron " alt="" coords="187,56,269,83"/>
+<area shape="rect" id="node4" href="$classConnectionMonitorCore.html#a30f10c789ec0f272848c2a68cd35fa97" title="returns max weight in the connection (getCurrent=false: RangeWeight.max, true: current largest) ..." alt="" coords="175,107,281,133"/>
+<area shape="rect" id="node5" href="$classConnectionMonitorCore.html#aa096d9983144b3323d6f370e37b0859c" title="returns min weight in the connection (getCurrent=false: RangeWeight.min, true: current smallest) ..." alt="" coords="177,157,279,184"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="setSTP" name="setSTP">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aa2a365fb2d2fa56ec274bc4ba7be6747" title="CARLsim::Impl::setSTP" alt="" coords="120,122,284,149"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="CARLsim::Impl::getGroupName" alt="" coords="332,122,540,149"/>
+<area shape="rect" id="node4" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="615,71,769,98"/>
+<area shape="rect" id="node8" href="$classCARLsim_1_1Impl.html#a31ec8880e31fbcb9d002d713ce0d8f1d" title="CARLsim::Impl::isExcitatory\lGroup" alt="" coords="341,173,531,215"/>
+<area shape="rect" id="node10" href="$classCARLsim_1_1Impl.html#a3f0193605d59ef263b682a468bbcbf87" title="CARLsim::Impl::isInhibitory\lGroup" alt="" coords="345,5,527,47"/>
+<area shape="rect" id="node12" href="$classSNN.html#a54170c96807d6cdf699fa3664f81505e" title="Sets STP params U, tau_u, and tau_x of a neuron group (pre&#45;synaptically) CARLsim implements the short..." alt="" coords="385,239,487,266"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="588,173,796,199"/>
+<area shape="rect" id="node7" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="619,122,765,149"/>
+<area shape="rect" id="node6" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="844,173,991,199"/>
+<area shape="rect" id="node9" href="$classSNN.html#a13067d0c1634b4e91f819e06e5fd634f" title="SNN::isExcitatoryGroup" alt="" coords="611,223,773,250"/>
+<area shape="rect" id="node11" href="$classSNN.html#ad15afc87a2971b16d723c8511a027aa8" title="SNN::isInhibitoryGroup" alt="" coords="613,13,771,39"/>
+</map>

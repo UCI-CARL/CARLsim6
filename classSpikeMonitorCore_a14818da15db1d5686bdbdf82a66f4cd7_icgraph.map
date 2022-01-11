@@ -1,0 +1,3 @@
+<map id="getRecordingLastStartTime" name="getRecordingLastStartTime">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#a14818da15db1d5686bdbdf82a66f4cd7" title="Returns the simulation time (ms) of the last call to startRecording() " alt="" coords="235,5,417,47"/>
+</map>

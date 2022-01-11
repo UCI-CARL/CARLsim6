@@ -1,0 +1,11 @@
+<map id="snn_definitions.h" name="snn_definitions.h">
+<area shape="rect" id="node2" href="$snn_8h.html" title="snn.h" alt="" coords="632,80,687,107"/>
+<area shape="rect" id="node7" href="$connection__monitor__core_8cpp.html" title="connection_monitor\l_core.cpp" alt="" coords="592,155,727,196"/>
+<area shape="rect" id="node8" href="$group__monitor__core_8cpp.html" title="group_monitor_core.cpp" alt="" coords="751,162,912,189"/>
+<area shape="rect" id="node9" href="$neuron__monitor__core_8cpp.html" title="neuron_monitor_core.cpp" alt="" coords="937,162,1105,189"/>
+<area shape="rect" id="node10" href="$spike__monitor__core_8cpp.html" title="spike_monitor_core.cpp" alt="" coords="1129,162,1289,189"/>
+<area shape="rect" id="node3" href="$carlsim_8cpp.html" title="carlsim.cpp" alt="" coords="5,162,95,189"/>
+<area shape="rect" id="node4" href="$print__snn__info_8cpp.html" title="print_snn_info.cpp" alt="" coords="119,162,247,189"/>
+<area shape="rect" id="node5" href="$snn__cpu__module_8cpp.html" title="snn_cpu_module.cpp" alt="" coords="272,162,417,189"/>
+<area shape="rect" id="node6" href="$snn__manager_8cpp.html" title="snn_manager.cpp" alt="" coords="442,162,567,189"/>
+</map>

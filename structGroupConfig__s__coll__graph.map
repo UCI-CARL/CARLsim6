@@ -1,0 +1,12 @@
+<map id="GroupConfig_s" name="GroupConfig_s">
+<area shape="rect" id="node2" href="$structNM4wConfig__s.html" title="NM4wConfig_s" alt="" coords="35,16,147,43"/>
+<area shape="rect" id="node3" href="$structConductanceConfig__s.html" title="ConductanceConfig_s" alt="" coords="15,67,166,93"/>
+<area shape="rect" id="node4" href="$structSTPConfig__s.html" title="STPConfig_s" alt="" coords="41,117,141,144"/>
+<area shape="rect" id="node5" href="$structGrid3D.html" title="A struct to arrange neurons on a 3D grid (a primitive cubic Bravais lattice with cubic side length 1)..." alt="" coords="59,168,122,195"/>
+<area shape="rect" id="node6" href="$structACNE12Config__s.html" title="ACNE12Config_s" alt="" coords="27,219,154,245"/>
+<area shape="rect" id="node7" href="$classSpikeGeneratorCore.html" title="used for relaying callback to SpikeGenerator " alt="" coords="21,269,161,296"/>
+<area shape="rect" id="node8" href="$structNM4STPConfig__s.html" title="NM4STPConfig_s" alt="" coords="27,320,155,347"/>
+<area shape="rect" id="node9" href="$structNeuromodulatorConfig__s.html" title="NeuromodulatorConfig_s" alt="" coords="7,371,174,397"/>
+<area shape="rect" id="node10" href="$structHomeostasisConfig__s.html" title="HomeostasisConfig_s" alt="" coords="15,421,166,448"/>
+<area shape="rect" id="node11" href="$structNeuralDynamicsConfig__s.html" title="NeuralDynamicsConfig_s" alt="" coords="5,472,176,499"/>
+</map>

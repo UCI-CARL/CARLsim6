@@ -1,0 +1,4 @@
+<map id="getNumSilentNeurons" name="getNumSilentNeurons">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#a576be2fdd29d7b433d7c3645cb9f3b1f" title="returns the number of neurons that are silent. " alt="" coords="204,5,389,47"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#a3e33677ab9388f1e907302d2a48fdc6b" title="returns the SpikeMonitor ID " alt="" coords="249,71,344,98"/>
+</map>

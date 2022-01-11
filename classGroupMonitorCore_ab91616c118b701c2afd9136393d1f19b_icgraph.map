@@ -1,0 +1,5 @@
+<map id="startRecording" name="startRecording">
+<area shape="rect" id="node2" href="$classGroupMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="160,5,353,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="193,56,320,83"/>
+<area shape="rect" id="node4" href="$classGroupMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="401,56,615,83"/>
+</map>

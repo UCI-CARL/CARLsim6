@@ -1,0 +1,32 @@
+<map id="isPoissonGroup" name="isPoissonGroup">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="CARLsim::Impl::isPoisson\lGroup" alt="" coords="168,289,345,330"/>
+<area shape="rect" id="node29" href="$classSNN.html#a6eec2a657455176862ab71d4ee762e07" title="make from each neuron in grpId1 to &#39;numPostSynapses&#39; neurons in grpId2 " alt="" coords="223,51,291,77"/>
+<area shape="rect" id="node30" href="$classSNN.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" title="connectCompartments" alt="" coords="179,147,334,173"/>
+<area shape="rect" id="node31" href="$classSNN.html#a875708f5a61243433e23e99ce4d6aea1" title="injects current (mA) into the soma of every neuron in the group " alt="" coords="191,485,322,512"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#afed01f52e943df5e5476428c4fbef8f7" title="CARLsim::Impl::connect" alt="" coords="436,5,603,32"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" title="CARLsim::Impl::connectCompartments" alt="" coords="393,56,645,83"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#af9e05685af30a329664ab73a6a420d7f" title="CARLsim::Impl::setHomeostasis" alt="" coords="412,107,627,133"/>
+<area shape="rect" id="node9" href="$classCARLsim_1_1Impl.html#aef4d35935c52e55a957aa96e4d6218f6" title="CARLsim::Impl::setHomeoBase\lFiringRate" alt="" coords="414,158,625,199"/>
+<area shape="rect" id="node11" href="$classCARLsim_1_1Impl.html#aa6e1dc5ae50722ae3d693f2c963d84cd" title="CARLsim::Impl::setNeuron\lParameters" alt="" coords="429,223,609,265"/>
+<area shape="rect" id="node13" href="$classCARLsim_1_1Impl.html#ae3d3c73126e9aa3fe8e81ea180860952" title="CARLsim::Impl::setNeuron\lParametersLIF" alt="" coords="429,289,609,330"/>
+<area shape="rect" id="node15" href="$classCARLsim_1_1Impl.html#ac79aadf0ac87b2ae34f39ae796ad81a3" title="CARLsim::Impl::setESTDP" alt="" coords="428,355,611,381"/>
+<area shape="rect" id="node20" href="$classCARLsim_1_1Impl.html#a675bb0d593722135066c11b0d3d99d50" title="CARLsim::Impl::setISTDP" alt="" coords="430,405,609,432"/>
+<area shape="rect" id="node22" href="$classCARLsim_1_1Impl.html#a875708f5a61243433e23e99ce4d6aea1" title="CARLsim::Impl::setExternal\lCurrent" alt="" coords="426,609,613,650"/>
+<area shape="rect" id="node24" href="$classCARLsim_1_1Impl.html#adc71069e71cd551526ddafb3d873d649" title="CARLsim::Impl::setSpikeGenerator" alt="" coords="405,456,633,483"/>
+<area shape="rect" id="node26" href="$classCARLsim_1_1Impl.html#aec206ed9aaaed83f1d3170f012a86b70" title="CARLsim::Impl::setSpikeRate" alt="" coords="420,507,619,533"/>
+<area shape="rect" id="node28" href="$classCARLsim.html#ae136e178382096490a2d34f78cd2afa2" title="returns " alt="" coords="430,557,609,584"/>
+<area shape="rect" id="node4" href="$classCARLsim.html#a30b16b93d57551dcde0559e8a4e98e27" title="Connects a presynaptic to a postsynaptic group using fixed/plastic weights and a range of delay value..." alt="" coords="745,5,879,32"/>
+<area shape="rect" id="node6" href="$classCARLsim.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" title="make a compartmental connection between two compartmentally enabled groups Note: all compartmentally ..." alt="" coords="703,56,921,83"/>
+<area shape="rect" id="node8" href="$classCARLsim.html#ae51c28f77c75f2a5adab1b511465090f" title="Sets custom values for implementation of homeostatic synaptic scaling. " alt="" coords="721,107,903,133"/>
+<area shape="rect" id="node10" href="$classCARLsim.html#a4f0d341bb17f0d6e0b3aa8db28ef4513" title="Sets the homeostatic target firing rate (enforced through homeostatic synaptic scaling) ..." alt="" coords="693,157,931,184"/>
+<area shape="rect" id="node12" href="$classCARLsim.html#aa6e1dc5ae50722ae3d693f2c963d84cd" title="Sets Izhikevich params a, b, c, and d with as mean +&#45; standard deviation. " alt="" coords="705,208,919,235"/>
+<area shape="rect" id="node14" href="$classCARLsim.html#ae8becfdd05912ef1406493f7f28074b8" title="Sets neuron parameters for a group of LIF spiking neurons. " alt="" coords="695,259,929,285"/>
+<area shape="rect" id="node16" href="$classCARLsim_1_1Impl.html#af69130fee82ddc631a62ed0878c65e9f" title="CARLsim::Impl::setSTDP" alt="" coords="725,360,899,387"/>
+<area shape="rect" id="node18" href="$classCARLsim.html#ac79aadf0ac87b2ae34f39ae796ad81a3" title="Sets default E&#45;STDP mode and parameters. " alt="" coords="737,411,887,437"/>
+<area shape="rect" id="node19" href="$classCARLsim.html#a675bb0d593722135066c11b0d3d99d50" title="Sets default I&#45;STDP mode and parameters. " alt="" coords="739,309,885,336"/>
+<area shape="rect" id="node17" href="$classCARLsim.html#af69130fee82ddc631a62ed0878c65e9f" title="Sets default STDP mode and params. " alt="" coords="979,360,1120,387"/>
+<area shape="rect" id="node21" href="$classCARLsim.html#a30b0193a57cdc6ae3a2aa4cb9e3bc214" title="Sets I&#45;STDP with the exponential curve. " alt="" coords="739,461,885,488"/>
+<area shape="rect" id="node23" href="$classCARLsim.html#a875708f5a61243433e23e99ce4d6aea1" title="Sets the amount of current (mA) to inject into a group. " alt="" coords="714,616,910,643"/>
+<area shape="rect" id="node25" href="$classCARLsim.html#adc71069e71cd551526ddafb3d873d649" title="A SpikeCounter keeps track of the number of spikes per neuron in a group. " alt="" coords="715,512,909,539"/>
+<area shape="rect" id="node27" href="$classCARLsim.html#a04f52d2840105c8ccacf8d378d1695cf" title="Sets a spike rate. " alt="" coords="729,563,895,589"/>
+</map>

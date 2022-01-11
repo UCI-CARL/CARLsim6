@@ -1,0 +1,6 @@
+<map id="getNumNeurons" name="getNumNeurons">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aec206ed9aaaed83f1d3170f012a86b70" title="CARLsim::Impl::setSpikeRate" alt="" coords="357,22,556,49"/>
+<area shape="rect" id="node4" href="$snn__cpu__module_8cpp.html#ac42c21b5ae4b743f8e00b7dfe04dcfe3" title="dvdtLIF" alt="" coords="207,22,273,49"/>
+<area shape="rect" id="node5" href="$classSNN.html#aec206ed9aaaed83f1d3170f012a86b70" title="Sets the Poisson spike rate for a group. For information on how to set up spikeRate, see Section Poisson spike generators in the Tutorial. " alt="" coords="171,73,309,100"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a04f52d2840105c8ccacf8d378d1695cf" title="Sets a spike rate. " alt="" coords="604,22,771,49"/>
+</map>

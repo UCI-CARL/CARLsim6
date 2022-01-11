@@ -1,0 +1,22 @@
+<map id="takeSnapshot" name="takeSnapshot">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#a879cc76753757f4df109f005aac872a5" title="writes each snapshot to connect file " alt="" coords="156,157,331,184"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#a02fd73d861ef2e4aabb38c0c9ff82947" title="init" alt="" coords="224,208,263,235"/>
+<area shape="rect" id="node18" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="SNN::getGroupGrid3D" alt="" coords="693,613,846,640"/>
+<area shape="rect" id="node4" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="SNN::getGroupNumNeurons" alt="" coords="399,5,588,32"/>
+<area shape="rect" id="node5" href="$classSNN.html#a821a04dec998f1fcebcc048d39cc8b21" title="returns whether synapses in connection are fixed (false) or plastic (true) " alt="" coords="406,56,581,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="379,107,608,133"/>
+<area shape="rect" id="node8" href="$classSNN.html#acdfe8b1c7c69be228cc51535cfec0215" title="required for homeostasis " alt="" coords="687,157,851,184"/>
+<area shape="rect" id="node9" href="$classSNN.html#aca55cbeeccd57d4b6de64ca8e1d7d2c5" title="function writes population weights from gIDpre to gIDpost to file fname in binary. " alt="" coords="429,208,557,235"/>
+<area shape="rect" id="node10" href="$classSNN.html#a5de043bd478d97d08d1671967cddc551" title="returns file pointer to error log " alt="" coords="428,259,559,285"/>
+<area shape="rect" id="node11" href="$classSNN.html#a618dd0ac460a947283a39c3044e727d6" title="returns file pointer to debug log " alt="" coords="425,309,562,336"/>
+<area shape="rect" id="node12" href="$classSNN.html#acd2fe569d2092f6e9cf624d18b93b1bf" title="returns file pointer to log file " alt="" coords="426,360,561,387"/>
+<area shape="rect" id="node7" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="699,107,840,133"/>
+<area shape="rect" id="node13" href="$classSNN.html#a2f4a65f43d2b15b984464dfb19959fe3" title="Sets the file pointers for all log files file pointer NULL means don&#39;t change it. ..." alt="" coords="709,208,829,235"/>
+<area shape="rect" id="node14" href="$classSNN.html#a44b05911f213714c351379021852e12a" title="find connection ID based on pre&#45;post group pair, O(N) " alt="" coords="701,259,838,285"/>
+<area shape="rect" id="node15" href="$classSNN.html#a37221c7881b5fa8d1d806804fb9521ab" title="SNN::getConnSTDPInfo" alt="" coords="686,309,853,336"/>
+<area shape="rect" id="node16" href="$classSNN.html#aee3e497537bc8121f6c0c8fb3730ae72" title="returns the RangeDelay struct of a connection " alt="" coords="695,360,844,387"/>
+<area shape="rect" id="node17" href="$classSNN.html#a317da03ce4b0b13d9621e277f468e058" title="Returns the delay information for all synaptic connections between a pre&#45;synaptic and a post&#45;synaptic..." alt="" coords="710,411,829,437"/>
+<area shape="rect" id="node19" href="$classSNN.html#a757c874860e9e4d5ce0716e76b1a3e78" title="SNN::getGroupId" alt="" coords="708,461,831,488"/>
+<area shape="rect" id="node20" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="696,512,843,539"/>
+<area shape="rect" id="node21" href="$classSNN.html#aa1c9457d6e17337cfc20cee263f1159f" title="SNN::getGroupNeuromodulatorInfo" alt="" coords="656,563,883,589"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="getConductanceConfig" name="getConductanceConfig">
+<area shape="rect" id="node2" href="$classSNN.html#a845adad4645977755e508610dc3c1464" title="checks whether a point pre lies in the receptive field for point post " alt="" coords="363,81,461,108"/>
+<area shape="rect" id="node11" href="$classSNN.html#aa1487d5e850f107e5b6890cf6933b7c1" title="isPoint3DinRF" alt="" coords="208,107,315,133"/>
+<area shape="rect" id="node3" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="521,5,625,32"/>
+<area shape="rect" id="node4" href="$classSpikeBuffer.html#adbf613d02805d9a0e54f115d2b0f48da" title="Reset buffer data. " alt="" coords="509,56,636,83"/>
+<area shape="rect" id="node6" href="$classSpikeBuffer.html#a91568181a88cf6248893e88275269313" title="pointer to the back of the spike buffer " alt="" coords="509,107,636,133"/>
+<area shape="rect" id="node8" href="$classSpikeBuffer.html#a4f84af934c8a89f48edf5bdcb9b24e0d" title="pointer to the front of the spike buffer " alt="" coords="511,161,635,188"/>
+<area shape="rect" id="node5" href="$classSpikeBuffer_1_1Impl.html#adbf613d02805d9a0e54f115d2b0f48da" title="SpikeBuffer::Impl::\lreset" alt="" coords="698,41,829,82"/>
+<area shape="rect" id="node7" href="$classSpikeBuffer_1_1Impl.html#afc0208313f3c3491b910a943c46c49d1" title="SpikeBuffer::Impl::back" alt="" coords="684,107,843,133"/>
+<area shape="rect" id="node9" href="$classSpikeBuffer_1_1Impl.html#a957018d0ce9dbff3f302ffd89e5841f6" title="SpikeBuffer::Impl::\lfront" alt="" coords="698,158,829,199"/>
+<area shape="rect" id="node10" href="$classSpikeBuffer_1_1Impl.html#a247bd0fb9923075af341c93f52ff7b9b" title="SpikeBuffer::Impl::\llength" alt="" coords="891,158,1021,199"/>
+</map>

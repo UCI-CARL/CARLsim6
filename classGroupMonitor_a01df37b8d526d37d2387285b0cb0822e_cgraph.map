@@ -1,0 +1,6 @@
+<map id="getDataVector" name="getDataVector">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="174,5,329,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitor.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="Recording status (true=recording, false=not recording) " alt="" coords="206,56,297,83"/>
+<area shape="rect" id="node5" href="$classGroupMonitorCore.html#a6329f81702cbc0600a85d228e16ad81a" title="get the group data " alt="" coords="160,107,343,149"/>
+<area shape="rect" id="node4" href="$classGroupMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="391,56,596,83"/>
+</map>

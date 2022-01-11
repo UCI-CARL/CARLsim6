@@ -1,0 +1,4 @@
+<map id="cudaDeviceDescription" name="cudaDeviceDescription">
+<area shape="rect" id="node2" href="$classCARLsim.html#abb10cfa3d0f3a246442e1187ecb837ae" title="Sets default values for STP params U, tau_u, and tau_x of a neuron group (pre&#45;synaptically) ..." alt="" coords="211,5,427,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#a24dba53ca8fc9891488d0b1e16f9fe08" title="isSimulationWithSTP" alt="" coords="245,56,392,83"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="setLogsFpCustom" name="setLogsFpCustom">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ae76e856c0d069408310ee843484c4913" title="CARLsim::Impl::setLogsFp\lCustom" alt="" coords="183,23,364,65"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="412,5,567,32"/>
+<area shape="rect" id="node4" href="$classSNN.html#a2f4a65f43d2b15b984464dfb19959fe3" title="Sets the file pointers for all log files file pointer NULL means don&#39;t change it. ..." alt="" coords="429,56,549,83"/>
+</map>

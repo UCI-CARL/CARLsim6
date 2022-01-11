@@ -1,0 +1,5 @@
+<map id="createGroupLIF" name="createGroupLIF">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="165,5,320,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#ab47cbdc62b1d4af153d9f8395cf5e5b1" title="Creates a group of LIF spiking neurons. " alt="" coords="168,56,317,83"/>
+<area shape="rect" id="node4" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="368,56,509,83"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="getNeuronMeanFiringRate" name="getNeuronMeanFiringRate">
+<area shape="rect" id="node2" href="$classSpikeMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="228,340,319,367"/>
+<area shape="rect" id="node7" href="$classSpikeMonitorCore.html#a005a2f884f6260054483d4fa6ed6ddbb" title="returns the number of recorded spikes of a specific neuron " alt="" coords="1096,416,1247,443"/>
+<area shape="rect" id="node9" href="$classSpikeMonitorCore.html#a9cf20c30ff0efdbc5e3c5194648a7fb3" title="returns the total recorded time in ms " alt="" coords="891,239,1048,266"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#af0ba89c38f6852cdf9d914687ad6a445" title="prints the AER vector in human&#45;readable format " alt="" coords="383,214,429,240"/>
+<area shape="rect" id="node13" href="$classSpikeMonitorCore.html#a6e116c2994e0449c41e56d03370fa54c" title="inserts a (time,neurId) tupel into the 2D spike vector " alt="" coords="367,467,445,494"/>
+<area shape="rect" id="node4" href="$classSNN.html#a5fd2b156623d78138bcb44167eabab78" title="SNN::getSimTime" alt="" coords="502,62,631,88"/>
+<area shape="rect" id="node5" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="493,112,640,139"/>
+<area shape="rect" id="node6" href="$classSpikeMonitorCore.html#af6c333e6cefff92d0e354eca70625cdc" title="returns the total number of recorded spikes in the group " alt="" coords="904,100,1035,127"/>
+<area shape="rect" id="node10" href="$classSpikeMonitorCore.html#ae62d623e8edfc6b05309256c1d825bbd" title="returns the recorded mean firing rate of the group " alt="" coords="688,239,843,266"/>
+<area shape="rect" id="node11" href="$classSpikeMonitorCore.html#ad0c4b32bb5cc0c7a8d95ed6023a2695f" title="computes the standard deviation of firing rates in the group " alt="" coords="495,315,638,342"/>
+<area shape="rect" id="node8" href="$classSpikeMonitorCore.html#abe76071e1ac3632d55f2455b239b3d12" title="returns recording mode " alt="" coords="1295,442,1367,468"/>
+<area shape="rect" id="node12" href="$classSpikeMonitorCore.html#a0fc20fcc5876030d796debd148ae7cee" title="returns a list of firing rates for all neurons in the group (sorted by neuron ID ascending) ..." alt="" coords="704,315,827,342"/>
+</map>

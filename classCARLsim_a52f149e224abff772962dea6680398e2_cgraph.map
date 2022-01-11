@@ -1,0 +1,8 @@
+<map id="getNumSynapticConnections" name="getNumSynapticConnections">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a52f149e224abff772962dea6680398e2" title="CARLsim::Impl::getNumSynaptic\lConnections" alt="" coords="245,49,463,90"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="553,5,707,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" title="CARLsim::Impl::getNumConnections" alt="" coords="511,56,749,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="1024,81,1253,108"/>
+<area shape="rect" id="node5" href="$classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" title="SNN::getNumConnections" alt="" coords="797,56,976,83"/>
+<area shape="rect" id="node7" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="1301,81,1443,108"/>
+</map>

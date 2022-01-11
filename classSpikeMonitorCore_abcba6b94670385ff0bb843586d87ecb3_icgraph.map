@@ -1,0 +1,4 @@
+<map id="getPercentSilentNeurons" name="getPercentSilentNeurons">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#abcba6b94670385ff0bb843586d87ecb3" title="returns the percentage of total neurons in group that are silent. " alt="" coords="220,5,389,47"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#a3e33677ab9388f1e907302d2a48fdc6b" title="returns the SpikeMonitor ID " alt="" coords="257,71,352,98"/>
+</map>

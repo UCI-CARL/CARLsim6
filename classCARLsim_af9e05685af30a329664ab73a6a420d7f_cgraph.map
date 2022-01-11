@@ -1,0 +1,11 @@
+<map id="setHomeostasis" name="setHomeostasis">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#af9e05685af30a329664ab73a6a420d7f" title="CARLsim::Impl::setHomeostasis" alt="" coords="171,85,385,112"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="CARLsim::Impl::getGroupName" alt="" coords="433,115,641,141"/>
+<area shape="rect" id="node4" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="716,5,871,32"/>
+<area shape="rect" id="node8" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="CARLsim::Impl::isPoisson\lGroup" alt="" coords="449,49,626,90"/>
+<area shape="rect" id="node10" href="$classSNN.html#ae51c28f77c75f2a5adab1b511465090f" title="Sets the homeostasis parameters. g is the grpID, enable=true(false) enables(disables) homeostasis..." alt="" coords="460,165,615,192"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="689,107,897,133"/>
+<area shape="rect" id="node7" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="720,157,867,184"/>
+<area shape="rect" id="node6" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="945,107,1092,133"/>
+<area shape="rect" id="node9" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="718,56,869,83"/>
+</map>

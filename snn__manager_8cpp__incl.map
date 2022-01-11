@@ -1,0 +1,26 @@
+<map id="snn_manager.cpp" name="snn_manager.cpp">
+<area shape="rect" id="node2" href="$snn_8h.html" title="snn.h" alt="" coords="1272,80,1326,107"/>
+<area shape="rect" id="node24" href="$spike__monitor_8h.html" title="spike_monitor.h" alt="" coords="179,237,294,263"/>
+<area shape="rect" id="node25" href="$neuron__monitor_8h.html" title="neuron_monitor.h" alt="" coords="963,237,1086,263"/>
+<area shape="rect" id="node26" href="$connection__monitor_8h.html" title="connection_monitor.h" alt="" coords="1910,237,2056,263"/>
+<area shape="rect" id="node27" href="$group__monitor_8h.html" title="group_monitor.h" alt="" coords="40,237,155,263"/>
+<area shape="rect" id="node40" href="$connection__monitor__core_8h.html" title="connection_monitor\l_core.h" alt="" coords="2228,229,2362,271"/>
+<area shape="rect" id="node42" href="$spike__monitor__core_8h.html" title="spike_monitor_core.h" alt="" coords="1568,237,1715,263"/>
+<area shape="rect" id="node43" href="$group__monitor__core_8h.html" title="group_monitor_core.h" alt="" coords="1739,237,1886,263"/>
+<area shape="rect" id="node44" href="$neuron__monitor__core_8h.html" title="neuron_monitor_core.h" alt="" coords="1390,237,1544,263"/>
+<area shape="rect" id="node45" href="$spike__buffer_8h.html" title="spike_buffer.h" alt="" coords="2262,80,2366,107"/>
+<area shape="rect" id="node47" href="$error__code_8h.html" title="error_code.h" alt="" coords="2390,80,2485,107"/>
+<area shape="rect" id="node11" href="$carlsim_8h.html" title="carlsim.h" alt="" coords="571,155,646,181"/>
+<area shape="rect" id="node23" href="$poisson__rate_8h.html" title="poisson_rate.h" alt="" coords="1160,237,1267,263"/>
+<area shape="rect" id="node32" href="$callback__core_8h.html" title="callback_core.h" alt="" coords="889,155,1002,181"/>
+<area shape="rect" id="node33" href="$snn__definitions_8h.html" title="snn_definitions.h" alt="" coords="1027,155,1147,181"/>
+<area shape="rect" id="node34" href="$snn__datastructures_8h.html" title="snn_datastructures.h" alt="" coords="2043,155,2187,181"/>
+<area shape="rect" id="node16" href="$carlsim__definitions_8h.html" title="carlsim_definitions.h" alt="" coords="2023,319,2164,345"/>
+<area shape="rect" id="node17" href="$carlsim__datastructures_8h.html" title="carlsim_datastructures.h" alt="" coords="723,319,888,345"/>
+<area shape="rect" id="node20" href="$carlsim__api_8h.html" title="carlsim_api.h" alt="" coords="876,468,975,495"/>
+<area shape="rect" id="node22" href="$callback_8h.html" title="callback.h" alt="" coords="666,237,748,263"/>
+<area shape="rect" id="node28" href="$linear__algebra_8h.html" title="linear_algebra.h" alt="" coords="585,319,698,345"/>
+<area shape="rect" id="node19" href="$user__errors_8h.html" title="user_errors.h" alt="" coords="756,393,855,420"/>
+<area shape="rect" id="node21" href="$carlsim__conf__api_8h.html" title="carlsim_conf_api.h" alt="" coords="860,543,991,569"/>
+<area shape="rect" id="node35" href="$cuda__version__control_8h.html" title="cuda_version_control.h" alt="" coords="2386,237,2542,263"/>
+</map>

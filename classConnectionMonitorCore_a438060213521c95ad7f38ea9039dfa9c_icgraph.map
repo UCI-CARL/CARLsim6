@@ -1,0 +1,4 @@
+<map id="getNumNeuronsPre" name="getNumNeuronsPre">
+<area shape="rect" id="node2" href="$classConnectionMonitor.html#a438060213521c95ad7f38ea9039dfa9c" title="Returns the number of pre&#45;synaptic neurons. " alt="" coords="191,5,329,47"/>
+<area shape="rect" id="node3" href="$classConnectionMonitor.html#aa1f808f36c992cd6bd10ffe41a3053e8" title="Returns the number of outgoing synapses for a specific pre&#45;synaptic neuron. " alt="" coords="377,5,516,47"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="getWeightRange" name="getWeightRange">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a4afa2f85f5939e81ec45c7760e23d932" title="CARLsim::Impl::getWeight\lRange" alt="" coords="172,5,351,47"/>
+<area shape="rect" id="node6" href="$classSNN.html#a1234b840b62d280e9131486f4fad0d93" title="temporary getter to return pointer to stpx[] " alt="" coords="225,71,298,98"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a4afa2f85f5939e81ec45c7760e23d932" title="returns the RangeWeight struct for a specific connection ID " alt="" coords="399,13,583,39"/>
+<area shape="rect" id="node4" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="631,5,775,47"/>
+<area shape="rect" id="node5" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="823,5,967,47"/>
+</map>

@@ -1,0 +1,12 @@
+<map id="getWeightRange" name="getWeightRange">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a4afa2f85f5939e81ec45c7760e23d932" title="CARLsim::Impl::getWeight\lRange" alt="" coords="172,49,351,90"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="441,5,595,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" title="CARLsim::Impl::getNumConnections" alt="" coords="399,56,637,83"/>
+<area shape="rect" id="node8" href="$classSNN.html#a4afa2f85f5939e81ec45c7760e23d932" title="returns RangeWeight struct of a connection " alt="" coords="440,119,596,145"/>
+<area shape="rect" id="node5" href="$classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" title="SNN::getNumConnections" alt="" coords="687,43,865,69"/>
+<area shape="rect" id="node6" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="915,43,1144,69"/>
+<area shape="rect" id="node7" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="1192,68,1333,95"/>
+<area shape="rect" id="node9" href="$classSNN.html#a3c23ef1a19946fdd9c096367a45ac48e" title="Sets the integration method and the number of integration steps per 1ms simulation time step..." alt="" coords="685,144,867,171"/>
+<area shape="rect" id="node10" href="$classSpikeBuffer.html#ac6bf1a12c5c98ddec5b65e07fe74cabe" title="advance to next time step " alt="" coords="715,195,837,221"/>
+<area shape="rect" id="node11" href="$classSpikeBuffer_1_1Impl.html#ac6bf1a12c5c98ddec5b65e07fe74cabe" title="SpikeBuffer::Impl::step" alt="" coords="951,195,1107,221"/>
+</map>

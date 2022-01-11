@@ -1,0 +1,25 @@
+<map id="setLastUpdated" name="setLastUpdated">
+<area shape="rect" id="node2" href="$classNeuronMonitorCore.html#aaeb6a64ac5d9fd3b7a979f0f12ec87dc" title="returns true if state buffers are close to maxAllowedBufferSize " alt="" coords="180,34,267,60"/>
+<area shape="rect" id="node3" href="$classNeuronMonitorCore.html#a30f19d45f562061cc82c04e7289ba956" title="returns the approximate size of the state vectors in bytes " alt="" coords="327,8,428,35"/>
+<area shape="rect" id="node4" href="$classNeuronMonitorCore.html#a3a0e4e77a2b83f5dd0e86aafcf227595" title="returns the total accumulated time " alt="" coords="168,84,279,111"/>
+<area shape="rect" id="node5" href="$classNeuronMonitorCore.html#a4d3c2252230fe74bf03bcc3045ff8972" title="writeNeuronFileHeader" alt="" coords="653,135,807,162"/>
+<area shape="rect" id="node7" href="$classNeuronMonitorCore.html#a388f572c62279f839ee138a9afbdeeb5" title="prints neuron states in human&#45;readable format " alt="" coords="200,248,247,275"/>
+<area shape="rect" id="node6" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="SNN::getGroupGrid3D" alt="" coords="869,135,1023,162"/>
+<area shape="rect" id="node8" href="$classNeuronMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="332,311,423,338"/>
+<area shape="rect" id="node9" href="$classNeuronMonitorCore.html#a743a4ad47ef60bc593cc9882bd4ffb57" title="inserts a (time,neurId) tupel into the D Neuron State vector " alt="" coords="885,520,1007,547"/>
+<area shape="rect" id="node10" href="$classNeuronMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording Neuron state " alt="" coords="480,311,587,338"/>
+<area shape="rect" id="node11" href="$classNeuronMonitorCore.html#ac8bb3912a3ce86b15842e79d0b421204" title="deletes data from the neuron state vector " alt="" coords="705,186,755,212"/>
+<area shape="rect" id="node23" href="$classNeuronMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="stops recording Neuron state " alt="" coords="480,362,587,388"/>
+<area shape="rect" id="node24" href="$classNeuronMonitorCore.html#a5113f6b476e3e3544ecbffefa313234d" title="sets pointer to Neuron file " alt="" coords="476,186,591,212"/>
+<area shape="rect" id="node12" href="$classSNN.html#a8dd319bdd9a54e38f9254cbec099c30a" title="copy required neuron state values from ??? buffer to ??? buffer " alt="" coords="639,439,821,466"/>
+<area shape="rect" id="node15" href="$classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" title="SNN::getSimTimeMs" alt="" coords="873,267,1019,294"/>
+<area shape="rect" id="node21" href="$classSNN.html#a85facd004ae52ee52e72451b5d874fae" title="SNN::getSimTimeSec" alt="" coords="870,318,1022,344"/>
+<area shape="rect" id="node13" href="$classNeuronMonitorCore.html#a102f8a26e80c556ee9a2ac503cd38ec9" title="returns timestamp of last NeuronMonitor update " alt="" coords="889,470,1003,496"/>
+<area shape="rect" id="node14" href="$classSNN.html#a5fd2b156623d78138bcb44167eabab78" title="SNN::getSimTime" alt="" coords="881,368,1011,395"/>
+<area shape="rect" id="node22" href="$classNeuronMonitorCore.html#a84e392c48ef98bece7aa0dc7af992360" title="returns a pointer to the neuron state file " alt="" coords="889,419,1003,446"/>
+<area shape="rect" id="node16" href="$classSNN.html#a866a9c6e2b2630816fc66adda1381655" title="Returns pointer to existing SpikeMonitor object, NULL else. " alt="" coords="1089,191,1243,218"/>
+<area shape="rect" id="node18" href="$classSNN.html#ad25000cd1457c9b9869122534ada6fdd" title="SNN::getSpikeMonitorCore" alt="" coords="1075,242,1257,268"/>
+<area shape="rect" id="node19" href="$classSNN.html#a0eb87addfa5eebdfee4bd6b927b8945f" title="Returns pointer to existing NeuronMonitor object, NULL else. " alt="" coords="1085,292,1247,319"/>
+<area shape="rect" id="node20" href="$classSNN.html#a9aa73fa9478383c4af1eed8387d82db9" title="SNN::getNeuronMonitorCore" alt="" coords="1071,343,1261,370"/>
+<area shape="rect" id="node17" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="1309,267,1456,294"/>
+</map>

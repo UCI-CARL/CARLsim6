@@ -1,0 +1,12 @@
+<map id="setConnectFileId" name="setConnectFileId">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#acf625cff31a558c7d6786773d0c2693c" title="getUpdateTimeIntervalSec" alt="" coords="179,15,357,42"/>
+<area shape="rect" id="node9" href="$classSNN.html#a9773c7b8f7fbb53c92ec5623ea99cb69" title="sets up a network monitor registered with a callback to process the spikes. " alt="" coords="175,67,361,94"/>
+<area shape="rect" id="node3" href="$classSNN.html#a68862cb4e6c749219c20c38aeab06986" title="polls connection weights " alt="" coords="409,13,616,39"/>
+<area shape="rect" id="node4" href="$classSNN.html#a3df37c7539f784fe7a939c5da922f41b" title="run the simulation for n sec " alt="" coords="708,13,835,39"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" title="CARLsim::Impl::runNetwork" alt="" coords="927,13,1113,39"/>
+<area shape="rect" id="node6" href="$classCARLsim.html#aafb2d44405c96aafe089f96ff867018d" title="run the simulation for time=(nSec*seconds + nMsec*milliseconds) " alt="" coords="1161,13,1316,39"/>
+<area shape="rect" id="node7" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="1364,5,1508,47"/>
+<area shape="rect" id="node8" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="1556,5,1700,47"/>
+<area shape="rect" id="node10" href="$classCARLsim_1_1Impl.html#a012dcdbbe9769131d98ddf680743bff3" title="CARLsim::Impl::setConnection\lMonitor" alt="" coords="411,64,615,105"/>
+<area shape="rect" id="node11" href="$classCARLsim.html#a0f4f273689484d0ceaa5a40f64fc82fc" title="Sets a connection monitor for a group, custom ConnectionMonitor class. " alt="" coords="664,71,879,98"/>
+</map>

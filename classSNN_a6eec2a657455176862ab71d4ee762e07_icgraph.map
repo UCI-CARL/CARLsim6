@@ -1,0 +1,4 @@
+<map id="connect" name="connect">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#afed01f52e943df5e5476428c4fbef8f7" title="CARLsim::Impl::connect" alt="" coords="121,5,288,32"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a30b16b93d57551dcde0559e8a4e98e27" title="Connects a presynaptic to a postsynaptic group using fixed/plastic weights and a range of delay value..." alt="" coords="336,5,469,32"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="getFanIn" name="getFanIn">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="129,5,283,32"/>
+<area shape="rect" id="node3" href="$classConnectionMonitor.html#a7d71d4ec2b08c52054491ec818ad6ed7" title="Returns the number of post&#45;synaptic neurons. " alt="" coords="134,56,278,83"/>
+<area shape="rect" id="node5" href="$classConnectionMonitorCore.html#a46e73089106a296d8a0b2c4a5066f079" title="returns number of incoming synapses to post&#45;synaptic neuron " alt="" coords="127,107,285,149"/>
+<area shape="rect" id="node4" href="$classConnectionMonitorCore.html#a7d71d4ec2b08c52054491ec818ad6ed7" title="returns number of neurons in post&#45;synaptic group " alt="" coords="333,49,492,90"/>
+</map>

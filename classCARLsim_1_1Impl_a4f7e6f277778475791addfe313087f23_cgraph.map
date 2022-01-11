@@ -1,0 +1,8 @@
+<map id="getSimTimeMsec" name="getSimTimeMsec">
+<area shape="rect" id="node2" href="$classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" title="SNN::getSimTimeMs" alt="" coords="177,81,324,108"/>
+<area shape="rect" id="node3" href="$classSNN.html#a866a9c6e2b2630816fc66adda1381655" title="Returns pointer to existing SpikeMonitor object, NULL else. " alt="" coords="391,5,544,32"/>
+<area shape="rect" id="node5" href="$classSNN.html#ad25000cd1457c9b9869122534ada6fdd" title="SNN::getSpikeMonitorCore" alt="" coords="377,56,558,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a0eb87addfa5eebdfee4bd6b927b8945f" title="Returns pointer to existing NeuronMonitor object, NULL else. " alt="" coords="386,107,549,133"/>
+<area shape="rect" id="node7" href="$classSNN.html#a9aa73fa9478383c4af1eed8387d82db9" title="SNN::getNeuronMonitorCore" alt="" coords="372,157,563,184"/>
+<area shape="rect" id="node4" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="611,81,757,108"/>
+</map>

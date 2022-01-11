@@ -1,0 +1,7 @@
+<map id="readFramePoisson" name="readFramePoisson">
+<area shape="rect" id="node2" href="$classPoissonRate.html#a99ac51f213a6d1c8487b1519106df970" title="Sets the mean firing rate of a particular neuron ID. " alt="" coords="184,71,335,98"/>
+<area shape="rect" id="node3" href="$classPoissonRate_1_1Impl.html#a99ac51f213a6d1c8487b1519106df970" title="PoissonRate::Impl::\lsetRate" alt="" coords="383,64,521,105"/>
+<area shape="rect" id="node4" href="$classPoissonRate_1_1Impl.html#a39ade841ecc17249712f693ef8ffaa19" title="PoissonRate::Impl::\lsetRates" alt="" coords="569,5,708,47"/>
+<area shape="rect" id="node5" href="$classPoissonRate_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" title="PoissonRate::Impl::\lgetNumNeurons" alt="" coords="756,35,895,76"/>
+<area shape="rect" id="node6" href="$classPoissonRate_1_1Impl.html#a0bc9734220de46306a6db7b2b33f7902" title="PoissonRate::Impl::\lisOnGPU" alt="" coords="569,123,708,164"/>
+</map>

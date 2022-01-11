@@ -1,0 +1,6 @@
+<map id="getRecordingTotalTime" name="getRecordingTotalTime">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="240,5,395,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitor.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="Recording status (true=recording, false=not recording) " alt="" coords="272,56,363,83"/>
+<area shape="rect" id="node5" href="$classGroupMonitorCore.html#a422a2ad820a50c6cb6747cfcf3e5981f" title="returns the total recorded time in ms " alt="" coords="211,107,424,149"/>
+<area shape="rect" id="node4" href="$classGroupMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="472,56,677,83"/>
+</map>

@@ -1,0 +1,51 @@
+<map id="runNetwork" name="runNetwork">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" title="CARLsim::Impl::runNetwork" alt="" coords="143,1036,329,1063"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="377,1011,532,1037"/>
+<area shape="rect" id="node4" href="$classSNN.html#a3df37c7539f784fe7a939c5da922f41b" title="run the simulation for n sec " alt="" coords="391,1061,518,1088"/>
+<area shape="rect" id="node5" href="$classSNN.html#a68862cb4e6c749219c20c38aeab06986" title="polls connection weights " alt="" coords="580,241,787,268"/>
+<area shape="rect" id="node22" href="$classSNN.html#a876185f4e003c98fb227861e7b84fded" title="copy required spikes from firing buffer to spike buffer " alt="" coords="1074,805,1249,832"/>
+<area shape="rect" id="node36" href="$classSNN.html#a14317186d53aeff564b126a41a333d3c" title="access group status (currently the concentration of neuromodulator) " alt="" coords="1073,1192,1249,1219"/>
+<area shape="rect" id="node45" href="$classSNN.html#a8dd319bdd9a54e38f9254cbec099c30a" title="copy required neuron state values from ??? buffer to ??? buffer " alt="" coords="1070,1568,1253,1595"/>
+<area shape="rect" id="node6" href="$classSNN.html#a44b05911f213714c351379021852e12a" title="find connection ID based on pre&#45;post group pair, O(N) " alt="" coords="859,63,996,89"/>
+<area shape="rect" id="node7" href="$classConnectionMonitorCore.html#acf625cff31a558c7d6786773d0c2693c" title="ConnectionMonitorCore\l::getUpdateTimeIntervalSec" alt="" coords="835,394,1020,435"/>
+<area shape="rect" id="node12" href="$classConnectionMonitorCore.html#a879cc76753757f4df109f005aac872a5" title="writes each snapshot to connect file " alt="" coords="1313,55,1496,97"/>
+<area shape="rect" id="node20" href="$classSNN.html#a5fd2b156623d78138bcb44167eabab78" title="SNN::getSimTime" alt="" coords="1340,948,1469,975"/>
+<area shape="rect" id="node21" href="$classSNN.html#a592ba98ba647dc5ae0aba0d26241fef8" title="SNN::getWeightMatrix2D" alt="" coords="1319,393,1490,420"/>
+<area shape="rect" id="node8" href="$classConnectionMonitorCore.html#a991b87f83f8f3a210ab97c6090eeaad9" title="returns absolute sum of all weight changes since last snapshot " alt="" coords="1068,622,1255,663"/>
+<area shape="rect" id="node9" href="$classConnectionMonitorCore.html#a388f572c62279f839ee138a9afbdeeb5" title="prints current weight state as 2D matrix (non&#45;existent synapses: NAN, existent but zero weigth: 0..." alt="" coords="1082,165,1241,206"/>
+<area shape="rect" id="node10" href="$classConnectionMonitorCore.html#ab4eedda550b6dfb0be0456a30830f067" title="ConnectionMonitorCore\l::printSparse" alt="" coords="1082,230,1241,271"/>
+<area shape="rect" id="node11" href="$classConnectionMonitorCore.html#ab64d9ff17fece61e850660bdd4ca00d2" title="ConnectionMonitorCore\l::takeSnapshot" alt="" coords="1082,557,1241,598"/>
+<area shape="rect" id="node13" href="$classConnectionMonitorCore.html#a02fd73d861ef2e4aabb38c0c9ff82947" title="ConnectionMonitorCore\l::init" alt="" coords="1325,327,1484,369"/>
+<area shape="rect" id="node15" href="$classConnectionMonitorCore.html#ac8bb3912a3ce86b15842e79d0b421204" title="deletes data from the 2D weight matrix " alt="" coords="1082,295,1241,337"/>
+<area shape="rect" id="node16" href="$classConnectionMonitorCore.html#a43f41ade383159b5ece84bd43a77fbad" title="updates an entry in the current weight matrix (called by CARLsim::updateConnectionMonitor) ..." alt="" coords="1082,361,1241,402"/>
+<area shape="rect" id="node17" href="$classConnectionMonitorCore.html#ae21cabe9bfa12c5defe528c888094368" title="updates timestamp of the snapshots, returns true if update was needed " alt="" coords="1082,426,1241,467"/>
+<area shape="rect" id="node18" href="$classConnectionMonitorCore.html#a5e62c217cf681fc744ef481c41f36206" title="sets pointer to connection file " alt="" coords="1082,491,1241,533"/>
+<area shape="rect" id="node19" href="$classConnectionMonitorCore.html#a90d83641a405b71b3652c01fb3ee5f0f" title="sets time update interval (seconds) for periodically storing weights to file " alt="" coords="1069,739,1254,781"/>
+<area shape="rect" id="node14" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="SNN::getGroupNumNeurons" alt="" coords="1571,443,1761,469"/>
+<area shape="rect" id="node23" href="$classSpikeMonitorCore.html#a102f8a26e80c556ee9a2ac503cd38ec9" title="returns timestamp of last SpikeMonitor update " alt="" coords="1316,882,1493,923"/>
+<area shape="rect" id="node24" href="$classSpikeMonitorCore.html#a3a0e4e77a2b83f5dd0e86aafcf227595" title="returns the total accumulated time " alt="" coords="1555,497,1777,524"/>
+<area shape="rect" id="node25" href="$classSpikeMonitorCore.html#aaeb6a64ac5d9fd3b7a979f0f12ec87dc" title="returns true if spike buffer is close to maxAllowedBufferSize " alt="" coords="1567,604,1765,631"/>
+<area shape="rect" id="node27" href="$classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" title="SNN::getSimTimeMs" alt="" coords="1331,1217,1478,1244"/>
+<area shape="rect" id="node30" href="$classSNN.html#a85facd004ae52ee52e72451b5d874fae" title="SNN::getSimTimeSec" alt="" coords="1329,1335,1481,1361"/>
+<area shape="rect" id="node31" href="$classSpikeMonitorCore.html#a38f87732cc929797d9648e68cd509f1b" title="sets timestamp of last SpikeMonitor update " alt="" coords="1316,546,1493,587"/>
+<area shape="rect" id="node32" href="$classSpikeMonitorCore.html#a46187d03667c0fa3cc4dc3a654ee52e8" title="returns a pointer to the spike file " alt="" coords="1312,663,1497,705"/>
+<area shape="rect" id="node33" href="$classSpikeMonitorCore.html#abe76071e1ac3632d55f2455b239b3d12" title="returns recording mode " alt="" coords="1840,755,2024,781"/>
+<area shape="rect" id="node34" href="$classSpikeMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="1303,831,1506,857"/>
+<area shape="rect" id="node35" href="$classSpikeMonitorCore.html#a6e116c2994e0449c41e56d03370fa54c" title="inserts a (time,neurId) tupel into the 2D spike vector " alt="" coords="1571,805,1761,832"/>
+<area shape="rect" id="node26" href="$classSpikeMonitorCore.html#a30f19d45f562061cc82c04e7289ba956" title="returns the approximate size of the spike vector in bytes " alt="" coords="1825,579,2039,605"/>
+<area shape="rect" id="node28" href="$classSNN.html#a866a9c6e2b2630816fc66adda1381655" title="Returns pointer to existing SpikeMonitor object, NULL else. " alt="" coords="1589,1192,1743,1219"/>
+<area shape="rect" id="node29" href="$classSNN.html#ad25000cd1457c9b9869122534ada6fdd" title="SNN::getSpikeMonitorCore" alt="" coords="1575,1243,1757,1269"/>
+<area shape="rect" id="node37" href="$classGroupMonitorCore.html#a22cd4deca28f0e9e8dd2e576b75b02a8" title="returns timestamp of last GroupMonitor update " alt="" coords="1315,1437,1494,1478"/>
+<area shape="rect" id="node38" href="$classGroupMonitorCore.html#a964e44e2f5503d2e5aa92c2a1e08b487" title="sets timestamp of last GroupMonitor update " alt="" coords="1315,1502,1494,1543"/>
+<area shape="rect" id="node39" href="$classGroupMonitorCore.html#ae9a0ff72777f33d1ae3125990e45f89b" title="returns a pointer to the group data file " alt="" coords="1310,999,1499,1041"/>
+<area shape="rect" id="node40" href="$classGroupMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="1829,1091,2035,1117"/>
+<area shape="rect" id="node41" href="$classGroupMonitorCore.html#a614d294d5208a18dd7fcbcaaf30e8842" title="GroupMonitorCore::isInAllMode" alt="" coords="1303,1167,1507,1193"/>
+<area shape="rect" id="node42" href="$classGroupMonitorCore.html#affd44eca3bd6d1a7fc62759157df43ac" title="inserts group data (time, value) into the vectors , if monitor is in DA_MODE " alt="" coords="1570,1116,1762,1143"/>
+<area shape="rect" id="node43" href="$classSpikeGeneratorCore.html#ad75a73e6aa374ced00cb16b1a5a2eb25" title="controls spike generation using a callback mechanism " alt="" coords="1335,1269,1475,1310"/>
+<area shape="rect" id="node44" href="$classSpikeBuffer.html#a5922ba31daa2c306a5c1ecbf8d19220d" title="Schedule a spike. " alt="" coords="1329,1385,1480,1412"/>
+<area shape="rect" id="node46" href="$classNeuronMonitorCore.html#a102f8a26e80c556ee9a2ac503cd38ec9" title="returns timestamp of last NeuronMonitor update " alt="" coords="1333,1619,1476,1661"/>
+<area shape="rect" id="node47" href="$classNeuronMonitorCore.html#a38f87732cc929797d9648e68cd509f1b" title="sets timestamp of last NeuronMonitor update " alt="" coords="1333,1685,1476,1726"/>
+<area shape="rect" id="node48" href="$classNeuronMonitorCore.html#a84e392c48ef98bece7aa0dc7af992360" title="returns a pointer to the neuron state file " alt="" coords="1333,1750,1476,1791"/>
+<area shape="rect" id="node49" href="$classNeuronMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="1333,1815,1476,1857"/>
+<area shape="rect" id="node50" href="$classNeuronMonitorCore.html#a743a4ad47ef60bc593cc9882bd4ffb57" title="inserts a (time,neurId) tupel into the D Neuron State vector " alt="" coords="1595,1815,1737,1857"/>
+</map>

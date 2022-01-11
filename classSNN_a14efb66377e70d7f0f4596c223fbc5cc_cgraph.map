@@ -1,0 +1,4 @@
+<map id="getNumConnections" name="getNumConnections">
+<area shape="rect" id="node2" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="195,5,387,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="435,5,539,32"/>
+</map>

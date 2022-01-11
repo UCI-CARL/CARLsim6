@@ -1,0 +1,10 @@
+<map id="getNumNeuronsWithFiringRate" name="getNumNeuronsWithFiringRate">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#a81857cacf011acddd1791775c34ae4fb" title="Returns the number of neurons that fall within this particular min/max range (inclusive). " alt="" coords="267,5,469,47"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#a576be2fdd29d7b433d7c3645cb9f3b1f" title="returns number of neurons that didn&#39;t spike while recording " alt="" coords="293,71,443,98"/>
+<area shape="rect" id="node5" href="$classSpikeMonitorCore.html#a3e33677ab9388f1e907302d2a48fdc6b" title="returns the SpikeMonitor ID " alt="" coords="572,122,667,149"/>
+<area shape="rect" id="node6" href="$classSpikeMonitorCore.html#ad8dc4f8eb304b0bcbeaf80076f892b72" title="returns percentage of neurons whose firing rate was in [min,max] during recording ..." alt="" coords="257,173,479,199"/>
+<area shape="rect" id="node8" href="$classSpikeMonitorCore.html#abcba6b94670385ff0bb843586d87ecb3" title="returns percentage of neurons that didn&#39;t spike during recording " alt="" coords="285,223,451,250"/>
+<area shape="rect" id="node4" href="$classSpikeMonitor.html#a576be2fdd29d7b433d7c3645cb9f3b1f" title="returns the number of neurons that are silent. " alt="" coords="527,56,712,97"/>
+<area shape="rect" id="node7" href="$classSpikeMonitor.html#ad8dc4f8eb304b0bcbeaf80076f892b72" title="returns the percentage of total neurons in that are in the range specified by the user..." alt="" coords="535,173,704,215"/>
+<area shape="rect" id="node9" href="$classSpikeMonitor.html#abcba6b94670385ff0bb843586d87ecb3" title="returns the percentage of total neurons in group that are silent. " alt="" coords="535,239,704,280"/>
+</map>

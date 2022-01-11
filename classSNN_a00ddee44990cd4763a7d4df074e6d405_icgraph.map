@@ -1,0 +1,6 @@
+<map id="getNumNeurons" name="getNumNeurons">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" title="CARLsim::Impl::getNumNeurons" alt="" coords="171,42,385,69"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#aba1eac7ee46971637423204a63e9892b" title="CARLsim::Impl::getNeuron\lLocation3D" alt="" coords="435,5,615,47"/>
+<area shape="rect" id="node5" href="$classCARLsim.html#a00ddee44990cd4763a7d4df074e6d405" title="returns the total number of allocated neurons in the network " alt="" coords="433,71,616,98"/>
+<area shape="rect" id="node4" href="$classCARLsim.html#aba1eac7ee46971637423204a63e9892b" title="returns the 3D location a neuron codes for " alt="" coords="664,13,877,39"/>
+</map>

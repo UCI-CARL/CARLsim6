@@ -1,0 +1,26 @@
+<map id="isRecording" name="isRecording">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#ac8bb3912a3ce86b15842e79d0b421204" title="Truncates the 2D spike vector. " alt="" coords="229,5,280,32"/>
+<area shape="rect" id="node3" href="$classSpikeMonitor.html#ae62d623e8edfc6b05309256c1d825bbd" title="Returns the mean firing rate of the entire neuronal population. " alt="" coords="177,56,332,83"/>
+<area shape="rect" id="node6" href="$classSpikeMonitor.html#ad0c4b32bb5cc0c7a8d95ed6023a2695f" title="Returns the standard deviation of firing rates in the entire neuronal population. ..." alt="" coords="183,107,326,133"/>
+<area shape="rect" id="node7" href="$classSpikeMonitor.html#af6c333e6cefff92d0e354eca70625cdc" title="Returns the total number of spikes in the group. " alt="" coords="189,157,320,184"/>
+<area shape="rect" id="node8" href="$classSpikeMonitor.html#ab245e956a782d7d5fc8dc4257d94ecfa" title="returns the largest neuronal mean firing rate in the group " alt="" coords="192,208,317,235"/>
+<area shape="rect" id="node9" href="$classSpikeMonitor.html#a30bedc8503ea2e68ce042291f25fd0f8" title="returns the smallest neuronal mean firing rate in the group " alt="" coords="194,259,315,285"/>
+<area shape="rect" id="node10" href="$classSpikeMonitor.html#a0fc20fcc5876030d796debd148ae7cee" title="Returns the average firing rate of all the neurons in the group as a vector of floats. " alt="" coords="193,309,316,336"/>
+<area shape="rect" id="node11" href="$classSpikeMonitor.html#aed09edf4583ac05d42fccc7e3556e3c5" title="returns the mean firing rate of a specific neuron in the group " alt="" coords="167,360,342,387"/>
+<area shape="rect" id="node12" href="$classSpikeMonitor.html#a005a2f884f6260054483d4fa6ed6ddbb" title="returns the total number of spikes of a specific neuron in the group " alt="" coords="179,411,330,437"/>
+<area shape="rect" id="node13" href="$classSpikeMonitor.html#a81857cacf011acddd1791775c34ae4fb" title="Returns the number of neurons that fall within this particular min/max range (inclusive). " alt="" coords="153,461,357,488"/>
+<area shape="rect" id="node14" href="$classSpikeMonitor.html#ad8dc4f8eb304b0bcbeaf80076f892b72" title="returns the percentage of total neurons in that are in the range specified by the user..." alt="" coords="144,512,365,539"/>
+<area shape="rect" id="node15" href="$classSpikeMonitor.html#a576be2fdd29d7b433d7c3645cb9f3b1f" title="returns the number of neurons that are silent. " alt="" coords="179,563,330,589"/>
+<area shape="rect" id="node16" href="$classSpikeMonitor.html#abcba6b94670385ff0bb843586d87ecb3" title="returns the percentage of total neurons in group that are silent. " alt="" coords="171,613,338,640"/>
+<area shape="rect" id="node17" href="$classSpikeMonitor.html#a64ccdac1d5dacee8b6e45e8a2a9fc40b" title="returns the 2D spike vector " alt="" coords="191,664,319,691"/>
+<area shape="rect" id="node18" href="$classSpikeMonitor.html#ac0d8bd3f92fa0eae87b37f9245e0e13a" title="Returns all the neuronal mean firing rates in ascending order. " alt="" coords="175,715,335,741"/>
+<area shape="rect" id="node19" href="$classSpikeMonitor.html#aa1bdcf4ac22267e52bcb8c3cba660c84" title="prints the 2D spike vector. " alt="" coords="231,765,278,792"/>
+<area shape="rect" id="node20" href="$classSpikeMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="201,816,308,843"/>
+<area shape="rect" id="node21" href="$classSpikeMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="Ends a recording period. " alt="" coords="201,867,308,893"/>
+<area shape="rect" id="node22" href="$classSpikeMonitor.html#a9cf20c30ff0efdbc5e3c5194648a7fb3" title="Returns the total recording time (ms) " alt="" coords="176,917,333,944"/>
+<area shape="rect" id="node23" href="$classSpikeMonitor.html#a14818da15db1d5686bdbdf82a66f4cd7" title="Returns the simulation time (ms) of the last call to startRecording() " alt="" coords="164,968,345,995"/>
+<area shape="rect" id="node24" href="$classSpikeMonitor.html#ac6adcc8c66fe2f54f06578f4b6d6b331" title="Returns the simulation time (ms) of the first call to startRecording() " alt="" coords="177,1019,333,1045"/>
+<area shape="rect" id="node25" href="$classSpikeMonitor.html#a4c576b7fb37addf9ed35d3f0cae56836" title="Returns the simulation time (ms) of the last call to stopRecording() " alt="" coords="177,1069,332,1096"/>
+<area shape="rect" id="node4" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="413,809,557,850"/>
+<area shape="rect" id="node5" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="605,809,749,850"/>
+</map>

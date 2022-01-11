@@ -1,0 +1,7 @@
+<map id="getGroupGrid3D" name="getGroupGrid3D">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ac13b30c40669d3cb8264bd6e211b449d" title="CARLsim::Impl::getGroupGrid3D" alt="" coords="169,56,384,83"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="459,5,613,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="432,56,640,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="SNN::getGroupGrid3D" alt="" coords="459,107,613,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="688,56,835,83"/>
+</map>

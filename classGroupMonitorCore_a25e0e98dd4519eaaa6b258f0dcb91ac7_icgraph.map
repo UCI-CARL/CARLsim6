@@ -1,0 +1,5 @@
+<map id="stopRecording" name="stopRecording">
+<area shape="rect" id="node2" href="$classGroupMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="Ends a recording period. " alt="" coords="160,5,352,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="193,56,319,83"/>
+<area shape="rect" id="node4" href="$classGroupMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="400,56,613,83"/>
+</map>

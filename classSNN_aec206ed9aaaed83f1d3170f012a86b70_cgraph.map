@@ -1,0 +1,4 @@
+<map id="setSpikeRate" name="setSpikeRate">
+<area shape="rect" id="node2" href="$classPoissonRate.html#a00ddee44990cd4763a7d4df074e6d405" title="Returns the number of neurons for which to generate Poisson spike trains. " alt="" coords="155,13,355,39"/>
+<area shape="rect" id="node3" href="$classPoissonRate_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" title="PoissonRate::Impl::\lgetNumNeurons" alt="" coords="403,5,541,47"/>
+</map>

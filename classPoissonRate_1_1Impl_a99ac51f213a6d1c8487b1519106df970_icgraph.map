@@ -1,0 +1,5 @@
+<map id="setRate" name="setRate">
+<area shape="rect" id="node2" href="$classPoissonRate.html#a99ac51f213a6d1c8487b1519106df970" title="Sets the mean firing rate of a particular neuron ID. " alt="" coords="121,13,272,39"/>
+<area shape="rect" id="node3" href="$classVisualStimulus_1_1Impl.html#a7c85c4aea5e909cdc928547d8fd62b2e" title="VisualStimulus::Impl\l::readFramePoisson" alt="" coords="320,5,463,47"/>
+<area shape="rect" id="node4" href="$classVisualStimulus.html#aac6cca8793faebe5b1e8c533d12744e2" title="Reads the next image frame and returns a pointer to a PoissonRate object. " alt="" coords="511,5,689,47"/>
+</map>

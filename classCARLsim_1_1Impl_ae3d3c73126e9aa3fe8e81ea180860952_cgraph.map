@@ -1,0 +1,10 @@
+<map id="setNeuronParametersLIF" name="setNeuronParametersLIF">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="getGroupName" alt="" coords="269,107,379,133"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="475,5,629,32"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="isPoissonGroup" alt="" coords="267,56,381,83"/>
+<area shape="rect" id="node9" href="$classSNN.html#a9d89d9bf7ced3aa5b19d356bfb4c3687" title="Sets neuron parameters for a group of LIF spiking neurons. " alt="" coords="221,157,427,184"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="497,107,607,133"/>
+<area shape="rect" id="node6" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="479,157,625,184"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="677,107,824,133"/>
+<area shape="rect" id="node8" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="477,56,627,83"/>
+</map>

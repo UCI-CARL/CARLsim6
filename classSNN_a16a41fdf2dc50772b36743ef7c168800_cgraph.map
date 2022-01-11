@@ -1,0 +1,5 @@
+<map id="getNetworkName" name="getNetworkName">
+<area shape="rect" id="node2" href="$classSNN.html#aba1eac7ee46971637423204a63e9892b" title="getNeuronLocation3D" alt="" coords="177,5,325,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#a193ffb3ea51ef7c5af59ebedd68dfa3c" title="the inverse of getNeuronLocation3D " alt="" coords="205,56,298,83"/>
+<area shape="rect" id="node4" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="getGroupNumNeurons" alt="" coords="373,56,525,83"/>
+</map>

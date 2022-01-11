@@ -1,0 +1,4 @@
+<map id="getTotalAbsWeightChange" name="getTotalAbsWeightChange">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#a991b87f83f8f3a210ab97c6090eeaad9" title="returns absolute sum of all weight changes since last snapshot " alt="" coords="232,5,419,47"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#a730c0ec47d470c8920ab57288c31ca3b" title="calculates weight changes since last snapshot and reports them in 2D weight change matrix ..." alt="" coords="467,5,625,47"/>
+</map>

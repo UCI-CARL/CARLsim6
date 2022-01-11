@@ -1,0 +1,6 @@
+<map id="printSparse" name="printSparse">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#a1025cfe9db2e3f4eddc8a93928ec1a99" title="returns the timestamp of the current snapshot (not necessarily CARLsim::getSimTime) ..." alt="" coords="149,5,334,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="168,56,315,83"/>
+<area shape="rect" id="node4" href="$classConnectionMonitorCore.html#a17077ba6a308bcd6bef84e186594f470" title="returns the time passed between current and last snapshot " alt="" coords="141,107,341,133"/>
+<area shape="rect" id="node5" href="$classConnectionMonitorCore.html#a730c0ec47d470c8920ab57288c31ca3b" title="calculates weight changes since last snapshot and reports them in 2D weight change matrix ..." alt="" coords="172,157,311,184"/>
+</map>

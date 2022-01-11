@@ -1,0 +1,5 @@
+<map id="setConductances" name="setConductances">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a580acd7bfec3145c00014b0bd1742e2e" title="CARLsim::Impl::setConductances" alt="" coords="177,31,400,57"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="451,5,606,32"/>
+<area shape="rect" id="node4" href="$classSNN.html#a2f35a57571cb1a5ba505246fb706311e" title="Sets custom values for conductance decay () or disables conductances alltogether These will be applie..." alt="" coords="448,56,609,83"/>
+</map>

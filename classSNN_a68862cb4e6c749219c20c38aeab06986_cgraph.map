@@ -1,0 +1,37 @@
+<map id="updateConnectionMonitor" name="updateConnectionMonitor">
+<area shape="rect" id="node2" href="$classSNN.html#a44b05911f213714c351379021852e12a" title="find connection ID based on pre&#45;post group pair, O(N) " alt="" coords="1233,336,1333,363"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#acf625cff31a558c7d6786773d0c2693c" title="ConnectionMonitorCore\l::getUpdateTimeIntervalSec" alt="" coords="224,477,409,518"/>
+<area shape="rect" id="node12" href="$classConnectionMonitorCore.html#a879cc76753757f4df109f005aac872a5" title="writes each snapshot to connect file " alt="" coords="705,717,887,758"/>
+<area shape="rect" id="node35" href="$classSNN.html#a5fd2b156623d78138bcb44167eabab78" title="getSimTime" alt="" coords="750,839,842,865"/>
+<area shape="rect" id="node36" href="$classSNN.html#a592ba98ba647dc5ae0aba0d26241fef8" title="getWeightMatrix2D" alt="" coords="729,893,863,920"/>
+<area shape="rect" id="node4" href="$classConnectionMonitorCore.html#a991b87f83f8f3a210ab97c6090eeaad9" title="returns absolute sum of all weight changes since last snapshot " alt="" coords="457,326,644,367"/>
+<area shape="rect" id="node6" href="$classConnectionMonitorCore.html#a388f572c62279f839ee138a9afbdeeb5" title="prints current weight state as 2D matrix (non&#45;existent synapses: NAN, existent but zero weigth: 0..." alt="" coords="471,26,630,67"/>
+<area shape="rect" id="node9" href="$classConnectionMonitorCore.html#ab4eedda550b6dfb0be0456a30830f067" title="ConnectionMonitorCore\l::printSparse" alt="" coords="471,143,630,185"/>
+<area shape="rect" id="node11" href="$classConnectionMonitorCore.html#ab64d9ff17fece61e850660bdd4ca00d2" title="ConnectionMonitorCore\l::takeSnapshot" alt="" coords="471,639,630,681"/>
+<area shape="rect" id="node13" href="$classConnectionMonitorCore.html#a02fd73d861ef2e4aabb38c0c9ff82947" title="ConnectionMonitorCore\l::init" alt="" coords="717,430,875,471"/>
+<area shape="rect" id="node30" href="$classConnectionMonitorCore.html#ac8bb3912a3ce86b15842e79d0b421204" title="deletes data from the 2D weight matrix " alt="" coords="471,261,630,302"/>
+<area shape="rect" id="node31" href="$classConnectionMonitorCore.html#a43f41ade383159b5ece84bd43a77fbad" title="updates an entry in the current weight matrix (called by CARLsim::updateConnectionMonitor) ..." alt="" coords="471,443,630,485"/>
+<area shape="rect" id="node32" href="$classConnectionMonitorCore.html#ae21cabe9bfa12c5defe528c888094368" title="updates timestamp of the snapshots, returns true if update was needed " alt="" coords="471,509,630,550"/>
+<area shape="rect" id="node33" href="$classConnectionMonitorCore.html#a5e62c217cf681fc744ef481c41f36206" title="sets pointer to connection file " alt="" coords="471,574,630,615"/>
+<area shape="rect" id="node34" href="$classConnectionMonitorCore.html#a90d83641a405b71b3652c01fb3ee5f0f" title="sets time update interval (seconds) for periodically storing weights to file " alt="" coords="458,858,643,899"/>
+<area shape="rect" id="node5" href="$classConnectionMonitorCore.html#a730c0ec47d470c8920ab57288c31ca3b" title="calculates weight changes since last snapshot and reports them in 2D weight change matrix ..." alt="" coords="717,294,875,335"/>
+<area shape="rect" id="node7" href="$classConnectionMonitorCore.html#a1025cfe9db2e3f4eddc8a93928ec1a99" title="returns the timestamp of the current snapshot (not necessarily CARLsim::getSimTime) ..." alt="" coords="699,26,893,67"/>
+<area shape="rect" id="node8" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="getGroupName" alt="" coords="1227,92,1338,119"/>
+<area shape="rect" id="node10" href="$classConnectionMonitorCore.html#a17077ba6a308bcd6bef84e186594f470" title="returns the time passed between current and last snapshot " alt="" coords="692,143,900,185"/>
+<area shape="rect" id="node27" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="getGroupGrid3D" alt="" coords="1225,767,1341,793"/>
+<area shape="rect" id="node14" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="getGroupNumNeurons" alt="" coords="968,311,1120,337"/>
+<area shape="rect" id="node15" href="$classSNN.html#a821a04dec998f1fcebcc048d39cc8b21" title="returns whether synapses in connection are fixed (false) or plastic (true) " alt="" coords="975,361,1113,388"/>
+<area shape="rect" id="node16" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="948,260,1140,287"/>
+<area shape="rect" id="node18" href="$classSNN.html#acdfe8b1c7c69be228cc51535cfec0215" title="required for homeostasis " alt="" coords="1219,412,1346,439"/>
+<area shape="rect" id="node19" href="$classSNN.html#aca55cbeeccd57d4b6de64ca8e1d7d2c5" title="function writes population weights from gIDpre to gIDpost to file fname in binary. " alt="" coords="999,463,1089,489"/>
+<area shape="rect" id="node20" href="$classSNN.html#a5de043bd478d97d08d1671967cddc551" title="returns file pointer to error log " alt="" coords="997,513,1091,540"/>
+<area shape="rect" id="node21" href="$classSNN.html#a618dd0ac460a947283a39c3044e727d6" title="returns file pointer to debug log " alt="" coords="994,564,1094,591"/>
+<area shape="rect" id="node22" href="$classSNN.html#acd2fe569d2092f6e9cf624d18b93b1bf" title="returns file pointer to log file " alt="" coords="995,615,1093,641"/>
+<area shape="rect" id="node17" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="1231,260,1335,287"/>
+<area shape="rect" id="node23" href="$classSNN.html#a2f4a65f43d2b15b984464dfb19959fe3" title="Sets the file pointers for all log files file pointer NULL means don&#39;t change it. ..." alt="" coords="1241,463,1324,489"/>
+<area shape="rect" id="node24" href="$classSNN.html#a37221c7881b5fa8d1d806804fb9521ab" title="getConnSTDPInfo" alt="" coords="1218,513,1347,540"/>
+<area shape="rect" id="node25" href="$classSNN.html#aee3e497537bc8121f6c0c8fb3730ae72" title="returns the RangeDelay struct of a connection " alt="" coords="1227,564,1339,591"/>
+<area shape="rect" id="node26" href="$classSNN.html#a317da03ce4b0b13d9621e277f468e058" title="Returns the delay information for all synaptic connections between a pre&#45;synaptic and a post&#45;synaptic..." alt="" coords="1242,615,1323,641"/>
+<area shape="rect" id="node28" href="$classSNN.html#a757c874860e9e4d5ce0716e76b1a3e78" title="getGroupId" alt="" coords="1239,665,1326,692"/>
+<area shape="rect" id="node29" href="$classSNN.html#aa1c9457d6e17337cfc20cee263f1159f" title="getGroupNeuromodulatorInfo" alt="" coords="1188,716,1377,743"/>
+</map>

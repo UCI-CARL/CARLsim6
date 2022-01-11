@@ -1,0 +1,10 @@
+<map id="getNumWeightsInRange" name="getNumWeightsInRange">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="228,59,383,86"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#a6c63078d9c2226cd48f51e4d4ed0d4db" title="returns number of weights with values in range e[minVal,maxVal] (inclusive) " alt="" coords="219,111,392,152"/>
+<area shape="rect" id="node4" href="$classConnectionMonitorCore.html#aa096d9983144b3323d6f370e37b0859c" title="returns min weight in the connection (getCurrent=false: RangeWeight.min, true: current smallest) ..." alt="" coords="879,5,1037,47"/>
+<area shape="rect" id="node5" href="$classConnectionMonitorCore.html#a30f10c789ec0f272848c2a68cd35fa97" title="returns max weight in the connection (getCurrent=false: RangeWeight.max, true: current largest) ..." alt="" coords="879,81,1037,123"/>
+<area shape="rect" id="node6" href="$classConnectionMonitorCore.html#a7373a8cecde25ccd48b3df967b5b0417" title="returns number of synapses that exist in the connection " alt="" coords="440,169,599,211"/>
+<area shape="rect" id="node7" href="$classConnectionMonitorCore.html#ad094dca7a9d2ac2c46e89f1035706eba" title="returns number of weights with &gt;=minAbsChanged weight change since last snapshot " alt="" coords="651,169,827,211"/>
+<area shape="rect" id="node9" href="$classConnectionMonitorCore.html#af0258258ab62c21e22a4bc98dcaa050e" title="returns number of weights that have a certain value " alt="" coords="647,52,831,93"/>
+<area shape="rect" id="node8" href="$classConnectionMonitorCore.html#a730c0ec47d470c8920ab57288c31ca3b" title="calculates weight changes since last snapshot and reports them in 2D weight change matrix ..." alt="" coords="879,169,1037,211"/>
+</map>

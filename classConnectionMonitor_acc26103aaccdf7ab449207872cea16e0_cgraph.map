@@ -1,0 +1,3 @@
+<map id="getMaxWeight" name="getMaxWeight">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#a30f10c789ec0f272848c2a68cd35fa97" title="returns max weight in the connection (getCurrent=false: RangeWeight.max, true: current largest) ..." alt="" coords="160,5,319,47"/>
+</map>

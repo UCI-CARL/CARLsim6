@@ -1,0 +1,8 @@
+<map id="getAllFiringRatesSorted" name="getAllFiringRatesSorted">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#ac0d8bd3f92fa0eae87b37f9245e0e13a" title="Returns all the neuronal mean firing rates in ascending order. " alt="" coords="213,5,384,47"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#ab245e956a782d7d5fc8dc4257d94ecfa" title="returns the largest recorded firing rate " alt="" coords="236,71,361,98"/>
+<area shape="rect" id="node6" href="$classSpikeMonitorCore.html#a30bedc8503ea2e68ce042291f25fd0f8" title="returns the smallest recorded firing rate " alt="" coords="238,122,359,149"/>
+<area shape="rect" id="node4" href="$classSpikeMonitor.html#ab245e956a782d7d5fc8dc4257d94ecfa" title="returns the largest neuronal mean firing rate in the group " alt="" coords="432,46,641,73"/>
+<area shape="rect" id="node5" href="$classSpikeMonitorCore.html#a1f1e21d6e994001e7b7e6acbb88990be" title="returns number of neurons in the group " alt="" coords="467,97,606,123"/>
+<area shape="rect" id="node7" href="$classSpikeMonitor.html#a30bedc8503ea2e68ce042291f25fd0f8" title="returns the smallest neuronal mean firing rate in the group " alt="" coords="434,147,639,174"/>
+</map>

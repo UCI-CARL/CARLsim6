@@ -1,0 +1,17 @@
+<map id="getNumNeurons" name="getNumNeurons">
+<area shape="rect" id="node2" href="$classPoissonRate_1_1Impl.html#a62fd49ae5772f076bdf6cdec1aeee691" title="getRate" alt="" coords="237,5,305,32"/>
+<area shape="rect" id="node4" href="$classPoissonRate_1_1Impl.html#af4d8939f2440ba0d11ea4807f93ec36e" title="getRates" alt="" coords="233,56,308,83"/>
+<area shape="rect" id="node6" href="$classPoissonRate_1_1Impl.html#a99ac51f213a6d1c8487b1519106df970" title="setRate" alt="" coords="464,107,532,133"/>
+<area shape="rect" id="node10" href="$classPoissonRate_1_1Impl.html#a39ade841ecc17249712f693ef8ffaa19" title="setRates" alt="" coords="233,157,308,184"/>
+<area shape="rect" id="node12" href="$classPoissonRate.html#a00ddee44990cd4763a7d4df074e6d405" title="Returns the number of neurons for which to generate Poisson spike trains. " alt="" coords="171,233,371,260"/>
+<area shape="rect" id="node3" href="$classPoissonRate.html#a62fd49ae5772f076bdf6cdec1aeee691" title="Returns the mean firing rate of a specific neuron ID. " alt="" coords="423,5,573,32"/>
+<area shape="rect" id="node5" href="$classPoissonRate.html#aec035517f446c72905211ccbe1cec98a" title="Returns a vector of firing rates, one element per neuron. " alt="" coords="419,56,577,83"/>
+<area shape="rect" id="node7" href="$classPoissonRate.html#a99ac51f213a6d1c8487b1519106df970" title="Sets the mean firing rate of a particular neuron ID. " alt="" coords="649,107,800,133"/>
+<area shape="rect" id="node8" href="$classVisualStimulus_1_1Impl.html#a7c85c4aea5e909cdc928547d8fd62b2e" title="VisualStimulus::Impl\l::readFramePoisson" alt="" coords="884,99,1027,141"/>
+<area shape="rect" id="node9" href="$classVisualStimulus.html#aac6cca8793faebe5b1e8c533d12744e2" title="Reads the next image frame and returns a pointer to a PoissonRate object. " alt="" coords="1087,99,1265,141"/>
+<area shape="rect" id="node11" href="$classPoissonRate.html#a39ade841ecc17249712f693ef8ffaa19" title="Assigns the same mean firing rate to all neurons. " alt="" coords="419,157,577,184"/>
+<area shape="rect" id="node13" href="$classCARLsim_1_1Impl.html#aec206ed9aaaed83f1d3170f012a86b70" title="CARLsim::Impl::setSpikeRate" alt="" coords="625,259,824,285"/>
+<area shape="rect" id="node15" href="$snn__cpu__module_8cpp.html#ac42c21b5ae4b743f8e00b7dfe04dcfe3" title="dvdtLIF" alt="" coords="465,259,531,285"/>
+<area shape="rect" id="node16" href="$classSNN.html#aec206ed9aaaed83f1d3170f012a86b70" title="Sets the Poisson spike rate for a group. For information on how to set up spikeRate, see Section Poisson spike generators in the Tutorial. " alt="" coords="429,309,567,336"/>
+<area shape="rect" id="node14" href="$classCARLsim.html#a04f52d2840105c8ccacf8d378d1695cf" title="Sets a spike rate. " alt="" coords="872,259,1039,285"/>
+</map>

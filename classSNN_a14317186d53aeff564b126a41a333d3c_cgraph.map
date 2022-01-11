@@ -1,0 +1,22 @@
+<map id="updateGroupMonitor" name="updateGroupMonitor">
+<area shape="rect" id="node2" href="$classGroupMonitorCore.html#a22cd4deca28f0e9e8dd2e576b75b02a8" title="returns timestamp of last GroupMonitor update " alt="" coords="205,5,383,47"/>
+<area shape="rect" id="node3" href="$classSNN.html#a5fd2b156623d78138bcb44167eabab78" title="getSimTime" alt="" coords="248,71,340,98"/>
+<area shape="rect" id="node4" href="$classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" title="getSimTimeMs" alt="" coords="239,122,349,149"/>
+<area shape="rect" id="node10" href="$classSNN.html#a85facd004ae52ee52e72451b5d874fae" title="getSimTimeSec" alt="" coords="237,173,351,199"/>
+<area shape="rect" id="node11" href="$classGroupMonitorCore.html#a964e44e2f5503d2e5aa92c2a1e08b487" title="sets timestamp of last GroupMonitor update " alt="" coords="205,224,383,265"/>
+<area shape="rect" id="node12" href="$classGroupMonitorCore.html#ae9a0ff72777f33d1ae3125990e45f89b" title="returns a pointer to the group data file " alt="" coords="199,289,389,331"/>
+<area shape="rect" id="node14" href="$classGroupMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="699,355,904,382"/>
+<area shape="rect" id="node16" href="$classGroupMonitorCore.html#a614d294d5208a18dd7fcbcaaf30e8842" title="GroupMonitorCore::isInAllMode" alt="" coords="192,406,396,433"/>
+<area shape="rect" id="node17" href="$classGroupMonitorCore.html#affd44eca3bd6d1a7fc62759157df43ac" title="inserts group data (time, value) into the vectors , if monitor is in DA_MODE " alt="" coords="451,406,643,433"/>
+<area shape="rect" id="node18" href="$classSpikeGeneratorCore.html#ad75a73e6aa374ced00cb16b1a5a2eb25" title="controls spike generation using a callback mechanism " alt="" coords="224,508,364,549"/>
+<area shape="rect" id="node20" href="$classSpikeBuffer.html#a5922ba31daa2c306a5c1ecbf8d19220d" title="Schedule a spike. " alt="" coords="219,574,369,601"/>
+<area shape="rect" id="node5" href="$classSNN.html#a866a9c6e2b2630816fc66adda1381655" title="Returns pointer to existing SpikeMonitor object, NULL else. " alt="" coords="489,46,605,73"/>
+<area shape="rect" id="node7" href="$classSNN.html#ad25000cd1457c9b9869122534ada6fdd" title="getSpikeMonitorCore" alt="" coords="475,97,619,123"/>
+<area shape="rect" id="node8" href="$classSNN.html#a0eb87addfa5eebdfee4bd6b927b8945f" title="Returns pointer to existing NeuronMonitor object, NULL else. " alt="" coords="485,147,610,174"/>
+<area shape="rect" id="node9" href="$classSNN.html#a9aa73fa9478383c4af1eed8387d82db9" title="getNeuronMonitorCore" alt="" coords="471,198,624,225"/>
+<area shape="rect" id="node6" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="746,122,857,149"/>
+<area shape="rect" id="node13" href="$classGroupMonitorCore.html#ac455fddf546e804839052af1614b4b15" title="sets pointer to group data file " alt="" coords="453,289,642,331"/>
+<area shape="rect" id="node15" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="getGroupGrid3D" alt="" coords="743,297,859,323"/>
+<area shape="rect" id="node19" href="$classSpikeGenerator.html#a356c7b25be9b3ced55d390d2baea3140" title="controls spike generation using a callback mechanism " alt="" coords="444,515,651,542"/>
+<area shape="rect" id="node21" href="$classSpikeBuffer_1_1Impl.html#a5922ba31daa2c306a5c1ecbf8d19220d" title="SpikeBuffer::Impl::\lschedule" alt="" coords="482,567,613,608"/>
+</map>

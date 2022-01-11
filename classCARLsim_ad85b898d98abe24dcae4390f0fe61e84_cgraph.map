@@ -1,0 +1,7 @@
+<map id="getGroupNumNeurons" name="getGroupNumNeurons">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" title="CARLsim::Impl::getGroupNum\lNeurons" alt="" coords="205,49,407,90"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="481,5,636,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="455,56,663,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="SNN::getGroupNumNeurons" alt="" coords="464,107,653,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="711,56,857,83"/>
+</map>

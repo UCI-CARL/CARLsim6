@@ -1,0 +1,5 @@
+<map id="done" name="done">
+<area shape="rect" id="node2" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="iterate" alt="" coords="161,13,219,39"/>
+<area shape="rect" id="node4" href="$classSimpleWeightTuner.html#ade73a38ce8a5e65b1b16989a265e3d9f" title="Determines whether a termination criterion has been met. " alt="" coords="104,63,276,90"/>
+<area shape="rect" id="node3" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="324,5,468,47"/>
+</map>

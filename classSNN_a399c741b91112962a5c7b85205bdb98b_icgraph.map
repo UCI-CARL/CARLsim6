@@ -1,0 +1,4 @@
+<map id="getNumNeuronsReg" name="getNumNeuronsReg">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a399c741b91112962a5c7b85205bdb98b" title="CARLsim::Impl::getNumNeuronsReg" alt="" coords="195,5,433,32"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a399c741b91112962a5c7b85205bdb98b" title="returns the total number of regular (Izhikevich) neurons " alt="" coords="481,5,688,32"/>
+</map>

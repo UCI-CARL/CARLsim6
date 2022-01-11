@@ -1,0 +1,10 @@
+<map id="getNumWeightsWithValue" name="getNumWeightsWithValue">
+<area shape="rect" id="node2" href="$classConnectionMonitor.html#af0258258ab62c21e22a4bc98dcaa050e" title="Returns the number of weights in the connection with a particular value. " alt="" coords="229,16,405,57"/>
+<area shape="rect" id="node4" href="$classConnectionMonitorCore.html#a7373a8cecde25ccd48b3df967b5b0417" title="returns number of synapses that exist in the connection " alt="" coords="254,86,381,113"/>
+<area shape="rect" id="node3" href="$classConnectionMonitor.html#aaae3bcd84ecd00b25b7c8e03ac37e5c0" title="Returns the percentage of weights in the connection with a particular value. " alt="" coords="667,5,860,47"/>
+<area shape="rect" id="node5" href="$classConnectionMonitor.html#a7373a8cecde25ccd48b3df967b5b0417" title="Returns the number of allocated synapses. " alt="" coords="467,71,605,112"/>
+<area shape="rect" id="node8" href="$classConnectionMonitorCore.html#a6c63078d9c2226cd48f51e4d4ed0d4db" title="returns number of weights with values in range e[minVal,maxVal] (inclusive) " alt="" coords="453,137,619,163"/>
+<area shape="rect" id="node6" href="$classConnectionMonitor.html#ab8aa0b542059991a270030b6528d92bd" title="Returns the percentage of weights that have changed since the last snapshot. " alt="" coords="671,71,856,112"/>
+<area shape="rect" id="node7" href="$classConnectionMonitor.html#a173c90da62c3cb84f7e8c9db9a00d950" title="Returns the percentage of weights whose values are within some range (inclusive) " alt="" coords="908,159,1091,200"/>
+<area shape="rect" id="node9" href="$classConnectionMonitor.html#ad005723dcdb0848e308eb2483c2dab2c" title="Returns the number of weights in the connection whose values are within some range (inclusive) ..." alt="" coords="681,188,846,229"/>
+</map>

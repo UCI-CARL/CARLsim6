@@ -1,0 +1,9 @@
+<map id="isConnectionPlastic" name="isConnectionPlastic">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a821a04dec998f1fcebcc048d39cc8b21" title="CARLsim::Impl::isConnection\lPlastic" alt="" coords="192,49,388,90"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="478,5,633,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" title="CARLsim::Impl::getNumConnections" alt="" coords="436,56,675,83"/>
+<area shape="rect" id="node8" href="$classSNN.html#a821a04dec998f1fcebcc048d39cc8b21" title="returns whether synapses in connection are fixed (false) or plastic (true) " alt="" coords="468,107,643,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" title="SNN::getNumConnections" alt="" coords="723,56,901,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="949,56,1179,83"/>
+<area shape="rect" id="node7" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="1227,56,1368,83"/>
+</map>

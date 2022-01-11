@@ -1,0 +1,8 @@
+<map id="getDelayRange" name="getDelayRange">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="165,5,320,32"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" title="getNumConnections" alt="" coords="172,56,313,83"/>
+<area shape="rect" id="node7" href="$classSNN.html#aee3e497537bc8121f6c0c8fb3730ae72" title="returns the RangeDelay struct of a connection " alt="" coords="168,107,317,133"/>
+<area shape="rect" id="node4" href="$classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" title="SNN::getNumConnections" alt="" coords="368,56,547,83"/>
+<area shape="rect" id="node5" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="595,56,824,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="872,56,1013,83"/>
+</map>

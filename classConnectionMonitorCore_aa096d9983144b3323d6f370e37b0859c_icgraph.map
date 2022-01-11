@@ -1,0 +1,13 @@
+<map id="getMinWeight" name="getMinWeight">
+<area shape="rect" id="node2" href="$classConnectionMonitor.html#a45de31acfefa093a6156b7d09108a093" title="Returns the min weight in the connection. " alt="" coords="169,5,308,47"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#a6c63078d9c2226cd48f51e4d4ed0d4db" title="returns number of weights with values in range e[minVal,maxVal] (inclusive) " alt="" coords="156,122,321,149"/>
+<area shape="rect" id="node6" href="$classConnectionMonitorCore.html#af0258258ab62c21e22a4bc98dcaa050e" title="returns number of weights that have a certain value " alt="" coords="369,59,545,86"/>
+<area shape="rect" id="node12" href="$classConnectionMonitorCore.html#a8a5954a3717d51fa8730788e182cc345" title="returns pointer to connection file " alt="" coords="178,173,299,199"/>
+<area shape="rect" id="node4" href="$classConnectionMonitor.html#ad005723dcdb0848e308eb2483c2dab2c" title="Returns the number of weights in the connection whose values are within some range (inclusive) ..." alt="" coords="817,180,983,221"/>
+<area shape="rect" id="node9" href="$classConnectionMonitorCore.html#a7373a8cecde25ccd48b3df967b5b0417" title="returns number of synapses that exist in the connection " alt="" coords="618,122,745,149"/>
+<area shape="rect" id="node5" href="$classConnectionMonitor.html#a173c90da62c3cb84f7e8c9db9a00d950" title="Returns the percentage of weights whose values are within some range (inclusive) " alt="" coords="1036,180,1219,221"/>
+<area shape="rect" id="node7" href="$classConnectionMonitor.html#af0258258ab62c21e22a4bc98dcaa050e" title="Returns the number of weights in the connection with a particular value. " alt="" coords="593,52,769,93"/>
+<area shape="rect" id="node8" href="$classConnectionMonitor.html#aaae3bcd84ecd00b25b7c8e03ac37e5c0" title="Returns the percentage of weights in the connection with a particular value. " alt="" coords="1031,49,1224,91"/>
+<area shape="rect" id="node10" href="$classConnectionMonitor.html#a7373a8cecde25ccd48b3df967b5b0417" title="Returns the number of allocated synapses. " alt="" coords="831,115,969,156"/>
+<area shape="rect" id="node11" href="$classConnectionMonitor.html#ab8aa0b542059991a270030b6528d92bd" title="Returns the percentage of weights that have changed since the last snapshot. " alt="" coords="1035,115,1220,156"/>
+</map>

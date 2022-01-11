@@ -1,0 +1,51 @@
+<map id="getNumGroups" name="getNumGroups">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="164,609,372,636"/>
+<area shape="rect" id="node42" href="$classSNN.html#a866a9c6e2b2630816fc66adda1381655" title="Returns pointer to existing SpikeMonitor object, NULL else. " alt="" coords="210,1184,326,1211"/>
+<area shape="rect" id="node45" href="$classSNN.html#ad25000cd1457c9b9869122534ada6fdd" title="getSpikeMonitorCore" alt="" coords="196,1235,340,1261"/>
+<area shape="rect" id="node46" href="$classSNN.html#a0eb87addfa5eebdfee4bd6b927b8945f" title="Returns pointer to existing NeuronMonitor object, NULL else. " alt="" coords="205,1285,331,1312"/>
+<area shape="rect" id="node48" href="$classSNN.html#a9aa73fa9478383c4af1eed8387d82db9" title="getNeuronMonitorCore" alt="" coords="191,1336,345,1363"/>
+<area shape="rect" id="node49" href="$classSNN.html#aa9a9c5646dd11beb60fcf70d2216024a" title="returns whether group has homeostasis enabled (true) or not (false) " alt="" coords="183,1133,353,1160"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" title="CARLsim::Impl::connectCompartments" alt="" coords="755,995,1007,1021"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#af614535178ba3d0a11d4a6bda3fa5413" title="CARLsim::Impl::getConductanceAMPA" alt="" coords="437,267,690,293"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#a450adf3cd56dd307b86c7d33df5afffd" title="CARLsim::Impl::getConductanceNMDA" alt="" coords="436,368,691,395"/>
+<area shape="rect" id="node9" href="$classCARLsim_1_1Impl.html#aaf0866addc7106a9d3ca39fe467af659" title="CARLsim::Impl::getConductance\lGABAa" alt="" coords="456,419,671,461"/>
+<area shape="rect" id="node11" href="$classCARLsim_1_1Impl.html#a917e6c84361a393ba5752f365cce008f" title="CARLsim::Impl::getConductance\lGABAb" alt="" coords="456,602,671,643"/>
+<area shape="rect" id="node13" href="$classCARLsim_1_1Impl.html#a63f122c6ae63a6d02a3fb8bace721910" title="CARLsim::Impl::getDelays" alt="" coords="474,668,653,695"/>
+<area shape="rect" id="node15" href="$classCARLsim_1_1Impl.html#ac13b30c40669d3cb8264bd6e211b449d" title="CARLsim::Impl::getGroupGrid3D" alt="" coords="456,719,671,745"/>
+<area shape="rect" id="node17" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="CARLsim::Impl::getGroupName" alt="" coords="459,485,667,512"/>
+<area shape="rect" id="node30" href="$classCARLsim_1_1Impl.html#acda1b88993a1c30fefeb2d6cf762154a" title="CARLsim::Impl::getGroupStart\lNeuronId" alt="" coords="463,821,664,862"/>
+<area shape="rect" id="node31" href="$classCARLsim_1_1Impl.html#a12040462a7fa56b1cbc871265b3f2f8c" title="CARLsim::Impl::getGroupEnd\lNeuronId" alt="" coords="465,886,661,927"/>
+<area shape="rect" id="node32" href="$classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" title="CARLsim::Impl::getGroupNum\lNeurons" alt="" coords="463,1017,664,1058"/>
+<area shape="rect" id="node33" href="$classCARLsim_1_1Impl.html#af750970a60eaa5f0cb82ae57c279443c" title="CARLsim::Impl::getNeuron\lLocation3D" alt="" coords="791,1046,971,1087"/>
+<area shape="rect" id="node34" href="$classCARLsim_1_1Impl.html#a8f28281023666c073fff6141def960b5" title="CARLsim::Impl::getNeuronId" alt="" coords="468,33,659,60"/>
+<area shape="rect" id="node35" href="$classCARLsim_1_1Impl.html#aa1c9457d6e17337cfc20cee263f1159f" title="CARLsim::Impl::getGroupNeuromodulatorInfo" alt="" coords="420,84,707,111"/>
+<area shape="rect" id="node36" href="$classCARLsim_1_1Impl.html#aa2f49d6a802e4b3697bb20ef5ee51690" title="CARLsim::Impl::getSpikeMonitor" alt="" coords="456,1184,671,1211"/>
+<area shape="rect" id="node37" href="$classCARLsim_1_1Impl.html#aa9a9c5646dd11beb60fcf70d2216024a" title="CARLsim::Impl::isGroupWith\lHomeostasis" alt="" coords="467,951,659,993"/>
+<area shape="rect" id="node38" href="$classCARLsim_1_1Impl.html#a31ec8880e31fbcb9d002d713ce0d8f1d" title="CARLsim::Impl::isExcitatory\lGroup" alt="" coords="469,135,658,177"/>
+<area shape="rect" id="node39" href="$classCARLsim_1_1Impl.html#a3f0193605d59ef263b682a468bbcbf87" title="CARLsim::Impl::isInhibitory\lGroup" alt="" coords="472,201,655,242"/>
+<area shape="rect" id="node40" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="CARLsim::Impl::isPoisson\lGroup" alt="" coords="475,537,652,578"/>
+<area shape="rect" id="node41" href="$classCARLsim.html#a292bdee57fec7c77ec4c15ea3f508d60" title="returns the number of groups in the network " alt="" coords="476,317,651,344"/>
+<area shape="rect" id="node4" href="$classCARLsim.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" title="make a compartmental connection between two compartmentally enabled groups Note: all compartmentally ..." alt="" coords="1055,995,1273,1021"/>
+<area shape="rect" id="node6" href="$classCARLsim.html#a9f12565a3b01482ccba3b63c5d6c3279" title="gets AMPA vector of a group " alt="" coords="771,56,991,83"/>
+<area shape="rect" id="node8" href="$classCARLsim.html#ab251be3aba6d73b79fdb0d44019b1790" title="gets NMDA vector of a group " alt="" coords="769,107,992,133"/>
+<area shape="rect" id="node10" href="$classCARLsim.html#a42c7f8460a85cfb8566a1959da9a925d" title="gets GABAa vector of a group " alt="" coords="767,157,994,184"/>
+<area shape="rect" id="node12" href="$classCARLsim.html#aa50bf7b25bc7c5c164e2a11ee763796e" title="gets GABAb vector of a group " alt="" coords="767,843,994,869"/>
+<area shape="rect" id="node14" href="$classCARLsim.html#aab97629d22d95919c0a44591aa272fbc" title="gets delays " alt="" coords="807,893,954,920"/>
+<area shape="rect" id="node16" href="$classCARLsim.html#ac13b30c40669d3cb8264bd6e211b449d" title="returns the 3D grid struct of a group " alt="" coords="790,944,971,971"/>
+<area shape="rect" id="node18" href="$classCARLsim_1_1Impl.html#afed01f52e943df5e5476428c4fbef8f7" title="CARLsim::Impl::connect" alt="" coords="797,792,964,819"/>
+<area shape="rect" id="node19" href="$classCARLsim_1_1Impl.html#adb7dd274136fd2a3307c0f7f0767275a" title="CARLsim::Impl::setCompartment\lParameters" alt="" coords="772,209,989,250"/>
+<area shape="rect" id="node20" href="$classCARLsim_1_1Impl.html#af9e05685af30a329664ab73a6a420d7f" title="CARLsim::Impl::setHomeostasis" alt="" coords="773,675,988,701"/>
+<area shape="rect" id="node21" href="$classCARLsim_1_1Impl.html#aef4d35935c52e55a957aa96e4d6218f6" title="CARLsim::Impl::setHomeoBase\lFiringRate" alt="" coords="775,726,986,767"/>
+<area shape="rect" id="node22" href="$classCARLsim_1_1Impl.html#aa6e1dc5ae50722ae3d693f2c963d84cd" title="CARLsim::Impl::setNeuron\lParameters" alt="" coords="791,442,971,483"/>
+<area shape="rect" id="node23" href="$classCARLsim_1_1Impl.html#ae3d3c73126e9aa3fe8e81ea180860952" title="CARLsim::Impl::setNeuron\lParametersLIF" alt="" coords="791,507,971,549"/>
+<area shape="rect" id="node24" href="$classCARLsim_1_1Impl.html#ae15083e3e6bfdb506a10b6ad835a2fc1" title="CARLsim::Impl::setNeuromodulator" alt="" coords="765,275,996,301"/>
+<area shape="rect" id="node25" href="$classCARLsim_1_1Impl.html#ac79aadf0ac87b2ae34f39ae796ad81a3" title="CARLsim::Impl::setESTDP" alt="" coords="789,573,972,600"/>
+<area shape="rect" id="node26" href="$classCARLsim_1_1Impl.html#a675bb0d593722135066c11b0d3d99d50" title="CARLsim::Impl::setISTDP" alt="" coords="791,624,970,651"/>
+<area shape="rect" id="node27" href="$classCARLsim_1_1Impl.html#aa2a365fb2d2fa56ec274bc4ba7be6747" title="CARLsim::Impl::setSTP" alt="" coords="799,5,963,32"/>
+<area shape="rect" id="node28" href="$classCARLsim_1_1Impl.html#aac61df1a82373e89549e608b78557b82" title="CARLsim::Impl::setNM4STP" alt="" coords="785,325,977,352"/>
+<area shape="rect" id="node29" href="$classCARLsim_1_1Impl.html#a012dcdbbe9769131d98ddf680743bff3" title="CARLsim::Impl::setConnection\lMonitor" alt="" coords="779,377,983,418"/>
+<area shape="rect" id="node43" href="$classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" title="getSimTimeMs" alt="" coords="508,1285,619,1312"/>
+<area shape="rect" id="node44" href="$classSNN.html#ace11f3a7995a24298caf842498eebbaf" title="sets up a spike monitor registered with a callback to process the spikes, there can only be one Spike..." alt="" coords="505,1235,621,1261"/>
+<area shape="rect" id="node47" href="$classSNN.html#a4c62ae1b8cff6aedfdf98cb8808d14e1" title="sets up a neuron monitor registered with a callback to process the neuron state values, there can only be one NeuronMonitor per group " alt="" coords="501,1336,626,1363"/>
+<area shape="rect" id="node50" href="$classSNN.html#a0ef541007b0004e308c89f2f326fb328" title="isDopaminergicGroup" alt="" coords="490,1133,637,1160"/>
+</map>

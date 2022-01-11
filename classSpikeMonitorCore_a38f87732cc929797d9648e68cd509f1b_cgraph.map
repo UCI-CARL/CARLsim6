@@ -1,0 +1,5 @@
+<map id="setLastUpdated" name="setLastUpdated">
+<area shape="rect" id="node2" href="$classSpikeMonitorCore.html#aaeb6a64ac5d9fd3b7a979f0f12ec87dc" title="returns true if spike buffer is close to maxAllowedBufferSize " alt="" coords="180,5,267,32"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#a30f19d45f562061cc82c04e7289ba956" title="returns the approximate size of the spike vector in bytes " alt="" coords="327,31,428,57"/>
+<area shape="rect" id="node4" href="$classSpikeMonitorCore.html#a3a0e4e77a2b83f5dd0e86aafcf227595" title="returns the total accumulated time " alt="" coords="168,107,279,133"/>
+</map>

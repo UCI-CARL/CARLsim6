@@ -1,0 +1,5 @@
+<map id="ConnectConfig_s" name="ConnectConfig_s">
+<area shape="rect" id="node2" href="$structSTDPConfig__s.html" title="STDPConfig_s" alt="" coords="5,5,116,32"/>
+<area shape="rect" id="node3" href="$structRadiusRF.html" title="A struct to specify the receptive field (RF) radius in 3 dimensions. " alt="" coords="140,5,221,32"/>
+<area shape="rect" id="node4" href="$classConnectionGeneratorCore.html" title="used for relaying callback to ConnectionGenerator " alt="" coords="246,5,419,32"/>
+</map>

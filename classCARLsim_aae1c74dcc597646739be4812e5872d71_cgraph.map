@@ -1,0 +1,5 @@
+<map id="stopTesting" name="stopTesting">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aae1c74dcc597646739be4812e5872d71" title="CARLsim::Impl::stopTesting" alt="" coords="144,31,332,57"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="380,5,535,32"/>
+<area shape="rect" id="node4" href="$classSNN.html#aae1c74dcc597646739be4812e5872d71" title="exits a testing phase, making weight updates possible again " alt="" coords="394,56,521,83"/>
+</map>

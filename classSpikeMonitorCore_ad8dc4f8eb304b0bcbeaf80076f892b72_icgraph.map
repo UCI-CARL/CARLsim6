@@ -1,0 +1,4 @@
+<map id="getPercentNeuronsWithFiringRate" name="getPercentNeuronsWithFiringRate">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#ad8dc4f8eb304b0bcbeaf80076f892b72" title="returns the percentage of total neurons in that are in the range specified by the user..." alt="" coords="275,5,444,47"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#a3e33677ab9388f1e907302d2a48fdc6b" title="returns the SpikeMonitor ID " alt="" coords="312,71,407,98"/>
+</map>

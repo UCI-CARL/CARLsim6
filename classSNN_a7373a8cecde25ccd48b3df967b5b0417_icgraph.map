@@ -1,0 +1,4 @@
+<map id="getNumSynapses" name="getNumSynapses">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a7373a8cecde25ccd48b3df967b5b0417" title="CARLsim::Impl::getNumSynapses" alt="" coords="180,5,404,32"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a7373a8cecde25ccd48b3df967b5b0417" title="returns the total number of allocated synaptic connections in the network " alt="" coords="452,5,643,32"/>
+</map>

@@ -1,0 +1,13 @@
+<map id="setSpikeRate" name="setSpikeRate">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aec206ed9aaaed83f1d3170f012a86b70" title="CARLsim::Impl::setSpikeRate" alt="" coords="155,165,353,192"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="677,157,832,184"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="CARLsim::Impl::isPoisson\lGroup" alt="" coords="413,99,591,141"/>
+<area shape="rect" id="node8" href="$classPoissonRate.html#a00ddee44990cd4763a7d4df074e6d405" title="Returns the number of neurons for which to generate Poisson spike trains. " alt="" coords="655,241,855,268"/>
+<area shape="rect" id="node10" href="$classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" title="CARLsim::Impl::getGroupNum\lNeurons" alt="" coords="401,34,603,75"/>
+<area shape="rect" id="node12" href="$classSNN.html#aec206ed9aaaed83f1d3170f012a86b70" title="Sets the Poisson spike rate for a group. For information on how to set up spikeRate, see Section Poisson spike generators in the Tutorial. " alt="" coords="433,216,571,243"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="651,56,859,83"/>
+<area shape="rect" id="node7" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="679,107,830,133"/>
+<area shape="rect" id="node6" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="907,56,1053,83"/>
+<area shape="rect" id="node9" href="$classPoissonRate_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" title="PoissonRate::Impl::\lgetNumNeurons" alt="" coords="911,234,1049,275"/>
+<area shape="rect" id="node11" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="SNN::getGroupNumNeurons" alt="" coords="660,5,849,32"/>
+</map>

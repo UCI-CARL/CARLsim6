@@ -1,0 +1,10 @@
+<map id="setSpikeGenerator" name="setSpikeGenerator">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="getGroupName" alt="" coords="212,107,323,133"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="399,5,553,32"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="isPoissonGroup" alt="" coords="210,56,325,83"/>
+<area shape="rect" id="node9" href="$classSNN.html#acc3a5cc762c4b48c9ff681af480ee0de" title="sets up a spike generator " alt="" coords="184,157,351,184"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="421,107,531,133"/>
+<area shape="rect" id="node6" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="403,157,549,184"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="601,107,748,133"/>
+<area shape="rect" id="node8" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="401,56,551,83"/>
+</map>

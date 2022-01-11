@@ -1,0 +1,4 @@
+<map id="setConnectionMonitor" name="setConnectionMonitor">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a012dcdbbe9769131d98ddf680743bff3" title="CARLsim::Impl::setConnection\lMonitor" alt="" coords="203,5,407,47"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a0f4f273689484d0ceaa5a40f64fc82fc" title="Sets a connection monitor for a group, custom ConnectionMonitor class. " alt="" coords="455,13,669,39"/>
+</map>

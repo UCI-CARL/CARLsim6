@@ -1,0 +1,7 @@
+<map id="getSpikeMonitor" name="getSpikeMonitor">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aa2f49d6a802e4b3697bb20ef5ee51690" title="CARLsim::Impl::getSpikeMonitor" alt="" coords="169,56,384,83"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="459,5,613,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="432,56,640,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a866a9c6e2b2630816fc66adda1381655" title="Returns pointer to existing SpikeMonitor object, NULL else. " alt="" coords="459,107,613,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="688,81,835,108"/>
+</map>

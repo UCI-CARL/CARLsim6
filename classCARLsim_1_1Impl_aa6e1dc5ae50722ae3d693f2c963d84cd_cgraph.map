@@ -1,0 +1,10 @@
+<map id="setNeuronParameters" name="setNeuronParameters">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="getGroupName" alt="" coords="241,107,351,133"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="437,5,592,32"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="isPoissonGroup" alt="" coords="239,56,353,83"/>
+<area shape="rect" id="node9" href="$classSNN.html#aa6e1dc5ae50722ae3d693f2c963d84cd" title="Sets the Izhikevich parameters a, b, c, and d of a neuron group. " alt="" coords="203,157,389,184"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="459,107,570,133"/>
+<area shape="rect" id="node6" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="441,157,588,184"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="640,107,787,133"/>
+<area shape="rect" id="node8" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="439,56,590,83"/>
+</map>

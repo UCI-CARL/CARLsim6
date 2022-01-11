@@ -1,0 +1,28 @@
+<map id="setTargetFiringRate" name="setTargetFiringRate">
+<area shape="rect" id="node2" href="$classCARLsim.html#a866a9c6e2b2630816fc66adda1381655" title="Returns the number of spikes per neuron for a certain group. " alt="" coords="191,56,372,83"/>
+<area shape="rect" id="node8" href="$classCARLsim.html#a1e0b4d170b65f5075f1a996554c842ab" title="Sets a Spike Monitor for a groups, prints spikes to binary file. " alt="" coords="191,107,372,133"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#aa2f49d6a802e4b3697bb20ef5ee51690" title="CARLsim::Impl::getSpikeMonitor" alt="" coords="683,56,897,83"/>
+<area shape="rect" id="node4" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="972,5,1127,32"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="945,56,1153,83"/>
+<area shape="rect" id="node7" href="$classSNN.html#a866a9c6e2b2630816fc66adda1381655" title="Returns pointer to existing SpikeMonitor object, NULL else. " alt="" coords="973,107,1126,133"/>
+<area shape="rect" id="node6" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="1229,107,1376,133"/>
+<area shape="rect" id="node9" href="$classCARLsim_1_1Impl.html#a76311719fdd8a942d292caead86cf0e6" title="CARLsim::Impl::setSpikeMonitor" alt="" coords="420,107,635,133"/>
+<area shape="rect" id="node10" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="CARLsim::Impl::getGroupName" alt="" coords="686,107,894,133"/>
+<area shape="rect" id="node11" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="1705,259,1851,285"/>
+<area shape="rect" id="node12" href="$classSNN.html#ace11f3a7995a24298caf842498eebbaf" title="sets up a spike monitor registered with a callback to process the spikes, there can only be one Spike..." alt="" coords="713,157,867,184"/>
+<area shape="rect" id="node13" href="$classSNN.html#ad25000cd1457c9b9869122534ada6fdd" title="SNN::getSpikeMonitorCore" alt="" coords="959,157,1140,184"/>
+<area shape="rect" id="node14" href="$classSpikeMonitorCore.html#a1d57dedf987505ea4cdcd4475578ce68" title="sets pointer to spike file " alt="" coords="957,530,1142,571"/>
+<area shape="rect" id="node15" href="$classSpikeMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="1201,563,1404,589"/>
+<area shape="rect" id="node20" href="$classSpikeMonitorCore.html#abe76071e1ac3632d55f2455b239b3d12" title="returns recording mode " alt="" coords="2657,664,2841,691"/>
+<area shape="rect" id="node27" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="SNN::getGroupGrid3D" alt="" coords="1226,512,1379,539"/>
+<area shape="rect" id="node16" href="$classSpikeMonitorCore.html#af0ba89c38f6852cdf9d914687ad6a445" title="prints the AER vector in human&#45;readable format " alt="" coords="1468,563,1627,589"/>
+<area shape="rect" id="node26" href="$classSpikeMonitorCore.html#a6e116c2994e0449c41e56d03370fa54c" title="inserts a (time,neurId) tupel into the 2D spike vector " alt="" coords="1452,309,1643,336"/>
+<area shape="rect" id="node17" href="$classSNN.html#a5fd2b156623d78138bcb44167eabab78" title="SNN::getSimTime" alt="" coords="1713,613,1843,640"/>
+<area shape="rect" id="node18" href="$classSpikeMonitorCore.html#af6c333e6cefff92d0e354eca70625cdc" title="returns the total number of recorded spikes in the group " alt="" coords="2174,447,2349,489"/>
+<area shape="rect" id="node21" href="$classSpikeMonitorCore.html#a9cf20c30ff0efdbc5e3c5194648a7fb3" title="returns the total recorded time in ms " alt="" coords="2156,555,2367,597"/>
+<area shape="rect" id="node22" href="$classSpikeMonitorCore.html#ae62d623e8edfc6b05309256c1d825bbd" title="returns the recorded mean firing rate of the group " alt="" coords="1923,497,2098,538"/>
+<area shape="rect" id="node23" href="$classSpikeMonitorCore.html#ad0c4b32bb5cc0c7a8d95ed6023a2695f" title="computes the standard deviation of firing rates in the group " alt="" coords="1691,715,1865,757"/>
+<area shape="rect" id="node25" href="$classSpikeMonitorCore.html#aed09edf4583ac05d42fccc7e3556e3c5" title="returns the recorded mean firing rate for a specific neuron " alt="" coords="1913,657,2108,698"/>
+<area shape="rect" id="node19" href="$classSpikeMonitorCore.html#a005a2f884f6260054483d4fa6ed6ddbb" title="returns the number of recorded spikes of a specific neuron " alt="" coords="2415,657,2609,698"/>
+<area shape="rect" id="node24" href="$classSpikeMonitorCore.html#a0fc20fcc5876030d796debd148ae7cee" title="returns a list of firing rates for all neurons in the group (sorted by neuron ID ascending) ..." alt="" coords="1927,769,2094,810"/>
+</map>

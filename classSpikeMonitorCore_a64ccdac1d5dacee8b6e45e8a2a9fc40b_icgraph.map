@@ -1,0 +1,5 @@
+<map id="getSpikeVector2D" name="getSpikeVector2D">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#a64ccdac1d5dacee8b6e45e8a2a9fc40b" title="returns the 2D spike vector " alt="" coords="181,5,393,32"/>
+<area shape="rect" id="node3" href="$classSpikeMonitorCore.html#a4c576b7fb37addf9ed35d3f0cae56836" title="returns the timestamp of stopRecording " alt="" coords="210,56,365,83"/>
+<area shape="rect" id="node4" href="$classSpikeMonitor.html#a4c576b7fb37addf9ed35d3f0cae56836" title="Returns the simulation time (ms) of the last call to stopRecording() " alt="" coords="441,49,624,90"/>
+</map>

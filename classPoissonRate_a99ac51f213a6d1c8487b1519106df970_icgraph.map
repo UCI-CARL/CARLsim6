@@ -1,0 +1,4 @@
+<map id="setRate" name="setRate">
+<area shape="rect" id="node2" href="$classVisualStimulus_1_1Impl.html#a7c85c4aea5e909cdc928547d8fd62b2e" title="VisualStimulus::Impl\l::readFramePoisson" alt="" coords="121,5,264,47"/>
+<area shape="rect" id="node3" href="$classVisualStimulus.html#aac6cca8793faebe5b1e8c533d12744e2" title="Reads the next image frame and returns a pointer to a PoissonRate object. " alt="" coords="312,5,491,47"/>
+</map>

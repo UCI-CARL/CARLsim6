@@ -1,0 +1,6 @@
+<map id="getFanOut" name="getFanOut">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="138,5,293,32"/>
+<area shape="rect" id="node3" href="$classConnectionMonitor.html#a438060213521c95ad7f38ea9039dfa9c" title="Returns the number of pre&#45;synaptic neurons. " alt="" coords="147,56,284,83"/>
+<area shape="rect" id="node5" href="$classConnectionMonitorCore.html#aa1f808f36c992cd6bd10ffe41a3053e8" title="returns number of outgoing synapses of pre&#45;synaptic neuron " alt="" coords="136,107,295,149"/>
+<area shape="rect" id="node4" href="$classConnectionMonitorCore.html#a438060213521c95ad7f38ea9039dfa9c" title="returns number of neurons in pre&#45;synaptic group " alt="" coords="343,49,501,90"/>
+</map>

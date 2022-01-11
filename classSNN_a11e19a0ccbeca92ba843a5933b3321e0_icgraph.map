@@ -1,0 +1,48 @@
+<map id="getGroupNumNeurons" name="getGroupNumNeurons">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" title="CARLsim::Impl::getGroupNum\lNeurons" alt="" coords="226,173,427,215"/>
+<area shape="rect" id="node13" href="$classConnectionMonitorCore.html#a02fd73d861ef2e4aabb38c0c9ff82947" title="ConnectionMonitorCore\l::init" alt="" coords="247,428,406,469"/>
+<area shape="rect" id="node26" href="$classGroupMonitorCore.html#abbe561f1d7285414b1a9333fc09ac382" title="constructor (called by CARLsim::setGroupMonitor) " alt="" coords="205,581,448,607"/>
+<area shape="rect" id="node27" href="$classNeuronMonitorCore.html#a1fea34ca55f65e7cfeb05d870b2e741b" title="constructor (called by CARLsim::setNeuronMonitor) " alt="" coords="255,632,398,673"/>
+<area shape="rect" id="node28" href="$classSNN.html#a4c62ae1b8cff6aedfdf98cb8808d14e1" title="sets up a neuron monitor registered with a callback to process the neuron state values, there can only be one NeuronMonitor per group " alt="" coords="264,698,389,725"/>
+<area shape="rect" id="node31" href="$classSNN.html#af67a432c859556cff7d6b1d59638ad01" title="sets the weight value of a specific synapse " alt="" coords="286,749,367,775"/>
+<area shape="rect" id="node34" href="$classSNN.html#a875708f5a61243433e23e99ce4d6aea1" title="injects current (mA) into the soma of every neuron in the group " alt="" coords="261,67,392,94"/>
+<area shape="rect" id="node35" href="$classSNN.html#af750970a60eaa5f0cb82ae57c279443c" title="getNeuronLocation3D" alt="" coords="253,799,401,826"/>
+<area shape="rect" id="node36" href="$classSNN.html#a193ffb3ea51ef7c5af59ebedd68dfa3c" title="the inverse of getNeuronLocation3D " alt="" coords="280,850,373,877"/>
+<area shape="rect" id="node40" href="$classSNN.html#a876185f4e003c98fb227861e7b84fded" title="copy required spikes from firing buffer to spike buffer " alt="" coords="1101,519,1239,546"/>
+<area shape="rect" id="node47" href="$classSpikeMonitorCore.html#ad925d84fd6af2e2d1565a65987c11e43" title="constructor (called by CARLsim::setSpikeMonitor) " alt="" coords="207,901,446,927"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#afed01f52e943df5e5476428c4fbef8f7" title="CARLsim::Impl::connect" alt="" coords="539,239,705,266"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" title="CARLsim::Impl::connectCompartments" alt="" coords="496,290,748,317"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#a875708f5a61243433e23e99ce4d6aea1" title="CARLsim::Impl::setExternal\lCurrent" alt="" coords="529,5,715,47"/>
+<area shape="rect" id="node9" href="$classCARLsim_1_1Impl.html#aec206ed9aaaed83f1d3170f012a86b70" title="CARLsim::Impl::setSpikeRate" alt="" coords="523,122,721,149"/>
+<area shape="rect" id="node11" href="$classCARLsim_1_1Impl.html#af750970a60eaa5f0cb82ae57c279443c" title="CARLsim::Impl::getNeuron\lLocation3D" alt="" coords="532,173,712,215"/>
+<area shape="rect" id="node12" href="$classCARLsim.html#ad85b898d98abe24dcae4390f0fe61e84" title="returns the number of neurons of a group specified by grpId " alt="" coords="513,71,731,98"/>
+<area shape="rect" id="node4" href="$classCARLsim.html#a30b16b93d57551dcde0559e8a4e98e27" title="Connects a presynaptic to a postsynaptic group using fixed/plastic weights and a range of delay value..." alt="" coords="839,231,972,258"/>
+<area shape="rect" id="node6" href="$classCARLsim.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" title="make a compartmental connection between two compartmentally enabled groups Note: all compartmentally ..." alt="" coords="796,282,1015,309"/>
+<area shape="rect" id="node8" href="$classCARLsim.html#a875708f5a61243433e23e99ce4d6aea1" title="Sets the amount of current (mA) to inject into a group. " alt="" coords="807,13,1003,39"/>
+<area shape="rect" id="node10" href="$classCARLsim.html#a04f52d2840105c8ccacf8d378d1695cf" title="Sets a spike rate. " alt="" coords="822,122,989,149"/>
+<area shape="rect" id="node14" href="$classConnectionMonitorCore.html#ab64d9ff17fece61e850660bdd4ca00d2" title="ConnectionMonitorCore\l::takeSnapshot" alt="" coords="543,457,701,499"/>
+<area shape="rect" id="node16" href="$classConnectionMonitorCore.html#acf625cff31a558c7d6786773d0c2693c" title="ConnectionMonitorCore\l::getUpdateTimeIntervalSec" alt="" coords="813,399,998,440"/>
+<area shape="rect" id="node23" href="$classSNN.html#a9773c7b8f7fbb53c92ec5623ea99cb69" title="sets up a network monitor registered with a callback to process the spikes. " alt="" coords="547,349,697,375"/>
+<area shape="rect" id="node15" href="$classConnectionMonitor.html#ab64d9ff17fece61e850660bdd4ca00d2" title="Takes a snapshot of the current weight state. " alt="" coords="836,464,975,505"/>
+<area shape="rect" id="node17" href="$classSNN.html#a68862cb4e6c749219c20c38aeab06986" title="polls connection weights " alt="" coords="1085,411,1255,438"/>
+<area shape="rect" id="node18" href="$classSNN.html#a3df37c7539f784fe7a939c5da922f41b" title="run the simulation for n sec " alt="" coords="1390,414,1479,441"/>
+<area shape="rect" id="node19" href="$classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" title="CARLsim::Impl::runNetwork" alt="" coords="1618,414,1805,441"/>
+<area shape="rect" id="node20" href="$classCARLsim.html#aafb2d44405c96aafe089f96ff867018d" title="run the simulation for time=(nSec*seconds + nMsec*milliseconds) " alt="" coords="1907,414,2061,441"/>
+<area shape="rect" id="node21" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="2137,483,2281,524"/>
+<area shape="rect" id="node22" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="2329,483,2473,524"/>
+<area shape="rect" id="node24" href="$classCARLsim_1_1Impl.html#a012dcdbbe9769131d98ddf680743bff3" title="CARLsim::Impl::setConnection\lMonitor" alt="" coords="803,333,1007,375"/>
+<area shape="rect" id="node25" href="$classCARLsim.html#a0f4f273689484d0ceaa5a40f64fc82fc" title="Sets a connection monitor for a group, custom ConnectionMonitor class. " alt="" coords="1063,341,1277,367"/>
+<area shape="rect" id="node29" href="$classCARLsim_1_1Impl.html#ad09ccf4ff95aa4f7b629afad588b0c88" title="CARLsim::Impl::setNeuron\lMonitor" alt="" coords="532,687,712,728"/>
+<area shape="rect" id="node30" href="$classCARLsim.html#a9f96445ca9cb3edb1532b6c741ec5736" title="Sets a Neuron Monitor for a groups, print voltage, recovery, and total current values to binary file..." alt="" coords="810,694,1001,721"/>
+<area shape="rect" id="node32" href="$classCARLsim_1_1Impl.html#a8e9bda0e94ad99cf8ac306cf0b76b9d5" title="CARLsim::Impl::setWeight" alt="" coords="533,753,711,779"/>
+<area shape="rect" id="node33" href="$classCARLsim.html#af67a432c859556cff7d6b1d59638ad01" title="Sets the weight value of a specific synapse. " alt="" coords="832,753,979,779"/>
+<area shape="rect" id="node37" href="$classCARLsim_1_1Impl.html#a8f28281023666c073fff6141def960b5" title="CARLsim::Impl::getNeuronId" alt="" coords="527,829,717,855"/>
+<area shape="rect" id="node39" href="$classSNN.html#a16a41fdf2dc50772b36743ef7c168800" title="getNetworkName" alt="" coords="560,879,684,906"/>
+<area shape="rect" id="node38" href="$classCARLsim.html#a8f28281023666c073fff6141def960b5" title="returns the neuron ID for a 3D location " alt="" coords="826,829,985,855"/>
+<area shape="rect" id="node41" href="$classSpikeMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording AER data " alt="" coords="1325,543,1544,570"/>
+<area shape="rect" id="node45" href="$classSpikeMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="stops recording AER data " alt="" coords="1325,493,1544,519"/>
+<area shape="rect" id="node42" href="$classSpikeMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="1889,566,2079,593"/>
+<area shape="rect" id="node43" href="$classSpikeMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="1592,515,1831,542"/>
+<area shape="rect" id="node44" href="$classSpikeMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="1879,515,2089,542"/>
+<area shape="rect" id="node46" href="$classSpikeMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="Ends a recording period. " alt="" coords="1616,465,1807,491"/>
+</map>

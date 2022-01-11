@@ -1,0 +1,5 @@
+<map id="getConductanceAMPA" name="getConductanceAMPA">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#af614535178ba3d0a11d4a6bda3fa5413" title="CARLsim::Impl::getConductanceAMPA" alt="" coords="208,5,461,32"/>
+<area shape="rect" id="node4" href="$classSNN.html#a0d88c00011be6536c68f8e6bc70ca1a3" title="temporary getter to return pointer to current[] " alt="" coords="293,56,376,83"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a9f12565a3b01482ccba3b63c5d6c3279" title="gets AMPA vector of a group " alt="" coords="509,5,729,32"/>
+</map>

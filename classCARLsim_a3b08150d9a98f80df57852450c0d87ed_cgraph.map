@@ -1,0 +1,5 @@
+<map id="saveSimulation" name="saveSimulation">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aa665c758ce50f34c0a66dffe3a2a6476" title="CARLsim::Impl::saveSimulation" alt="" coords="164,31,373,57"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="421,5,576,32"/>
+<area shape="rect" id="node4" href="$classSNN.html#a82ffd1eff0b99248989136ba006ed87d" title="stores the pre and post synaptic neuron ids with the weight and delay " alt="" coords="425,56,573,83"/>
+</map>

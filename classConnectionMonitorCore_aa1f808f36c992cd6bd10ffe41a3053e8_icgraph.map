@@ -1,0 +1,4 @@
+<map id="getFanOut" name="getFanOut">
+<area shape="rect" id="node2" href="$classConnectionMonitor.html#aa1f808f36c992cd6bd10ffe41a3053e8" title="Returns the number of outgoing synapses for a specific pre&#45;synaptic neuron. " alt="" coords="136,5,275,47"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#a8a5954a3717d51fa8730788e182cc345" title="returns pointer to connection file " alt="" coords="145,71,266,98"/>
+</map>

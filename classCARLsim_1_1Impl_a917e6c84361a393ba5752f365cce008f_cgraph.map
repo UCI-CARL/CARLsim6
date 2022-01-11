@@ -1,0 +1,8 @@
+<map id="getConductanceGABAb" name="getConductanceGABAb">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="237,5,391,32"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="259,56,369,83"/>
+<area shape="rect" id="node5" href="$classSNN.html#aa50bf7b25bc7c5c164e2a11ee763796e" title="SNN::getConductanceGABAb" alt="" coords="215,107,413,133"/>
+<area shape="rect" id="node4" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="502,56,649,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#ad4930e827d0e5cc6a63dc4a07e1879dc" title="SNN::isSimulationWithCOBA" alt="" coords="478,107,673,133"/>
+<area shape="rect" id="node7" href="$classSNN.html#a07bf973035202abfd4ae588d1ebe5a2e" title="SNN::isSimulationWithGABAbRise" alt="" coords="461,157,689,184"/>
+</map>

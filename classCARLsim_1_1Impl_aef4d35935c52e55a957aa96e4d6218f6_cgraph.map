@@ -1,0 +1,13 @@
+<map id="setHomeoBaseFiringRate" name="setHomeoBaseFiringRate">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="getGroupName" alt="" coords="275,107,385,133"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="509,56,664,83"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="isPoissonGroup" alt="" coords="273,157,387,184"/>
+<area shape="rect" id="node9" href="$classCARLsim_1_1Impl.html#aa9a9c5646dd11beb60fcf70d2216024a" title="isGroupWithHomeostasis" alt="" coords="245,5,415,32"/>
+<area shape="rect" id="node12" href="$classSNN.html#a9a258903678511cb83bf31f275a283d2" title="Sets homeostatic target firing rate (enforced through homeostatic synaptic scaling) ..." alt="" coords="225,208,435,235"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="531,157,642,184"/>
+<area shape="rect" id="node6" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="513,107,660,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="739,107,885,133"/>
+<area shape="rect" id="node8" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="511,208,662,235"/>
+<area shape="rect" id="node10" href="$classSNN.html#aa9a9c5646dd11beb60fcf70d2216024a" title="returns whether group has homeostasis enabled (true) or not (false) " alt="" coords="483,5,691,32"/>
+<area shape="rect" id="node11" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="741,5,883,32"/>
+</map>

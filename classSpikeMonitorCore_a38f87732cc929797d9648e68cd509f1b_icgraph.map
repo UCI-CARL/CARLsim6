@@ -1,0 +1,14 @@
+<map id="setLastUpdated" name="setLastUpdated">
+<area shape="rect" id="node2" href="$classSNN.html#a876185f4e003c98fb227861e7b84fded" title="copy required spikes from firing buffer to spike buffer " alt="" coords="168,56,343,83"/>
+<area shape="rect" id="node3" href="$classSNN.html#a3df37c7539f784fe7a939c5da922f41b" title="run the simulation for n sec " alt="" coords="391,5,517,32"/>
+<area shape="rect" id="node8" href="$classSpikeMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording AER data " alt="" coords="401,56,507,83"/>
+<area shape="rect" id="node12" href="$classSpikeMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="stops recording AER data " alt="" coords="401,107,507,133"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" title="CARLsim::Impl::runNetwork" alt="" coords="567,5,754,32"/>
+<area shape="rect" id="node5" href="$classCARLsim.html#aafb2d44405c96aafe089f96ff867018d" title="run the simulation for time=(nSec*seconds + nMsec*milliseconds) " alt="" coords="832,5,987,32"/>
+<area shape="rect" id="node6" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="1063,74,1207,115"/>
+<area shape="rect" id="node7" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="1255,74,1399,115"/>
+<area shape="rect" id="node9" href="$classSpikeMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="814,56,1005,83"/>
+<area shape="rect" id="node10" href="$classSpikeMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="597,107,724,133"/>
+<area shape="rect" id="node11" href="$classSpikeMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="804,107,1015,133"/>
+<area shape="rect" id="node13" href="$classSpikeMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="Ends a recording period. " alt="" coords="565,157,756,184"/>
+</map>

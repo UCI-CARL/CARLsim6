@@ -1,0 +1,4 @@
+<map id="getGroupEndNeuronId" name="getGroupEndNeuronId">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a12040462a7fa56b1cbc871265b3f2f8c" title="CARLsim::Impl::getGroupEnd\lNeuronId" alt="" coords="204,5,400,47"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a12040462a7fa56b1cbc871265b3f2f8c" title="returns the last neuron id of a groupd specified by grpId " alt="" coords="448,13,664,39"/>
+</map>

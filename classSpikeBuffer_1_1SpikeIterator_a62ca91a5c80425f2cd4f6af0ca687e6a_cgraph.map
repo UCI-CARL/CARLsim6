@@ -1,0 +1,14 @@
+<map id="operator++" name="operator++">
+<area shape="rect" id="node2" href="$classSpikeBuffer.html#a5922ba31daa2c306a5c1ecbf8d19220d" title="Schedule a spike. " alt="" coords="139,19,289,46"/>
+<area shape="rect" id="node4" href="$classSpikeBuffer.html#ac6bf1a12c5c98ddec5b65e07fe74cabe" title="advance to next time step " alt="" coords="153,77,275,103"/>
+<area shape="rect" id="node6" href="$classSpikeBuffer.html#adbf613d02805d9a0e54f115d2b0f48da" title="Reset buffer data. " alt="" coords="151,133,277,159"/>
+<area shape="rect" id="node8" href="$classSpikeBuffer.html#a247bd0fb9923075af341c93f52ff7b9b" title="retrieve actual length of the buffer " alt="" coords="350,189,483,215"/>
+<area shape="rect" id="node10" href="$classSpikeBuffer.html#a4f84af934c8a89f48edf5bdcb9b24e0d" title="pointer to the front of the spike buffer " alt="" coords="152,243,276,270"/>
+<area shape="rect" id="node12" href="$classSpikeBuffer.html#a91568181a88cf6248893e88275269313" title="pointer to the back of the spike buffer " alt="" coords="151,298,277,325"/>
+<area shape="rect" id="node3" href="$classSpikeBuffer_1_1Impl.html#a5922ba31daa2c306a5c1ecbf8d19220d" title="SpikeBuffer::Impl::\lschedule" alt="" coords="351,5,482,47"/>
+<area shape="rect" id="node5" href="$classSpikeBuffer_1_1Impl.html#ac6bf1a12c5c98ddec5b65e07fe74cabe" title="SpikeBuffer::Impl::step" alt="" coords="339,71,495,98"/>
+<area shape="rect" id="node7" href="$classSpikeBuffer_1_1Impl.html#adbf613d02805d9a0e54f115d2b0f48da" title="SpikeBuffer::Impl::\lreset" alt="" coords="351,123,482,164"/>
+<area shape="rect" id="node9" href="$classSpikeBuffer_1_1Impl.html#a247bd0fb9923075af341c93f52ff7b9b" title="SpikeBuffer::Impl::\llength" alt="" coords="544,211,675,252"/>
+<area shape="rect" id="node11" href="$classSpikeBuffer_1_1Impl.html#a957018d0ce9dbff3f302ffd89e5841f6" title="SpikeBuffer::Impl::\lfront" alt="" coords="351,240,482,281"/>
+<area shape="rect" id="node13" href="$classSpikeBuffer_1_1Impl.html#afc0208313f3c3491b910a943c46c49d1" title="SpikeBuffer::Impl::back" alt="" coords="337,306,496,333"/>
+</map>

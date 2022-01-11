@@ -1,0 +1,6 @@
+<map id="getPeakValueVector" name="getPeakValueVector">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="209,5,364,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitor.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="Recording status (true=recording, false=not recording) " alt="" coords="241,56,332,83"/>
+<area shape="rect" id="node5" href="$classGroupMonitorCore.html#a968c489fb1424c09377ab40f33151dbe" title="get the peak values of group data " alt="" coords="195,107,379,149"/>
+<area shape="rect" id="node4" href="$classGroupMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="427,56,632,83"/>
+</map>

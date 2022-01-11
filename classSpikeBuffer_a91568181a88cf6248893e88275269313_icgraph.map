@@ -1,0 +1,7 @@
+<map id="back" name="back">
+<area shape="rect" id="node2" href="$classSNN.html#a845adad4645977755e508610dc3c1464" title="checks whether a point pre lies in the receptive field for point post " alt="" coords="122,43,258,69"/>
+<area shape="rect" id="node6" href="$classSpikeBuffer_1_1SpikeIterator.html#a62ca91a5c80425f2cd4f6af0ca687e6a" title="SpikeBuffer::SpikeIterator\l::operator++" alt="" coords="104,94,276,135"/>
+<area shape="rect" id="node3" href="$classSNN.html#a3a42619b35349cd8d68f2ea21c865e36" title="SNN::getConductanceConfig" alt="" coords="516,5,708,32"/>
+<area shape="rect" id="node4" href="$snn__manager_8cpp.html#af7e3c6ada8c131790477ada99ec34bc3" title="compareDelay" alt="" coords="559,68,665,95"/>
+<area shape="rect" id="node5" href="$classSNN.html#aa1487d5e850f107e5b6890cf6933b7c1" title="SNN::isPoint3DinRF" alt="" coords="324,43,468,69"/>
+</map>

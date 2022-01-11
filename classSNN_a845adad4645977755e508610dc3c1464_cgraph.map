@@ -1,0 +1,10 @@
+<map id="getRFDist3D" name="getRFDist3D">
+<area shape="rect" id="node2" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="163,5,267,32"/>
+<area shape="rect" id="node3" href="$classSpikeBuffer.html#adbf613d02805d9a0e54f115d2b0f48da" title="Reset buffer data. " alt="" coords="152,56,279,83"/>
+<area shape="rect" id="node5" href="$classSpikeBuffer.html#a91568181a88cf6248893e88275269313" title="pointer to the back of the spike buffer " alt="" coords="152,107,279,133"/>
+<area shape="rect" id="node7" href="$classSpikeBuffer.html#a4f84af934c8a89f48edf5bdcb9b24e0d" title="pointer to the front of the spike buffer " alt="" coords="153,161,277,188"/>
+<area shape="rect" id="node4" href="$classSpikeBuffer_1_1Impl.html#adbf613d02805d9a0e54f115d2b0f48da" title="SpikeBuffer::Impl::\lreset" alt="" coords="341,41,471,82"/>
+<area shape="rect" id="node6" href="$classSpikeBuffer_1_1Impl.html#afc0208313f3c3491b910a943c46c49d1" title="SpikeBuffer::Impl::back" alt="" coords="327,107,485,133"/>
+<area shape="rect" id="node8" href="$classSpikeBuffer_1_1Impl.html#a957018d0ce9dbff3f302ffd89e5841f6" title="SpikeBuffer::Impl::\lfront" alt="" coords="341,158,471,199"/>
+<area shape="rect" id="node9" href="$classSpikeBuffer_1_1Impl.html#a247bd0fb9923075af341c93f52ff7b9b" title="SpikeBuffer::Impl::\llength" alt="" coords="533,158,664,199"/>
+</map>

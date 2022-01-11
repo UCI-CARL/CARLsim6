@@ -1,0 +1,5 @@
+<map id="getNumNeuronsPost" name="getNumNeuronsPost">
+<area shape="rect" id="node2" href="$classConnectionMonitor.html#a7d71d4ec2b08c52054491ec818ad6ed7" title="Returns the number of post&#45;synaptic neurons. " alt="" coords="197,39,341,80"/>
+<area shape="rect" id="node3" href="$classConnectionMonitor.html#a46e73089106a296d8a0b2c4a5066f079" title="Returns the number of incoming synapses for a specific post&#45;synaptic neuron. " alt="" coords="389,5,528,47"/>
+<area shape="rect" id="node4" href="$classConnectionMonitor.html#a71dc2d0a7970622052e156ca863f4216" title="Prints the current weight state as a sparse list of weights. " alt="" coords="389,71,528,112"/>
+</map>

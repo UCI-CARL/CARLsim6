@@ -1,0 +1,5 @@
+<map id="setSpikeMonitor" name="setSpikeMonitor">
+<area shape="rect" id="node2" href="$classCARLsim.html#a1e0b4d170b65f5075f1a996554c842ab" title="Sets a Spike Monitor for a groups, prints spikes to binary file. " alt="" coords="169,13,351,39"/>
+<area shape="rect" id="node3" href="$classSimpleWeightTuner_1_1Impl.html#ac1c93ba1766ad5ada73dea7ba499d541" title="SimpleWeightTuner::\lImpl::setTargetFiringRate" alt="" coords="399,5,569,47"/>
+<area shape="rect" id="node4" href="$classSimpleWeightTuner.html#ac1c93ba1766ad5ada73dea7ba499d541" title="Sets up the target firing rate of a specific group. " alt="" coords="617,5,761,47"/>
+</map>

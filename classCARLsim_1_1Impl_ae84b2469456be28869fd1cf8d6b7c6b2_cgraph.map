@@ -1,0 +1,4 @@
+<map id="createSpikeGeneratorGroup" name="createSpikeGeneratorGroup">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="251,5,406,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#ae84b2469456be28869fd1cf8d6b7c6b2" title="Creates a spike generator group (dummy&#45;neurons, not Izhikevich spiking neurons) " alt="" coords="236,57,421,98"/>
+</map>

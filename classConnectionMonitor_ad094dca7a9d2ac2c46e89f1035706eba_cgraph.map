@@ -1,0 +1,5 @@
+<map id="getNumWeightsChanged" name="getNumWeightsChanged">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="232,5,387,32"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#ad094dca7a9d2ac2c46e89f1035706eba" title="returns number of weights with &gt;=minAbsChanged weight change since last snapshot " alt="" coords="221,57,397,98"/>
+<area shape="rect" id="node4" href="$classConnectionMonitorCore.html#a730c0ec47d470c8920ab57288c31ca3b" title="calculates weight changes since last snapshot and reports them in 2D weight change matrix ..." alt="" coords="445,57,604,98"/>
+</map>

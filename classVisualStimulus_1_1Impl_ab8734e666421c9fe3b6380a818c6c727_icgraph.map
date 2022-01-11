@@ -1,0 +1,5 @@
+<map id="rewind" name="rewind">
+<area shape="rect" id="node2" href="$classVisualStimulus_1_1Impl.html#a1983d20a1f84377ff40b27bccaae08a1" title="getCurrentFrameNumber" alt="" coords="113,13,280,39"/>
+<area shape="rect" id="node4" href="$classVisualStimulus.html#ab8734e666421c9fe3b6380a818c6c727" title="Rewinds the file pointer to the top. " alt="" coords="119,63,274,90"/>
+<area shape="rect" id="node3" href="$classVisualStimulus.html#a1983d20a1f84377ff40b27bccaae08a1" title="VisualStimulus::getCurrent\lFrameNumber" alt="" coords="328,5,507,47"/>
+</map>

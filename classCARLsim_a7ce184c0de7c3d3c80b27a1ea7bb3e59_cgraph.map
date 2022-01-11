@@ -1,0 +1,12 @@
+<map id="connectCompartments" name="connectCompartments">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" title="CARLsim::Impl::connectCompartments" alt="" coords="208,146,460,172"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="784,8,939,35"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="757,116,965,143"/>
+<area shape="rect" id="node6" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="CARLsim::Impl::isPoisson\lGroup" alt="" coords="520,109,697,150"/>
+<area shape="rect" id="node8" href="$classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" title="CARLsim::Impl::getGroupNum\lNeurons" alt="" coords="508,44,709,85"/>
+<area shape="rect" id="node10" href="$classCARLsim_1_1Impl.html#a5c117765c2b542aa29975fc10830556d" title="CARLsim::Impl::getMaxNum\lCompConnections" alt="" coords="513,277,704,318"/>
+<area shape="rect" id="node11" href="$classSNN.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" title="SNN::connectCompartments" alt="" coords="513,226,704,252"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="1013,116,1160,143"/>
+<area shape="rect" id="node7" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="786,196,937,223"/>
+<area shape="rect" id="node9" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="SNN::getGroupNumNeurons" alt="" coords="767,59,956,86"/>
+</map>

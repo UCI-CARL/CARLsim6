@@ -1,0 +1,14 @@
+<map id="isRecording" name="isRecording">
+<area shape="rect" id="node2" href="$classGroupMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="181,5,288,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="Ends a recording period. " alt="" coords="181,56,288,83"/>
+<area shape="rect" id="node4" href="$classGroupMonitor.html#a422a2ad820a50c6cb6747cfcf3e5981f" title="Returns the total recording time (ms) " alt="" coords="156,107,313,133"/>
+<area shape="rect" id="node5" href="$classGroupMonitor.html#ad7a315436b7a12e601cbbf2a27b124c8" title="Returns the simulation time (ms) of the last call to startRecording() " alt="" coords="144,157,325,184"/>
+<area shape="rect" id="node6" href="$classGroupMonitor.html#a2e2b6c27b006ddd754a7d6de56130d25" title="Returns the simulation time (ms) of the first call to startRecording() " alt="" coords="157,208,313,235"/>
+<area shape="rect" id="node7" href="$classGroupMonitor.html#a219899d7deb62081f61a2f59e1bbcad8" title="Returns the simulation time (ms) of the last call to stopRecording() " alt="" coords="157,259,312,285"/>
+<area shape="rect" id="node8" href="$classGroupMonitor.html#a6329f81702cbc0600a85d228e16ad81a" title="return the group data vector " alt="" coords="181,309,288,336"/>
+<area shape="rect" id="node9" href="$classGroupMonitor.html#a2c201ab6f3496fe546b464b34869c120" title="return a vector of the timestamps for group data " alt="" coords="181,360,288,387"/>
+<area shape="rect" id="node10" href="$classGroupMonitor.html#ac67aace43cf118bfe525d93c48b0a563" title="return a vector of the timestamps for peak values in group data " alt="" coords="166,411,303,437"/>
+<area shape="rect" id="node11" href="$classGroupMonitor.html#a0b4736eeef71ca99196f3f4376002a57" title="return a vector of the timestamps for peak values in group data (sorted in decending order) ..." alt="" coords="147,461,322,488"/>
+<area shape="rect" id="node12" href="$classGroupMonitor.html#a968c489fb1424c09377ab40f33151dbe" title="return a vector of peak values in group data " alt="" coords="164,512,305,539"/>
+<area shape="rect" id="node13" href="$classGroupMonitor.html#a046178e9e1537ba897e738b6ccf5b501" title="return a vector of peak values in group data (sorted in decending order) " alt="" coords="145,563,324,589"/>
+</map>

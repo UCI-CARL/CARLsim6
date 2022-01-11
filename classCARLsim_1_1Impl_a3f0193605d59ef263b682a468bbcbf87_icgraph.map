@@ -1,0 +1,5 @@
+<map id="isInhibitoryGroup" name="isInhibitoryGroup">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aa2a365fb2d2fa56ec274bc4ba7be6747" title="setSTP" alt="" coords="233,5,299,32"/>
+<area shape="rect" id="node4" href="$classCARLsim.html#a3f0193605d59ef263b682a468bbcbf87" title="returns " alt="" coords="173,56,359,83"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a54170c96807d6cdf699fa3664f81505e" title="Sets STP params U, tau_u, and tau_x of a neuron group (pre&#45;synaptically) " alt="" coords="407,5,537,32"/>
+</map>

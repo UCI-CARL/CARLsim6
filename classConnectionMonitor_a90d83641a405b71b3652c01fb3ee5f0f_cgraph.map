@@ -1,0 +1,6 @@
+<map id="setUpdateTimeIntervalSec" name="setUpdateTimeIntervalSec">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="246,5,401,32"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#a90d83641a405b71b3652c01fb3ee5f0f" title="sets time update interval (seconds) for periodically storing weights to file " alt="" coords="231,57,416,98"/>
+<area shape="rect" id="node4" href="$classSNN.html#a5fd2b156623d78138bcb44167eabab78" title="SNN::getSimTime" alt="" coords="485,39,614,65"/>
+<area shape="rect" id="node5" href="$classSNN.html#a592ba98ba647dc5ae0aba0d26241fef8" title="SNN::getWeightMatrix2D" alt="" coords="464,89,635,116"/>
+</map>

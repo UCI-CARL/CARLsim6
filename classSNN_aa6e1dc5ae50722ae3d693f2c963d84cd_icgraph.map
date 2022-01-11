@@ -1,0 +1,5 @@
+<map id="setNeuronParameters" name="setNeuronParameters">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aa6e1dc5ae50722ae3d693f2c963d84cd" title="CARLsim::Impl::setNeuron\lParameters" alt="" coords="203,5,383,47"/>
+<area shape="rect" id="node4" href="$classSNN.html#a5d412fc890ad0668eef5907126d270d6" title="Sets the Izhikevich parameters C, k, vr, vt, a, b, vpeak, c, and d of a neuron group. " alt="" coords="218,71,367,98"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#aa6e1dc5ae50722ae3d693f2c963d84cd" title="Sets Izhikevich params a, b, c, and d with as mean +&#45; standard deviation. " alt="" coords="431,13,645,39"/>
+</map>

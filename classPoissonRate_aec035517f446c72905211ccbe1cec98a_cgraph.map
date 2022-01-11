@@ -1,0 +1,5 @@
+<map id="getRates" name="getRates">
+<area shape="rect" id="node2" href="$classPoissonRate_1_1Impl.html#af4d8939f2440ba0d11ea4807f93ec36e" title="PoissonRate::Impl::\lgetRates" alt="" coords="128,39,267,80"/>
+<area shape="rect" id="node3" href="$classPoissonRate_1_1Impl.html#a0bc9734220de46306a6db7b2b33f7902" title="PoissonRate::Impl::\lisOnGPU" alt="" coords="315,5,453,47"/>
+<area shape="rect" id="node4" href="$classPoissonRate_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" title="PoissonRate::Impl::\lgetNumNeurons" alt="" coords="315,71,453,112"/>
+</map>

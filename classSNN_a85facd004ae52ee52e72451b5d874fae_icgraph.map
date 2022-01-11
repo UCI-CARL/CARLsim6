@@ -1,0 +1,49 @@
+<map id="getSimTimeSec" name="getSimTimeSec">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a85facd004ae52ee52e72451b5d874fae" title="CARLsim::Impl::getSimTimeSec" alt="" coords="168,12,381,39"/>
+<area shape="rect" id="node4" href="$classGroupMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording group data " alt="" coords="429,56,651,83"/>
+<area shape="rect" id="node8" href="$classGroupMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="stops recording group data " alt="" coords="430,157,650,184"/>
+<area shape="rect" id="node10" href="$classNeuronMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording Neuron state " alt="" coords="203,702,346,743"/>
+<area shape="rect" id="node24" href="$classSNN.html#a8dd319bdd9a54e38f9254cbec099c30a" title="copy required neuron state values from ??? buffer to ??? buffer " alt="" coords="1266,412,1413,439"/>
+<area shape="rect" id="node25" href="$classNeuronMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="stops recording Neuron state " alt="" coords="1515,897,1658,938"/>
+<area shape="rect" id="node41" href="$classSNN.html#a14317186d53aeff564b126a41a333d3c" title="access group status (currently the concentration of neuromodulator) " alt="" coords="205,151,344,177"/>
+<area shape="rect" id="node42" href="$classSNN.html#a876185f4e003c98fb227861e7b84fded" title="copy required spikes from firing buffer to spike buffer " alt="" coords="1271,1119,1408,1145"/>
+<area shape="rect" id="node43" href="$classSpikeMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording AER data " alt="" coords="1477,1119,1696,1145"/>
+<area shape="rect" id="node47" href="$classSpikeMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="stops recording AER data " alt="" coords="1477,1169,1696,1196"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a85facd004ae52ee52e72451b5d874fae" title="returns " alt="" coords="450,5,630,32"/>
+<area shape="rect" id="node5" href="$classGroupMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="723,5,916,32"/>
+<area shape="rect" id="node6" href="$classGroupMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="699,56,940,83"/>
+<area shape="rect" id="node7" href="$classGroupMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="988,5,1201,32"/>
+<area shape="rect" id="node9" href="$classGroupMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="Ends a recording period. " alt="" coords="723,157,915,184"/>
+<area shape="rect" id="node11" href="$classNeuronMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="NeuronMonitor::startRecording" alt="" coords="995,967,1195,993"/>
+<area shape="rect" id="node12" href="$classNeuronMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="469,611,611,653"/>
+<area shape="rect" id="node13" href="$classNeuronMonitor.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="NeuronMonitor::isRecording" alt="" coords="727,648,911,675"/>
+<area shape="rect" id="node21" href="$classNeuronMonitorCore.html#ac8bb3912a3ce86b15842e79d0b421204" title="deletes data from the neuron state vector " alt="" coords="748,765,891,806"/>
+<area shape="rect" id="node23" href="$classNeuronMonitorCore.html#a743a4ad47ef60bc593cc9882bd4ffb57" title="inserts a (time,neurId) tupel into the D Neuron State vector " alt="" coords="748,386,891,427"/>
+<area shape="rect" id="node31" href="$classNeuronMonitorCore.html#a5113f6b476e3e3544ecbffefa313234d" title="sets pointer to Neuron file " alt="" coords="748,259,891,301"/>
+<area shape="rect" id="node36" href="$classNeuronMonitorCore.html#a5414db20073ada3806b3c35686c9a6f4" title="returns the Neuron state vector " alt="" coords="748,517,891,558"/>
+<area shape="rect" id="node37" href="$classNeuronMonitorCore.html#aff9eb621d9c78a5e33f1435eff0e9ba9" title="NeuronMonitorCore::\lgetVectorU" alt="" coords="748,582,891,623"/>
+<area shape="rect" id="node38" href="$classNeuronMonitorCore.html#aa1e83b424e9145add71076cadfadb200" title="NeuronMonitorCore::\lgetVectorI" alt="" coords="748,699,891,741"/>
+<area shape="rect" id="node39" href="$classNeuronMonitorCore.html#a388f572c62279f839ee138a9afbdeeb5" title="prints neuron states in human&#45;readable format " alt="" coords="748,451,891,493"/>
+<area shape="rect" id="node14" href="$classNeuronMonitor.html#ac8bb3912a3ce86b15842e79d0b421204" title="NeuronMonitor::clear" alt="" coords="1023,775,1166,801"/>
+<area shape="rect" id="node15" href="$classNeuronMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="NeuronMonitor::stopRecording" alt="" coords="1764,793,1963,820"/>
+<area shape="rect" id="node16" href="$classNeuronMonitor.html#a388f572c62279f839ee138a9afbdeeb5" title="NeuronMonitor::print" alt="" coords="1025,471,1165,497"/>
+<area shape="rect" id="node17" href="$classNeuronMonitor.html#a22cd4deca28f0e9e8dd2e576b75b02a8" title="Returns the ... " alt="" coords="991,623,1198,649"/>
+<area shape="rect" id="node18" href="$classNeuronMonitor.html#a5414db20073ada3806b3c35686c9a6f4" title="returns the Neuron state vectors " alt="" coords="1005,521,1185,548"/>
+<area shape="rect" id="node19" href="$classNeuronMonitor.html#aff9eb621d9c78a5e33f1435eff0e9ba9" title="NeuronMonitor::getVectorU" alt="" coords="1004,572,1185,599"/>
+<area shape="rect" id="node20" href="$classNeuronMonitor.html#aa1e83b424e9145add71076cadfadb200" title="NeuronMonitor::getVectorI" alt="" coords="1007,724,1182,751"/>
+<area shape="rect" id="node22" href="$classNeuronMonitorCore.html#a1fea34ca55f65e7cfeb05d870b2e741b" title="constructor (called by CARLsim::setNeuronMonitor) " alt="" coords="1023,826,1166,867"/>
+<area shape="rect" id="node26" href="$classSNN.html#a3df37c7539f784fe7a939c5da922f41b" title="run the simulation for n sec " alt="" coords="1542,467,1631,493"/>
+<area shape="rect" id="node27" href="$classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" title="CARLsim::Impl::runNetwork" alt="" coords="1770,523,1957,549"/>
+<area shape="rect" id="node28" href="$classCARLsim.html#aafb2d44405c96aafe089f96ff867018d" title="run the simulation for time=(nSec*seconds + nMsec*milliseconds) " alt="" coords="2059,936,2213,963"/>
+<area shape="rect" id="node29" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="2289,1086,2433,1127"/>
+<area shape="rect" id="node30" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="2481,1086,2625,1127"/>
+<area shape="rect" id="node32" href="$classNeuronMonitor.html#a11168f8252e1416f1706b5f7cae0be1e" title="NeuronMonitor::setLogFile" alt="" coords="1007,252,1182,279"/>
+<area shape="rect" id="node33" href="$classSNN.html#a4c62ae1b8cff6aedfdf98cb8808d14e1" title="sets up a neuron monitor registered with a callback to process the neuron state values, there can only be one NeuronMonitor per group " alt="" coords="1032,56,1157,83"/>
+<area shape="rect" id="node34" href="$classCARLsim_1_1Impl.html#ad09ccf4ff95aa4f7b629afad588b0c88" title="CARLsim::Impl::setNeuron\lMonitor" alt="" coords="1249,41,1429,82"/>
+<area shape="rect" id="node35" href="$classCARLsim.html#a9f96445ca9cb3edb1532b6c741ec5736" title="Sets a Neuron Monitor for a groups, print voltage, recovery, and total current values to binary file..." alt="" coords="1491,48,1682,75"/>
+<area shape="rect" id="node40" href="$classNeuronMonitorCore.html#a38f87732cc929797d9648e68cd509f1b" title="sets timestamp of last NeuronMonitor update " alt="" coords="1023,405,1166,446"/>
+<area shape="rect" id="node44" href="$classSpikeMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="Starts a new recording period. " alt="" coords="2041,1068,2231,1095"/>
+<area shape="rect" id="node45" href="$classSpikeMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="sets status of PersistentData mode " alt="" coords="1744,1119,1983,1145"/>
+<area shape="rect" id="node46" href="$classSpikeMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" title="Sets PersistentMode either on (true) or off (false) " alt="" coords="2031,1119,2241,1145"/>
+<area shape="rect" id="node48" href="$classSpikeMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="Ends a recording period. " alt="" coords="2041,1169,2231,1196"/>
+</map>

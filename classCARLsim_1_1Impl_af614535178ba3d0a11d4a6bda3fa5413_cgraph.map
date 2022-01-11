@@ -1,0 +1,7 @@
+<map id="getConductanceAMPA" name="getConductanceAMPA">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="227,5,381,32"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="249,56,359,83"/>
+<area shape="rect" id="node5" href="$classSNN.html#a9f12565a3b01482ccba3b63c5d6c3279" title="SNN::getConductanceAMPA" alt="" coords="208,107,400,133"/>
+<area shape="rect" id="node4" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="472,56,619,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#ad4930e827d0e5cc6a63dc4a07e1879dc" title="SNN::isSimulationWithCOBA" alt="" coords="448,107,643,133"/>
+</map>

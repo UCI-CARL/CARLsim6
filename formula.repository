@@ -1,0 +1,112 @@
+\form#0:\begin{eqnarray} \frac{du}{dt} & = & \frac{-u}{STP\_tau\_u} + STP\_U (1-u^-) \delta(t-t_{spk}) \\ \frac{dx}{dt} & = & \frac{1-x}{STP\_tau\_x} - u^+ x^- \delta(t-t_{spk}) \\ \frac{dI}{dt} & = & \frac{-I}{\tau_S} + A u^+ x- \delta(t-t_{spk}) \end{eqnarray}
+\form#1:\[ STDP(t) = \begin{cases} \alpha^+(1-(1-e^{-\frac{t}{\tau^+}})(\frac{1+e^{-\frac{\gamma}{\tau^+}}}{1-e^{-\frac{\gamma}{\tau^+}}})) & \text{if } t < \gamma \\ -\alpha^+ e^{-\frac{t}{\tau^+}} & \text{if } t \geq \gamma \end{cases} \]
+\form#2:\begin{align*} \frac{dv}{dt} = & ~ 0.04v^2 + 5v + 140 - u + I & \text{(1)}\\ \frac{du}{dt} = & ~ a (bv - u) & \text{(2)} \end{align*}
+\form#3:$v$
+\form#4:$I$
+\form#5:$I = i_{syn} + I_{ext}$
+\form#6:$u$
+\form#7:$a$
+\form#8:$b$
+\form#9:$t$
+\form#10:$a, b, c, d$
+\form#11:$v_{cutoff}=+30$
+\form#12:\begin{align*} v(v>30) = & ~ c & \text{(3)}\\ u(v>30) = & ~ u + d & \text{(4)}\end{align*}
+\form#13:$a=0.02, b=0.2, c=-65, d=8$
+\form#14:$a=0.1, b=0.2, c=-65, d=2)$
+\form#15:\begin{align*} \frac{dv}{dt} = & ~ (k (v - vr) (v - vt) - u + I) / C & \text{(5)}\\ \end{align*}
+\form#16:$k$
+\form#17:$vr$
+\form#18:$vt$
+\form#19:$C$
+\form#20:\begin{align*} \frac{dv}{dt} = & ~ a (b (v - vr) - u) & \text{(6)}\\ \end{align*}
+\form#21:$C, k, vr, vt, a, b, vpeak, c, d$
+\form#22:$v_{cutoff}=+vpeak$
+\form#23:\begin{align*} v(v>vpeak) = & ~ c & \text{(7)}\\ u(v>vpeak) = & ~ u + d & \text{(8)}\end{align*}
+\form#24:$C=100, k=0.7, vr=-60, vt=-40, a=0.03, b=-2.0, vpeak=35, c=-50, d=100$
+\form#25:$C=20, k=1, vr=-55, vt=-40, a=0.15, b=8, vpeak=25, c=-55, d=200)$
+\form#26:$i_{dendr}$
+\form#27:$I = i_{syn} + i_{dendr} + I_{ext}$
+\form#28:\begin{align*} i_{dendr} = & G_{down} (v - v_{down}) + \sum \limits_{up} G_{up} (v - v_{up}) & \text{(9)} \end{align*}
+\form#29:$G_{up}$
+\form#30:$G_{down}$
+\form#31:$R$
+\form#32:\begin{align*} k \frac{dv}{dt} = & ~ - [v - vr] + R I& \text{(10)}\\ \end{align*}
+\form#33:$j$
+\form#34:$ I_{j}^{syn} $
+\form#35:$i$
+\form#36:\begin{align*} I_{j}^{syn} = & ~ \sum \limits_{i=1}^{N} s_{ij}w_{ij} & \text{(5)} \end{align*}
+\form#37:$s_{ij}$
+\form#38:$w_{ij}$
+\form#39:$I_{ij}$
+\form#40:\begin{align*} I_{j}^{syn} = & ~ \sum \limits_{i=1}^{N} i_{ij}w_{ij} & \text{(6)} \end{align*}
+\form#41:$i,j$
+\form#42:$g$
+\form#43:$i_{e}$
+\form#44:$i_{i}$
+\form#45:\begin{align*} i_{e} = & ~ i_{NMDA} + i_{AMPA} & \text{(7)} \\ i_{i} = & ~ i_{GABA_{A}} + i_{GABA_{B}} & \text{(8)} \end{align*}
+\form#46:$i_{AMPA}$
+\form#47:$i_{NMDA}$
+\form#48:\begin{align*} i_{AMPA} = & ~ g_{AMPA}(v-v^{rev}_{AMPA}) & \text{(9)} \\ i_{NMDA} = & ~ g_{NMDA}\frac{\Big[\frac{v+80}{60} \Big]^{2}}{1+\Big[\frac{v+80}{60} \Big]^{2}} (v-v^{rev}_{NMDA}) & \text{(10)} \end{align*}
+\form#49:$v^{rev}$
+\form#50:$i_{GABA_A}$
+\form#51:$i_{GABA_B}$
+\form#52:\begin{align*} i_{GABA_{A}} = & ~ g_{GABA_{A}}(v-v^{rev}_{GABA_{A}}) & \text{(11)} \\ i_{GABA_{B}} = & ~ g_{GABA_{B}}(v-v^{rev}_{GABA_{B}}) & \text{(12)} \end{align*}
+\form#53:\begin{align*} g_{k} = & ~ \sum \limits_{f} e^{t-t_{f}/ \tau} \Theta(t-t_f) & \text{(13)} \end{align*}
+\form#54:$f$
+\form#55:$t_f$
+\form#56:$ \Theta $
+\form#57:$\sigma$
+\form#58:$ (pre.x-post.x)^2/a^2 + (pre.y-post.y)/b^2 <= 1 $
+\form#59:$pre.z==post.z$
+\form#60:$ (pre.x-post.x)^2/a^2 + (pre.y-post.y)/b^2 == 1$
+\form#61:$ pre.x = pre.x / gridPre.x * gridPost.x $
+\form#62:$ pre.y = pre.y / gridPre.y * gridPost.y $
+\form#63:$ pre.z = pre.z / gridPre.z * gridPost.z $
+\form#64:$i_{10}$
+\form#65:\begin{align*} i_{10} = & G_0^{down} (v_{10} - v_{0}) + G_5^{down} (v_{10} - v_{5}) + G_{15}^{up} (v_{10} - v_{15}), & \text{(1)} \end{align*}
+\form#66:$v_n$
+\form#67:$G_n^{down}$
+\form#68:$G_n^{up}$
+\form#69:$ \Delta t = t_{post} - t_{pre} $
+\form#70:$ \Delta t $
+\form#71:$ \Delta t < 0 $
+\form#72:$ \Delta t>0 $
+\form#73:$ \Delta \vert w \vert $
+\form#74:$ \Delta t > 0 $
+\form#75:$ \Delta w = A_{+} \exp(-\Delta t/\tau_{+}) $
+\form#76:$ \Delta t <= 0 $
+\form#77:$ \Delta w = A_{-} \exp(-\Delta t/\tau_{-}) $
+\form#78:$ A_{+}$
+\form#79:$ A_{-}$
+\form#80:$ \tau_{+} $
+\form#81:$\tau_{-}$
+\form#82:\[ \frac{dw_{i,j}}{dt} = \delta + \beta(\mbox{pre-before-post}_{i,j} + \mbox{pre-after-post}_{i,j}) \]
+\form#83:$ w_{i,j} $
+\form#84:$ \delta $
+\form#85:$ \beta $
+\form#86:$ \mbox{pre-before-post}_{i,j} $
+\form#87:$ \mbox{pre-after-post}_{i,j} $
+\form#88:\[ \frac{dw_{i,j}}{dt} = \bigg[ \alpha \cdot w_{i,j} \Big(1-\frac{R_{avg}}{R_{target}} \Big) + \beta \cdot (\mbox{pre-before-post}_{i,j} + \mbox{pre-after-post}_{i,j}) \bigg] \cdot K \]
+\form#89:$ \frac{dw_{i,j}}{dt} $
+\form#90:$ K $
+\form#91:$ \alpha $
+\form#92:$ R_{avg} $
+\form#93:$ R_{target} $
+\form#94:\[ K=\frac{R_{avg}}{T \cdot \Big( 1 + \vert 1- R_{avg}/R_{target} \vert \cdot \gamma \Big) } \]
+\form#95:$ T $
+\form#96:$ \gamma $
+\form#97:$ \alpha = 0.1 $
+\form#98:$ T = 10.0 $
+\form#99:$ AMPA $
+\form#100:$ NMDA $
+\form#101:$ mGluR's $
+\form#102:$ GABA_A $
+\form#103:$ GABA_B $
+\form#104:$ Nicotinic $
+\form#105:$ Muscarinic $
+\form#106:$D1, D2,..$
+\form#107:$\alpha_1 - \alpha_2 $
+\form#108:$\beta_1 - \beta_2 $
+\form#109:$5-HT_1$
+\form#110:$5-HT_2$
+\form#111:$5-HT3$

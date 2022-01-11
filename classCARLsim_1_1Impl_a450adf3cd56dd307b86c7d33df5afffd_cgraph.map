@@ -1,0 +1,8 @@
+<map id="getConductanceNMDA" name="getConductanceNMDA">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="231,5,385,32"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="253,56,363,83"/>
+<area shape="rect" id="node5" href="$classSNN.html#ab251be3aba6d73b79fdb0d44019b1790" title="SNN::getConductanceNMDA" alt="" coords="211,107,405,133"/>
+<area shape="rect" id="node4" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="492,56,639,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#ad4930e827d0e5cc6a63dc4a07e1879dc" title="SNN::isSimulationWithCOBA" alt="" coords="468,107,663,133"/>
+<area shape="rect" id="node7" href="$classSNN.html#a201166567b58f8243db9455ad31b3763" title="SNN::isSimulationWithNMDARise" alt="" coords="453,157,677,184"/>
+</map>

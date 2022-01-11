@@ -1,0 +1,9 @@
+<map id="scaleWeights" name="scaleWeights">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a7cc8c47ac0dac59e837ea3b0d229bec5" title="CARLsim::Impl::scaleWeights" alt="" coords="155,56,353,83"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="443,5,598,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" title="CARLsim::Impl::getNumConnections" alt="" coords="401,56,640,83"/>
+<area shape="rect" id="node8" href="$classSNN.html#a1233e96d5b75c1de533375d52ee18869" title="SNN::scaleWeights" alt="" coords="451,107,590,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" title="SNN::getNumConnections" alt="" coords="688,56,867,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="915,56,1144,83"/>
+<area shape="rect" id="node7" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="1192,56,1333,83"/>
+</map>

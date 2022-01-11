@@ -1,0 +1,51 @@
+<map id="exitSimulation" name="exitSimulation">
+<area shape="rect" id="node2" href="$snn__cpu__module_8cpp.html#ac42c21b5ae4b743f8e00b7dfe04dcfe3" title="dvdtLIF" alt="" coords="220,5,287,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#a6eec2a657455176862ab71d4ee762e07" title="make from each neuron in grpId1 to &#39;numPostSynapses&#39; neurons in grpId2 " alt="" coords="219,56,287,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a2301fb7a8931b6b91de61c19255a4dcc" title="Creates a group of Izhikevich spiking neurons. " alt="" coords="207,107,300,133"/>
+<area shape="rect" id="node8" href="$classSNN.html#ab47cbdc62b1d4af153d9f8395cf5e5b1" title="Creates a group of LIF spiking neurons. " alt="" coords="197,157,309,184"/>
+<area shape="rect" id="node10" href="$classSNN.html#abe7f46d33329d940d390817f64114356" title="Set the spike&#45;timing&#45;dependent plasticity (STDP) for a neuron group. " alt="" coords="211,208,296,235"/>
+<area shape="rect" id="node16" href="$classSNN.html#a281a359802ac8263a7e323085f3c83fc" title="Set the inhibitory spike&#45;timing&#45;dependent plasticity (STDP) with anti&#45;hebbian curve for a neuron grou..." alt="" coords="213,259,293,285"/>
+<area shape="rect" id="node19" href="$classSNN.html#a61ef9df510c9eecbdbda7ec787f2db4b" title="sets up a group monitor registered with a callback to process the spikes. " alt="" coords="194,309,313,336"/>
+<area shape="rect" id="node22" href="$classSNN.html#a9773c7b8f7fbb53c92ec5623ea99cb69" title="sets up a network monitor registered with a callback to process the spikes. " alt="" coords="706,360,855,387"/>
+<area shape="rect" id="node25" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="157,485,349,512"/>
+<area shape="rect" id="node40" href="$classSNN.html#a4afa2f85f5939e81ec45c7760e23d932" title="returns RangeWeight struct of a connection " alt="" coords="194,655,313,681"/>
+<area shape="rect" id="node42" href="$snn__manager_8cpp.html#af7e3c6ada8c131790477ada99ec34bc3" title="compareDelay" alt="" coords="727,924,834,951"/>
+<area shape="rect" id="node43" href="$classSNN.html#aa9a9c5646dd11beb60fcf70d2216024a" title="returns whether group has homeostasis enabled (true) or not (false) " alt="" coords="168,764,339,791"/>
+<area shape="rect" id="node48" href="$classSNN.html#a845adad4645977755e508610dc3c1464" title="checks whether a point pre lies in the receptive field for point post " alt="" coords="204,949,303,976"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#afed01f52e943df5e5476428c4fbef8f7" title="CARLsim::Impl::connect" alt="" coords="422,56,589,83"/>
+<area shape="rect" id="node5" href="$classCARLsim.html#a30b16b93d57551dcde0559e8a4e98e27" title="Connects a presynaptic to a postsynaptic group using fixed/plastic weights and a range of delay value..." alt="" coords="714,56,847,83"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#a2301fb7a8931b6b91de61c19255a4dcc" title="CARLsim::Impl::createGroup" alt="" coords="410,107,601,133"/>
+<area shape="rect" id="node9" href="$classCARLsim_1_1Impl.html#ab47cbdc62b1d4af153d9f8395cf5e5b1" title="CARLsim::Impl::createGroupLIF" alt="" coords="400,157,611,184"/>
+<area shape="rect" id="node11" href="$classCARLsim_1_1Impl.html#ac79aadf0ac87b2ae34f39ae796ad81a3" title="CARLsim::Impl::setESTDP" alt="" coords="414,208,597,235"/>
+<area shape="rect" id="node12" href="$classCARLsim_1_1Impl.html#af69130fee82ddc631a62ed0878c65e9f" title="CARLsim::Impl::setSTDP" alt="" coords="693,208,868,235"/>
+<area shape="rect" id="node14" href="$classCARLsim.html#ac79aadf0ac87b2ae34f39ae796ad81a3" title="Sets default E&#45;STDP mode and parameters. " alt="" coords="705,107,856,133"/>
+<area shape="rect" id="node15" href="$classCARLsim.html#a675bb0d593722135066c11b0d3d99d50" title="Sets default I&#45;STDP mode and parameters. " alt="" coords="708,157,853,184"/>
+<area shape="rect" id="node13" href="$classCARLsim.html#af69130fee82ddc631a62ed0878c65e9f" title="Sets default STDP mode and params. " alt="" coords="986,208,1127,235"/>
+<area shape="rect" id="node17" href="$classCARLsim_1_1Impl.html#a675bb0d593722135066c11b0d3d99d50" title="CARLsim::Impl::setISTDP" alt="" coords="416,259,595,285"/>
+<area shape="rect" id="node18" href="$classCARLsim.html#a30b0193a57cdc6ae3a2aa4cb9e3bc214" title="Sets I&#45;STDP with the exponential curve. " alt="" coords="708,259,853,285"/>
+<area shape="rect" id="node20" href="$classCARLsim_1_1Impl.html#ad423c8d8f74e6369615db0d1af700c99" title="CARLsim::Impl::setGroupMonitor" alt="" coords="397,309,613,336"/>
+<area shape="rect" id="node21" href="$classCARLsim.html#a8ea5d069c849b257d8de63aa482f8837" title="Sets a group monitor for a group, custom GroupMonitor class. " alt="" coords="689,309,872,336"/>
+<area shape="rect" id="node23" href="$classCARLsim_1_1Impl.html#a012dcdbbe9769131d98ddf680743bff3" title="CARLsim::Impl::setConnection\lMonitor" alt="" coords="955,335,1159,377"/>
+<area shape="rect" id="node24" href="$classCARLsim.html#a0f4f273689484d0ceaa5a40f64fc82fc" title="Sets a connection monitor for a group, custom ConnectionMonitor class. " alt="" coords="1235,343,1449,369"/>
+<area shape="rect" id="node26" href="$classCARLsim_1_1Impl.html#a52f149e224abff772962dea6680398e2" title="CARLsim::Impl::getNumSynaptic\lConnections" alt="" coords="948,531,1165,573"/>
+<area shape="rect" id="node28" href="$classConnectionMonitorCore.html#a02fd73d861ef2e4aabb38c0c9ff82947" title="ConnectionMonitorCore\l::init" alt="" coords="426,437,585,478"/>
+<area shape="rect" id="node33" href="$classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" title="getNumConnections" alt="" coords="435,579,576,605"/>
+<area shape="rect" id="node27" href="$classCARLsim.html#a52f149e224abff772962dea6680398e2" title="returns the number of connections associated with a connection ID " alt="" coords="1213,539,1471,565"/>
+<area shape="rect" id="node29" href="$classConnectionMonitorCore.html#ab64d9ff17fece61e850660bdd4ca00d2" title="ConnectionMonitorCore\l::takeSnapshot" alt="" coords="701,462,860,503"/>
+<area shape="rect" id="node31" href="$classConnectionMonitorCore.html#acf625cff31a558c7d6786773d0c2693c" title="ConnectionMonitorCore\l::getUpdateTimeIntervalSec" alt="" coords="964,401,1149,442"/>
+<area shape="rect" id="node30" href="$classConnectionMonitor.html#ab64d9ff17fece61e850660bdd4ca00d2" title="Takes a snapshot of the current weight state. " alt="" coords="987,466,1126,507"/>
+<area shape="rect" id="node32" href="$classSNN.html#a68862cb4e6c749219c20c38aeab06986" title="polls connection weights " alt="" coords="1257,408,1427,435"/>
+<area shape="rect" id="node34" href="$classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" title="CARLsim::Impl::getNumConnections" alt="" coords="661,629,900,656"/>
+<area shape="rect" id="node39" href="$classSNN.html#af67a432c859556cff7d6b1d59638ad01" title="sets the weight value of a specific synapse " alt="" coords="740,579,821,605"/>
+<area shape="rect" id="node35" href="$classCARLsim_1_1Impl.html#af71e7773ae33e0f23e91ff46d014e1e8" title="CARLsim::Impl::biasWeights" alt="" coords="961,597,1153,624"/>
+<area shape="rect" id="node36" href="$classCARLsim_1_1Impl.html#a7cc8c47ac0dac59e837ea3b0d229bec5" title="CARLsim::Impl::scaleWeights" alt="" coords="957,648,1156,675"/>
+<area shape="rect" id="node37" href="$classCARLsim_1_1Impl.html#a4afa2f85f5939e81ec45c7760e23d932" title="CARLsim::Impl::getWeight\lRange" alt="" coords="967,699,1146,741"/>
+<area shape="rect" id="node38" href="$classCARLsim.html#a4afa2f85f5939e81ec45c7760e23d932" title="returns the RangeWeight struct for a specific connection ID " alt="" coords="1250,707,1434,733"/>
+<area shape="rect" id="node41" href="$classSNN.html#a1234b840b62d280e9131486f4fad0d93" title="temporary getter to return pointer to stpx[] " alt="" coords="469,705,542,732"/>
+<area shape="rect" id="node44" href="$classCARLsim_1_1Impl.html#aa9a9c5646dd11beb60fcf70d2216024a" title="CARLsim::Impl::isGroupWith\lHomeostasis" alt="" coords="409,757,601,798"/>
+<area shape="rect" id="node47" href="$classSNN.html#a0ef541007b0004e308c89f2f326fb328" title="isDopaminergicGroup" alt="" coords="432,823,579,849"/>
+<area shape="rect" id="node45" href="$classCARLsim_1_1Impl.html#aef4d35935c52e55a957aa96e4d6218f6" title="CARLsim::Impl::setHomeoBase\lFiringRate" alt="" coords="675,799,886,841"/>
+<area shape="rect" id="node46" href="$classCARLsim.html#aa9a9c5646dd11beb60fcf70d2216024a" title="Returns whether a group has homeostasis enabled. " alt="" coords="663,748,899,775"/>
+<area shape="rect" id="node49" href="$classSNN.html#a3a42619b35349cd8d68f2ea21c865e36" title="getConductanceConfig" alt="" coords="703,1000,858,1027"/>
+<area shape="rect" id="node50" href="$classSNN.html#aa1487d5e850f107e5b6890cf6933b7c1" title="isPoint3DinRF" alt="" coords="452,975,559,1001"/>
+</map>

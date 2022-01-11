@@ -1,0 +1,4 @@
+<map id="print" name="print">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#a1025cfe9db2e3f4eddc8a93928ec1a99" title="returns the timestamp of the current snapshot (not necessarily CARLsim::getSimTime) ..." alt="" coords="100,5,285,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="119,56,266,83"/>
+</map>

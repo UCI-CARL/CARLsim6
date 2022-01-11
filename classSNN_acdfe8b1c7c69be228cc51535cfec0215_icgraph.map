@@ -1,0 +1,21 @@
+<map id="getConnectConfig" name="getConnectConfig">
+<area shape="rect" id="node2" href="$classConnectionMonitorCore.html#a02fd73d861ef2e4aabb38c0c9ff82947" title="ConnectionMonitorCore\l::init" alt="" coords="367,100,526,141"/>
+<area shape="rect" id="node15" href="$classSNN.html#acd2fe569d2092f6e9cf624d18b93b1bf" title="returns file pointer to log file " alt="" coords="180,191,277,218"/>
+<area shape="rect" id="node3" href="$classConnectionMonitorCore.html#ab64d9ff17fece61e850660bdd4ca00d2" title="ConnectionMonitorCore\l::takeSnapshot" alt="" coords="618,20,777,61"/>
+<area shape="rect" id="node5" href="$classConnectionMonitorCore.html#acf625cff31a558c7d6786773d0c2693c" title="ConnectionMonitorCore\l::getUpdateTimeIntervalSec" alt="" coords="836,71,1021,112"/>
+<area shape="rect" id="node12" href="$classSNN.html#a9773c7b8f7fbb53c92ec5623ea99cb69" title="sets up a network monitor registered with a callback to process the spikes. " alt="" coords="623,137,772,163"/>
+<area shape="rect" id="node4" href="$classConnectionMonitor.html#ab64d9ff17fece61e850660bdd4ca00d2" title="Takes a snapshot of the current weight state. " alt="" coords="859,5,998,47"/>
+<area shape="rect" id="node6" href="$classSNN.html#a68862cb4e6c749219c20c38aeab06986" title="polls connection weights " alt="" coords="1101,78,1271,105"/>
+<area shape="rect" id="node7" href="$classSNN.html#a3df37c7539f784fe7a939c5da922f41b" title="run the simulation for n sec " alt="" coords="1341,78,1431,105"/>
+<area shape="rect" id="node8" href="$classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" title="CARLsim::Impl::runNetwork" alt="" coords="1479,78,1665,105"/>
+<area shape="rect" id="node9" href="$classCARLsim.html#aafb2d44405c96aafe089f96ff867018d" title="run the simulation for time=(nSec*seconds + nMsec*milliseconds) " alt="" coords="1713,78,1868,105"/>
+<area shape="rect" id="node10" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="1916,71,2060,112"/>
+<area shape="rect" id="node11" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="2108,71,2252,112"/>
+<area shape="rect" id="node13" href="$classCARLsim_1_1Impl.html#a012dcdbbe9769131d98ddf680743bff3" title="CARLsim::Impl::setConnection\lMonitor" alt="" coords="827,136,1031,177"/>
+<area shape="rect" id="node14" href="$classCARLsim.html#a0f4f273689484d0ceaa5a40f64fc82fc" title="Sets a connection monitor for a group, custom ConnectionMonitor class. " alt="" coords="1079,143,1293,170"/>
+<area shape="rect" id="node16" href="$classCARLsim_1_1Impl.html#acd2fe569d2092f6e9cf624d18b93b1bf" title="CARLsim::Impl::getLogFpLog" alt="" coords="349,166,544,193"/>
+<area shape="rect" id="node18" href="$classGroupMonitorCore.html#abbe561f1d7285414b1a9333fc09ac382" title="constructor (called by CARLsim::setGroupMonitor) " alt="" coords="325,217,568,243"/>
+<area shape="rect" id="node19" href="$classNeuronMonitorCore.html#a1fea34ca55f65e7cfeb05d870b2e741b" title="constructor (called by CARLsim::setNeuronMonitor) " alt="" coords="375,268,518,309"/>
+<area shape="rect" id="node20" href="$classSpikeMonitorCore.html#ad925d84fd6af2e2d1565a65987c11e43" title="constructor (called by CARLsim::setSpikeMonitor) " alt="" coords="327,334,566,361"/>
+<area shape="rect" id="node17" href="$classCARLsim.html#a62495363b0ec3da7e68bf2a90bdc4fd8" title="returns file pointer to log file " alt="" coords="616,187,779,214"/>
+</map>

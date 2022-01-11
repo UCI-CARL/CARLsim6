@@ -1,0 +1,4 @@
+<map id="setNeuronParametersLIF" name="setNeuronParametersLIF">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ae3d3c73126e9aa3fe8e81ea180860952" title="CARLsim::Impl::setNeuron\lParametersLIF" alt="" coords="221,5,401,47"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#ae8becfdd05912ef1406493f7f28074b8" title="Sets neuron parameters for a group of LIF spiking neurons. " alt="" coords="449,13,683,39"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="getSpikeMonitor" name="getSpikeMonitor">
+<area shape="rect" id="node2" href="$classCARLsim.html#a866a9c6e2b2630816fc66adda1381655" title="Returns the number of spikes per neuron for a certain group. " alt="" coords="169,13,351,39"/>
+<area shape="rect" id="node3" href="$classSimpleWeightTuner_1_1Impl.html#ac1c93ba1766ad5ada73dea7ba499d541" title="SimpleWeightTuner::\lImpl::setTargetFiringRate" alt="" coords="399,5,569,47"/>
+<area shape="rect" id="node4" href="$classSimpleWeightTuner.html#ac1c93ba1766ad5ada73dea7ba499d541" title="Sets up the target firing rate of a specific group. " alt="" coords="617,5,761,47"/>
+</map>

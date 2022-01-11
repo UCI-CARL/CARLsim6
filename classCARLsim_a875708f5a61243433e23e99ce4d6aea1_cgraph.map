@@ -1,0 +1,13 @@
+<map id="setExternalCurrent" name="setExternalCurrent">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a875708f5a61243433e23e99ce4d6aea1" title="CARLsim::Impl::setExternal\lCurrent" alt="" coords="184,107,371,149"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="CARLsim::Impl::getGroupName" alt="" coords="419,5,627,32"/>
+<area shape="rect" id="node4" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="701,60,856,87"/>
+<area shape="rect" id="node8" href="$classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" title="CARLsim::Impl::getGroupNum\lNeurons" alt="" coords="422,173,623,214"/>
+<area shape="rect" id="node10" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="CARLsim::Impl::isPoisson\lGroup" alt="" coords="434,107,611,149"/>
+<area shape="rect" id="node12" href="$classSNN.html#a875708f5a61243433e23e99ce4d6aea1" title="injects current (mA) into the soma of every neuron in the group " alt="" coords="439,239,607,265"/>
+<area shape="rect" id="node5" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="CARLsim::Impl::getNumGroups" alt="" coords="675,115,883,141"/>
+<area shape="rect" id="node7" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="705,5,852,32"/>
+<area shape="rect" id="node6" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="931,115,1077,141"/>
+<area shape="rect" id="node9" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="SNN::getGroupNumNeurons" alt="" coords="684,232,873,259"/>
+<area shape="rect" id="node11" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="703,171,854,197"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="isGroupWithHomeostasis" name="isGroupWithHomeostasis">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#aa9a9c5646dd11beb60fcf70d2216024a" title="CARLsim::Impl::isGroupWith\lHomeostasis" alt="" coords="224,35,416,76"/>
+<area shape="rect" id="node6" href="$classSNN.html#a0ef541007b0004e308c89f2f326fb328" title="isDopaminergicGroup" alt="" coords="247,101,393,127"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#aef4d35935c52e55a957aa96e4d6218f6" title="CARLsim::Impl::setHomeoBase\lFiringRate" alt="" coords="477,5,687,47"/>
+<area shape="rect" id="node5" href="$classCARLsim.html#aa9a9c5646dd11beb60fcf70d2216024a" title="Returns whether a group has homeostasis enabled. " alt="" coords="464,71,700,98"/>
+<area shape="rect" id="node4" href="$classCARLsim.html#a4f0d341bb17f0d6e0b3aa8db28ef4513" title="Sets the homeostatic target firing rate (enforced through homeostatic synaptic scaling) ..." alt="" coords="748,13,985,39"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="getConductanceGABAb" name="getConductanceGABAb">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a917e6c84361a393ba5752f365cce008f" title="CARLsim::Impl::getConductance\lGABAb" alt="" coords="215,5,429,47"/>
+<area shape="rect" id="node4" href="$classSNN.html#a0d88c00011be6536c68f8e6bc70ca1a3" title="temporary getter to return pointer to current[] " alt="" coords="281,71,363,98"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#aa50bf7b25bc7c5c164e2a11ee763796e" title="gets GABAb vector of a group " alt="" coords="477,13,704,39"/>
+</map>

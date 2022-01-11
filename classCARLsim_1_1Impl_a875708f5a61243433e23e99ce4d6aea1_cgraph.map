@@ -1,0 +1,12 @@
+<map id="setExternalCurrent" name="setExternalCurrent">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="getGroupName" alt="" coords="213,5,323,32"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="417,56,572,83"/>
+<area shape="rect" id="node7" href="$classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" title="getGroupNumNeurons" alt="" coords="192,157,344,184"/>
+<area shape="rect" id="node9" href="$classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" title="isPoissonGroup" alt="" coords="211,107,325,133"/>
+<area shape="rect" id="node11" href="$classSNN.html#a875708f5a61243433e23e99ce4d6aea1" title="injects current (mA) into the soma of every neuron in the group " alt="" coords="184,208,352,235"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="439,107,550,133"/>
+<area shape="rect" id="node6" href="$classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" title="SNN::getGroupName" alt="" coords="421,5,568,32"/>
+<area shape="rect" id="node5" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="637,107,784,133"/>
+<area shape="rect" id="node8" href="$classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" title="SNN::getGroupNumNeurons" alt="" coords="400,208,589,235"/>
+<area shape="rect" id="node10" href="$classSNN.html#a3764348d44236ad4932627cd4d199c31" title="SNN::isPoissonGroup" alt="" coords="419,157,570,184"/>
+</map>

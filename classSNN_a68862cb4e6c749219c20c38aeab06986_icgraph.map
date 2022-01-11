@@ -1,0 +1,7 @@
+<map id="updateConnectionMonitor" name="updateConnectionMonitor">
+<area shape="rect" id="node2" href="$classSNN.html#a3df37c7539f784fe7a939c5da922f41b" title="run the simulation for n sec " alt="" coords="224,13,313,39"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" title="CARLsim::Impl::runNetwork" alt="" coords="361,13,548,39"/>
+<area shape="rect" id="node4" href="$classCARLsim.html#aafb2d44405c96aafe089f96ff867018d" title="run the simulation for time=(nSec*seconds + nMsec*milliseconds) " alt="" coords="596,13,751,39"/>
+<area shape="rect" id="node5" href="$classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" title="SimpleWeightTuner::\lImpl::iterate" alt="" coords="799,5,943,47"/>
+<area shape="rect" id="node6" href="$classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" title="Performs an iteration step of the tuning algorithm. " alt="" coords="991,5,1135,47"/>
+</map>

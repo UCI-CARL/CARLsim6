@@ -1,0 +1,7 @@
+<map id="isSimulationWithNMDARise" name="isSimulationWithNMDARise">
+<area shape="rect" id="node2" href="$snn__cpu__module_8cpp.html#ac42c21b5ae4b743f8e00b7dfe04dcfe3" title="dvdtLIF" alt="" coords="285,5,352,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#ab251be3aba6d73b79fdb0d44019b1790" title="getConductanceNMDA" alt="" coords="240,56,397,83"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a450adf3cd56dd307b86c7d33df5afffd" title="CARLsim::Impl::getConductanceNMDA" alt="" coords="445,31,700,57"/>
+<area shape="rect" id="node6" href="$classSNN.html#a0d88c00011be6536c68f8e6bc70ca1a3" title="temporary getter to return pointer to current[] " alt="" coords="531,81,614,108"/>
+<area shape="rect" id="node5" href="$classCARLsim.html#ab251be3aba6d73b79fdb0d44019b1790" title="gets NMDA vector of a group " alt="" coords="748,31,971,57"/>
+</map>

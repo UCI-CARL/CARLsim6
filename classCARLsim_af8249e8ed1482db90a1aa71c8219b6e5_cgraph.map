@@ -1,0 +1,9 @@
+<map id="getConnSTDPInfo" name="getConnSTDPInfo">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#ac59a4a3c4479879564d6c3ec9bc4ac4f" title="CARLsim::Impl::getConnSTDPInfo" alt="" coords="183,56,409,83"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="499,5,654,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" title="CARLsim::Impl::getNumConnections" alt="" coords="457,56,696,83"/>
+<area shape="rect" id="node8" href="$classSNN.html#a37221c7881b5fa8d1d806804fb9521ab" title="SNN::getConnSTDPInfo" alt="" coords="493,107,660,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" title="SNN::getNumConnections" alt="" coords="744,56,923,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="971,56,1200,83"/>
+<area shape="rect" id="node7" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="1248,56,1389,83"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="isGroupWithHomeostasis" name="isGroupWithHomeostasis">
+<area shape="rect" id="node2" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="251,5,405,32"/>
+<area shape="rect" id="node3" href="$classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" title="getNumGroups" alt="" coords="273,56,383,83"/>
+<area shape="rect" id="node5" href="$classSNN.html#aa9a9c5646dd11beb60fcf70d2216024a" title="returns whether group has homeostasis enabled (true) or not (false) " alt="" coords="224,107,432,133"/>
+<area shape="rect" id="node4" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="480,56,627,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="483,107,624,133"/>
+</map>

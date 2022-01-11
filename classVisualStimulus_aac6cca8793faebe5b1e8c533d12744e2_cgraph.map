@@ -1,0 +1,8 @@
+<map id="readFramePoisson" name="readFramePoisson">
+<area shape="rect" id="node2" href="$classVisualStimulus_1_1Impl.html#a7c85c4aea5e909cdc928547d8fd62b2e" title="VisualStimulus::Impl\l::readFramePoisson" alt="" coords="184,64,327,105"/>
+<area shape="rect" id="node3" href="$classPoissonRate.html#a99ac51f213a6d1c8487b1519106df970" title="Sets the mean firing rate of a particular neuron ID. " alt="" coords="375,71,525,98"/>
+<area shape="rect" id="node4" href="$classPoissonRate_1_1Impl.html#a99ac51f213a6d1c8487b1519106df970" title="PoissonRate::Impl::\lsetRate" alt="" coords="573,64,712,105"/>
+<area shape="rect" id="node5" href="$classPoissonRate_1_1Impl.html#a39ade841ecc17249712f693ef8ffaa19" title="PoissonRate::Impl::\lsetRates" alt="" coords="760,5,899,47"/>
+<area shape="rect" id="node6" href="$classPoissonRate_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" title="PoissonRate::Impl::\lgetNumNeurons" alt="" coords="947,35,1085,76"/>
+<area shape="rect" id="node7" href="$classPoissonRate_1_1Impl.html#a0bc9734220de46306a6db7b2b33f7902" title="PoissonRate::Impl::\lisOnGPU" alt="" coords="760,123,899,164"/>
+</map>

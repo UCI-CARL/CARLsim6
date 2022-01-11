@@ -1,0 +1,5 @@
+<map id="getMode" name="getMode">
+<area shape="rect" id="node2" href="$classSpikeMonitor.html#af6c333e6cefff92d0e354eca70625cdc" title="Returns the total number of spikes in the group. " alt="" coords="135,5,266,32"/>
+<area shape="rect" id="node3" href="$classSpikeMonitor.html#a005a2f884f6260054483d4fa6ed6ddbb" title="returns the total number of spikes of a specific neuron in the group " alt="" coords="125,56,276,83"/>
+<area shape="rect" id="node4" href="$classSpikeMonitor.html#a64ccdac1d5dacee8b6e45e8a2a9fc40b" title="returns the 2D spike vector " alt="" coords="137,107,265,133"/>
+</map>

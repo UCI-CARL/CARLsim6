@@ -1,0 +1,4 @@
+<map id="isInAllMode" name="isInAllMode">
+<area shape="rect" id="node2" href="$classGroupMonitorCore.html#affd44eca3bd6d1a7fc62759157df43ac" title="inserts group data (time, value) into the vectors , if monitor is in DA_MODE " alt="" coords="144,5,223,32"/>
+<area shape="rect" id="node3" href="$classGroupMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="271,5,361,32"/>
+</map>

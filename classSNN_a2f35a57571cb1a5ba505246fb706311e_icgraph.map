@@ -1,0 +1,6 @@
+<map id="setConductances" name="setConductances">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#a580acd7bfec3145c00014b0bd1742e2e" title="CARLsim::Impl::setConductances" alt="" coords="177,5,400,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#abb1c64e1a1dccd802e71145edea251e2" title="CARLsim::Impl::setNM4weighted" alt="" coords="179,56,398,83"/>
+<area shape="rect" id="node3" href="$classCARLsim.html#a580acd7bfec3145c00014b0bd1742e2e" title="Sets default values for conduction decay and rise times or disables COBA alltogether. " alt="" coords="448,5,637,32"/>
+<area shape="rect" id="node5" href="$classCARLsim.html#aeda549f4dcee2377a1b335ea96b340f5" title="Sets IcalcType to NM4weighted for a specific neuron group. " alt="" coords="450,56,635,83"/>
+</map>

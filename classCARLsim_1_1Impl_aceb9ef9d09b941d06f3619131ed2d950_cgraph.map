@@ -1,0 +1,4 @@
+<map id="setConnectionModulation" name="setConnectionModulation">
+<area shape="rect" id="node2" href="$classSNN.html#aceb9ef9d09b941d06f3619131ed2d950" title="SNN::setConnectionModulation" alt="" coords="223,5,429,32"/>
+<area shape="rect" id="node3" href="$classSNN.html#a44b05911f213714c351379021852e12a" title="find connection ID based on pre&#45;post group pair, O(N) " alt="" coords="477,5,615,32"/>
+</map>

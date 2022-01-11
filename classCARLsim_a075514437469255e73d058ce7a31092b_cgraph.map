@@ -1,0 +1,9 @@
+<map id="biasWeights" name="biasWeights">
+<area shape="rect" id="node2" href="$classCARLsim_1_1Impl.html#af71e7773ae33e0f23e91ff46d014e1e8" title="CARLsim::Impl::biasWeights" alt="" coords="148,56,340,83"/>
+<area shape="rect" id="node3" href="$classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" title="simple wrapper for assert statement " alt="" coords="430,5,585,32"/>
+<area shape="rect" id="node4" href="$classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" title="CARLsim::Impl::getNumConnections" alt="" coords="388,56,627,83"/>
+<area shape="rect" id="node8" href="$classSNN.html#a075514437469255e73d058ce7a31092b" title="SNN::biasWeights" alt="" coords="442,107,573,133"/>
+<area shape="rect" id="node5" href="$classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" title="SNN::getNumConnections" alt="" coords="675,56,853,83"/>
+<area shape="rect" id="node6" href="$classSNN.html#a52f149e224abff772962dea6680398e2" title="gets number of connections associated with a connection ID " alt="" coords="901,56,1131,83"/>
+<area shape="rect" id="node7" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="1179,56,1320,83"/>
+</map>

@@ -1,0 +1,25 @@
+<map id="stopRecording" name="stopRecording">
+<area shape="rect" id="node2" href="$classNeuronMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" title="returns recording status " alt="" coords="160,175,251,201"/>
+<area shape="rect" id="node6" href="$classSNN.html#a8dd319bdd9a54e38f9254cbec099c30a" title="copy required neuron state values from ??? buffer to ??? buffer " alt="" coords="461,307,644,333"/>
+<area shape="rect" id="node9" href="$classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" title="SNN::getSimTimeMs" alt="" coords="695,408,841,435"/>
+<area shape="rect" id="node15" href="$classSNN.html#a85facd004ae52ee52e72451b5d874fae" title="SNN::getSimTimeSec" alt="" coords="692,459,844,485"/>
+<area shape="rect" id="node3" href="$classNeuronMonitorCore.html#a743a4ad47ef60bc593cc9882bd4ffb57" title="inserts a (time,neurId) tupel into the D Neuron State vector " alt="" coords="707,68,829,95"/>
+<area shape="rect" id="node4" href="$classNeuronMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" title="starts recording Neuron state " alt="" coords="303,307,409,333"/>
+<area shape="rect" id="node5" href="$classNeuronMonitorCore.html#ac8bb3912a3ce86b15842e79d0b421204" title="deletes data from the neuron state vector " alt="" coords="527,143,578,169"/>
+<area shape="rect" id="node24" href="$classNeuronMonitorCore.html#a5113f6b476e3e3544ecbffefa313234d" title="sets pointer to Neuron file " alt="" coords="299,5,413,32"/>
+<area shape="rect" id="node7" href="$classNeuronMonitorCore.html#a102f8a26e80c556ee9a2ac503cd38ec9" title="returns timestamp of last NeuronMonitor update " alt="" coords="711,357,825,384"/>
+<area shape="rect" id="node8" href="$classSNN.html#a5fd2b156623d78138bcb44167eabab78" title="SNN::getSimTime" alt="" coords="703,205,833,232"/>
+<area shape="rect" id="node16" href="$classNeuronMonitorCore.html#a38f87732cc929797d9648e68cd509f1b" title="sets timestamp of last NeuronMonitor update " alt="" coords="711,256,825,283"/>
+<area shape="rect" id="node23" href="$classNeuronMonitorCore.html#a84e392c48ef98bece7aa0dc7af992360" title="returns a pointer to the neuron state file " alt="" coords="711,307,825,333"/>
+<area shape="rect" id="node10" href="$classSNN.html#a866a9c6e2b2630816fc66adda1381655" title="Returns pointer to existing SpikeMonitor object, NULL else. " alt="" coords="911,408,1064,435"/>
+<area shape="rect" id="node12" href="$classSNN.html#ad25000cd1457c9b9869122534ada6fdd" title="SNN::getSpikeMonitorCore" alt="" coords="897,459,1078,485"/>
+<area shape="rect" id="node13" href="$classSNN.html#a0eb87addfa5eebdfee4bd6b927b8945f" title="Returns pointer to existing NeuronMonitor object, NULL else. " alt="" coords="906,509,1069,536"/>
+<area shape="rect" id="node14" href="$classSNN.html#a9aa73fa9478383c4af1eed8387d82db9" title="SNN::getNeuronMonitorCore" alt="" coords="892,357,1083,384"/>
+<area shape="rect" id="node11" href="$classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" title="SNN::getNumGroups" alt="" coords="1134,433,1281,460"/>
+<area shape="rect" id="node17" href="$classNeuronMonitorCore.html#aaeb6a64ac5d9fd3b7a979f0f12ec87dc" title="returns true if state buffers are close to maxAllowedBufferSize " alt="" coords="944,256,1031,283"/>
+<area shape="rect" id="node18" href="$classNeuronMonitorCore.html#a30f19d45f562061cc82c04e7289ba956" title="returns the approximate size of the state vectors in bytes " alt="" coords="1157,281,1258,308"/>
+<area shape="rect" id="node19" href="$classNeuronMonitorCore.html#a3a0e4e77a2b83f5dd0e86aafcf227595" title="returns the total accumulated time " alt="" coords="932,205,1043,232"/>
+<area shape="rect" id="node20" href="$classNeuronMonitorCore.html#a4d3c2252230fe74bf03bcc3045ff8972" title="writeNeuronFileHeader" alt="" coords="910,55,1065,81"/>
+<area shape="rect" id="node22" href="$classNeuronMonitorCore.html#a388f572c62279f839ee138a9afbdeeb5" title="prints neuron states in human&#45;readable format " alt="" coords="964,155,1011,181"/>
+<area shape="rect" id="node21" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="SNN::getGroupGrid3D" alt="" coords="1131,55,1284,81"/>
+</map>
