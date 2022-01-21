@@ -2061,11 +2061,11 @@ public:
 
 #ifdef LN_I_CALC_TYPES
 
-	bool CARLsim::isGroupWith(int grpId, IcalcType icalcType);
+	bool isGroupWith(int grpId, IcalcType icalcType);
 
-	bool CARLsim::isGroupWithCOBA(int grpId);
+	bool isGroupWithCOBA(int grpId);
 
-	bool CARLsim::isGroupWithCUBA(int grpId);
+	bool isGroupWithCUBA(int grpId);
 
 
 	/*!

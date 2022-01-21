@@ -1,4 +1,10 @@
 # ca3_example_net_02_26_21
+# Hints:
+# - activated by cMake option CARLSIM_JK_CA3_SNN 
+# - requires Boost: sudo apt-get install libboost-all-dev
+# - see also https://github.com/UCI-CARL/CARLsim4/tree/feat/meansdSTPPost_hc
+# 
+#
 # A Simulation Framework for Testing Data-Driven, Neuron-Type Specific CA3 SNNs 
 This repository includes information as to how to run an example and full-scale spiking neural network (SNN) model of hippocampal subregion CA3. Additionally, it describes a framework for building full-scale SNNs to test hypotheses regarding the hippocampal formation. The following instructions assume that the user has Ubuntu installed or is using a supercomputing cluster that is Linux-based. Furthermore, installation instructions of the CARLsim software can be found in the parent directory's [README](https://github.com/UCI-CARL/CARLsim4/tree/feat/meansdSTPPost_hc), but will also be provided here.
 
