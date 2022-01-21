@@ -727,6 +727,39 @@ public:
 			izh_a, izh_a_sd, izh_b, izh_b_sd, izh_vpeak, izh_vpeak_sd, izh_c, izh_c_sd, izh_d, izh_d_sd);
 	}
 
+#ifdef JK_CA3_SNN
+	void setNeuronParameters(int grpId, float izh_C, float izh_k, float izh_vr, float izh_vt,
+		float izh_a, float izh_b, float izh_vpeak, float izh_c, float izh_d, int izh_ref)
+	{
+		std::string funcName = "setNeuronParameters(\"" + getGroupName(grpId) + "\")";
+		UserErrors::assertTrue(!isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, funcName);
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
+		UserErrors::assertTrue(izh_C > 0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_C");
+		UserErrors::assertTrue(izh_ref >= 1, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_ref");
+
+		// set standard deviations of Izzy params to zero
+		snn_->setNeuronParameters(grpId, izh_C, 0.0f, izh_k, 0.0f, izh_vr, 0.0f, izh_vt, 0.0f,
+			izh_a, 0.0f, izh_b, 0.0f, izh_vpeak, 0.0f, izh_c, 0.0f, izh_d, 0.0f, izh_ref);
+	}
+
+	void setNeuronParameters(int grpId, float izh_C, float izh_C_sd, float izh_k, float izh_k_sd,
+		float izh_vr, float izh_vr_sd, float izh_vt, float izh_vt_sd,
+		float izh_a, float izh_a_sd, float izh_b, float izh_b_sd,
+		float izh_vpeak, float izh_vpeak_sd, float izh_c, float izh_c_sd,
+		float izh_d, float izh_d_sd, int izh_ref)
+	{
+		std::string funcName = "setNeuronParameters(\"" + getGroupName(grpId) + "\")";
+		UserErrors::assertTrue(!isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, funcName);
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
+		UserErrors::assertTrue(izh_C > 0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_C");
+		UserErrors::assertTrue(izh_ref >= 1, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_ref");
+
+		// wrapper identical to core func
+		snn_->setNeuronParameters(grpId, izh_C, izh_C_sd, izh_k, izh_k_sd, izh_vr, izh_vr_sd, izh_vt, izh_vt_sd,
+			izh_a, izh_a_sd, izh_b, izh_b_sd, izh_vpeak, izh_vpeak_sd, izh_c, izh_c_sd, izh_d, izh_d_sd, izh_ref);
+	}
+#endif
+
 	// set neuron parameters for LIF spiking neuron
 	void setNeuronParametersLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
 	{
@@ -998,6 +1031,62 @@ public:
 			snn_->setSTP(grpId,false,0.0f,0.0f,0.0f);
 		}
 	}
+
+
+#ifdef JK_CA3_SNN
+	// set STP, default
+	void setSTP(int preGrpId, int postGrpId, bool isSet) {
+		std::string funcName = "setSTP(\"" + getGroupName(preGrpId) + " ," + getGroupName(postGrpId) + "\")";
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName,
+			funcName, "CONFIG.");
+
+		hasSetSTPALL_ = preGrpId == ALL; // adding groups after this will not have conductances set
+
+		if (isSet) { // enable STDP, use default values
+			UserErrors::assertTrue(isExcitatoryGroup(preGrpId) || isInhibitoryGroup(preGrpId), UserErrors::WRONG_NEURON_TYPE,
+				funcName, "setSTP");
+
+			if (isExcitatoryGroup(preGrpId))
+				// snn_->setSTP(grpId,true,def_STP_U_exc_,def_STP_tau_u_exc_,def_STP_tau_x_exc_);
+// 				snn_->setSTP(preGrpId, postGrpId, isSet, def_STP_U_exc_mean, def_STP_U_exc_std, def_STP_tau_u_exc_mean, def_STP_tau_u_exc_std, def_STP_tau_x_exc_mean, def_STP_tau_x_exc_std);
+snn_->setSTP(preGrpId, postGrpId, isSet, def_STP_U_exc_mean, def_STP_U_exc_std, def_STP_tau_u_exc_mean, def_STP_tau_u_exc_std, def_STP_tau_x_exc_mean, def_STP_tau_x_exc_std, def_STP_tdAMPA_exc_mean, def_STP_tdAMPA_exc_std, def_STP_tdNMDA_exc_mean, def_STP_tdNMDA_exc_std, def_STP_tdGABAa_exc_mean, def_STP_tdGABAa_exc_std, def_STP_tdGABAb_exc_mean, def_STP_tdGABAb_exc_std, def_STP_trNMDA_exc_mean, def_STP_trNMDA_exc_std, def_STP_trGABAb_exc_mean, def_STP_trGABAb_exc_std);
+			else if (isInhibitoryGroup(preGrpId))
+				//snn_->setSTP(grpId,true,def_STP_U_inh_,def_STP_tau_u_inh_,def_STP_tau_x_inh_);
+// 				snn_->setSTP(preGrpId, postGrpId, isSet, def_STP_U_inh_mean, def_STP_U_inh_std, def_STP_tau_u_inh_mean, def_STP_tau_u_inh_std, def_STP_tau_x_inh_mean, def_STP_tau_x_inh_std);
+snn_->setSTP(preGrpId, postGrpId, isSet, def_STP_U_inh_mean, def_STP_U_inh_std, def_STP_tau_u_inh_mean, def_STP_tau_u_inh_std, def_STP_tau_x_inh_mean, def_STP_tau_x_inh_std, def_STP_tdAMPA_inh_mean, def_STP_tdAMPA_inh_std, def_STP_tdNMDA_inh_mean, def_STP_tdNMDA_inh_std, def_STP_tdGABAa_inh_mean, def_STP_tdGABAa_inh_std, def_STP_tdGABAb_inh_mean, def_STP_tdGABAb_inh_std, def_STP_trNMDA_inh_mean, def_STP_trNMDA_inh_std, def_STP_trGABAb_inh_mean, def_STP_trGABAb_inh_std);
+			else {
+				// otherwise it will fail the assert anyway
+			}
+		}
+		else { // disable STDP
+// 			snn_->setSTP(preGrpId, postGrpId, isSet, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+			snn_->setSTP(preGrpId, postGrpId, isSet, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
+	}
+
+	// set STP, custom normal distributed STP parameters
+	void setSTP(int preGrpId, int postGrpId, bool isSet, const STPu& STP_U, const STPtauU& STP_tau_u, const STPtauX& STP_tau_x, const STPtdAMPA& STP_tdAMPA, const STPtdNMDA& STP_tdNMDA, const STPtdGABAa& STP_tdGABAa, const STPtdGABAb& STP_tdGABAb, const STPtrNMDA& STP_trNMDA, const STPtrGABAb& STP_trGABAb) {
+		std::string funcName = "setSTP(\"" + getGroupName(preGrpId) + " ," + getGroupName(postGrpId) + "\")";
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName,
+			funcName, "CONFIG.");
+
+		hasSetSTPALL_ = preGrpId == ALL; // adding groups after this will not have conductances set
+
+		if (isSet) { // enable STDP, use default values
+			UserErrors::assertTrue(isExcitatoryGroup(preGrpId) || isInhibitoryGroup(preGrpId), UserErrors::WRONG_NEURON_TYPE,
+				funcName, "setSTP");
+
+			// 			snn_->setSTP(preGrpId, postGrpId, isSet, STP_U.mean, STP_U.std, STP_tau_u.mean, STP_tau_u.std, STP_tau_x.mean, STP_tau_x.std);
+			snn_->setSTP(preGrpId, postGrpId, isSet, STP_U.mean, STP_U.std, STP_tau_u.mean, STP_tau_u.std, STP_tau_x.mean, STP_tau_x.std, STP_tdAMPA.mean, STP_tdAMPA.std, STP_tdNMDA.mean, STP_tdNMDA.std, STP_tdGABAa.mean, STP_tdGABAa.std, STP_tdGABAb.mean, STP_tdGABAb.std, STP_trNMDA.mean, STP_trNMDA.std, STP_trGABAb.mean, STP_trGABAb.std);
+		}
+		else { // disable STDP
+// 			snn_->setSTP(preGrpId, postGrpId, isSet, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+			snn_->setSTP(preGrpId, postGrpId, isSet, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
+	}
+#endif
+
+
 
 #ifdef LN_I_CALC_TYPES
 
@@ -1877,6 +1966,70 @@ public:
 		}
 	}
 
+#ifdef JK_CA3_SNN
+	// set default STP values for an EXCITATORY_NEURON or INHIBITORY_NEURON
+	void setDefaultSTPparams(int neurType, const STPu& STP_U, const STPtauU& STP_tau_u, const STPtauX& STP_tau_x, const STPtdAMPA& STP_tdAMPA, const STPtdNMDA& STP_tdNMDA, const STPtdGABAa& STP_tdGABAa, const STPtdGABAb& STP_tdGABAb, const STPtrNMDA& STP_trNMDA, const STPtrGABAb& STP_trGABAb) {
+		std::string funcName = "setDefaultSTPparams()";
+		UserErrors::assertTrue(neurType == EXCITATORY_NEURON || neurType == INHIBITORY_NEURON, UserErrors::WRONG_NEURON_TYPE,
+			funcName);
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
+
+		assert(STP_tau_u.mean > 0.0f);
+		assert(STP_tau_x.mean > 0.0f);
+		assert(STP_tdAMPA.mean > 0.0f);
+		assert(STP_tdNMDA.mean > 0.0f);
+		assert(STP_tdGABAa.mean > 0.0f);
+		assert(STP_tdGABAb.mean > 0.0f);
+
+		switch (neurType) {
+		case EXCITATORY_NEURON:
+			def_STP_U_exc_mean = STP_U.mean;
+			def_STP_tau_u_exc_mean = STP_tau_u.mean;
+			def_STP_tau_x_exc_mean = STP_tau_x.mean;
+			def_STP_tdAMPA_exc_mean = STP_tdAMPA.mean;
+			def_STP_tdNMDA_exc_mean = STP_tdNMDA.mean;
+			def_STP_tdGABAa_exc_mean = STP_tdGABAa.mean;
+			def_STP_tdGABAb_exc_mean = STP_tdGABAb.mean;
+			def_STP_trNMDA_exc_mean = STP_trNMDA.mean;
+			def_STP_trGABAb_exc_mean = STP_trGABAb.mean;
+			def_STP_U_exc_std = STP_U.std;
+			def_STP_tau_u_exc_std = STP_tau_u.std;
+			def_STP_tau_x_exc_std = STP_tau_x.std;
+			def_STP_tdAMPA_exc_std = STP_tdAMPA.std;
+			def_STP_tdNMDA_exc_std = STP_tdNMDA.std;
+			def_STP_tdGABAa_exc_std = STP_tdGABAa.std;
+			def_STP_tdGABAb_exc_std = STP_tdGABAb.std;
+			def_STP_trNMDA_exc_std = STP_trNMDA.std;
+			def_STP_trGABAb_exc_std = STP_trGABAb.std;
+			break;
+		case INHIBITORY_NEURON:
+			def_STP_U_inh_mean = STP_U.mean;
+			def_STP_tau_u_inh_mean = STP_tau_u.mean;
+			def_STP_tau_x_inh_mean = STP_tau_x.mean;
+			def_STP_tdAMPA_inh_mean = STP_tdAMPA.mean;
+			def_STP_tdNMDA_inh_mean = STP_tdNMDA.mean;
+			def_STP_tdGABAa_inh_mean = STP_tdGABAa.mean;
+			def_STP_tdGABAb_inh_mean = STP_tdGABAb.mean;
+			def_STP_trNMDA_inh_mean = STP_trNMDA.mean;
+			def_STP_trGABAb_inh_mean = STP_trGABAb.mean;
+			def_STP_U_inh_std = STP_U.std;
+			def_STP_tau_u_inh_std = STP_tau_u.std;
+			def_STP_tau_x_inh_std = STP_tau_x.std;
+			def_STP_tdAMPA_inh_std = STP_tdAMPA.std;
+			def_STP_tdNMDA_inh_std = STP_tdNMDA.std;
+			def_STP_tdGABAa_inh_std = STP_tdGABAa.std;
+			def_STP_tdGABAb_inh_std = STP_tdGABAb.std;
+			def_STP_trNMDA_inh_mean = STP_trNMDA.mean;
+			def_STP_trGABAb_inh_mean = STP_trGABAb.mean;
+			break;
+		default:
+			// some error message instead of assert
+			UserErrors::assertTrue((neurType == EXCITATORY_NEURON || neurType == INHIBITORY_NEURON), UserErrors::CANNOT_BE_UNKNOWN, funcName);
+			break;
+		}
+	}
+#endif
+
 
 private:
 	// +++++ PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
@@ -1905,6 +2058,11 @@ private:
 		// Misha Tsodyks and Si Wu (2013) Short-term synaptic plasticity. Scholarpedia, 8(10):3153., revision #136920
 		setDefaultSTPparams(EXCITATORY_NEURON, 0.45f, 50.0f, 750.0f);
 		setDefaultSTPparams(INHIBITORY_NEURON, 0.15f, 750.0f, 50.0f);
+#ifdef JK_CA3_SNN
+		setDefaultSTPparams(EXCITATORY_NEURON, 0.45f, 50.0f, 750.0f, 5.0f, 150.0f, 6.0f, 150.0f, 0.0f, 0.0f);
+		setDefaultSTPparams(INHIBITORY_NEURON, 0.15f, 750.0f, 50.0f, 5.0f, 150.0f, 6.0f, 150.0f, 0.0f, 0.0f);
+#endif
+
 
 		// set default homeostasis params
 		// Ref: Carlson, et al. (2013). Proc. of IJCNN 2013.
@@ -2010,6 +2168,46 @@ private:
 	float def_STP_U_inh_;			//!< default value for STP U inhibitory
 	float def_STP_tau_u_inh_;		//!< default value for STP u decay (\tau_F) inhibitory (ms)
 	float def_STP_tau_x_inh_;		//!< default value for STP x decay (\tau_D) inhibitory (ms)
+
+#ifdef JK_CA3_SNN
+	float def_STP_U_exc_mean;			//!< default value for STP U excitatory
+	float def_STP_tau_u_exc_mean;		//!< default value for STP u decay (\tau_F) excitatory (ms)
+	float def_STP_tau_x_exc_mean;		//!< default value for STP x decay (\tau_D) excitatory (ms)
+	float def_STP_tdAMPA_exc_mean;		//!< default value for AMPA decay (ms) 
+	float def_STP_tdNMDA_exc_mean;		//!< default value for NMDA decay (ms)
+	float def_STP_tdGABAa_exc_mean;		//!< default value for GABAa decay (ms)
+	float def_STP_tdGABAb_exc_mean;		//!< default value for GABAb decay (ms)
+	float def_STP_trNMDA_exc_mean;		//!< default value for NMDA rise (ms)
+	float def_STP_trGABAb_exc_mean;		//!< default value for GABAb rise (ms)
+	float def_STP_U_exc_std;			//!< default value for STP U excitatory
+	float def_STP_tau_u_exc_std;		//!< default value for STP u decay (\tau_F) excitatory (ms)
+	float def_STP_tau_x_exc_std;		//!< default value for STP x decay (\tau_D) excitatory (ms)
+	float def_STP_tdAMPA_exc_std;		//!< default value for AMPA decay (ms) 
+	float def_STP_tdNMDA_exc_std;		//!< default value for NMDA decay (ms)
+	float def_STP_tdGABAa_exc_std;		//!< default value for GABAa decay (ms)
+	float def_STP_tdGABAb_exc_std;		//!< default value for GABAb decay (ms)
+	float def_STP_trNMDA_exc_std;		//!< default value for NMDA rise (ms)
+	float def_STP_trGABAb_exc_std;		//!< default value for GABAb rise (ms)
+
+	float def_STP_U_inh_mean;			//!< default value for STP U inhibitory
+	float def_STP_tau_u_inh_mean;		//!< default value for STP u decay (\tau_F) inhibitory (ms)
+	float def_STP_tau_x_inh_mean;		//!< default value for STP x decay (\tau_D) inhibitory (ms)
+	float def_STP_tdAMPA_inh_mean;		//!< default value for AMPA decay (ms) 
+	float def_STP_tdNMDA_inh_mean;		//!< default value for NMDA decay (ms)
+	float def_STP_tdGABAa_inh_mean;		//!< default value for GABAa decay (ms)
+	float def_STP_tdGABAb_inh_mean;		//!< default value for GABAb decay (ms)
+	float def_STP_trNMDA_inh_mean;		//!< default value for NMDA rise (ms)
+	float def_STP_trGABAb_inh_mean;		//!< default value for GABAb rise (ms)
+	float def_STP_U_inh_std;			//!< default value for STP U inhibitory
+	float def_STP_tau_u_inh_std;		//!< default value for STP u decay (\tau_F) inhibitory (ms)
+	float def_STP_tau_x_inh_std;		//!< default value for STP x decay (\tau_D) inhibitory (ms)
+	float def_STP_tdAMPA_inh_std;		//!< default value for AMPA decay (ms) 
+	float def_STP_tdNMDA_inh_std;		//!< default value for NMDA decay (ms)
+	float def_STP_tdGABAa_inh_std;		//!< default value for GABAa decay (ms)
+	float def_STP_tdGABAb_inh_std;		//!< default value for GABAb decay (ms)
+	float def_STP_trNMDA_inh_std;		//!< default value for NMDA rise (ms)
+	float def_STP_trGABAb_inh_std;		//!< default value for GABAb rise (ms)
+#endif 
 
 	// all default values for homeostasis
 	float def_homeo_scale_;			//!< default homeoScale
@@ -2168,6 +2366,28 @@ void CARLsim::setNeuronParameters(int grpId, float izh_C, float izh_C_sd, float 
 		izh_a, izh_a_sd, izh_b, izh_b_sd, izh_vpeak, izh_vpeak_sd, izh_c, izh_c_sd, izh_d, izh_d_sd);
 }
 
+#ifdef JK_CA3_SNN
+void CARLsim::setNeuronParameters(int grpId, float izh_C, float izh_k, float izh_vr, float izh_vt,
+	float izh_a, float izh_b, float izh_vpeak, float izh_c, float izh_d, 
+	int izh_ref
+	)
+{
+	_impl->setNeuronParameters(grpId, izh_C, izh_k, izh_vr, izh_vt, izh_a, izh_b, izh_vpeak, izh_c, izh_d, izh_ref);
+}
+
+void CARLsim::setNeuronParameters(int grpId, float izh_C, float izh_C_sd, float izh_k, float izh_k_sd,
+	float izh_vr, float izh_vr_sd, float izh_vt, float izh_vt_sd,
+	float izh_a, float izh_a_sd, float izh_b, float izh_b_sd,
+	float izh_vpeak, float izh_vpeak_sd, float izh_c, float izh_c_sd,
+	float izh_d, float izh_d_sd, 
+	int izh_ref
+	)
+{
+	_impl->setNeuronParameters(grpId, izh_C, izh_C_sd, izh_k, izh_k_sd, izh_vr, izh_vr_sd, izh_vt, izh_vt_sd,
+		izh_a, izh_a_sd, izh_b, izh_b_sd, izh_vpeak, izh_vpeak_sd, izh_c, izh_c_sd, izh_d, izh_d_sd, izh_ref);
+}
+#endif
+
 void CARLsim::setNeuronParametersLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, const RangeRmem& rMem)
 {
 	_impl->setNeuronParametersLIF(grpId, tau_m, tau_ref, vTh, vReset, rMem);
@@ -2251,6 +2471,20 @@ void CARLsim::setSTP(int grpId, bool isSet, float STP_U, float STP_tau_u, float 
 
 // Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically) using default values
 void CARLsim::setSTP(int grpId, bool isSet) { _impl->setSTP(grpId, isSet); }
+
+
+#ifdef JK_CA3_SNN
+// Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
+void CARLsim::setSTP(int preGrpId, int postGrpId, bool isSet, const STPu& STP_U, const STPtauU& STP_tau_u, const STPtauX& STP_tau_x, const STPtdAMPA& STP_tdAMPA, const STPtdNMDA& STP_tdNMDA, const STPtdGABAa& STP_tdGABAa, const STPtdGABAb& STP_tdGABAb, const STPtrNMDA& STP_trNMDA, const STPtrGABAb& STP_trGABAb) {
+	_impl->setSTP(preGrpId, postGrpId, isSet, STP_U, STP_tau_u, STP_tau_x, STP_tdAMPA, STP_tdNMDA, STP_tdGABAa, STP_tdGABAb, STP_trNMDA, STP_trGABAb);
+}
+
+// Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically) using default values
+void CARLsim::setSTP(int preGrpId, int postGrpId, bool isSet) { 
+	_impl->setSTP(preGrpId, postGrpId, isSet); 
+}
+#endif
+
 
 #ifdef LN_I_CALC_TYPES
 // Sets neuromodulator targeting STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
@@ -2560,6 +2794,12 @@ void CARLsim::setDefaultSTPparams(int neurType, float STP_U, float STP_tau_u, fl
 	_impl->setDefaultSTPparams(neurType, STP_U, STP_tau_u, STP_tau_x);
 }
 
+#ifdef JK_CA3_SNN
+// Sets default values for STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
+void CARLsim::setDefaultSTPparams(int neurType, float STP_U, float STP_tau_u, float STP_tau_x, float STP_tdAMPA, float STP_tdNMDA, float STP_tdGABAa, float STP_tdGABAb, float STP_trNMDA, float STP_trGABAb) {
+	_impl->setDefaultSTPparams(neurType, STP_U, STP_tau_u, STP_tau_x, STP_tdAMPA, STP_tdNMDA, STP_tdGABAa, STP_tdGABAb, STP_trNMDA, STP_trGABAb);
+}
+#endif
 
 
 #ifdef __LN_EXT__

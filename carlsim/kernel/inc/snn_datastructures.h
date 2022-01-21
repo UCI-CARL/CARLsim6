@@ -146,6 +146,40 @@ typedef struct STPConfig_s {
 	float STP_tau_x_inv; // depressive
 } STPConfig;
 
+#ifdef JK_CA3_SNN
+//!< short-term plasiticity configurations - Connection based
+typedef struct ConnSTPConfig_s {
+	ConnSTPConfig_s() : WithSTP(false), 
+		STP_U_mean(-1.0f), STP_U_std(-1.0f), STP_tau_u_mean(-1.0f), STP_tau_u_std(-1.0f), STP_tau_x_mean(-1.0f), STP_tau_x_std(-1.0f), 
+		STP_dAMPA_mean(-1.0f), STP_dAMPA_std(-1.0f), STP_dNMDA_mean(-1.0f), STP_dNMDA_std(-1.0f), STP_dGABAa_mean(-1.0f), 
+		STP_dGABAa_std(-1.0f), STP_dGABAb_mean(-1.0f), STP_dGABAb_std(-1.0f), STP_rNMDA_mean(-1.0f), STP_rNMDA_std(-1.0f), 
+		STP_sNMDA(-1.0f), STP_rGABAb_mean(-1.0f), STP_rGABAb_std(-1.0f), STP_sGABAb(-1.0f)
+	{}
+
+	bool WithSTP;
+	float					 STP_U_mean;
+	float					 STP_U_std;
+	float					 STP_tau_u_mean;
+	float					 STP_tau_u_std;
+	float					 STP_tau_x_mean;
+	float					 STP_tau_x_std;
+	float					 STP_dAMPA_mean;
+	float					 STP_dAMPA_std;
+	float					 STP_dNMDA_mean;
+	float					 STP_dNMDA_std;
+	float					 STP_dGABAa_mean;
+	float					 STP_dGABAa_std;
+	float					 STP_dGABAb_mean;
+	float					 STP_dGABAb_std;
+	float					 STP_rNMDA_mean;
+	float					 STP_rNMDA_std;
+	float					 STP_sNMDA;
+	float					 STP_rGABAb_mean;
+	float					 STP_rGABAb_std;
+	float					 STP_sGABAb;
+} ConnSTPConfig;
+#endif
+
 //!< homeostatic plasticity configurations
 typedef struct HomeostasisConfig_s {
 	HomeostasisConfig_s() : WithHomeostasis(false), baseFiring(-1.0f), baseFiringSD(-1.0f),
@@ -260,7 +294,24 @@ typedef struct ConnectionInfo_s {
 	int preSynId;
 	short int connId;
 	uint8_t delay;
-	// bool withSTDP;
+
+	// bool withSTDP;  // \todo issue connection based STDP
+
+#ifdef JK_CA3_SNN
+	float STP_U;
+	float STP_tau_u_inv;
+	float STP_tau_x_inv;
+	float STP_dAMPA;
+	float STP_dNMDA;
+	float STP_dGABAa;
+	float STP_dGABAb;
+	float STP_rNMDA; //!< multiplication factor for rise time of NMDA
+	float STP_sNMDA; //!< scaling factor for NMDA amplitude
+	float STP_rGABAb; //!< multiplication factor for rise time of GABAb
+	float STP_sGABAb; //!< scaling factor for GABAb amplitude
+
+	bool withSTP;
+#endif
 
 	bool operator== (const struct ConnectionInfo_s& conn) {
 		return (nSrc + srcGLoffset == conn.nSrc);
@@ -298,6 +349,11 @@ typedef struct ConnectConfig_s
 	short int                connId; //!< connectID of the element in the linked list
 	int                      numberOfConnections; // ToDo: move to ConnectConfigMD
 	STDPConfig stdpConfig;
+
+#ifdef JK_CA3_SNN
+	ConnSTPConfig stpConfig;
+#endif
+
 #ifdef LN_I_CALC_TYPES
 	IcalcType				 icalcType; //!< conduction of receptor determined by connection 
 #endif
@@ -390,7 +446,11 @@ typedef struct NeuralDynamicsConfig_s {
 							   Izh_c(-1.0f), Izh_c_sd(-1.0f), Izh_d(-1.0f), Izh_d_sd(-1.0f),
 							   Izh_C(-1.0f), Izh_C_sd(-1.0f), Izh_k(-1.0f), Izh_k_sd(-1.0f),
 							   Izh_vr(-1.0f), Izh_vr_sd(1.0f), Izh_vt(1.0f), Izh_vt_sd(-1.0f),
-							   Izh_vpeak(-1.0f), Izh_vpeak_sd(-1.0f), lif_tau_m(-1), 
+							   Izh_vpeak(-1.0f), Izh_vpeak_sd(-1.0f), 
+#ifdef JK_CA3_SNN
+							   Izh_ref(-1),
+#endif
+							   lif_tau_m(-1), 
 							   lif_tau_ref(-1), lif_vTh(1.0f), lif_vReset(0.0f), lif_minRmem(1.0f),
 							   lif_maxRmem(1.0f)
 	{}
@@ -412,6 +472,9 @@ typedef struct NeuralDynamicsConfig_s {
 	float 		Izh_c_sd;
 	float 		Izh_d;
 	float 		Izh_d_sd;
+#ifdef JK_CA3_SNN
+	int 		Izh_ref;
+#endif
 	int 		lif_tau_m; //!< parameters for a LIF spiking group
 	int 		lif_tau_ref;
 	float 		lif_vTh;
@@ -556,6 +619,16 @@ typedef struct GroupConfigRT_s {
 	float        STP_U;             //!< published by GroupConfig \sa GroupConfig
 	float        STP_tau_u_inv;     //!< published by GroupConfig \sa GroupConfig
 	float        STP_tau_x_inv;     //!< published by GroupConfig \sa GroupConfig
+#ifdef JK_CA3_SNN
+	float        STP_dAMPA;         //!< published by GroupConfig \sa GroupConfig
+	float        STP_dNMDA;         //!< published by GroupConfig \sa GroupConfig
+	float        STP_dGABAa;        //!< published by GroupConfig \sa GroupConfig
+	float        STP_dGABAb;        //!< published by GroupConfig \sa GroupConfig
+	float        STP_rNMDA;         //!< published by GroupConfig \sa GroupConfig
+	float        STP_sNMDA;         //!< published by GroupConfig \sa GroupConfig
+	float        STP_rGABAb;        //!< published by GroupConfig \sa GroupConfig
+	float        STP_sGABAb;        //!< published by GroupConfig \sa GroupConfig
+#endif
 	// float        TAU_PLUS_INV_EXC;  //!< published by GroupConfig \sa GroupConfig
 	// float        TAU_MINUS_INV_EXC; //!< published by GroupConfig \sa GroupConfig
 	// float        ALPHA_PLUS_EXC;    //!< published by GroupConfig \sa GroupConfig
@@ -666,6 +739,10 @@ typedef struct RuntimeData_s {
 	float* Izh_b;
 	float* Izh_c;
 	float* Izh_d;
+#ifdef JK_CA3_SNN
+	int* Izh_ref;
+	int* Izh_ref_c;
+#endif
 	float* current;
 	float* totalCurrent;
 	float* extCurrent;
@@ -704,6 +781,22 @@ typedef struct RuntimeData_s {
 	   maxDelay_ (time constant for recovery from depression), and F (time constant for recovery from facilitation). */
 	float* stpx;
 	float* stpu;
+
+#ifdef JK_CA3_SNN
+	float* stp_U;
+	float* stp_tau_u_inv;
+	float* stp_tau_x_inv;
+	float* stp_dAMPA;
+	float* stp_dNMDA;
+	float* stp_dGABAa;
+	float* stp_dGABAb;
+	float* stp_rNMDA;
+	float* stp_sNMDA;
+	float* stp_rGABAb;
+	float* stp_sGABAb;
+	bool* withSTP;     // \issue why CA3
+	int* delay;		   // \issue why CA3
+#endif
 
 	unsigned short*	Npre;				//!< stores the number of input connections to a neuron
 	unsigned short*	Npre_plastic;		//!< stores the number of plastic input connections to a neuron

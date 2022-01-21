@@ -515,7 +515,55 @@ void SNN::copyExtFiringTable(int netId) {
 				runtimeData[netId].stpx[ind_plus] = runtimeData[netId].stpx[ind_minus] + (1.0f - runtimeData[netId].stpx[ind_minus]) * groupConfigs[netId][lGrpId].STP_tau_x_inv;
 #endif
 			}
- 
+#ifdef JK_CA3_SNN
+			// update stpu and stpx for connections with STP
+			else {
+				//KERNEL_INFO("lNId < networkConfigs[netId].numNReg: %d - %d - %d\n", lNId, networkConfigs[netId].numNReg, groupConfigs[netId][lGrpId].lEndN);
+				//assert(lNId < networkConfigs[netId].numN);
+				unsigned int offset = runtimeData[netId].cumulativePre[lNId];
+				//KERNEL_INFO("lGrpId: %d -- lNId: %d ", lGrpId, lNId);
+				//KERNEL_INFO("runtimeData[netId].Npre[lNId]: %d", runtimeData[netId].Npre[lNId]);
+				// if (groupConfigs[netId][lGrpId].isSpikeGenerator){
+				// 	KERNEL_INFO("%d is a spike generator", lNId);
+				// }
+				for (int j = 0; j < runtimeData[netId].Npre[lNId]; j++) {
+					int lSId = offset + j;
+					//KERNEL_INFO("lGrpId: %d -- lNId: %d -- lSId: %d ", lGrpId, lNId, lSId);
+					if (runtimeData[netId].withSTP[lSId]) {
+						//KERNEL_INFO("inside: %d", lSId);
+						int ind_plus = STP_BUF_POS(lSId, simTime, 1);
+						int ind_minus = STP_BUF_POS(lSId, (simTime - 1), 1);
+						runtimeData[netId].stpu[ind_plus] = runtimeData[netId].stpu[ind_minus] * (1.0f - runtimeData[netId].stp_tau_u_inv[lSId]);
+						runtimeData[netId].stpx[ind_plus] = runtimeData[netId].stpx[ind_minus] + (1.0f - runtimeData[netId].stpx[ind_minus]) * runtimeData[netId].stp_tau_x_inv[lSId];
+						// decay conductances
+						if (networkConfigs[netId].sim_with_conductances && IS_REGULAR_NEURON(lNId, networkConfigs[netId].numNReg, networkConfigs[netId].numNPois)) {
+							runtimeData[netId].gAMPA[lNId] *= runtimeData[netId].stp_dAMPA[lSId];
+							if (sim_with_NMDA_rise) {
+								runtimeData[netId].gNMDA_r[lNId] *= runtimeData[netId].stp_rNMDA[lSId];	// rise
+								runtimeData[netId].gNMDA_d[lNId] *= runtimeData[netId].stp_dNMDA[lSId];	// decay
+							}
+							else {
+								runtimeData[netId].gNMDA[lNId] *= runtimeData[netId].stp_dNMDA[lSId];	// instantaneous rise
+							}
+
+							runtimeData[netId].gGABAa[lNId] *= runtimeData[netId].stp_dGABAa[lSId];
+							if (sim_with_GABAb_rise) {
+								runtimeData[netId].gGABAb_r[lNId] *= runtimeData[netId].stp_rGABAb[lSId];	// rise
+								runtimeData[netId].gGABAb_d[lNId] *= runtimeData[netId].stp_dGABAb[lSId];	// decay
+							}
+							else {
+								runtimeData[netId].gGABAb[lNId] *= runtimeData[netId].stp_dGABAb[lSId];	// instantaneous rise
+							}
+						}
+						// KERNEL_INFO("lGrpId: %d -- lNId: %d -- lSId: %d -- stpu: %f -- stpx: %f", lGrpId, lNId, lSId, runtimeData[netId].stpu[ind_plus], runtimeData[netId].stpx[ind_plus]);
+						// KERNEL_INFO("\ndoSTPUpdateAndDecayCond_CPU, group id: %d, neuron id: %d, Synapse id: %d, minus: %d, plus: %d, netid: %d", lGrpId, lNId, lSId, ind_minus, ind_plus, netId);
+						// KERNEL_INFO("stpu: %f/%f -- stpx: %f/%f", runtimeData[netId].stpu[ind_minus], runtimeData[netId].stpu[ind_plus], runtimeData[netId].stpx[ind_minus], runtimeData[netId].stpx[ind_plus]);
+						// KERNEL_INFO("tau_u_inv: %f -- tau_x_inv: %f", runtimeData[netId].stp_tau_u_inv[lSId], runtimeData[netId].stp_tau_x_inv[lSId]);
+					}
+				}
+			}
+#endif
+
 			// decay conductances
 #ifdef LN_I_CALC_TYPES
 			auto& groupConfig = groupConfigs[netId][lGrpId];
@@ -723,11 +771,14 @@ void SNN::copyExtFiringTable(int netId) {
 					}
 					assert(extFireId != -1);
 				}
-
+#ifdef JK_CA3_SNN  // \todo JK review order
+				//KERNEL_INFO("before calling firingupdateSTP");
+#else
 				// update STP for neurons that fire
 				if (groupConfigs[netId][lGrpId].WithSTP) {
 					firingUpdateSTP(lNId, lGrpId, netId);
 				}
+#endif
 
 				// keep track of number spikes per neuron
 				runtimeData[netId].nSpikeCnt[lNId]++;
@@ -978,9 +1029,33 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 
 		// dI/dt = -I/tau_S + A * u^+ * x^- * \delta(t-t_{spk})
 		// I noticed that for connect(.., RangeDelay(1), ..) tD will be 0
+#ifndef JK_CA3_SNN
 		int ind_minus = STP_BUF_POS(preNId, (simTime-tD-1), networkConfigs[netId].maxDelay);
 		int ind_plus  = STP_BUF_POS(preNId, (simTime-tD), networkConfigs[netId].maxDelay);
+#endif
 #ifdef LN_I_CALC_TYPES		
+#ifdef JK_CA3_SNN
+		//unsigned int offset = runtimeData[netId].cumulativePost[lNId];
+			//KERNEL_INFO("inside firingUpdateSTP -- Npost: %d -- offset: %d\n", runtimeData[netId].Npost[lNId], offset);
+
+		int ind_minus = STP_BUF_POS(pos, (simTime - 1), 1);
+		int ind_plus = STP_BUF_POS(pos, (simTime), 1);
+
+		//int lSId = offset + j;
+		if (runtimeData[netId].withSTP[pos]) {
+			//int ind_plus  = STP_BUF_POS(lSId, simTime, glbNetworkConfig.maxDelay);
+			//int ind_minus = STP_BUF_POS(lSId, (simTime - 1), glbNetworkConfig.maxDelay);
+			runtimeData[netId].stpu[ind_plus] += runtimeData[netId].stp_U[pos] * (1.0f - runtimeData[netId].stpu[ind_minus]);
+			runtimeData[netId].stpx[ind_plus] -= runtimeData[netId].stpu[ind_plus] * runtimeData[netId].stpx[ind_minus];
+
+			// KERNEL_INFO("Firing Update STP -- postGrpId: %d -- postNId: %d -- lSid: %d --simTime: %d  --minus: %d  --plus: %d \n", post_grpId, postNId, pos, simTime, ind_minus, ind_plus);
+			// KERNEL_INFO("stpu: %f/%f -- stpx: %f/%f\n", runtimeData[netId].stpu[ind_minus], runtimeData[netId].stpu[ind_plus], runtimeData[netId].stpx[ind_minus], runtimeData[netId].stpx[ind_plus]);
+			// KERNEL_INFO("tau_u_inv: %f -- tau_x_inv: %f -- stp_U:%f\n", runtimeData[netId].stp_tau_u_inv[pos], runtimeData[netId].stp_tau_x_inv[pos], runtimeData[netId].stp_U[pos]);
+		}
+		float STP_A = (runtimeData[netId].stp_U[pos] > 0.0f) ? 1.0 / runtimeData[netId].stp_U[pos] : 1.0f;
+		// KERNEL_INFO("change: %f -- pos:%d -- preNId:%d -- postNId:%d -- netId:%d\n", change, pos, preNId, postNId, netId);
+		// KERNEL_INFO("STP_A: %f -- stpu:%f -- stpx:%f", STP_A, runtimeData[netId].stpu[ind_plus], runtimeData[netId].stpx[ind_minus]);
+#else
 		auto& config = groupConfigs[netId][pre_grpId];
 		float stp_a = config.STP_A;
 		float stp_u = config.STP_U;
@@ -1000,7 +1075,8 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 			stp_a = (stp_u > 0.0f) ? 1.0 / stp_u : 1.0f; // scaling factor weighted
 			//KERNEL_DEBUG("grp[%d] stp_u = %f  stp_a = %f\n", pre_grpId, stp_u, stp_a);
 		}
-		change *=  stp_a * runtimeData[netId].stpu[ind_plus] * runtimeData[netId].stpx[ind_minus];
+		change *= stp_a * runtimeData[netId].stpu[ind_plus] * runtimeData[netId].stpx[ind_minus];
+#endif
 #else
 		change *= groupConfigs[netId][pre_grpId].STP_A * runtimeData[netId].stpu[ind_plus] * runtimeData[netId].stpx[ind_minus];
 #endif
@@ -1028,8 +1104,13 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 // printf("mulSynFast[%d]=%f\n", mulIndex, mulSynFast[mulIndex]);
 			if (pre_type & TARGET_NMDA) {
 				if (groupConfig.with_NMDA_rise) {
-					runtimeData[netId].gNMDA_r[postNId] += change * groupConfig.sNMDA * mulSynSlow[mulIndex]; 
+#ifdef JK_CA3_SNN
+					runtimeData[netId].gNMDA_r[postNId] += change * runtimeData[netId].stp_sNMDA[pos] * mulSynSlow[mulIndex];
+					runtimeData[netId].gNMDA_d[postNId] += change * runtimeData[netId].stp_sNMDA[pos] * mulSynSlow[mulIndex];
+#else
+					runtimeData[netId].gNMDA_r[postNId] += change * groupConfig.sNMDA * mulSynSlow[mulIndex];
 					runtimeData[netId].gNMDA_d[postNId] += change * groupConfig.sNMDA * mulSynSlow[mulIndex];
+#endif
 				}
 				else {
 					runtimeData[netId].gNMDA[postNId] += change * mulSynSlow[mulIndex];
@@ -1041,8 +1122,13 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 				runtimeData[netId].gGABAa[postNId] -= change * mulSynFast[mulIndex]; // wt should be negative for GABAa and GABAb
 			if (pre_type & TARGET_GABAb) {
 				if (groupConfig.with_GABAb_rise) {
+#ifdef JK_CA3_SNN
+					runtimeData[netId].gGABAb_r[postNId] -= change * runtimeData[netId].stp_sGABAb[pos] * mulSynSlow[mulIndex];
+					runtimeData[netId].gGABAb_d[postNId] -= change * runtimeData[netId].stp_sGABAb[pos] * mulSynSlow[mulIndex];
+#else
 					runtimeData[netId].gGABAb_r[postNId] -= change * groupConfig.sGABAb * mulSynSlow[mulIndex];
 					runtimeData[netId].gGABAb_d[postNId] -= change * groupConfig.sGABAb * mulSynSlow[mulIndex];
+#endif
 				}
 				else {
 					runtimeData[netId].gGABAb[postNId] -= change * mulSynSlow[mulIndex];
@@ -1296,6 +1382,10 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 				float k = runtimeData[netId].Izh_k[lNId];
 				float vr = runtimeData[netId].Izh_vr[lNId];
 				float vt = runtimeData[netId].Izh_vt[lNId];
+#ifdef JK_CA3_SNN
+				int Izh_ref = runtimeData[netId].Izh_ref[lNId];
+				int Izh_ref_c = runtimeData[netId].Izh_ref_c[lNId];
+#endif
 				float inverse_C = 1.0f / runtimeData[netId].Izh_C[lNId];
 				float vpeak = runtimeData[netId].Izh_vpeak[lNId];
 				float a = runtimeData[netId].Izh_a[lNId];
@@ -1473,7 +1563,55 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 
 						u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
 					}
-					else if(!groupConfigs[netId][lGrpId].isLIF){
+#ifdef JK_CA3_SNN
+					else if (!groupConfigs[netId][lGrpId].isLIF) {
+						if (Izh_ref_c > 0) {
+							if (lastIter) {
+								runtimeData[netId].Izh_ref_c[lNId] -= 1;
+								v_next = runtimeData[netId].Izh_c[lNId];
+							}
+						}
+						else {
+							if (v_next > vpeak) {  // \todo JK review position compared to original code below
+								v_next = vpeak; // break the loop but evaluate u[i]
+								runtimeData[netId].curSpike[lNId] = true;
+								v_next = runtimeData[netId].Izh_c[lNId];
+								u += runtimeData[netId].Izh_d[lNId];
+								if (lastIter) {
+									runtimeData[netId].Izh_ref_c[lNId] = Izh_ref;
+								}
+								else {
+									runtimeData[netId].Izh_ref_c[lNId] = Izh_ref + 1;
+								}
+							}
+							else {
+								// 9-param Izhikevich
+								float k1 = dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent,
+									timeStep);
+								float l1 = dudtIzhikevich9(v, u, vr, a, b, timeStep);
+
+								float k2 = dvdtIzhikevich9(v + k1 / 2.0f, u + l1 / 2.0f, inverse_C, k, vr, vt,
+									totalCurrent, timeStep);
+								float l2 = dudtIzhikevich9(v + k1 / 2.0f, u + l1 / 2.0f, vr, a, b, timeStep);
+
+								float k3 = dvdtIzhikevich9(v + k2 / 2.0f, u + l2 / 2.0f, inverse_C, k, vr, vt,
+									totalCurrent, timeStep);
+								float l3 = dudtIzhikevich9(v + k2 / 2.0f, u + l2 / 2.0f, vr, a, b, timeStep);
+
+								float k4 = dvdtIzhikevich9(v + k3, u + l3, inverse_C, k, vr, vt,
+									totalCurrent, timeStep);
+								float l4 = dudtIzhikevich9(v + k3, u + l3, vr, a, b, timeStep);
+
+								v_next = v + (1.0f / 6.0f) * (k1 + 2.0f * k2 + 2.0f * k3 + k4);
+
+								if (v_next < -90.0f) v_next = -90.0f;
+
+								u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
+								}
+							}
+						}
+#else
+					else if (!groupConfigs[netId][lGrpId].isLIF) {
 						// 9-param Izhikevich
 						float k1 = dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent,
 							timeStep);
@@ -1504,6 +1642,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 
 						u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
 					}
+#endif
 					else{
 						//LIF integration is always FORWARD_EULER
 						if (lif_tau_ref_c > 0){
@@ -1969,6 +2108,15 @@ void SNN::allocateSNN_CPU(int netId) {
 
 	// allocation of CPU runtime data is done
 	runtimeData[netId].allocated = true;
+#ifdef JK_CA3_SNN
+	// KERNEL_INFO("After Allocation, runtimedata");
+	// KERNEL_INFO("stpx 8: %f, stpx 9: %f", runtimeData[0].stpx[8], runtimeData[0].stpx[9]);
+	// KERNEL_INFO("stpx 10: %f, stpx 11: %f", runtimeData[0].stpx[10], runtimeData[0].stpx[11]);
+
+	// KERNEL_INFO("After Allocation, manager runtimedata");
+	// KERNEL_INFO("stpx 8: %f, stpx 9: %f", managerRuntimeData.stpx[8], managerRuntimeData.stpx[9]);
+	// KERNEL_INFO("stpx 10: %f, stpx 11: %f", managerRuntimeData.stpx[10], managerRuntimeData.stpx[11]);
+#endif
 }
 
 /*!
@@ -2146,6 +2294,41 @@ void SNN::copySynapseState(int netId, RuntimeData* dest, RuntimeData* src, bool 
 			dest->maxSynWt = new float[networkConfigs[netId].numPreSynNet];
 		memcpy(dest->maxSynWt, src->maxSynWt, sizeof(float) * networkConfigs[netId].numPreSynNet);
 	}
+#ifdef JK_CA3_SNN
+	// allocate synapse stp parameters to runtime data
+	if (allocateMem) {
+		dest->stp_U = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_tau_u_inv = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_tau_x_inv = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_dAMPA = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_dNMDA = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_dGABAa = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_dGABAb = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_rNMDA = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_sNMDA = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_rGABAb = new float[networkConfigs[netId].numPostSynNet];
+		dest->stp_sGABAb = new float[networkConfigs[netId].numPostSynNet];
+		dest->withSTP = new bool[networkConfigs[netId].numPostSynNet];
+		dest->delay = new int[networkConfigs[netId].numPostSynNet];
+		// dest->stpu = new float[networkConfigs[netId].numPreSynNet * 2];
+		// dest->stpx = new float[networkConfigs[netId].numPreSynNet * 2];
+	}
+	memcpy(dest->stp_U, src->stp_U, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_tau_u_inv, src->stp_tau_u_inv, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_tau_x_inv, src->stp_tau_x_inv, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_dAMPA, src->stp_dAMPA, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_dNMDA, src->stp_dNMDA, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_dGABAa, src->stp_dGABAa, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_dGABAb, src->stp_dGABAb, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_rNMDA, src->stp_rNMDA, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_sNMDA, src->stp_sNMDA, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_rGABAb, src->stp_rGABAb, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->stp_sGABAb, src->stp_sGABAb, sizeof(float) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->withSTP, src->withSTP, sizeof(bool) * networkConfigs[netId].numPostSynNet);
+	memcpy(dest->delay, src->delay, sizeof(int) * networkConfigs[netId].numPostSynNet);
+	// memcpy(dest->stpu, src->stpu, sizeof(float) * networkConfigs[netId].numPreSynNet* 2);
+	// memcpy(dest->stpx, src->stpx, sizeof(float) * networkConfigs[netId].numPreSynNet* 2);
+#endif
 }
 
 /*!
@@ -2604,6 +2787,10 @@ void SNN::copyNeuronParameters(int netId, int lGrpId, RuntimeData* dest, bool al
 		assert(dest->Izh_vr == NULL);
 		assert(dest->Izh_vt == NULL);
 		assert(dest->Izh_vpeak == NULL);
+#ifdef JK_CA3_SNN
+		assert(dest->Izh_ref == NULL);
+		assert(dest->Izh_ref_c == NULL);
+#endif
 		assert(dest->lif_tau_m == NULL);
 		assert(dest->lif_tau_ref == NULL);
 		assert(dest->lif_tau_ref_c == NULL);
@@ -2657,6 +2844,17 @@ void SNN::copyNeuronParameters(int netId, int lGrpId, RuntimeData* dest, bool al
 	if (allocateMem)
 		dest->Izh_vpeak = new float[length];
 	memcpy(&dest->Izh_vpeak[ptrPos], &(managerRuntimeData.Izh_vpeak[ptrPos]), sizeof(float) * length);
+
+#ifdef JK_CA3_SNN
+	if (allocateMem)
+		dest->Izh_ref = new int[length];
+	memcpy(&dest->Izh_ref[ptrPos], &(managerRuntimeData.Izh_ref[ptrPos]), sizeof(int) * length);
+
+	if (allocateMem)
+		dest->Izh_ref_c = new int[length];
+	memcpy(&dest->Izh_ref_c[ptrPos], &(managerRuntimeData.Izh_ref_c[ptrPos]), sizeof(int) * length);
+#endif
+
 
 	//LIF neuron
 	if(allocateMem)
@@ -2738,6 +2936,17 @@ void SNN::copySTPState(int netId, int lGrpId, RuntimeData* dest, RuntimeData* sr
 	}
 	assert(src->stpu != NULL); assert(src->stpx != NULL);
 
+
+#ifdef JK_CA3_SNN
+	KERNEL_INFO("copySTPState, nPre: %d, nPost: %d, maxNPre: %d, maxNPost: %d", networkConfigs[netId].numPreSynNet, networkConfigs[netId].numPostSynNet, networkConfigs[netId].maxNumPreSynN, networkConfigs[netId].maxNumPostSynN);
+	if (allocateMem)
+		dest->stpu = new float[networkConfigs[netId].numPreSynNet * 2];
+	memcpy(dest->stpu, src->stpu, sizeof(float) * networkConfigs[netId].numPreSynNet * 2);
+
+	if (allocateMem)
+		dest->stpx = new float[networkConfigs[netId].numPreSynNet * 2];
+	memcpy(dest->stpx, src->stpx, sizeof(float) * networkConfigs[netId].numPreSynNet * 2);
+#else
 	if(allocateMem)
 		dest->stpu = new float[networkConfigs[netId].numN * (networkConfigs[netId].maxDelay + 1)];
 	memcpy(dest->stpu, src->stpu, sizeof(float) * networkConfigs[netId].numN * (networkConfigs[netId].maxDelay + 1));
@@ -2745,6 +2954,9 @@ void SNN::copySTPState(int netId, int lGrpId, RuntimeData* dest, RuntimeData* sr
 	if(allocateMem)
 		dest->stpx = new float[networkConfigs[netId].numN * (networkConfigs[netId].maxDelay + 1)];
 	memcpy(dest->stpx, src->stpx, sizeof(float) * networkConfigs[netId].numN * (networkConfigs[netId].maxDelay + 1));
+#endif
+
+
 }
 
 // ToDo: move grpDA(5HT, ACh, NE)Buffer to copyAuxiliaryData
@@ -3262,6 +3474,10 @@ void SNN::copySpikeTables(int netId) {
 	delete [] runtimeData[netId].Izh_vr;
 	delete [] runtimeData[netId].Izh_vt;
 	delete [] runtimeData[netId].Izh_vpeak;
+#ifdef JK_CA3_SNN
+	delete[] runtimeData[netId].Izh_ref;
+	delete[] runtimeData[netId].Izh_ref_c;
+#endif
 
 	delete [] runtimeData[netId].lif_tau_m;
 	delete [] runtimeData[netId].lif_tau_ref;

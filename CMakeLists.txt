@@ -27,12 +27,12 @@ endif()
     option(CARLSIM_NO_PTHREADS "Turn off PTHREADS" ON)          # since CARLsim5, Linux Release builds throw segmentation violation 
     option(CARLSIM_SHARED "Build CARLSIM als shared libray" ON)     # this is the primary supported way
     option(CARLSIM_STATIC "Build CARLSIM als static libray" OFF)     # for trouble shooting and special requirements (e.g. single image appliances)
-    option(CARLSIM_BENCHMARKS "Build CARLSIM benchmark tests" ON)   # 
+    option(CARLSIM_BENCHMARKS "Build CARLSIM benchmark tests" OFF)   # 
     option(CARLSIM_SAMPLES "Build CARLSIM samples" ON)          # not for minimal version
     option(CARLSIM_TUTORIALS "Build CARLSIM tutorials" OFF)      # not for minimal version and production     
     option(CARLSIM_PYCARL "Build CARLSIM PyCARL" ON)            # not for CR but SNN
     option(CARLSIM_TOOLS "Build CARLSIM Tools" ON)              # check for dependecies
-    option(CARLSIM_TEST "Build CARLSIM Tests" ON)               # mandadory for development
+    option(CARLSIM_TEST "Build CARLSIM Tests" OFF)               # mandadory for development
          
     # an option translates to one or more compile definitions assigned to one or multiple targets
     # it can be set manually or by a super build customized to a specific profil
@@ -48,7 +48,7 @@ endif()
 	option(CARLSIM_LN_I_CALC_TYPES "Enables enhanced current calculation" ON)  # feature NM4R6 (experimental) )
 	option(CARLSIM_LN_GPU_STDP "Enables GPU accelerated functions for STDP" ON)  # feature GPU device functions (experimental) )
 
-	option(CARLSIM_JK_CA3_SSN "J. Koppsick extensions for Neuron-Type Specific CA3 SNN" OFF) # feature ported on basis of CARLsim4 branch
+	option(CARLSIM_JK_CA3_SNN "J. Koppsick extensions for Neuron-Type Specific CA3 SNN" ON) # feature ported on basis of CARLsim4 branch
 
 	set(CARLSIM_CUDA_GENCODE "-gencode arch=compute_86,code=sm_86" CACHE STRING "CUDA target architecture and device, e.g. _80 for Ampere/A100, _86 for Ampere/RTX3090" )  
 			
@@ -257,13 +257,13 @@ if(CARLSIM_SHARED)
 		target_compile_definitions(carlsim-cuda PUBLIC LN_GPU_STDP)
 	  endif()
     endif()
-
-	if(CARLSIM_JK_CA3_SSN) 
+	
+ 	if(CARLSIM_JK_CA3_SNN) 
 		target_compile_definitions(carlsim PUBLIC JK_CA3_SNN) 
 		if(NOT CARLSIM_NO_CUDA)
-			target_compile_definitions(carlsim-cuda PUBLIC JK_CA3_SNN)
+			target_compile_definitions(carlsim-cuda PUBLIC JK_CA3_SNN) 
 		endif()
-	endif()
+	endif()	
 	
 
 # Includes

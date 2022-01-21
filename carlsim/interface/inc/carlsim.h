@@ -647,6 +647,74 @@ public:
 		float izh_vpeak, float izh_vpeak_sd, float izh_c, float izh_c_sd,
 		float izh_d, float izh_d_sd);
 
+#ifdef JK_CA3_SNN
+	/*!
+		* \brief Sets Izhikevich params C, k, vr, vt, a, b, vpeak, c, and d of a neuron group
+		* C must be positive. There are no limits imposed on other parameters
+		* This is a nine parameter Izhikevich simple spiking model
+		*
+		* \STATE CONFIG
+		* \param[in] grpId			the group ID of a group for which these settings are applied
+		* \param[in] izh_C			Membrane capacitance parameter
+		* \param[in] izh_k			Coefficient present in equation for voltage
+		* \param[in] izh_vr		Resting membrane potential parameter
+		* \param[in] izh_vt		Instantaneous threshold potential parameter
+		* \param[in] izh_a			Recovery time constant
+		* \param[in] izh_b			Coefficient present in equation for voltage
+		* \param[in] izh_vpeak		The spike cutoff value parameter
+		* \param[in] izh_c			The voltage reset value parameter
+		* \param[in] izh_d			Parameter describing the total amount of outward minus inward currents activated
+		*                          during the spike and affecting the after spike behavior
+		* \param[in] izh_ref	   \todo JK document
+		* \since v6.0
+		*/
+	void setNeuronParameters(int grpId, float izh_C, float izh_k, float izh_vr, float izh_vt,
+		float izh_a, float izh_b, float izh_vpeak, float izh_c, float izh_d, 
+		int izh_ref
+	);
+
+	/*!
+	* \brief Sets Izhikevich params C, k, vr, vt, a, b, vpeak, c, and d with as mean +- standard deviation
+	* C must be positive. There are no limits imposed on other parameters
+	* This is a nine parameter Izhikevich simple spiking model
+	*
+	* \STATE CONFIG
+	* \param[in] grpId			the group ID of a group for which these settings are applied
+	* \param[in] izh_C			Membrane capacitance parameter
+	* \param[in] izh_C_sd		Standard deviation for membrane capacitance parameter
+	* \param[in] izh_k			Coefficient present in equation for voltage
+	* \param[in] izh_k_sd		Standard deviation for coefficient present in equation for voltage
+	* \param[in] izh_vr		Resting membrane potential parameter
+	* \param[in] izh_vr_sd		Standard deviation for resting membrane potential parameter
+	* \param[in] izh_vt		Instantaneous threshold potential parameter
+	* \param[in] izh_vt_sd		Standard deviation for instantaneous threshold potential parameter
+	* \param[in] izh_a			Recovery time constant
+	* \param[in] izh_a_sd		Standard deviation for recovery time constant
+	* \param[in] izh_b			Coefficient present in equation for voltage
+	* \param[in] izh_b_sd		Standard deviation for coefficient present in equation for voltage
+	* \param[in] izh_vpeak		The spike cutoff value parameter
+	* \param[in] izh_vpeak_sd	Standard deviation for the spike cutoff value parameter
+	* \param[in] izh_c			The voltage reset value parameter
+	* \param[in] izh_c_sd		Standard deviation for the voltage reset value parameter
+	* \param[in] izh_d			Parameter describing the total amount of outward minus inward currents activated
+	*                          during the spike and affecting the after spike behavior
+	* \param[in] izh_d_sd		Standard deviation for the parameter describing the total amount of outward minus
+	*                          inward currents activated during the spike and affecting the after spike behavior
+	* \param[in] izh_ref	   \todo JK document
+	* \since v6.0
+	*/
+	void setNeuronParameters(int grpId, float izh_C, float izh_C_sd, float izh_k, float izh_k_sd,
+		float izh_vr, float izh_vr_sd, float izh_vt, float izh_vt_sd,
+		float izh_a, float izh_a_sd, float izh_b, float izh_b_sd,
+		float izh_vpeak, float izh_vpeak_sd, float izh_c, float izh_c_sd,
+		float izh_d, float izh_d_sd, 
+		int izh_ref
+	);
+
+#endif
+
+
+
 	/*!
 	 * \brief Sets neuron parameters for a group of LIF spiking neurons
 	 *
@@ -883,6 +951,68 @@ public:
 	 * \since v3.0
 	 */
 	void setSTP(int grpId, bool isSet);
+
+#ifdef JK_CA3_SNN
+	/*!
+	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group in
+	 * terms of mean and standard deviation (pre-synaptically)
+	 *
+	 * CARLsim implements the short-term plasticity model of (Tsodyks & Markram, 1998; Mongillo, Barak, & Tsodyks, 2008)
+	 * \f{eqnarray}
+	 * \frac{du}{dt} & = & \frac{-u}{STP\_tau\_u} + STP\_U  (1-u^-)  \delta(t-t_{spk}) \\
+	 * \frac{dx}{dt} & = & \frac{1-x}{STP\_tau\_x} - u^+  x^-  \delta(t-t_{spk}) \\
+	 * \frac{dI}{dt} & = & \frac{-I}{\tau_S} + A  u^+  x-  \delta(t-t_{spk}) \f}
+	 * where u- means value of variable u right before spike update, and x+ means value of variable x right after
+	 * the spike update, and A is the synaptic weight.
+	 * The STD effect is modeled by a normalized variable (0<=x<=1), denoting the fraction of resources that remain
+	 * available after neurotransmitter depletion.
+	 * The STF effect is modeled by a utilization parameter u, representing the fraction of available resources ready for
+	 * use (release probability). Following a spike, (i) u increases due to spike-induced calcium influx to the
+	 * presynaptic terminal, after which (ii) a fraction u of available resources is consumed to produce the post-synaptic
+	 * current. Between spikes, u decays back to zero with time constant STP_tau_u (tau_F), and x recovers to value one
+	 * with time constant STP_tau_x (tau_D).
+	 *
+	 * Source: Misha Tsodyks and Si Wu (2013) Short-term synaptic plasticity. Scholarpedia, 8(10):3153., rev #136920
+	 *
+	 * \STATE ::CONFIG_STATE
+	 * \param[in] preGrpId       pre-synaptic group ID
+	 * \param[in] postGrpId      post-synaptic group ID
+	 * \param[in] isSet       a flag whether to enable/disable STP
+	 * \param[in] STP_U       Normal distribution mean and sd of increment of u induced by a spike
+	 * \param[in] STP_tau_u   Normal distribution mean and sd of decay constant of u (tau_F)
+	 * \param[in] STP_tau_x   Normal distribution mean and sd of decay constant of x (tau_D)
+	 * \note STP will be applied to all outgoing synapses of all neurons in this group. Each neuron in the group will have individual STP parameters drawn from the normal distribution.
+	 * \note All outgoing synapses of a certain (pre-synaptic) neuron share the resources of that same neuron.
+	 */
+	void setSTP(int preGrpId, int postGrpId, bool isSet, const STPu& STP_U, const STPtauU& STP_tau_u, const STPtauX& STP_tau_x, const STPtdAMPA& STP_tdAMPA, const STPtdNMDA& STP_tdNMDA, const STPtdGABAa& STP_tdGABAa, const STPtdGABAb& STP_tdGABAb, const STPtrNMDA& STP_trNMDA, const STPtrGABAb& STP_trGABAb);
+
+
+	/*!
+	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically) using default values
+	 *
+	 * This function enables/disables STP on a specific pre-synaptic group and assign default values to all STP
+	 * parameters.
+	 * The default parameters for an excitatory neuron are U=0.45, tau_u=50.0, tau_f=750.0 (depressive).
+	 * The default parameters for an inhibitory neuron are U=0.15, tau_u=750.0, tau_f=50.0 (facilitative).
+	 *
+	 * Source: Misha Tsodyks and Si Wu (2013) Short-term synaptic plasticity. Scholarpedia, 8(10):3153., rev #136920
+	 *
+	 * These default values can be overridden using setDefaultSTPparams.
+	 *
+	 * \STATE ::CONFIG_STATE
+	 * \param[in] preGrpId       pre-synaptic group ID
+	 * \param[in] postGrpId      post-synaptic group ID
+	 * \param[in] isSet   a flag whether to enable/disable STP
+	 * \note STP will be applied to all outgoing synapses of all neurons in this group.
+	 * \note All outgoing synapses of a certain (pre-synaptic) neuron share the resources of that same neuron.
+	 * \see setDefaultSTPparams
+	 * \see setSTP(int, bool, float, float, float)
+	 * \since v3.0
+	 */
+	void setSTP(int preGrpId, int postGrpId, bool isSet);
+
+#endif
+
 
 #ifdef LN_I_CALC_TYPES
 	/*!
@@ -1931,11 +2061,11 @@ public:
 
 #ifdef LN_I_CALC_TYPES
 
-	bool isGroupWith(int grpId, IcalcType icalcType);
+	bool CARLsim::isGroupWith(int grpId, IcalcType icalcType);
 
-	bool isGroupWithCOBA(int grpId);
+	bool CARLsim::isGroupWithCOBA(int grpId);
 
-	bool isGroupWithCUBA(int grpId);
+	bool CARLsim::isGroupWithCUBA(int grpId);
 
 
 	/*!
@@ -2062,6 +2192,42 @@ public:
 	 * \since v3.0
 	 */
 	void setDefaultSTPparams(int neurType, float STP_U, float STP_tau_u, float STP_tau_x);
+
+#ifdef JK_CA3_SNN
+	/*!
+	 * \brief Sets default values for STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
+	 *
+	 * This function sets the default values for STP parameters U tau_u, and tau_x.
+	 * These values will then apply to all subsequent calls to setSTP(int, bool).
+	 *
+	 * CARLsim will automatically assign the following values, which can be changed at any time during ::CONFIG_STATE:
+	 * The default parameters for an excitatory neuron are U=0.45, tau_u=50.0, tau_f=750.0 (depressive).
+	 * The default parameters for an inhibitory neuron are U=0.15, tau_u=750.0, tau_f=50.0 (facilitative).
+	 *
+	 * Source: Misha Tsodyks and Si Wu (2013) Short-term synaptic plasticity. Scholarpedia, 8(10):3153., rev #136920
+	 *
+	 * \STATE ::CONFIG_STATE
+	 * \param[in] neurType   either EXCITATORY_NEURON or INHIBITORY_NEURON
+	 * \param[in] STP_U      default value for increment of u induced by a spike
+	 * \param[in] STP_tau_u  default value for decay constant of u
+	 * \param[in] STP_tau_x  default value for decay constant of x
+	 * \param[in] STP_tdAMPA \todo JK document	 
+	 * \param[in] STP_tdNMDA \todo JK document	 
+	 * \param[in] STP_tdGABAa \todo JK document	 
+	 * \param[in] STP_tdGABAb \todo JK document	 
+	 * \param[in] STP_trNMDA \todo JK document	 
+	 * \param[in] STP_trGABAb \todo JK document	 
+	 * 
+	 * \see setSTP(int, bool)
+	 * \see setSTP(int, bool, float, float, float)
+	 * \since v6.0
+	 */
+	void setDefaultSTPparams(int neurType, float STP_U, float STP_tau_u, float STP_tau_x,
+		// JK STP 
+		float STP_tdAMPA, float STP_tdNMDA, float STP_tdGABAa, float STP_tdGABAb, float STP_trNMDA, float STP_trGABAb
+	);
+#endif 
+	
 
 
 	/*!

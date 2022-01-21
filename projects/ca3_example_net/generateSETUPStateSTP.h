@@ -1,3 +1,4 @@
+
 sim.setSpikeMonitor(CA3_QuadD_LM, "DEFAULT");
                                  
 sim.setSpikeMonitor(CA3_Axo_Axonic, "DEFAULT");

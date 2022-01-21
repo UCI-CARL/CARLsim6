@@ -3,7 +3,7 @@
 
 if(CARLSIM_SAMPLES)
     add_subdirectory(hello_world)
-    if(CARLSIM_JK_CA3_SSN)
+    if(CARLSIM_JK_CA3_SNN)
       add_subdirectory(ca3_example_net)
     endif()
 #    add_subdirectory(test_kernel)

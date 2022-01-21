@@ -650,7 +650,11 @@ void SNN::setNeuronParameters(int gGrpId, float izh_C, float izh_C_sd, float izh
 	float izh_vr, float izh_vr_sd, float izh_vt, float izh_vt_sd,
 	float izh_a, float izh_a_sd, float izh_b, float izh_b_sd,
 	float izh_vpeak, float izh_vpeak_sd, float izh_c, float izh_c_sd,
-	float izh_d, float izh_d_sd)
+	float izh_d, float izh_d_sd
+#ifdef JK_CA3_SNN
+	, int izh_ref
+#endif
+	)
 {
 	assert(gGrpId >= -1);
 	assert(izh_C_sd >= 0); assert(izh_k_sd >= 0); assert(izh_vr_sd >= 0);
@@ -683,6 +687,11 @@ void SNN::setNeuronParameters(int gGrpId, float izh_C, float izh_C_sd, float izh
 		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vt_sd = izh_vt_sd;
 		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak = izh_vpeak;
 		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak_sd = izh_vpeak_sd;
+#ifdef JK_CA3_SNN
+		// 		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_ref = izh_ref;
+		//  \todo JK why 1
+		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_ref = 1;
+#endif
 		groupConfigMap[gGrpId].withParamModel_9 = 1;
 		groupConfigMap[gGrpId].isLIF = 0;
 		KERNEL_INFO("Set a nine parameter group!");
@@ -957,6 +966,66 @@ void SNN::setSTP(int gGrpId, bool isSet, float STP_U, float STP_tau_u, float STP
 	}
 }
 
+
+#ifdef JK_CA3_SNN
+// set STP params
+//void SNN::setSTP(int gGrpId, bool isSet, float STP_U, float STP_tau_u, float STP_tau_x) {
+// void SNN::setSTP(int preGrpId, int postGrpId, bool isSet, float STP_U_mean, float STP_U_std, float STP_tau_u_mean, float STP_tau_u_std, float STP_tau_x_mean, float STP_tau_x_std){
+void SNN::setSTP(int preGrpId, int postGrpId, bool isSet, float STP_U_mean, float STP_U_std, float STP_tau_u_mean, float STP_tau_u_std, float STP_tau_x_mean, float STP_tau_x_std, float STP_tdAMPA_mean, float STP_tdAMPA_std, float STP_tdNMDA_mean, float STP_tdNMDA_std, float STP_tdGABAa_mean, float STP_tdGABAa_std, float STP_tdGABAb_mean, float STP_tdGABAb_std, float STP_trNMDA_mean, float STP_trNMDA_std, float STP_trGABAb_mean, float STP_trGABAb_std) {
+	assert(preGrpId >= -1);
+	assert(postGrpId >= -1);
+	if (isSet) {
+		assert(STP_U_mean > 0 && STP_U_mean <= 1); assert(STP_tau_u_mean > 0); assert(STP_tau_x_mean > 0);
+		assert(STP_U_std >= 0); assert(STP_tau_u_std >= 0); assert(STP_tau_x_std >= 0); assert(STP_tdAMPA_mean > 0);
+		assert(STP_tdAMPA_std >= 0); assert(STP_tdNMDA_mean > 0); assert(STP_tdNMDA_std >= 0);
+		assert(STP_tdGABAa_mean > 0); assert(STP_tdGABAa_std >= 0); assert(STP_tdGABAb_mean > 0); assert(STP_tdGABAb_std >= 0);
+		assert(STP_trNMDA_mean >= 0); assert(STP_trNMDA_std >= 0); assert(STP_trGABAb_mean >= 0); assert(STP_trGABAb_std >= 0);
+		assert(STP_trNMDA_mean != STP_tdNMDA_mean); assert(STP_trGABAb_mean != STP_tdGABAb_mean); // avoid singularity
+// 		assert(STP_trNMDA_std!=STP_tdNMDA_std); assert(STP_trGABAb_std!=STP_tdGABAb_std); // avoid singularity
+	}
+
+	// set STDP for a given group
+	short int connId = getConnectId(preGrpId, postGrpId);
+	if (connId < 0) {
+		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
+			postGrpId, getGroupName(postGrpId).c_str());
+		exitSimulation(1);
+	}
+
+	auto &config = connectConfigMap[connId].stpConfig;
+	config.STP_U_mean = STP_U_mean;
+	config.STP_U_std = STP_U_std;
+	config.STP_tau_u_mean = STP_tau_u_mean;
+	config.STP_tau_u_std = STP_tau_u_std;
+	config.STP_tau_x_mean = STP_tau_x_mean;
+	config.STP_tau_x_std = STP_tau_x_std;
+	config.STP_dAMPA_mean = STP_tdAMPA_mean;
+	config.STP_dAMPA_std = STP_tdAMPA_std;
+	config.STP_dNMDA_mean = STP_tdNMDA_mean;
+	config.STP_dNMDA_std = STP_tdNMDA_std;
+	config.STP_dGABAa_mean = STP_tdGABAa_mean;
+	config.STP_dGABAa_std = STP_tdGABAa_std;
+	config.STP_dGABAb_mean = STP_tdGABAb_mean;
+	config.STP_dGABAb_std = STP_tdGABAb_std;
+	config.STP_rNMDA_mean = STP_trNMDA_mean;
+	config.STP_rNMDA_std = STP_trNMDA_std;
+	config.STP_rGABAb_mean = STP_trGABAb_mean;
+	config.STP_rGABAb_std = STP_trGABAb_std;
+	config.WithSTP = true;
+
+	//sim_with_conductances |= isSet;
+	sim_with_stp |= isSet;
+	groupConfigMap[preGrpId].stpConfig.WithSTP = isSet;
+
+	// groupConfigMap[gGrpId].stpConfig.STP_A			= (STP_U > 0.0f) ? 1.0 / STP_U : 1.0f; // scaling factor
+	// groupConfigMap[gGrpId].stpConfig.STP_U 			= STP_U;
+	// groupConfigMap[gGrpId].stpConfig.STP_tau_u_inv	= 1.0f / STP_tau_u; // facilitatory 
+	// groupConfigMap[gGrpId].stpConfig.STP_tau_x_inv	= 1.0f / STP_tau_x; // depressive
+
+	KERNEL_INFO("STP %s for %d to %d (%s):\t, mean of U: %1.4f, mean of tau_u: %4.0f, mean of tau_x: %4.0f, \n mean of tau_dAMPA: %2.4f, mean of tau_dNMDA: %2.4f, mean of tau_dGABAa: %2.4f, \n mean of tau_dGABAb: %2.4f, mean of tau_rNMDA: %2.4f, mean of tau_rGABAb: %2.4f", isSet ? "enabled" : "disabled",
+		preGrpId, postGrpId, groupConfigMap[preGrpId].grpName.c_str(), STP_U_mean, STP_tau_u_mean, STP_tau_x_mean, STP_tdAMPA_mean, STP_tdNMDA_mean, STP_tdGABAa_mean, STP_tdGABAb_mean, STP_trNMDA_mean, STP_trGABAb_mean);
+}
+#endif
 
 #ifdef LN_I_CALC_TYPES
 void SNN::setNM4STP(int gGrpId, float wSTP_U[], float wSTP_tau_u[], float wSTP_tau_x[]) {
@@ -3189,6 +3258,10 @@ void SNN::allocateManagerRuntimeData() {
 	managerRuntimeData.Izh_vr	  = new float[managerRTDSize.maxNumNReg];
 	managerRuntimeData.Izh_vt	  = new float[managerRTDSize.maxNumNReg];
 	managerRuntimeData.Izh_vpeak  = new float[managerRTDSize.maxNumNReg];
+#ifdef JK_CA3_SNN
+	managerRuntimeData.Izh_ref = new int[managerRTDSize.maxNumNReg];
+	managerRuntimeData.Izh_ref_c = new int[managerRTDSize.maxNumNReg];
+#endif
 	managerRuntimeData.lif_tau_m      = new int[managerRTDSize.maxNumNReg];
 	managerRuntimeData.lif_tau_ref      = new int[managerRTDSize.maxNumNReg];
 	managerRuntimeData.lif_tau_ref_c      = new int[managerRTDSize.maxNumNReg];
@@ -3212,6 +3285,10 @@ void SNN::allocateManagerRuntimeData() {
 	memset(managerRuntimeData.Izh_vr, 0, sizeof(float) * managerRTDSize.maxNumNReg);
 	memset(managerRuntimeData.Izh_vt, 0, sizeof(float) * managerRTDSize.maxNumNReg);
 	memset(managerRuntimeData.Izh_vpeak, 0, sizeof(float) * managerRTDSize.maxNumNReg);
+#ifdef JK_CA3_SNN
+	memset(managerRuntimeData.Izh_ref, 0, sizeof(int) * managerRTDSize.maxNumNReg);
+	memset(managerRuntimeData.Izh_ref_c, 0, sizeof(int) * managerRTDSize.maxNumNReg);
+#endif
 	memset(managerRuntimeData.lif_tau_m, 0, sizeof(int) * managerRTDSize.maxNumNReg);
 	memset(managerRuntimeData.lif_tau_ref, 0, sizeof(int) * managerRTDSize.maxNumNReg);
 	memset(managerRuntimeData.lif_tau_ref_c, 0, sizeof(int) * managerRTDSize.maxNumNReg);
@@ -3284,11 +3361,12 @@ void SNN::allocateManagerRuntimeData() {
 	// STP can be applied to spike generators, too -> numN
 	// \TODO: The size of these data structures could be reduced to the max synaptic delay of all
 	// connections with STP. That number might not be the same as maxDelay_.
+#ifndef JK_CA3_SNN
 	managerRuntimeData.stpu = new float[managerRTDSize.maxNumN * (glbNetworkConfig.maxDelay + 1)];
 	managerRuntimeData.stpx = new float[managerRTDSize.maxNumN * (glbNetworkConfig.maxDelay + 1)];
 	memset(managerRuntimeData.stpu, 0, sizeof(float) * managerRTDSize.maxNumN * (glbNetworkConfig.maxDelay + 1));
 	memset(managerRuntimeData.stpx, 0, sizeof(float) * managerRTDSize.maxNumN * (glbNetworkConfig.maxDelay + 1));
-
+#endif
 	managerRuntimeData.Npre           = new unsigned short[managerRTDSize.maxNumNAssigned];
 	managerRuntimeData.Npre_plastic   = new unsigned short[managerRTDSize.maxNumNAssigned];
 	managerRuntimeData.Npost          = new unsigned short[managerRTDSize.maxNumNAssigned];
@@ -3308,6 +3386,23 @@ void SNN::allocateManagerRuntimeData() {
 	managerRuntimeData.preSynapticIds	= new SynInfo[managerRTDSize.maxNumPreSynNet];
 	memset(managerRuntimeData.preSynapticIds, 0, sizeof(SynInfo) * managerRTDSize.maxNumPreSynNet);
 
+#ifdef JK_CA3_SNN
+	managerRuntimeData.stpu = new float[managerRTDSize.maxNumPreSynNet * 2];
+	managerRuntimeData.stpx = new float[managerRTDSize.maxNumPreSynNet * 2];
+	managerRuntimeData.stp_U = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_tau_u_inv = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_tau_x_inv = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_dAMPA = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_dNMDA = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_dGABAa = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_dGABAb = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_rNMDA = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_sNMDA = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_rGABAb = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.stp_sGABAb = new float[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.withSTP = new bool[managerRTDSize.maxNumPreSynNet];
+	managerRuntimeData.delay = new int[managerRTDSize.maxNumPreSynNet];
+#endif
 	managerRuntimeData.wt           = new float[managerRTDSize.maxNumPreSynNet];
 	managerRuntimeData.wtChange     = new float[managerRTDSize.maxNumPreSynNet];
 	managerRuntimeData.maxSynWt     = new float[managerRTDSize.maxNumPreSynNet];
@@ -3316,6 +3411,27 @@ void SNN::allocateManagerRuntimeData() {
 	memset(managerRuntimeData.wtChange, 0, sizeof(float) * managerRTDSize.maxNumPreSynNet);
 	memset(managerRuntimeData.maxSynWt, 0, sizeof(float) * managerRTDSize.maxNumPreSynNet);
 	memset(managerRuntimeData.synSpikeTime, 0, sizeof(int) * managerRTDSize.maxNumPreSynNet);
+#ifdef JK_CA3_SNN
+	memset(managerRuntimeData.stpu, 0, 2 * sizeof(float) * managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stpx, 0, 2 * sizeof(float) * managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.wt, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.wtChange, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.maxSynWt, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.synSpikeTime, 0, sizeof(int)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_U, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_tau_u_inv, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_tau_x_inv, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_dAMPA, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_dNMDA, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_dGABAa, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_dGABAb, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_rNMDA, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_sNMDA, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_rGABAb, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.stp_sGABAb, 0, sizeof(float)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.withSTP, 0, sizeof(bool)* managerRTDSize.maxNumPreSynNet);
+	memset(managerRuntimeData.delay, 0, sizeof(int)* managerRTDSize.maxNumPreSynNet);
+#endif
 
 	mulSynFast = new float[managerRTDSize.maxNumConnections];
 	mulSynSlow = new float[managerRTDSize.maxNumConnections];
@@ -3949,6 +4065,30 @@ void SNN::generateConnectionRuntime(int netId) {
 				managerRuntimeData.connIdsPreIdx[pre_pos] = connIt->connId;
 
 				managerRuntimeData.Npost[connIt->nSrc + GLoffset[connIt->grpSrc]]++;
+#ifdef JK_CA3_SNN
+				managerRuntimeData.stpu[2 * pre_pos] = 0.0f;
+				managerRuntimeData.stpu[2 * pre_pos + 1] = 0.0f;
+				managerRuntimeData.stpx[2 * pre_pos] = 1.0f;
+				managerRuntimeData.stpx[2 * pre_pos + 1] = 1.0f;
+
+				managerRuntimeData.stp_U[pre_pos] = connIt->STP_U;
+				managerRuntimeData.stp_tau_u_inv[pre_pos] = connIt->STP_tau_u_inv;
+				managerRuntimeData.stp_tau_x_inv[pre_pos] = connIt->STP_tau_x_inv;
+				managerRuntimeData.stp_dAMPA[pre_pos] = connIt->STP_dAMPA;
+				managerRuntimeData.stp_dNMDA[pre_pos] = connIt->STP_dNMDA;
+				managerRuntimeData.stp_dGABAa[pre_pos] = connIt->STP_dGABAa;
+				managerRuntimeData.stp_dGABAb[pre_pos] = connIt->STP_dGABAb;
+				managerRuntimeData.stp_rNMDA[pre_pos] = connIt->STP_rNMDA;
+				managerRuntimeData.stp_sNMDA[pre_pos] = connIt->STP_sNMDA;
+				managerRuntimeData.stp_rGABAb[pre_pos] = connIt->STP_rGABAb;
+				managerRuntimeData.stp_sGABAb[pre_pos] = connIt->STP_sGABAb;
+				managerRuntimeData.withSTP[pre_pos] = connIt->withSTP;
+				managerRuntimeData.delay[pre_pos] = connIt->delay;
+
+				//KERNEL_INFO("pre_pos: %d -- stpu:%f/%f -- stpx:%f/%f", pre_pos, managerRuntimeData.stpu[2*pre_pos], managerRuntimeData.stpu[2*pre_pos+1],
+				//managerRuntimeData.stpx[2*pre_pos],managerRuntimeData.stpx[2*pre_pos+1]);
+				// 
+#endif
 				parsedConnections++;
 
 				// update the maximum number of and post-connections of a neuron in a group
@@ -4528,6 +4668,38 @@ inline void SNN::connectNeuronsMT(std::mutex &mtx, int netId, int _grpSrc, int _
 }
 #endif
 
+#ifdef JK_CA3_SNN
+inline double SNN::marsaglia_polar_gaussian_generator(const double& mean, const double& stdDev) {
+	static bool hasSpare = false;
+	static double spare;
+
+	if (hasSpare) {
+		hasSpare = false;
+		return mean + stdDev * spare;
+	}
+
+	hasSpare = true;
+	static double u, v, s;
+	do {
+		u = (rand() / ((double)RAND_MAX)) * 2.0 - 1.0;
+		v = (rand() / ((double)RAND_MAX)) * 2.0 - 1.0;
+		s = u * u + v * v;
+	} 	while ((s >= 1.0) || (s == 0.0));
+
+	s = sqrt(-2.0 * log(s) / s);
+	spare = v * s;
+	return mean + stdDev * u * s;
+}
+
+inline float SNN::generateNormalSample(float mean, float std, float min_limit, float max_limit) {
+	float number = float(marsaglia_polar_gaussian_generator(double(mean), double(std)));
+	number = std::max(number, min_limit);
+	if (max_limit > 0) {
+		number = std::min(number, max_limit);
+	}
+	return number;
+}
+#endif
 
 //! set one specific connection from neuron id 'src' to neuron id 'dest'
 inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc, int _nDest, short int _connId, float initWt, float maxWt, uint8_t delay, int externalNetId) {
@@ -4544,6 +4716,53 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.initWt = isExcitatoryGroup(_grpSrc) ? fabs(initWt) : -1.0*fabs(initWt);
 	connInfo.maxWt = isExcitatoryGroup(_grpSrc) ? fabs(maxWt) : -1.0*fabs(maxWt);
 	connInfo.delay = delay;
+
+#ifdef JK_CA3_SNN
+	connInfo.STP_U = 0.01f;
+	connInfo.STP_tau_u_inv = 1.0f;
+	connInfo.STP_tau_x_inv = 1.0f;
+	connInfo.withSTP = false;
+
+	//KERNEL_INFO("outside netId: %d, grpSrc: %d, grpDest: %d, connId: %d", netId, _grpSrc,_grpDest, connInfo.connId);
+	if (connectConfigMap[_connId].stpConfig.WithSTP) {
+		auto& config = connectConfigMap[_connId].stpConfig;
+		connInfo.STP_U = generateNormalSample(config.STP_U_mean, config.STP_U_std, std::numeric_limits<float>::epsilon(), 1);
+		connInfo.STP_tau_u_inv = 1.0f / generateNormalSample(config.STP_tau_u_mean, config.STP_tau_u_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_tau_x_inv = 1.0f / generateNormalSample(config.STP_tau_x_mean, config.STP_tau_x_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dAMPA = 1.0f - 1.0f / generateNormalSample(config.STP_dAMPA_mean, config.STP_dAMPA_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dNMDA = 1.0f - 1.0f / generateNormalSample(config.STP_dNMDA_mean, config.STP_dNMDA_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dGABAa = 1.0f - 1.0f / generateNormalSample(config.STP_dGABAa_mean, config.STP_dGABAa_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dGABAb = 1.0f - 1.0f / generateNormalSample(config.STP_dGABAb_mean, config.STP_dGABAb_std, std::numeric_limits<float>::epsilon(), -1);
+		if (config.STP_rNMDA_mean > 0) {
+			// use rise time for NMDA
+			sim_with_NMDA_rise = true;
+			connInfo.STP_rNMDA = 1.0f - 1.0f / generateNormalSample(config.STP_rNMDA_mean, config.STP_rNMDA_std, std::numeric_limits<float>::epsilon(), -1);
+			// compute max conductance under this model to scale it back to 1
+			// otherwise the peak conductance will not be equal to the weight
+			float trNMDA = -1.0f / (connInfo.STP_rNMDA - 1.0f);
+			float tdNMDA = -1.0f / (connInfo.STP_dNMDA - 1.0f);
+			float tmax = (-tdNMDA * trNMDA * log(1.0f * trNMDA / tdNMDA)) / (tdNMDA - trNMDA); // t at which cond will be max
+			connInfo.STP_sNMDA = 1.0f / (exp(-tmax / tdNMDA) - exp(-tmax / trNMDA)); // scaling factor, 1 over max amplitude
+			assert(!std::isinf(tmax) && !std::isnan(tmax) && tmax >= 0);
+			assert(!std::isinf(connInfo.STP_sNMDA) && !std::isnan(connInfo.STP_sNMDA) && connInfo.STP_sNMDA > 0);
+		}
+		if (config.STP_rGABAb_mean > 0) {
+			// use rise time for GABAb
+			sim_with_GABAb_rise = true;
+			connInfo.STP_rGABAb = 1.0f - 1.0f / generateNormalSample(config.STP_rGABAb_mean, config.STP_rGABAb_std, std::numeric_limits<float>::epsilon(), -1);
+			// compute max conductance under this model to scale it back to 1
+			// otherwise the peak conductance will not be equal to the weight
+			float trGABAb = -1.0f / (connInfo.STP_rGABAb - 1.0f);
+			float tdGABAb = -1.0f / (connInfo.STP_dGABAb - 1.0f);
+			float tmax = (-tdGABAb * trGABAb * log(1.0 * trGABAb / tdGABAb)) / (tdGABAb - trGABAb); // t at which cond will be max
+			connInfo.STP_sGABAb = 1.0 / (exp(-tmax / tdGABAb) - exp(-tmax / trGABAb)); // scaling factor, 1 over max amplitude
+			assert(!std::isinf(tmax) && !std::isnan(tmax));
+			assert(!std::isinf(connInfo.STP_sGABAb) && !std::isnan(connInfo.STP_sGABAb) && connInfo.STP_sGABAb > 0);
+		}
+		connInfo.withSTP = true;
+		//KERNEL_INFO("inside netId: %d, grpSrc: %d, grpDest: %d, connId: %d", netId, _grpSrc,_grpDest, connInfo.connId);
+	}
+#endif
 
 	connectionLists[netId].push_back(connInfo);
 
@@ -5926,12 +6145,14 @@ void SNN::verifyNetwork() {
 	//	assert(maxNumPreSynGrp <= MAX_NUM_PRE_SYN);
 	//}
 
+#ifndef JK_CA3_SNN
 	// make sure maxDelay == 1 if STP is enableed
 	// \FIXME: need to figure out STP buffer for delays > 1
 	if (sim_with_stp && glbNetworkConfig.maxDelay > 1) {
 		KERNEL_ERROR("STP with delays > 1 ms is currently not supported.");
 		exitSimulation(KERNEL_ERROR_MAX_STP_DELAY);
 	}
+#endif
 
 	if (glbNetworkConfig.maxDelay > MAX_SYN_DELAY) {
 		KERNEL_ERROR("You are using a synaptic delay (%d) greater than MAX_SYN_DELAY defined in config.h", glbNetworkConfig.maxDelay);
@@ -6970,6 +7191,12 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 	managerRuntimeData.Izh_k[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_k + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_k_sd * (float)drand48();
 	managerRuntimeData.Izh_vr[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr_sd * (float)drand48();
 	managerRuntimeData.Izh_vt[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vt + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vt_sd * (float)drand48();
+#ifdef JK_CA3_SNN
+	// 	managerRuntimeData.Izh_ref[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_ref;
+	// todo JK init with -1 to be backward compatible, => apply Config for both
+	managerRuntimeData.Izh_ref[lNId] = 1;
+	managerRuntimeData.Izh_ref_c[lNId] = 0;
+#endif
 	managerRuntimeData.Izh_vpeak[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak_sd * (float)drand48();
 	managerRuntimeData.lif_tau_m[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_m;
 	managerRuntimeData.lif_tau_ref[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.lif_tau_ref;
@@ -7121,6 +7348,10 @@ void SNN::deleteManagerRuntimeData() {
 	if (managerRuntimeData.Izh_vr!=NULL) delete[] managerRuntimeData.Izh_vr;
 	if (managerRuntimeData.Izh_vt!=NULL) delete[] managerRuntimeData.Izh_vt;
 	if (managerRuntimeData.Izh_vpeak!=NULL) delete[] managerRuntimeData.Izh_vpeak;
+#ifdef JK_CA3_SNN
+	if (managerRuntimeData.Izh_ref != NULL) delete[] managerRuntimeData.Izh_ref;
+	if (managerRuntimeData.Izh_ref_c != NULL) delete[] managerRuntimeData.Izh_ref_c;
+#endif
 	managerRuntimeData.Izh_a=NULL; managerRuntimeData.Izh_b=NULL; managerRuntimeData.Izh_c=NULL; managerRuntimeData.Izh_d=NULL;
 	managerRuntimeData.Izh_C = NULL; managerRuntimeData.Izh_k = NULL; managerRuntimeData.Izh_vr = NULL; managerRuntimeData.Izh_vt = NULL; managerRuntimeData.Izh_vpeak = NULL;
 
@@ -7157,8 +7388,29 @@ void SNN::deleteManagerRuntimeData() {
 
 	if (managerRuntimeData.stpu!=NULL) delete[] managerRuntimeData.stpu;
 	if (managerRuntimeData.stpx!=NULL) delete[] managerRuntimeData.stpx;
+#ifdef JK_CA3_SNN
+	if (managerRuntimeData.stp_U != NULL) delete[] managerRuntimeData.stp_U;
+	if (managerRuntimeData.stp_tau_u_inv != NULL) delete[] managerRuntimeData.stp_tau_u_inv;
+	if (managerRuntimeData.stp_tau_x_inv != NULL) delete[] managerRuntimeData.stp_tau_x_inv;
+	if (managerRuntimeData.stp_dAMPA != NULL) delete[] managerRuntimeData.stp_dAMPA;
+	if (managerRuntimeData.stp_dNMDA != NULL) delete[] managerRuntimeData.stp_dNMDA;
+	if (managerRuntimeData.stp_dGABAa != NULL) delete[] managerRuntimeData.stp_dGABAa;
+	if (managerRuntimeData.stp_dGABAb != NULL) delete[] managerRuntimeData.stp_dGABAb;
+	if (managerRuntimeData.stp_rNMDA != NULL) delete[] managerRuntimeData.stp_rNMDA;
+	if (managerRuntimeData.stp_sNMDA != NULL) delete[] managerRuntimeData.stp_sNMDA;
+	if (managerRuntimeData.stp_rGABAb != NULL) delete[] managerRuntimeData.stp_rGABAb;
+	if (managerRuntimeData.stp_sGABAb != NULL) delete[] managerRuntimeData.stp_sGABAb;
+	if (managerRuntimeData.withSTP != NULL) delete[] managerRuntimeData.withSTP;
+#endif 
 	managerRuntimeData.stpu=NULL; managerRuntimeData.stpx=NULL;
-
+#ifdef JK_CA3_SNN
+	managerRuntimeData.stp_U = NULL; managerRuntimeData.stp_tau_u_inv = NULL;
+	managerRuntimeData.stp_tau_x_inv = NULL; managerRuntimeData.stp_dAMPA = NULL;
+	managerRuntimeData.stp_dNMDA = NULL; managerRuntimeData.stp_dGABAa = NULL;
+	managerRuntimeData.stp_dGABAb = NULL; managerRuntimeData.stp_rNMDA = NULL;
+	managerRuntimeData.stp_sNMDA = NULL; managerRuntimeData.stp_rGABAb = NULL;
+	managerRuntimeData.stp_sGABAb = NULL; managerRuntimeData.withSTP = NULL;
+#endif 
 	if (managerRuntimeData.avgFiring!=NULL) delete[] managerRuntimeData.avgFiring;
 	if (managerRuntimeData.baseFiring!=NULL) delete[] managerRuntimeData.baseFiring;
 	managerRuntimeData.avgFiring=NULL; managerRuntimeData.baseFiring=NULL;

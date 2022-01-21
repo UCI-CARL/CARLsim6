@@ -4,19 +4,10 @@ FIND_PACKAGE (Boost REQUIRED)
 
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
-# Headers
-    set(HDRS
-        generateSETUPStateSTP.h
-        generateCONFIGStateSTP.h 
-	)
-
 # Targets  
 add_executable(ca3_snn_GPU
-	${HDRS}
     src/main_ca3_snn_GPU.cpp
     )
-
-source_group("Header Files" FILES ${HDRS})
 
 # definitions     
 if(CARLSIM_NO_CUDA)
@@ -38,7 +29,7 @@ target_include_directories(ca3_snn_GPU PRIVATE
 install(TARGETS ca3_snn_GPU
     EXPORT carlsim
     RUNTIME 
-        DESTINATION $<$<CONFIG:Debug>:debug/>samples
+        DESTINATION $<$<CONFIG:Debug>:debug/>samples 
         COMPONENT ca3_snn_GPU
         )
 

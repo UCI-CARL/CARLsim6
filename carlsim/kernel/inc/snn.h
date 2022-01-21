@@ -337,7 +337,11 @@ public:
 		float izh_vr, float izh_vr_sd, float izh_vt, float izh_vt_sd,
 		float izh_a, float izh_a_sd, float izh_b, float izh_b_sd,
 		float izh_vpeak, float izh_vpeak_sd, float izh_c, float izh_c_sd,
-		float izh_d, float izh_d_sd);
+		float izh_d, float izh_d_sd
+#ifdef JK_CA3_SNN
+		, int izh_ref = -1   // \todo JK review default
+#endif		
+	);
 
 	//! Sets baseline concentration and decay time constant of neuromodulators (DP, 5HT, ACh, NE) for a neuron group.
 	/*!
@@ -423,6 +427,36 @@ public:
 	 */
 	void setSTP(int grpId, bool isSet, float STP_U, float STP_tau_u, float STP_tau_x);
 
+
+#ifdef JK_CA3_SNN
+	/*!
+	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
+	 * CARLsim implements the short-term plasticity model of (Tsodyks & Markram, 1998; Mongillo, Barak, & Tsodyks, 2008)
+	 * du/dt = -u/STP_tau_u + STP_U * (1-u-) * \delta(t-t_spk)
+	 * dx/dt = (1-x)/STP_tau_x - u+ * x- * \delta(t-t_spk)
+	 * dI/dt = -I/tau_S + A * u+ * x- * \delta(t-t_spk)
+	 * where u- means value of variable u right before spike update, and x+ means value of variable x right after
+	 * the spike update, and A is the synaptic weight.
+	 * The STD effect is modeled by a normalized variable (0<=x<=1), denoting the fraction of resources that remain
+	 * available after neurotransmitter depletion.
+	 * The STF effect is modeled by a utilization parameter u, representing the fraction of available resources ready for
+	 * use (release probability). Following a spike, (i) u increases due to spike-induced calcium influx to the
+	 * presynaptic terminal, after which (ii) a fraction u of available resources is consumed to produce the post-synaptic
+	 * current. Between spikes, u decays back to zero with time constant STP_tau_u (\tau_F), and x recovers to value one
+	 * with time constant STP_tau_x (\tau_D).
+	 * \param[in] preGrpId       pre-synaptic group id. STP will apply to all neurons of that group!
+	 * \param[in] postGrpId      post-synaptic group id. STP will apply to all neurons of that group!
+	 * \param[in] isSet       a flag whether to enable/disable STP
+	 * \param[in] STP_U_mean  mean of STP_U (\STP_U)
+	 * \param[in] STP_U_std  mean of STP_std (\STP_std)
+	 * \param[in] STP_tau_u_mean  mean of decay constant of u (\tau_F)
+	 * \param[in] STP_tau_u_std   sd of decay constant of u (\tau_F)
+	 * \param[in] STP_tau_x_mean  mean of decay constant of x (\tau_D)
+	 * \param[in] STP_tau_x_std   sd of decay constant of x (\tau_D)
+	 */
+	void setSTP(int preGrpId, int postGrpId, bool isSet, float STP_U_mean, float STP_U_std, float STP_tau_u_mean, float STP_tau_u_std, float STP_tau_x_mean, float STP_tau_x_std, float STP_tdAMPA_mean, float STP_tdAMPA_std, float STP_tdNMDA_mean, float STP_tdNMDA_std, float STP_tdGABAa_mean, float STP_tdGABAa_std, float STP_tdGABAb_mean, float STP_tdGABAb_std, float STP_trNMDA_mean, float STP_trNMDA_std, float STP_trGABAb_mean, float STP_trGABAb_std);
+
+#endif
 
 #ifdef LN_I_CALC_TYPES
 	void setNM4STP(int grpId, float wSTP_U[], float wSTP_tau_u[], float wSTP_tau_x[]);
@@ -820,6 +854,10 @@ private:
 	void connectNetwork();
 	inline void connectNeurons(int netId, int srcGrp, int destGrp, int srcN, int destN, short int connId, int externalNetId);
 	inline void connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc, int _nDest, short int _connId, float initWt, float maxWt, uint8_t delay, int externalNetId);
+#ifdef JK_CA3_SNN
+	inline float generateNormalSample(float mean, float std, float min_limit, float max_limit);
+	inline double marsaglia_polar_gaussian_generator(const double& mean, const double& stdDev);
+#endif
 	void connectFull(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);
 	void connectOneToOne(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);
 	void connectRandom(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);

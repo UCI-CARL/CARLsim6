@@ -861,4 +861,262 @@ struct Nm4w {
 
 #endif
 
+
+#ifdef JK_CA3_SNN
+
+/*!
+ * \brief a distribution struct for STPu parameters
+ *
+ * STPu parameter distribution specified using mean and standard deviation
+ * \param[in] mean STPu value
+ * \param[in] standard STPu value
+ * Examples:
+ *   STPu(2) => all STPu will be 2
+ *   STpu(1,10) => STPu will be from the normal distribution with mean 1 and SD 10
+ */
+struct STPu {
+	STPu(double _mean) {
+		mean = _mean;
+		std = 0.0;
+	}
+
+	STPu(double _mean, double _sd) {
+		UserErrors::assertTrue(_sd >= 0.0, UserErrors::CANNOT_BE_NEGATIVE, "STPu", "mean_STPu", "sd_STPu");
+		mean = _mean;
+		std = _sd;
+	}
+
+	friend std::ostream& operator<<(std::ostream& strm, const STPu& u) {
+		return strm << "STPu=[" << u.mean << "," << u.std << "]";
+	}
+	double mean, std;
+};
+
+/*!
+ * \brief a distribution struct for STP_tau_u parameters
+ *
+ * STP_tau_u parameter distribution specified using mean and standard deviation
+ * \param[double] mean STP_tau_u value
+ * \param[double] standard STP_tau_u value
+ * Examples:
+ *   STP_tau_u(2) => all STP_tau_u will be 2
+ *   STP_tau_u(1,10) => STP_tau_u will be from the normal distribution with mean 1 and SD 10
+ */
+struct STPtauU {
+	STPtauU(double _mean) {
+		mean = _mean;
+		std = 0.0;
+	}
+
+	STPtauU(double _mean, double _sd) {
+		UserErrors::assertTrue(_sd >= 0.0, UserErrors::CANNOT_BE_NEGATIVE, "STP_tau_u", "mean_STP_tau_u", "sd_STP_tau_u");
+		mean = _mean;
+		std = _sd;
+	}
+
+	friend std::ostream& operator<<(std::ostream& strm, const STPtauU& tau_u) {
+		return strm << "STP_tau_u=[" << tau_u.mean << "," << tau_u.std << "]";
+	}
+	double mean, std;
+};
+
+/*!
+ * \brief a distribution struct for STP_tau_x parameters
+ *
+ * STP_tau_x parameter distribution specified using mean and standard deviation
+ * \param[double] mean STP_tau_x value
+ * \param[double] standard STP_tau_x value
+ * Examples:
+ *   STP_tau_x(2) => all STP_tau_x will be 2
+ *   STP_tau_x(1,10) => STP_tau_x will be from the normal distribution with mean 1 and SD 10
+ */
+struct STPtauX {
+	STPtauX(double _mean) {
+		mean = _mean;
+		std = 0.0;
+	}
+
+	STPtauX(double _mean, double _sd) {
+		UserErrors::assertTrue(_sd >= 0.0, UserErrors::CANNOT_BE_NEGATIVE, "STP_tau_x", "mean_STP_tau_x", "sd_STP_tau_x");
+		mean = _mean;
+		std = _sd;
+	}
+
+	friend std::ostream& operator<<(std::ostream& strm, const STPtauX& tau_x) {
+		return strm << "STP_tau_x=[" << tau_x.mean << "," << tau_x.std << "]";
+	}
+	double mean, std;
+};
+
+/*!
+ * \brief a distribution struct for STPtdAMPA parameters
+ *
+ * STPtdAMPA parameter distribution specified using mean and standard deviation
+ * \param[in] mean STPtdAMPA value
+ * \param[in] standard STPtdAMPA value
+ * Examples:
+ *   STPtdAMPA(2) => all STPtdAMPA will be 2
+ *   STptdAMPA(1,10) => STPtdAMPA will be from the normal distribution with mean 1 and SD 10
+ */
+struct STPtdAMPA {
+	STPtdAMPA(double _mean) {
+		mean = _mean;
+		std = 0.0;
+	}
+
+	STPtdAMPA(double _mean, double _sd) {
+		UserErrors::assertTrue(_sd >= 0.0, UserErrors::CANNOT_BE_NEGATIVE, "STPtdAMPA", "mean_STPtdAMPA", "sd_STPtdAMPA");
+		mean = _mean;
+		std = _sd;
+	}
+
+	friend std::ostream& operator<<(std::ostream& strm, const STPtdAMPA& td_ampa) {
+		return strm << "STP_tdAMPA=[" << td_ampa.mean << "," << td_ampa.std << "]";
+	}
+	double mean, std;
+};
+
+/*!
+ * \brief a distribution struct for STPtdNMDA parameters
+ *
+ * STPtdNMDA parameter distribution specified using mean and standard deviation
+ * \param[in] mean STPtdNMDA value
+ * \param[in] standard STPtdNMDA value
+ * Examples:
+ *   STPtdNMDA(2) => all STPtdNMDA will be 2
+ *   STptdNMDA(1,10) => STPtdNMDA will be from the normal distribution with mean 1 and SD 10
+ */
+struct STPtdNMDA {
+	STPtdNMDA(double _mean) {
+		mean = _mean;
+		std = 0.0;
+	}
+
+	STPtdNMDA(double _mean, double _sd) {
+		UserErrors::assertTrue(_sd >= 0.0, UserErrors::CANNOT_BE_NEGATIVE, "STPtdNMDA", "mean_STPtdNMDA", "sd_STPtdNMDA");
+		mean = _mean;
+		std = _sd;
+	}
+
+	friend std::ostream& operator<<(std::ostream& strm, const STPtdNMDA& td_nmda) {
+		return strm << "STP_tdNMDA=[" << td_nmda.mean << "," << td_nmda.std << "]";
+	}
+	double mean, std;
+};
+
+/*!
+ * \brief a distribution struct for STPtdGABAa parameters
+ *
+ * STPtdGABAa parameter distribution specified using mean and standard deviation
+ * \param[in] mean STPtdGABAa value
+ * \param[in] standard STPtdGABAa value
+ * Examples:
+ *   STPtdGABAa(2) => all STPtdGABAa will be 2
+ *   STptdGABAa(1,10) => STPtdGABAa will be from the normal distribution with mean 1 and SD 10
+ */
+struct STPtdGABAa {
+	STPtdGABAa(double _mean) {
+		mean = _mean;
+		std = 0.0;
+	}
+
+	STPtdGABAa(double _mean, double _sd) {
+		UserErrors::assertTrue(_sd >= 0.0, UserErrors::CANNOT_BE_NEGATIVE, "STPtdGABAa", "mean_STPtdGABAa", "sd_STPtdGABAa");
+		mean = _mean;
+		std = _sd;
+	}
+
+	friend std::ostream& operator<<(std::ostream& strm, const STPtdGABAa& td_gaba_a) {
+		return strm << "STP_tdGABAa=[" << td_gaba_a.mean << "," << td_gaba_a.std << "]";
+	}
+	double mean, std;
+};
+
+/*!
+ * \brief a distribution struct for STPtdGABAb parameters
+ *
+ * STPtdGABAb parameter distribution specified using mean and standard deviation
+ * \param[in] mean STPtdGABAb value
+ * \param[in] standard STPtdGABAb value
+ * Examples:
+ *   STPtdGABAb(2) => all STPtdGABAb will be 2
+ *   STptdGABAb(1,10) => STPtdGABAb will be from the normal distribution with mean 1 and SD 10
+ */
+struct STPtdGABAb {
+	STPtdGABAb(double _mean) {
+		mean = _mean;
+		std = 0.0;
+	}
+
+	STPtdGABAb(double _mean, double _sd) {
+		UserErrors::assertTrue(_sd >= 0.0, UserErrors::CANNOT_BE_NEGATIVE, "STPtdGABAb", "mean_STPtdGABAb", "sd_STPtdGABAb");
+		mean = _mean;
+		std = _sd;
+	}
+
+	friend std::ostream& operator<<(std::ostream& strm, const STPtdGABAb& td_gaba_b) {
+		return strm << "STP_tdGABAb=[" << td_gaba_b.mean << "," << td_gaba_b.std << "]";
+	}
+	double mean, std;
+};
+
+/*!
+ * \brief a distribution struct for STPtrNMDA parameters
+ *
+ * STPtrNMDA parameter distribution specified using mean and standard deviation
+ * \param[in] mean STPtrNMDA value
+ * \param[in] standard STPtrNMDA value
+ * Examples:
+ *   STPtrNMDA(2) => all STPtrNMDA will be 2
+ *   STptrNMDA(1,10) => STPtrNMDA will be from the normal distribution with mean 1 and SD 10
+ */
+struct STPtrNMDA {
+	STPtrNMDA(double _mean) {
+		mean = _mean;
+		std = 0.0;
+	}
+
+	STPtrNMDA(double _mean, double _sd) {
+		UserErrors::assertTrue(_sd >= 0.0, UserErrors::CANNOT_BE_NEGATIVE, "STPtrNMDA", "mean_STPtrNMDA", "sd_STPtrNMDA");
+		mean = _mean;
+		std = _sd;
+	}
+
+	friend std::ostream& operator<<(std::ostream& strm, const STPtrNMDA& tr_nmda) {
+		return strm << "STP_trNMDA=[" << tr_nmda.mean << "," << tr_nmda.std << "]";
+	}
+	double mean, std;
+};
+
+/*!
+ * \brief a distribution struct for STPtrGABAb parameters
+ *
+ * STPtrGABAb parameter distribution specified using mean and standard deviation
+ * \param[in] mean STPtrGABAb value
+ * \param[in] standard STPtrGABAb value
+ * Examples:
+ *   STPtrGABAb(2) => all STPtrGABAb will be 2
+ *   STptrGABAb(1,10) => STPtrGABAb will be from the normal distribution with mean 1 and SD 10
+ */
+struct STPtrGABAb {
+	STPtrGABAb(double _mean) {
+		mean = _mean;
+		std = 0.0;
+	}
+
+	STPtrGABAb(double _mean, double _sd) {
+		UserErrors::assertTrue(_sd >= 0.0, UserErrors::CANNOT_BE_NEGATIVE, "STPtrGABAb", "mean_STPtrGABAb", "sd_STPtrGABAb");
+		mean = _mean;
+		std = _sd;
+	}
+
+	friend std::ostream& operator<<(std::ostream& strm, const STPtrGABAb& tr_gaba_b) {
+		return strm << "STP_trGABAb=[" << tr_gaba_b.mean << "," << tr_gaba_b.std << "]";
+	}
+	double mean, std;
+};
+#endif
+
+
+
 #endif
