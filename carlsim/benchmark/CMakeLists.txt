@@ -28,13 +28,13 @@ target_include_directories(benchmark PRIVATE
 install(TARGETS benchmark
     EXPORT carlsim
     RUNTIME 
-        DESTINATION $<$<CONFIG:Debug>:debug/>samples
+        DESTINATION $<$<CONFIG:Debug>:debug/>samples/benchmark
         COMPONENT benchmark
         )
 
 install( FILES 
   run_benchmark  
-  DESTINATION $<$<CONFIG:Debug>:debug/>samples )
+  DESTINATION $<$<CONFIG:Debug>:debug/>samples/benchmark )
 
   
 # TODO  cMake debugging environment

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "8000" >> "record.csv"
+./benchmark5 8000 2000 100 10 1000 20.5  0.92  5.05  "record.csv" 42 100
+
+#1. number of neurons in exc group; 2. number of neurons in inh group; 3. number of input neurons
+#4. simulate time; 5. input  fire rates; 6. weight from input to exc; 7. weight from exc to ing
+#8. weight from inh to exc; 9. recordfile; 10. randseed; 11. number of synapse per neuron
+#In this project, we just increase the size of group which means only first two parameters need to be changed
