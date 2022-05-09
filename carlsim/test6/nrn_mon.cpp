@@ -216,32 +216,22 @@ TEST(NrnMon, VUI) {
 	for (int mode = 0; mode < TESTED_MODES; mode++) {
 
 		// ---------------- CONFIG STATE -------------------
-
 		CARLsim* sim = new CARLsim("NrnMon.VUI", CPU_MODE, SILENT, 1, 42);
-
 		int n = 5;
 		int g1 = sim->createGroup("g1", n, EXCITATORY_NEURON);
 		sim->setNeuronParameters(g1, 0.02f, 0.2f, -65.0f, 8.0f);
-
 		int g0 = sim->createSpikeGeneratorGroup("Input", 5, EXCITATORY_NEURON);
-
-
 		sim->setConductances(false);
-
 		sim->connect(g0, g1, "full", RangeWeight(100.f), 1.0f);
-
-
 		NeuronMonitor* nrnMon = sim->setNeuronMonitor(g1, "NULL");
 		nrnMon->setPersistentData(false); 
 
 		// ---------------- SETUP STATE -------------------
-
 		sim->setupNetwork();
 
-
 		// ---------------- RUN STATE -------------------
-
-		//   wave prop iteration
+		// 
+		// e.g. wave prop iteration or CA3 activation
 		std::vector<float> current(n, 0.f);	
 
 		// init neural activity
@@ -256,14 +246,15 @@ TEST(NrnMon, VUI) {
 		auto i = nrnMon->getVectorI();
 		auto lastUpdated = nrnMon->getLastUpdated();
 
-		EXPECT_EQ(v.size(), n); // 
-		EXPECT_EQ(u.size(), n);
-		EXPECT_EQ(i.size(), n);
+		EXPECT_EQ(v.size(), n+1); // stats
+		EXPECT_EQ(u.size(), n+1);
+		EXPECT_EQ(i.size(), n+1);
 		EXPECT_EQ(lastUpdated, 1);  // simtime ms
 		
 		EXPECT_FLOAT_EQ(v[0][0], -65.0f); // initial value -65
 		EXPECT_FLOAT_EQ(v[1][0], -65.0f);
 		EXPECT_FLOAT_EQ(v[n-1][0], -65.0f);
+		EXPECT_FLOAT_EQ(v[n][0], -65.0f); // basic stats 
 
 		EXPECT_FLOAT_EQ(i[0][0], 100.0f); // initial value -65
 		EXPECT_FLOAT_EQ(i[1][0], 0.0f);
@@ -284,6 +275,7 @@ TEST(NrnMon, VUI) {
 		EXPECT_FLOAT_EQ(v[0][0], -65.0f); // initial value -65
 		EXPECT_GT(v[0][0], v[1][0]); // next step
 		EXPECT_FLOAT_EQ(v[1][0], v[n - 1][0]);
+		EXPECT_LT(v[n][0], -65.0f); // mean is lower as some neurons have spiked 
 
 		// hyper depolarization
 		nrnMon->startRecording();
@@ -298,6 +290,12 @@ TEST(NrnMon, VUI) {
 		EXPECT_LT(v[0][0], v[1][0]); // next step
 		EXPECT_FLOAT_EQ(v[1][0], v[n-1][0]);
 
+		// basic stats, calc expected mean
+		float v_sum = .0f;
+		for (int i = 0; i < 5; i++) {
+			v_sum += v[i][0]; 
+		}
+		EXPECT_FLOAT_EQ(v[n][0], v_sum / 5.0f); // mean(U) of neurons in the group 
 
 		delete sim;
 	}
