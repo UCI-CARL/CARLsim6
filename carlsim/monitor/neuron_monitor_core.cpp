@@ -75,13 +75,13 @@ NeuronMonitorCore::NeuronMonitorCore(SNN* snn, int monitorId, int grpId) {
 }
 
 void NeuronMonitorCore::init() {
-	nNeurons_ = snn_->getGroupNumNeurons(grpId_);
+	nNeurons_ = std::min(MAX_NEURON_MON_GRP_SZIE, snn_->getGroupNumNeurons(grpId_));	
 	assert(nNeurons_>0);
 
 	// so the first dimension is neuron ID
-	vectorV_.resize(nNeurons_);
-    vectorU_.resize(nNeurons_);
-    vectorI_.resize(nNeurons_);
+	vectorV_.resize(nNeurons_+1);  // reserve the record last for mean
+    vectorU_.resize(nNeurons_+1);
+    vectorI_.resize(nNeurons_+1);
 
 	clear();
 
@@ -109,7 +109,7 @@ void NeuronMonitorCore::clear() {
 	accumTime_ = 0;
 	totalTime_ = -1;
 
-	for (int i=0; i<nNeurons_; i++){
+	for (int i=0; i<=nNeurons_; i++){  // including mean
 		vectorV_[i].clear();
         vectorU_[i].clear();
         vectorI_[i].clear();
@@ -119,9 +119,27 @@ void NeuronMonitorCore::clear() {
 void NeuronMonitorCore::pushNeuronState(int neurId, float V, float U, float I) {
 	assert(isRecording());
 
+	if (neurId >= MAX_NEURON_MON_GRP_SZIE)
+		return; // ignore values as the are empty anyway (see buffer transfer)
+
 	vectorV_[neurId].push_back(V);
     vectorU_[neurId].push_back(U);
     vectorI_[neurId].push_back(I);
+
+	// update mean 
+	const int n = vectorV_[neurId].size();
+	if (vectorV_[nNeurons_].size() < n) {
+		// set first element
+		vectorV_[nNeurons_].push_back(V / nNeurons_);
+		vectorU_[nNeurons_].push_back(U / nNeurons_);
+		vectorI_[nNeurons_].push_back(I / nNeurons_);
+	}
+	else {
+		// mean record was appended by other neuron
+		vectorV_[nNeurons_][n-1] += V / nNeurons_;
+		vectorU_[nNeurons_][n-1] += U / nNeurons_;
+		vectorI_[nNeurons_][n-1] += I / nNeurons_;
+	}
 }
 
 void NeuronMonitorCore::startRecording() {
@@ -224,6 +242,10 @@ void NeuronMonitorCore::writeNeuronFileHeader() {
 	if (!fwrite(&tmpInt,sizeof(int),1,neuronFileId_))
 		KERNEL_ERROR("NeuronMonitorCore: writeNeuronFileHeader has fwrite error");
 
+	// write MAX_NEURON_MON_GRP_SZIE
+	int max_neuron_mon_group_size = MAX_NEURON_MON_GRP_SZIE;
+	if (!fwrite(&max_neuron_mon_group_size,sizeof(int),1,neuronFileId_))
+		KERNEL_ERROR("NeuronMonitorCore: writeNeuronFileHeader has fwrite error");
 
 	needToWriteFileHeader_ = false;
 }
@@ -278,13 +300,18 @@ void NeuronMonitorCore::print() {
 	KERNEL_INFO("| Neur ID | volt");
 	KERNEL_INFO("|- - - - -|- - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - -")
 
-	for (int i=0; i<nNeurons_; i++) {
+	for (int i=0; i<=nNeurons_; i++) {  // with mean 
 		char buffer[100];
+		if (i < nNeurons_) {
 #if defined(WIN32) || defined(WIN64)
-		_snprintf(buffer, 100, "| %7d | ", i);
+			_snprintf(buffer, 100, "| %7d | ", i);
 #else
-		snprintf(buffer, 100, "| %7d | ", i);
+			snprintf(buffer, 100, "| %7d | ", i);
 #endif
+		}
+		else {
+			_snprintf(buffer, 100, "| %7s | ", "mean");
+		}
 		int nV = vectorV_[i].size();
 		for (int j=0; j<nV; j++) {
 			char volts[10];
@@ -301,4 +328,5 @@ void NeuronMonitorCore::print() {
 		}
 		KERNEL_INFO("%s",buffer);
 	}
+
 }

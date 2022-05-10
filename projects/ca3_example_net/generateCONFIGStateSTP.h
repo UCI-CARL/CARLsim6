@@ -19,8 +19,8 @@ int CA3_Ivy = sim.createGroup("CA3_Ivy", 233.0,
 int CA3_MFA_ORDEN = sim.createGroup("CA3_MFA_ORDEN", 152.0,
                               INHIBITORY_NEURON, 0, GPU_CORES);
                               
-int CA3_Pyramidal = sim.createGroup("CA3_Pyramidal", 10000, // 743.0,
-                              EXCITATORY_NEURON, 0, GPU_CORES);
+int CA3_Pyramidal = sim.createGroup("CA3_Pyramidal", 743.0,  // 10000, // 743.0, 74.0,  
+		EXCITATORY_NEURON, 0, GPU_CORES);
                                                    
 
 sim.setNeuronParameters(CA3_QuadD_LM, 186.0, 0.0, 1.77600861583782, 0,
@@ -201,33 +201,30 @@ sim.connect(CA3_MFA_ORDEN, CA3_MFA_ORDEN, "random", RangeWeight(0.0f, 0.75f, 1.7
 sim.connect(CA3_MFA_ORDEN, CA3_Pyramidal, "random", RangeWeight(0.0f, 1.45f, 2.45f), 0.0417555599977689f,
                                           RangeDelay(1), RadiusRF(-1.0), SYN_PLASTIC, 1.360315289f, 0.0f);
 
-// todo RangeDelay(1,2) not supported 
 sim.connect(CA3_Pyramidal, CA3_QuadD_LM, "random", RangeWeight(0.0f, 1.25f, 2.25f), 0.0133672243607345f,
-										RangeDelay(1), RadiusRF(-1.0), SYN_PLASTIC, 0.874424964f, 0.0f);
-										//RangeDelay(1, 2), RadiusRF(-1.0), SYN_PLASTIC, 0.874424964f, 0.0f);
-
+                                      RangeDelay(1,2), RadiusRF(-1.0), SYN_PLASTIC, 0.874424964f, 0.0f);
+                                   
 sim.connect(CA3_Pyramidal, CA3_Axo_Axonic, "random", RangeWeight(0.0f, 0.7f, 1.7f), 0.0148205394733136f,
-										RangeDelay(1), RadiusRF(-1.0), SYN_PLASTIC, 0.932621138f, 0.0f);
-
+                                      RangeDelay(1,2), RadiusRF(-1.0), SYN_PLASTIC, 0.932621138f, 0.0f);
+                                   
 sim.connect(CA3_Pyramidal, CA3_Basket, "random", RangeWeight(0.0f, 1.45f, 2.45f), 0.0197417562762975f,
-                                        RangeDelay(1), RadiusRF(-1.0), SYN_PLASTIC, 1.172460639f, 0.0f);
+                                      RangeDelay(1,2), RadiusRF(-1.0), SYN_PLASTIC, 1.172460639f, 0.0f);
                                    
 sim.connect(CA3_Pyramidal, CA3_BC_CCK, "random", RangeWeight(0.0f, 1.0f, 2.0f), 0.0172994236281402f,
-                                      RangeDelay(1), RadiusRF(-1.0), SYN_PLASTIC, 0.847532877f, 0.0f);
+                                      RangeDelay(1,2), RadiusRF(-1.0), SYN_PLASTIC, 0.847532877f, 0.0f);
                                    
 sim.connect(CA3_Pyramidal, CA3_Bistratified, "random", RangeWeight(0.0f, 0.7f, 1.7f), 0.015857085924813f,
-                                      RangeDelay(1), RadiusRF(-1.0), SYN_PLASTIC, 0.883682094f, 0.0f);
+                                      RangeDelay(1,2), RadiusRF(-1.0), SYN_PLASTIC, 0.883682094f, 0.0f);
                                    
 sim.connect(CA3_Pyramidal, CA3_Ivy, "random", RangeWeight(0.0f, 1.35f, 2.35f), 0.0251567907913944f,
-                                      RangeDelay(1), RadiusRF(-1.0), SYN_PLASTIC, 1.314331038f, 0.0f);
+                                      RangeDelay(1,2), RadiusRF(-1.0), SYN_PLASTIC, 1.314331038f, 0.0f);
                                    
 sim.connect(CA3_Pyramidal, CA3_MFA_ORDEN, "random", RangeWeight(0.0f, 1.25f, 2.25f), 0.0209934225689348f,
-                                      RangeDelay(1), RadiusRF(-1.0), SYN_PLASTIC, 0.88025265f, 0.0f);
+                                      RangeDelay(1,2), RadiusRF(-1.0), SYN_PLASTIC, 0.88025265f, 0.0f);
                                    
 sim.connect(CA3_Pyramidal, CA3_Pyramidal, "random", RangeWeight(0.0f, 0.55f, 1.55f), 0.0250664662231983f,
-                                      RangeDelay(1), RadiusRF(-1.0), SYN_PLASTIC, 0.553062478f, 0.0f);
-      
-
+                                      RangeDelay(1,2), RadiusRF(-1.0), SYN_PLASTIC, 0.553062478f, 0.0f);
+                                   
 sim.setSTP(CA3_QuadD_LM, CA3_Axo_Axonic, true, STPu(0.152487328f, 0.0f),
                                          STPtauU(22.34022321f, 0.0f),
                                          STPtauX(635.0122846f, 0.0f),
@@ -738,7 +735,7 @@ sim.setSTP(CA3_Pyramidal, CA3_Pyramidal, true, STPu(0.27922089865f, 0.0f),
                                      STPtrNMDA(0.0f, 0.0f),
                                      STPtrGABAb(0.0f, 0.0f));
 
-/*
+
 sim.setNeuronMonitor(CA3_QuadD_LM, "DEFAULT");
                                  
 sim.setNeuronMonitor(CA3_Axo_Axonic, "DEFAULT");
@@ -754,4 +751,9 @@ sim.setNeuronMonitor(CA3_Ivy, "DEFAULT");
 sim.setNeuronMonitor(CA3_MFA_ORDEN, "DEFAULT");
                                  
 sim.setNeuronMonitor(CA3_Pyramidal, "DEFAULT");
-*/
+
+
+//NeuronMonitor* nrnMon_QuadD_LM = sim.setNeuronMonitor(CA3_QuadD_LM, "DEFAULT");
+//NeuronMonitor* nrnMon_Pyramidal = sim.setNeuronMonitor(CA3_Pyramidal, "DEFAULT");
+
+

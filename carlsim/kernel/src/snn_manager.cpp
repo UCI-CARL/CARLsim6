@@ -1013,7 +1013,7 @@ void SNN::setSTP(int preGrpId, int postGrpId, bool isSet, float STP_U_mean, floa
 	config.STP_rGABAb_std = STP_trGABAb_std;
 	config.WithSTP = true;
 
-	//sim_with_conductances |= isSet;
+	sim_with_conductances |= isSet;  // CA3 
 	sim_with_stp |= isSet;
 	groupConfigMap[preGrpId].stpConfig.WithSTP = isSet;
 
@@ -4612,12 +4612,68 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.maxWt = isExcitatoryGroup(_grpSrc) ? fabs(maxWt) : -1.0 * fabs(maxWt);
 	connInfo.initWt = isExcitatoryGroup(_grpSrc) ? fabs(initWt) : -1.0 * fabs(initWt);
 
+#ifdef JK_CA3_SNN
+	connInfo.STP_U = 0.01f;
+	connInfo.STP_tau_u_inv = 1.0f;
+	connInfo.STP_tau_x_inv = 1.0f;
+	connInfo.withSTP = false;
+
+	//KERNEL_INFO("outside netId: %d, grpSrc: %d, grpDest: %d, connId: %d", netId, _grpSrc,_grpDest, connInfo.connId);
+	if (connectConfigMap[_connId].stpConfig.WithSTP) {
+		auto& config = connectConfigMap[_connId].stpConfig;
+		connInfo.STP_U = generateNormalSample(config.STP_U_mean, config.STP_U_std, std::numeric_limits<float>::epsilon(), 1);
+		connInfo.STP_tau_u_inv = 1.0f / generateNormalSample(config.STP_tau_u_mean, config.STP_tau_u_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_tau_x_inv = 1.0f / generateNormalSample(config.STP_tau_x_mean, config.STP_tau_x_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dAMPA = 1.0f - 1.0f / generateNormalSample(config.STP_dAMPA_mean, config.STP_dAMPA_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dNMDA = 1.0f - 1.0f / generateNormalSample(config.STP_dNMDA_mean, config.STP_dNMDA_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dGABAa = 1.0f - 1.0f / generateNormalSample(config.STP_dGABAa_mean, config.STP_dGABAa_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dGABAb = 1.0f - 1.0f / generateNormalSample(config.STP_dGABAb_mean, config.STP_dGABAb_std, std::numeric_limits<float>::epsilon(), -1);
+		if (config.STP_rNMDA_mean > 0) {
+			// use rise time for NMDA
+			sim_with_NMDA_rise = true;
+			connInfo.STP_rNMDA = 1.0f - 1.0f / generateNormalSample(config.STP_rNMDA_mean, config.STP_rNMDA_std, std::numeric_limits<float>::epsilon(), -1);
+			// compute max conductance under this model to scale it back to 1
+			// otherwise the peak conductance will not be equal to the weight
+			float trNMDA = -1.0f / (connInfo.STP_rNMDA - 1.0f);
+			float tdNMDA = -1.0f / (connInfo.STP_dNMDA - 1.0f);
+			float tmax = (-tdNMDA * trNMDA * log(1.0f * trNMDA / tdNMDA)) / (tdNMDA - trNMDA); // t at which cond will be max
+			connInfo.STP_sNMDA = 1.0f / (exp(-tmax / tdNMDA) - exp(-tmax / trNMDA)); // scaling factor, 1 over max amplitude
+			assert(!std::isinf(tmax) && !std::isnan(tmax) && tmax >= 0);
+			assert(!std::isinf(connInfo.STP_sNMDA) && !std::isnan(connInfo.STP_sNMDA) && connInfo.STP_sNMDA > 0);
+		}
+		if (config.STP_rGABAb_mean > 0) {
+			// use rise time for GABAb
+			sim_with_GABAb_rise = true;
+			connInfo.STP_rGABAb = 1.0f - 1.0f / generateNormalSample(config.STP_rGABAb_mean, config.STP_rGABAb_std, std::numeric_limits<float>::epsilon(), -1);
+			// compute max conductance under this model to scale it back to 1
+			// otherwise the peak conductance will not be equal to the weight
+			float trGABAb = -1.0f / (connInfo.STP_rGABAb - 1.0f);
+			float tdGABAb = -1.0f / (connInfo.STP_dGABAb - 1.0f);
+			float tmax = (-tdGABAb * trGABAb * log(1.0 * trGABAb / tdGABAb)) / (tdGABAb - trGABAb); // t at which cond will be max
+			connInfo.STP_sGABAb = 1.0 / (exp(-tmax / tdGABAb) - exp(-tmax / trGABAb)); // scaling factor, 1 over max amplitude
+			assert(!std::isinf(tmax) && !std::isnan(tmax));
+			assert(!std::isinf(connInfo.STP_sGABAb) && !std::isnan(connInfo.STP_sGABAb) && connInfo.STP_sGABAb > 0);
+		}
+		connInfo.withSTP = true;
+		//KERNEL_INFO("inside netId: %d, grpSrc: %d, grpDest: %d, connId: %d", netId, _grpSrc,_grpDest, connInfo.connId);
+	}
+#endif
+
 	connectionLists[netId].push_back(connInfo);
 
 	// If the connection is external, copy the connection info to the external network
 	if (externalNetId >= 0)
 		connectionLists[externalNetId].push_back(connInfo);
 }
+
+
+
+
+
+
+
+
+
 
 #ifdef LN_SETUP_NETWORK_MT
 //! set one specific connection from neuron id 'src' to neuron id 'dest'
@@ -8463,8 +8519,10 @@ void SNN::updateNeuronMonitor(int gGrpId) {
 		// Later the user may need need to dump these neuron state values to an output file
 		//printf("The numMsMin is: %i; and numMsMax is: %i\n", numMsMin, numMsMax);
 		for (int t = numMsMin; t < numMsMax; t++) {
+			int grpNumNeurons = groupConfigs[netId][lGrpId].lEndN - groupConfigs[netId][lGrpId].lStartN + 1;
 			//printf("The lStartN is: %i; and lEndN is: %i\n", groupConfigs[netId][lGrpId].lStartN, groupConfigs[netId][lGrpId].lEndN);
-			for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
+			for (int tmpNId = 0; tmpNId < std::min(MAX_NEURON_MON_GRP_SZIE, grpNumNeurons); tmpNId++) {
+				int lNId = groupConfigs[netId][lGrpId].lStartN + tmpNId;
 				float v, u, I;
 
 				// make sure neuron belongs to currently relevant group

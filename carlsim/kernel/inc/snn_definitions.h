@@ -105,7 +105,11 @@
 
 
 #ifdef JK_CA3_SNN  
-#define STP_BUF_POS(nid, t, maxDelay) (nid * (2) + ((t + 1) % (2)))   // \todo JK review
+#define STP_BUF_POS(nid, t, maxDelay) (nid * (2) + ((t + 1) % (2)))   
+	// \todo JK review: unresolved issues CARLsim4_feat_meansdSTP
+	// int idx = STP_BUF_POS(n, t, 1);
+	// int index = STP_BUF_POS(lNId, j, networkConfigs[netId].maxDelay);	
+	// KERNEL_ERROR("STP with delays > 1 ms is currently not supported.");
 #else
 #define STP_BUF_POS(nid, t, maxDelay) (nid * (maxDelay + 1) + ((t + 1) % (maxDelay + 1)))
 #endif

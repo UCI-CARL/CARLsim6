@@ -19,6 +19,7 @@
         spike_mon.cpp
         stdp.cpp
         stp.cpp
+        //cstp.cpp
     )
 
     #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     
