@@ -58,7 +58,7 @@ Please replace the placeholder user1 with the actual user name:
 		inclues/
 		lib/
 	git/         # cloned repositories from Github
-		featCARLsim6/	  
+		CARLsim6/	  
 		googletest/	  
 ```	
 
@@ -118,13 +118,10 @@ make install
 
 ## Setup CARLsim6
 
-Until the official release, CARLsim6 is a feature branch in the CARLsim5 repository. 
-
 ```
 cd ~/git
-git clone https://github.com/UCI-CARL/CARLsim5.git featCARLsim6
-git checkout feat/CARLsim6
-cd featCARLsim6
+git clone https://github.com/UCI-CARL/CARLsim6.git CARLsim6
+cd CARLsim6
 mkdir .build
 cd .build
 cmake -DCMAKE_INSTALL_PREFIX=/home/user1/carlsim6 -DCMAKE_BUILD_TYPE=Release ../.
@@ -162,15 +159,15 @@ Start `~/carlsim6/samples/hello_world`
 
 Run the unit tests, e.g.  
 ```
-cd ~/git/featCARLsim6/.build/carlsim/test
+cd ~/git/CARLsim6/.build/carlsim/test
 ./carlsim-tests
 ```
 
 To run all tests in parallel with monitoring the GPU utilization
 ```
-gnome-terminal -- /bin/sh -c '~/git/featCARLsim6/.build/carlsim/test/carlsim-tests;exec bash' &
-gnome-terminal -- /bin/sh -c '~/git/featCARLsim6/.build/carlsim/test6/carlsim-tests6;exec bash' &
-gnome-terminal -- /bin/sh -c '~/git/featCARLsim6/.build/carlsim/testadv/carlsim-testsadv --gtest_filter=-*GPU_MultiGPU*;exec bash' &
+gnome-terminal -- /bin/sh -c '~/git/CARLsim6/.build/carlsim/test/carlsim-tests;exec bash' &
+gnome-terminal -- /bin/sh -c '~/git/CARLsim6/.build/carlsim/test6/carlsim-tests6;exec bash' &
+gnome-terminal -- /bin/sh -c '~/git/CARLsim6/.build/carlsim/testadv/carlsim-testsadv --gtest_filter=-*GPU_MultiGPU*;exec bash' &
 gnome-terminal -- /bin/sh -c 'nvidia-smi -l 1' &
 ```
 
