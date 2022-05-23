@@ -1136,10 +1136,11 @@ snn_->setSTP(preGrpId, postGrpId, isSet, def_STP_U_inh_mean, def_STP_U_inh_std, 
 		// run some checks before running network for the first time
 		if (carlsimState_ != RUN_STATE) {
 			// if user hasn't called setConductances, set to false and disp warning
+#ifndef JK_CA3_SNN
 			if (!hasSetConductances_) {
 				userWarnings_.push_back("setConductances has not been called. Setting simulation mode to CUBA.");
 			}
-
+#endif
 			// make sure user didn't provoque any user warnings
 			handleUserWarnings();
 		}
@@ -2056,9 +2057,10 @@ private:
 
 		// set default values for STP params
 		// Misha Tsodyks and Si Wu (2013) Short-term synaptic plasticity. Scholarpedia, 8(10):3153., revision #136920
+#ifndef JK_CA3_SNN
 		setDefaultSTPparams(EXCITATORY_NEURON, 0.45f, 50.0f, 750.0f);
 		setDefaultSTPparams(INHIBITORY_NEURON, 0.15f, 750.0f, 50.0f);
-#ifdef JK_CA3_SNN
+#else	// CA3
 		setDefaultSTPparams(EXCITATORY_NEURON, 0.45f, 50.0f, 750.0f, 5.0f, 150.0f, 6.0f, 150.0f, 0.0f, 0.0f);
 		setDefaultSTPparams(INHIBITORY_NEURON, 0.15f, 750.0f, 50.0f, 5.0f, 150.0f, 6.0f, 150.0f, 0.0f, 0.0f);
 #endif

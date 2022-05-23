@@ -88,9 +88,13 @@ int main() {
 	// create a network on GPU
 	int numGPUs = 0;
 	int randSeed = 10;
-	CARLsim sim("ca3_snn_GPU", GPU_MODE, USER, numGPUs, randSeed);
-	//CARLsim sim("ca3_snn_CPU", CPU_MODE, USER, numGPUs, randSeed);
 
+
+	CARLsim sim("ca3_snn_GPU", GPU_MODE, USER, numGPUs, randSeed);
+	const ComputingBackend BACKEND_CORES = GPU_CORES;
+
+	//CARLsim sim("ca3_snn_CPU", CPU_MODE, USER, numGPUs, randSeed);
+	//const ComputingBackend BACKEND_CORES = CPU_CORES;
 	// include header file that contains generation of groups and their
 	// properties
 	#include "../generateCONFIGStateSTP.h"
@@ -98,7 +102,7 @@ int main() {
 	// Set the time constants for the excitatory and inhibitory receptors, and
 	// set the method of integration to numerically solve the systems of ODEs
 	// involved in the SNN
-	sim.setConductances(true);
+	// sim.setConductances(true);
 	sim.setIntegrationMethod(RUNGE_KUTTA4, 5);
 
 	// ---------------- SETUP STATE -------------------
@@ -149,38 +153,41 @@ int main() {
 
 	// run for a total of 10 seconds in 500ms bins
 	// at the end of each runNetwork call, SpikeMonitor stats will be printed
-	for (int i = 0; i < 10*2; i++) {
+	for (int i = 0; i < 9*2; i++) {
 		if (i == 0)
 		{
 			watch.lap("runNetwork(init)");
 
 			// simulated input from dentate gyros (DG)
-			sim.setExternalCurrent(CA3_Pyramidal, 500.0f);
-			sim.setExternalCurrent(CA3_Axo_Axonic, 350.0f);
-			sim.setExternalCurrent(CA3_BC_CCK, 350.0f);
-			sim.setExternalCurrent(CA3_Basket, 350.0f);
-			sim.setExternalCurrent(CA3_Bistratified, 350.0f);
-			sim.setExternalCurrent(CA3_Ivy, 350.0f);
-			sim.setExternalCurrent(CA3_QuadD_LM, 350.0f);
-			sim.setExternalCurrent(CA3_MFA_ORDEN, 350.0f);
+			//sim.setExternalCurrent(CA3_Pyramidal, 500.0f);
+			//sim.setExternalCurrent(CA3_Axo_Axonic, 350.0f);
+			//sim.setExternalCurrent(CA3_BC_CCK, 350.0f);
+			//sim.setExternalCurrent(CA3_Basket, 350.0f);
+			//sim.setExternalCurrent(CA3_Bistratified, 350.0f);
+			//sim.setExternalCurrent(CA3_Ivy, 350.0f);
+			//sim.setExternalCurrent(CA3_QuadD_LM, 350.0f);
+			//sim.setExternalCurrent(CA3_MFA_ORDEN, 350.0f);
 
-			// alternative input from DG
-			//sim.setExternalCurrent(CA3_Pyramidal, 40.0f);
-			//sim.setExternalCurrent(CA3_Axo_Axonic, 100.0f);
-			//sim.setExternalCurrent(CA3_BC_CCK, 135.0f);
-			//sim.setExternalCurrent(CA3_Basket, 440.0f); 
-			//sim.setExternalCurrent(CA3_Bistratified, 135.0f);
-			//sim.setExternalCurrent(CA3_Ivy, 500.0f);
-			//sim.setExternalCurrent(CA3_QuadD_LM, 200.0f);
-			//sim.setExternalCurrent(CA3_MFA_ORDEN, 250.0f);
+			//// alternative input from DG
+			sim.setExternalCurrent(CA3_Pyramidal, 40.0f);
+			sim.setExternalCurrent(CA3_Axo_Axonic, 100.0f);
+			sim.setExternalCurrent(CA3_BC_CCK, 135.0f);
+			sim.setExternalCurrent(CA3_Basket, 440.0f); 
+			sim.setExternalCurrent(CA3_Bistratified, 135.0f);
+			sim.setExternalCurrent(CA3_Ivy, 500.0f);
+			sim.setExternalCurrent(CA3_QuadD_LM, 200.0f);
+			sim.setExternalCurrent(CA3_MFA_ORDEN, 250.0f);
 
-			sim.runNetwork(0, 1, true);
+			sim.runNetwork(0, 10, true);
 			printf("\n");
 
-			sim.runNetwork(0, 1, true);
+			sim.runNetwork(0, 10, true);
 			printf("\n");
 
-			sim.runNetwork(0, 498, true);
+			sim.runNetwork(0, 10, true);
+			printf("\n");
+
+			sim.runNetwork(0, 470, true);
 			printf("\n");
 
 			watch.lap("runNetwork");
@@ -194,7 +201,7 @@ int main() {
 	}
 
 	//nrnMon_Pyramidal->stopRecording();
-	//nrnMon_Pyramidal->print();
+	//nrnMon_Pyramidal->print(true);
 
 	//nrnMon_QuadD_LM->stopRecording();
 	//nrnMon_QuadD_LM->print();

@@ -439,7 +439,7 @@ public:
 	 * \param[in] tdGABAb time constant for GABAb decay (ms)
 	 */
 	void setConductances(int grpId, bool isSet, int tdAMPA, int tdNMDA, int tdGABAa, int tdGABAb);
-
+	
 	/*!
 	 * \brief Sets IcalcType to COBA and configure for conduction rise and decay times for a specific neuron group
 	 *
@@ -455,7 +455,6 @@ public:
 	 * \param[in] tdGABAb time constant for GABAb decay (ms)
 	 */
 	 void setConductances(int grpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb);
-
 
 	 /*!
 	  * \brief Sets IcalcType to ACNE12 for a specific neuron group

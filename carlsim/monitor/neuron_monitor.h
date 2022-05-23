@@ -82,7 +82,7 @@ class CARLSIM_API NeuronMonitor {
     void startRecording();
     void stopRecording();
     void setLogFile(const std::string& logFileName);
-	void print();
+	void print(bool meanOnly = false);
 
 	//{ LN20201118 extensions
 

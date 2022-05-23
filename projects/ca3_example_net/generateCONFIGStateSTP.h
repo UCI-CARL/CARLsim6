@@ -1,26 +1,30 @@
+
+
+
+
 int CA3_QuadD_LM = sim.createGroup("CA3_QuadD_LM", 328.0,
-                              INHIBITORY_NEURON, 0, GPU_CORES);
+                              INHIBITORY_NEURON, 0, BACKEND_CORES);
                               
 int CA3_Axo_Axonic = sim.createGroup("CA3_Axo_Axonic", 190.0,
-                              INHIBITORY_NEURON, 0, GPU_CORES);
+                              INHIBITORY_NEURON, 0, BACKEND_CORES);
                               
 int CA3_Basket = sim.createGroup("CA3_Basket", 51.0,
-                              INHIBITORY_NEURON, 0, GPU_CORES);
+                              INHIBITORY_NEURON, 0, BACKEND_CORES);
                               
 int CA3_BC_CCK = sim.createGroup("CA3_BC_CCK", 66.0,
-                              INHIBITORY_NEURON, 0, GPU_CORES);
+                              INHIBITORY_NEURON, 0, BACKEND_CORES);
                               
 int CA3_Bistratified = sim.createGroup("CA3_Bistratified", 463.0,
-                              INHIBITORY_NEURON, 0, GPU_CORES);
+                              INHIBITORY_NEURON, 0, BACKEND_CORES);
                               
 int CA3_Ivy = sim.createGroup("CA3_Ivy", 233.0,
-                              INHIBITORY_NEURON, 0, GPU_CORES);
+                              INHIBITORY_NEURON, 0, BACKEND_CORES);
                               
 int CA3_MFA_ORDEN = sim.createGroup("CA3_MFA_ORDEN", 152.0,
-                              INHIBITORY_NEURON, 0, GPU_CORES);
+                              INHIBITORY_NEURON, 0, BACKEND_CORES);
                               
 int CA3_Pyramidal = sim.createGroup("CA3_Pyramidal", 743.0,  // 10000, // 743.0, 74.0,  
-		EXCITATORY_NEURON, 0, GPU_CORES);
+		EXCITATORY_NEURON, 0, BACKEND_CORES);
                                                    
 
 sim.setNeuronParameters(CA3_QuadD_LM, 186.0, 0.0, 1.77600861583782, 0,
@@ -753,7 +757,8 @@ sim.setNeuronMonitor(CA3_MFA_ORDEN, "DEFAULT");
 sim.setNeuronMonitor(CA3_Pyramidal, "DEFAULT");
 
 
-//NeuronMonitor* nrnMon_QuadD_LM = sim.setNeuronMonitor(CA3_QuadD_LM, "DEFAULT");
 //NeuronMonitor* nrnMon_Pyramidal = sim.setNeuronMonitor(CA3_Pyramidal, "DEFAULT");
+
+//NeuronMonitor* nrnMon_QuadD_LM = sim.setNeuronMonitor(CA3_QuadD_LM, "DEFAULT");
 
 

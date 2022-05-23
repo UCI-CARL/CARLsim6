@@ -141,6 +141,30 @@ short int SNN::connect(int grpId1, int grpId2, const std::string& _type, float i
 	connConfig.conn = NULL;
 	connConfig.numberOfConnections = 0;
 
+#ifdef JK_CA3_SNN
+	auto& config = connConfig.stpConfig;
+	config.STP_U_mean = 0.0f;
+	config.STP_U_std = 0.0f;
+	config.STP_tau_u_mean = 0.0f;
+	config.STP_tau_u_std = 0.0f;
+	config.STP_tau_x_mean = 0.0f;
+	config.STP_tau_x_std = 0.0f;
+	config.STP_dAMPA_mean = 0.0f;
+	config.STP_dAMPA_std = 0.0f;
+	config.STP_dNMDA_mean = 0.0f;
+	config.STP_dNMDA_std = 0.0f;
+	config.STP_dGABAa_mean = 0.0f;
+	config.STP_dGABAa_std = 0.0f;
+	config.STP_dGABAb_mean = 0.0f;
+	config.STP_dGABAb_std = 0.0f;
+	config.STP_rNMDA_mean = 0.0f;
+	config.STP_rNMDA_std = 0.0f;
+	config.STP_sNMDA = 0.0f;
+	config.STP_rGABAb_mean = 0.0f;
+	config.STP_rGABAb_std = 0.0f;
+	config.STP_sGABAb = 0.0f;
+#endif
+
 	if ( _type.find("random") != std::string::npos) {
 		connConfig.type = CONN_RANDOM;
 	}
@@ -203,6 +227,30 @@ short int SNN::connect(int grpId1, int grpId2, ConnectionGeneratorCore* conn, fl
 	connConfig.numberOfConnections = 0;
 	connConfig.stdpConfig = stdpConfig;
 
+#ifdef JK_CA3_SNN
+	auto &config = connConfig.stpConfig;
+	config.STP_U_mean = 0.0f;
+	config.STP_U_std = 0.0f;
+	config.STP_tau_u_mean = 0.0f;
+	config.STP_tau_u_std = 0.0f;
+	config.STP_tau_x_mean = 0.0f;
+	config.STP_tau_x_std = 0.0f;
+	config.STP_dAMPA_mean = 0.0f;
+	config.STP_dAMPA_std = 0.0f;
+	config.STP_dNMDA_mean = 0.0f;
+	config.STP_dNMDA_std = 0.0f;
+	config.STP_dGABAa_mean = 0.0f;
+	config.STP_dGABAa_std = 0.0f;
+	config.STP_dGABAb_mean = 0.0f;
+	config.STP_dGABAb_std = 0.0f;
+	config.STP_rNMDA_mean = 0.0f;
+	config.STP_rNMDA_std = 0.0f;
+	config.STP_sNMDA = 0.0f;
+	config.STP_rGABAb_mean = 0.0f;
+	config.STP_rGABAb_std = 0.0f;
+	config.STP_sGABAb = 0.0f;
+	config.WithSTP = false;
+#endif
 
 	// assign a connection id
 	assert(connConfig.connId == -1);
@@ -419,8 +467,13 @@ void SNN::setCompartmentParameters(int gGrpId, float couplingUp, float couplingD
 
 #define LN_I_CALC_TYPES__REQUIRED_FOR_BACKWARD_COMPAT
 #define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
+
+
 // set conductance values for a simulation (custom values or disable conductances alltogether)
 void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb) {
+#ifdef JK_CA3_SNN  // LN 20220519 CS4 
+	KERNEL_INFO("Not supported with CA3");
+#else
 	if (isSet) {
 		assert(tdAMPA>0); assert(tdNMDA>0); assert(tdGABAa>0); assert(tdGABAb>0);
 		assert(trNMDA>=0); assert(trGABAb>=0); // 0 to disable rise times
@@ -470,6 +523,7 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 	} else {
 		KERNEL_INFO("Running CUBA mode (all synaptic conductances disabled)");
 	}
+  #endif
 }
 #ifdef LN_I_CALC_TYPES
 // set conductance values for a group (custom values or disable conductances)
@@ -480,7 +534,9 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 // Default COBA => single group(s) opt out with CUBA; Network already does support COBA 
 // Default CUBA & NMweighted => other context, here irrelevant
 void SNN::setConductances(int gGrpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb) {
-
+#ifdef JK_CA3_SNN  // LN 20220519 CS4 
+	KERNEL_INFO("Not supported with CA3");
+#else
 	if (isSet) {
 		assert(tdAMPA > 0); assert(tdNMDA > 0); assert(tdGABAa > 0); assert(tdGABAb > 0);
 		assert(trNMDA >= 0); assert(trGABAb >= 0); // 0 to disable rise times
@@ -546,11 +602,13 @@ void SNN::setConductances(int gGrpId, bool isSet, int tdAMPA, int trNMDA, int td
 	else {
 		KERNEL_INFO("Running group %d in CUBA mode (synaptic conductances disabled)", gGrpId);
 	}
+#endif
 }
 
-
 void SNN::setNM4weighted(int gGrpId, IcalcType icalc, float wDA, float w5HT, float wACh, float wNE, float wNorm, float wBase) {
-
+#ifdef JK_CA3_SNN  // LN 20220519 CS4 
+	KERNEL_INFO("Not supported with CA3");
+#else
 	// globalGroup ID 
 	auto &groupConfig = groupConfigMap[gGrpId];
 
@@ -568,11 +626,8 @@ void SNN::setNM4weighted(int gGrpId, IcalcType icalc, float wDA, float w5HT, flo
 	KERNEL_INFO("Running group (G:%d) IcalcType: %s", gGrpId, IcalcType_string[icalc]);
 	KERNEL_INFO("  - Weights (DA, 5HT, ACh, NE)     = %.1f %.1f %.1f %.1f ", wDA, w5HT, wACh, wNE);
 	KERNEL_INFO("  - Normalization/Boost, Base      = %.1f %.1f", wNorm, wBase);
-
+#endif
 }
-
-
-
 
 #endif
 
@@ -1024,8 +1079,11 @@ void SNN::setSTP(int preGrpId, int postGrpId, bool isSet, float STP_U_mean, floa
 
 	KERNEL_INFO("STP %s for %d to %d (%s):\t, mean of U: %1.4f, mean of tau_u: %4.0f, mean of tau_x: %4.0f, \n mean of tau_dAMPA: %2.4f, mean of tau_dNMDA: %2.4f, mean of tau_dGABAa: %2.4f, \n mean of tau_dGABAb: %2.4f, mean of tau_rNMDA: %2.4f, mean of tau_rGABAb: %2.4f", isSet ? "enabled" : "disabled",
 		preGrpId, postGrpId, groupConfigMap[preGrpId].grpName.c_str(), STP_U_mean, STP_tau_u_mean, STP_tau_x_mean, STP_tdAMPA_mean, STP_tdNMDA_mean, STP_tdGABAa_mean, STP_tdGABAb_mean, STP_trNMDA_mean, STP_trGABAb_mean);
+
 }
 #endif
+
+
 
 #ifdef LN_I_CALC_TYPES
 void SNN::setNM4STP(int gGrpId, float wSTP_U[], float wSTP_tau_u[], float wSTP_tau_x[]) {
@@ -3777,7 +3835,8 @@ void SNN::generateRuntimeNetworkConfigs() {
 #define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 			networkConfigs[netId].sim_with_NMDA_rise = sim_with_NMDA_rise;
 			networkConfigs[netId].sim_with_GABAb_rise = sim_with_GABAb_rise;
-#ifndef LN_I_CALC_TYPES
+//#ifndef LN_I_CALC_TYPES
+#ifndef JK_CA3_SNN  // LN20220519 CS4
 			networkConfigs[netId].dAMPA = dAMPA;
 			networkConfigs[netId].rNMDA = rNMDA;
 			networkConfigs[netId].dNMDA = dNMDA;
@@ -4355,6 +4414,7 @@ void SNN::compileGroupConfig() {
 			groupConfigMap[gGrpId].with_NMDA_rise = sim_with_NMDA_rise;
 			groupConfigMap[gGrpId].with_GABAb_rise = sim_with_GABAb_rise;
 #define LN_I_CALC_TYPES__REQUIRED_FOR_BACKWARD_COMP
+#ifndef JK_CA3_SNN // LN 20220519 CS4
 			auto& config = groupConfigMap[gGrpId].conductanceConfig;
 			config.dAMPA = dAMPA;  // loss of precision is acceptable
 			config.dGABAa = dGABAa;
@@ -4364,6 +4424,7 @@ void SNN::compileGroupConfig() {
 			config.rNMDA = rNMDA;
 			config.sGABAb = sGABAb;
 			config.sNMDA = sNMDA;
+#endif
 		}
 	}
 #endif
@@ -7159,6 +7220,7 @@ void SNN::generateRuntimeSNN() {
 
 void SNN::resetConductances(int netId) {
 #ifdef LN_I_CALC_TYPES
+//#ifndef JK_CA3_SNN
 	// always allocate memory for explicid rise/decay as it may be partitionated by groups
 	if (networkConfigs[netId].sim_with_conductances) {
 		memset(managerRuntimeData.gAMPA, 0, sizeof(float) * networkConfigs[netId].numNReg);

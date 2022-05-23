@@ -290,7 +290,7 @@ std::vector<std::vector<float> > NeuronMonitorCore::getVectorI(){
 	return vectorI_;
 }
 
-void NeuronMonitorCore::print() {
+void NeuronMonitorCore::print(bool meanOnly) {
 	assert(!isRecording());
 
 	// how many spike times to display per row
@@ -300,7 +300,7 @@ void NeuronMonitorCore::print() {
 	KERNEL_INFO("| Neur ID | volt");
 	KERNEL_INFO("|- - - - -|- - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - -")
 
-	for (int i=0; i<=nNeurons_; i++) {  // with mean 
+	for (int i=meanOnly?nNeurons_:0; i<=nNeurons_; i++) {  // with mean 
 		char buffer[100];
 		if (i < nNeurons_) {
 #if defined(WIN32) || defined(WIN64)
@@ -310,7 +310,11 @@ void NeuronMonitorCore::print() {
 #endif
 		}
 		else {
+#if defined(WIN32) || defined(WIN64)
 			_snprintf(buffer, 100, "| %7s | ", "mean");
+#else
+			snprintf(buffer, 100, "| %7s | ", "mean");
+#endif
 		}
 		int nV = vectorV_[i].size();
 		for (int j=0; j<nV; j++) {

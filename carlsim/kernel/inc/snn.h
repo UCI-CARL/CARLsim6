@@ -262,6 +262,7 @@ public:
 	void setConductances(int grpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb);
 
 	void setNM4weighted(int grpId, IcalcType type, float wDA, float w5HT, float wACh, float wNE, float wNorm, float wBase);
+
 #endif
 
 
@@ -1302,6 +1303,7 @@ private:
 	bool sim_with_NMDA_rise;    //!< a flag to inform whether to compute NMDA rise time
 	bool sim_with_GABAb_rise;   //!< a flag to inform whether to compute GABAb rise time
 #define LN_I_CALC_TYPES__REQUIRED_FOR_BACKWARD_COMPAT
+#ifndef JK_CA3_SNN   // LN 20220519 CS4
 	double dAMPA;               //!< multiplication factor for decay time of AMPA conductance (gAMPA[i] *= dAMPA)
 	double rNMDA;               //!< multiplication factor for rise time of NMDA
 	double dNMDA;               //!< multiplication factor for decay time of NMDA
@@ -1310,6 +1312,7 @@ private:
 	double rGABAb;              //!< multiplication factor for rise time of GABAb
 	double dGABAb;              //!< multiplication factor for decay time of GABAb
 	double sGABAb;              //!< scaling factor for GABAb amplitude
+#endif
 
 	bool sim_with_compartments;
 	bool sim_with_fixedwts;
