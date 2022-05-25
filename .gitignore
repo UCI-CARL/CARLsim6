@@ -48,3 +48,4 @@ doc/html/
 *.log
 *.stat
 *.dat
+external/snn_analysis-main*
