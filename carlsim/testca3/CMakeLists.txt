@@ -4,17 +4,15 @@
 
 # Targets
 
-    add_executable(carlsim-testsadv
+    add_executable(carlsim-testsca3
         carlsim_tests_common.cpp      
-        connect_adv.cpp
         main.cpp
-        multi_runtimes.cpp
-        stdp_adv.cpp
+        ca3.cpp
     )
 
     #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     
     #FIX: GTEST_LINKED_AS_SHARED_LIBRARY=1
-    target_compile_definitions(carlsim-testsadv
+    target_compile_definitions(carlsim-testsca3
             PUBLIC
                 -DGTEST_LINKED_AS_SHARED_LIBRARY=1
         )
@@ -26,7 +24,7 @@
 
 # Includes
 
-    target_include_directories(carlsim-testsadv
+    target_include_directories(carlsim-testsca3
         PRIVATE
             ${GTEST_INCLUDE_DIRS}
  #           C:/Test/github/PTHREADS-BUILT/include
@@ -34,7 +32,7 @@
 
 # Linking
 
-    target_link_libraries(carlsim-testsadv
+    target_link_libraries(carlsim-testsca3
         PRIVATE
             carlsim-spike-generators
             ${GTEST_LIBRARIES}
@@ -46,7 +44,7 @@
 if(MSVC)
     # Fixed Explorer Issue, see Release Notes of GTest Adapter
     # Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)
-    target_link_options(carlsim-testsadv PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
+    target_link_options(carlsim-testsca3 PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
 endif()
 
 # Release
