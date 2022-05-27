@@ -22,192 +22,220 @@
 TEST(CA3, CSTP_PC) {
 	::testing::FLAGS_gtest_death_test_style = "threadsafe";
 
-	// keep track of execution time
-	//Stopwatch watch;
-
-	// ---------------- CONFIG STATE -------------------
-
-	// create a network on GPU
+	// CARLsim parameter
+	LoggerMode logger = SILENT;  // USER, SILENT
+	ComputingBackend BACKEND_CORES;
 	int numGPUs = 0;
 	int randSeed = 10;
 
-	//CARLsim * sim = new CARLsim("ca3_snn_GPU", GPU_MODE, USER, numGPUs, randSeed);
-	//const ComputingBackend BACKEND_CORES = GPU_CORES;
+	enum RUN { STF, STD, NONE };
 
-	CARLsim* sim = new CARLsim("ca3__cstp_pc", CPU_MODE, USER, numGPUs, randSeed);
-	const ComputingBackend BACKEND_CORES = CPU_CORES;
+	struct RESULT {
+		RUN run;
+		int mode; 
+		int spikes;  // ms when target group starts spiking 
+	};
 
-	// include header file that contains generation of groups and their
-	// properties
-	//#include "../generateCONFIGStateSTP.h"
-	int CA3_Pyramidal = sim->createGroup("CA3_Pyramidal", 74,  
-		EXCITATORY_NEURON, 0, BACKEND_CORES);
+	const auto len = sizeof(RUN);
+	RESULT results[TESTED_MODES][len];  // check if len or bytes
 
-	sim->setNeuronParameters(CA3_Pyramidal, 366.0, 0.0, 0.792338703789581, 0,
-		-63.2044008171655, 0.0, -33.6041733124267, 0.0, 0.00838350334098279,
-		0.0, -42.5524776883928, 0.0, 35.8614648558726,
-		0.0, -38.8680990294091, 0.0,
-		588.0, 0.0, 1);
+	for (int mode = 0; mode < TESTED_MODES; mode++) {
 
-	// CS6, Windows
-	sim->connect(CA3_Pyramidal, CA3_Pyramidal, "random", RangeWeight(0.0f, 0.55f, 1.55f), 0.75, // 0.0250664662231983f,   
-		RangeDelay(1, 2), RadiusRF(-1.0), SYN_PLASTIC, 0.553062478f, 0.0f);
+		for (int run = RUN(STF); run <= RUN(NONE); run++) {
+
+			CARLsim* sim = new CARLsim(mode ? "ca3_cstp_pc_GPU" : "ca3_cstp_pc_CPU", mode ? GPU_MODE : CPU_MODE, logger, numGPUs, randSeed);
+			BACKEND_CORES = mode ? GPU_CORES : CPU_CORES;
 
 
-	//sim->connect(CA3_Pyramidal, CA3_Pyramidal, "random", RangeWeight(0.0f, 0.55f, 1.55f), 0.75, // 0.0250664662231983f,   
-	//	RangeDelay(1, 2), RadiusRF(-1.0), SYN_PLASTIC, 0.553062478f, 0.1f);  // no more activity
+			// keep track of execution time
+			//Stopwatch watch;
 
-	//sim->connect(CA3_Pyramidal, CA3_Pyramidal, "random", RangeWeight(0.55f), 0.5, // 0.0250664662231983f,   
-	//	RangeDelay(1, 2), RadiusRF(-1.0), SYN_FIXED, 0.553062478f, 0.0f);
+			// ---------------- CONFIG STATE -------------------
 
+			// no comment
+			sim->setIntegrationMethod(RUNGE_KUTTA4, 5);
 
-	//sim->setSTP(CA3_Pyramidal, CA3_Pyramidal, true, 
-	//	STPu(0.27922089865f, 0.0f),
-	//	STPtauU(21.44820657f, 0.0f),
-	//	STPtauX(318.510891f, 0.0f),
-	//	STPtdAMPA(10.21893984f, 0.0f),
-	//	STPtdNMDA(150.0f, 0.0f),
-	//	STPtdGABAa(6.0f, 0.0f),
-	//	STPtdGABAb(150.0f, 0.0f),
-	//	STPtrNMDA(0.0f, 0.0f),
-	//	STPtrGABAb(0.0f, 0.0f));
+			// include header file that contains generation of groups and their
+			// properties
+			//#include "../generateCONFIGStateSTP.h"
+			int CA3_Pyramidal1 = sim->createGroup("CA3_Pyramidal1", 74,
+				EXCITATORY_NEURON, 0, BACKEND_CORES);
+			int CA3_Pyramidal2 = sim->createGroup("CA3_Pyramidal2", 74,
+				EXCITATORY_NEURON, 0, BACKEND_CORES);
 
-	//// undef
-	//sim->setSTP(CA3_Pyramidal, CA3_Pyramidal, true,
-	//	STPu(0.45f), 
-	//	STPtauU(50.0f), 
-	//	STPtauX(750.0f),
-	//	STPtdAMPA(1.0f, 0.0f),
-	//	STPtdNMDA(15.0f, 0.0f),
-	//	STPtdGABAa(600.0f, 0.0f),
-	//	STPtdGABAb(15.0f, 0.0f),
-	//	STPtrNMDA(0.0f, 0.0f),
-	//	STPtrGABAb(0.0f, 0.0f)); 
+			sim->setNeuronParameters(CA3_Pyramidal1, 366.0, 0.0, 0.792338703789581, 0,
+				-63.2044008171655, 0.0, -33.6041733124267, 0.0, 0.00838350334098279,
+				0.0, -42.5524776883928, 0.0, 35.8614648558726,
+				0.0, -38.8680990294091, 0.0,
+				588.0, 0.0, 1);
 
-	// knocks of after few 100ms 
-	sim->setSTP(CA3_Pyramidal, CA3_Pyramidal, true,
-		STPu(0.15f),
-		STPtauU(750.0f),  // 750
-		STPtauX(50.0f),   // 50
-		//STPtdAMPA(0.5f, 0.0f),   // 1.0 unchanged 14 Hz, 0.5 7 Hz, << 0.5 e.g. 0.1 dies, funny results for 0.49999f  353Hz 
-		STPtdAMPA(0.5, 0.0),   // 1.0 unchanged 14 Hz, 0.5 7 Hz, << 0.5 e.g. 0.1 dies, funny results for 0.49999f  353Hz 
-		STPtdNMDA(0.1f, 0.0f),
-		STPtdGABAa(0.1f, 0.0f),
-		STPtdGABAb(0.1f, 0.0f),
-		STPtrNMDA(0.0f, 0.0f),
-		STPtrGABAb(0.0f, 0.0f)); 
+			sim->setNeuronParameters(CA3_Pyramidal2, 366.0, 0.0, 0.792338703789581, 0,
+				-63.2044008171655, 0.0, -33.6041733124267, 0.0, 0.00838350334098279,
+				0.0, -42.5524776883928, 0.0, 35.8614648558726,
+				0.0, -38.8680990294091, 0.0,
+				588.0, 0.0, 1);
 
 
-	// reproduce access violation by setting setSTP to false
-	// Exception thrown at 0x00007FFF4BEDB87E (carlsimd.dll) in carlsim - tests.exe: 0xC0000005 : Access violation reading location 0x0000000000000000.
-	// .\kernel\src\snn_cpu_module.cpp
-	// 660 					runtimeData[netId].stpu[ind_plus] = runtimeData[netId].stpu[ind_minus] * (1.0f - runtimeData[netId].stp_tau_u_inv[lSId]);
-	//
-	//sim->setSTP(CA3_Pyramidal, CA3_Pyramidal, false, STPu(0.27922089865f, 0.0f),
-	//	STPtauU(21.44820657f, 0.0f),
-	//	STPtauX(318.510891f, 0.0f),
-	//	STPtdAMPA(10.21893984f, 0.0f),
-	//	STPtdNMDA(150.0f, 0.0f),
-	//	STPtdGABAa(6.0f, 0.0f),
-	//	STPtdGABAb(150.0f, 0.0f),
-	//	STPtrNMDA(0.0f, 0.0f),
-	//	STPtrGABAb(0.0f, 0.0f));
-
-	
-	NeuronMonitor* nrnMon_Pyramidal = sim->setNeuronMonitor(CA3_Pyramidal, "DEFAULT");
+			// CS6, Windows
+			// CS4_HC does not support fixed synapses anymore
+			//if (RUN(run) == NONE)
+			//	sim->connect(CA3_Pyramidal1, CA3_Pyramidal2, "one-to-one", RangeWeight(0.55f), 0.75, // 0.0250664662231983f,   
+			//		RangeDelay(1, 2), RadiusRF(-1.0), SYN_FIXED,	0.553062478f, 0.0f);
+			//else
+				sim->connect(CA3_Pyramidal1, CA3_Pyramidal2, "one-to-one", RangeWeight(0.0f, 0.55f, 1.55f), 0.75, // 0.0250664662231983f,   
+					RangeDelay(1, 2), RadiusRF(-1.0), SYN_PLASTIC,	0.553062478f, 0.0f);
 
 
-	// Set the time constants for the excitatory and inhibitory receptors, and
-	// set the method of integration to numerically solve the systems of ODEs
-	// involved in the SNN
-	// sim->setConductances(true);
-	sim->setIntegrationMethod(RUNGE_KUTTA4, 5);
+			switch (RUN(run)) {
+			case STF:
+				//	facilitation  spikes by 600 CPU
+				//	facilitation  spikes by 700 GPU
+				sim->setSTP(CA3_Pyramidal1, CA3_Pyramidal2, true,
+					STPu(0.65f),
+					STPtauU(75.0f),  // 750
+					STPtauX(750.0f),   // 50
+					STPtdAMPA(15.0f, 0.0f),   // 1.0 unchanged 14 Hz, 0.5 7 Hz, << 0.5 e.g. 0.1 dies, funny results for 0.49999f  353Hz 
+					//STPtdAMPA(0.55, 0.0),   // 1.0 unchanged 14 Hz, 0.5 7 Hz, << 0.5 e.g. 0.1 dies, funny results for 0.49999f  353Hz 
+					STPtdNMDA(150.0f, 0.0f),
+					STPtdGABAa(6.0f, 0.0f),
+					STPtdGABAb(150.0f, 0.0f),
+					STPtrNMDA(0.0f, 0.0f),
+					STPtrGABAb(0.0f, 0.0f));
+				break;
+			case STD:
+				// depression 1100 CPU
+				// depression 1000 GPU
+				sim->setSTP(CA3_Pyramidal1, CA3_Pyramidal2, true,
+					STPu(0.15f),
+					STPtauU(750.0f),  // 750
+					STPtauX(50.0f),   // 50
+					STPtdAMPA(0.5f, 0.0f),   // 1.0 unchanged 14 Hz, 0.5 7 Hz, << 0.5 e.g. 0.1 dies, funny results for 0.49999f  353Hz 
+					//STPtdAMPA(0.55, 0.0),   // 1.0 unchanged 14 Hz, 0.5 7 Hz, << 0.5 e.g. 0.1 dies, funny results for 0.49999f  353Hz 
+					STPtdNMDA(0.2f, 0.0f),
+					STPtdGABAa(0.1f, 0.0f),
+					STPtdGABAb(0.1f, 0.0f),
+					STPtrNMDA(0.0f, 0.0f),
+					STPtrGABAb(0.0f, 0.0f));
+				break;
+			default:
+				;
+			}
 
-	// ---------------- SETUP STATE -------------------
-	// build the network
-	//watch.lap("setupNetwork");
-	sim->setupNetwork();
 
-	//ConnectionMonitor* connMon_PC_PC = sim->setConnectionMonitor(CA3_Pyramidal, CA3_Pyramidal, "DEFAULT");
-	//connMon_PC_PC->setUpdateTimeIntervalSec(-1);
+			NeuronMonitor* nrnMon_Pyramidal1 = sim->setNeuronMonitor(CA3_Pyramidal1, "DEFAULT");
+			NeuronMonitor* nrnMon_Pyramidal2 = sim->setNeuronMonitor(CA3_Pyramidal2, "DEFAULT");
 
 
-	// Declare variables that will store the start and end ID for the neurons
-	// in the pyramidal group
-	int pyr_start = sim->getGroupStartNeuronId(CA3_Pyramidal);
-	std::cout << "Beginning neuron ID for Pyramidal Cells is : " << pyr_start << "\n";
-	int pyr_end = sim->getGroupEndNeuronId(CA3_Pyramidal);
-	std::cout << "Ending neuron ID for Pyramidal Cells is : " << pyr_end << "\n";
-	int pyr_range = (pyr_end - pyr_start) + 1;
-	std::cout << "The range for Pyramidal Cells is : " << pyr_range << "\n";
+			// Set the time constants for the excitatory and inhibitory receptors, and
+			// set the method of integration to numerically solve the systems of ODEs
+			// involved in the SNN
+			// sim->setConductances(true);
+			sim->setIntegrationMethod(RUNGE_KUTTA4, 5);
+
+			// ---------------- SETUP STATE -------------------
+			// build the network
+			//watch.lap("setupNetwork");
+			sim->setupNetwork();
+
+			//ConnectionMonitor* connMon_PC_PC = sim->setConnectionMonitor(CA3_Pyramidal, CA3_Pyramidal, "DEFAULT");
+			//connMon_PC_PC->setUpdateTimeIntervalSec(-1);
+
+			// include header file that contains generation of groups and their
+			// properties
+			//#include "../generateSETUPStateSTP.h"
+			SpikeMonitor* spkMon1 = sim->setSpikeMonitor(CA3_Pyramidal1, "DEFAULT");
+			SpikeMonitor* spkMon2 = sim->setSpikeMonitor(CA3_Pyramidal2, "DEFAULT");
+
+			// ---------------- RUN STATE -------------------
+
+			//nrnMon_Pyramidal1->startRecording();
+			//nrnMon_Pyramidal2->startRecording();
 
 
-	// include header file that contains generation of groups and their
-	// properties
-	//#include "../generateSETUPStateSTP.h"
-	sim->setSpikeMonitor(CA3_Pyramidal, "DEFAULT");
 
-	// ---------------- RUN STATE -------------------
+			// run for a total of 10 seconds in 500ms bins
+			// at the end of each runNetwork call, SpikeMonitor stats will be printed
 
-	nrnMon_Pyramidal->startRecording();
+			results[mode][run].mode = mode;
+			results[mode][run].run = RUN(run);
+			results[mode][run].spikes = -1;
 
-	// run for a total of 10 seconds in 500ms bins
-	// at the end of each runNetwork call, SpikeMonitor stats will be printed
-	for (int i = 0; i < 3 * 2; i++) {
-		if (i == 0)
-		{
-			// run 10ms with stimulus 
-			//watch.lap("runNetwork(init)");
+			try {
+				for (int i = 0; i < 4 * 2; i++) {
+					if (i == 0)
+					{
+						// run 10ms with stimulus 
+						//watch.lap("runNetwork(init)");
+						//connMon_PC_PC->takeSnapshot();
+
+						//// simulated input from dentate gyros (DG)
+						//sim->setExternalCurrent(CA3_Pyramidal1, 100.0f);  // 500 -> 300ms,  1000 => 50ms
+
+						//// alternative input from DG
+						sim->setExternalCurrent(CA3_Pyramidal1, 500.0f);
+
+						sim->runNetwork(0, 10, true);
+						
+						// reset stimulus 
+						//sim->setExternalCurrent(CA3_Pyramidal1, 0.0f);
+
+						sim->runNetwork(0, 10, true);
+
+						sim->runNetwork(0, 30, true);
+
+						sim->runNetwork(0, 50, true);
+
+						for (int j = 0; j < 4; j++) {
+							sim->runNetwork(0, 100, true);
+						}
+
+						//watch.lap("runNetwork");
+					}
+					else
+						if (i > 0)
+						{
+							for (int j = 0; j < 5; j++) {
+								spkMon2->startRecording();
+								sim->runNetwork(0, 100, true);
+								spkMon2->stopRecording();
+								//printf("spkMon2->getPopMeanFiringRate() %f\n", spkMon2->getPopMeanFiringRate());
+								if (spkMon2->getPopMeanFiringRate() > 7.5) {  // Hz
+									results[mode][run].spikes = sim->getSimTime();
+									throw std::exception("done");
+								}
+							}
+						}
+				}
+			}
+			catch (const std::exception& e) {
+				if(std::string(e.what()) != "done")
+					throw e; 
+			}
+			
+
+			//sim->runNetwork(90, 0, true);
+
+			//nrnMon_Pyramidal1->stopRecording();
+			//nrnMon_Pyramidal2->stopRecording();
+			//nrnMon_Pyramidal->print(true);
+
 			//connMon_PC_PC->takeSnapshot();
 
-			// simulated input from dentate gyros (DG)
-			sim->setExternalCurrent(CA3_Pyramidal, 1000.0f);  // 500 -> 300ms,  1000 => 50ms
+			// print stopwatch summary
+			//watch.stop();
 
-			//// alternative input from DG
-			//sim->setExternalCurrent(CA3_Pyramidal, 40.0f);
+			delete sim;
 
-			sim->runNetwork(0, 10, true);
-			printf("\n");
-
-			// reset stimulus 
-			sim->setExternalCurrent(CA3_Pyramidal, 0.0f);
-
-			sim->runNetwork(0, 10, true);
-			printf("\n");
-
-			sim->runNetwork(0, 30, true);
-			printf("\n");
-
-			sim->runNetwork(0, 50, true);
-			printf("\n");
-
-			for (int j = 0; j < 4; j++) {
-				sim->runNetwork(0, 100, true);
-				printf("\n");
-			}
-
-			//watch.lap("runNetwork");
+			//printf("done.\n");
 		}
-		else
-			if (i > 0)
-			{
-				sim->runNetwork(0, 500, true);
-				printf("\n");
-			}
 
+		//EXPECT_EQ(results[mode][NONE].spikes, -1);	// no spikes should have been fired without STP, CS4 GPU OK, CS4 CPU code fires after 1600
+		EXPECT_LT(results[mode][STF].spikes, results[mode][STD].spikes); 
 	}
 
-	//sim->runNetwork(90, 0, true);
+	// compare GPU vs CPU
+	EXPECT_LE(std::abs(results[GPU_MODE][STF].spikes - results[CPU_MODE][STF].spikes), 100);	
+	EXPECT_LE(std::abs(results[GPU_MODE][STD].spikes - results[CPU_MODE][STD].spikes), 100);
+	//EXPECT_EQ(results[GPU_MODE][NONE].spikes, results[CPU_MODE][NONE].spikes); // no spikes should have been fired without STP, CS4 GPU OK, CS4 CPU code fires after 1600
 
-	nrnMon_Pyramidal->stopRecording();
-	//nrnMon_Pyramidal->print(true);
-
-	//connMon_PC_PC->takeSnapshot();
-
-	// print stopwatch summary
-	//watch.stop();
-
-	delete sim;
-
-	printf("done.\n");
 }

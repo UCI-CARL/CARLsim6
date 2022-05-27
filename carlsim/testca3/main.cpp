@@ -2,7 +2,7 @@
 
 #include "gtest/gtest.h"
 
-// --gtest_filter=-*2_GPU_MultiGPU:*Gauss*
+// --gtest_filter=cstp.firingRateSTDvsSTF
 
 //GTEST_API_ int main(int argc, char **argv) {
 //  testing::InitGoogleTest(&argc, argv);
