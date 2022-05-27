@@ -163,6 +163,7 @@ short int SNN::connect(int grpId1, int grpId2, const std::string& _type, float i
 	config.STP_rGABAb_mean = 0.0f;
 	config.STP_rGABAb_std = 0.0f;
 	config.STP_sGABAb = 0.0f;
+	config.WithSTP = false;
 #endif
 
 	if ( _type.find("random") != std::string::npos) {
