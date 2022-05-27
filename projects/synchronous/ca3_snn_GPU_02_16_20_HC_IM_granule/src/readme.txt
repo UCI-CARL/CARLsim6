@@ -48,7 +48,7 @@ You can apply the following measure, when you are using a desktop e.g. Gnome:
 1. Close all non essential apps, like Firefox 
 2. Alternatively, reboot in runlevel 3
 
-CUDA provides tools, to check the current memory usage: 
+Use the tools provided with CUDA to check the current memory usage: 
 
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 495.29.05    Driver Version: 495.29.05    CUDA Version: 11.5     |
