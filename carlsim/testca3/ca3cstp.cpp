@@ -1,7 +1,6 @@
 
 /*
 
-
 */
 
 #include "gtest/gtest.h"
@@ -121,10 +120,8 @@ TEST(CA3, CSTP_PC) {
 				;
 			}
 
-
 			NeuronMonitor* nrnMon_Pyramidal1 = sim->setNeuronMonitor(CA3_Pyramidal1, "DEFAULT");
 			NeuronMonitor* nrnMon_Pyramidal2 = sim->setNeuronMonitor(CA3_Pyramidal2, "DEFAULT");
-
 
 			// Set the time constants for the excitatory and inhibitory receptors, and
 			// set the method of integration to numerically solve the systems of ODEs
@@ -150,8 +147,6 @@ TEST(CA3, CSTP_PC) {
 
 			//nrnMon_Pyramidal1->startRecording();
 			//nrnMon_Pyramidal2->startRecording();
-
-
 
 			// run for a total of 10 seconds in 500ms bins
 			// at the end of each runNetwork call, SpikeMonitor stats will be printed

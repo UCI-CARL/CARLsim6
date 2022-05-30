@@ -6,8 +6,14 @@
 
     add_executable(carlsim-testsca3
         carlsim_tests_common.cpp      
+        ca3cstp.cpp
+		ca3types.h
+		ca3pc.cpp
+		ca3pc_pc.cpp
+		ca3bc.cpp
+		ca3bc_bc.cpp
+		ca3pc2_bc2.cpp
         main.cpp
-        ca3.cpp
     )
 
     #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     
@@ -16,6 +22,7 @@
             PUBLIC
                 -DGTEST_LINKED_AS_SHARED_LIBRARY=1
         )
+
 
 # pthread see snn.h and carlsim.h
 # //#define LN_GET_FIRING

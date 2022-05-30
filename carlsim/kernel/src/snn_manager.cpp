@@ -1067,7 +1067,7 @@ void SNN::setSTP(int preGrpId, int postGrpId, bool isSet, float STP_U_mean, floa
 	config.STP_rNMDA_std = STP_trNMDA_std;
 	config.STP_rGABAb_mean = STP_trGABAb_mean;
 	config.STP_rGABAb_std = STP_trGABAb_std;
-	config.WithSTP = true;
+	config.WithSTP = isSet;
 
 	sim_with_conductances |= isSet;  // CA3 
 	sim_with_stp |= isSet;
@@ -2652,8 +2652,9 @@ void SNN::SNNinit() {
 	numSpikeGenGrps = 0;
 	simulatorDeleted = false;
 
-	cumExecutionTime = 0.0;
-	executionTime = 0.0;
+	cumExecutionTime = 0.0f;
+	executionTime = 0.0f;
+	prevExecutionTime = 0.0f; // FIX 2022: Wrong display in Debug Mode
 
 	spikeRateUpdated = false;
 	numSpikeMonitor = 0;
@@ -7354,6 +7355,7 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 
 	managerRuntimeData.lastSpikeTime[lNId] = MAX_SIMULATION_TIME;
 
+#ifndef JK_CA3_SNN  // see CS4, HEAP corruption
 	if(groupConfigs[netId][lGrpId].WithSTP) {
 		for (int j = 0; j < networkConfigs[netId].maxDelay + 1; j++) { // is of size maxDelay_+1
 			int index = STP_BUF_POS(lNId, j, networkConfigs[netId].maxDelay);
@@ -7361,6 +7363,7 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 			managerRuntimeData.stpx[index] = 1.0f;
 		}
 	}
+#endif
 }
 
 void SNN::resetMonitors(bool deallocate) {
@@ -7589,6 +7592,7 @@ void SNN::resetPoissonNeuron(int netId, int lGrpId, int lNId) {
 	if (groupConfigs[netId][lGrpId].WithHomeostasis)
 		managerRuntimeData.avgFiring[lNId] = 0.0f;
 
+#ifndef JK_CA3_SNN   // see CS4, HEAP corruption
 	if (groupConfigs[netId][lGrpId].WithSTP) {
 		for (int j = 0; j < networkConfigs[netId].maxDelay + 1; j++) { // is of size maxDelay_+1
 			int index = STP_BUF_POS(lNId, j, networkConfigs[netId].maxDelay);
@@ -7596,6 +7600,7 @@ void SNN::resetPoissonNeuron(int netId, int lGrpId, int lNId) {
 			managerRuntimeData.stpx[index] = 1.0f;
 		}
 	}
+#endif
 }
 
 void SNN::resetPropogationBuffer() {
@@ -8655,6 +8660,19 @@ void SNN::printSimSummary() {
 	KERNEL_INFO("Random Seed:\t\t%d", randSeed_);
 	KERNEL_INFO("Timing:\t\t\tModel Simulation Time = %lld sec", (unsigned long long)simTimeSec);
 	KERNEL_INFO("\t\t\tActual Execution Time = %4.2f sec", etime/1000.0f);
+	float speed = float(simTimeSec) / std::max(.0f, etime / 1000.0f); 
+#ifdef _DEBUG
+	const char* build = "(Debug)";
+#else
+	const char* build = "";
+#endif
+	if (speed >= 10.f) {
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %.0f x %s", speed, build);
+	} else 
+	if (speed < 1.0f) {
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %2.1f %% %s", speed*100.f, build);
+	} else
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %1.1f x %s", speed, build);
 	KERNEL_INFO("Average Firing Rate:\t2+ms delay = %3.3f Hz",
 		glbNetworkConfig.numN2msDelay > 0 ? managerRuntimeData.spikeCountD2 / (1.0 * simTimeSec * glbNetworkConfig.numN2msDelay) : 0.0f);
 	KERNEL_INFO("\t\t\t1ms delay = %3.3f Hz",

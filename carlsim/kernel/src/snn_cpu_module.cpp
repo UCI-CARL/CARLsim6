@@ -653,12 +653,15 @@ void SNN::copyExtFiringTable(int netId) {
 			for (int j = 0; j < runtimeData[netId].Npre[lNId]; j++) {
 				int lSId = offset + j;
 				//KERNEL_INFO("lGrpId: %d -- lNId: %d -- lSId: %d ", lGrpId, lNId, lSId);
+#define LN_FIX_CS4_CA3_CPU_GPU_DIFF			
+#ifndef LN_FIX_CS4_CA3_CPU_GPU_DIFF			
 				if (runtimeData[netId].withSTP[lSId]) {
 					//KERNEL_INFO("inside: %d", lSId);
 					int ind_plus = STP_BUF_POS(lSId, simTime, 1);
 					int ind_minus = STP_BUF_POS(lSId, (simTime - 1), 1);
 					runtimeData[netId].stpu[ind_plus] = runtimeData[netId].stpu[ind_minus] * (1.0f - runtimeData[netId].stp_tau_u_inv[lSId]);
 					runtimeData[netId].stpx[ind_plus] = runtimeData[netId].stpx[ind_minus] + (1.0f - runtimeData[netId].stpx[ind_minus]) * runtimeData[netId].stp_tau_x_inv[lSId];
+#endif
 					// decay conductances
 					if (networkConfigs[netId].sim_with_conductances && IS_REGULAR_NEURON(lNId, networkConfigs[netId].numNReg, networkConfigs[netId].numNPois)) {
 						runtimeData[netId].gAMPA[lNId] *= runtimeData[netId].stp_dAMPA[lSId];
@@ -679,12 +682,21 @@ void SNN::copyExtFiringTable(int netId) {
 							runtimeData[netId].gGABAb[lNId] *= runtimeData[netId].stp_dGABAb[lSId];	// instantaneous rise
 						}
 					}
-					// KERNEL_INFO("lGrpId: %d -- lNId: %d -- lSId: %d -- stpu: %f -- stpx: %f", lGrpId, lNId, lSId, runtimeData[netId].stpu[ind_plus], runtimeData[netId].stpx[ind_plus]);
-					// KERNEL_INFO("\ndoSTPUpdateAndDecayCond_CPU, group id: %d, neuron id: %d, Synapse id: %d, minus: %d, plus: %d, netid: %d", lGrpId, lNId, lSId, ind_minus, ind_plus, netId);
-					// KERNEL_INFO("stpu: %f/%f -- stpx: %f/%f", runtimeData[netId].stpu[ind_minus], runtimeData[netId].stpu[ind_plus], runtimeData[netId].stpx[ind_minus], runtimeData[netId].stpx[ind_plus]);
-					// KERNEL_INFO("tau_u_inv: %f -- tau_x_inv: %f", runtimeData[netId].stp_tau_u_inv[lSId], runtimeData[netId].stp_tau_x_inv[lSId]);
+#ifdef LN_FIX_CS4_CA3_CPU_GPU_DIFF
+				if (runtimeData[netId].withSTP[lSId]) {
+						//KERNEL_INFO("inside: %d", lSId);
+						int ind_plus = STP_BUF_POS(lSId, simTime, 1);
+						int ind_minus = STP_BUF_POS(lSId, (simTime - 1), 1);
+						runtimeData[netId].stpu[ind_plus] = runtimeData[netId].stpu[ind_minus] * (1.0f - runtimeData[netId].stp_tau_u_inv[lSId]);
+						runtimeData[netId].stpx[ind_plus] = runtimeData[netId].stpx[ind_minus] + (1.0f - runtimeData[netId].stpx[ind_minus]) * runtimeData[netId].stp_tau_x_inv[lSId];
+						
+						//KERNEL_INFO("lGrpId: %d -- lNId: %d -- lSId: %d -- stpu: %f -- stpx: %f", lGrpId, lNId, lSId, runtimeData[netId].stpu[ind_plus], runtimeData[netId].stpx[ind_plus]);
+						//KERNEL_INFO("\ndoSTPUpdateAndDecayCond_CPU, group id: %d, neuron id: %d, Synapse id: %d, minus: %d, plus: %d, netid: %d", lGrpId, lNId, lSId, ind_minus, ind_plus, netId);
+						//KERNEL_INFO("stpu: %f/%f -- stpx: %f/%f", runtimeData[netId].stpu[ind_minus], runtimeData[netId].stpu[ind_plus], runtimeData[netId].stpx[ind_minus], runtimeData[netId].stpx[ind_plus]);
+						//KERNEL_INFO("tau_u_inv: %f -- tau_x_inv: %f", runtimeData[netId].stp_tau_u_inv[lSId], runtimeData[netId].stp_tau_x_inv[lSId]);
 				}
 			}
+#endif
 			// if (groupConfigs[netId][lGrpId].WithSTP) {
 			// 	int ind_plus  = STP_BUF_POS(lNId, simTime, glbNetworkConfig.maxDelay);
 			// 	int ind_minus = STP_BUF_POS(lNId, (simTime - 1), glbNetworkConfig.maxDelay);
@@ -1048,7 +1060,7 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 		int ind_plus  = STP_BUF_POS(preNId, (simTime-tD), networkConfigs[netId].maxDelay);
 #endif
 #ifdef LN_I_CALC_TYPES		
-#ifdef JK_CA3_SNN
+#ifndef JK_CA3_SNN   // as it is not in the GPU module
 		//unsigned int offset = runtimeData[netId].cumulativePost[lNId];
 			//KERNEL_INFO("inside firingUpdateSTP -- Npost: %d -- offset: %d\n", runtimeData[netId].Npost[lNId], offset);
 
@@ -1069,7 +1081,8 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 		float STP_A = (runtimeData[netId].stp_U[pos] > 0.0f) ? 1.0 / runtimeData[netId].stp_U[pos] : 1.0f;
 		// KERNEL_INFO("change: %f -- pos:%d -- preNId:%d -- postNId:%d -- netId:%d\n", change, pos, preNId, postNId, netId);
 		// KERNEL_INFO("STP_A: %f -- stpu:%f -- stpx:%f", STP_A, runtimeData[netId].stpu[ind_plus], runtimeData[netId].stpx[ind_minus]);
-#else
+#endif
+#ifndef JK_CA3_SNN
 		auto& config = groupConfigs[netId][pre_grpId];
 		float stp_a = config.STP_A;
 		float stp_u = config.STP_U;
@@ -2339,6 +2352,42 @@ void SNN::copySynapseState(int netId, RuntimeData* dest, RuntimeData* src, bool 
 	memcpy(dest->stp_sGABAb, src->stp_sGABAb, sizeof(float) * networkConfigs[netId].numPostSynNet);
 	memcpy(dest->withSTP, src->withSTP, sizeof(bool) * networkConfigs[netId].numPostSynNet);
 	memcpy(dest->delay, src->delay, sizeof(int) * networkConfigs[netId].numPostSynNet);
+	// memcpy(dest->stpu, src->stpu, sizeof(float) * networkConfigs[netId].numPreSynNet* 2);
+	// memcpy(dest->stpx, src->stpx, sizeof(float) * networkConfigs[netId].numPreSynNet* 2);
+#endif
+
+#ifdef JK_CA3_SNN__PATCH_WITH_NO_EFFECT
+	// allocate synapse stp parameters to runtime data
+	if (allocateMem) {
+		dest->stp_U = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_tau_u_inv = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_tau_x_inv = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_dAMPA = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_dNMDA = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_dGABAa = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_dGABAb = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_rNMDA = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_sNMDA = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_rGABAb = new float[networkConfigs[netId].numPreSynNet];
+		dest->stp_sGABAb = new float[networkConfigs[netId].numPreSynNet];
+		dest->withSTP = new bool[networkConfigs[netId].numPreSynNet];
+		dest->delay = new int[networkConfigs[netId].numPreSynNet];
+		// dest->stpu = new float[networkConfigs[netId].numPreSynNet * 2];
+		// dest->stpx = new float[networkConfigs[netId].numPreSynNet * 2];
+	}
+	memcpy(dest->stp_U, src->stp_U, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_tau_u_inv, src->stp_tau_u_inv, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_tau_x_inv, src->stp_tau_x_inv, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_dAMPA, src->stp_dAMPA, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_dNMDA, src->stp_dNMDA, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_dGABAa, src->stp_dGABAa, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_dGABAb, src->stp_dGABAb, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_rNMDA, src->stp_rNMDA, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_sNMDA, src->stp_sNMDA, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_rGABAb, src->stp_rGABAb, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->stp_sGABAb, src->stp_sGABAb, sizeof(float) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->withSTP, src->withSTP, sizeof(bool) * networkConfigs[netId].numPreSynNet);
+	memcpy(dest->delay, src->delay, sizeof(int) * networkConfigs[netId].numPreSynNet);
 	// memcpy(dest->stpu, src->stpu, sizeof(float) * networkConfigs[netId].numPreSynNet* 2);
 	// memcpy(dest->stpx, src->stpx, sizeof(float) * networkConfigs[netId].numPreSynNet* 2);
 #endif
