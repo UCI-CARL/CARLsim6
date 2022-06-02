@@ -984,11 +984,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 				__syncthreads();
 			}
 
-#ifdef JK_CA3_SNN  
 			//__syncthreads();  // \todo JK review 
-#else
-			__syncthreads();
-#endif
 
 			// P6-2
 #ifdef LN_I_CALC_TYPES

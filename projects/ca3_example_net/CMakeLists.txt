@@ -1,18 +1,20 @@
 project(ca3_snn_GPU)
+cmake_minimum_required(VERSION 3.22)
 
 FIND_PACKAGE (Boost REQUIRED)
-
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
+
+FIND_PACKAGE (carlsim REQUIRED)
 
 # Headers
     set(HDRS
         generateSETUPStateSTP.h
         generateCONFIGStateSTP.h 
-	)
+    )
 
 # Targets  
 add_executable(ca3_snn_GPU
-	${HDRS}
+    ${HDRS}
     src/main_ca3_snn_GPU.cpp
     )
 
@@ -26,14 +28,18 @@ endif()
 
 # Linking    
 target_link_libraries(ca3_snn_GPU PRIVATE
+
     carlsim
     carlsim-stopwatch
 )
 target_include_directories(ca3_snn_GPU PRIVATE
     ../../tools/stopwatch
 )
-   
-        
+
+target_link_directories(ca3_snn_GPU PRIVATE        
+    ${CARLSIM_LIB_DIR}
+    )
+      
 # Installation   
 install(TARGETS ca3_snn_GPU
     EXPORT carlsim
@@ -42,4 +48,4 @@ install(TARGETS ca3_snn_GPU
         COMPONENT ca3_snn_GPU
         )
 
-#install(FILES run_hello_world DESTINATION $<$<CONFIG:Debug>:debug/>samples)          
+#install(FILES run_ca3_snn_GPU DESTINATION $<$<CONFIG:Debug>:debug/>samples)          
