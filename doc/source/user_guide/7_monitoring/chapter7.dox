@@ -327,4 +327,39 @@ while (CM->getTotalAbsWeightChanged() > threshold) {
 
 \since v3.0
 
+\section ch7s3_neuron_monitor 7.3 Neuron Monitor
+\author Kexin Chen
+
+NeuronMonitors allow CARLsim users to record neuron state information, which includes the membrane potential (v),
+the current (I), and the refactory variable (u). Currently, NeuronMonitors only support storing the neuron state
+information for the first 128 neuron in each neuron group.  
+
+\subsection ch7s3s1_setting_up 7.3.1 Setting Up a Neuron Monitor
+The following function can be called to start recording the neuron state information of a group g0:
+\code
+sim.setNeuronMonitor(g0,"DEFAULT");
+\endcode
+This will save the neuron state information to a binary file, with a default file name <tt>"results/n_{grpName}.dat"</tt>.
+
+\subsection ch7s3s2_setting_up 7.3.2 The Neuron Monitor Object
+Alternatively, neuron state information can be recorded by using a NeuronMonitor object.
+\code
+NeuronMonitor* spkMon = sim.setNeuronMonitor(g0,"DEFAULT");
+\endcode
+
+\subsection ch7s3s3_setting_up 7.3.3 Neuron State Information Data
+Neuron state information can be accessed with the following functions:
+\code
+# Voltage information
+std::vector< std::vector< float > > vectorV = spkMon->getVectorV();	
+# Current information
+std::vector< std::vector< float > > vectorI = spkMon->getVectorI();	
+# Refactory variable
+std::vector< std::vector< float > > vectorU = spkMon->getVectorU();	
+\endcode
+
+Voltage information can be printed with the following function:
+\code
+spkMon->print();
+\endcode
 */
