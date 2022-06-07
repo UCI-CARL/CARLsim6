@@ -1,6 +1,6 @@
 /*!
 
-\page ch10_ecj Chapter 10: ECJ
+\page ch10_ecj_leap Chapter 10: ECJ and LEAP
 
 \tableofcontents
 
@@ -10,7 +10,9 @@ CARLsim provides a software interface for exposing the parameters of a model
 an external process so that they can be automatically tune to maximize some 
 measure of fitness.  The parameter-tuning interface (PTI) is generic, but is 
 built specifically to be compatible with the ECJ framework—an evolutionary 
-computation framework written in Java (Scott and Luke, 2019).
+computation framework written in Java (Scott and Luke, 2019). Starting CARLsim 6, 
+the PTI is also integrated with LEAP, which is a general purpose Evolutionary
+Computation package written in Python (Coletti, Scott, and Bassett, 2020).
 
 We find that an automated tuning framework becomes
 increasingly useful as our SNN models become more complex. Evolutionary 
@@ -20,7 +22,8 @@ framework used an EA library called Evolving Objects (EO) as the EA engine
 (Carlson et al., 2014). ECJ was chosen to supercede EO because it is under 
 active development (Linux), supports multi-threading and distribution, has 
 excellent documentation, and implements a variety of EAs (Scott and Luke, 
-2019).
+2019). LEAP complements ECJ with an easy-to-use syntax and powerful 
+visualization features (Coletti, Scott, and Bassett, 2020).
 
 You can find complete examples of Experiment.run() implementations in 
 \ref tut7_pti and in the `tools/pti/examples` directory of the CARLsim source
@@ -33,6 +36,10 @@ tree.
 Scott, E. and Luke, S., ECJ at 20: toward a general metaheuristics toolkit. 
 Proceedings of the Genetic and Evolutionary Computation Conference Companion 
 (GECCO), 1391-1398, 2019.
+
+Coletti, M., Scott, E., and Bassett, J., Library for evolutionary algorithms 
+in Python (leap). Proceedings of the Genetic and Evolutionary Computation 
+Conference Companion (GECCO), 2020. 
 
 
 */
