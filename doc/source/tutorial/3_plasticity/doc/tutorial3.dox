@@ -5,6 +5,8 @@
 \tableofcontents
 
 \author Kristofor D. Carlson
+\author Kexin Chen
+
 \see \ref ch5_synaptic_plasticity
 \see \ref ch5s2_spike_timing_dependent_plasticity
 \see \ref ch5s3_homeostasis
@@ -124,10 +126,10 @@ size of as the SpikeGenerator group and is allocated on the GPU for efficiency.
 PoissonRate poissRate(nPois, true); // allocate on GPU for minimal memory copies
 \endcode
 
-Next, enable excitatory STDP (E-STDP) with a call to CARLsim::setESTDP pass the postsynaptic group
-you want to enable it for and 'true' to enable it. Additionally, the 'STANDARD' keyword indicates
-that there will not be a neuromodulatory influence at this synapse. Finally, the STDP curve type is
-specified by passing the stdpCurve_t data type with the desired STDP parameters.
+Next, enable excitatory STDP (E-STDP) for the inter-group connection between the gPoiss group and 
+the gExc group by calling the CARLsim::setESTDP function and pass in the 'true' flag. Additionally, 
+the 'STANDARD' keyword indicates that there will not be a neuromodulatory influence at this synapse. 
+Finally, the STDP curve type is specified by passing the stdpCurve_t data type with the desired STDP parameters.
 alpha_LTP(alpha_LTD) represents the magnitude of the increase(decrease) in synaptic weight while
 tau_LTP(tau_LTD) represents the time constant, which defines the width of the LTP(LTD) curve with
 respect to time. Notice that alpha_LTD is passed as being negative. The alpha_ltp and alpha_ltd
@@ -142,7 +144,7 @@ float alpha_LTP=0.001f/100; float tau_LTP=20.0f;
 float alpha_LTD=0.0015f/100; float tau_LTD=20.0f;
 
 // set E-STDP to be STANDARD (without neuromodulatory influence) with an EXP_CURVE type.
-sim.setESTDP(gExc, true, STANDARD, ExpCurve(alpha_LTP, tau_LTP, -alpha_LTD, tau_LTP));
+sim.setESTDP(gPois, gExc, true, STANDARD, ExpCurve(alpha_LTP, tau_LTP, -alpha_LTD, tau_LTP));
 \endcode
 
 It should be noted that the function call CARLsim::setSTDP could have replaced the CARLsim::setESTDP
