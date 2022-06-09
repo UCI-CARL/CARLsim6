@@ -2524,8 +2524,9 @@ void SNN::SNNinit() {
 	numSpikeGenGrps = 0;
 	simulatorDeleted = false;
 
-	cumExecutionTime = 0.0;
-	executionTime = 0.0;
+	cumExecutionTime = 0.0f;
+	executionTime = 0.0f;
+	prevExecutionTime = 0.0f; // FIX 2022: Wrong display in Debug Mode
 
 	spikeRateUpdated = false;
 	numSpikeMonitor = 0;
@@ -8285,6 +8286,19 @@ void SNN::printSimSummary() {
 	KERNEL_INFO("Random Seed:\t\t%d", randSeed_);
 	KERNEL_INFO("Timing:\t\t\tModel Simulation Time = %lld sec", (unsigned long long)simTimeSec);
 	KERNEL_INFO("\t\t\tActual Execution Time = %4.2f sec", etime/1000.0f);
+	float speed = float(simTimeSec) / std::max(.001f, etime / 1000.0f); 
+#ifdef _DEBUG
+	const char* build = "(Debug)";
+#else
+	const char* build = "";
+#endif
+	if (speed >= 10.f) {
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %.0f x %s", speed, build);
+	} else 
+	if (speed < 1.0f) {
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %2.1f %% %s", speed*100.f, build);
+	} else
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %1.1f x %s", speed, build);
 	KERNEL_INFO("Average Firing Rate:\t2+ms delay = %3.3f Hz",
 		glbNetworkConfig.numN2msDelay > 0 ? managerRuntimeData.spikeCountD2 / (1.0 * simTimeSec * glbNetworkConfig.numN2msDelay) : 0.0f);
 	KERNEL_INFO("\t\t\t1ms delay = %3.3f Hz",

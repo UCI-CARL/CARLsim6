@@ -983,9 +983,9 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 
 				__syncthreads();
 			}
-
-			//__syncthreads();  // \todo JK review 
-
+#ifndef CS4_FIX_SYNCTHREADS   
+			__syncthreads();  // blocks Ampere GPUs, see fix for CARLsim4_hc on A100 for details
+#endif
 			// P6-2
 #ifdef LN_I_CALC_TYPES
 			short int postGrpId = runtimeDataGPU.grpIds[postNId];
