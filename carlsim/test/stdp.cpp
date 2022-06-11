@@ -338,8 +338,8 @@ TEST(STDP, homeostasis) {
 			R_max = max(R_max, sOut);
 		}
 
-		EXPECT_NEAR (R_target, sOut, 1.5); // Hz
-		EXPECT_NEAR (R_min, 21.0f, 1.5);
-		EXPECT_NEAR (R_max, 56.0f, 1.5);
+		EXPECT_NEAR (R_target, sOut, 1.5f); // Hz
+		EXPECT_NEAR (R_min, 21.0f, 3.0f);
+		EXPECT_NEAR (R_max, 56.0f, 3.0f);
 	}
 }
