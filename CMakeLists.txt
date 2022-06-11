@@ -48,10 +48,11 @@ endif()
 	option(CARLSIM_LN_I_CALC_TYPES "Enables enhanced current calculation" ON)  # feature NM4R6 (experimental) )
 	option(CARLSIM_LN_GPU_STDP "Enables GPU accelerated functions for STDP" ON)  # feature GPU device functions (experimental) )
 
-	option(CARLSIM_JK_CA3_SSN "J. Koppsick extensions for Neuron-Type Specific CA3 SNN" OFF) # feature ported on basis of CARLsim4 branch
+	option(CARLSIM_JK_CA3_SSN "J. Kopsick extensions for Neuron-Type Specific CA3 SNN" OFF) # feature ported on basis of CARLsim4 branch
 
-	set(CARLSIM_CUDA_GENCODE "-gencode arch=compute_86,code=sm_86" CACHE STRING "CUDA target architecture and device, e.g. _80 for Ampere/A100, _86 for Ampere/RTX3090" )  
-			
+	set(CARLSIM_CUDA_GENCODE "" CACHE STRING "Enforce code generation for specific CUDA archtecture and device, e.g. -gencode arch=compute_86,code=sm_86 for RTX3090, 80 for A100, 61 for Titan Xp" )  
+	
+	option(CARLSIM_FIX_SYNCTHREADS "Avoid blocking synthread call for Ampere GPUs" ON)  # Ported from CARLsim 4 on A100  
 
 # Dependencies
 
@@ -157,6 +158,12 @@ if(CARLSIM_SHARED)
 				${CARLSIM_CUDA_GENCODE}
 			)
 		endif()
+		
+		if(NOT CARLSIM_CUDA_GENCODE) 
+			set_property(TARGET carlsim-cuda PROPERTY CUDA_ARCHITECTURES all)
+		else()
+			message("CARLSIM CUDA GENCODE enforced by " ${CARLSIM_CUDA_GENCODE})
+		endif()		
 
     endif()
      
@@ -264,6 +271,12 @@ if(CARLSIM_SHARED)
 			target_compile_definitions(carlsim-cuda PUBLIC JK_CA3_SNN)
 		endif()
 	endif()
+
+	if(CARLSIM_FIX_SYNCTHREADS)
+      if(NOT CARLSIM_NO_CUDA)
+        target_compile_definitions(carlsim-cuda PUBLIC CS4_FIX_SYNCTHREADS)         
+      endif()
+    endif()
 	
 
 # Includes
@@ -285,13 +298,13 @@ if(CARLSIM_SHARED)
                 ${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc
           )
 		if(MSVC)
-			# patch for cMake
 			target_include_directories(carlsim-cuda
 				PUBLIC
-					"C:/ProgramData/NVIDIA Corporation/CUDA Samples/v11.2/common/inc"            
-			  )
+					"C:/ProgramData/NVIDIA Corporation/CUDA Samples/v${CUDA_VERSION_STRING}/common/inc"            
+			)
 		endif()
     endif()
+
 
 # Linking 
 
@@ -306,8 +319,8 @@ if(CARLSIM_SHARED)
 	if(UNIX AND NOT CARLSIM_NO_PTHREADS)
 		target_link_libraries(carlsim PRIVATE Threads::Threads)
 	endif()
-
 	
+
 # Installation
 
     #install(TARGETS carlsim DESTINATION bin)
@@ -317,7 +330,6 @@ if(CARLSIM_SHARED)
 
     configure_file(carlsim/interface/inc/carlsim_conf.h.in ${CMAKE_CURRENT_BINARY_DIR}/carlsim/interface/inc/carlsim_conf.h @ONLY)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/carlsim/interface/inc/carlsim_conf.h DESTINATION include )
-
 
     set_property(TARGET carlsim PROPERTY PUBLIC_HEADER 
             ${interface_HDRS} 
@@ -345,7 +357,6 @@ if(CARLSIM_SHARED)
     # https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html#imported-targets
 
     #add_library(carlsim STATIC carlsim/dummy.cpp )
-
 
 endif()
 

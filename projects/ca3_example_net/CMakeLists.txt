@@ -4,7 +4,8 @@ cmake_minimum_required(VERSION 3.22)
 FIND_PACKAGE (Boost REQUIRED)
 INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
-FIND_PACKAGE (carlsim REQUIRED)
+# uncomment for standalone builds 
+#FIND_PACKAGE (carlsim REQUIRED)
 
 # Headers
     set(HDRS
@@ -42,7 +43,7 @@ target_link_directories(ca3_snn_GPU PRIVATE
       
 # Installation   
 install(TARGETS ca3_snn_GPU
-    EXPORT carlsim
+    EXPORT ca3_snn_GPU
     RUNTIME 
         DESTINATION $<$<CONFIG:Debug>:debug/>samples
         COMPONENT ca3_snn_GPU

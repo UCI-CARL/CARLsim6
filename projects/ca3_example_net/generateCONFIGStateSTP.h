@@ -203,7 +203,7 @@ sim.connect(CA3_MFA_ORDEN, CA3_Pyramidal, "random", RangeWeight(0.0f, 1.45f, 2.4
 sim.connect(CA3_Pyramidal, CA3_QuadD_LM, "random", RangeWeight(0.0f, 1.25f, 2.25f), 0.0133672243607345f,
                                       RangeDelay(1/*,2*/), RadiusRF(-1.0), SYN_PLASTIC, 0.874424964f, 0.0f);
 //  patch RangeDelay(1,2)
-// [ERROR C:\cockroach-ut3\src\CARLsim6\carlsim\kernel\src\snn_manager.cpp:5908] STP with delays > 1 ms is currently not supported.
+// [ERROR carlsim\kernel\src\snn_manager.cpp:5908] STP with delays > 1 ms is currently not supported.
                                    
 sim.connect(CA3_Pyramidal, CA3_Axo_Axonic, "random", RangeWeight(0.0f, 0.7f, 1.7f), 0.0148205394733136f,
                                       RangeDelay(1/*,2*/), RadiusRF(-1.0), SYN_PLASTIC, 0.932621138f, 0.0f);
