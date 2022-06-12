@@ -983,13 +983,9 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 
 				__syncthreads();
 			}
-
-#ifdef JK_CA3_SNN  
-			//__syncthreads();  // \todo JK review 
-#else
-			__syncthreads();
+#ifndef CS4_FIX_SYNCTHREADS   
+			__syncthreads();  // blocks Ampere GPUs, see fix for CARLsim4_hc on A100 for details
 #endif
-
 			// P6-2
 #ifdef LN_I_CALC_TYPES
 			short int postGrpId = runtimeDataGPU.grpIds[postNId];
@@ -1369,6 +1365,9 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 			runtimeDataGPU.current[nid] = 0.0f;
 		}
 #endif
+		if (groupConfigsGPU[grpId].WithHomeostasis)
+			updateHomeoStaticState(nid, grpId);
+		
 		// log i value if any active neuron monitor is presented
 		if (networkConfigGPU.sim_with_nm && nid - groupConfigsGPU[grpId].lStartN < MAX_NEURON_MON_GRP_SZIE) {
 			int idxBase = networkConfigGPU.numGroups * MAX_NEURON_MON_GRP_SZIE * simTimeMs + grpId * MAX_NEURON_MON_GRP_SZIE;
@@ -1412,9 +1411,9 @@ __global__ void kernel_neuronStateUpdate(int simTimeMs, bool lastIteration) {
 				// update neuron state here....
 				updateNeuronState(nid, grpId, simTimeMs, lastIteration);
 
-				// P8
-				if (groupConfigsGPU[grpId].WithHomeostasis)
-					updateHomeoStaticState(nid, grpId);
+// 				// P8
+// 				if (groupConfigsGPU[grpId].WithHomeostasis)
+// 					updateHomeoStaticState(nid, grpId);
 			}
 		}
 	}

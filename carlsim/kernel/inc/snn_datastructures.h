@@ -451,8 +451,8 @@ typedef struct GroupConfig_s {
 	float compCouplingUp;
 	float compCouplingDown;
 
-	bool WithSTDP; 		// LN20210822 smell   might not be initialized
-	bool WithDA_MOD; 	// LN20210822 smell 
+	bool WithSTDP; 		//!< True if at least one connection group is WithSTDP
+	bool WithDA_MOD; 	//!< True if at least one connection group is WithDA_MOD
 #ifdef LN_I_CALC_TYPES
 	bool WithPKA_PLC_MOD; // 
 #endif

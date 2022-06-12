@@ -4,15 +4,16 @@
 \tableofcontents
 \author Eric O. Scott
 \author Kristofor D. Carlson
-
+\author Kexin Chen
 
 \section tut7s1_intro 7.1 Introduction
 
 In this tutorial we introduce CARLsim's auxiliary <b>parameter-tuning interface</b> and how to tune the weight ranges of a
 simple SNN to achieve a particular target firing rate. We will be tuning four parameter values that
-represent the weight ranges, and we will use the 
-<a href="https://cs.gmu.edu/~eclab/projects/ecj/">ECJ evolutionary computation framework</a>
-to optimize our model with an <b>evolutionary algorithm</b> (EA).
+represent the weight ranges. Here we show how to optimize the model with an <b>evolutionary algorithm</b> (EA). 
+We provide one example of using  
+<a href="https://cs.gmu.edu/~eclab/projects/ecj/">ECJ evolutionary computation framework</a>, and one example of 
+using <a href="https://github.com/AureumChaos/LEAP">LEAP evolutionary computation package</a>.
 
 We will accomplish this by <b>wrapping</b> our CARLsim model inside a program that accepts parameter values on 
 `stdin`, runs the model, and then writes fitness values to `stdout`.  For example, once we've compiled 
@@ -20,21 +21,22 @@ this model, we can pipe one or more comma-delimited vector of parameters starigh
 fitness value will be returned (or multiple values, if we send multiple vectors):
 
 \code
-$ echo "0.1,0.1,0.1,0.1" | ./main_TuneFiringRates
+$ echo "0.1,0.1,0.1,0.1" | ./TuneFiringRates
 0.000690975
 \endcode
 
 This provides an interface that allows your CARLsim model to be tuned by external optimization tools such 
-as ECJ, or by your own parameter sweep scripts, etc.
+as ECJ or LEAP, or by your own parameter sweep scripts, etc.
 
 All the required files for the example we describe here are found in the `doc/source/tutorial/7_pti/src/`
 directory. We encourage you to follow along and experiment with the source code found there!
 
 This tutorial assumes:
 - ECJ version 28 or greater is installed.  Find it at https://cs.gmu.edu/~eclab/projects/ecj/
-- CARLsim 5.0 is installed.
+- LEAP is installed. Find it at https://github.com/AureumChaos/LEAP.
+- CARLsim 6.0 is installed.
 
-ECJ handles all steps of the EA except for \em fitness \em evaluation, which is done by 
+ECJ/ LEAP handles all steps of the EA except for \em fitness \em evaluation, which is done by 
 CARLsim through the implementation of an `Experiment` class function called <tt>run</tt>.
 
 \image html ECJ-Loop.png  "A general approach to parameter tuning. ECJ performs uses an EA to generate candidate parameter configurations, and passes the current generation of parameters (red arrow) to CARLsim for evaluation using the parameter tuning interface (PTI) code. CARLsim assigns each parameter set to an SNN and evaluates all the individuals in parallel, passing the fitness values back to ECJ for selection of individuals in the next generation (black arrow)."
@@ -164,9 +166,14 @@ Lastly, we'll close our `Experiment` with some cleanup, since we didn't use smar
 
 \snippet src/main_TuneFiringRates.cpp experiment11
 
-All done.  Compiling `main_TuneFiringRates.cpp` yields a program that takes comma-delimited parameter vectors 
+All done.  Compiling `main_TuneFiringRates.cpp` yields a program `TuneFiringRates` that takes comma-delimited parameter vectors 
 on `std::cin` and outputs fitness values.
-
+\code
+mkdir .build
+cd .build
+cmake ..
+make
+\endcode
 
 
 
@@ -219,7 +226,7 @@ instance to evaluate many individuals at once, so we'll leave ECJ's `evalthreads
 
 \code
 eval.problem =                                  ec.app.command.CommandProblem
-eval.problem.command =                          ./main_TuneFiringRates.out
+eval.problem.command =                          ./.build/TuneFiringRates
 evalthreads = 				                    1
 \endcode
 
@@ -357,7 +364,7 @@ path, i.e. it is relative to the working directory that the ECJ process was laun
 relative to the parameter file we are writing).  The different types of paths ECJ supporst are explained 
 in the ECJ Manual.
 
-\section tut7s4_output_files 7.4 ECJ Output
+\subsection ECJ Output
 
 With our model compiled and our parameter file complete, we can tune the model by using the `java` command 
 to run ECJ, passing in our parameter file to its `-file` argument:
@@ -374,6 +381,67 @@ along with the four parameter values associated with the individual. CARLsim use
 these parameters for their tuned SNN models.
 
 \since v3.0
+
+\section tut7s4_leap 7.4 The LEAP Configuration File
+Similar to using ECJ, we can also use LEAP to tune the network. A complete example can be found in <tt>leap_TuneFiringRates.params</tt>.
+
+First we define the size of the population, the number of genes, and the maximum number of generations.
+\code
+pop_size = 20
+num_genes = 4
+generations = 50
+\endcode
+
+We then want to tell LEAP to evaluate an external problem, which launches the program that contains our network simulation.
+\code
+problem = ExternalProcessProblem(command='./.build/TuneFiringRates', maximize=True)
+\endcode
+
+We launch the evolutionary algorithm by calling the function `generational_ea(...)`. 
+\code
+ea = generational_ea(max_generations=generations, pop_size=pop_size,
+                            problem=problem,  # Fitness function
+                            
+                            # By default, the initial population would be evaluated one-at-a-time.
+                            # Passing group_evaluate into init_evaluate evaluates the population in batches.
+                            init_evaluate=ops.grouped_evaluate(problem=problem, max_individuals_per_chunk=max_individuals_per_chunk),
+
+                            # Representation
+                            representation=Representation(
+                                # Initialize a population of integer-vector genomes
+                                initialize=create_real_vector(
+                                    bounds=[[0.0005, 0.5]] * num_genes)
+                            ),
+
+                            # Operator pipeline
+                            pipeline=[
+                                ops.tournament_selection(k=2),
+                                ops.clone,  # Copying individuals before we change them, just to be safe
+                                mutate_gaussian(std=0.5, hard_bounds=[[0.0005, 0.5]]*num_genes,
+                                                expected_num_mutations=1),
+                                ops.pool(size=pop_size),
+                                # Here again, we use grouped_evaluate to send chunks of individuals to the ExternalProcessProblem.
+                                ops.grouped_evaluate(max_individuals_per_chunk=max_individuals_per_chunk),
+                                # Print fitness statistics to stdout at each genration
+                                probe.FitnessStatsCSVProbe(stream=sys.stdout)
+                            ] + (viz_probes if plots else [])
+                        )
+\endcode
+Here we specify that the solutions of the probelm are represented as real numbers, and the parameter range is (0.0005, 0.5). 
+We then define the operator pipeline, which performs selection, mutation, and evaluation in sequence. 
+
+To launch the LEAP parameter tuning process, we can use the following command:
+\code
+python3 leap_TuneFiringRates.py
+\endcode
+
+Input genomes and fitness information will be printed out like this:
+\code
+Input: b'0.0,0.0,0.1,0.1'
+Simulation-stdout: b'0.0333333\n'
+Simulation-stderr: b''
+Fitnesses: [0.0333333]
+\endcode
 
 \section tut7s5_references References
 

@@ -9,9 +9,10 @@ classdef NeuronReader < handle
     % >> nR = NeuronReader('results/n_group1.dat');
     % >> nValues = nR.readValues();
     %
-    % Version 6/22/2017
+    % Version 05/30/2022
     % Author:Ting-Shuo Chou 
     %        Michael Beyeler <mbeyeler@uci.edu>
+    %        Kexin Chen <kexinc3@uci.edu>
     
     %% PROPERTIES
     % public
@@ -211,8 +212,8 @@ classdef NeuronReader < handle
             
             obj.supportedErrorModes = {'standard', 'warning', 'silent'};
 
-			% disable backtracing for warnings and errors
-			warning off backtrace
+            % disable backtracing for warnings and errors
+            warning off backtrace
         end
         
         function openFile(obj)
@@ -255,7 +256,7 @@ classdef NeuronReader < handle
                 return
             end
             if feof(obj.fileId) ...
-					|| floor((version-obj.fileVersionMajor)*10.01)<obj.fileVersionMinor
+                    || floor((version-obj.fileVersionMajor)*10.01)<obj.fileVersionMinor
                 % check minor number: extract first digit after decimal
                 % point
                 % multiply 10.01 instead of 10 to avoid float rounding
@@ -271,9 +272,9 @@ classdef NeuronReader < handle
             obj.grid3D = fread(obj.fileId, [1 3], 'int32');
             if feof(obj.fileId) || prod(obj.grid3D)<=0
                 obj.throwError(['Could not find valid Grid3D ' ...
-					'dimensions (grid=[' num2str(obj.grid3D(1)) ' ' ...
-					num2str(obj.grid3D(2)) ' ' num2str(obj.grid3D(3)) ...
-					'])'])
+                    'dimensions (grid=[' num2str(obj.grid3D(1)) ' ' ...
+                    num2str(obj.grid3D(2)) ' ' num2str(obj.grid3D(3)) ...
+                    '])'])
                 return
             end
             

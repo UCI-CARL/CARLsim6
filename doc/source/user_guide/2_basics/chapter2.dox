@@ -7,7 +7,7 @@
 \section ch2s1_general_workflow 2.1 General Workflow
 \author Michael Beyeler
 
-The workflow of a typical CARLsim 3 simulation is organized into three distinct, consecutive states (see figure below):
+The workflow of a typical CARLsim simulation is organized into three distinct, consecutive states (see figure below):
 the configuration state, the set up state, and the run state.
 
 User functions in the C++ API are grouped according to these stages, which streamline the process and prevent race
@@ -16,7 +16,7 @@ State transitions are handled by special user functions such as CARLsim::setupNe
 
 \image html 2_carlsim_states.jpg "A diagram showing the possible states the CARLsim simulation can occupy."
 
-The first step in using CARLsim 3 (<tt>libCARLsim</tt>) imports the library and instantiates the main simulation
+The first step in using CARLsim (<tt>libCARLsim</tt>) imports the library and instantiates the main simulation
 object:
 \code
 #include <carlsim.h>
@@ -116,7 +116,7 @@ learned synaptic patterns (for example, via a MATLAB ConnectionMonitor; see ch9s
 
 As more complex biological features are integrated into spiking network models, it becomes increasingly important
 to provide users with a method of tuning the large number of open parameters.
-To this end, CARLsim 3 provides a paramer tuning interface that uses evolutionary algorithms to optimize a generic
+To this end, CARLsim provides a paramer tuning interface that uses evolutionary algorithms to optimize a generic
 fitness function (see \ref ch10_ecj).
 A more modest approach is to use the SimpleWeightTuner utility that changes weights on-the-fly such that a certain
 group fires at a predefined target firing rate (see \ref ch12s3_online_weight_tuning).

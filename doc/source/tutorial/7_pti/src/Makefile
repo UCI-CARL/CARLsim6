@@ -1,6 +1,6 @@
 ##----------------------------------------------------------------------------##
 ##
-##   CARLsim4 CARLsim-ECJ PTI interface examples Makefile
+##   CARLsim5 CARLsim-ECJ PTI interface examples Makefile
 ##   -------------------------
 ##
 ##   Authors:   Eric Scott <escott8@gmu.edu>
@@ -20,8 +20,8 @@
 # Include configuration file
 #------------------------------------------------------------------------------
 
-# NOTE: If your CARLsim4 installation does not reside in the default path, make
-# sure the environment variable CARLSIM4_INSTALL_DIR is set.
+# NOTE: If your CARLsim5 installation does not reside in the default path, make
+# sure the environment variable CARLSIM_INSTALL_DIR is set.
 ifdef CARLSIM5_INSTALL_DIR
 	CARLSIM5_INC_DIR  := $(CARLSIM5_INSTALL_DIR)/include
 else

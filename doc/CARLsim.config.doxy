@@ -684,7 +684,7 @@ INPUT                  = ../carlsim/interface/inc \
                          source/user_guide/7_monitoring \
                          source/user_guide/8_saving_and_loading \
                          source/user_guide/9_visualization \
-                         source/user_guide/10_ecj \
+                         source/user_guide/10_ecj_leap \
                          source/user_guide/11_regression_suite \
                          source/user_guide/12_advanced_topics \                       
                          source/user_guide/13_example_networks \
@@ -795,7 +795,7 @@ IMAGE_PATH             = source/user_guide \
                          source/user_guide/7_monitoring \
                          source/user_guide/8_saving_and_loading \
                          source/user_guide/9_visualization \
-                         source/user_guide/10_ecj \
+                         source/user_guide/10_ecj_leap \
                          source/user_guide/11_regression_suite \
                          source/user_guide/12_advanced_topics \
                          source/user_guide/13_example_networks \

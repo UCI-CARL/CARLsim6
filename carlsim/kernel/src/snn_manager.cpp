@@ -2524,8 +2524,9 @@ void SNN::SNNinit() {
 	numSpikeGenGrps = 0;
 	simulatorDeleted = false;
 
-	cumExecutionTime = 0.0;
-	executionTime = 0.0;
+	cumExecutionTime = 0.0f;
+	executionTime = 0.0f;
+	prevExecutionTime = 0.0f; // FIX 2022: Wrong display in Debug Mode
 
 	spikeRateUpdated = false;
 	numSpikeMonitor = 0;
@@ -8211,8 +8212,11 @@ void SNN::updateNeuronMonitor(int gGrpId) {
 		// Later the user may need need to dump these neuron state values to an output file
 		//printf("The numMsMin is: %i; and numMsMax is: %i\n", numMsMin, numMsMax);
 		for (int t = numMsMin; t < numMsMax; t++) {
+			int grpNumNeurons = groupConfigs[netId][lGrpId].lEndN - groupConfigs[netId][lGrpId].lStartN + 1;
 			//printf("The lStartN is: %i; and lEndN is: %i\n", groupConfigs[netId][lGrpId].lStartN, groupConfigs[netId][lGrpId].lEndN);
-			for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
+			// for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
+			for (int tmpNId = 0; tmpNId < std::min(MAX_NEURON_MON_GRP_SZIE, grpNumNeurons); tmpNId++) {
+				int lNId = groupConfigs[netId][lGrpId].lStartN + tmpNId;
 				float v, u, I;
 
 				// make sure neuron belongs to currently relevant group
@@ -8282,6 +8286,19 @@ void SNN::printSimSummary() {
 	KERNEL_INFO("Random Seed:\t\t%d", randSeed_);
 	KERNEL_INFO("Timing:\t\t\tModel Simulation Time = %lld sec", (unsigned long long)simTimeSec);
 	KERNEL_INFO("\t\t\tActual Execution Time = %4.2f sec", etime/1000.0f);
+	float speed = float(simTimeSec) / std::max(.001f, etime / 1000.0f); 
+#ifdef _DEBUG
+	const char* build = "(Debug)";
+#else
+	const char* build = "";
+#endif
+	if (speed >= 10.f) {
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %.0f x %s", speed, build);
+	} else 
+	if (speed < 1.0f) {
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %2.1f %% %s", speed*100.f, build);
+	} else
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %1.1f x %s", speed, build);
 	KERNEL_INFO("Average Firing Rate:\t2+ms delay = %3.3f Hz",
 		glbNetworkConfig.numN2msDelay > 0 ? managerRuntimeData.spikeCountD2 / (1.0 * simTimeSec * glbNetworkConfig.numN2msDelay) : 0.0f);
 	KERNEL_INFO("\t\t\t1ms delay = %3.3f Hz",

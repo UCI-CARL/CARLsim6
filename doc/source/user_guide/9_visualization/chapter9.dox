@@ -1042,6 +1042,7 @@ WINSIZE        - A 2-element vector specifying the window
 
 \section ch9s5_reading_raw_data 9.5 Reading Raw Data
 \author Michael Beyeler
+\author Kexin Chen
 
 Although the OAT provides a variety of functions to simplify the visualization and analysis of network activity
 or topology, there might be cases in which the user might like to have complete control over the process.
@@ -1230,6 +1231,41 @@ and plotted as a heatmap:
 >> ylabel('nrPost')
 \endcode
 \since v3.0
+
+\subsection ch9s5s4_simulation_reader 9.5.4 Neuron Reader
+A NeuronReader can be used to read the raw neuron state information
+
+The following methods are available:
+\code
+>> methods NeuronReader
+
+getError               % returns the current error status (flag and message)
+getGrid3D              % returns the Grid3D dimensions of the group
+getSimDurMs            % returns the estimated simulation duration (ms)
+readValues             % reads neuron monitor files and returns neuron state information
+\endcode
+
+The following public members (properties) are available:
+\code
+>> properties NeuronReader
+
+fileStr                % path to spike file
+errorMode              % current error mode
+supportedErrorModes    % list of supported error modes
+\endcode
+
+The following code snippet points a NeuronReader object to a neuron monitor file <tt>results/n_group1.dat</tt> 
+(generated with the NeuronMonitor utility in CARLsim) and returns the neuron state information in a MATLAB
+struct <tt>nValues</tt>:
+
+\code
+nR = NeuronReader('results/ n_group1.dat'); 
+nValues = nR.readValues();  
+\endcode
+
+Neuron state information, including the membrane potential (v), current (I), and the refactory variable (u), are stored 
+as separate fileds in the <tt>nValues</tt> struct.
+
 
 
 \section ch9s6_migrating_scripts 9.6 Migrating from CARLsim 2.2

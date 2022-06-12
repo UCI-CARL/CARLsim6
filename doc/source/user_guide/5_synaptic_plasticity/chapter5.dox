@@ -213,14 +213,19 @@ sim.connect(g1,g2,"one-to-one",RangeWeight(0.0,1.0f/100, 20.0f/100),1.0f, RangeD
 Assuming g1 and g2 are excitatory neurons, we should then set the E-STDP parameters:
 
 \code
-sim->setESTDP(g1, true, STANDARD, ExpCurve(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP));
+sim->setESTDP(g1, g2, true, STANDARD, ExpCurve(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP));
 \endcode
 
-Notice that the E-STDP call was done on the postsynaptic neuron group (g1) as the first argument.
-The second argument determines whether or STDP will be enabled and could be set to false as well.
-The third argument refers to the neuromodulatory effect present at this synapse. STDP without a
-neuromodulatory influence is referred to by the STANDARD keyword while STDP that is modulated by
-dopamine is referred to as DA_MOD. Here, we are using the ExpCurve STDP curve.
+Note that starting in CARLsim 6, STDP can be configured for each inter-group connection, as opposed 
+to sharing the same configuration for all incoming connections to a specific postsynaptic neuron 
+group.
+
+In the E-STDP call, the first two arguments correspond to the presynaptic neuron group (g1) and 
+the postsynaptic neuron group (g2), respectively. The third argument determines whether or STDP 
+will be enabled and could be set to false as well. The fourth argument refers to the neuromodulatory
+effect present at this synapse. STDP without a neuromodulatory influence is referred to by the 
+STANDARD keyword while STDP that is modulated by dopamine is referred to as DA_MOD. Here, we 
+are using the ExpCurve STDP curve.
 
 
 
