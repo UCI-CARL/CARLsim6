@@ -12,6 +12,7 @@
         mstp.cpp
         pka_plc_mod.cpp
         receptors.cpp
+		nrn_mon.cpp
     )
 
     #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     

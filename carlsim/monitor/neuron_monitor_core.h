@@ -122,7 +122,7 @@ public:
 	void writeNeuronFileHeader();
 
 	//! prints neuron states in human-readable format
-	void print();
+	void print(bool meanOnly);
 
  private:
     //! initialization method

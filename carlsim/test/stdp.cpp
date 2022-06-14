@@ -330,14 +330,18 @@ TEST(STDP, homeostasis) {
 			sim.runNetwork(1, 0, true);
 			SpikeMonOutput->stopRecording();
 			sOut = SpikeMonOutput->getPopMeanFiringRate();
+#if defined(WIN32) && defined(__NO_CUDA__) 
 			// MS VC
-			//R_min = std::min<float>(R_min, sOut);
-			//R_max = std::max<float>(R_max, sOut);
+			R_min = std::min<float>(R_min, sOut);
+			R_max = std::max<float>(R_max, sOut);
+#else
 			// C++11 <algorithm>
-			R_min = min(R_min, sOut);
-			R_max = max(R_max, sOut);
+#undef min
+#undef max
+			R_min = std::min(R_min, sOut);
+			R_max = std::max(R_max, sOut);
+#endif
 		}
-
 		EXPECT_NEAR (R_target, sOut, 1.5f); // Hz
 		EXPECT_NEAR (R_min, 21.0f, 3.0f);
 		EXPECT_NEAR (R_max, 56.0f, 3.0f);

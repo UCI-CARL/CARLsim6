@@ -116,11 +116,11 @@ void NeuronMonitor::setLogFile(const std::string& fileName) {
 	neuronMonitorCorePtr_->setNeuronFileId(fid);
 }
 
-void NeuronMonitor::print() {
+void NeuronMonitor::print(bool meanOnly) {
 	std::string funcName = "print()";
 	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
 
-	neuronMonitorCorePtr_->print();
+	neuronMonitorCorePtr_->print(meanOnly);
 }
 
 

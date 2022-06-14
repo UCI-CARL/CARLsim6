@@ -4,6 +4,7 @@
 
 
 // --gtest_filter=ADK13.*
+// --gtest_filter=*NrnMon*
 
 
 //GTEST_API_ int main(int argc, char **argv) {
