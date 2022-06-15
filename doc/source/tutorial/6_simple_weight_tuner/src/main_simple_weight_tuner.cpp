@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -59,8 +60,11 @@
 
 int main(int argc, const char* argv[]) {
 	// ---------------- CONFIG STATE -------------------
+#ifdef __NO_CUDA__
 	CARLsim *sim = new CARLsim("SimpleWeightTuner", CPU_MODE, USER, 0, 42);
-
+#else
+	CARLsim* sim = new CARLsim("SimpleWeightTuner", GPU_MODE, USER, 0, 42);
+#endif
 	// output layer should have some target firing rate
 	int gOut=sim->createGroup("out", 1000, EXCITATORY_NEURON);
 	sim->setNeuronParameters(gOut, 0.02f, 0.2f, -65.0f, 8.0f);

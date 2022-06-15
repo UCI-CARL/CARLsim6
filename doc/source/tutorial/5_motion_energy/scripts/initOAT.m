@@ -4,7 +4,7 @@ if ~strcmpi(currentpath(end-6:end), 'scripts')
 end
 
 % add path to Offline Analysis Toolbox
-addpath('../../../../../tools/offline_analysis_toolbox/')
+addpath('../../../tools/offline_analysis_toolbox/')
 
 % add path to Visual Stimulus Toolbox
-addpath('../../../../../external/VisualStimulusToolbox/VisualStimulus')
+addpath('../../../external/VisualStimulusToolbox/VisualStimulus')

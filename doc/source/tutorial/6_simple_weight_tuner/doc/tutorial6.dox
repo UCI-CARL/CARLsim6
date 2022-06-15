@@ -27,7 +27,7 @@ The complete source code explained in this tutorial can be found in
 - ( <tt>doc</tt>: A directory that contains this Doxygen source code )
 
 In order to compile and run the source code (on Linux), open a terminal,
-navigate to <tt>doc/source/tutorial/5_simple_weight_tuner</tt>,
+navigate to <tt>doc/source/tutorial/6_simple_weight_tuner</tt>,
 and type:
 \code
 $ make

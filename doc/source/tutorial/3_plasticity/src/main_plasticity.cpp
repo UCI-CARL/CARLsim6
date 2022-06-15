@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -55,7 +56,11 @@ int main() {
 	// ---------------- CONFIG STATE -------------------
 	// create a network with nPois Poisson neurons and nExc excitatory output
 	// neurons
-	CARLsim sim("plasticity simulation", GPU_MODE, USER, 2);
+#ifdef __NO_CUDA__
+	CARLsim sim("plasticity simulation", CPU_MODE, USER);
+#else
+	CARLsim sim("plasticity simulation", GPU_MODE, USER);
+#endif
 	int nPois = 100; // 100 input neurons
 	int nExc  = 1;   // 1 output neuron
 

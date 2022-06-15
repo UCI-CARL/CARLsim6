@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -50,8 +51,11 @@
 
 int main(int argc, const char* argv[]) {
 	// ---------------- CONFIG STATE -------------------
+#ifdef __NO_CUDA__
 	CARLsim sim("basics", CPU_MODE, USER);
-
+#else
+	CARLsim sim("basics", GPU_MODE, USER);
+#endif
 	int nNeur = 1; 				// number of neurons in each group
 	PoissonRate in(nNeur);		// PoissonRate containter for SpikeGenerator group
 

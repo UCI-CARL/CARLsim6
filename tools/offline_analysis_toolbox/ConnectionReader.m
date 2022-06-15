@@ -312,18 +312,7 @@ classdef ConnectionReader < handle
             end
             
             % read isPlastic
-%           obj.isPlastic = fread(obj.fileId, 1, 'bool');
-            obj.isPlastic = fread(obj.fileId, 1, 'uchar');
-% LN 2018: possible dirty patch for
-%error: fread: invalid data type specified
-%error: fread: invalid PRECISION specified
-%error: called from
-%    openFile at line 315 column 27
-%    ConnectionReader at line 89 column 13
-%    hasValidConnectFile at line 300 column 7
-%    ConnectionMonitor at line 110 column 4
-
-
+            obj.isPlastic = fread(obj.fileId, 1, 'bool');
 
             % read minWt and maxWt
             obj.minWt = fread(obj.fileId, 1, 'float32');

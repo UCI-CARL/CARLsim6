@@ -42,6 +42,7 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
@@ -55,8 +56,12 @@
 
 int main(int argc, const char* argv[]) {
 	// ---------------- CONFIG STATE -------------------
-	CARLsim sim("spnet", GPU_MODE, USER, 2, 42);
-
+#ifdef __NO_CUDA__
+	CARLsim sim("spnet", GPU_MODE, USER);
+#else
+	CARLsim sim("spnet", GPU_MODE, USER);
+#endif
+	
 	int nNeur = 1000;			// number of neurons
 	int nNeurExc = 0.8*nNeur;	// number of excitatory neurons
 	int nNeurInh = 0.2*nNeur;	// number of inhibitory neurons
@@ -64,9 +69,9 @@ int main(int argc, const char* argv[]) {
 	int maxDelay = 20;      	// maximal conduction delay
 
 	// create 80-20 network with 80% RS and 20% FS neurons
-	int gExc = sim.createGroup("exc", nNeurExc, EXCITATORY_NEURON, 0, GPU_CORES);
+	int gExc = sim.createGroup("exc", nNeurExc, EXCITATORY_NEURON);
 	sim.setNeuronParameters(gExc, 0.02f, 0.2f, -65.0f, 8.0f); // RS
-	int gInh = sim.createGroup("inh", nNeurInh, INHIBITORY_NEURON, 1, GPU_CORES);
+	int gInh = sim.createGroup("inh", nNeurInh, INHIBITORY_NEURON); 
 	sim.setNeuronParameters(gInh, 0.1f, 0.2f, -65.0f, 2.0f); // FS
 
 	// specify connectivity
@@ -86,13 +91,11 @@ int main(int argc, const char* argv[]) {
 
 	// enable STDP on all incoming synapses to gExc
 	float alphaPlus = 0.1f, tauPlus = 20.0f, alphaMinus = 0.1f, tauMinus = 20.0f;
-	sim.setESTDP(gExc,gExc, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
-	sim.setESTDP(gExc,gInh, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
-	sim.setISTDP(gInh,gExc, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
+	sim.setESTDP(gExc, gExc, true, STANDARD, ExpCurve(alphaPlus, tauPlus, -alphaMinus, tauMinus));
+	sim.setISTDP(gInh, gExc, true, STANDARD, ExpCurve(-alphaPlus, tauPlus, alphaMinus, tauMinus));
 
 	// run CUBA mode
 	sim.setConductances(false);
-
 
 	// ---------------- SETUP STATE -------------------
 	sim.setupNetwork();

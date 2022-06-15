@@ -8,9 +8,7 @@ SR = SpikeReader('../results/spk_output.dat');
 spk = SR.readSpikes(1000);
 
 % plot input-output (FF) curve
-% plot(10:10:100, spk, 'bo-', 'LineWidth',2)
-
-plot(1:10:200, spk(1:20), 'bo-', 'LineWidth',2)   # Fix LN 20201001
+plot(10:10:100, spk, 'bo-', 'LineWidth',2)
 
 xlabel('input rate (Hz)')
 ylabel('output rate (Hz)')

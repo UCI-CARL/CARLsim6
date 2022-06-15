@@ -6,6 +6,19 @@ add_executable(basic_concepts
 )
 set_property(TARGET basic_concepts PROPERTY PROJECT_LABEL tutorial_1_basic_concepts)
 
+set(scripts_OAT      
+	scripts/initOAT.m
+	scripts/demoOAT.m
+	scripts/ffcurve.m
+)
+source_group("Scripts\\OAT" FILES ${scripts_OAT})     
+add_custom_target(basic_concepts_scripts
+	SOURCES ${scripts_OAT}
+)
+set_property(TARGET basic_concepts_scripts PROPERTY PROJECT_LABEL tutorial_1_basic_concepts_scripts)
+
+add_dependencies(basic_concepts basic_concepts_scripts)
+
 # definitions     
 if(CARLSIM_NO_CUDA)
     target_compile_definitions(basic_concepts PUBLIC
@@ -22,8 +35,6 @@ target_include_directories(basic_concepts PRIVATE
 )
            
 # Installation  
- 
-
 install(TARGETS basic_concepts
         EXPORT basic_concepts
         RUNTIME 
