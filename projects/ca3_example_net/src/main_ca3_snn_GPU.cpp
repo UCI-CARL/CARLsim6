@@ -105,6 +105,9 @@ int main() {
 	// sim.setConductances(true);
 	sim.setIntegrationMethod(RUNGE_KUTTA4, 5);
 
+	// Setting simulation mode to COBA because conductances are needed for the tm synapse model
+	sim.setConductances(true);
+
 	// ---------------- SETUP STATE -------------------
 	// build the network
 	watch.lap("setupNetwork");
