@@ -7,16 +7,12 @@ classdef NeuronReader < handle
     %
     % Example usage:
     % >> nR = NeuronReader('results/n_group1.dat');
-    % >> binWinMs = 100;
-    % >> nData = nR.readValues(binWinMs);
-    % >> % analyze neuron data ...
-    % >> stimLengthMs = nR.getSimDurMs();
-    % >> % etc.
+    % >> nValues = nR.readValues();
     %
     % Version 6/22/2017
-    % Author:Ting-Shuo Chou 
+    % Author:Ting-Shuo Chou
     %        Michael Beyeler <mbeyeler@uci.edu>
-    
+
     %% PROPERTIES
     % public
     properties (SetAccess = private)
@@ -24,7 +20,7 @@ classdef NeuronReader < handle
         errorMode;           % program mode for error handling
         supportedErrorModes; % supported error modes
     end
-    
+
     % private
     properties (Hidden, Access = private)
         fileId;              % file ID of neuron file
@@ -32,19 +28,20 @@ classdef NeuronReader < handle
         fileVersionMajor;    % required major version number
         fileVersionMinor;    % required minimum minor version number
         fileSizeByteHeader;  % byte size of header section
-        
+
         grid3D;              % 3D grid dimensions of group
+        max_neuron_mon_size; % maximum number of neurons recorded in a group
         binWindow;           % binning window for recording values
         stimLengthMs;        % estimated simulation duration (determined by
                              % the time of last recording value)
         storeValues;         % flag whether to store/buffer neuron data
         nData;               % the buffered neuron data
-        
+
         errorFlag;           % error flag (true if error occured)
         errorMsg;            % error message
     end
-    
-    
+
+
     %% PUBLIC METHODS
     methods
         function obj = NeuronReader(neuronFile, storeValues, errorMode)
@@ -77,7 +74,7 @@ classdef NeuronReader < handle
             obj.fileStr = neuronFile;
             obj.unsetError()
             obj.loadDefaultParams();
-            
+
             if nargin<3
                 obj.errorMode = 'standard';
             else
@@ -100,24 +97,24 @@ classdef NeuronReader < handle
                 obj.throwError('Path to spike file needed.');
                 return
             end
-            
+
             [~,~,fileExt] = fileparts(neuronFile);
             if strcmpi(fileExt,'')
                 obj.throwError(['Parameter neuronFile must be a file ' ...
                     'name, directory found.'])
             end
-            
+
             % move unsafe code out of constructor
             obj.openFile()
         end
-        
+
         function delete(obj)
             % destructor, implicitly called to fclose file
             if obj.fileId ~= -1
                 fclose(obj.fileId);
             end
         end
-        
+
         function [errFlag,errMsg] = getError(obj)
             % [errFlag,errMsg] = getError() returns the current error
             % status.
@@ -126,14 +123,18 @@ classdef NeuronReader < handle
             errFlag = obj.errorFlag;
             errMsg = obj.errorMsg;
         end
-        
+
         function grid3D = getGrid3D(obj)
             % grid3D = nR.getGrid3D() returns the 3D grid dimensions of the
             % group as three-element vector <width x height x depth>. This
             % property is equal to the one set in CARLsim::createGroup.
             grid3D = obj.grid3D;
         end
-        
+
+        function max_neuron_mon_size = getMaxNeuronMonSize(obj)
+            max_neuron_mon_size = obj.max_neuron_mon_size;
+        end
+
         function simDurMs = getSimDurMs(obj)
             % simDurMs = nR.getSimDurMs() returns the estimated simulation
             % duration in milliseconds. This is equivalent to the time
@@ -145,103 +146,55 @@ classdef NeuronReader < handle
             fseek(obj.fileId, -20, 'eof'); % jump to penultimate int
             simDurMs = fread(obj.fileId, 1, 'int32');
         end
-        
-        function nValues = readValues(obj, binWindowMs)
+
+        function nValues = readValues(obj)
             % nValues = nR.readValues(binWindow) reads the nueron file and
             % arranges spike times into bins of binWindow millisecond
             % length.
             %
-            % Returns a 2-D matrix (spike times x neuron IDs), 1-indexed.
-            %
-            % BINWINDOWMS - Size of binning window for spike times (ms).
-            %               Set binWindow to -1 in order to get the spikes
-            %               in AER format [times;nIDs].
-            %               Default: 1000.
-            if nargin<2,binWindowMs=1000;end
-            obj.unsetError()
-            
-            % if storeValues flag is set, we may not have to read the data
-            % again (given that the user requires reading with the same
-            % frame duration)
-            if obj.storeValues
-                if sum(obj.binWindow==binWindowMs) && ~isempty(obj.nData)
+            % Returns a struct with 3 fields: v, u, and I. Each field is
+            % organized as (number of neurons x duration of simulation (ms)).
+           if obj.storeValues
+                if  ~isempty(obj.nData)
                     % we don't need to re-read the data
-                    nValues = obj.nData;
+                    nValue = obj.nData;
                     return;
                 end
             end
-            obj.binWindow = binWindowMs;
-            
+
+            % extract stimulus length
+            obj.stimLengthMs = obj.getSimDurMs();
+
             % rewind file pointer, skip header
             fseek(obj.fileId, obj.fileSizeByteHeader, 'bof');
-            
-            nrRead=1e6;
-            d=zeros(0,nrRead);
-            nValues=[];
-            
-            while size(d,2)==nrRead
-                % D is a 2xNRREAD matrix.  Row 1 contains the times that
-                % the neuron spiked. Row 2 contains the neuron id that
-                % spiked at this corresponding time.
-                d = fread(obj.fileId, [2 nrRead], 'int32');
 
-                if ~isempty(d)
-                    if obj.binWindow<0
-                        % Return data in AER format, i.e.: [time;nID]
-                        % Note: Using SPARSE on large matrices that mostly
-                        % contain 0 is inefficient (-> "big sparse matrix")
-                        nValues = [nValues, d];
-                    else
-                        % Resulting matrix s will have rows corresponding
-                        % to time values with a minimum value of 1 and
-                        % columns organized by neuron ids that are indexed
-                        % starting with 1.  FRAMEDUR effectively bins the
-                        % data. FRAMEDUR=1 bins at 1 ms, FRAMEDUR=1000 bins
-                        % at 1000 ms, etc.
+            data = fread(obj.fileId,[20 Inf],'uint8=>uint8');
 
-                        % Use sparse matrix to create a matrix S with
-                        % correct dimensions. All firing events for each
-                        % neuron id and time bin are summed automatically
-                        % with ACCUMARRAY.  Finally the matrix is resized
-                        % to include all the zero entries with the correct
-                        % matrix dimensions. ACCUMARRAY is supposed to be
-                        % faster than full(sparse(...)). Make sure the
-                        % first two arguments are column vectors.
-                        subs = [floor(d(1,:)/obj.binWindow)'+1,d(2,:)'+1];
+            t = typecast(reshape(data(1:4,:),[],1),'uint32');
+            nId = typecast(reshape(data(5:8,:),[],1),'uint32');
+            v = typecast(reshape(data(9:12,:),[],1),'single');
+            u = typecast(reshape(data(13:16,:),[],1),'single');
+            I = typecast(reshape(data(17:20,:),[],1),'single');
 
-                        % Make sure nValues has the right dimensions (defined
-                        % by the max values in subs)
-                        maxDim = max(subs);
-                        if size(nValues,1)<maxDim(1) || size(nValues,2)<maxDim(2)
-                            nValues(maxDim(1),maxDim(2))=0;
-                        end
-                        nValues = nValues + accumarray(subs, 1, size(nValues));
-                    end
-                end
-            end
-            
-            % grow to right size
-            if size(nValues,2) ~= prod(obj.grid3D)
-                nValues(max(1,end),prod(obj.grid3D))=0;
-            end
-            
-            % store spike data
+            dataSize = [min(obj.max_neuron_mon_size, prod(obj.grid3D)), (obj.stimLengthMs+1)];
+            nValues.v = reshape(v, dataSize);
+            nValues.u = reshape(u, dataSize);
+            nValues.I = reshape(I, dataSize);
+
+            % store neuron data
             if obj.storeValues
                 obj.nData = nValues;
             end
-            
-            % extract stimulus length
-            obj.stimLengthMs = obj.getSimDurMs();
+
         end
     end
-    
     %% PRIVATE METHODS
     methods (Hidden, Access = private)
         function isSupported = isErrorModeSupported(obj, errMode)
             % determines whether an error mode is currently supported
             isSupported = sum(ismember(obj.supportedErrorModes,errMode))>0;
         end
-        
+
         function loadDefaultParams(obj)
             % loads default parameter values for class properties
             obj.fileId = -1;
@@ -249,23 +202,24 @@ classdef NeuronReader < handle
             obj.fileVersionMajor = 0;
             obj.fileVersionMinor = 1;
             obj.fileSizeByteHeader = -1; % to be set in openFile
-            
+
             obj.grid3D = -1; % to be set in openFile
-            
+            obj.max_neuron_mon_size = -1;
+
             obj.nData = []; % to be set in readValues
             obj.stimLengthMs = -1;
-            
+
             obj.supportedErrorModes = {'standard', 'warning', 'silent'};
 
 			% disable backtracing for warnings and errors
 			warning off backtrace
         end
-        
+
         function openFile(obj)
             % SR.openFile() reads the header section of the spike file and
             % sets class properties appropriately.
             obj.unsetError()
-            
+
             % try to open spike file, try little-endian
             obj.fileId = fopen(obj.fileStr, 'r', 'l');
             if obj.fileId==-1
@@ -273,7 +227,7 @@ classdef NeuronReader < handle
                     '" with read permission'])
                 return
             end
-            
+
             % read signature
             sign = fread(obj.fileId, 1, 'int32');
             if feof(obj.fileId)
@@ -289,7 +243,7 @@ classdef NeuronReader < handle
                         return
                     end
                 end
-            end          
+            end
 
             % read version number
             version = fread(obj.fileId, 1, 'float32');
@@ -312,7 +266,7 @@ classdef NeuronReader < handle
                     num2str(version) ' found)'])
                 return
             end
-            
+
             % read Grid3D
             obj.grid3D = fread(obj.fileId, [1 3], 'int32');
             if feof(obj.fileId) || prod(obj.grid3D)<=0
@@ -322,12 +276,15 @@ classdef NeuronReader < handle
 					'])'])
                 return
             end
-            
+
+            % read maximum number of neurons in a grouprecorded with NeuronMonitor
+            obj.max_neuron_mon_size = fread(obj.fileId, 1, 'int32');
+
             % store the size of the header section, so that we can skip it
             % when re-reading spikes
             obj.fileSizeByteHeader = ftell(obj.fileId);
         end
-        
+
         function throwError(obj, errorMsg, errorMode)
             % SR.throwError(errorMsg, errorMode) throws an error with a
             % specific severity (errorMode). In all cases, obj.errorFlag is
@@ -344,7 +301,7 @@ classdef NeuronReader < handle
                 warning(errorMsg)
             end
         end
-        
+
         function unsetError(obj)
             % unsets error message and flag
             obj.errorFlag = false;

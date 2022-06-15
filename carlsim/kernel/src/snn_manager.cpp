@@ -141,6 +141,31 @@ short int SNN::connect(int grpId1, int grpId2, const std::string& _type, float i
 	connConfig.conn = NULL;
 	connConfig.numberOfConnections = 0;
 
+#ifdef JK_CA3_SNN
+	auto& config = connConfig.stpConfig;
+	config.STP_U_mean = 0.0f;
+	config.STP_U_std = 0.0f;
+	config.STP_tau_u_mean = 0.0f;
+	config.STP_tau_u_std = 0.0f;
+	config.STP_tau_x_mean = 0.0f;
+	config.STP_tau_x_std = 0.0f;
+	config.STP_dAMPA_mean = 0.0f;
+	config.STP_dAMPA_std = 0.0f;
+	config.STP_dNMDA_mean = 0.0f;
+	config.STP_dNMDA_std = 0.0f;
+	config.STP_dGABAa_mean = 0.0f;
+	config.STP_dGABAa_std = 0.0f;
+	config.STP_dGABAb_mean = 0.0f;
+	config.STP_dGABAb_std = 0.0f;
+	config.STP_rNMDA_mean = 0.0f;
+	config.STP_rNMDA_std = 0.0f;
+	config.STP_sNMDA = 0.0f;
+	config.STP_rGABAb_mean = 0.0f;
+	config.STP_rGABAb_std = 0.0f;
+	config.STP_sGABAb = 0.0f;
+	config.WithSTP = false;
+#endif
+
 	if ( _type.find("random") != std::string::npos) {
 		connConfig.type = CONN_RANDOM;
 	}
@@ -203,6 +228,30 @@ short int SNN::connect(int grpId1, int grpId2, ConnectionGeneratorCore* conn, fl
 	connConfig.numberOfConnections = 0;
 	connConfig.stdpConfig = stdpConfig;
 
+#ifdef JK_CA3_SNN
+	auto &config = connConfig.stpConfig;
+	config.STP_U_mean = 0.0f;
+	config.STP_U_std = 0.0f;
+	config.STP_tau_u_mean = 0.0f;
+	config.STP_tau_u_std = 0.0f;
+	config.STP_tau_x_mean = 0.0f;
+	config.STP_tau_x_std = 0.0f;
+	config.STP_dAMPA_mean = 0.0f;
+	config.STP_dAMPA_std = 0.0f;
+	config.STP_dNMDA_mean = 0.0f;
+	config.STP_dNMDA_std = 0.0f;
+	config.STP_dGABAa_mean = 0.0f;
+	config.STP_dGABAa_std = 0.0f;
+	config.STP_dGABAb_mean = 0.0f;
+	config.STP_dGABAb_std = 0.0f;
+	config.STP_rNMDA_mean = 0.0f;
+	config.STP_rNMDA_std = 0.0f;
+	config.STP_sNMDA = 0.0f;
+	config.STP_rGABAb_mean = 0.0f;
+	config.STP_rGABAb_std = 0.0f;
+	config.STP_sGABAb = 0.0f;
+	config.WithSTP = false;
+#endif
 
 	// assign a connection id
 	assert(connConfig.connId == -1);
@@ -419,8 +468,13 @@ void SNN::setCompartmentParameters(int gGrpId, float couplingUp, float couplingD
 
 #define LN_I_CALC_TYPES__REQUIRED_FOR_BACKWARD_COMPAT
 #define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
+
+
 // set conductance values for a simulation (custom values or disable conductances alltogether)
 void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb) {
+#ifdef JK_CA3_SNN  // LN 20220519 CS4 
+	KERNEL_INFO("Not supported with CA3");
+#else
 	if (isSet) {
 		assert(tdAMPA>0); assert(tdNMDA>0); assert(tdGABAa>0); assert(tdGABAb>0);
 		assert(trNMDA>=0); assert(trGABAb>=0); // 0 to disable rise times
@@ -470,6 +524,7 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 	} else {
 		KERNEL_INFO("Running CUBA mode (all synaptic conductances disabled)");
 	}
+  #endif
 }
 #ifdef LN_I_CALC_TYPES
 // set conductance values for a group (custom values or disable conductances)
@@ -480,7 +535,9 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 // Default COBA => single group(s) opt out with CUBA; Network already does support COBA 
 // Default CUBA & NMweighted => other context, here irrelevant
 void SNN::setConductances(int gGrpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb) {
-
+#ifdef JK_CA3_SNN  // LN 20220519 CS4 
+	KERNEL_INFO("Not supported with CA3");
+#else
 	if (isSet) {
 		assert(tdAMPA > 0); assert(tdNMDA > 0); assert(tdGABAa > 0); assert(tdGABAb > 0);
 		assert(trNMDA >= 0); assert(trGABAb >= 0); // 0 to disable rise times
@@ -546,11 +603,13 @@ void SNN::setConductances(int gGrpId, bool isSet, int tdAMPA, int trNMDA, int td
 	else {
 		KERNEL_INFO("Running group %d in CUBA mode (synaptic conductances disabled)", gGrpId);
 	}
+#endif
 }
 
-
 void SNN::setNM4weighted(int gGrpId, IcalcType icalc, float wDA, float w5HT, float wACh, float wNE, float wNorm, float wBase) {
-
+#ifdef JK_CA3_SNN  // LN 20220519 CS4 
+	KERNEL_INFO("Not supported with CA3");
+#else
 	// globalGroup ID 
 	auto &groupConfig = groupConfigMap[gGrpId];
 
@@ -568,11 +627,8 @@ void SNN::setNM4weighted(int gGrpId, IcalcType icalc, float wDA, float w5HT, flo
 	KERNEL_INFO("Running group (G:%d) IcalcType: %s", gGrpId, IcalcType_string[icalc]);
 	KERNEL_INFO("  - Weights (DA, 5HT, ACh, NE)     = %.1f %.1f %.1f %.1f ", wDA, w5HT, wACh, wNE);
 	KERNEL_INFO("  - Normalization/Boost, Base      = %.1f %.1f", wNorm, wBase);
-
+#endif
 }
-
-
-
 
 #endif
 
@@ -1011,9 +1067,9 @@ void SNN::setSTP(int preGrpId, int postGrpId, bool isSet, float STP_U_mean, floa
 	config.STP_rNMDA_std = STP_trNMDA_std;
 	config.STP_rGABAb_mean = STP_trGABAb_mean;
 	config.STP_rGABAb_std = STP_trGABAb_std;
-	config.WithSTP = true;
+	config.WithSTP = isSet;
 
-	//sim_with_conductances |= isSet;
+	sim_with_conductances |= isSet;  // CA3 
 	sim_with_stp |= isSet;
 	groupConfigMap[preGrpId].stpConfig.WithSTP = isSet;
 
@@ -1024,8 +1080,11 @@ void SNN::setSTP(int preGrpId, int postGrpId, bool isSet, float STP_U_mean, floa
 
 	KERNEL_INFO("STP %s for %d to %d (%s):\t, mean of U: %1.4f, mean of tau_u: %4.0f, mean of tau_x: %4.0f, \n mean of tau_dAMPA: %2.4f, mean of tau_dNMDA: %2.4f, mean of tau_dGABAa: %2.4f, \n mean of tau_dGABAb: %2.4f, mean of tau_rNMDA: %2.4f, mean of tau_rGABAb: %2.4f", isSet ? "enabled" : "disabled",
 		preGrpId, postGrpId, groupConfigMap[preGrpId].grpName.c_str(), STP_U_mean, STP_tau_u_mean, STP_tau_x_mean, STP_tdAMPA_mean, STP_tdNMDA_mean, STP_tdGABAa_mean, STP_tdGABAb_mean, STP_trNMDA_mean, STP_trGABAb_mean);
+
 }
 #endif
+
+
 
 #ifdef LN_I_CALC_TYPES
 void SNN::setNM4STP(int gGrpId, float wSTP_U[], float wSTP_tau_u[], float wSTP_tau_x[]) {
@@ -2593,8 +2652,9 @@ void SNN::SNNinit() {
 	numSpikeGenGrps = 0;
 	simulatorDeleted = false;
 
-	cumExecutionTime = 0.0;
-	executionTime = 0.0;
+	cumExecutionTime = 0.0f;
+	executionTime = 0.0f;
+	prevExecutionTime = 0.0f; // FIX 2022: Wrong display in Debug Mode
 
 	spikeRateUpdated = false;
 	numSpikeMonitor = 0;
@@ -3777,7 +3837,8 @@ void SNN::generateRuntimeNetworkConfigs() {
 #define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 			networkConfigs[netId].sim_with_NMDA_rise = sim_with_NMDA_rise;
 			networkConfigs[netId].sim_with_GABAb_rise = sim_with_GABAb_rise;
-#ifndef LN_I_CALC_TYPES
+//#ifndef LN_I_CALC_TYPES
+#ifndef JK_CA3_SNN  // LN20220519 CS4
 			networkConfigs[netId].dAMPA = dAMPA;
 			networkConfigs[netId].rNMDA = rNMDA;
 			networkConfigs[netId].dNMDA = dNMDA;
@@ -4355,6 +4416,7 @@ void SNN::compileGroupConfig() {
 			groupConfigMap[gGrpId].with_NMDA_rise = sim_with_NMDA_rise;
 			groupConfigMap[gGrpId].with_GABAb_rise = sim_with_GABAb_rise;
 #define LN_I_CALC_TYPES__REQUIRED_FOR_BACKWARD_COMP
+#ifndef JK_CA3_SNN // LN 20220519 CS4
 			auto& config = groupConfigMap[gGrpId].conductanceConfig;
 			config.dAMPA = dAMPA;  // loss of precision is acceptable
 			config.dGABAa = dGABAa;
@@ -4364,6 +4426,7 @@ void SNN::compileGroupConfig() {
 			config.rNMDA = rNMDA;
 			config.sGABAb = sGABAb;
 			config.sNMDA = sNMDA;
+#endif
 		}
 	}
 #endif
@@ -4612,12 +4675,68 @@ inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc,
 	connInfo.maxWt = isExcitatoryGroup(_grpSrc) ? fabs(maxWt) : -1.0 * fabs(maxWt);
 	connInfo.initWt = isExcitatoryGroup(_grpSrc) ? fabs(initWt) : -1.0 * fabs(initWt);
 
+#ifdef JK_CA3_SNN
+	connInfo.STP_U = 0.01f;
+	connInfo.STP_tau_u_inv = 1.0f;
+	connInfo.STP_tau_x_inv = 1.0f;
+	connInfo.withSTP = false;
+
+	//KERNEL_INFO("outside netId: %d, grpSrc: %d, grpDest: %d, connId: %d", netId, _grpSrc,_grpDest, connInfo.connId);
+	if (connectConfigMap[_connId].stpConfig.WithSTP) {
+		auto& config = connectConfigMap[_connId].stpConfig;
+		connInfo.STP_U = generateNormalSample(config.STP_U_mean, config.STP_U_std, std::numeric_limits<float>::epsilon(), 1);
+		connInfo.STP_tau_u_inv = 1.0f / generateNormalSample(config.STP_tau_u_mean, config.STP_tau_u_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_tau_x_inv = 1.0f / generateNormalSample(config.STP_tau_x_mean, config.STP_tau_x_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dAMPA = 1.0f - 1.0f / generateNormalSample(config.STP_dAMPA_mean, config.STP_dAMPA_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dNMDA = 1.0f - 1.0f / generateNormalSample(config.STP_dNMDA_mean, config.STP_dNMDA_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dGABAa = 1.0f - 1.0f / generateNormalSample(config.STP_dGABAa_mean, config.STP_dGABAa_std, std::numeric_limits<float>::epsilon(), -1);
+		connInfo.STP_dGABAb = 1.0f - 1.0f / generateNormalSample(config.STP_dGABAb_mean, config.STP_dGABAb_std, std::numeric_limits<float>::epsilon(), -1);
+		if (config.STP_rNMDA_mean > 0) {
+			// use rise time for NMDA
+			sim_with_NMDA_rise = true;
+			connInfo.STP_rNMDA = 1.0f - 1.0f / generateNormalSample(config.STP_rNMDA_mean, config.STP_rNMDA_std, std::numeric_limits<float>::epsilon(), -1);
+			// compute max conductance under this model to scale it back to 1
+			// otherwise the peak conductance will not be equal to the weight
+			float trNMDA = -1.0f / (connInfo.STP_rNMDA - 1.0f);
+			float tdNMDA = -1.0f / (connInfo.STP_dNMDA - 1.0f);
+			float tmax = (-tdNMDA * trNMDA * log(1.0f * trNMDA / tdNMDA)) / (tdNMDA - trNMDA); // t at which cond will be max
+			connInfo.STP_sNMDA = 1.0f / (exp(-tmax / tdNMDA) - exp(-tmax / trNMDA)); // scaling factor, 1 over max amplitude
+			assert(!std::isinf(tmax) && !std::isnan(tmax) && tmax >= 0);
+			assert(!std::isinf(connInfo.STP_sNMDA) && !std::isnan(connInfo.STP_sNMDA) && connInfo.STP_sNMDA > 0);
+		}
+		if (config.STP_rGABAb_mean > 0) {
+			// use rise time for GABAb
+			sim_with_GABAb_rise = true;
+			connInfo.STP_rGABAb = 1.0f - 1.0f / generateNormalSample(config.STP_rGABAb_mean, config.STP_rGABAb_std, std::numeric_limits<float>::epsilon(), -1);
+			// compute max conductance under this model to scale it back to 1
+			// otherwise the peak conductance will not be equal to the weight
+			float trGABAb = -1.0f / (connInfo.STP_rGABAb - 1.0f);
+			float tdGABAb = -1.0f / (connInfo.STP_dGABAb - 1.0f);
+			float tmax = (-tdGABAb * trGABAb * log(1.0 * trGABAb / tdGABAb)) / (tdGABAb - trGABAb); // t at which cond will be max
+			connInfo.STP_sGABAb = 1.0 / (exp(-tmax / tdGABAb) - exp(-tmax / trGABAb)); // scaling factor, 1 over max amplitude
+			assert(!std::isinf(tmax) && !std::isnan(tmax));
+			assert(!std::isinf(connInfo.STP_sGABAb) && !std::isnan(connInfo.STP_sGABAb) && connInfo.STP_sGABAb > 0);
+		}
+		connInfo.withSTP = true;
+		//KERNEL_INFO("inside netId: %d, grpSrc: %d, grpDest: %d, connId: %d", netId, _grpSrc,_grpDest, connInfo.connId);
+	}
+#endif
+
 	connectionLists[netId].push_back(connInfo);
 
 	// If the connection is external, copy the connection info to the external network
 	if (externalNetId >= 0)
 		connectionLists[externalNetId].push_back(connInfo);
 }
+
+
+
+
+
+
+
+
+
 
 #ifdef LN_SETUP_NETWORK_MT
 //! set one specific connection from neuron id 'src' to neuron id 'dest'
@@ -7103,6 +7222,7 @@ void SNN::generateRuntimeSNN() {
 
 void SNN::resetConductances(int netId) {
 #ifdef LN_I_CALC_TYPES
+//#ifndef JK_CA3_SNN
 	// always allocate memory for explicid rise/decay as it may be partitionated by groups
 	if (networkConfigs[netId].sim_with_conductances) {
 		memset(managerRuntimeData.gAMPA, 0, sizeof(float) * networkConfigs[netId].numNReg);
@@ -7235,6 +7355,7 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 
 	managerRuntimeData.lastSpikeTime[lNId] = MAX_SIMULATION_TIME;
 
+#ifndef JK_CA3_SNN  // see CS4, HEAP corruption
 	if(groupConfigs[netId][lGrpId].WithSTP) {
 		for (int j = 0; j < networkConfigs[netId].maxDelay + 1; j++) { // is of size maxDelay_+1
 			int index = STP_BUF_POS(lNId, j, networkConfigs[netId].maxDelay);
@@ -7242,6 +7363,7 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 			managerRuntimeData.stpx[index] = 1.0f;
 		}
 	}
+#endif
 }
 
 void SNN::resetMonitors(bool deallocate) {
@@ -7470,6 +7592,7 @@ void SNN::resetPoissonNeuron(int netId, int lGrpId, int lNId) {
 	if (groupConfigs[netId][lGrpId].WithHomeostasis)
 		managerRuntimeData.avgFiring[lNId] = 0.0f;
 
+#ifndef JK_CA3_SNN   // see CS4, HEAP corruption
 	if (groupConfigs[netId][lGrpId].WithSTP) {
 		for (int j = 0; j < networkConfigs[netId].maxDelay + 1; j++) { // is of size maxDelay_+1
 			int index = STP_BUF_POS(lNId, j, networkConfigs[netId].maxDelay);
@@ -7477,6 +7600,7 @@ void SNN::resetPoissonNeuron(int netId, int lGrpId, int lNId) {
 			managerRuntimeData.stpx[index] = 1.0f;
 		}
 	}
+#endif
 }
 
 void SNN::resetPropogationBuffer() {
@@ -8463,8 +8587,10 @@ void SNN::updateNeuronMonitor(int gGrpId) {
 		// Later the user may need need to dump these neuron state values to an output file
 		//printf("The numMsMin is: %i; and numMsMax is: %i\n", numMsMin, numMsMax);
 		for (int t = numMsMin; t < numMsMax; t++) {
+			int grpNumNeurons = groupConfigs[netId][lGrpId].lEndN - groupConfigs[netId][lGrpId].lStartN + 1;
 			//printf("The lStartN is: %i; and lEndN is: %i\n", groupConfigs[netId][lGrpId].lStartN, groupConfigs[netId][lGrpId].lEndN);
-			for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
+			for (int tmpNId = 0; tmpNId < std::min(MAX_NEURON_MON_GRP_SZIE, grpNumNeurons); tmpNId++) {
+				int lNId = groupConfigs[netId][lGrpId].lStartN + tmpNId;
 				float v, u, I;
 
 				// make sure neuron belongs to currently relevant group
@@ -8534,6 +8660,19 @@ void SNN::printSimSummary() {
 	KERNEL_INFO("Random Seed:\t\t%d", randSeed_);
 	KERNEL_INFO("Timing:\t\t\tModel Simulation Time = %lld sec", (unsigned long long)simTimeSec);
 	KERNEL_INFO("\t\t\tActual Execution Time = %4.2f sec", etime/1000.0f);
+	float speed = float(simTimeSec) / std::max(.0f, etime / 1000.0f); 
+#ifdef _DEBUG
+	const char* build = "(Debug)";
+#else
+	const char* build = "";
+#endif
+	if (speed >= 10.f) {
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %.0f x %s", speed, build);
+	} else 
+	if (speed < 1.0f) {
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %2.1f %% %s", speed*100.f, build);
+	} else
+		KERNEL_INFO("\t\t\tSpeed Factor (Model/Real) = %1.1f x %s", speed, build);
 	KERNEL_INFO("Average Firing Rate:\t2+ms delay = %3.3f Hz",
 		glbNetworkConfig.numN2msDelay > 0 ? managerRuntimeData.spikeCountD2 / (1.0 * simTimeSec * glbNetworkConfig.numN2msDelay) : 0.0f);
 	KERNEL_INFO("\t\t\t1ms delay = %3.3f Hz",

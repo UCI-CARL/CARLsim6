@@ -966,6 +966,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 							// 	runtimeDataGPU.stpx[ind_minus], runtimeDataGPU.stpx[ind_plus], ind_minus, ind_plus);
 							// }
 						}
+					}
 #else
 						int tD = 0; // \FIXME find delay
 						// \FIXME I think pre_nid needs to be adjusted for the delay
@@ -998,7 +999,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 #endif
 #endif
 
-					}
+#ifndef JK_CA3_SNN 						
 #ifdef LN_I_CALC_TYPES
 					short int postGrpId = runtimeDataGPU.grpIds[postNId];
 					//assert(postGrpId == grpId); // sanity check
@@ -1070,6 +1071,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 						AMPA_sum += change;
 					}
 #endif
+#endif
 					tmp_I_cnt++;
 					tmp_I_set = tmp_I_set & (~(1 << (8 * cnt + wt_i)));
 				}
@@ -1088,8 +1090,9 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 			__syncthreads();
 #endif
 
-			// P6-2
+#ifndef JK_CA3_SNN
 #ifdef LN_I_CALC_TYPES
+			// P6-2
 			short int postGrpId = runtimeDataGPU.grpIds[postNId];
 			switch(groupConfigsGPU[postGrpId].icalcType) {
 				case COBA:
@@ -1123,6 +1126,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 					; // do nothing
 			}
 #else
+			// P6-2
 			if (networkConfigGPU.sim_with_conductances) {
 				// don't add mulSynFast/mulSynSlow here, because they depend on the exact pre<->post connection, not
 				// just post_nid
@@ -1139,6 +1143,36 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 					runtimeDataGPU.gGABAb_d[postNId] -= GABAb_d_sum;
 				} else {
 					runtimeDataGPU.gGABAb[postNId] -= GABAb_sum;
+				}
+			}
+			else {
+				runtimeDataGPU.current[postNId] += AMPA_sum;
+			}
+#endif
+#else // JK_CA3_SNN
+			// P6-2
+			if (networkConfigGPU.sim_with_conductances) {
+				// don't add mulSynFast/mulSynSlow here, because they depend on the exact pre<->post connection, not
+				// just post_nid
+				runtimeDataGPU.gAMPA[postNId] += AMPA_sum;
+				runtimeDataGPU.gGABAa[postNId] -= GABAa_sum; // wt should be negative for GABAa and GABAb
+//                 printf("%2.3f \n\n\n", AMPA_sum);
+//                 printf("%2.3f \n\n\n", GABAa_sum);
+				if (networkConfigGPU.sim_with_NMDA_rise) {
+					runtimeDataGPU.gNMDA_r[postNId] += NMDA_r_sum;
+					runtimeDataGPU.gNMDA_d[postNId] += NMDA_d_sum;
+				}
+				else {
+					runtimeDataGPU.gNMDA[postNId] += NMDA_sum;
+					//                     printf("%2.3f \n\n\n", NMDA_sum);
+				}
+				if (networkConfigGPU.sim_with_GABAb_rise) {
+					runtimeDataGPU.gGABAb_r[postNId] -= GABAb_r_sum;
+					runtimeDataGPU.gGABAb_d[postNId] -= GABAb_d_sum;
+				}
+				else {
+					runtimeDataGPU.gGABAb[postNId] -= GABAb_sum;
+					//                     printf("%2.3f \n\n\n", GABAb_sum);
 				}
 			}
 			else {
@@ -1761,13 +1795,14 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 		// instead of reading each neuron group separately .....
 		// read a whole buffer and use the result ......
 		int2 threadLoad = getStaticThreadLoad(bufPos);
-		int nid			= (STATIC_LOAD_START(threadLoad) + threadIdx.x);
-		int lastId		= STATIC_LOAD_SIZE(threadLoad);
-		int grpId		= STATIC_LOAD_GROUP(threadLoad);
+		int nid = (STATIC_LOAD_START(threadLoad) + threadIdx.x);
+		int lastId = STATIC_LOAD_SIZE(threadLoad);
+		int grpId = STATIC_LOAD_GROUP(threadLoad);
 
+#ifndef JK_CA3_SNN
 #ifdef LN_I_CALC_TYPES
 		// update the conductane parameter of the current neron
-		auto &configs = groupConfigsGPU[grpId];
+		auto& configs = groupConfigsGPU[grpId];
 		switch (configs.icalcType) {
 		case COBA:
 		case alpha1_ADK13:
@@ -1794,21 +1829,24 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 #else
 		// update the conductane parameter of the current neron
 		if (networkConfigGPU.sim_with_conductances && IS_REGULAR_NEURON(nid, networkConfigGPU.numNReg, networkConfigGPU.numNPois)) {
-			runtimeDataGPU.gAMPA[nid]       *= networkConfigGPU.dAMPA;
+			runtimeDataGPU.gAMPA[nid] *= networkConfigGPU.dAMPA;
 			if (networkConfigGPU.sim_with_NMDA_rise) {
 				runtimeDataGPU.gNMDA_r[nid] *= networkConfigGPU.rNMDA;
 				runtimeDataGPU.gNMDA_d[nid] *= networkConfigGPU.dNMDA;
-			} else {
+			}
+			else {
 				runtimeDataGPU.gNMDA[nid] *= networkConfigGPU.dNMDA;
 			}
 			runtimeDataGPU.gGABAa[nid] *= networkConfigGPU.dGABAa;
 			if (networkConfigGPU.sim_with_GABAb_rise) {
 				runtimeDataGPU.gGABAb_r[nid] *= networkConfigGPU.rGABAb;
 				runtimeDataGPU.gGABAb_d[nid] *= networkConfigGPU.dGABAb;
-			} else {
+			}
+			else {
 				runtimeDataGPU.gGABAb[nid] *= networkConfigGPU.dGABAb;
 			}
 		}
+#endif
 #endif
 
 #ifdef JK_CA3_SNN
@@ -1854,7 +1892,10 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 			// int ind_plus  = getSTPBufPos(nid, simTime);
 			// int ind_minus = getSTPBufPos(nid, (simTime-1)); // \FIXME sure?
 		}
-#else
+	}
+#endif
+
+#ifndef JK_CA3_SNN
 		if (groupConfigsGPU[grpId].WithSTP && (threadIdx.x < lastId) && (nid < networkConfigGPU.numN)) {
 			int ind_plus  = getSTPBufPos(nid, simTime);
 			int ind_minus = getSTPBufPos(nid, (simTime-1)); // \FIXME sure?
@@ -1891,7 +1932,7 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 			runtimeDataGPU.stpx[ind_plus] = runtimeDataGPU.stpx[ind_minus] + (1.0f - runtimeDataGPU.stpx[ind_minus]) * groupConfigsGPU[grpId].STP_tau_x_inv;
 #endif
 		}
-#endif
+
 	}
 
 
@@ -1963,8 +2004,8 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 			}
 		}
 	}
-	
-#endif
+#endif	
+#endif // JK_CA3_NET
 }
 
 //********************************UPDATE SYNAPTIC WEIGHTS EVERY SECOND  *************************************************************

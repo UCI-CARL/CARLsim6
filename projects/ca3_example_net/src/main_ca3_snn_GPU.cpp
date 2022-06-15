@@ -88,8 +88,13 @@ int main() {
 	// create a network on GPU
 	int numGPUs = 0;
 	int randSeed = 10;
-	CARLsim sim("ca3_snn_GPU", GPU_MODE, USER, numGPUs, randSeed);
 
+
+	CARLsim sim("ca3_snn_GPU", GPU_MODE, USER, numGPUs, randSeed);
+	const ComputingBackend BACKEND_CORES = GPU_CORES;
+
+	//CARLsim sim("ca3_snn_CPU", CPU_MODE, USER, numGPUs, randSeed);
+	//const ComputingBackend BACKEND_CORES = CPU_CORES;
 	// include header file that contains generation of groups and their
 	// properties
 	#include "../generateCONFIGStateSTP.h"
@@ -111,11 +116,11 @@ int main() {
 	// Declare variables that will store the start and end ID for the neurons
 	// in the pyramidal group
 	int pyr_start = sim.getGroupStartNeuronId(CA3_Pyramidal);
-	std::cout << "Beginning neuron ID for Pyramidal Cells is : " << pyr_start;
+	std::cout << "Beginning neuron ID for Pyramidal Cells is : " << pyr_start << "\n";
 	int pyr_end = sim.getGroupEndNeuronId(CA3_Pyramidal);
-	std::cout << "Ending neuron ID for Pyramidal Cells is : " << pyr_end;
+	std::cout << "Ending neuron ID for Pyramidal Cells is : " << pyr_end << "\n";
 	int pyr_range = (pyr_end - pyr_start) + 1;
-	std::cout << "The range for Pyramidal Cells is : " << pyr_range;
+	std::cout << "The range for Pyramidal Cells is : " << pyr_range << "\n";
 
 	// Create vectors that are the length of the number of neurons in the pyramidal
 	// group, and another that will store the current at the position for the
@@ -145,40 +150,64 @@ int main() {
 
 
 	// ---------------- RUN STATE -------------------
-	watch.lap("runNetwork");
 
-	// run for a total of 10 seconds
+	//nrnMon_Pyramidal->startRecording();
+	//nrnMon_QuadD_LM->startRecording();
+
+	// run for a total of 10 seconds in 500ms bins
 	// at the end of each runNetwork call, SpikeMonitor stats will be printed
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 9*2; i++) {
 		if (i == 0)
 		{
-			sim.setExternalCurrent(CA3_Pyramidal, 500.0f);
-			sim.setExternalCurrent(CA3_Axo_Axonic, 350.0f);
-			sim.setExternalCurrent(CA3_BC_CCK, 350.0f);
-			sim.setExternalCurrent(CA3_Basket, 350.0);
-			sim.setExternalCurrent(CA3_Bistratified, 350.0f);
-			sim.setExternalCurrent(CA3_Ivy, 350.0f);
-			sim.setExternalCurrent(CA3_QuadD_LM, 350.0f);
-			sim.setExternalCurrent(CA3_MFA_ORDEN, 350.0f);
-			sim.runNetwork(0, 1);
-		}
-		if (i == 1)
-		{
-			//sim.setExternalCurrent(CA3_Pyramidal, 0.0f);
-			sim.runNetwork(0, 1);
-		}
-		if (i >= 2 && i < 9)
-		{
-			sim.runNetwork(0, 500);
-		}
-		if (i == 9)
-		{
-			sim.runNetwork(0, 498);
+			watch.lap("runNetwork(init)");
+
+			// simulated input from dentate gyros (DG)
+			//sim.setExternalCurrent(CA3_Pyramidal, 500.0f);
+			//sim.setExternalCurrent(CA3_Axo_Axonic, 350.0f);
+			//sim.setExternalCurrent(CA3_BC_CCK, 350.0f);
+			//sim.setExternalCurrent(CA3_Basket, 350.0f);
+			//sim.setExternalCurrent(CA3_Bistratified, 350.0f);
+			//sim.setExternalCurrent(CA3_Ivy, 350.0f);
+			//sim.setExternalCurrent(CA3_QuadD_LM, 350.0f);
+			//sim.setExternalCurrent(CA3_MFA_ORDEN, 350.0f);
+
+			//// alternative input from DG
+			sim.setExternalCurrent(CA3_Pyramidal, 40.0f);
+			sim.setExternalCurrent(CA3_Axo_Axonic, 100.0f);
+			sim.setExternalCurrent(CA3_BC_CCK, 135.0f);
+			sim.setExternalCurrent(CA3_Basket, 440.0f); 
+			sim.setExternalCurrent(CA3_Bistratified, 135.0f);
+			sim.setExternalCurrent(CA3_Ivy, 500.0f);
+			sim.setExternalCurrent(CA3_QuadD_LM, 200.0f);
+			sim.setExternalCurrent(CA3_MFA_ORDEN, 250.0f);
+
+			sim.runNetwork(0, 10, true);
+			printf("\n");
+
+			sim.runNetwork(0, 10, true);
+			printf("\n");
+
+			sim.runNetwork(0, 10, true);
+			printf("\n");
+
+			sim.runNetwork(0, 470, true);
+			printf("\n");
+
+			watch.lap("runNetwork");
+		} else
+		if (i > 0)
+		{			
+			sim.runNetwork(0, 500, true);
+			printf("\n");
 		}
 
 	}
 
-	sim.runNetwork(5,0, true);
+	//nrnMon_Pyramidal->stopRecording();
+	//nrnMon_Pyramidal->print(true);
+
+	//nrnMon_QuadD_LM->stopRecording();
+	//nrnMon_QuadD_LM->print();
 
 	// print stopwatch summary
 	watch.stop();
