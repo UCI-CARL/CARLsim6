@@ -8,7 +8,7 @@ classdef GroupReader < handle
     % ConnectionMonitor.
     %
     % Example usage:
-    % >>    GR = GroupReader('C:/Test/GitHub/CARLsim4/doc/source/tutorial/9_dopaminergic/results/grp_post-ex.dat');
+    % >>    GR = GroupReader('./results/grp_post-ex.dat');
     % >>    [timestamps, data] = GR.readData();
     % >>    GR.getMode();
     % >>    GR.getNRecords();
@@ -294,7 +294,7 @@ classdef GroupReader < handle
             szByteTot = ftell(obj.fileId);
             %obj.nSnapshots = floor( (szByteTot-obj.fileSizeByteHeader) ...
             %    / obj.fileSizeByteSnapshot );
-            obj.nRecords = floor( (szByteTot - obj.fileSizeByteHeader) 
+            obj.nRecords = floor( (szByteTot - obj.fileSizeByteHeader) ...
                 / obj.fileSizeByteRecord );
         end
         
