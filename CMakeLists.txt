@@ -372,9 +372,9 @@ endif()
 	add_subdirectory(projects)
   endif()
   
-#  if(CARLSIM_PYCARL)
-#    add_subdirectory(pycarl)   
-#  endif()  
+  if(CARLSIM_PYCARL)
+    add_subdirectory(pycarl)   
+  endif()  
 
 if(CARLSIM_TUTORIALS)  
   add_subdirectory(doc)

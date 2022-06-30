@@ -44,8 +44,13 @@
 #include <carlsim.h>
 
 int main() {
+
 	// Declare and initialize a CARLsim object in either GPU or CPU mode.
+#ifdef __NO_CUDA__
+	CARLsim* sim = new CARLsim("compartments", CPU_MODE, USER, 0, 42);
+#else
 	CARLsim* sim = new CARLsim("compartments", GPU_MODE, USER, 0, 42);
+#endif
 	// Set the integration method used for updating neurons' voltage & recovery values.
 	// RUNGE_KUTTA4 is more accurate than FORWARD_EULER, but is also more computationally intensive.
 	// Larger number of timesteps delivers more accuracy, but is also more computationally intensive.
@@ -82,7 +87,7 @@ int main() {
 	sim->connect(gin, grpSoma, "one-to-one", RangeWeight(0.0f), 1.0f, RangeDelay(1), RadiusRF(-1));
 
 	// We will ignore conductances for this tutorial.
-	sim->setConductances(0);
+	sim->setConductances(false);
 
 	// Connect the 4 groups (layers) compartmentally.
 	// The layers are arranged in following manner:
@@ -98,11 +103,6 @@ int main() {
 	sim->connectCompartments(grpSoma, grpD_three);
 
 	// Ignore STDP for this tutorial.
-	// \LN2021 \todo Kexin Review connection based STDP in tutorials
-	////sim->setSTDP(grpD_one, false);
-	////sim->setSTDP(grpD_two, false);
-	////sim->setSTDP(grpD_three, false);
-	////sim->setSTDP(grpSoma, false);
 	sim->setSTDP(gin, grpSoma, false);	
 	
 	sim->setupNetwork();
@@ -123,8 +123,6 @@ int main() {
 	sim->setExternalCurrent(grpSoma, 600);
 
 	sim->runNetwork(1, 0);
-	// \LN021 \todo Jinwei Benchmark/Perftest GPU Util 77%, x4 TitanXp
-	//sim->runNetwork(100, 0);
 
 	spkMonSoma->stopRecording();
 	spkMonDOne->stopRecording();

@@ -29,5 +29,3 @@ install(TARGETS simple_weight_tuner
         RUNTIME 
         DESTINATION $<$<CONFIG:Debug>:debug/>tutorials/6_simple_weight_tuner 
         COMPONENT simple_weight_tuner)
-
-           

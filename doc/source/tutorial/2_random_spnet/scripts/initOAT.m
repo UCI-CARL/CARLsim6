@@ -1,2 +1,2 @@
-% add path to Offline Analysis Toolbox
-addpath('../../../../../tools/offline_analysis_toolbox/')
+% add path to Offline Analysis Toolbox (OAT)
+addpath('../../../tools/offline_analysis_toolbox/')

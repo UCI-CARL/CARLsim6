@@ -130,6 +130,11 @@
 			<tab type="usergroup" visible="yes" title="8. Multi-Compartment Models" url="@ref tut8_compartments">
 				<tab type="user" visible="no" title="8.1 Introducton" url="@ref tut8s1_intro"/>
 			</tab>
+			<tab type="usergroup" visible="yes" title="9. DA modulated STDP" url="@ref tut9_dastdp">
+				<tab type="user" visible="no" title="9.1 Network setup" url="@ref tut9s1_network_setup"/>
+				<tab type="user" visible="no" title="9.2 Results" url="@ref tut9s2_results"/>
+				<tab type="user" visible="no" title="9.3 CLI (optional)" url="@ref tut9s3_cli"/>
+			</tab>
 		</tab>
 		<tab type="modules" visible="yes" title="" intro=""/>
 		<tab type="namespaces" visible="yes" title="">

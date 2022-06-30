@@ -4,6 +4,15 @@
         find_package(CUDA 11 REQUIRED)
     endif()
 
+	if(UNIX AND NOT CARLSIM_NO_PTHREADS)
+  		set(THREADS_PREFER_PTHREAD_FLAG ON)
+		find_package(Threads REQUIRED)
+	endif()
+
+	if(NOT CARLSIM_STATIC)
+		message(FATAL_ERROR "Invalid context, CMake will exit.")
+	endif()
+
 # Targets
 
 
@@ -12,13 +21,8 @@
 			# 2>cl : Command line warning D9002: ignoring unknown option '-fPIC'
 	        cuda_add_library(carlsim-kernel-cuda
 	            src/gpu_module/snn_gpu_module.cu
-	            OPTIONS
+				OPTIONS
 					${CARLSIM_CUDA_GENCODE}
-					# -gencode arch=compute_61,code=sm_61
-					# https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html#cuda-compilation-trajectory__cuda-compilation-from-cu-to-executable
-					# set(CARLSIM_CUDA_GENCODE "61" CACHE STRING "CUDA target architecture and device, e.g. 80 for Ampere/A100, 86 for Ampere/RTX3090" )  
-	                #-gencode arch=compute_${CARLSIM_CUDA_GENCODE},code=sm_${CARLSIM_CUDA_GENCODE}
-	                #-gencode arch=compute_61,code=sm_61
 	        )
 		endif()
 		if(UNIX)
@@ -29,7 +33,6 @@
 	                -fPIC
 					${CARLSIM_CUDA_GENCODE}
 	        )
-
 		endif()
     endif()
 
@@ -53,17 +56,96 @@
             PUBLIC
                 -D__NO_CUDA__
         )
-		if(CARLSIM_LN_I_CALC_TYPES)
-		  target_compile_definitions(carlsim-kernel PUBLIC LN_I_CALC_TYPES)         
-		endif()
     else()
         target_compile_definitions(carlsim-kernel-cuda
             PUBLIC
                 -D__CUDA${CUDA_VERSION_MAJOR}__
         )
-		if(CARLSIM_LN_I_CALC_TYPES)   
-		  target_compile_definitions(carlsim-kernel-cuda PUBLIC LN_I_CALC_TYPES)         
+    endif()
+
+if(CARLSIM_NO_PTHREADS)
+		target_compile_definitions(carlsim-kernel PUBLIC __NO_PTHREADS__)         
+	endif()
+
+    # Template 
+    if(CARLSIM_LN_XYZ)
+      target_compile_definitions(carlsim-kernel PUBLIC LN_XYZ_CPU)         
+      if(NOT CARLSIM_NO_CUDA)
+        target_compile_definitions(carlsim-kernel-cuda PUBLIC LN_XYZ_GPU)         
+      endif()
+    endif()
+
+    if(CARLSIM_LN_EXT)
+        target_compile_definitions(carlsim-kernel PUBLIC __LN_EXT__)               # target_precompile_headers 
+    endif()
+
+    if(CARLSIM_LN_FIRING)
+        target_compile_definitions(carlsim-kernel PUBLIC LN_GET_FIRING)            # \sa carlsim.h
+        target_compile_definitions(carlsim-kernel PUBLIC LN_UPDATE_CURSPIKES)      # \sa snn.h
+    endif()
+
+    if(CARLSIM_LN_FIRING_MT)
+        target_compile_definitions(carlsim-kernel PUBLIC LN_GET_FIRING_MT)         # \sa carlsim.h
+        target_compile_definitions(carlsim-kernel PUBLIC LN_UPDATE_CURSPIKES_MT)   # \sa snn.h
+    endif()
+
+    if(CARLSIM_LN_FIX_DA_DECAY)
+      target_compile_definitions(carlsim-kernel PUBLIC LN_FIX_DA_DECAY_CPU)         
+      if(NOT CARLSIM_NO_CUDA)
+        target_compile_definitions(carlsim-kernel-cuda PUBLIC LN_FIX_DA_DECAY_GPU)         
+      endif()
+    endif()
+
+    if(CARLSIM_LN_FIX_ALL_DECAY)
+	  target_compile_definitions(carlsim-kernel PUBLIC LN_FIX_ALL_DECAY_CPU)
+      if(NOT CARLSIM_NO_CUDA)
+        target_compile_definitions(carlsim-kernel-cuda PUBLIC LN_FIX_ALL_DECAY_GPU)         
+      endif()
+    endif()
+
+    if(CARLSIM_LN_FIX_CONNLIST)
+        target_compile_definitions(carlsim-kernel PUBLIC LN_FIX_CONNLIST_)                
+    endif()
+
+    if(CARLSIM_LN_SETUP_NETWORK_MT)
+      target_compile_definitions(carlsim-kernel PUBLIC LN_SETUP_NETWORK_MT)         
+    endif()
+
+    if(CARLSIM_LN_GPU_INFO)
+      target_compile_definitions(carlsim-kernel PUBLIC LN_GPU_INFO)         
+    endif()
+         
+    if(CARLSIM_LN_FIRING_DEBUG)
+      #target_compile_definitions(carlsim-kernel PUBLIC DEBUG_GET_CURSPIKES2_LN)         
+      #target_compile_definitions(carlsim-kernel PUBLIC DEBUG_GET_CURSPIKES2_LN_PERF)         
+      target_compile_definitions(carlsim-kernel PUBLIC DEBUG_GET_CURSPIKES2_LN_MON)         
+      target_compile_definitions(carlsim-kernel PUBLIC DEBUG_GET_CURSPIKES2_LN_CHECKS)         
+    endif()      
+
+    if(CARLSIM_LN_I_CALC_TYPES)
+      target_compile_definitions(carlsim-kernel PUBLIC LN_I_CALC_TYPES)   
+	  if(NOT CARLSIM_NO_CUDA)
+		target_compile_definitions(carlsim-kernel-cuda PUBLIC LN_I_CALC_TYPES)
+	  endif()
+    endif()
+
+    if(CARLSIM_LN_GPU_STDP)
+	  if(NOT CARLSIM_NO_CUDA)
+		target_compile_definitions(carlsim-kernel-cuda PUBLIC LN_GPU_STDP)
+	  endif()
+    endif()
+
+	if(CARLSIM_JK_CA3_SSN) 
+		target_compile_definitions(carlsim-kernel PUBLIC JK_CA3_SNN) 
+		if(NOT CARLSIM_NO_CUDA)
+			target_compile_definitions(carlsim-kernel-cuda PUBLIC JK_CA3_SNN)
 		endif()
+	endif()
+
+	if(CARLSIM_FIX_SYNCTHREADS)
+      if(NOT CARLSIM_NO_CUDA)
+        target_compile_definitions(carlsim-kernel-cuda PUBLIC CS4_FIX_SYNCTHREADS)         
+      endif()
     endif()
 
 
@@ -81,10 +163,9 @@
                 ${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc
           )
 		if(MSVC)
-			# patch cMake.CUDA
 	        target_include_directories(carlsim-kernel-cuda
 	            PUBLIC
-	                "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v11.2/common/inc"            
+					"C:/ProgramData/NVIDIA Corporation/CUDA Samples/v${CUDA_VERSION_STRING}/common/inc" 					
 	          )
 		endif()
     endif()

@@ -81,7 +81,6 @@ namespace std {
 
 // Enums, structs and other constants must be mentioned explicitly as the compiler shall be able to find them. any error stating unknown variable or enum , struct shall be included explicitly from the .h file in c++(carlsim) to here
 
-
 enum STDPCurve {
 	EXP_CURVE,           //!< standard exponential curve
 	PULSE_CURVE,         //!< symmetric pulse curve
@@ -89,19 +88,17 @@ enum STDPCurve {
 	UNKNOWN_CURVE        //!< unknown curve type
 };
 
-
-
 enum ComputingBackend {
 	CPU_CORES,
 	GPU_CORES
 		};
-
 
 enum STDPType {
 	STANDARD,         //!< standard STDP of Bi & Poo (2001), nearest-neighbor
 	DA_MOD,           //!< dopamine-modulated STDP, nearest-neighbor
 	UNKNOWN_STDP
 };
+
 enum SpikeMonMode {
 	COUNT,      //!< mode in which only spike count information is collected
 	AER,        //!< mode in which spike information is collected in AER format
@@ -142,6 +139,23 @@ enum CARLsimState {
 	RUN_STATE			//!< run state, where the model is stepped
 };
 
+enum IcalcType {
+	CUBA,			//!< current 
+	COBA,			//!< conductance 
+	NM4W_LN21,		//!< 4 NM weighted (and normalized,boosted,damped), Niedermeier (2021)
+	GPCR_NB14,		//!< G protein-coupled receptors for 2 modulators and conductance, Nadim, Bucher (2014)
+	DASEAC_CK09,	//!< dopamine,serotonin,acetylcholine modulated Cox, Krichmar (2009)
+	ACNE_ANCK12,	//!< acetylcholin, norepinephrine modulated Avery, Nitz, Chiba, Krichmar (2012)
+	ACNE_K12,		//!< acetylcholin, norepinephrine modulated Krichmar (2012)
+	ACNE_K13,		//!< acetylcholin, norepinephrine modulated Krichmar (2013)
+	D1D2_AK12,		//!< D1,D2 dopamine receptors Avery, Krichmar (2012)
+	ACDA_BK19,		//!< acetylcholin influence to dopamine, Belkaid, Krichmar (2019)
+	alpha1_ADK13,	//!< NE alpha1 receptor with DA antagonist, Avery, Dutt, Krichmar (2013)
+	alpha2A_ADK13,	//!< NE alpha2 receptor (connection), Avery, Dutt, Krichmar (2013)
+	D1_ADK13,		//!< DA D1 receptor (connection), Avery, Dutt, Krichmar (2013)
+	D2_AK15,		//!< DA D2 receptor (connection), Avery, Krichmar (2015)
+	UNKNOWN_ICALC	//!< used to initialize by default constructor
+};
 
 
 //CARLsim class and function prototypes can be found here and addition to the carlsim class shall be made here
@@ -208,8 +222,6 @@ class CARLsim{
 
 	SpikeMonitor* setSpikeMonitor(int grpId, const std::string& fileName);
 
-	
-
 
 	
 
@@ -224,17 +236,20 @@ class CARLsim{
 	void setNeuromodulator(int grpId, float baseDP, float tauDP, float base5HT, float tau5HT,
 							float baseACh, float tauACh, float baseNE, float tauNE);
 
-	void setESTDP(int grpId, bool isSet);		
-	void setSTDP(int grpId, bool isSet);
-	void setISTDP(int grpId, bool isSet);
-	void setSTP(int grpId, bool isSet);
-	void setESTDP(int grpId, bool isSet, STDPType type, ExpCurve curve);				
-	void setSTDP(int grpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus);
-	void setESTDP(int grpId, bool isSet, STDPType type, TimingBasedCurve curve);
-	void setISTDP(int grpId, bool isSet, STDPType type, ExpCurve curve);
-	void setISTDP(int grpId, bool isSet, STDPType type, PulseCurve curve);
-	void setSTP(int grpId, bool isSet, float STP_U, float STP_tau_u, float STP_tau_x);	
+	void setSTDP(int preGrpId, int postGrpId, bool isSet);
+	void setSTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus);
 
+	void setESTDP(int preGrpId, int postGrpId, bool isSet);		
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve);				
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, TimingBasedCurve curve);
+
+	void setISTDP(int preGrpId, int postGrpId, bool isSet);
+	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, ExpCurve curve);
+	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve);
+
+	void setSTP(int grpId, bool isSet);
+	void setSTP(int grpId, bool isSet, float STP_U, float STP_tau_u, float STP_tau_x);	
+	
 	void setWeightAndWeightChangeUpdate(UpdateInterval wtANDwtChangeUpdateInterval, bool enableWtChangeDecay, float wtChangeDecay=0.9f);
 	
 	void saveSimulation(const std::string& fileName, bool saveSynapseInfo=true);
@@ -246,9 +261,9 @@ class CARLsim{
 	void setExternalCurrent(int grpId, float current);
 	void setSpikeGenerator(int grpId, SpikeGenerator* spikeGenFunc);
         
-        SpikeMonitor* getSpikeMonitor(int grpId);
+    SpikeMonitor* getSpikeMonitor(int grpId);
 	
-        int getSimTime();
+    int getSimTime();
 	int getSimTimeSec();
 	int getSimTimeMsec();
 
@@ -635,6 +650,7 @@ struct Grid3D {
     int N;
 };
 
+/*
 typedef struct GroupSTDPInfo_s {
 	bool 		WithSTDP;			//!< enable STDP flag
 	bool		WithESTDP;			//!< enable E-STDP flag
@@ -657,7 +673,7 @@ typedef struct GroupSTDPInfo_s {
 	float		LAMBDA;				//!< the range of inhibitory LTP if the pulse I-STDP curve is used
 	float		DELTA;				//!< the range of inhibitory LTD if the pulse I-STDP curve is used
 } GroupSTDPInfo;
-
+*/
 
 typedef struct GroupNeuromodulatorInfo_s {
 	float		baseDP;		//!< baseline concentration of Dopamine

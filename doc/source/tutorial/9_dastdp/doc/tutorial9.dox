@@ -1,0 +1,304 @@
+/*!
+
+\page tut9_dastdp Tutorial 9: DA modulated STDP
+
+\tableofcontents
+
+\author Lars Niedermeier
+\see \ref ch5_synaptic_plasticity
+\see \ref ch7_monitoring
+\see \ref ch9_matlab_oat
+
+This tutorial shows how to use CARLsim for dopamine-modulated STDP (DA-STDP).
+While DA-STDP itself was implemented in former versions already,
+CARLsim 6 now allows to monitor the DA levels and releases 
+with the Offline Analysis Toolkit (OAT).
+
+This tutorials covers:
+- Define a network with domaminergic neurons
+- Configure DA modulated STDP
+- Monitor DA releases and level in the target neuron group
+
+At the end of the tutorial, you will have:
+- Built a simple CARLsim program with DA-STDP and simulated re-enforcement learning
+- Applied the GroupMonitor to monitor DA levels and visualized the DA releases in Matlab 
+
+This tutorial assumes you have covered the tutorials
+- \ref tut1_basic_concepts 
+- \ref tut2_random_spnet
+- \ref tut3_plasticity
+
+\section tut9s1_network_setup 9.1 Network setup
+
+The following code snippets gives an overview how to setup the network. 
+For further details, please refer to the full source code of this tutorial in
+<tt>%%%CARLSIM_ROOT_DIR%%/doc/source/tutorial/9_dastdp</tt>.
+
+\subsection tut9s1s1_config 9.1.1 CONFIG state
+
+Configure the target neuron group _g1_ with Izhikevich regular spiking neurons. 
+Dopaminergic neurons in group _gda_ project to the target group _g1_ and induce DA releases.  
+The network's input _gin_ and thalamatic noise _g1noise_ is simulated by a poisson spiking generator.
+
+\code
+	CARLsim* sim = new CARLsim("DASTDP", mode ? GPU_MODE : CPU_MODE, LoggerMode(log), 1, 42);
+	g1 = sim->createGroup("post-ex", 1, EXCITATORY_NEURON);
+	sim->setNeuronParameters(g1, 0.02f, 0.2f, -65.0f, 8.0f);
+	gin = sim->createSpikeGeneratorGroup("pre-ex", 1, EXCITATORY_NEURON);
+	g1noise = sim->createSpikeGeneratorGroup("post-ex-noise", 1, EXCITATORY_NEURON);
+	gda = sim->createSpikeGeneratorGroup("DA neurons", 500, DOPAMINERGIC_NEURON);
+\endcode
+
+Connect the input group _gin_ and target group _g1_ with plastic synapses for STDP and limit the weights to 20.
+Use fixed synapses for input connections and dopaminergic projections.
+Parameterize dopamine-modulated STDP for CUBA mode with the parameters set by default.
+Configure the network in to run in CUBA mode.
+
+\code
+		sim->connect(gin, g1, "one-to-one", RangeWeight(0.0, 1.0f, 20.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_PLASTIC);
+		sim->connect(g1noise, g1, "one-to-one", RangeWeight(40.0f), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED);
+		sim->connect(gda, g1, "full", RangeWeight(0.0), 1.0f, RangeDelay(1), RadiusRF(-1), SYN_FIXED);	
+		sim->setSTDP(gin, g1, true, stdp, alphaPlus, tauPlus, alphaMinus, tauMinus);
+		sim->setConductances(false);
+\endcode
+
+Configure the decay over time of DA in the target group with _tauDP_ = 2000.0f.
+  
+\code
+	sim->setNeuromodulator(g1, 2000.0f);
+\endcode 
+
+Set an interactive spike generator on the dopminergic neurons to release DA.  
+
+\code
+	sim->setSpikeGenerator(gda, iSpikeGen);
+\endcode
+
+
+\subsection tut9s1s2_setup 9.1.2 SETUP state
+
+Setup the ConnectionMonitor _CM_ to monitor the weight changes by STDP of the plastic synapses. 
+The SpikeMonitor _gda_ logs the firings of the dopaminergic neurons;
+_spikeMonPre_ and _spikeMonPost_ are used to determine the spike timing of synapses. 
+The GroupMonitor _groupMonPost_ keeps track of the DA level in the target group _g1_.
+
+\code
+	ConnectionMonitor* CM = sim->setConnectionMonitor(gin, g1, "DEFAULT");
+	spikeMonPost = sim->setSpikeMonitor(g1, "DEFAULT");
+	spikeMonPre = sim->setSpikeMonitor(gin, "DEFAULT");
+	sim->setSpikeMonitor(gda, "DEFAULT");
+	groupMonPost = sim->setGroupMonitor(g1, "DEFAULT");
+\endcode
+
+To simulate the network input, create a PoissonRate of 4 Hz and set it as spike rate on _gin_ and _g1noise_.
+
+\code
+	PoissonRate in(1);
+	in.setRates(4.0f); // 4Hz
+	sim->setSpikeRate(gin, &in);
+	sim->setSpikeRate(g1noise, &in);
+\endcode
+
+
+\subsection tut9s1s2_run 9.1.3 RUN state
+
+Run the simulation in 1000 ms steps for an arbitrary duration.  
+The default is 60 seconds and can be changed utilizing the command line interface (see \ref tut9s3_cli).
+ 
+\code
+	for (unsigned t = 0; t < duration; t++) {
+		spikeMonPost->startRecording();
+		spikeMonPre->startRecording();
+		groupMonPost->startRecording();
+		sim->runNetwork(1, 0, false);
+		spikeMonPost->stopRecording();
+		spikeMonPre->stopRecording();
+		groupMonPost->stopRecording();
+		...
+\endcode
+
+For each iteration, the spike timing between pre-synaptic neuron and post-synaptic neuron is to be checked. 
+If the post synaptic neuron has fired after the pre-synaptic neuron, the time difference is positiv 
+and indicates a long term potentation (LTP).
+Then release DA by calling InteractiveSpikeGenerator::setQuotaAll of _iSpikeGen_. 
+ 
+\code
+	//for
+		...
+		// get spike time of pre-synaptic neuron post-synaptic neuron
+		spikesPre = spikeMonPre->getSpikeVector2D()[0]; // pre-neuron spikes
+		spikesPost = spikeMonPost->getSpikeVector2D()[0]; // post-neuron in spikes
+		
+		// if LTP is detected, set up reward (activate DA neurons ) to reinforcement this synapse
+		for (int j = 0; j < spikesPre.size(); j++) { // j: index of the (j+1)-th spike
+			for (int k = 0; k < spikesPost.size(); k++) { // k: index of the (k+1)-th spike
+				int diff = spikesPost[k] - spikesPre[j]; // (post-spike time) - (pre-spike time)
+				if (diff > 0 && diff <= 20) {
+					if (damod) {
+						iSpikeGen->setQuotaAll(1);
+						releases++;
+					}
+				}
+			}
+		}
+		
+		std::vector< std::vector<float> > weights = CM->takeSnapshot();
+		weight = weights[0][0];
+\endcode
+
+Finalize the simulation by deleting the CARLsim instance and print a short summary.
+
+\code
+		...
+	}
+	delete sim;
+	printf("time: %ds on %s synapse: %s da-stdp: %s da-releases: %d weight: %f\n", 
+			duration, mode?"GPU":"CPU", coba?"COBA":"CUBA", damod?"y":"n", releases, weight);		
+\endcode
+
+
+\section tut9s2_results 9.2 Results
+
+Build and install the tutorial by activating the cMake option CARLSIM_TUTORIALS.
+
+To run the program on Windows, open a command prompt, change the working directory, and  
+start the executeable with the default parameters.
+Adapt the procedure to other platforms like Linux as usual.  
+  
+\code
+cd <CMAKE_INSTALL_PREFIX>\tutorials\9_dastdp
+dastdp.exe
+\endcode 
+
+\sa \ref tut9s3_cli
+
+\subsection tut9s2s1_terminal 9.2.1 Terminal output
+
+By default, the logging is set to LoggerMode USER.                  
+The standard output begins with the configuration parameters of the network, 
+like CUBA mode, weight change, and STDP parameters.
+Then the monitors are listed in the initialization section.    
+After the standard summary of CARLsim, a custom printf shows the amount of 
+DA releaeses and the synaptic weight at the end of the simulation.
+
+\code
+.*********************************************************************************
+.********************      Welcome to CARLsim 6.0      ***************************
+.*********************************************************************************
+
+.***************************** Configuring Network ********************************
+Starting CARLsim simulation "DASTDP" in USER mode
+Random number seed: 42
+E-STDP enabled for pre-ex(1) to post-ex(0)
+Running CUBA mode (all synaptic conductances disabled)
+Update weight and weight change every 100 ms
+Weight Change Decay is enabled
+STDP scale factor = 0.050, wtChangeDecay = 0.950
+
+.*****************      Initializing GPU 0 Runtime      *************************
+ConnectionMonitor 0 set for Connection 0: 1(pre-ex) => 0(post-ex)
+SpikeMonitor set for group 0 (post-ex)
+SpikeMonitor set for group 1 (pre-ex)
+SpikeMonitor set for group 3 (DA neurons)
+GroupMonitor set for group 0 (post-ex)
+
+.********************    Simulation Summary      ***************************
+Network Parameters:     numNeurons = 503 (numNExcReg:numNInhReg = 0.2:0.0)
+                        numSynapses = 502
+                        maxDelay = 1
+Simulation Mode:        CUBA
+Random Seed:            42
+Timing:                 Model Simulation Time = 60 sec
+                        Actual Execution Time = 4.30 sec
+                        Speed Factor (Model/Real) = 14 x
+Average Firing Rate:    2+ms delay = 0.000 Hz
+                        1ms delay = 0.222 Hz
+                        Overall = 0.222 Hz
+Overall Spike Count Transferred:
+                        2+ms delay = 0
+                        1ms delay = 0
+Overall Spike Count:    2+ms delay = 0
+                        1ms delay = 6692
+                        Total = 6692
+.*********************************************************************************
+
+time: 60s on GPU synapse: CUBA da-stdp: y da-releases: 17 weight: 5.874695
+\endcode
+
+   
+\subsection tut9s2s2_monitor 9.2.2 Offline Analysis
+
+Utilize the OAT to analyze the monitored synaptic weights and DA with Matlab.
+On Windows, open the subdirectory `scripts` in the FileExplorer
+and double click on the Matlab script `dastdpOAT.m`.
+Adapt the procedure to other platforms like Linux accordingly. 
+
+Validate that Matlab has the containing folder of the script as working directory.
+Select the script and execute the code with F9. 
+The first line `initOAT.m` initializes the OAT installed relative to that working directory.   
+
+\code
+% Synaptic weights
+CR = ConnectionReader('../results/conn_pre-ex_post-ex.dat');
+[allTimestamps, allWeights] = CR.readWeights();
+SR = SpikeReader('../results/spk_DA neurons.dat');
+spkData = SR.readSpikes(); % binWindowMs
+spkV = spkData(:,1);
+idx = (spkV>0);
+subplot (4, 1, 1:3)
+plot(allTimestamps, allWeights, allTimestamps(idx), allWeights(idx), '+');
+title('Synaptic weights with DA releases');
+ylabel('Synaptic Weight Strength');
+
+% DA level
+GR = GroupReader('../results/grp_post-ex.dat');
+[timestamps,data] = GR.readData();
+subplot (4, 1, 4)
+plot(timestamps, data, 'color', 'r');  
+title('DA level in target group');
+ylabel('DA level');
+xlabel('Time (ms)');
+\endcode
+
+The ConnectionReader _CR_ reads the weights stored by ConnectionMonitor::takeSnapshot
+and plots the weight changes over time. 
+The SpikeReader _SR_ reads the firing of the dopaminergic neurons
+and mark the times of the DA releases with red crosses (`+`).
+
+The GroupReader _GR_ reads the DA levels that were recorded by the GroupMonitor over time 
+and plots them as red line in a subplot below the weight changes.  
+
+\image html dastdpOAT.png "Fig. 1. Synaptic weights (blue) with DA releases and levels (red)"
+
+
+\section tut9s3_cli 9.3 CLI (optional)
+
+To enable the user to evaluate distinct configurations without compiling the code,
+the program provides a simple Command Line Interface (CLI).
+ 
+\code
+int main(int argc, char* argv[]) {
+
+	// simple command line interface with defaults  
+	unsigned duration = 60;	auto arg1 = "1. simulation time in s (default = 60s)";
+	unsigned coba = 0;		auto arg2 = "2. synapse: 1=COBA, 0=CUBA (default)";
+	unsigned damod = 1;		auto arg3 = "3. modulation: 1=DA is released by activating gDA (default), 0= no DA release";
+	unsigned type = 1;		auto arg4 = "4. stdp type: 1=DA_MOD (default), 0=STANDARD";
+	unsigned mode = 1;		auto arg5 = "5. backend 1=GPU (default), 0=CPU";
+	unsigned log = 0;		auto arg6 = "6. log 2=SILENT, 1=DEV, 0=USER (default)";
+	...
+	
+	if ((argc == 2 && strncmp("-h", argv[1], 2) == 0) || argc > 7 || mode > 1 || coba > 1 || damod > 1 || type > 1 || log > 2) {
+		printf("usage: [duration [synapse [modulation [stdp [backend [log]]]]]]\n");
+		printf("Arguments:\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n", arg1, arg2, arg3, arg4, arg5, arg6);
+		return 0;
+	}
+\endcode
+
+
+\section tut9s9_references References
+
+<a href="http://izhikevich.org/publications/dastdp.htm" target="_blank">Solving the Distal Reward Problem through Linkage of STDP and Dopamine Signaling</a> (Izhikevich, 2007)
+
+
+*/
