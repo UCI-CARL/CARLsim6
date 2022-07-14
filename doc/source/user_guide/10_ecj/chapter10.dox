@@ -1,10 +1,10 @@
 /*!
 
-\page ch10_ecj_leap Chapter 10: ECJ and LEAP
+\page ch10_ecj_leap 10. Parameter-Tuning ECJ and LEAP
 
 \tableofcontents
 
-\section ch10s1_overview CARLsim-ECJ Parameter-Tuning Framework Overview
+\section ch10s1_overview 10.1 Framework Overview
 
 CARLsim provides a software interface for exposing the parameters of a model 
 an external process so that they can be automatically tune to maximize some 
@@ -31,7 +31,7 @@ tree.
 
 \since v3.0
 
-\section ch10_references References
+\section ch10_references 10.2 References
 
 Scott, E. and Luke, S., ECJ at 20: toward a general metaheuristics toolkit. 
 Proceedings of the Genetic and Evolutionary Computation Conference Companion 

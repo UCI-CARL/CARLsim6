@@ -53,11 +53,9 @@
 				<tab type="user" visible="no" title="9.5 Reading Raw Data" url="@ref ch9s5_reading_raw_data"/>
 				<tab type="user" visible="no" title="9.6 Migrating from CARLsim 2.2" url="@ref ch9s6_migrating_scripts"/>
 			</tab>
-			<tab type="usergroup" visible="yes" title="10. ECJ" url="@ref ch10_ecj">
-				<tab type="user" visible="no" title="10.1 Overview" url="@ref ch10s1_overview"/>
-				<tab type="user" visible="no" title="10.2 Installation" url="@ref ch10s2_installation"/>
-				<tab type="user" visible="no" title="10.3 Usage" url="@ref ch10s3_usage"/>
-				<tab type="user" visible="no" title="10.4 References" url="@ref ch10s4_references"/>
+			<tab type="usergroup" visible="yes" title="10. Parameter-Tuning ECJ and LEAP" url="@ref ch10_ecj_leap">
+				<tab type="user" visible="no" title="10.1 Framework Overview" url="@ref ch10s1_overview"/>
+				<tab type="user" visible="no" title="10.2 References" url="@ref ch10s4_references"/>
 			</tab>
       			<tab type="usergroup" visible="yes" title="11. Regression Suite" url="@ref ch11_regression_suite">
 		        	<tab type="user" visible="no" title="11.1 Installing Google Test" url="@ref ch11s1_installation"/>
@@ -76,16 +74,16 @@
                 <tab type="user" visible="no" title="13.2 Installation" url="@ref ch14s2_installation"/>
                 <tab type="user" visible="no" title="13.3 Supported Features" url="@ref ch14s3_features"/>
             </tab>
-
-
-		    <tab type="usergroup" visible="yes" title="20. Neuromodulation" url="@ref ch20_neuromodulation">
-				<tab type="user" visible="no" title="20.1 Neuromodulators (NM)" url="@ref ch20s1_neuromodulators_overview"/>        	
-				<tab type="user" visible="no" title="20.2 NM-ergic targetgroups" url="@ref ch20s2_nm4"/>
-				<tab type="user" visible="no" title="20.3 PKA/PLC modulated STDP" url="@ref ch20s3_pka_plc_mod"/>
-				<tab type="user" visible="no" title="20.4 Eligibiity based STDP" url="@ref ch20s4_nmstdp"/>
-				<tab type="user" visible="no" title="20.5 GRPC impacted STP" url="@ref ch20s5_nm4stp"/>
-				<tab type="user" visible="no" title="20.6 Nonlinear Excitabilty" url="@ref ch20s6_icalc_nm4w"/>
-				<tab type="user" visible="no" title="20.7 References" url="@ref ch20s7_references"/>
+      <tab type="usergroup" visible="yes" title="14. Neuromodulation" url="@ref ch20_neuromodulation">
+				<tab type="user" visible="no" title="14.1 Neuromodulators (NM)" url="@ref ch20s1_neuromodulators_overview"/>        	
+				<tab type="user" visible="no" title="14.2 NM-ergic targetgroups" url="@ref ch20s2_nm4"/>
+				<tab type="user" visible="no" title="14.3 PKA/PLC modulated STDP" url="@ref ch20s3_pka_plc_stdp"/>
+				<tab type="user" visible="no" title="14.4 Eligibiity based STDP" url="@ref ch20s4_nmstdp"/>
+				<tab type="user" visible="no" title="14.5 GRPC impacted STP" url="@ref ch20s5_nm4stp"/>
+				<tab type="user" visible="no" title="14.6 Nonlinear Excitabilty" url="@ref ch20s6_icalc"/>
+				<tab type="user" visible="no" title="14.7 Conductance Modulation" url="@ref ch20s7_mcoba"/>
+				<tab type="user" visible="no" title="14.8 Further readings" url="@ref ch20s8_misc"/>
+				<tab type="user" visible="no" title="14.9 References" url="@ref ch20s9_references"/>
 			</tab>
 
 		</tab>

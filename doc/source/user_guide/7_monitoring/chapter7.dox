@@ -350,11 +350,11 @@ NeuronMonitor* spkMon = sim.setNeuronMonitor(g0,"DEFAULT");
 \subsection ch7s3s3_setting_up 7.3.3 Neuron State Information Data
 Neuron state information can be accessed with the following functions:
 \code
-# Voltage information
+// Voltage information
 std::vector< std::vector< float > > vectorV = spkMon->getVectorV();	
-# Current information
+// Current information
 std::vector< std::vector< float > > vectorI = spkMon->getVectorI();	
-# Refactory variable
+// Refactory variable
 std::vector< std::vector< float > > vectorU = spkMon->getVectorU();	
 \endcode
 
