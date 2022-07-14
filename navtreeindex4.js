@@ -1,5 +1,8 @@
 var NAVTREEINDEX4 =
 {
+"classSpikeMonitorCore.html#ad0c4b32bb5cc0c7a8d95ed6023a2695f":[3,0,57,23],
+"classSpikeMonitorCore.html#ad8dc4f8eb304b0bcbeaf80076f892b72":[3,0,57,18],
+"classSpikeMonitorCore.html#ad925d84fd6af2e2d1565a65987c11e43":[3,0,57,0],
 "classSpikeMonitorCore.html#ad9abae858c53cdbe5359f107f3d1598d":[3,0,57,7],
 "classSpikeMonitorCore.html#add84bc118ef3b58e83a6fe650ef8fcaf":[3,0,57,35],
 "classSpikeMonitorCore.html#ae62d623e8edfc6b05309256c1d825bbd":[3,0,57,21],
@@ -213,8 +216,8 @@ var NAVTREEINDEX4 =
 "functions_t.html":[3,3,0,18],
 "functions_u.html":[3,3,0,19],
 "functions_v.html":[3,3,0,20],
-"functions_vars.html":[3,3,2,0],
 "functions_vars.html":[3,3,2],
+"functions_vars.html":[3,3,2,0],
 "functions_vars_b.html":[3,3,2,1],
 "functions_vars_c.html":[3,3,2,2],
 "functions_vars_d.html":[3,3,2,3],
@@ -246,8 +249,5 @@ var NAVTREEINDEX4 =
 "globals_b.html":[4,1,0,1],
 "globals_c.html":[4,1,0,2],
 "globals_d.html":[4,1,0,3],
-"globals_defs.html":[4,1,6],
-"globals_defs.html":[4,1,6,0],
-"globals_defs_c.html":[4,1,6,1],
-"globals_defs_d.html":[4,1,6,2]
+"globals_defs.html":[4,1,6]
 };

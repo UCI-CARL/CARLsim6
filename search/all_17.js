@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['y',['y',['../structPoint3D.html#ab927965981178aa1fba979a37168db2a',1,'Point3D']]]
+  ['x',['x',['../structPoint3D.html#af88b946fb90d5f08b5fb740c70e98c10',1,'Point3D']]]
 ];

@@ -28,6 +28,6 @@
 <area shape="rect" id="node25" href="$classNeuronMonitorCore.html#aaeb6a64ac5d9fd3b7a979f0f12ec87dc" title="returns true if state buffers are close to maxAllowedBufferSize " alt="" coords="1801,587,1944,629"/>
 <area shape="rect" id="node26" href="$classNeuronMonitorCore.html#a30f19d45f562061cc82c04e7289ba956" title="returns the approximate size of the state vectors in bytes " alt="" coords="2021,526,2164,567"/>
 <area shape="rect" id="node27" href="$classNeuronMonitorCore.html#a3a0e4e77a2b83f5dd0e86aafcf227595" title="returns the total accumulated time " alt="" coords="1801,522,1944,563"/>
-<area shape="rect" id="node30" href="$classNeuronMonitorCore.html#a388f572c62279f839ee138a9afbdeeb5" title="prints neuron states in human&#45;readable format " alt="" coords="1801,653,1944,694"/>
+<area shape="rect" id="node30" href="$classNeuronMonitorCore.html#aec9349ebca384aed5e233754559075e0" title="prints neuron states in human&#45;readable format " alt="" coords="1801,653,1944,694"/>
 <area shape="rect" id="node29" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="SNN::getGroupGrid3D" alt="" coords="2016,725,2169,752"/>
 </map>

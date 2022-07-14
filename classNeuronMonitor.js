@@ -9,7 +9,7 @@ var classNeuronMonitor =
     [ "getVectorU", "classNeuronMonitor.html#aff9eb621d9c78a5e33f1435eff0e9ba9", null ],
     [ "getVectorV", "classNeuronMonitor.html#a5414db20073ada3806b3c35686c9a6f4", null ],
     [ "isRecording", "classNeuronMonitor.html#a3a3ffdb35b09328d22e5d72503ed1f55", null ],
-    [ "print", "classNeuronMonitor.html#a388f572c62279f839ee138a9afbdeeb5", null ],
+    [ "print", "classNeuronMonitor.html#a0b7a1a6453e1fc0469e96a3ba76c0f8b", null ],
     [ "setLogFile", "classNeuronMonitor.html#a11168f8252e1416f1706b5f7cae0be1e", null ],
     [ "setPersistentData", "classNeuronMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c", null ],
     [ "startRecording", "classNeuronMonitor.html#ab91616c118b701c2afd9136393d1f19b", null ],

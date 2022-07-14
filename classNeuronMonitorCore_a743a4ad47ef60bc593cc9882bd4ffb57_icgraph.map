@@ -9,11 +9,11 @@
 <area shape="rect" id="node21" href="$classNeuronMonitorCore.html#a5414db20073ada3806b3c35686c9a6f4" title="returns the Neuron state vector " alt="" coords="363,214,450,241"/>
 <area shape="rect" id="node22" href="$classNeuronMonitorCore.html#aff9eb621d9c78a5e33f1435eff0e9ba9" title="getVectorU" alt="" coords="363,290,451,317"/>
 <area shape="rect" id="node23" href="$classNeuronMonitorCore.html#aa1e83b424e9145add71076cadfadb200" title="getVectorI" alt="" coords="365,442,448,469"/>
-<area shape="rect" id="node24" href="$classNeuronMonitorCore.html#a388f572c62279f839ee138a9afbdeeb5" title="prints neuron states in human&#45;readable format " alt="" coords="383,543,430,570"/>
+<area shape="rect" id="node24" href="$classNeuronMonitorCore.html#aec9349ebca384aed5e233754559075e0" title="prints neuron states in human&#45;readable format " alt="" coords="383,543,430,570"/>
 <area shape="rect" id="node4" href="$classNeuronMonitor.html#ac8bb3912a3ce86b15842e79d0b421204" title="NeuronMonitor::clear" alt="" coords="579,493,721,519"/>
 <area shape="rect" id="node5" href="$classNeuronMonitor.html#ab91616c118b701c2afd9136393d1f19b" title="NeuronMonitor::startRecording" alt="" coords="1271,315,1471,342"/>
 <area shape="rect" id="node6" href="$classNeuronMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" title="NeuronMonitor::stopRecording" alt="" coords="1271,543,1470,570"/>
-<area shape="rect" id="node7" href="$classNeuronMonitor.html#a388f572c62279f839ee138a9afbdeeb5" title="NeuronMonitor::print" alt="" coords="580,543,720,570"/>
+<area shape="rect" id="node7" href="$classNeuronMonitor.html#a0b7a1a6453e1fc0469e96a3ba76c0f8b" title="NeuronMonitor::print" alt="" coords="580,543,720,570"/>
 <area shape="rect" id="node8" href="$classNeuronMonitor.html#a22cd4deca28f0e9e8dd2e576b75b02a8" title="Returns the ... " alt="" coords="547,341,753,367"/>
 <area shape="rect" id="node9" href="$classNeuronMonitor.html#a5414db20073ada3806b3c35686c9a6f4" title="returns the Neuron state vectors " alt="" coords="560,189,740,215"/>
 <area shape="rect" id="node10" href="$classNeuronMonitor.html#aff9eb621d9c78a5e33f1435eff0e9ba9" title="NeuronMonitor::getVectorU" alt="" coords="559,239,741,266"/>

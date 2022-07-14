@@ -2,7 +2,7 @@ var NAVTREE =
 [
   [ "CARLsim", "index.html", [
     [ "Overview", "index.html", [
-      [ "CARLsim5", "index.html#main_carlsim", null ],
+      [ "CARLsim 6", "index.html#main_carlsim", null ],
       [ "Getting Started", "index.html#main_getting_started", null ],
       [ "References", "index.html#main_ref", null ]
     ] ],
@@ -55,11 +55,9 @@ var NAVTREE =
         [ "9.5 Reading Raw Data", "ch9_matlab_oat.html#ch9s5_reading_raw_data", null ],
         [ "9.6 Migrating from CARLsim 2.2", "ch9_matlab_oat.html#ch9s6_migrating_scripts", null ]
       ] ],
-      [ "10. ECJ", "ch10_ecj.html", [
-        [ "10.1 Overview", "ch10_ecj.html#ch10s1_overview", null ],
-        [ "10.2 Installation", "@ref ch10s2_installation", null ],
-        [ "10.3 Usage", "@ref ch10s3_usage", null ],
-        [ "10.4 References", "@ref ch10s4_references", null ]
+      [ "10. Parameter-Tuning ECJ and LEAP", "ch10_ecj_leap.html", [
+        [ "10.1 Framework Overview", "ch10_ecj_leap.html#ch10s1_overview", null ],
+        [ "10.2 References", "@ref ch10s4_references", null ]
       ] ],
       [ "11. Regression Suite", "ch11_regression_suite.html", [
         [ "11.1 Installing Google Test", "ch11_regression_suite.html#ch11s1_installation", null ],
@@ -78,14 +76,16 @@ var NAVTREE =
         [ "13.2 Installation", "ch14_pyCARL.html#ch14s2_installation", null ],
         [ "13.3 Supported Features", "ch14_pyCARL.html#ch14s3_features", null ]
       ] ],
-      [ "20. Neuromodulation", "ch20_neuromodulation.html", [
-        [ "20.1 Neuromodulators (NM)", "ch20_neuromodulation.html#ch20s1_neuromodulators_overview", null ],
-        [ "20.2 NM-ergic targetgroups", "ch20_neuromodulation.html#ch20s2_nm4", null ],
-        [ "20.3 PKA/PLC modulated STDP", "@ref ch20s3_pka_plc_mod", null ],
-        [ "20.4 Eligibiity based STDP", "ch20_neuromodulation.html#ch20s4_nmstdp", null ],
-        [ "20.5 GRPC impacted STP", "ch20_neuromodulation.html#ch20s5_nm4stp", null ],
-        [ "20.6 Nonlinear Excitabilty", "@ref ch20s6_icalc_nm4w", null ],
-        [ "20.7 References", "@ref ch20s7_references", null ]
+      [ "14. Neuromodulation", "ch20_neuromodulation.html", [
+        [ "14.1 Neuromodulators (NM)", "ch20_neuromodulation.html#ch20s1_neuromodulators_overview", null ],
+        [ "14.2 NM-ergic targetgroups", "ch20_neuromodulation.html#ch20s2_nm4", null ],
+        [ "14.3 PKA/PLC modulated STDP", "ch20_neuromodulation.html#ch20s3_pka_plc_stdp", null ],
+        [ "14.4 Eligibiity based STDP", "ch20_neuromodulation.html#ch20s4_nmstdp", null ],
+        [ "14.5 GRPC impacted STP", "ch20_neuromodulation.html#ch20s5_nm4stp", null ],
+        [ "14.6 Nonlinear Excitabilty", "ch20_neuromodulation.html#ch20s6_icalc", null ],
+        [ "14.7 Conductance Modulation", "ch20_neuromodulation.html#ch20s7_mcoba", null ],
+        [ "14.8 Further readings", "ch20_neuromodulation.html#ch20s8_misc", null ],
+        [ "14.9 References", "ch20_neuromodulation.html#ch20s9_references", null ]
       ] ]
     ] ],
     [ "Tutorial", "usergroup1.html", [
@@ -122,12 +122,17 @@ var NAVTREE =
       ] ],
       [ "7. Parameter Tuning Interface (PTI)", "tut7_pti.html", [
         [ "7.1 Introducton", "tut7_pti.html#tut7s1_intro", null ],
-        [ "7.2 ECJ Parameter File", "tut7_pti.html#tut7s2_parameter_file", null ],
-        [ "7.3 Parameter Tuning Interface (PTI)", "tut7_pti.html#tut7s3_experiment_class", null ],
-        [ "7.4 Output Files", "tut7_pti.html#tut7s4_output_files", null ]
+        [ "7.2 ECJ Parameter File", "@ref tut7s2_parameter_file", null ],
+        [ "7.3 Parameter Tuning Interface (PTI)", "@ref tut7s3_experiment_class", null ],
+        [ "7.4 Output Files", "@ref tut7s4_output_files", null ]
       ] ],
       [ "8. Multi-Compartment Models", "tut8_compartments.html", [
         [ "8.1 Introducton", "tut8_compartments.html#tut8s1_intro", null ]
+      ] ],
+      [ "9. DA modulated STDP", "tut9_dastdp.html", [
+        [ "9.1 Network setup", "tut9_dastdp.html#tut9s1_network_setup", null ],
+        [ "9.2 Results", "tut9_dastdp.html#tut9s2_results", null ],
+        [ "9.3 CLI (optional)", "tut9_dastdp.html#tut9s3_cli", null ]
       ] ]
     ] ],
     [ "Classes", "annotated.html", [
@@ -160,15 +165,15 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"@ref ch10s2_installation",
-"ch6_input.html#ch6s2_generating_current",
-"classCARLsim_1_1Impl.html#adc71069e71cd551526ddafb3d873d649",
-"classSNN.html#a07bf973035202abfd4ae588d1ebe5a2e",
-"classSpikeMonitorCore.html#ad9abae858c53cdbe5359f107f3d1598d",
-"globals_defs_e.html",
-"spikegen__from__vector_8h_source.html",
-"structGroupConfigRT__s.html#af73f2a6b74801758881e53093d6a8974",
-"structRuntimeData__s.html#a0a32c5f6a16b0387ecb9b571fb2acb46"
+"@ref ch10s4_references",
+"ch5_synaptic_plasticity.html#ch5s5_references",
+"classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84",
+"classSNN.html#a00ddee44990cd4763a7d4df074e6d405",
+"classSpikeMonitorCore.html#ad0c4b32bb5cc0c7a8d95ed6023a2695f",
+"globals_defs.html",
+"spikegen__from__vector_8cpp.html",
+"structGroupConfigRT__s.html#ae6e760c8fdacd56117a5709c44930233",
+"structRuntimeData__s.html#a0413c76b111e13ddeb946bc1c44474bb"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

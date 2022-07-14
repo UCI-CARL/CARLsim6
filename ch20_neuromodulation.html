@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>CARLsim: Chapter 20: Neuromodulation</title>
+<title>CARLsim: Chapter 14: Neuromodulation</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -82,49 +82,49 @@ $(document).ready(function(){initNavTree('ch20_neuromodulation.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Chapter 20: Neuromodulation </div>  </div>
+<div class="title">Chapter 14: Neuromodulation </div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#ch20s1_neuromodulators_overview">20.1 Neuromodulation</a><ul><li class="level2"><a href="#ch20s1s1">20.1.1 New neuromodulation features with CARLsim 6.0</a></li>
-<li class="level2"><a href="#ch20s1s2">20.1.2 Neuromodulators vs. Neurotransmitters</a></li>
-<li class="level2"><a href="#ch20s13">20.1.3 Receptors</a></li>
-<li class="level2"><a href="#ch20s1s4">20.1.4 GPCRs and pathways</a></li>
-<li class="level2"><a href="#ch20s1s5">20.1.5 Summary - Neuromodulators in CARLsim</a></li>
+<ul><li class="level1"><a href="#ch20s1_neuromodulators_overview">14.1 Neuromodulation</a><ul><li class="level2"><a href="#ch20s1s1">14.1.1 New neuromodulation features with CARLsim 6</a></li>
+<li class="level2"><a href="#ch20s1s2">14.1.2 Neuromodulators vs. Neurotransmitters</a></li>
+<li class="level2"><a href="#ch20s13">14.1.3 Receptors</a></li>
+<li class="level2"><a href="#ch20s1s4">14.1.4 GPCRs and pathways</a></li>
+<li class="level2"><a href="#ch20s1s5">14.1.5 Summary - Neuromodulators in CARLsim</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#ch20s2_nm4">20.2 NM-ergic targetgroups</a><ul><li class="level2"><a href="#ch20s2s1_example">20.2.1 Target groups of modulatory systems</a></li>
-<li class="level2"><a href="#ch20s2s2_config">20.2.2 Configuration of targetgroups</a></li>
+<li class="level1"><a href="#ch20s2_nm4">14.2 NM-ergic targetgroups</a><ul><li class="level2"><a href="#ch20s2s1_example">14.2.1 Target groups of modulatory systems</a></li>
+<li class="level2"><a href="#ch20s2s2_config">14.2.2 Configuration of targetgroups</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#ch20s3_pka_plc_stdp">20.3 PKA/PLC modulated STDP</a><ul><li class="level2"><a href="#ch20s3s1_pka_plc_mod">20.3.1 Dynamic PKA/PLC modulated SDTP</a></li>
-<li class="level2"><a href="#ch20s3s2_configuration">20.3.2 configuration of the PKA/PLC pathways</a></li>
+<li class="level1"><a href="#ch20s3_pka_plc_stdp">14.3 PKA/PLC modulated STDP</a><ul><li class="level2"><a href="#ch20s3s1_pka_plc_mod">14.3.1 Dynamic PKA/PLC modulated SDTP</a></li>
+<li class="level2"><a href="#ch20s3s2_configuration">14.3.2 configuration of the PKA/PLC pathways</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#ch20s4_nmstdp">20.4 Eligibiity based STDP</a><ul><li class="level2"><a href="#ch20s4s1_nmstdp_nm4">20.4.1 NM4 support</a></li>
-<li class="level2"><a href="#ch20s4s2_nmstdp_mon">20.4.2 NMstdp monitoring OAT</a></li>
+<li class="level1"><a href="#ch20s4_nmstdp">14.4 Eligibiity based STDP</a><ul><li class="level2"><a href="#ch20s4s1_nmstdp_nm4">14.4.1 NM4 support</a></li>
+<li class="level2"><a href="#ch20s4s2_nmstdp_mon">14.4.2 NM-STDP monitoring OAT</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#ch20s5_nm4stp">20.5 GRPC impacted STP</a><ul><li class="level2"><a href="#ch20s5s1_nm4stp">20.5.1 Configuration NM4STP</a></li>
+<li class="level1"><a href="#ch20s5_nm4stp">14.5 GRPC impacted STP</a><ul><li class="level2"><a href="#ch20s5s1_nm4stp">14.5.1 Configuration NM4STP</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#ch20s6_icalc">20.6 Nonlinear Excitabilty</a><ul><li class="level2"><a href="#ch20s6s1_icalc_nm4">20.6.1 Neurons as dynamic system</a></li>
-<li class="level2"><a href="#ch20s6s2_icalc_phasic">20.6.2 Tonic to phasic crossover with synergistic neuromodulators</a></li>
-<li class="level2"><a href="#ch20s6s4_icalc_types">20.6.4 IcalcTypes at neuron group level</a></li>
-<li class="level2"><a href="#ch20s6s3_icalc_anta">20.6.3 Example antagonistic neuromodulators</a></li>
+<li class="level1"><a href="#ch20s6_icalc">14.6 Nonlinear Excitabilty</a><ul><li class="level2"><a href="#ch20s6s1_icalc_nm4">14.6.1 Neurons as dynamic system</a></li>
+<li class="level2"><a href="#ch20s6s2_icalc_phasic">14.6.2 Tonic to phasic crossover with synergistic neuromodulators</a></li>
+<li class="level2"><a href="#ch20s6s4_icalc_types">14.6.4 IcalcTypes at neuron group level</a></li>
+<li class="level2"><a href="#ch20s6s3_icalc_anta">14.6.3 Example antagonistic neuromodulators</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#ch20s7_mcoba">20.7 Conductance Modulation</a><ul><li class="level2"><a href="#ch20s7s1_m_coba">20.7.1 Example working memory at optimal DA/NE levels</a></li>
-<li class="level2"><a href="#ch20s7s2_m_coba">20.7.2 Impact of insufficient NE on working memory</a></li>
-<li class="level2"><a href="#ch20s7s3_m_coba">20.7.3 Memory impairment due high levels of DA/NE</a></li>
+<li class="level1"><a href="#ch20s7_mcoba">14.7 Conductance Modulation</a><ul><li class="level2"><a href="#ch20s7s1_m_coba">14.7.1 Example working memory at optimal DA/NE levels</a></li>
+<li class="level2"><a href="#ch20s7s2_m_coba">14.7.2 Impact of insufficient NE on working memory</a></li>
+<li class="level2"><a href="#ch20s7s3_m_coba">14.7.3 Memory impairment due high levels of DA/NE</a></li>
 </ul>
 </li>
-<li class="level1"><a href="#ch20s8_misc">20.8 Further readings</a></li>
-<li class="level1"><a href="#ch20s9_references">20.9 References</a></li>
+<li class="level1"><a href="#ch20s8_misc">14.8 Further readings</a></li>
+<li class="level1"><a href="#ch20s9_references">14.9 References</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="ch20s1_neuromodulators_overview"></a>
-20.1 Neuromodulation</h1>
+14.1 Neuromodulation</h1>
 <dl class="section author"><dt>Author</dt><dd>Lars Niedermeier</dd></dl>
 <p>Neuromodulation is the key mechanism in shaping electrophysiological activity. All nervous systemfunctions from simple reflexes to higher congnitive tasks result from activity of neural circuits and so are influcenced by neuromodulators. Individual neuromodulators can have divergent action in a neuron by targeting multiple pysiological mechanisms. Multiple neuromodulators may have convergent actions through overlapping targets. Divergent and convergent neuromodulator actions can be synergistic and anatonistic. Neuromodulation often balance adjustment of nonlinear membrane and synaptic properties by targeting ion channels and synaptic dynamics rather than just excitablitly or synaptic strength (Nadim &amp; Bucher, 2014).</p>
 <div class="image">
@@ -132,7 +132,7 @@ $(document).ready(function(){initNavTree('ch20_neuromodulation.html','');});
 <div class="caption">
 Fig. 1. Neuromodulators can have convergent or divergent actions in a cell. Different modulators can converge on the same pathways to target the same or different ion channel types. One neuromodulator may activate different intracellular pathways depending on the receptor type (Nadim &amp; Bucher, 2014, Fig. 2a, with permission).</div></div>
 <h2><a class="anchor" id="ch20s1s1"></a>
-20.1.1 New neuromodulation features with CARLsim 6.0</h2>
+14.1.1 New neuromodulation features with CARLsim 6</h2>
 <p><a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> neuromodulation features:</p><ul>
 <li>Equal support for the four major neuromodulators (NM4): DA, 5-HT, ACh, NE</li>
 <li>Neuromodulator-ergic target groups are NM4 multivariate</li>
@@ -148,7 +148,7 @@ Fig. 1. Neuromodulators can have convergent or divergent actions in a cell. Diff
 <dl class="section note"><dt>Note</dt><dd>The new neuromodulation features in <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> are implemented to be highly backward compatible to the former versions 5 down to 3. Key here is to re-use (but maybe reinterprete) the same memory structures and also to stick to the established design patterns as close as possible. This enables current users to continue to use their implementations with minimal effort. Also the existing quality assurance given by the matured unit test suite does hold.</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h2><a class="anchor" id="ch20s1s2"></a>
-20.1.2 Neuromodulators vs. Neurotransmitters</h2>
+14.1.2 Neuromodulators vs. Neurotransmitters</h2>
 <p>Neuromodulators (NM) and neurotransmitters (NT) are often used interchageable.</p>
 <p>A NM is a substance that influences the activiety of synaptic transmitters. However, the destinction between NM and NT shifted in the last years (Breedlove &amp; Watson, 2019).</p>
 <p>As the biological plausibility is highly relevant for <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a>, we define those terms more precisely by its differences and similarities (adopted from Lakna, 2019). In the final section, the NM is formally defined by its components and implemented features in <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a>.</p>
@@ -166,11 +166,11 @@ Fig. 1. Neuromodulators can have convergent or divergent actions in a cell. Diff
 <tr>
 <td>dissolves slow </td><td>ligand is consumed fast </td></tr>
 <tr>
-<td>metobtropic, indirect (enzyme) </td><td>ionotropic, direct </td></tr>
+<td>metabotropic, indirect (enzyme) </td><td>ionotropic, direct </td></tr>
 </table>
-<dl class="section note"><dt>Note</dt><dd>A NT may become an NM when it does leak out of the synptic cleft. This may happen due to phasic activity of the NM-ergic neuron.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>A NT may become an NM when it does leak out of the synaptic cleft. This may happen due to phasic activity of the NM-ergic neuron.</dd></dl>
 <h2><a class="anchor" id="ch20s13"></a>
-20.1.3 Receptors</h2>
+14.1.3 Receptors</h2>
 <p>Basically the receptor defines, if a ligand acts as a neurotransmitter or a neuromodulator. Receptors can be classified as iontropic and metabotropic (Breedlove &amp; Watson, 2019). The following table gives a quick overview of the relevant receptors for <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> and its application.</p>
 <table class="doxtable">
 <tr>
@@ -205,12 +205,12 @@ Fig. 1. Neuromodulators can have convergent or divergent actions in a cell. Diff
 <td>Peptides </td><td></td><td>opiates, neurotensin, and dozens more </td><td>many differnt functions </td></tr>
 </table>
 <h2><a class="anchor" id="ch20s1s4"></a>
-20.1.4 GPCRs and pathways</h2>
+14.1.4 GPCRs and pathways</h2>
 <p>As Fig. 1. suggests, the actual processes are far more complicate than originally thought.</p>
 <p>When the ligand molecule docks on a metabotronic receptor, a messager protein (G-Protein) is release into the cell that then further interacts with enzymes to activate or deactivate ion channels. Such receptors a called G-Protein Coupled Receptors (GPCRs). A reference source of current state of the knowledge is provided by <a href="https://gproteindb.org/signprot/couplings">GproteinDb 2021</a> (Pandy-Szekeres et. al. 2021; Kooistra et. al 2020). Here for instance all known GPCRs can be search by providing the lingand like dopamine, serotonin (5-hydroxytryptamine), acetylcholine, norepinephine (noradrenaline)</p>
 <p>The actual effect the NM then has is further defined by its pathways and in which other NMs are in its context.</p>
 <h2><a class="anchor" id="ch20s1s5"></a>
-20.1.5 Summary - Neuromodulators in CARLsim</h2>
+14.1.5 Summary - Neuromodulators in CARLsim</h2>
 <p>An NM is defined by the following properties that are implemented in <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> as follows.</p>
 <table class="doxtable">
 <tr>
@@ -233,22 +233,22 @@ Fig. 1. Neuromodulators can have convergent or divergent actions in a cell. Diff
 <dl class="section note"><dt>Note</dt><dd>While the biological plausibility is important for <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a>, it is also necessary to abstract the biological details for performance and modelling reasons. Therefore there properties Receptor, GPRS, and Passways are mapped to the presented types.</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h1><a class="anchor" id="ch20s2_nm4"></a>
-20.2 NM-ergic targetgroups</h1>
+14.2 NM-ergic targetgroups</h1>
 <dl class="section author"><dt>Author</dt><dd>Lars Niedermeier</dd></dl>
 <h2><a class="anchor" id="ch20s2s1_example"></a>
-20.2.1 Target groups of modulatory systems</h2>
-<p>In the last decades, the areas in the brain which produces the neuromodulators, like the Substancia Nigra for DA, or the Raphe Nucleus for ACh have been clearly identified. Also the pathways are well understood to which areas the nm-ergic neurons project, for instance the neo cortex. Furthermore the neuromodury systems is highly interconnected and influence each other, so that the source might also become a target, like the Raphe Nucleus projects to VTA (Krichmar 2008, Krichmar &amp; Avery 2017).</p>
+14.2.1 Target groups of modulatory systems</h2>
+<p>In the last decades, the areas in the brain which produces the neuromodulators, like the Substancia Nigra for DA, or the Raphe Nucleus for ACh have been clearly identified. Also the pathways are well understood to which areas the nm-ergic neurons project, for instance the neo cortex. Furthermore the neuromodulatory system is highly interconnected and influence each other, so that the source might also become a target, like the Raphe Nucleus projects to VTA (Krichmar 2008, Krichmar &amp; Avery 2017).</p>
 <p>Such a target area can be modelled by one or more neuron groups depending on the requirements. Each group can hold all four NMs in parallel and can therefore used multivariate. An example in which each of the major targed brain areas of a rodent is modelled by a single neuron group is presented in Fig. 2. The amount of neurons had been sized accordingly.</p>
 <div class="image">
 <img src="sim_groupMon_krichmar2008_rodent.png" alt="sim_groupMon_krichmar2008_rodent.png"/>
 <div class="caption">
-Fig. 2., Example target groups of neuromodulary system (similar to Krichmar, 2008)</div></div>
+Fig. 2. Example target groups of neuromodulary system (similar to Krichmar, 2008)</div></div>
  <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h2><a class="anchor" id="ch20s2s2_config"></a>
-20.2.2 Configuration of targetgroups</h2>
+14.2.2 Configuration of targetgroups</h2>
 <p>Configuration example for nm-ergic target groups </p><div class="fragment"><div class="line"><span class="comment">// control without nm projections</span></div><div class="line"><span class="keywordtype">int</span> g_control = sim-&gt;<a class="code" href="classCARLsim.html#a6e11c10b6b079715074d857452c42e11">createGroup</a>(<span class="stringliteral">&quot;control&quot;</span>, n, <a class="code" href="carlsim__definitions_8h.html#a71b1b059a7ff0783d39e22b9b1028d90">EXCITATORY_NEURON</a>);</div><div class="line"></div><div class="line"><span class="comment">// nm1 DA</span></div><div class="line"><span class="keywordtype">int</span> g_nm1 = sim-&gt;<a class="code" href="classCARLsim.html#a6e11c10b6b079715074d857452c42e11">createGroup</a>(<span class="stringliteral">&quot;nm1&quot;</span>, n, <a class="code" href="carlsim__definitions_8h.html#a71b1b059a7ff0783d39e22b9b1028d90">EXCITATORY_NEURON</a>);</div><div class="line"></div><div class="line"><span class="comment">// nm2 NE</span></div><div class="line"><span class="keywordtype">int</span> g_nm2 = sim-&gt;<a class="code" href="classCARLsim.html#a6e11c10b6b079715074d857452c42e11">createGroup</a>(<span class="stringliteral">&quot;nm2&quot;</span>, n, <a class="code" href="carlsim__definitions_8h.html#a71b1b059a7ff0783d39e22b9b1028d90">EXCITATORY_NEURON</a>);</div><div class="line"></div><div class="line"><span class="comment">// nm12 DA,NE</span></div><div class="line"><span class="keywordtype">int</span> g_nm12 = sim-&gt;<a class="code" href="classCARLsim.html#a6e11c10b6b079715074d857452c42e11">createGroup</a>(<span class="stringliteral">&quot;nm12&quot;</span>, n, <a class="code" href="carlsim__definitions_8h.html#a71b1b059a7ff0783d39e22b9b1028d90">EXCITATORY_NEURON</a>);</div><div class="line"></div><div class="line">std::vector&lt;int&gt; groups = { g_control, g_nm1, g_nm2, g_nm12 };</div><div class="line"></div><div class="line">for_each(groups.begin(), groups.end(), [&amp;](<span class="keywordtype">int</span> g) {</div><div class="line">    sim-&gt;<a class="code" href="classCARLsim.html#aa6e1dc5ae50722ae3d693f2c963d84cd">setNeuronParameters</a>(g, a, b, c, d); <span class="comment">// IB</span></div><div class="line">    sim-&gt;<a class="code" href="classCARLsim.html#a88198ca833c0d254d5e7d75d2c8ee4fb">setNeuromodulator</a>(g,</div><div class="line">        baseNM, tauNM, releaseNM, <span class="keyword">true</span>,</div><div class="line">        0.001f, 1.f, 0.f, <span class="keyword">false</span>,</div><div class="line">        0.001f, 1.f, 0.f, <span class="keyword">false</span>,</div><div class="line">        baseNM, tauNM, releaseNM, <span class="keyword">true</span>);</div><div class="line">    });</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//nm-ergic</span></div><div class="line"></div><div class="line"><span class="comment">// nm1 DA</span></div><div class="line"><span class="keywordtype">int</span> g_nm1ergic = sim-&gt;<a class="code" href="classCARLsim.html#a6e11c10b6b079715074d857452c42e11">createGroup</a>(<span class="stringliteral">&quot;nm1ergic&quot;</span>, 1, <a class="code" href="carlsim__definitions_8h.html#aa34dd70afe719159cbec710fc701373b">DOPAMINERGIC_NEURON</a>);</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#aa6e1dc5ae50722ae3d693f2c963d84cd">setNeuronParameters</a>(g_nm1ergic, 0.02f, 0.2f, -65.0f, 8.0f); <span class="comment">// RS</span></div><div class="line"></div><div class="line"><span class="comment">// nm2 NE</span></div><div class="line"><span class="keywordtype">int</span> g_nm2ergic = sim-&gt;<a class="code" href="classCARLsim.html#a6e11c10b6b079715074d857452c42e11">createGroup</a>(<span class="stringliteral">&quot;nm2ergic&quot;</span>, 1, <a class="code" href="carlsim__definitions_8h.html#a7bfa6a36fed2f4589191d360024c60e4">NORADRENERGIC_NEURON</a>);</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#aa6e1dc5ae50722ae3d693f2c963d84cd">setNeuronParameters</a>(g_nm2ergic, 0.02f, 0.2f, -65.0f, 8.0f); <span class="comment">// RS</span></div><div class="line"></div><div class="line"><span class="comment">// w = 0 =&gt; do not trigger neural activity directly</span></div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#a30b16b93d57551dcde0559e8a4e98e27">connect</a>(g_nm1ergic, g_nm1,  <span class="stringliteral">&quot;full&quot;</span>, <a class="code" href="structRangeWeight.html">RangeWeight</a>(.0f), 1.0f, <a class="code" href="structRangeDelay.html">RangeDelay</a>(1), <a class="code" href="structRadiusRF.html">RadiusRF</a>(-1), <a class="code" href="carlsim__definitions_8h.html#a40e0573abfe33884cbdaae75b5971955">SYN_FIXED</a>);   </div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#a30b16b93d57551dcde0559e8a4e98e27">connect</a>(g_nm2ergic, g_nm2,  <span class="stringliteral">&quot;full&quot;</span>, <a class="code" href="structRangeWeight.html">RangeWeight</a>(.0f), 1.0f, <a class="code" href="structRangeDelay.html">RangeDelay</a>(1), <a class="code" href="structRadiusRF.html">RadiusRF</a>(-1), <a class="code" href="carlsim__definitions_8h.html#a40e0573abfe33884cbdaae75b5971955">SYN_FIXED</a>);</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#a30b16b93d57551dcde0559e8a4e98e27">connect</a>(g_nm1ergic, g_nm12, <span class="stringliteral">&quot;full&quot;</span>, <a class="code" href="structRangeWeight.html">RangeWeight</a>(.0f), 1.0f, <a class="code" href="structRangeDelay.html">RangeDelay</a>(1), <a class="code" href="structRadiusRF.html">RadiusRF</a>(-1), <a class="code" href="carlsim__definitions_8h.html#a40e0573abfe33884cbdaae75b5971955">SYN_FIXED</a>);</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#a30b16b93d57551dcde0559e8a4e98e27">connect</a>(g_nm2ergic, g_nm12, <span class="stringliteral">&quot;full&quot;</span>, <a class="code" href="structRangeWeight.html">RangeWeight</a>(.0f), 1.0f, <a class="code" href="structRangeDelay.html">RangeDelay</a>(1), <a class="code" href="structRadiusRF.html">RadiusRF</a>(-1), <a class="code" href="carlsim__definitions_8h.html#a40e0573abfe33884cbdaae75b5971955">SYN_FIXED</a>);</div></div><!-- fragment --><dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h1><a class="anchor" id="ch20s3_pka_plc_stdp"></a>
-20.3 PKA/PLC modulated STDP</h1>
+14.3 PKA/PLC modulated STDP</h1>
 <dl class="section author"><dt>Author</dt><dd>Lars Niedermeier</dd></dl>
 <p>Neuromodulators play an important role in long-term potentiation (LTP) and depression (LTD) of mammalian central synapses. Different neuromodulators can change the balance of LTP and LTD and the effects on spike-timing-dependent plasticity (STDP) reveal a simple rule: the activation of the PKA pathway, e.g. by beta-adrenergic receptors, promotes and gates LTP, whereas the activation of the phospholipase C (PLC) pathway, e.g. by M1 muscarinic receptors, promotes LTD. Also the activation of each pathway suppresses the other, suggesting a push-pull rule for the neuromodulation of long-term synaptic plasticity that seems to be independent of the underlying mechanisms of LTP and LTD (Nadim &amp; Bucher 2014).</p>
 <div class="image">
@@ -256,7 +256,7 @@ Fig. 2., Example target groups of neuromodulary system (similar to Krichmar, 200
 <div class="caption">
 Fig. 3. Modulator controlled LTP/LTD (Nadim &amp; Bucher 2014, Fig. 1b, with permission).</div></div>
 <h2><a class="anchor" id="ch20s3s1_pka_plc_mod"></a>
-20.3.1 Dynamic PKA/PLC modulated SDTP</h2>
+14.3.1 Dynamic PKA/PLC modulated SDTP</h2>
 <p>With <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> the PKA/PLC modulation is accomplished not only for the described scenario. The two modulators induce a dynamic adoptation of the learning with seamless transformation of the usually statically configured parameters of STDP.</p>
 <div class="image">
 <img src="pka_plc_mod1.PNG" alt="pka_plc_mod1.PNG"/>
@@ -264,27 +264,27 @@ Fig. 3. Modulator controlled LTP/LTD (Nadim &amp; Bucher 2014, Fig. 1b, with per
 Fig. 4. PKA/PLC modulated STDP in CARLsim</div></div>
  <dl class="section see"><dt>See also</dt><dd><a class="el" href="ch5_synaptic_plasticity.html#ch5s2s1_phenemological_model">5.2.1 Phenomenological Model of STDP</a></dd></dl>
 <h2><a class="anchor" id="ch20s3s2_configuration"></a>
-20.3.2 configuration of the PKA/PLC pathways</h2>
-<p>Below the configuration of the PKA/PLC pathways as described as shown in the figures. It is validated with the Unit Test case of STDP where</p>
-<dl class="section note"><dt>Note</dt><dd>the actual configuration takes place in a single line by calling the setESDTP interface function with STDPType PKA_PLC_MOD and just assiging the modulators to PKA/PLC.</dd></dl>
+14.3.2 configuration of the PKA/PLC pathways</h2>
+<p>Below the configuration of the PKA/PLC pathways as described as shown in the figures.</p>
+<dl class="section note"><dt>Note</dt><dd>It is validated with the Unit Test case of STDP where the actual configuration takes place in a single line by calling the setESDTP interface function with STDPType PKA_PLC_MOD and just assigned the modulators to PKA/PLC.</dd></dl>
 <div class="fragment"><div class="line"><span class="keywordtype">int</span> nm_pka = <a class="code" href="carlsim__datastructures_8h.html#a217db4c21fabed71acd2ee408d51d383af79a0067092af1d45b6d7818c8900f2e">NM_NE</a>;</div><div class="line"><span class="keywordtype">int</span> nm_plc = <a class="code" href="carlsim__datastructures_8h.html#a217db4c21fabed71acd2ee408d51d383a7d8bfeb2b744d8d02339ca15e07add56">NM_ACh</a>;</div><div class="line"><span class="keyword">enum</span> FigNr          {   _a,     _b,      _c,     _ d,     _e,    _f,       _g    };</div><div class="line"><span class="keywordtype">float</span> ne [_g + 1] = {  1.00f,   1.00f,  0.00f,  0.00f,  0.600f,  1.400f,  1.25f  };</div><div class="line"><span class="keywordtype">float</span> ach[_g + 1] = {  1.00f,   0.00f,  1.00f,  0.00f,  0.600f,  1.400f,  0.75f  };</div><div class="line"><span class="keywordtype">float</span> a_p[_g + 1] = {  0.08f,  0.16f,  -0.08f,  0.00f,  0.048f,  0.112f,  0.14f  };</div><div class="line"><span class="keywordtype">float</span> a_m[_g + 1] = { -0.12f,  0.12f,  -0.24f,  0.00f, -0.072f, -0.168f, -0.03f  };</div></div><!-- fragment --><p>configuation nm-ergic target groups </p><div class="fragment"><div class="line">g2 = sim-&gt;<a class="code" href="classCARLsim.html#a6e11c10b6b079715074d857452c42e11">createGroup</a>(<span class="stringliteral">&quot;excit&quot;</span>, 1, <a class="code" href="carlsim__definitions_8h.html#a71b1b059a7ff0783d39e22b9b1028d90">EXCITATORY_NEURON</a>, 0);</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#aa6e1dc5ae50722ae3d693f2c963d84cd">setNeuronParameters</a>(g2, 0.02f, 0.2f, -65.0f, 8.0f);</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#a88198ca833c0d254d5e7d75d2c8ee4fb">setNeuromodulator</a>(g2, </div><div class="line">    1.0f, 1.0f, 1.0f, <span class="keyword">false</span>, <span class="comment">// DA</span></div><div class="line">    1.0f, 1.0f, 1.0f, <span class="keyword">false</span>, <span class="comment">// 5HT</span></div><div class="line">    ach[fig], 1000000, 0.000001f, <span class="keyword">true</span>, <span class="comment">// hold base line</span></div><div class="line">    ne[fig],  1000000, 0.000001f, <span class="keyword">true</span>);</div></div><!-- fragment --><p>configure PKA/PLC modulated and standard STDP as reference </p><div class="fragment"><div class="line"><span class="comment">// set up ESTDP with reference values from matlab script</span></div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#a580acd7bfec3145c00014b0bd1742e2e">setConductances</a>(<span class="keyword">false</span>);</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#ac79aadf0ac87b2ae34f39ae796ad81a3">setESTDP</a>(gex2, g1, <span class="keyword">true</span>, <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12a9de934790934fe831fe946c851e8338e">STANDARD</a>, <a class="code" href="structExpCurve.html">ExpCurve</a>(a_p[fig], TAU_LTP, a_m[fig], TAU_LTP));</div><div class="line"></div><div class="line"><span class="comment">// set up PKA_PLC_MOD ESTDP</span></div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#a580acd7bfec3145c00014b0bd1742e2e">setConductances</a>(<span class="keyword">false</span>);                    </div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#ac79aadf0ac87b2ae34f39ae796ad81a3">setESTDP</a>(gex2, g2, <span class="keyword">true</span>, <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12ab1bafd1f4c9973bac5312eab9377a358">PKA_PLC_MOD</a>, <a class="code" href="structExpCurve.html">ExpCurve</a>(ALPHA_LTP, TAU_LTP, ALPHA_LTD, TAU_LTP), <a class="code" href="structPkaPlcModulation.html">PkaPlcModulation</a>(nm_pka, 1.0f, nm_plc, 1.0f));</div></div><!-- fragment --><p>Validation: compare reference against modulated for pre-post and post-pro </p><div class="fragment"><div class="line">std::vector&lt;std::vector&lt;float&gt; &gt; weights1 = CM1-&gt;takeSnapshot();</div><div class="line">std::vector&lt;std::vector&lt;float&gt; &gt; weights2 = CM2-&gt;takeSnapshot();</div><div class="line">EXPECT_NEAR(weights1[0][0], weights2[0][0], 0.5f);</div></div><!-- fragment --><dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h1><a class="anchor" id="ch20s4_nmstdp"></a>
-20.4 Eligibiity based STDP</h1>
+14.4 Eligibiity based STDP</h1>
 <dl class="section author"><dt>Author</dt><dd>Lars Niedermeier</dd></dl>
 <h2><a class="anchor" id="ch20s4s1_nmstdp_nm4"></a>
-20.4.1 NM4 support</h2>
-<p>With <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> all four neuromodulator can be configured for eligibility trace based STDP. Also important to note is, that with CARLsim6 the STDP take now place on the connection level (not as before on the group level). This enables a full new range of applications.</p>
+14.4.1 NM4 support</h2>
+<p>With <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> all four neuromodulator can be configured for eligibility trace based STDP. Also important to note is, that with <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> 6 the STDP take now place on the connection level (not as before on the group level). This enables a full new range of applications.</p>
 <div class="fragment"><div class="line"><span class="keyword">enum</span> <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12">STDPType</a> {</div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12a9de934790934fe831fe946c851e8338e">STANDARD</a>,         <span class="comment">// standard STDP of Bi &amp; Poo (2001), nearest-neighbor</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12a9a3509d2d06e15b55d42c83bd05bb2e5">DA_MOD</a>,           <span class="comment">// dopamine-modulated STDP, nearest-neighbor</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12af7f249b58a1c4ecc160408d041b0d2d4">SE_MOD</a>,           <span class="comment">// serotonin-modulated STDP, nearest-neighbor</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12a0dda0712b2a3ca3a4a1e820794a40632">AC_MOD</a>,           <span class="comment">// acetylcholine-modulated STDP, nearest-neighbor</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12aec76ceb9418f038bb7cf2ada9fcf7755">NE_MOD</a>,           <span class="comment">// norepinephrine-modulated STDP, nearest-neighbor</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12ab1bafd1f4c9973bac5312eab9377a358">PKA_PLC_MOD</a>,        <span class="comment">// proteinkinase/phospholiphase controlled LTP/LPD</span></div><div class="line">                    <span class="comment">// ...</span></div><div class="line">  <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12aee686c49cdebaaf83e93da65970dfd9f">UNKNOWN_STDP</a>  </div><div class="line">}   </div></div><!-- fragment --><dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h2><a class="anchor" id="ch20s4s2_nmstdp_mon"></a>
-20.4.2 NMstdp monitoring OAT</h2>
-<p>For it is essential The OAT was extended to support the monitoring of the DA level and the eligibilit trace the the configured NM (e.g. DA). Please refer to tutorial 9 for more details.</p>
+14.4.2 NM-STDP monitoring OAT</h2>
+<p>The OAT was extended to support the monitoring of the DA level and the eligibilit trace the the configured NM (e.g. DA). Please refer to tutorial 9 for more details.</p>
 <div class="image">
 <img src="damstdpOAT.png" alt="damstdpOAT.png"/>
 <div class="caption">
-Fig. 5., Increase of synaptic weight according to reward induced DA.</div></div>
+Fig. 5. Increase of synaptic weight according to reward induced DA.</div></div>
  <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h1><a class="anchor" id="ch20s5_nm4stp"></a>
-20.5 GRPC impacted STP</h1>
+14.5 GRPC impacted STP</h1>
 <dl class="section author"><dt>Author</dt><dd>Lars Niedermeier</dd></dl>
 <p>Neuromodulators can also act on short-term synaptic plasticity (STP). The effect of modulators can be drastic and in some cases can switch the sign of synaptic dynamics from depression to facilitation. If the presynaptic neuron is active repetitively, STP can act as a gain-control mechanism, modifying synaptic strength as a function of the frequency of presynaptic activity (Nadim &amp; Bucher, 2014).</p>
 <div class="image">
@@ -292,7 +292,7 @@ Fig. 5., Increase of synaptic weight according to reward induced DA.</div></div>
 <div class="caption">
 Fig. 6. Neuromodulators can target synaptic strength, which modifies the response to a single presynaptic input, as well as short-term synaptic plasticity, which modifies the synaptic efficacy in response to sustained input. These two effects can be functionally opposite (Nadim &amp; Bucher, 2014, Fig 1a, with permission).</div></div>
  <h2><a class="anchor" id="ch20s5s1_nm4stp"></a>
-20.5.1 Configuration NM4STP</h2>
+14.5.1 Configuration NM4STP</h2>
 <p>The configuring of NM4 modulated STP (NM4STP) is shown in a unit test, that validats the NM4STP against static variants.</p>
 <div class="fragment"><div class="line"><span class="keywordtype">float</span> baseDA = 1.0f;</div><div class="line"><span class="keywordtype">float</span> base5HT = 1.0f;</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#a54170c96807d6cdf699fa3664f81505e">setSTP</a>(g0, <span class="keyword">true</span>, 0.45f, 50.0f, 750.0f); <span class="comment">// depressive</span></div><div class="line"><span class="keywordflow">if</span>(hasNM4) {</div><div class="line">    <span class="keywordtype">float</span> u[] = { 1.0f, 0.0f, 0.0f, 0.0f, -0.30f / 0.45f, 1.0f };</div><div class="line">    <span class="keywordtype">float</span> tau_u[] = { 1.0f, 0.0f, 0.0f, 0.0f, 700.0f / 50.0f, 1.0f };</div><div class="line">    <span class="keywordtype">float</span> tau_x[] = { 1.0f, 0.0f, 0.0f, 0.0f, -700.0f / 750.0f, 1.0f };</div><div class="line">    sim-&gt;<a class="code" href="classCARLsim.html#aac61df1a82373e89549e608b78557b82">setNM4STP</a>(g0, u, tau_u, tau_x);</div><div class="line">    sim-&gt;<a class="code" href="classCARLsim.html#a88198ca833c0d254d5e7d75d2c8ee4fb">setNeuromodulator</a>(g0,</div><div class="line">        baseDA, 1.f, 0.f, <span class="keyword">true</span>, <span class="comment">// never goes below base</span></div><div class="line">        0.001f, 1.f, 0.f, <span class="keyword">false</span>,</div><div class="line">        0.001f, 1.f, 0.f, <span class="keyword">false</span>,</div><div class="line">        0.001f, 1.f, 0.f, <span class="keyword">false</span>);</div><div class="line">}</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#a54170c96807d6cdf699fa3664f81505e">setSTP</a>(g1, <span class="keyword">true</span>, 0.15f, 750.0f, 50.0f); <span class="comment">// facilitative</span></div><div class="line"><span class="keywordflow">if</span>(hasNM4) {</div><div class="line">    <span class="keywordtype">float</span> u[] = { 0.0f, 1.0f, 0.0f, 0.0f, 0.30f / 0.15f, 1.0f };</div><div class="line">    <span class="keywordtype">float</span> tau_u[] = { 0.0f, 1.0f, 0.0f, 0.0f, -700.0f / 750.0f, 1.0f };</div><div class="line">    <span class="keywordtype">float</span> tau_x[] = { 0.0f, 1.0f, 0.0f, 0.0f, 700.0f / 50.0f, 1.0f };</div><div class="line">    sim-&gt;<a class="code" href="classCARLsim.html#aac61df1a82373e89549e608b78557b82">setNM4STP</a>(g1, u, tau_u, tau_x);</div><div class="line">    sim-&gt;<a class="code" href="classCARLsim.html#a88198ca833c0d254d5e7d75d2c8ee4fb">setNeuromodulator</a>(g1,</div><div class="line">        0.001f, 1.f, 0.f, <span class="keyword">false</span>,</div><div class="line">        base5HT, 1.f, 0.f, <span class="keyword">true</span>,</div><div class="line">        0.001f, 1.f, 0.f, <span class="keyword">false</span>,</div><div class="line">        0.001f, 1.f, 0.f, <span class="keyword">false</span>);</div><div class="line">}</div></div><!-- fragment --><div class="fragment"><div class="line"><span class="comment">// if STP is on: compare spike rate to the one recorded without STP</span></div><div class="line"><span class="keywordflow">if</span> (isRunLong) {</div><div class="line">    <span class="keywordflow">if</span> (!hasNM4) {</div><div class="line">        <span class="comment">// the run time was relatively long, so STP should have its expected effect</span></div><div class="line">        EXPECT_TRUE(spkMonG2-&gt;getPopMeanFiringRate() &lt; rateG2noSTP); <span class="comment">// depressive</span></div><div class="line">        EXPECT_TRUE(spkMonG3-&gt;getPopMeanFiringRate() &gt; rateG3noSTP); <span class="comment">// facilitative</span></div><div class="line">    }                               </div><div class="line">    <span class="keywordflow">else</span> {</div><div class="line">        <span class="comment">// the effect is reversed</span></div><div class="line">        EXPECT_TRUE(spkMonG2-&gt;getPopMeanFiringRate() &gt; rateG2noSTP); <span class="comment">// facilitative due modulation </span></div><div class="line">        EXPECT_TRUE(spkMonG3-&gt;getPopMeanFiringRate() &lt; rateG3noSTP); <span class="comment">// depressive due modulation </span></div><div class="line">    }</div><div class="line">}</div><div class="line"><span class="keywordflow">else</span> {</div><div class="line">    <span class="comment">// the run time was really short, so STP should have no effect (because we scale STP_A so</span></div><div class="line">    <span class="comment">// that STP has no weakening/strengthening effect on the first spike)</span></div><div class="line">    EXPECT_FLOAT_EQ(spkMonG2-&gt;getPopMeanFiringRate(), rateG2noSTP); <span class="comment">// equivalent</span></div><div class="line">    EXPECT_FLOAT_EQ(spkMonG3-&gt;getPopMeanFiringRate(), rateG3noSTP); <span class="comment">// equivalent</span></div><div class="line">}</div></div><!-- fragment --><div class="image">
 <img src="stp_4nm_validation.PNG" alt="stp_4nm_validation.PNG"/>
@@ -300,59 +300,59 @@ Fig. 6. Neuromodulators can target synaptic strength, which modifies the respons
 Fig. 7., NM4 modulated STP </div></div>
  <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h1><a class="anchor" id="ch20s6_icalc"></a>
-20.6 Nonlinear Excitabilty</h1>
+14.6 Nonlinear Excitabilty</h1>
 <dl class="section author"><dt>Author</dt><dd>Lars Niedermeier</dd></dl>
 <p>Multiple modulators can act on the same synapse to modify its strength, presumably depending on the behavioral need. Such effects can be drastic: 5-HT can functionally silence synapses, whereas dopamine can unmask synapses that are normally silent. The combined action of multiple neuromodulators on synapses can be more than simply additive, and the same neuromodulator can have opposing actions on synaptic strength (Nadim &amp; Bucher, 2014).</p>
 <div class="image">
 <img src="Neuromodulation_Fig2b_NadimBucher2014.png" alt="Neuromodulation_Fig2b_NadimBucher2014.png"/>
 <div class="caption">
-Fig. 8. , (Nadim &amp; Bucher, 2014, Fig. 2b, with permission).</div></div>
+Fig. 8. Neuromodulators can act on STP (Nadim &amp; Bucher, 2014, Fig. 2b, with permission).</div></div>
  <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h2><a class="anchor" id="ch20s6s1_icalc_nm4"></a>
-20.6.1 Neurons as dynamic system</h2>
+14.6.1 Neurons as dynamic system</h2>
 <p>Choosing the right Izhikevich neuron configuration allows modelling of non-linear excitabilty.</p>
 <p>The non-linearity the aready an intrinsic property of the neurons, the network, and the neuromodulatory system itself. This is still the case if the current is a linear combination of a weight vector and molarity of the NMs. The observed activity is highly non-linear despite of a linear raise of the input current.</p>
 <p>Design a new neuron type, that is optimally suited for tonic to phasic transformation. Phasic is essiential for nm-neurons to dedicated behavior shift (Krichmar, 2012). The goal of the design is, that the neuron shall implement the transformation from tonic to phasic merely due its input current (following the Izhikevich representation <a href="https://www.izhikevich.org/publications/izhik.pdf">Simple Model of Spiking Neurons</a> and therefor significantly simplify the algorithmic description "formulas" of the neuromodulated excitability.</p>
 <div class="image">
 <img src="optimized_phasic_neuron.png" alt="optimized_phasic_neuron.png"/>
 <div class="caption">
-Fig. 9., Izhikevich neurons, e.g. RS for tonic, optimized variant for phasic crossover.</div></div>
+Fig. 9. Izhikevich neurons, e.g. RS for tonic, optimized variant for phasic crossover.</div></div>
 <p>The regular spiking neuron (RS) shows linear frequence curve (I_c) that denotes tonic mode. I_c is the constant current for neuron. e.g. neuron[9] receives 9_muA input the spikes are shown on the x-axis (ms), for n[9] = 7 spikes in the first 300ms</p>
 <p>The intrisic bursting neuron (IB) has also a tonic in the lower current range up to about 10 than goes gradually over to busting which ultimatively ends in phasic just below 30</p>
 <p>The chattering neuron (CH) as a clear cut over at 15 and toggles instananousely to phasic mode. Below is the chattering range which can be seen as some mix of tonic and phasic.</p>
-<p>The custom design (LN) defines a clear tonic mode, that maps more linar with a dedicated transformation to phasic at 25 but without the hard cut over (Unstetigkeitsstelle) seen at CH.</p>
+<p>The custom design (LN) defines a clear tonic mode, that maps more linar with a dedicated transformation to phasic at 25 but without the hard cut over (point of discontinuity) seen at CH.</p>
 <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h2><a class="anchor" id="ch20s6s2_icalc_phasic"></a>
-20.6.2 Tonic to phasic crossover with synergistic neuromodulators</h2>
-<p>The transmission from tonic to phasic that is essential for attention effort Krichmar2008, ..</p>
+14.6.2 Tonic to phasic crossover with synergistic neuromodulators</h2>
+<p>The transmission from tonic to phasic that is essential for attention effort as described in Krichmar2008.</p>
 <div class="image">
 <img src="nonlinear_excitabilty_1.png" alt="nonlinear_excitabilty_1.png"/>
 <div class="caption">
-Fig. 10., Nonlinear from tonic to phasic by synergetic NE ACh</div></div>
+Fig. 10. Nonlinear from tonic to phasic by synergetic NE ACh</div></div>
 <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h2><a class="anchor" id="ch20s6s4_icalc_types"></a>
-20.6.4 IcalcTypes at neuron group level</h2>
-<p><a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> extends the current calculation for the post synaptic neuron that was CUBA and COBA in the following ways: it now can be configured at neuron group level, for instance one group to CUBA and the other to COBA. Also the conductance parameters can be configured individually on distinct groups to be more bio-realistic. More than that, CARlsim respects now the distinct neuromodulator state in the target neuron group that affects the receptors and so the the effective input current used by the Izhikevich model.</p>
+14.6.4 IcalcTypes at neuron group level</h2>
+<p><a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> extends the current calculation for the post synaptic neuron that was CUBA and COBA only before, in the following ways: it now can be configured at neuron group level, for instance one group to CUBA and the other to COBA. Also the conductance parameters can be configured individually on distinct groups to be more bio-realistic. More than that, CARlsim respects now the distinct neuromodulator state in the target neuron group that affects the receptors so the effective input current used by the Izhikevich model.</p>
 <div class="fragment"><div class="line"><span class="keyword">enum</span> <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325e">IcalcType</a> {</div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea4a36ad09b7754b8a763b64ef0126facf">CUBA</a>,           <span class="comment">// current </span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325eac43d56908e368e48f46d2c027d5f500b">COBA</a>,           <span class="comment">// conductance </span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea084fa8e802b52cce667a2fc988f5a23c">NM4W_LN21</a>,      <span class="comment">// 4 NM weighted (and normalized,boosted/damped), Niedermeier (2021)</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea4772f20d2c6a3a7ca820a677d386e01d">GPCR_NB14</a>,      <span class="comment">// G protein-coupled receptors for 2 modulators and conductance, Nadim, Bucher (2014) (planned)</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea90b9bed4f9e850fd771b71891477e562">DASEAC_CK09</a>,    <span class="comment">// dopamine,serotonin,acetylcholine modulated Cox, Krichmar (2009) (planned, if not in NM4W)</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea0a8474f86a46461fc5069ae10ba45f5c">ACNE_ANCK12</a>,    <span class="comment">// acetylcholin, norepinephrine modulated Avery, Nitz, Chiba, Krichmar (2012) (planned, if not in NM4W)</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea0dd5f26b4f770094e376f9a6f7e968ed">ACNE_K12</a>,       <span class="comment">// acetylcholin, norepinephrine modulated Krichmar (2012) (planned, if not in NM4W)</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea0b746c3ff2abcc13dc4cc19513726963">ACNE_K13</a>,       <span class="comment">// acetylcholin, norepinephrine modulated Krichmar (2013) (planned, if not in NM4W)</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325eabe8957e4a72d4b7eccb1d2bee0cf7df3">D1D2_AK12</a>,      <span class="comment">// D1,D2 dopamine receptors Avery, Krichmar (2012) (planned, if not in NM4W)</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea1a989e47cf28cabbc65d0c71d8043098">ACDA_BK19</a>,      <span class="comment">// acetylcholin influence to dopamine, Belkaid, Krichmar (2019) (planned)</span></div><div class="line">    <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea7d4f6a97c7ec921f0e420c15641309b9">UNKNOWN_ICALC</a>   <span class="comment">// used to initialize by default constructor</span></div><div class="line">};</div></div><!-- fragment --><p>configuring input current calculation of the nm-target groups </p><div class="fragment"><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#aeda549f4dcee2377a1b335ea96b340f5">setNM4weighted</a>(g_nm1, <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea084fa8e802b52cce667a2fc988f5a23c">NM4W_LN21</a>, 1.f, 0.f, 0.f, 0.f, 1.f);   </div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#aeda549f4dcee2377a1b335ea96b340f5">setNM4weighted</a>(g_nm2, <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea084fa8e802b52cce667a2fc988f5a23c">NM4W_LN21</a>, 0.f, 0.f, 0.f, 2.f, 1.f);</div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#aeda549f4dcee2377a1b335ea96b340f5">setNM4weighted</a>(g_nm12, <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea084fa8e802b52cce667a2fc988f5a23c">NM4W_LN21</a>, 1.f, 0.f, 0.f, -1.f, 1.f);   </div></div><!-- fragment --><dl class="section see"><dt>See also</dt><dd>sample target groups</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h2><a class="anchor" id="ch20s6s3_icalc_anta"></a>
-20.6.3 Example antagonistic neuromodulators</h2>
+14.6.3 Example antagonistic neuromodulators</h2>
 <p>Interaction of NE and 5HT</p>
 <div class="image">
 <img src="nonlinear_excitabilty_2.png" alt="nonlinear_excitabilty_2.png"/>
 <div class="caption">
-Fig. 11., Exploration by NE, subression by 5-HT, tonic at eliquibrium</div></div>
+Fig. 11. Exploration by NE, subpression by 5-HT, neutralization at eliquibrium</div></div>
  <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h1><a class="anchor" id="ch20s7_mcoba"></a>
-20.7 Conductance Modulation</h1>
+14.7 Conductance Modulation</h1>
 <dl class="section author"><dt>Author</dt><dd>Lars Niedermeier</dd></dl>
 <h2><a class="anchor" id="ch20s7s1_m_coba"></a>
-20.7.1 Example working memory at optimal DA/NE levels</h2>
+14.7.1 Example working memory at optimal DA/NE levels</h2>
 <p>Fig. 12 shows the working memory designed after Avery, Dutt, Krichmar (2013) with dopaminergic receptor D1 and noadrenergic receptors alpha1 and alpha2A. It exposes the same spiking behavior for storing, keeping, and releasing a cue in the deep supragranular layer (layer 3) of the dorsal lateral prefrontal cortex (dlPFC). The bivariate optimal levels of DA and NE were translated to the descrete normalized concentration of 0.5. At 1.0s the spacial information of the cue is simulated by a 500ms Poisson spike train. The activation is kept for 2.5s in the corresponding L3e column and then cleared by a simulated corolliary discharge.</p>
 <div class="image">
 <img src="alpha1_da_opt_ne_opt.png" alt="alpha1_da_opt_ne_opt.png"/>
 <div class="caption">
-Fig. 12., Working memory at optimal DA/NE levels (similar to Avery, Dutt, Krichmar, 2013)</div></div>
+Fig. 12. Working memory at optimal DA/NE levels (similar to Avery, Dutt, Krichmar, 2013)</div></div>
 <p> The noadrenergic alpha2A receptor is configured for the recurrent connection by providing its pre- and postsynaptic group and the IcalcType.</p>
 <div class="fragment"><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#aceb9ef9d09b941d06f3619131ed2d950">setConnectionModulation</a>(g_L3e[c], g_L3e[c], <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea20b246f300a0d2f17e4072c74b147978">alpha2A_ADK13</a>);</div></div><!-- fragment --><p>The dopaminergic D1 receptor is configured accordingly.</p>
 <div class="fragment"><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#aceb9ef9d09b941d06f3619131ed2d950">setConnectionModulation</a>(g_L3e_npref[d], g_L3e[c], <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325ea48da14449692b6274f056d2f1a95e5f2">D1_ADK13</a>);</div></div><!-- fragment --><p>The dopaminergic D2 receptor defined by Avery &amp; Krichmar (2015) is configured the in the same way.</p>
@@ -360,37 +360,37 @@ Fig. 12., Working memory at optimal DA/NE levels (similar to Avery, Dutt, Krichm
 <div class="image">
 <img src="d2_mu_adk15.png" alt="d2_mu_adk15.png"/>
 <div class="caption">
-Fig. 13., Continous mapping of D2 discrete levels that were defined by Avery &amp; Krichmar (2015)</div></div>
+Fig. 13. Continous mapping of D2 discrete levels that were defined by Avery &amp; Krichmar (2015)</div></div>
  <dl class="section note"><dt>Note</dt><dd>The configuration of the receptors alpha2A and D1, D2 is at connection level.</dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h2><a class="anchor" id="ch20s7s2_m_coba"></a>
-20.7.2 Impact of insufficient NE on working memory</h2>
+14.7.2 Impact of insufficient NE on working memory</h2>
 <div class="image">
 <img src="wm_impacts_by_ne.png" alt="wm_impacts_by_ne.png"/>
 <div class="caption">
-Fig. 14., Impact of insufficient NE on working memory. A) Drain of NE at 2.5s induces memory loss. B) Insufficient NE prevents storing content in memory.</div></div>
+Fig. 14. Impact of insufficient NE on working memory. A) Drain of NE at 2.5s induces memory loss. B) Insufficient NE prevents storing content in memory.</div></div>
  <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h2><a class="anchor" id="ch20s7s3_m_coba"></a>
-20.7.3 Memory impairment due high levels of DA/NE</h2>
+14.7.3 Memory impairment due high levels of DA/NE</h2>
 <p>Stress increases the levels of NE and DA to high levels (e.g. flight and fight situation). The input to neurons of working memory is markable decreased making it functionally disconnect (Avery, Dutt, &amp; Krichmar , 2013)</p>
 <p>Fig. 15 shows how the discrete bivariate levels of DA and NE (low, optimum, high) are mapped to a grid of 1/3 in a two dimensional normalized space (plane with length 1). For instance, high (optimal) levels of DA and NE are mapped to the field with 5/6 (1/2) as its center marked red (green).</p>
 <div class="image">
 <img src="mu_alpha1_da_ne._L3e.png" alt="mu_alpha1_da_ne._L3e.png"/>
 <div class="caption">
-Fig. 15., Continuous bivariate _mu_alpha1 of L3e fitting discrete bivariate levels</div></div>
+Fig. 15. Continuous bivariate _mu_alpha1 of L3e fitting discrete bivariate levels</div></div>
 <p> In order to avoid points of discontinuity (Unstetigkeitsstellen), a continuous function is integrated in <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> that fits the experimental data. It is configured by providing the icalctype and the boost parameter. </p><div class="fragment"><div class="line"><span class="comment">// _mu_DA,NE,grp</span></div><div class="line">sim-&gt;<a class="code" href="classCARLsim.html#aeda549f4dcee2377a1b335ea96b340f5">setNM4weighted</a>(g_L3e[c], <a class="code" href="carlsim__datastructures_8h.html#af658a97db232c96b62751e7401fd325eaba114b5d53702268716aee3e42353219">alpha1_ADK13</a>, 1.f, 0.f, 0.f, 1.0f, 1.f, -1.0f / 6.0f / log(1.0f / 3.0f));</div></div><!-- fragment --><p>Fig. 16 shows, how high levels DA and NE at the alpha1 receptor effectively disable the working memory. As _mu_apha1 is bivariate and continuous, a more detailed analysis will be possible of how exactly the working memory will be impared.</p>
 <div class="image">
 <img src="alpha1_da_high_ne_high.png" alt="alpha1_da_high_ne_high.png"/>
 <div class="caption">
-Fig. 16., Impairment of working memory at high levels of DA/NE</div></div>
+Fig. 16. Impairment of working memory at high levels of DA/NE</div></div>
  <dl class="section since"><dt>Since</dt><dd>v6.0</dd></dl>
 <h1><a class="anchor" id="ch20s8_misc"></a>
-20.8 Further readings</h1>
+14.8 Further readings</h1>
 <dl class="section author"><dt>Author</dt><dd>Lars Niedermeier</dd></dl>
 <p>Farzan Nadim: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4252488">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4252488</a></p>
 <p>Dirk Bucher: <a href="https://doi.org/10.1016/j.cell.2013.09.047">https://doi.org/10.1016/j.cell.2013.09.047</a></p>
 <h1><a class="anchor" id="ch20s9_references"></a>
-20.9 References</h1>
+14.9 References</h1>
 <p>Asher*, D.A., Craig*, A.B., Zaldivar*, A., Brewer, A.A., and Krichmar, J.L. (2013). A dynamic, embodied paradigm to investigate the role of serotonin in cost and decision-making. Frontiers in Integrative Neuroscience 7(78). (*co-first authors)</p>
 <p>Avery, M., Dutt, N., Krichmar, J.L. (2013). A large-scale neural network model of the influence of neuromodulatory levels on working memory and behavior. Frontiers in computational neuroscience. 7. 133. 10.3389/fncom.2013.00133.</p>
 <p>Avery, M., Krichmar, J.L., Dutt, N. (2012). Spiking Neuron Model of Basal Forebrain Enhancement of Visual Attention. Paper presented at: IEEE World Congress on Computational Intelligence (Brisbane, Australia).</p>
@@ -415,7 +415,7 @@ Fig. 16., Impairment of working memory at high levels of DA/NE</div></div>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jan 11 2022 21:27:11 for CARLsim by
+    <li class="footer">Generated on Thu Jul 14 2022 18:14:01 for CARLsim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

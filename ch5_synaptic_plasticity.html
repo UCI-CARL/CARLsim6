@@ -175,7 +175,8 @@ Fig. 3. The types of STDP</div></div>
 5.2.4 STDP Usage Example</h2>
 <p>In order for STDP to be used, the connection between two groups must be plastic as indicated by the SYN_PLASTIC keyword:</p>
 <div class="fragment"><div class="line">sim.connect(g1,g2,<span class="stringliteral">&quot;one-to-one&quot;</span>,<a class="code" href="structRangeWeight.html">RangeWeight</a>(0.0,1.0f/100, 20.0f/100),1.0f, <a class="code" href="structRangeDelay.html">RangeDelay</a>(1), <a class="code" href="structRadiusRF.html">RadiusRF</a>(-1),<a class="code" href="carlsim__definitions_8h.html#a9baa3423c83e97f02e68daccf466ed4d">SYN_PLASTIC</a>);</div></div><!-- fragment --><p>Assuming g1 and g2 are excitatory neurons, we should then set the E-STDP parameters:</p>
-<div class="fragment"><div class="line">sim-&gt;setESTDP(g1, <span class="keyword">true</span>, <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12a9de934790934fe831fe946c851e8338e">STANDARD</a>, <a class="code" href="structExpCurve.html">ExpCurve</a>(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP));</div></div><!-- fragment --><p>Notice that the E-STDP call was done on the postsynaptic neuron group (g1) as the first argument. The second argument determines whether or STDP will be enabled and could be set to false as well. The third argument refers to the neuromodulatory effect present at this synapse. STDP without a neuromodulatory influence is referred to by the STANDARD keyword while STDP that is modulated by dopamine is referred to as DA_MOD. Here, we are using the <a class="el" href="structExpCurve.html" title="A struct to assign exponential STDP curves. ">ExpCurve</a> STDP curve.</p>
+<div class="fragment"><div class="line">sim-&gt;setESTDP(g1, g2, <span class="keyword">true</span>, <a class="code" href="carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12a9de934790934fe831fe946c851e8338e">STANDARD</a>, <a class="code" href="structExpCurve.html">ExpCurve</a>(ALPHA_LTP/100, TAU_LTP, ALPHA_LTD/100, TAU_LTP));</div></div><!-- fragment --><p>Note that starting in <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> 6, STDP can be configured for each inter-group connection, as opposed to sharing the same configuration for all incoming connections to a specific postsynaptic neuron group.</p>
+<p>In the E-STDP call, the first two arguments correspond to the presynaptic neuron group (g1) and the postsynaptic neuron group (g2), respectively. The third argument determines whether or STDP will be enabled and could be set to false as well. The fourth argument refers to the neuromodulatory effect present at this synapse. STDP without a neuromodulatory influence is referred to by the STANDARD keyword while STDP that is modulated by dopamine is referred to as DA_MOD. Here, we are using the <a class="el" href="structExpCurve.html" title="A struct to assign exponential STDP curves. ">ExpCurve</a> STDP curve.</p>
 <h1><a class="anchor" id="ch5s3_homeostasis"></a>
 5.3 Homeostasis</h1>
 <dl class="section author"><dt>Author</dt><dd>Kristofor D. Carlson</dd></dl>
@@ -222,7 +223,7 @@ Users new to homeostasis should start with <img class="formulaInl" alt="$ \alpha
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Tue Jan 11 2022 21:27:10 for CARLsim by
+    <li class="footer">Generated on Thu Jul 14 2022 18:14:01 for CARLsim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -1,11 +1,25 @@
 var searchData=
 [
-  ['file_5fcannot_5fcreate',['FILE_CANNOT_CREATE',['../classUserErrors.html#a0455f547a8d97c35c868b184e0c92ffda1904e935b4ff61ae798f29c87f6bd275',1,'UserErrors']]],
-  ['file_5fcannot_5fopen',['FILE_CANNOT_OPEN',['../classUserErrors.html#a0455f547a8d97c35c868b184e0c92ffda430ba28e0bd45b70d47563e8a0ba9ba8',1,'UserErrors']]],
-  ['file_5fcannot_5fread',['FILE_CANNOT_READ',['../classUserErrors.html#a0455f547a8d97c35c868b184e0c92ffda7a8c7a23c4e0c3fd16558e5182386f55',1,'UserErrors']]],
-  ['firingtabled1',['firingTableD1',['../structRuntimeData__s.html#af1ef589b069778b7c7c7b34c751b3f46',1,'RuntimeData_s']]],
-  ['firingtabled2',['firingTableD2',['../structRuntimeData__s.html#a2aac8305ea8f1dd2a08c04e57590cf3c',1,'RuntimeData_s']]],
-  ['fixedinputwts',['fixedInputWts',['../structGroupConfigMD__s.html#a6756f4d100ed7974e7d418581d018c2c',1,'GroupConfigMD_s::fixedInputWts()'],['../structGroupConfigRT__s.html#a738f77a52bba5fe4a6ea3e088ef072a3',1,'GroupConfigRT_s::FixedInputWts()']]],
-  ['forward_5feuler',['FORWARD_EULER',['../carlsim__datastructures_8h.html#a56814540c647b8b64abbc1655f2a7396a88052013bcaeb036f6fd739a56f4cccc',1,'carlsim_datastructures.h']]],
-  ['front',['front',['../classSpikeBuffer.html#a4f84af934c8a89f48edf5bdcb9b24e0d',1,'SpikeBuffer::front()'],['../classSpikeBuffer_1_1Impl.html#a957018d0ce9dbff3f302ffd89e5841f6',1,'SpikeBuffer::Impl::front()']]]
+  ['endidx',['endIdx',['../structThreadStruct__s.html#a31d1ed45c7de7d709049dd6545c0daca',1,'ThreadStruct_s']]],
+  ['equals',['equals',['../Util_8cpp.html#a0b683b54b23d1bc79ddf99be05fc3e75',1,'equals(const float x, const float y, float epsilon):&#160;Util.cpp'],['../Util_8cpp.html#a7f140a0d4d02f8b7d89a5f4a09a00a5c',1,'equals(const double x, const double y, double epsilon):&#160;Util.cpp'],['../Util_8h.html#a387804bdff2eac66fecaef842dd03250',1,'equals(float x, float y, float epsilon=0.000001):&#160;Util.cpp'],['../Util_8h.html#a130940ab75fe77192d16d2098210be60',1,'equals(double x, double y, double epsilon=0.000001):&#160;Util.cpp']]],
+  ['error',['ERROR',['../classLogger.html#a221b779e6bb7b8d40677d7642bfefac5a2fd6f336d08340583bd620a7f5694c90',1,'Logger']]],
+  ['error_5fcode_2eh',['error_code.h',['../error__code_8h.html',1,'']]],
+  ['error_5ffiring_5f0',['ERROR_FIRING_0',['../error__code_8h.html#a1c2c695ba2b37ae91d62d56ee57b4f7c',1,'error_code.h']]],
+  ['error_5ffiring_5f1',['ERROR_FIRING_1',['../error__code_8h.html#a3bd02539a5b4f3fa70c34fd0a3962cb5',1,'error_code.h']]],
+  ['error_5ffiring_5f2',['ERROR_FIRING_2',['../error__code_8h.html#a433fe3f19e1df3a152d03f89b684adfd',1,'error_code.h']]],
+  ['error_5ffiring_5f3',['ERROR_FIRING_3',['../error__code_8h.html#a139cea87605530781e01e5d2e09f688e',1,'error_code.h']]],
+  ['errortype',['errorType',['../classUserErrors.html#a0455f547a8d97c35c868b184e0c92ffd',1,'UserErrors']]],
+  ['excitatory_5fneuron',['EXCITATORY_NEURON',['../carlsim__definitions_8h.html#a71b1b059a7ff0783d39e22b9b1028d90',1,'carlsim_definitions.h']]],
+  ['excitatory_5fpoisson',['EXCITATORY_POISSON',['../carlsim__definitions_8h.html#a3ab3579b7b17141f55b5cc2f0d8a1b4b',1,'carlsim_definitions.h']]],
+  ['executable_5fsnn',['EXECUTABLE_SNN',['../snn__datastructures_8h.html#aa9ab4d6682bf7cc2f06fbe641b3ba052afffdc8c3f0ba3a0759dc39ae1c3482fc',1,'snn_datastructures.h']]],
+  ['exitsimulation',['exitSimulation',['../classSNN.html#a477f99451786873b73e2623b6f89b766',1,'SNN']]],
+  ['exp_5fcurve',['EXP_CURVE',['../carlsim__datastructures_8h.html#a3971dcd421edfcae2c41597aa8a6c528a5bd88168d4c897336b249c3aff3ef3d1',1,'carlsim_datastructures.h']]],
+  ['expcurve',['ExpCurve',['../structExpCurve.html',1,'ExpCurve'],['../structExpCurve.html#a468bb076ab632afce8da9ea2bcd8e461',1,'ExpCurve::ExpCurve()']]],
+  ['experiment',['Experiment',['../classExperiment.html',1,'']]],
+  ['experiment_2eh',['Experiment.h',['../Experiment_8h.html',1,'']]],
+  ['extcurrent',['extCurrent',['../structRuntimeData__s.html#a3c5ffaae0cbea996caacb932be477eb9',1,'RuntimeData_s']]],
+  ['extfiringtabled1',['extFiringTableD1',['../structRuntimeData__s.html#a0de15f3ad9d5a1715ce2cd239b6bfa33',1,'RuntimeData_s']]],
+  ['extfiringtabled2',['extFiringTableD2',['../structRuntimeData__s.html#a1d5f69f6bd3448b6b95277165950ca58',1,'RuntimeData_s']]],
+  ['extfiringtableendidxd1',['extFiringTableEndIdxD1',['../structRuntimeData__s.html#a42093a0a80ff3b9fb5aa1d1807546d8e',1,'RuntimeData_s']]],
+  ['extfiringtableendidxd2',['extFiringTableEndIdxD2',['../structRuntimeData__s.html#a65bbe79a8c8be8113fe25241099914d8',1,'RuntimeData_s']]]
 ];

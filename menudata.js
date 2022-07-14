@@ -10,11 +10,11 @@ var menudata={children:[
 {text:"7. Monitoring",url:"ch7_monitoring.html"},
 {text:"8. Saving and Loading",url:"ch8_saving_loading.html"},
 {text:"9. MATLAB Offline Analysis Toolbox (OAT)",url:"ch9_matlab_oat.html"},
-{text:"10. ECJ",url:"ch10_ecj.html"},
+{text:"10. Parameter-Tuning ECJ and LEAP",url:"ch10_ecj_leap.html"},
 {text:"11. Regression Suite",url:"ch11_regression_suite.html"},
 {text:"12. Advanced Topics",url:"ch12_advanced_topics.html"},
 {text:"13. pyCARL",url:"ch14_pyCARL.html"},
-{text:"20. Neuromodulation",url:"ch20_neuromodulation.html"}]},
+{text:"14. Neuromodulation",url:"ch20_neuromodulation.html"}]},
 {text:"Tutorial",url:"usergroup1.html",children:[
 {text:"1. Basic Concepts",url:"tut1_basic_concepts.html"},
 {text:"2. 80-20 Random Spiking Network",url:"tut2_random_spnet.html"},
@@ -23,7 +23,8 @@ var menudata={children:[
 {text:"5. Motion Energy",url:"tut5_motion_energy.html"},
 {text:"6. Simple Weight Tuner",url:"tut6_simple_weight_tuner.html"},
 {text:"7. Parameter Tuning Interface (PTI)",url:"tut7_pti.html"},
-{text:"8. Multi-Compartment Models",url:"tut8_compartments.html"}]},
+{text:"8. Multi-Compartment Models",url:"tut8_compartments.html"},
+{text:"9. DA modulated STDP",url:"tut9_dastdp.html"}]},
 {text:"Classes",url:"annotated.html",children:[
 {text:"Class List",url:"annotated.html"},
 {text:"Class Index",url:"classes.html"},

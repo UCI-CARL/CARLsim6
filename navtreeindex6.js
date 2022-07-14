@@ -1,5 +1,8 @@
 var NAVTREEINDEX6 =
 {
+"spikegen__from__vector_8cpp.html":[4,0,63],
+"spikegen__from__vector_8cpp_source.html":[4,0,63],
+"spikegen__from__vector_8h.html":[4,0,64],
 "spikegen__from__vector_8h_source.html":[4,0,64],
 "structACNE12Config__s.html":[3,0,0],
 "structACNE12Config__s.html#a37c96b33f506eef039e9bcfb6e591197":[3,0,0,1],
@@ -246,8 +249,5 @@ var NAVTREEINDEX6 =
 "structGroupConfigRT__s.html#ad8fc27a5d5860a927e364a249196c74a":[3,0,21,4],
 "structGroupConfigRT__s.html#add95ccd81616141cd6276f72e29d1164":[3,0,21,50],
 "structGroupConfigRT__s.html#ae1c53c5a4a6d2548c3cb9ccc118ca71d":[3,0,21,47],
-"structGroupConfigRT__s.html#ae5b9c1f52764f333c5a83f424854147f":[3,0,21,58],
-"structGroupConfigRT__s.html#ae6e760c8fdacd56117a5709c44930233":[3,0,21,67],
-"structGroupConfigRT__s.html#ae9371c75bf5c592a25bd9d6775d14172":[3,0,21,72],
-"structGroupConfigRT__s.html#af70606e1275ebfa00f4fb0e6a6dd8025":[3,0,21,44]
+"structGroupConfigRT__s.html#ae5b9c1f52764f333c5a83f424854147f":[3,0,21,58]
 };

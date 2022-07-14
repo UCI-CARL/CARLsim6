@@ -21,6 +21,6 @@
 <area shape="rect" id="node18" href="$classNeuronMonitorCore.html#a30f19d45f562061cc82c04e7289ba956" title="returns the approximate size of the state vectors in bytes " alt="" coords="1200,153,1343,195"/>
 <area shape="rect" id="node19" href="$classNeuronMonitorCore.html#a3a0e4e77a2b83f5dd0e86aafcf227595" title="returns the total accumulated time " alt="" coords="980,248,1123,289"/>
 <area shape="rect" id="node20" href="$classNeuronMonitorCore.html#a4d3c2252230fe74bf03bcc3045ff8972" title="NeuronMonitorCore::\lwriteNeuronFileHeader" alt="" coords="974,65,1129,107"/>
-<area shape="rect" id="node22" href="$classNeuronMonitorCore.html#a388f572c62279f839ee138a9afbdeeb5" title="prints neuron states in human&#45;readable format " alt="" coords="980,324,1123,365"/>
+<area shape="rect" id="node22" href="$classNeuronMonitorCore.html#aec9349ebca384aed5e233754559075e0" title="prints neuron states in human&#45;readable format " alt="" coords="980,324,1123,365"/>
 <area shape="rect" id="node21" href="$classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" title="SNN::getGroupGrid3D" alt="" coords="1195,73,1348,99"/>
 </map>

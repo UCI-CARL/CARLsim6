@@ -1,5 +1,8 @@
 var NAVTREEINDEX1 =
 {
+"ch5_synaptic_plasticity.html#ch5s5_references":[1,4,4],
+"ch6_input.html":[1,5],
+"ch6_input.html#ch6s1_generating_spikes":[1,5,0],
 "ch6_input.html#ch6s2_generating_current":[1,5,1],
 "ch6_input.html#ch6s3_visual_stimulus_toolbox":[1,5,2],
 "ch7_monitoring.html":[1,6],
@@ -246,8 +249,5 @@ var NAVTREEINDEX1 =
 "classCARLsim_1_1Impl.html#aceb9ef9d09b941d06f3619131ed2d950":[3,0,1,0,77],
 "classCARLsim_1_1Impl.html#ad09ccf4ff95aa4f7b629afad588b0c88":[3,0,1,0,105],
 "classCARLsim_1_1Impl.html#ad423c8d8f74e6369615db0d1af700c99":[3,0,1,0,92],
-"classCARLsim_1_1Impl.html#ad4930e827d0e5cc6a63dc4a07e1879dc":[3,0,1,0,63],
-"classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84":[3,0,1,0,28],
-"classCARLsim_1_1Impl.html#adb7dd274136fd2a3307c0f7f0767275a":[3,0,1,0,70],
-"classCARLsim_1_1Impl.html#adbca260c6751a0d6570f6206e1f60b50":[3,0,1,0,87]
+"classCARLsim_1_1Impl.html#ad4930e827d0e5cc6a63dc4a07e1879dc":[3,0,1,0,63]
 };
