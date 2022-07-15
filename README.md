@@ -4,6 +4,58 @@
 
 # CARLsim 6
 
+[![Build Status](https://travis-ci.org/UCI-CARL/CARLsim5.svg?branch=master)](https://github.com/UCI-CARL/CARLsim6/actions/runs/1684806099)
+[![Coverage Status](https://coveralls.io/repos/github/UCI-CARL/CARLsim4/badge.svg?branch=master)](https://coveralls.io/github/UCI-CARL/CARLsim4?branch=master)
+[![Docs](https://img.shields.io/badge/docs-v6.0.0-blue.svg)](http://uci-carl.github.io/CARLsim6)
+[![Google group](https://img.shields.io/badge/Google-Discussion%20group-blue.svg)](https://groups.google.com/forum/#!forum/carlsim-snn-simulator)
+
+CARLsim is an efficient, easy-to-use, GPU-accelerated library for simulating large-scale spiking neural network (SNN) models 
+with a high degree of biological detail. 
+CARLsim allows execution of networks of Izhikevich spiking neurons with realistic synaptic dynamics on both 
+generic x86 CPUs and standard off-the-shelf GPUs. 
+The simulator provides a PyNN-like programming interface in C/C++, 
+which allows for details and parameters to be specified at the synapse, neuron, and network level.
+
+New features in CARLsim 6 include:
+- CUDA 11 support
+- CMake build system
+- Neuromodulatory features
+- Integration of Python LEAP 
+
+If you use CARLsim 6 in your research, please cite this [paper](https://www.socsci.uci.edu/~jkrichma/CARLsim6-IJCNN2022.pdf):
+
+Niedermeier, L., Chen, K., Xing, J., Das, A., Kopsick, J., Scott, E., Sutton, N., Weber, K., Dutt, N., and Krichmar, J.L. (2022).
+"CARLsim 6: An Open Source Library for Large-Scale, Biologically Detailed Spiking Neural Network Simulation."
+In Proceedings of IEEE International Joint Conference on Neural Networks (IJCNN), (To appear in WCCI IJCNN 2022).
+
+
+## Quickstart for Linux
+
+Detailed instructions for installing the latest stable release of CARLsim on Linux and Windows
+can be found in our [User Guide](http://uci-carl.github.io/CARLsim6/ch1_getting_started.html).
+
+
+### Build and Install
+
+
+```
+cd ~/git
+git clone https://github.com/UCI-CARL/CARLsim6.git CARLsim6
+cd CARLsim6
+mkdir .build
+cd .build
+cmake -DCMAKE_INSTALL_PREFIX=/home/user1/carlsim6 -DCMAKE_BUILD_TYPE=Release ../.
+make install
+```
+
+
+### Run simple SNN simulation
+
+Open a new terminal and validate the settings with `env`.
+
+Start `~/carlsim6/samples/hello_world`
+
+
 ## Prerequisites
 
 CARLsim 6 comes with the following requirements:
@@ -17,167 +69,10 @@ CARLsim 6 comes with the following requirements:
   This is only required if you want to run CARLsim in `GPU_MODE`.
 - (optional) MATLAB R2014a or Octave. This is only required if you want to use the Offline Analysis Toolbox (OAT).
 
-If the Prerequisites cannot be met consider using a former version like CARLsim5 or CARLsim4.
+If the Prerequisites cannot be met consider using a former version like CARLsim 5 or CARLsim 4.
 
-
-The latest release was tested on the following platforms:
-Linux:  Ubuntu 20.04 LTS  
-Windows: Windows 10 Professional, Windows 11 Education  
-Mac OS X:   
-CUDA: 11.2, 11.4, 11.5  
-GPUs: Titan Xp, 1080ti, RTX 3090, A100  
-  
-...  
-  
-   
-
-# Setup CARLsim6 as data scientist
-
-## Preliminaries
-
-This setup guide is intended for data scientists using Linux. 
-Usually the models and experiments are developed on a workstation having a NVIDIA GeForce
-and to be evaluated later on a supercomputer like the DGX A100.
-The following preliminaries are derived from the NVIDIA documentation for CUDA 11.5:
-1. Linux: Ubuntu 20.04 LTS
-2. cMake: 3.22 
-3. Google Test: 1.11 
-
-In this guide, the following file structure is used as a reference for the local development. 
-Please replace the placeholder user1 with the actual user name:
-``` 
-/home/user1/
-	carlsim6/    # local installation CARLsim6
-		includes/
-		lib/
-		samples/
-	cmake-3.22/  # local installation of cMake
-		bin/
-		share/
-	gtest-1.11/  # local installation of Google Test
-		inclues/
-		lib/
-	git/         # cloned repositories from Github
-		CARLsim6/	  
-		googletest/	  
-```	
-
-
-## Setup Ubuntu
-
-Ideally Ubuntu 20.04 LTS Desktop is installed from scratch on the workstation. 
-For CUDA 11.5 please follow the official [setup guides](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=20.04&target_type=deb_local).
-Also the user should be setup from scratch to avoid any side effects.
-While it is technically possible to use multiple CUDA and CARLsim versions side by side 
-and switching between them utilizing some kind of `setenv.sh` script, 
-such szenarios also depend strongly on the specific requirements and are therefore out of scope. 
-A dedicated environment is furthermore essential to find the root cause of potential issues.  
-
-Prepare the .bashrc like the following (replace user1 with the actual user name). 
-```
-export PATH=/home/user1/cmake-3.22/bin${PATH:+:${PATH}}
-export LD_LIBRARY_PATH=/home/user1/gtest-1.11/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-export LD_LIBRARY_PATH=/home/user1/carlsim6/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-```
-
-Validate that the CUDA 11.5 installation has added the following lines:
-```
-export PATH=/usr/local/cuda-11.5/bin${PATH:+:${PATH}}
-export LD_LIBRARY_PATH=/usr/local/cuda-11.5/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-```
-
-Install *pthreads* from the distribution: `sudo apt-get install libpthreads-dev`
-
-
-## Setup cMake
-
-Download the latest binary (e.g. 3.22) from Kitware and install it to `/home/user1/cMake-3.22`.
-
-Restart the terminal and validate the installation with `cmake --version`.
-```
-$ cmake --version
-cmake version 3.22.0-rc2
-CMake suite maintained and supported by Kitware (kitware.com/cmake).
-```
-
-
-## Setup Google Test
-
-Clone the latest stable version (e.g. 1.11) of [Googletest at GitHub](https://github.com/google/googletest) and build it from source.
-
-```
-cd ~/git
-git clone https://github.com/google/googletest.git
-cd googletest
-mkdir .build
-cd .build
-cmake -DCMAKE_INSTALL_PREFIX=/home/user1/gtest-1.11 -DBUILD_SHARED_LIBS=1 -DGTEST_HAS_PTHREAD=1 -DBUILD_GMOCK=OFF ../.
-make install
-```
-
-
-## Setup CARLsim6
-
-```
-cd ~/git
-git clone https://github.com/UCI-CARL/CARLsim6.git CARLsim6
-cd CARLsim6
-mkdir .build
-cd .build
-cmake -DCMAKE_INSTALL_PREFIX=/home/user1/carlsim6 -DCMAKE_BUILD_TYPE=Release ../.
-make install
-```
-
-> Hint: If cmake does not find the *GTest_DIR* set it manually in cmake-gui to `/home/user1/gtest/lib/cmake/GTest`.
-> Also, setting the following environment variables in Linux in ~/.bashrc may help (replace user1 with username):
-> ```
-> export GTEST_LIBRARY=/home/user1/gtest-1.11/lib/libgtest.a
-> export GTEST_MAIN_LIBRARY=/home/user1/gtest-1.11/lib/libgtest_main.a
-> export GTEST_ROOT=/home/user1/gtest-1.11/
-> ```
-
-Follow the following sequence to repeat builds  
-```
-make clean
-make -j8
-make install
-```
-
-> Hint: The defaults for cMake are configured to support the latest version of CUDA 
-> and the current generation of GeForce graphics card (Ampere achritecture).
-> Check which compute capability your your GPU actually has and adopt *CARLSIM_CUDA_GENCODE* accordingly
-> either in `cmake-gui` or by passing it as a parameter to the CLI. 
-> E.g. for a Titan Xp the parameter is set by `-DCARLSIM_CUDA_GENCODE=-gencode arch=compute_61,code=sm_61`
-
-
-
-## Validate the installation
-
-Open a new terminal and validate the settings with `env`.
-
-Start `~/carlsim6/samples/hello_world`
-
-Run the unit tests, e.g.  
-```
-cd ~/git/CARLsim6/.build/carlsim/test
-./carlsim-tests
-```
-
-To run all tests in parallel with monitoring the GPU utilization
-```
-gnome-terminal -- /bin/sh -c '~/git/CARLsim6/.build/carlsim/test/carlsim-tests;exec bash' &
-gnome-terminal -- /bin/sh -c '~/git/CARLsim6/.build/carlsim/test6/carlsim-tests6;exec bash' &
-gnome-terminal -- /bin/sh -c '~/git/CARLsim6/.build/carlsim/testadv/carlsim-testsadv --gtest_filter=-*GPU_MultiGPU*;exec bash' &
-gnome-terminal -- /bin/sh -c 'nvidia-smi -l 1' &
-```
-
-
-
-## Running the samples
-
-The executables of the samples are installed to $CMAKE_INSTALL_PREFIX/carlsim6/samples.
-Add the path to the .bashrc to repetitive start it from the bash. 
-As most of the samples create a result directory or write other files,
-create a new working directory to capture the indiviual runs.
-
-Alternative the samples can run directly from the build directory. 
+The latest release was tested on the following platforms:  
+- Linux:  Ubuntu 20.04 LTS  
+- Windows: Windows 10 Professional, Windows 11 Education  
+- CUDA: 11.2, 11.4, 11.5, 11.7  
+- GPUs: Titan Xp, 1080ti, RTX 3090, A100  

@@ -3,7 +3,7 @@
 
 \tableofcontents
 
-\section main_carlsim CARLsim5
+\section main_carlsim CARLsim 6
 CARLsim is an efficient, easy-to-use, GPU-accelerated library for simulating large-scale spiking neural network (SNN)
 models with a high degree of biological detail.
 CARLsim allows execution of networks of Izhikevich spiking neurons with realistic synaptic dynamics
@@ -11,33 +11,32 @@ on both generic x86 CPUs and standard off-the-shelf GPUs.
 The simulator provides a PyNN-like programming interface (C/C++), which allows 
 for details and parameters to be specified at the synapse, neuron, and network level.
 
-The present release, CARLsim5, builds on the efficiency and scalability of earlier releases (Nageswaran et al., 2009;
-Richert et al., 2011).
+The present release, CARLsim 6, builds on the efficiency and scalability of releases 4 and 5.
 The functionality of the simulator has been greatly expanded by the addition of a number of features
 that enable and simplify the creation, tuning, and simulation of complex networks with spatial structure.
 
-All software is available on the
-<a href="http://www.socsci.uci.edu/~jkrichma/CARLsim/index.html" target="_blank"><b>CARL Website</b></a>.
-
 New features include:
-- a python interface pyCARL (see https://arxiv.org/abs/2003.09696)
-- improved saving and loading of neural networks (see \ref ch8_saving_and_loading)
-- adjusted platform compatibility (Linux, Mac OS X)
-- real-time and offline data analysis tools (see \ref ch7_monitoring and \ref ch9_matlab_oat)
-- a more complete STDP implementation which includes neuromodulatory mechanisms (see \ref ch5_synaptic_plasticity)
-- an automated parameter tuning interface that utilizes evolutionary algorithms to construct functional SNNs
-  (see \ref ch10_ecj)
-- a test suite for functional code verification (see \ref ch11_regression_suite)
+- CUDA 11 support and cMake build system (see \ref ch1_getting_started) 
+- Neuromodulatory features (see \ref ch20_neuromodulation)
+- Automated parameter tuning interface that utilizes evolutionary algorithms for Python (LEAP)
+  (see \ref ch10_ecj_leap)
+- Extended test suite for functional code verification (see \ref ch11_regression_suite)
+
+All software is available on <a href="https://github.com/UCI-CARL/CARLsim6" target="_blank"><b>GitHub</b></a>.
+The project is managed by <a href="http://www.socsci.uci.edu/~jkrichma/CARLsim/index.html" target="_blank"><b>CARL</b></a>, 
+the <b>C</b>ognitive <b>A</b>nteater <b>R</b>obotics <b>L</b>aboratory 
+of the departments Cognitive Sciences and Computer Science, University of California, Irvine.
 
 The simulator was first introduced in 2009 (now referred to as CARLsim_v1.0), where it demonstrated near real-time
 performance for 100,000 spiking neurons on a single NVIDIA GTX 280 (Nageswaran et al., 2009).
 CARLsim_v2.0 added basic support for synaptic conductances, spike-timing dependent plasticity (STDP), 
-and short-term plasticity (STP) (Richert et al., 2011).
-The present release, CARLsim3, greatly expands the functionality of the simulator by adding a number of features
-that enable and simplify the creation, tuning, and simulation of complex networks with spatial structure.
+and short-term plasticity (STP) (Richert et al., 2011). CARLsim_v3.1 supported CUDA 7, 
+9-parameter Izhikevich, Runge-Kutta integration method (Beyeler et. al., 2014) and intergrated ECJ from George Mason University.
+CARLsim_v4.0 allowed to run SNNs on multiple GPU cards and/or multiple CPU cores (Chou, Kashyap, et. al, 2018).     
+CARLsim_v5.0 integrateed PyCARL from Drexel University (Balaji et. al., 2020). 
 
 CARLsim was originally written by Jayram Moorkanikara Nageswaran and Micah Richert. The code is now being 
-maintained and extended by Hirak Kashyap, Jinwei Xing and Kexin Chen. For a full list of contributors, 
+maintained and extended by Lars Niedermeier, Jinwei Xing and Kexin Chen. For a full list of contributors, 
 see file AUTHORS.
 
 
@@ -58,6 +57,17 @@ Info</a> mailing list.
 
 The simulator—along with its various releases, computational studies, and sample code—has previously been published 
 in the following studies:
+
+- Niedermeier, L., Chen, K., Xing, J., Das, A., Kopsick, J., Scott, E., Sutton, N., Weber, K., Dutt, N., and Krichmar, J.L. (2022).
+  CARLsim6: An Open Source Library for Large-Scale, Biologically Detailed Spiking Neural Network Simulation.
+  (To appear in WCCI IJCNN 2022) (CARLsim_6.0)
+- Balaji, A., Adiraju, P., Kashyap, H. J., Das, A., Krichmar, J. L., Dutt, N. D., & Catthoor, F. (2020). 
+  PyCARL: A PyNN Interface for Hardware-Software Co-Simulation of Spiking Neural Network. arXiv preprint arXiv:2003.09696. 
+  (To appear in IJCNN 2020) (CARLsim_v5.0) 
+- Chou, T.-S.*, Kashyap, H.J.*, Xing, J., Listopad, S., Rounds, E., Beyeler, M., Dutt, N., and Krichmar, J.L. (2018). 
+  CARLsim4: An Open Source Library for Large Scale, Biologically Detailed Spiking Neural Network Simulation using 
+  Heterogeneous Clusters. Paper presented at: International Joint Conference on Neural Networks (Rio de Janeiro, Brazil). 
+  (*equal contribution) (CARLsim_v4.0) 
 - Beyeler*, M., Carlson*, K.D., Chou*, T.S., Dutt, N., and Krichmar, J.L. (2014). CARLsim3: A user-friendly
   and highly optimized library for the creation of neurobiologically detailed spiking neural networks.
   IEEE International Joint Conference on Neural Networks. (*co-first authors)
