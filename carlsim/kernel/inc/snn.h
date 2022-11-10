@@ -1054,7 +1054,7 @@ private:
 	void doCurrentUpdateD2_GPU(int netId) { assert(false); }
 	void doSTPUpdateAndDecayCond_GPU(int netId) { assert(false); }
 	void deleteRuntimeData_GPU(int netId) { assert(false); }		//!< deallocates all used data structures in snn_gpu.cu
-	void findFiring_GPU(int netId) { assert(false); }
+	void findFiring_GPU(int netId) { assert(false); }	
 	void globalStateUpdate_C_GPU(int netId) { assert(false); }
 	void globalStateUpdate_N_GPU(int netId) { assert(false); }
 	void globalStateUpdate_G_GPU(int netId) { assert(false); }
@@ -1166,6 +1166,7 @@ private:
 	void convertExtSpikesD1_CPU(int netId, int startIdx, int endIdx, int GtoLOffset);
 	void doCurrentUpdateD2_CPU(int netId);
 	void doCurrentUpdateD1_CPU(int netId);
+	void test1(int netId);
 	void doSTPUpdateAndDecayCond_CPU(int netId);
 	void deleteRuntimeData_CPU(int netId);
 	void findFiring_CPU(int netId);
@@ -1182,6 +1183,7 @@ private:
 	void* convertExtSpikesD1_CPU(int netId, int startIdx, int endIdx, int GtoLOffset);
 	void* doCurrentUpdateD2_CPU(int netId);
 	void* doCurrentUpdateD1_CPU(int netId);
+	void test1(int netId);
 	void* doSTPUpdateAndDecayCond_CPU(int netId);
 	void* deleteRuntimeData_CPU(int netId);
 	void* findFiring_CPU(int netId);

@@ -3114,6 +3114,25 @@ void SNN::copyAuxiliaryData(int netId, int lGrpId, RuntimeData* dest, bool alloc
 	assert(networkConfigs[netId].maxNumPreSynN >= 0);
 	memset(dest->I_set, 0, sizeof(int) * networkConfigs[netId].numNReg * networkConfigs[netId].I_setLength);
 
+#if JK_CA3_SNN
+	if(allocateMem) {
+		networkConfigs[netId].syn_gLength = networkConfigs[netId].maxNumPreSynN;
+		dest->AMPA_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+		dest->NMDA_d_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+		dest->NMDA_r_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+		dest->GABAa_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+		dest->GABAb_d_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+		dest->GABAb_r_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];		
+	}
+	assert(networkConfigs[netId].maxNumPreSynN >= 0);
+	memset(dest->AMPA_syn_g, 0, networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength);
+	memset(dest->NMDA_d_syn_g, 0, networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength);
+	memset(dest->NMDA_r_syn_g, 0, networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength);	
+	memset(dest->GABAa_syn_g, 0, networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength);
+	memset(dest->GABAb_d_syn_g, 0, networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength);
+	memset(dest->GABAb_r_syn_g, 0, networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength);	
+#endif
+
 	// synSpikeTime: an array indicates the last time when a synapse got a spike
 	if(allocateMem)
 		dest->synSpikeTime = new int[networkConfigs[netId].numPreSynNet];
@@ -3587,6 +3606,14 @@ void SNN::copySpikeTables(int netId) {
 	delete [] runtimeData[netId].postSynapticIds;
 	delete [] runtimeData[netId].preSynapticIds;
 	delete [] runtimeData[netId].I_set;
+#if JK_CA3_SNN
+	delete [] runtimeData[netId].AMPA_syn_g;
+	delete [] runtimeData[netId].NMDA_d_syn_g;
+	delete [] runtimeData[netId].NMDA_r_syn_g;
+	delete [] runtimeData[netId].GABAa_syn_g;
+	delete [] runtimeData[netId].GABAb_d_syn_g;
+	delete [] runtimeData[netId].GABAb_r_syn_g;
+#endif	
 	delete [] runtimeData[netId].poissonFireRate;
 	delete [] runtimeData[netId].lastSpikeTime;
 	delete [] runtimeData[netId].spikeGenBits;

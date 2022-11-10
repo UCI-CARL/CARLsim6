@@ -64,6 +64,7 @@
 #include <spike_buffer.h>
 #include <error_code.h>
 
+
 // \FIXME what are the following for? why were they all the way at the bottom of this file?
 
 #define COMPACTION_ALIGNMENT_PRE  16
@@ -1263,6 +1264,7 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	CUDA_RESET_TIMER(timer);
 	CUDA_START_TIMER(timer);
 #endif
+
 
 	//KERNEL_INFO("Reached the advSimStep loop!");
 
@@ -2764,7 +2766,7 @@ void SNN::doSTPUpdateAndDecayCond() {
 		cpu_set_t cpus;
 		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
 		int threadCount = 0;
-	#endif
+	#endif		
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
