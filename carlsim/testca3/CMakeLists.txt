@@ -6,6 +6,7 @@
 
     add_executable(carlsim-testsca3
         ca3cstp_taud.cpp
+        ca3cstp_perf.cpp
         carlsim_tests_common.cpp      
         ca3cstp.cpp
 		ca3types.h
