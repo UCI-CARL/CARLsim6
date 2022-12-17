@@ -2828,6 +2828,8 @@ void SNN::doCurrentUpdate() {
 		int threadCount = 0;
 	#endif
 
+	// This loop updates and generates spikes on connections with a delay of >1ms
+	//     (by calling doCurrentUpdateD2_GPU() and helperDoCurrentUpdateD2_CPU())
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
 			if (netId < CPU_RUNTIME_BASE) // GPU runtime
@@ -2865,6 +2867,10 @@ void SNN::doCurrentUpdate() {
 		threadCount = 0;
 	#endif
 
+	// This loop is very similar to the previous loop above, but it
+	//     updates and generates spikes on connections with a delay of <1ms
+	//     (by calling doCurrentUpdateD1_GPU() and helperDoCurrentUpdateD1_CPU())
+	// XXX It would be nice to reduce the code duplication across these two loops
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
 			if (netId < CPU_RUNTIME_BASE) // GPU runtime
