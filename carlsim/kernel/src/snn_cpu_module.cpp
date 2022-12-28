@@ -1591,52 +1591,48 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 						u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
 					}
 #ifdef JK_CA3_SNN
-					else if (!groupConfigs[netId][lGrpId].isLIF) {
-						if (Izh_ref_c > 0) {
-							if (lastIter) {
-								runtimeData[netId].Izh_ref_c[lNId] -= 1;
-								v_next = runtimeData[netId].Izh_c[lNId];
-							}
-						}
-						else {
-							if (v_next > vpeak) {  // \todo JK review position compared to original code below
-								v_next = vpeak; // break the loop but evaluate u[i]
-								runtimeData[netId].curSpike[lNId] = true;
-								v_next = runtimeData[netId].Izh_c[lNId];
-								u += runtimeData[netId].Izh_d[lNId];
-								if (lastIter) {
-									runtimeData[netId].Izh_ref_c[lNId] = Izh_ref;
-								}
-								else {
-									runtimeData[netId].Izh_ref_c[lNId] = Izh_ref + 1;
-								}
-							}
-							else {
-								// 9-param Izhikevich
-								float k1 = dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent,
-									timeStep);
-								float l1 = dudtIzhikevich9(v, u, vr, a, b, timeStep);
+                    // \todo JK refact
+                    else if (!groupConfigs[netId][lGrpId].isLIF) {
+                        if (Izh_ref_c > 0) {
+                            if (lastIter) {
+                                runtimeData[netId].Izh_ref_c[lNId] -= 1;
+                                v_next = runtimeData[netId].Izh_c[lNId];
+                            }
+                        }
+                        else {
+                                // 9-param Izhikevich
+                                float k1 = dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent,
+                                    timeStep);
+                                float l1 = dudtIzhikevich9(v, u, vr, a, b, timeStep);
 
-								float k2 = dvdtIzhikevich9(v + k1 / 2.0f, u + l1 / 2.0f, inverse_C, k, vr, vt,
-									totalCurrent, timeStep);
-								float l2 = dudtIzhikevich9(v + k1 / 2.0f, u + l1 / 2.0f, vr, a, b, timeStep);
+                                float k2 = dvdtIzhikevich9(v + k1 / 2.0f, u + l1 / 2.0f, inverse_C, k, vr, vt,
+                                    totalCurrent, timeStep);
+                                float l2 = dudtIzhikevich9(v + k1 / 2.0f, u + l1 / 2.0f, vr, a, b, timeStep);
 
-								float k3 = dvdtIzhikevich9(v + k2 / 2.0f, u + l2 / 2.0f, inverse_C, k, vr, vt,
-									totalCurrent, timeStep);
-								float l3 = dudtIzhikevich9(v + k2 / 2.0f, u + l2 / 2.0f, vr, a, b, timeStep);
+                                float k3 = dvdtIzhikevich9(v + k2 / 2.0f, u + l2 / 2.0f, inverse_C, k, vr, vt,
+                                    totalCurrent, timeStep);
+                                float l3 = dudtIzhikevich9(v + k2 / 2.0f, u + l2 / 2.0f, vr, a, b, timeStep);
 
-								float k4 = dvdtIzhikevich9(v + k3, u + l3, inverse_C, k, vr, vt,
-									totalCurrent, timeStep);
-								float l4 = dudtIzhikevich9(v + k3, u + l3, vr, a, b, timeStep);
+                                float k4 = dvdtIzhikevich9(v + k3, u + l3, inverse_C, k, vr, vt,
+                                    totalCurrent, timeStep);
+                                float l4 = dudtIzhikevich9(v + k3, u + l3, vr, a, b, timeStep);
 
-								v_next = v + (1.0f / 6.0f) * (k1 + 2.0f * k2 + 2.0f * k3 + k4);
+                                v_next = v + (1.0f / 6.0f) * (k1 + 2.0f * k2 + 2.0f * k3 + k4);
 
-								if (v_next < -90.0f) v_next = -90.0f;
+                                if (v_next > vpeak) {
+                                    v_next = vpeak; // break the loop but evaluate u[i]
+                                    runtimeData[netId].curSpike[lNId] = true;
+                                    v_next = runtimeData[netId].Izh_c[lNId];
+                                    u += runtimeData[netId].Izh_d[lNId];
+                                    if (lastIter) {
+                                        runtimeData[netId].Izh_ref_c[lNId] = Izh_ref;
+                                    }
+                                }
+                                if (v_next < -90.0f) v_next = -90.0f;
 
-								u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
-								}
-							}
-						}
+                                u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
+                        }
+                    }
 #else
 					else if (!groupConfigs[netId][lGrpId].isLIF) {
 						// 9-param Izhikevich
@@ -3117,12 +3113,21 @@ void SNN::copyAuxiliaryData(int netId, int lGrpId, RuntimeData* dest, bool alloc
 #if JK_CA3_SNN
 	if(allocateMem) {
 		networkConfigs[netId].syn_gLength = networkConfigs[netId].maxNumPreSynN;
-		dest->AMPA_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
-		dest->NMDA_d_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
-		dest->NMDA_r_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
-		dest->GABAa_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
-		dest->GABAb_d_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
-		dest->GABAb_r_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];		
+		#ifdef CSTP_DOUBLES
+			dest->AMPA_syn_g = new double[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->NMDA_d_syn_g = new double[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->NMDA_r_syn_g = new double[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->GABAa_syn_g = new double[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->GABAb_d_syn_g = new double[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->GABAb_r_syn_g = new double[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];		
+		#else
+			dest->AMPA_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->NMDA_d_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->NMDA_r_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->GABAa_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->GABAb_d_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];
+			dest->GABAb_r_syn_g = new float[networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength];					
+		#endif
 	}
 	assert(networkConfigs[netId].maxNumPreSynN >= 0);
 	memset(dest->AMPA_syn_g, 0, networkConfigs[netId].numNReg * networkConfigs[netId].syn_gLength);

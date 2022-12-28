@@ -735,7 +735,7 @@ public:
 		UserErrors::assertTrue(!isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, funcName);
 		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
 		UserErrors::assertTrue(izh_C > 0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_C");
-		UserErrors::assertTrue(izh_ref >= 1, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_ref");
+		UserErrors::assertTrue(izh_ref >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_ref");
 
 		// set standard deviations of Izzy params to zero
 		snn_->setNeuronParameters(grpId, izh_C, 0.0f, izh_k, 0.0f, izh_vr, 0.0f, izh_vt, 0.0f,
@@ -752,7 +752,7 @@ public:
 		UserErrors::assertTrue(!isPoissonGroup(grpId), UserErrors::WRONG_NEURON_TYPE, funcName, funcName);
 		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
 		UserErrors::assertTrue(izh_C > 0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_C");
-		UserErrors::assertTrue(izh_ref >= 1, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_ref");
+		UserErrors::assertTrue(izh_ref >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "izh_ref");
 
 		// wrapper identical to core func
 		snn_->setNeuronParameters(grpId, izh_C, izh_C_sd, izh_k, izh_k_sd, izh_vr, izh_vr_sd, izh_vt, izh_vt_sd,
