@@ -846,24 +846,30 @@ __global__ 	void kernel_findFiring (int simTimeMs, int simTime) {
 			} else { // Regular neuron
 #ifdef JK_CA3_SNN
 				if (runtimeDataGPU.curSpike[lNId]) {
-					if (runtimeDataGPU.lastSpikeTime[lNId] > 20000000) {
-						runtimeDataGPU.curSpike[lNId] = false;
-						needToWrite = true;
-						runtimeDataGPU.lastSpikeTime[lNId] = simTime;
-					}
-					else {
-						int spk_tDiff = simTime - runtimeDataGPU.lastSpikeTime[lNId];
-						if (spk_tDiff > 1) {
+					if (runtimeDataGPU.Izh_ref[lNId] > 0) {
+						if (runtimeDataGPU.lastSpikeTime[lNId] > RP_MAX_LST) {
 							runtimeDataGPU.curSpike[lNId] = false;
 							needToWrite = true;
 							runtimeDataGPU.lastSpikeTime[lNId] = simTime;
 						}
 						else {
-							runtimeDataGPU.curSpike[lNId] = false;
-							needToWrite = false;
+							int spk_tDiff = simTime - runtimeDataGPU.lastSpikeTime[lNId];
+							if (spk_tDiff > runtimeDataGPU.Izh_ref[lNId]) {
+								runtimeDataGPU.curSpike[lNId] = false;
+								needToWrite = true;
+								runtimeDataGPU.lastSpikeTime[lNId] = simTime;
+							}
+							else {
+								runtimeDataGPU.curSpike[lNId] = false;
+								needToWrite = false;
+							}
 						}
 					}
-					//                     printf("Current Spike Flag %d at %d and %d \n",runtimeDataGPU.curSpike[lNId],simTimeMs,simTime);
+					else {
+				        runtimeDataGPU.curSpike[lNId] = false;
+				        needToWrite = true;
+			        }
+					// printf("Current Spike Flag %d at %d and %d \n",runtimeDataGPU.curSpike[lNId],simTimeMs,simTime);
 				}
 #else
 				if (runtimeDataGPU.curSpike[lNId]) {

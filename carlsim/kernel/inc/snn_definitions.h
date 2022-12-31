@@ -233,3 +233,7 @@
 #define GET_INITWTS_RAMPDOWN(a)		(((a) >> CONNECTION_INITWTS_RAMPDOWN) & 1)
 
 #endif
+
+#ifdef JK_CA3_SNN
+	#define RP_MAX_LST 20000000 // max time in ms that JK_CA3_SNN refractory period has special processing of needToWrite in spike times.
+#endif
