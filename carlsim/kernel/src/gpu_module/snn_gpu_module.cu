@@ -847,7 +847,7 @@ __global__ 	void kernel_findFiring (int simTimeMs, int simTime) {
 #ifdef JK_CA3_SNN
 				if (runtimeDataGPU.curSpike[lNId]) {
 					if (runtimeDataGPU.Izh_ref[lNId] > 0) {
-						if (runtimeDataGPU.lastSpikeTime[lNId] > RP_MAX_LST) {
+						if (runtimeDataGPU.lastSpikeTime[lNId] == INT_MAX) {
 							runtimeDataGPU.curSpike[lNId] = false;
 							needToWrite = true;
 							runtimeDataGPU.lastSpikeTime[lNId] = simTime;
