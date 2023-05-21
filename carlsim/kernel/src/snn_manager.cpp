@@ -282,6 +282,10 @@ int SNN::createGroup(const std::string& grpName, const Grid3D& grid, int neurTyp
 
 	grpConfig.WithSTDP = false;
 	grpConfig.WithDA_MOD = false;
+#ifdef LN_AXON_PLAST
+	grpConfig.WithAxonPlast = true;   
+	grpConfig.AxonPlast_TAU = 25; 
+#endif
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -332,6 +336,9 @@ int SNN::createGroupLIF(const std::string& grpName, const Grid3D& grid, int neur
 
 	grpConfig.WithSTDP = false;
 	grpConfig.WithDA_MOD = false;
+#ifdef LN_AXON_PLAST
+	grpConfig.WithAxonPlast = false;
+#endif
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -378,6 +385,9 @@ int SNN::createSpikeGeneratorGroup(const std::string& grpName, const Grid3D& gri
 
 	grpConfig.WithSTDP = false;
 	grpConfig.WithDA_MOD = false;
+#ifdef LN_AXON_PLAST
+	grpConfig.WithAxonPlast = false;
+#endif
 
 	if (preferredPartition == ANY) {
 		grpConfig.preferredNetId = ANY;
@@ -2162,7 +2172,7 @@ uint8_t* SNN::getDelays(int gGrpIdPre, int gGrpIdPost, int& numPreN, int& numPos
 
 	fetchPostConnectionInfo(netIdPost);
 
-	for (int lNIdPre = groupConfigs[netIdPost][lGrpIdPre].lStartN; lNIdPre < groupConfigs[netIdPost][lGrpIdPre].lEndN; lNIdPre++) {
+	for (int lNIdPre = groupConfigs[netIdPost][lGrpIdPre].lStartN; lNIdPre <= groupConfigs[netIdPost][lGrpIdPre].lEndN; lNIdPre++) {  // FIXED LN 2022 the end is an index as well
 		unsigned int offset = managerRuntimeData.cumulativePost[lNIdPre];
 
 		for (int t = 0; t < glbNetworkConfig.maxDelay; t++) {
@@ -3515,7 +3525,11 @@ void SNN::generateRuntimeGroupConfigs() {
 			//groupConfigs[netId][lGrpId].nm4stp = new NM4STPConfig(groupConfigMap[gGrpId].nm4StpConfig); 
 			//printf("DEBUG: groupConfigs[%d][%d].nm4stp = new NM4STPConfig(groupConfigMap[%d].nm4StpConfig); %s %d \n", netId, lGrpId, gGrpId, __FILE__, __LINE__);
 			// \todo memory management, -> delete groupConfigs[netId][lGrpId].nm4stp;			
+#endif
 
+#ifdef LN_AXON_PLAST
+			groupConfigs[netId][lGrpId].WithAxonPlast = groupConfigMap[gGrpId].WithAxonPlast;
+			groupConfigs[netId][lGrpId].AxonPlast_TAU = groupConfigMap[gGrpId].AxonPlast_TAU;
 #endif
 
 			// sync groupConfigs[][] and groupConfigMDMap[]
@@ -3763,6 +3777,9 @@ bool compareDelay(const ConnectionInfo& first, const ConnectionInfo& second) {
 	return (first.delay < second.delay);
 }
 
+//#define DEBUG__generateConnectionRuntime__pre_pos
+//#define DEBUG__generateConnectionRuntime__preSynapticIds
+
 // Note: ConnectInfo stored in connectionList use global ids
 void SNN::generateConnectionRuntime(int netId) {
 	std::map<int, int> GLoffset; // global nId to local nId offset
@@ -3920,6 +3937,15 @@ void SNN::generateConnectionRuntime(int netId) {
 			postConnectionList.splice(postConnectionList.begin(), connectionLists[netId], firstPostConn, lastPostConn);
 			postConnectionList.sort(compareDelay);
 #endif
+
+			// to recognize the INV, data must be homgenous and have a high Signal/Noise ratio (no cludering formating)
+#ifdef DEBUG__generateConnectionRuntime__pre_pos
+			printf("pre_pos  = cumulativePre[connIt->nDest] + connIt->preSynId\n");
+#endif
+#ifdef DEBUG__generateConnectionRuntime__preSynapticIds
+			printf("preSynapticIds[pre_pos] = SET_CONN_ID((nSrc + GLoffset[grpSrc]), Npost[nSrc + GLoffset[grpSrc]], (GLgrpId[grpSrc]))\n");
+#endif
+			//memset(&managerRuntimeData.postDelayInfo[lNId * (glbNetworkConfig.maxDelay + 1)], 0, sizeof(DelayInfo) * (glbNetworkConfig.maxDelay + 1));
 			int post_pos, pre_pos, lastDelay = 0;
 			parsedConnections = 0;
 			//memset(&managerRuntimeData.postDelayInfo[lNId * (glbNetworkConfig.maxDelay + 1)], 0, sizeof(DelayInfo) * (glbNetworkConfig.maxDelay + 1));
@@ -3927,7 +3953,9 @@ void SNN::generateConnectionRuntime(int netId) {
 				assert(connIt->nSrc + GLoffset[connIt->grpSrc] == lNId);
 				post_pos = managerRuntimeData.cumulativePost[connIt->nSrc + GLoffset[connIt->grpSrc]] + managerRuntimeData.Npost[connIt->nSrc + GLoffset[connIt->grpSrc]];
 				pre_pos  = managerRuntimeData.cumulativePre[connIt->nDest + GLoffset[connIt->grpDest]] + connIt->preSynId;
-
+#ifdef DEBUG__generateConnectionRuntime__pre_pos
+				printf("pre_pos  =           %3d[          %3d] +              %3d\n", managerRuntimeData.cumulativePre[connIt->nDest + GLoffset[connIt->grpDest]], connIt->nDest, connIt->preSynId);
+#endif
 				assert(post_pos < networkConfigs[netId].numPostSynNet);
 				//assert(pre_pos  < numPreSynNet);
 
@@ -3951,6 +3979,14 @@ void SNN::generateConnectionRuntime(int netId) {
 				assert(GET_CONN_NEURON_ID(preId) == connIt->nSrc + GLoffset[connIt->grpSrc]);
 				//assert(GET_CONN_GRP_ID(preId) == it->grpSrc);
 				managerRuntimeData.preSynapticIds[pre_pos] = SET_CONN_ID((connIt->nSrc + GLoffset[connIt->grpSrc]), managerRuntimeData.Npost[connIt->nSrc + GLoffset[connIt->grpSrc]], (GLgrpId[connIt->grpSrc]));
+#ifdef DEBUG__generateConnectionRuntime__preSynapticIds
+				printf("preSynapticIds[    %3d] = SET_CONN_ID(( %3d +      %3d[   %3d]),   %3d[ %3d +      %3d[   %3d]], (    %3d[   %3d]));\n",
+					pre_pos, 
+					connIt->nSrc, GLoffset[connIt->grpSrc], connIt->grpSrc, 
+					managerRuntimeData.Npost[connIt->nSrc + GLoffset[connIt->grpSrc]], connIt->nSrc, GLoffset[connIt->grpSrc], connIt->grpSrc,
+					GLgrpId[connIt->grpSrc], connIt->grpSrc );
+#endif
+
 				managerRuntimeData.wt[pre_pos] = connIt->initWt;
 				managerRuntimeData.maxSynWt[pre_pos] = connIt->maxWt;
 				managerRuntimeData.connIdsPreIdx[pre_pos] = connIt->connId;
@@ -3967,6 +4003,7 @@ void SNN::generateConnectionRuntime(int netId) {
 			// note: elements in postConnectionList are deallocated automatically with postConnectionList
 			/* for postDelayInfo debugging
 			printf("%d ", lNId);
+			int maxDelay_ = glbNetworkConfig.maxDelay;
 			for (int t = 0; t < maxDelay_ + 1; t ++) {
 				printf("[%d,%d]",
 					managerRuntimeData.postDelayInfo[lNId * (maxDelay_ + 1) + t].delay_index_start,
@@ -7203,6 +7240,11 @@ void SNN::deleteManagerRuntimeData() {
 	//if (managerRuntimeData.firingTableD1!=NULL) CUDA_CHECK_ERRORS(cudaFreeHost(managerRuntimeData.firingTableD1));
 	managerRuntimeData.firingTableD2 = NULL; managerRuntimeData.firingTableD1 = NULL;
 
+#ifdef LN_AXON_PLAST
+	if (managerRuntimeData.firingTimesD2 != NULL) delete[] managerRuntimeData.firingTimesD2;
+	managerRuntimeData.firingTimesD2 = NULL;
+#endif
+
 	if (managerRuntimeData.extFiringTableD2!=NULL) delete[] managerRuntimeData.extFiringTableD2;
 	if (managerRuntimeData.extFiringTableD1!=NULL) delete[] managerRuntimeData.extFiringTableD1;
 	//if (managerRuntimeData.extFiringTableD2!=NULL) CUDA_CHECK_ERRORS(cudaFreeHost(managerRuntimeData.extFiringTableD2));
@@ -7259,6 +7301,9 @@ void SNN::resetTimeTable() {
 void SNN::resetFiringTable() {
 	memset(managerRuntimeData.firingTableD2, 0, sizeof(int) * managerRTDSize.maxMaxSpikeD2);
 	memset(managerRuntimeData.firingTableD1, 0, sizeof(int) * managerRTDSize.maxMaxSpikeD1);
+#ifdef LN_AXON_PLAST
+	memset(managerRuntimeData.firingTimesD2, 0, sizeof(unsigned int) * managerRTDSize.maxMaxSpikeD2);
+#endif
 	memset(managerRuntimeData.extFiringTableEndIdxD2, 0, sizeof(int) * managerRTDSize.maxNumGroups);
 	memset(managerRuntimeData.extFiringTableEndIdxD1, 0, sizeof(int) * managerRTDSize.maxNumGroups);
 	memset(managerRuntimeData.extFiringTableD2, 0, sizeof(int*) * managerRTDSize.maxNumGroups);
@@ -7682,6 +7727,11 @@ void SNN::generateUserDefinedSpikes() {
 void SNN::allocateManagerSpikeTables() {
 	managerRuntimeData.firingTableD2 = new int[managerRTDSize.maxMaxSpikeD2];
 	managerRuntimeData.firingTableD1 = new int[managerRTDSize.maxMaxSpikeD1];
+
+#ifdef LN_AXON_PLAST
+	managerRuntimeData.firingTimesD2 = new unsigned int[managerRTDSize.maxMaxSpikeD2];
+#endif
+
 	managerRuntimeData.extFiringTableEndIdxD2 = new int[managerRTDSize.maxNumGroups];
 	managerRuntimeData.extFiringTableEndIdxD1 = new int[managerRTDSize.maxNumGroups];
 	managerRuntimeData.extFiringTableD2 = new int*[managerRTDSize.maxNumGroups];
@@ -8028,6 +8078,69 @@ void SNN::updateCurSpikeMT(std::vector<bool>& gFiring, int netId) {
 
 #endif //CURSPIKES_MT
 
+
+#ifdef LN_AXON_PLAST
+void SNN::findWavefrontPath(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId) {
+	if (netId < CPU_RUNTIME_BASE) 
+		; // GPU runtime
+	else {
+		findWavefrontPath_CPU(path, eligibility, netId, grpId, startNId, goalNId);
+	}
+
+}
+
+
+bool SNN::updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) {
+	int netIdPre = groupConfigMDMap[gGrpIdPre].netId;
+	int netIdPost = groupConfigMDMap[gGrpIdPost].netId;
+	assert(netIdPre == netIdPost);  // KERNEL Error
+	int netId = netIdPre;
+	int lGrpIdPost = groupConfigMDMap[gGrpIdPost].lGrpId;
+	int lGrpIdPre = -1;  // SNN::getDelays
+	for (int lGrpId = 0; lGrpId < networkConfigs[netIdPost].numGroupsAssigned; lGrpId++)
+		if (groupConfigs[netIdPost][lGrpId].gGrpId == gGrpIdPre) {
+			lGrpIdPre = lGrpId;
+			break;
+		}
+	assert(lGrpIdPre != -1);
+
+	bool success = false;
+	if (netId < CPU_RUNTIME_BASE) 
+		; // GPU runtime
+	else {
+		success = updateDelays_CPU(netId, lGrpIdPre, lGrpIdPost, connDelays); 
+	}
+	return success;
+}
+
+
+void SNN::printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost) {
+
+	int netIdPre = groupConfigMDMap[gGrpIdPre].netId;
+	int netIdPost = groupConfigMDMap[gGrpIdPost].netId;
+	assert(netIdPre == netIdPost);  // KERNEL Error
+	//int netId = netIdPre;
+	int lGrpIdPost = groupConfigMDMap[gGrpIdPost].lGrpId;
+	int lGrpIdPre = -1;  // SNN::getDelays
+	for (int lGrpId = 0; lGrpId < networkConfigs[netIdPost].numGroupsAssigned; lGrpId++)
+		if (groupConfigs[netIdPost][lGrpId].gGrpId == gGrpIdPre) {
+			lGrpIdPre = lGrpId;
+			break;
+		}
+	assert(lGrpIdPre != -1);
+
+	bool success = false;
+	if (netId < CPU_RUNTIME_BASE) // GPU runtime
+		;//findWavefrontPath_GPU((path, netId, grpId, startNId, goalNId);
+	else {
+		//#ifdef __NO_PTHREADS__
+		printEntrails_CPU(buffer, length, netId, gGrpIdPre, gGrpIdPost);  
+	}
+
+}
+
+
+#endif
 
 // FIXME: modify this for multi-GPUs
 void SNN::updateSpikeMonitor(int gGrpId) {

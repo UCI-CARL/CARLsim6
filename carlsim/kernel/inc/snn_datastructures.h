@@ -436,6 +436,10 @@ typedef struct GroupConfig_s {
 		, with_NMDA_rise(false)
 		, with_GABAb_rise(false)
 #endif
+#ifdef LN_AXON_PLAST	
+		, WithAxonPlast(false) 
+		, AxonPlast_TAU(25)
+#endif
 	{}
 
 	// properties of neural group size and location
@@ -473,6 +477,10 @@ typedef struct GroupConfig_s {
 	ACNE12Config acneConfig; //!< ACNE config at group level
 	NM4wConfig nm4wConfig; //!< NM4 config at group level
 	NM4STPConfig nm4StpConfig;  //!< NM4 weighted STP param
+#endif
+#ifdef LN_AXON_PLAST
+	bool WithAxonPlast; // 2022 VTE, Wavefront
+	int AxonPlast_TAU; // tau of the eligibity trace, e.g. 10, e_i(t+1) = e_i(t)(1.0f - 1.0f/AxonPlast_TAU)
 #endif
 } GroupConfig;
 
@@ -637,6 +645,11 @@ typedef struct GroupConfigRT_s {
 
 #endif
 
+#ifdef LN_AXON_PLAST
+	bool	WithAxonPlast;
+	int		AxonPlast_TAU;
+#endif
+
 
 } GroupConfigRT;
 
@@ -738,6 +751,10 @@ typedef struct RuntimeData_s {
 	
 	int* firingTableD1;
 	int* firingTableD2;
+
+#ifdef LN_AXON_PLAST
+	unsigned* firingTimesD2; //!< stores the actual firing time 
+#endif
 
 	int** extFiringTableD1; //!< external firing table, only used on GPU
 	int** extFiringTableD2; //!< external firing table, only used on GPU

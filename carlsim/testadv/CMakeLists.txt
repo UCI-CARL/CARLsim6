@@ -10,6 +10,7 @@
         main.cpp
         multi_runtimes.cpp
         stdp_adv.cpp
+		axonplast2.cpp
     )
 
     #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     
@@ -29,7 +30,7 @@
     target_include_directories(carlsim-testsadv
         PRIVATE
             ${GTEST_INCLUDE_DIRS}
- #           C:/Test/github/PTHREADS-BUILT/include
+			../../tools/stopwatch
     )
 
 # Linking
@@ -37,10 +38,8 @@
     target_link_libraries(carlsim-testsadv
         PRIVATE
             carlsim-spike-generators
+			carlsim-stopwatch
             ${GTEST_LIBRARIES}
-#            C:/Test/github/gtest-1-10_dist/lib/gtest_main.lib
-#            C:/Test/github/gtest-1-10_dist/lib/gtest.lib
-#            C:/Test/github/PTHREADS-BUILT/lib/pthreadVC3d.lib
     )
 
 if(MSVC)

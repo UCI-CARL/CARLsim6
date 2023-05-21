@@ -703,12 +703,14 @@ void SNN::copyExtFiringTable(int netId) {
 
 				if (fireId == -1) // no space availabe in firing table, drop the spike
 					continue;
-
 				// update firing table: firingTableD1(W), firingTableD2(W)
 				if (groupConfigs[netId][lGrpId].MaxDelay == 1) {
 					runtimeData[netId].firingTableD1[fireId] = lNId;
 				} else { // MaxDelay > 1
 					runtimeData[netId].firingTableD2[fireId] = lNId;
+#ifdef LN_AXON_PLAST
+					runtimeData[netId].firingTimesD2[fireId] = simTime;
+#endif
 				}
 
 				// update external firing table: extFiringTableEndIdxD1(W), extFiringTableEndIdxD2(W), extFiringTableD1(W), extFiringTableD2(W)
@@ -753,6 +755,707 @@ void SNN::copyExtFiringTable(int netId) {
 		pthread_exit(0);
 	}
 #endif
+
+
+#ifdef LN_AXON_PLAST
+
+#define LN_ELIGIBILITY_INSEARCH
+#define LN_MOST_RECENT   
+
+
+//#ifdef __NO_PTHREADS__
+	void SNN::findWavefrontPath_CPU(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId) {
+
+
+		assert(runtimeData[netId].memType == CPU_MEM);
+		assert(groupConfigs[netId][grpId].WithAxonPlast); // eligibility trace, runtimeData[netId].lastSpikeTime
+
+		KERNEL_INFO("findWavefrontPath_CPU from %d to %d in group %d of net %d", startNId, goalNId, grpId, netId);
+
+		int numN = groupConfigs[netId][grpId].numN;  // neurons in group -> max
+		int tau = groupConfigs[netId][grpId].AxonPlast_TAU;  // neurons in group -> max 
+
+		//Restrict the search in the group boundaries
+		int lEndN = groupConfigs[netId][grpId].lEndN;
+		int lStartN = groupConfigs[netId][grpId].lStartN;
+
+		// last spike
+		auto &rtD = runtimeData[netId];
+
+		auto &firing = rtD.firingTableD2; // unsigned int * 
+		auto &times = rtD.firingTimesD2;
+
+		// hold the valid neuron IDs, that can be searched.
+		// initially all neurons of the group are valid
+		// if a neuron was found and added to the path, the neuron no longer is eligible to be searched. 
+		// to avoid circles, the indeces are relative neuron Ids
+		// rId e: [lStartN .. lEndN] - lStartN; 
+		std::vector<bool> valid_ids(numN, true);   
+
+		std::vector<unsigned int> path_times;  // hold the firing times of the path 
+
+		// search previous, most recent firing of the neuron idetified by fired
+		// fired: lNId which to search for
+		// last: start 
+		auto searchPrevFiring = [&](int fired, int last) {
+			KERNEL_DEBUG("searching previous firing for Nid %d starting on %d\n", fired, last);
+			int index = last;
+			while (index >= 0) {
+				KERNEL_DEBUG("firingTableD2[%d]=%d\n", index, rtD.firingTableD2[index]);
+				if (rtD.firingTableD2[index] == fired) {
+					KERNEL_DEBUG("NId %d found at index %d (%d)\n", fired, index, rtD.firingTimesD2[index]);
+					return index; // found
+				}
+				else  
+					if (rtD.firingTableD2[index] == startNId) { // hot fix for nId 3 issue, 
+						KERNEL_DEBUG("Nid %d has no firing that lead to startNId %d\n", fired, startNId);
+#ifdef LN_MOST_RECENT
+						return -1; // most recent
+#else
+						return MAXINT;
+#endif
+					}
+				else
+					index--;
+			}
+#ifdef LN_MOST_RECENT
+			return -1;  // most recent
+#else			
+			return MAXINT;
+#endif
+		};
+
+		auto appendToPath = [&](int lNId, unsigned int time) {
+			if (lNId < lStartN || lNId > lEndN ) {  
+				printf("reject append to path: %d\n", lNId);
+				return;
+			}
+			KERNEL_DEBUG("append to path: %d\n\n", lNId);
+			path.push_back(lNId);
+			valid_ids[lNId - lStartN] = false;
+			path_times.push_back(time);
+		};
+
+		auto assignEligibility = [&](int lNId, float e_i) {
+#ifdef LN_ELIGIBILITY_INSEARCH   // do nothing for new search
+			KERNEL_DEBUG("e[%d] = %f\n", lNId, e_i);
+			if (e_i > 1.0f) {
+				KERNEL_DEBUG("WARNING: Rejected (e_i > 1.0)");
+				return;
+			}
+			if (lNId < lStartN || lNId > lEndN) {
+				KERNEL_DEBUG("WARNING: Reject as NId is not part of the group %d", lNId);
+				return;
+			}
+			auto e_i_prev = eligibility[lNId - lStartN];
+			if (e_i_prev > 0.0f && e_i_prev > e_i)
+				eligibility[lNId - lStartN] = e_i; // fix wave front
+			else
+				eligibility[lNId - lStartN] = e_i;  // assign ralative NId
+#endif
+		};
+
+#ifndef LN_ELIGIBILITY_INSEARCH
+		auto assignEligibility2 = [&](int lNId, float e_i) {
+			KERNEL_DEBUG("e[%d] = %f\n", lNId, e_i);
+			if (e_i > 1.0f) {
+				KERNEL_DEBUG("WARNING: Rejected (e_i > 1.0)\n");
+				return;
+			}
+			//wavefront the first hit of the wave define the eligibility
+			if (eligibility[lNId - lStartN] > 0.0f)
+				return;
+			eligibility[lNId - lStartN] = e_i;  // assign ralative NId
+		};
+#endif
+
+		auto current = goalNId;
+
+
+		// initial iteration
+		auto sCD2 = rtD.spikeCountD2Sec;
+		auto fTD2 = rtD.firingTableD2[sCD2 > 0 ? sCD2 - 1 : sCD2];
+		auto tTD2 = rtD.firingTimesD2[sCD2 > 0 ? sCD2 - 1 : sCD2];  // seems to be empty all the time
+		KERNEL_DEBUG("Firings D2: spikeCountD2Sec: %d firingTableD2[spikeCountD2Sec-1]: %d  timeTableD2[spikeCountD2Sec-1] %d\n", sCD2, fTD2, tTD2);
+
+
+		int last = searchPrevFiring(current, rtD.spikeCountD2Sec - 1);
+#ifdef LN_MOST_RECENT
+		if (last == -1)
+#else
+		if (last == MAXINT)
+#endif
+			return; 
+
+		unsigned int current_time = rtD.firingTimesD2[last]; 
+		appendToPath(current, current_time);
+
+
+		int t_0 = current_time;
+
+		float base = 1.0f - 1.0f / float(tau);
+		auto eligibility_i = [&](int t) {
+			float e_i = std::pow(base, t_0 - t);  
+
+			if (t == -1) {  // most recent
+				KERNEL_WARN("WARNING: Rejected (t = MAXINT)\n");
+				return 0.0f;
+			}
+			if (e_i > 1.0f) {
+				KERNEL_WARN("WARNING: Rejected (e_i > 1.0)\n");
+				return 0.0f;
+			}
+			KERNEL_DEBUG("%dms=%f\n", t, e_i);
+			return e_i;
+		};
+
+		assignEligibility(current, eligibility_i(current_time));
+
+		// iteration 
+		for (int iteration = 1; iteration < numN && current != startNId; iteration++) {
+
+			for (auto t_last = rtD.firingTimesD2[last];
+				rtD.firingTimesD2[last] == t_last;
+				last--)
+					KERNEL_DEBUG("skipping firings at same time of current: %d\n", last);
+
+			//printf("search pre with minimal delay of %d, iteration %d\n", current, iteration); 
+#ifdef LN_MOST_RECENT
+			int j_max = -1; // index with invalid delay
+#else
+			int j_min = MAXINT; 
+#endif
+			if (current < 0) {
+				KERNEL_DEBUG("skipping iteration current id is negative %d\n", current);
+#ifdef LN_MOST_RECENT
+				last = -1;
+#else
+				last = MAXINT;
+#endif
+				break;
+			}
+			auto npre = rtD.Npre[current] ;
+			auto cumPre = rtD.cumulativePre[current];
+			for (int j = 0; j < npre;  j++) {
+				// pre
+				auto preSynId = rtD.preSynapticIds[cumPre + j];
+				auto preNId = preSynId.nId; 
+
+				if (preNId < lStartN || preNId > lEndN) {
+					KERNEL_DEBUG("skipping neuron outside the group: %d\n", preNId);
+					continue;
+				}
+				if (!valid_ids[preNId - lStartN]) {
+					KERNEL_DEBUG("skipping circular neuron: %d\n", preNId);
+					continue;
+				}
+
+				auto last_pre = last;
+
+				{
+					int lNId = preNId;
+					unsigned int offset = rtD.cumulativePost[lNId];
+
+					// search each synapse starting from from neuron lNId
+					auto found = false;
+					auto delay = -1;
+					for (int t = 0; !found && t < glbNetworkConfig.maxDelay; t++) {
+						DelayInfo dPar = rtD.postDelayInfo[lNId * (glbNetworkConfig.maxDelay + 1) + t];
+						for (int idx_d = dPar.delay_index_start; !found && idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d++) {
+							SynInfo post_info = rtD.postSynapticIds[offset + idx_d];
+							int lNIdPost = GET_CONN_NEURON_ID(post_info);
+							if (lNIdPost == current) {
+								found = true; 
+								delay = t + 1;
+								KERNEL_DEBUG("d(%d, %d) = %d\n", lNId, lNIdPost, delay);
+							}
+						}
+					}
+					while (last_pre > 0 && rtD.firingTimesD2[last_pre] > current_time - delay) {
+						KERNEL_DEBUG("skipping firings at frame %d of currnet_time %d\n", last_pre, rtD.firingTimesD2[last]);
+						assignEligibility(rtD.firingTableD2[last_pre], eligibility_i(rtD.firingTimesD2[last_pre])); // Fix assign eligibility for skipped tho
+						last_pre--;
+					}
+
+				}
+
+				// search for pos in firing 
+				int j_fired = searchPrevFiring(preNId, last_pre);  
+#ifdef LN_MOST_RECENT
+				if (j_fired == -1)  // Most recent
+#else
+				if (j_fired == MAXINT) // || j_fired == 2147483646)
+#endif
+					continue;  
+				assignEligibility(preNId, eligibility_i(rtD.firingTimesD2[j_fired]));
+				if (j == 0)
+#ifdef LN_MOST_RECENT
+					j_max = j_fired;
+#else
+					j_min = j_fired;
+#endif
+				else {
+
+					
+#ifdef LN_MOST_RECENT
+					j_max = std::max(j_max, j_fired);  
+#else
+					j_min = std::min(j_min, j_fired);
+#endif
+				}
+			}
+#ifdef LN_MOST_RECENT
+			if (j_max < 0) {
+#else
+			if (j_min == MAXINT) {
+#endif
+				KERNEL_INFO("None of the pre was found. Path was incomplete. Break");
+				break;
+			}
+#ifdef LN_MOST_RECENT
+			last = j_max;
+#else
+			last = j_min;
+#endif
+				current = rtD.firingTableD2[last];
+				current_time = rtD.firingTimesD2[last];
+				appendToPath(current, current_time);
+		}
+
+		std::ostringstream string_stream;
+		for (auto iter = path.rbegin(); iter < path.rend(); iter++) {
+			if (iter != path.rbegin())
+				string_stream << ",";
+			string_stream << *iter;
+		}
+
+		KERNEL_INFO("path: %s", string_stream.str().c_str());
+
+
+#ifndef LN_ELIGIBILITY_INSEARCH
+		//wave front 
+		{
+			// initial iteration			
+			unsigned i_goal = 0, t_goal = 0, i_start = 0, t_start = 0;
+			
+			KERNEL_DEBUG("Firings D2: spikeCountD2Sec: %d firingTableD2[spikeCountD2Sec-1]: %d  timeTableD2[spikeCountD2Sec-1] %d\n", sCD2, fTD2, tTD2);
+
+			// seek last firing of goalNId
+			for (unsigned last = rtD.spikeCountD2Sec - 1; last >= 0; last--) {
+				if (rtD.firingTableD2[last] == goalNId) {
+					i_goal = last;
+					t_goal = rtD.firingTimesD2[last];
+					KERNEL_INFO("Goal firings: firingTableD2[%d]=%d, timeTableD2[%d]=%d\n", i_goal, goalNId, i_goal, t_goal);
+					break;
+				}
+				if (last == 0) // unsigned
+					break;
+			}
+
+			// seek first firing of startNId
+			auto start_t = 1; // 
+			// seek first firing before start_t
+			for (unsigned last = rtD.spikeCountD2Sec - 1;
+				last >= 0 && rtD.firingTimesD2[last] >= start_t;
+				last--)
+					if(last==0) // unsigned
+						break; 
+			// search first firing 
+			for (unsigned first = std::max(0, last); first < i_goal; first++) {
+				if (rtD.firingTableD2[first] == startNId) {
+					i_start = first;
+					t_start = rtD.firingTimesD2[first];
+					KERNEL_INFO("Start firings: firingTableD2[%d]=%d, firingTimesD2[%d]=%d\n", i_start, startNId, i_start, t_start);
+					break;
+				}
+				if (last == 0) // unsigned
+					break;
+			}
+
+			for (unsigned i = i_start; rtD.firingTimesD2[i] <= t_goal; i++) {
+				auto firedNId = rtD.firingTableD2[i]; 
+				//ensure firedNId belongs to current group
+				if (firedNId >= lStartN && firedNId <= lEndN) {					
+					assignEligibility2(firedNId, eligibility_i(rtD.firingTimesD2[i]));
+				}
+			}
+
+		}
+
+#endif
+
+}
+ 
+#define PATCH_updateDelays_PostNId  
+#define PATCH_updateDelays_PostNId_Break  
+
+
+/*
+ *  snn_manager.cpp  SNN::generateConnectionRuntime
+ * 
+ */
+bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) {
+
+	// snatch old delays 
+	int netIdPost = groupConfigMDMap[gGrpIdPost].netId;
+	int lGrpIdPost = groupConfigMDMap[gGrpIdPost].lGrpId;
+	int lGrpIdPre = -1;
+
+	for (int lGrpId = 0; lGrpId < networkConfigs[netIdPost].numGroupsAssigned; lGrpId++)
+		if (groupConfigs[netIdPost][lGrpId].gGrpId == gGrpIdPre) {
+			lGrpIdPre = lGrpId;
+			break;
+		}
+	assert(lGrpIdPre != -1);
+
+	int numPreN = groupConfigMap[gGrpIdPre].numN;
+	int numPostN = groupConfigMap[gGrpIdPost].numN;
+
+	//Cache group boundaries
+	int lStartNIdPre = groupConfigs[netIdPost][lGrpIdPre].lStartN;
+	int lEndNIdPre = groupConfigs[netIdPost][lGrpIdPre].lEndN;
+	int lStartNIdPost = groupConfigs[netIdPost][lGrpIdPost].lStartN;
+	int lEndNIdPost = groupConfigs[netIdPost][lGrpIdPost].lEndN;
+
+	uint8_t* delays = new uint8_t[numPreN * numPostN];
+	memset(delays, 0, numPreN * numPostN);                                                 
+	for (int lNIdPre = groupConfigs[netIdPost][lGrpIdPre].lStartN; lNIdPre <= groupConfigs[netIdPost][lGrpIdPre].lEndN; lNIdPre++) {  
+		unsigned int offset = managerRuntimeData.cumulativePost[lNIdPre];
+		for (int t = 0; t < glbNetworkConfig.maxDelay; t++) {
+			DelayInfo dPar = managerRuntimeData.postDelayInfo[lNIdPre * (glbNetworkConfig.maxDelay + 1) + t];
+			for (int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d++) {
+				// get synaptic info
+				SynInfo postSynInfo = managerRuntimeData.postSynapticIds[offset + idx_d];
+				// get local post neuron id
+				int lNIdPost = GET_CONN_NEURON_ID(postSynInfo);
+				assert(lNIdPost < glbNetworkConfig.numN);
+				if (lNIdPost >= groupConfigs[netIdPost][lGrpIdPost].lStartN && lNIdPost <= groupConfigs[netIdPost][lGrpIdPost].lEndN) {
+					delays[(lNIdPre - groupConfigs[netIdPost][lGrpIdPre].lStartN) + numPreN * (lNIdPost - groupConfigs[netIdPost][lGrpIdPost].lStartN)] = t + 1;
+				}
+			}
+		}
+	}
+
+	// access to serialized storage, grouped by pre
+	auto getDelay = [&](int pre, int post) { return delays[post * numPostN + pre]; };
+	auto setDelay = [&](int pre, int post, int8_t delay) { delays[post * numPostN + pre] = delay; };
+
+#ifdef DEBUG_updateDelays_CPU
+	// iterate over pre and print the delay of each post connection
+	auto printDelays = [&]() {
+		for (int i = 0; i < numPreN; i++) {
+			for (int j = 0; j < numPostN; j++) {
+				int d = getDelay(i, j);
+				if (d > 0)
+					printf("pre:%d post:%d delay:%d\n", i, j, d);
+			}
+		}
+	};
+
+	const int buff_len = 30000; 
+	char buffer[buff_len];
+#endif
+
+	//auto iter = connDelays.begin(); 
+	for (auto iter = connDelays.begin(); iter != connDelays.end(); iter++)
+	{
+#ifdef DEBUG_updateDelays_CPU
+		printDelays();
+#endif
+		std::map<int, int> GLoffset; // global nId to local nId offset
+		std::map<int, int> GLgrpId; // global grpId to local grpId offset
+
+		// load offset between global neuron id and local neuron id
+		for (std::list<GroupConfigMD>::iterator grpIt = groupPartitionLists[netId].begin(); grpIt != groupPartitionLists[netId].end(); grpIt++) {
+			GLoffset[grpIt->gGrpId] = grpIt->GtoLOffset;
+			GLgrpId[grpIt->gGrpId] = grpIt->lGrpId;
+		}
+
+		ConnectionInfo connInfo;
+		connInfo.grpSrc = lGrpIdPre;  
+		connInfo.grpDest = lGrpIdPost;
+		connInfo.initWt = -1.0f;
+		connInfo.maxWt = -1.0f;
+		connInfo.connId = -1;
+		connInfo.preSynId = -1;
+
+		int post_pos, pre_pos; 
+		enum { left, right, none } direction;
+
+		{
+			// new delay
+			connInfo.nSrc = std::get<0>(*iter);	
+			connInfo.nDest = std::get<1>(*iter);
+			connInfo.delay = std::get<2>(*iter);
+#ifdef DEBUG_updateDelays_CPU
+			printEntrails(buffer, buff_len, 8, gGrpIdPre, gGrpIdPost);
+			printf("before pre=%d, post=%d delay=%d\n%s\n", connInfo.nSrc, connInfo.nDest, connInfo.delay, buffer);
+#endif
+			connInfo.srcGLoffset = GLoffset[connInfo.nSrc];
+
+			int lNIdPre = connInfo.nSrc + GLoffset[connInfo.grpSrc];
+			unsigned int offset = runtimeData[netId].cumulativePre[lNIdPre];
+
+			// old delay
+			int old_delay = getDelay(connInfo.nSrc, connInfo.nDest);
+
+			// direction		
+			if (connInfo.delay < old_delay)
+				direction = left;
+			else if (connInfo.delay > old_delay)
+				direction = right;
+			else
+				direction = none;
+
+			int nId_left = -1;
+			int delay_left = -1;
+
+			int post_pos = -1;
+			int pre_pos = -1;
+			int start = runtimeData[netId].cumulativePost[connInfo.nSrc]; // start index 
+			int n = runtimeData[netId].Npost[connInfo.nSrc]; // neuron has n synapses
+
+			if (direction == left) { // down
+				// search post_pos of syn to nDest from end
+				for (int pos = start + n - 1; pos >= start; pos--)   // up
+					if (runtimeData[netId].postSynapticIds[pos].nId == connInfo.nDest) {
+						post_pos = pos;
+						break;
+					}
+				// move left (up) while higher delay
+
+				//int moved = 0;
+				while (post_pos > 0) 
+				{
+					post_pos--;
+#ifdef PATCH_updateDelays_ConnGroup
+					if (runtimeData[netId].postSynapticIds[post_pos].gsId != 0)
+						continue;
+#endif
+					nId_left = runtimeData[netId].postSynapticIds[post_pos].nId;
+#ifdef PATCH_updateDelays_PostNId
+					if (nId_left < lStartNIdPost || nId_left > lEndNIdPost)
+#ifndef PATCH_updateDelays_PostNId_Break
+						continue;
+#else
+						break;
+#endif
+#endif
+					delay_left = getDelay(connInfo.nSrc, nId_left);
+					if (connInfo.delay < delay_left) {
+						auto postSynapticIds_synId = runtimeData[netId].postSynapticIds[post_pos];
+						runtimeData[netId].postSynapticIds[post_pos] = runtimeData[netId].postSynapticIds[post_pos + 1];
+						runtimeData[netId].postSynapticIds[post_pos + 1] = postSynapticIds_synId;
+					}
+					else
+						break;
+				}
+			}
+			else if (direction == right) { // down
+
+				// search position of syn to nDest from start
+				for (int pos = start; pos < start + n; pos++)   // down
+					if (runtimeData[netId].postSynapticIds[pos].nId == connInfo.nDest) {
+						post_pos = pos;
+						break;
+					}
+
+				// move right (down) while lower delay
+				while (post_pos < start + n - 1) {
+					post_pos++;
+#ifdef PATCH_updateDelays_ConnGroup
+					if (runtimeData[netId].postSynapticIds[post_pos].gsId != 0)
+						continue;
+#endif
+					nId_left = runtimeData[netId].postSynapticIds[post_pos].nId;
+#ifdef PATCH_updateDelays_PostNId
+					if (nId_left < lStartNIdPost || nId_left > lEndNIdPost)
+#ifndef PATCH_updateDelays_PostNId_Break
+						continue;
+#else
+						break;
+#endif
+#endif
+					delay_left = getDelay(connInfo.nSrc, nId_left);
+					if (connInfo.delay > delay_left) {
+						auto postSynapticIds_synId = runtimeData[netId].postSynapticIds[post_pos];
+
+						runtimeData[netId].postSynapticIds[post_pos] = runtimeData[netId].postSynapticIds[post_pos - 1];
+						runtimeData[netId].postSynapticIds[post_pos - 1] = postSynapticIds_synId;
+					}
+					else
+						break;
+				}
+			}
+			else
+				continue;  // skip nop
+
+			for (int synId = runtimeData[netId].cumulativePost[connInfo.nSrc]; synId < runtimeData[netId].Npost[connInfo.nSrc] + runtimeData[netId].cumulativePost[connInfo.nSrc]; synId++) {
+				SynInfo& postSynInfo = runtimeData[netId].postSynapticIds[synId];
+				int nId = postSynInfo.nId;
+				int preSynId = GET_CONN_SYN_ID(postSynInfo);
+				int pre_pos = runtimeData[netId].cumulativePre[nId] + preSynId;
+				SynInfo& preSynInfo = runtimeData[netId].preSynapticIds[pre_pos];
+#ifdef PATCH_updateDelays_ConnGroup
+				if (preSynInfo.gsId != 0)
+					continue;
+#endif
+				preSynInfo.gsId = synId - runtimeData[netId].cumulativePost[connInfo.nSrc];
+			}
+
+#ifdef DEBUG_updateDelays_CPU
+			printf("%d\n", post_pos);
+#endif
+
+			// old postDelayInfo
+			int t_old = old_delay - 1;  // transform delay in ms to offset: 1 ms becomes 0, 2 ms becomes 1, .. 
+			DelayInfo& dPar_old = runtimeData[netId].postDelayInfo[lNIdPre * (glbNetworkConfig.maxDelay + 1) + t_old];
+
+			if (dPar_old.delay_length >= 0) {
+				dPar_old.delay_length--; // decrement
+				dPar_old.delay_index_start = 0; // reset entry  
+			}
+			else {
+				KERNEL_ERROR("Post-synaptic delay was not sorted correctly pre_id=%d, offset=%d", lNIdPre, offset);
+			}
+
+			int t_new = connInfo.delay - 1;  // transform delay in ms to offset: 1 ms becomes 0, 2 ms becomes 1, .. 
+			DelayInfo& dPar_new = runtimeData[netId].postDelayInfo[lNIdPre * (glbNetworkConfig.maxDelay + 1) + t_new];
+
+			if (dPar_new.delay_length >= 0) {
+				dPar_new.delay_length++; // decrement
+				dPar_old.delay_index_start = 0; // reset entry  
+			}
+			else {
+				KERNEL_ERROR("Post-synaptic delay was not sorted correctly pre_id=%d, offset=%d", lNIdPre, offset);
+			}
+
+			offset = 0;
+			for (int t = 0; t < 21; t++) {
+				DelayInfo& dPar = runtimeData[netId].postDelayInfo[lNIdPre * (glbNetworkConfig.maxDelay + 1) + t];
+				if (dPar.delay_length > 0) {
+					dPar.delay_index_start = offset;
+					offset += dPar.delay_length;
+				}
+			}
+#ifdef DEBUG_updateDelays_CPU
+			printEntrails(buffer, buff_len, 8, gGrpIdPre, gGrpIdPost);
+			printf("after pre=%d, post=%d delay=%d\n%s\n", connInfo.nSrc, connInfo.nDest, connInfo.delay, buffer);
+#endif
+			
+			if (offset == n) {
+				setDelay(connInfo.nSrc, connInfo.nDest, connInfo.delay); // update delay cache 
+			}
+			else
+			{
+				printf("WARNING: skipping setDelay (offset!=n): pre=%d, post=%d delay=%d\n", 
+					connInfo.nSrc, connInfo.nDest, connInfo.delay);
+			}
+
+		}
+	}
+
+	delete delays;
+
+	return false;
+}
+
+
+
+void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost) {
+
+	const int lineBufferLength = 1024;
+	char lineBuffer[lineBufferLength];
+
+	// snatch old delays 
+	int netIdPost = groupConfigMDMap[gGrpIdPost].netId;
+	int lGrpIdPost = groupConfigMDMap[gGrpIdPost].lGrpId;
+	int lGrpIdPre = -1;
+
+	for (int lGrpId = 0; lGrpId < networkConfigs[netIdPost].numGroupsAssigned; lGrpId++)
+		if (groupConfigs[netIdPost][lGrpId].gGrpId == gGrpIdPre) {
+			lGrpIdPre = lGrpId;
+			break;
+		}
+	assert(lGrpIdPre != -1);
+
+	std::map<int, int> GLoffset; // global nId to local nId offset
+	std::map<int, int> GLgrpId; // global grpId to local grpId offset
+
+	// load offset between global neuron id and local neuron id
+	for (std::list<GroupConfigMD>::iterator grpIt = groupPartitionLists[netId].begin(); grpIt != groupPartitionLists[netId].end(); grpIt++) {
+		GLoffset[grpIt->gGrpId] = grpIt->GtoLOffset;
+		GLgrpId[grpIt->gGrpId] = grpIt->lGrpId;
+	}
+
+	int numN = glbNetworkConfig.numN;
+	int maxDelay = glbNetworkConfig.maxDelay;
+
+	strcpy_s(buffer, length, ""); // init buffer
+	auto append = [&]() {strcat_s(buffer, length, lineBuffer); };  
+
+	sprintf_s(lineBuffer, lineBufferLength, "%-9s      %-9s      %-9s      %-9s\n", "Npost", "Npre", "cumPost", "cumPre");
+	append(); 
+	for (int lNId = 0; lNId < numN; lNId++) {
+		int _Npost = runtimeData[netId].Npost[lNId];
+		int _Npre = runtimeData[netId].Npre[lNId];
+		int _cumulativePost = runtimeData[netId].cumulativePost[lNId];
+		int _cumulativePre = runtimeData[netId].cumulativePre[lNId];
+		sprintf_s(lineBuffer, lineBufferLength, "[%3d] %3d      [%3d] %3d      [%3d] %3d      [%3d] %3d\n", lNId, _Npost, lNId, _Npre, lNId, _cumulativePost, lNId, _cumulativePre);
+		append();
+	}
+
+	int start = 0;
+	
+	int numPostSynapses = groupConfigs[netIdPost][lGrpIdPost].numPostSynapses;
+	int numPreSynapses = groupConfigs[netIdPost][lGrpIdPre].numPreSynapses;
+
+	sprintf_s(lineBuffer, lineBufferLength, "\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
+	append();
+	for (int pos = start; pos < numPostSynapses; pos++) {     // maybe some kind of max, to to pos_post,  pos_pre
+		auto postSynInfo = runtimeData[netId].postSynapticIds[pos];  // post_pos
+		int lNId = GET_CONN_NEURON_ID(postSynInfo);
+		int grpId = GET_CONN_GRP_ID(postSynInfo);
+		int synId = GET_CONN_SYN_ID(postSynInfo);
+		sprintf_s(lineBuffer, lineBufferLength, "[%3d] {%3d %3d} %3d \n", pos, grpId, synId, lNId);
+		append();
+	}
+
+	sprintf_s(lineBuffer, lineBufferLength, "\n%s (%s, %s, %s)\n", "preSynapticIds", "connectionGroupId", "synapseId", "preNId");
+	append();
+	for (int pos = start; pos < numPreSynapses; pos++) {     // maybe some kind of max, to to pos_post,  pos_pre
+		auto preSynInfo = runtimeData[netId].preSynapticIds[pos];  // post_pos
+		int lNId = GET_CONN_NEURON_ID(preSynInfo);
+		int grpId = GET_CONN_GRP_ID(preSynInfo);
+		int synId = GET_CONN_SYN_ID(preSynInfo);
+		sprintf_s(lineBuffer, lineBufferLength, "[%3d] {%3d %3d} %3d\n", pos, grpId, synId, lNId);
+		append();
+	}
+
+	int numPreN = groupConfigMap[gGrpIdPre].numN;
+
+	sprintf_s(lineBuffer, lineBufferLength, "\npostDelayInfo (pre x d)\n   ");  append();
+	for (int t = 0; t < maxDelay + 1; t++) {
+		sprintf_s(lineBuffer, lineBufferLength, "%4d ", t+1);  append();
+	}
+	sprintf_s(lineBuffer, lineBufferLength, "\n");  append();
+	for (int lNId = 0; lNId < numPreN; lNId++)  
+	{
+		sprintf_s(lineBuffer, lineBufferLength, "%2d ", lNId);  append();
+		for (int t = 0; t < maxDelay + 1; t++) {
+			sprintf_s(lineBuffer, lineBufferLength, "[%d,%d]",
+				runtimeData[netId].postDelayInfo[lNId * (maxDelay + 1) + t].delay_index_start,
+				runtimeData[netId].postDelayInfo[lNId * (maxDelay + 1) + t].delay_length);  append();
+		}
+		sprintf_s(lineBuffer, lineBufferLength, "\n"); append();
+	}
+
+}
+
+
+#endif
+
+
 
 
 void SNN::updateLTP(int lNId, int lGrpId, int netId) {
@@ -911,7 +1614,11 @@ void SNN::firingUpdateSTP(int lNId, int lGrpId, int netId) {
 }
 
 void SNN::resetFiredNeuron(int lNId, short int lGrpId, int netId) {
-	if (groupConfigs[netId][lGrpId].WithSTDP)
+	if (groupConfigs[netId][lGrpId].WithSTDP
+#ifdef LN_AXON_PLAST
+		|| groupConfigs[netId][lGrpId].WithAxonPlast	// E-Prop Eligibility Trace
+#endif
+	)
 		runtimeData[netId].lastSpikeTime[lNId] = simTime;
 
 	if (networkConfigs[netId].sim_with_homeostasis) {
@@ -1828,6 +2535,9 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 	// and put it to the beginning of the firing table...
 	for(int p = runtimeData[netId].timeTableD2[999], k = 0; p < runtimeData[netId].timeTableD2[999 + networkConfigs[netId].maxDelay + 1]; p++, k++) {
 		runtimeData[netId].firingTableD2[k] = runtimeData[netId].firingTableD2[p];
+#ifdef LN_AXON_PLAST
+		runtimeData[netId].firingTimesD2[k] = runtimeData[netId].firingTimesD2[p];
+#endif
 	}
 
 	for(int i = 0; i < networkConfigs[netId].maxDelay; i++) {
@@ -2899,6 +3609,9 @@ void SNN::copyAuxiliaryData(int netId, int lGrpId, RuntimeData* dest, bool alloc
 	if (allocateMem) {
 		assert(dest->firingTableD1 == NULL);
 		assert(dest->firingTableD2 == NULL);
+#ifdef LN_AXON_PLAST
+		assert(dest->firingTimesD2 == NULL);
+#endif
 	}
 
 	// allocate 1ms firing table
@@ -2912,6 +3625,15 @@ void SNN::copyAuxiliaryData(int netId, int lGrpId, RuntimeData* dest, bool alloc
 		dest->firingTableD2 = new int[networkConfigs[netId].maxSpikesD2];
 	if (networkConfigs[netId].maxSpikesD2 > 0)
 		memcpy(dest->firingTableD2, managerRuntimeData.firingTableD2, sizeof(int) * networkConfigs[netId].maxSpikesD2);
+
+	// allocate 2+ms firing times
+#ifdef LN_AXON_PLAST
+	if (allocateMem)
+		dest->firingTimesD2 = new unsigned int[networkConfigs[netId].maxSpikesD2];
+	if (networkConfigs[netId].maxSpikesD2 > 0)
+		memcpy(dest->firingTimesD2, managerRuntimeData.firingTimesD2, sizeof(unsigned int) * networkConfigs[netId].maxSpikesD2);
+#endif
+
 
 	// allocate external 1ms firing table
 	if (allocateMem) {
@@ -3203,6 +3925,9 @@ void SNN::copySpikeTables(int netId) {
 	spikeCountD1Sec = runtimeData[netId].spikeCountD1Sec;
 	memcpy(managerRuntimeData.firingTableD2, runtimeData[netId].firingTableD2, sizeof(int) * (spikeCountD2Sec + spikeCountLastSecLeftD2));
 	memcpy(managerRuntimeData.firingTableD1, runtimeData[netId].firingTableD1, sizeof(int) * spikeCountD1Sec);
+#ifdef LN_AXON_PLAST
+	memcpy(managerRuntimeData.firingTimesD2, runtimeData[netId].firingTimesD2, sizeof(unsigned int) * (spikeCountD2Sec + spikeCountLastSecLeftD2));
+#endif
 	memcpy(managerRuntimeData.timeTableD2, runtimeData[netId].timeTableD2, sizeof(int) * (1000 + networkConfigs[netId].maxDelay + 1));
 	memcpy(managerRuntimeData.timeTableD1, runtimeData[netId].timeTableD1, sizeof(int) * (1000 + networkConfigs[netId].maxDelay + 1));
 }
@@ -3318,6 +4043,10 @@ void SNN::copySpikeTables(int netId) {
 
 	delete [] runtimeData[netId].firingTableD2;
 	delete [] runtimeData[netId].firingTableD1;
+
+#ifdef LN_AXON_PLAST
+	delete [] runtimeData[netId].firingTimesD2;
+#endif
 
 	int** tempPtrs;
 	tempPtrs = new int*[networkConfigs[netId].numGroups];

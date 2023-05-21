@@ -1413,6 +1413,22 @@ public:
 	}
 #endif
 
+
+#ifdef LN_AXON_PLAST
+	void findWavefrontPath(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId) {
+		snn_->findWavefrontPath(path, eligibility, netId, grpId, startNId, goalNId);	
+	}
+
+	bool updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) {
+		return snn_->updateDelays(gGrpIdPre, gGrpIdPost, connDelays);
+	}
+
+	void printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost) {
+		return snn_->printEntrails(buffer, length, netId, gGrpIdPre, gGrpIdPost);
+	}
+#endif
+
+
 	std::vector<float> getConductanceAMPA(int grpId) {
 		std::string funcName = "getConductanceAMPA()";
 		UserErrors::assertTrue(carlsimState_ == RUN_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE,
@@ -2280,6 +2296,21 @@ void CARLsim::setupNetwork() { _impl->setupNetwork(); }
 // build the network
 void CARLsim::setupNetworkMT() { _impl->setupNetworkMT(); }
 #endif 
+
+#ifdef LN_AXON_PLAST
+void CARLsim::findWavefrontPath(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId) {
+	_impl->findWavefrontPath(path, eligibility, netId, grpId, startNId, goalNId);
+}
+
+bool CARLsim::updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) {
+	return _impl->updateDelays(gGrpIdPre, gGrpIdPost, connDelays);
+}
+
+void CARLsim::printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost) {
+	_impl->printEntrails(buffer, length, netId, gGrpIdPre, gGrpIdPost);
+}
+#endif
+
 
 const FILE* CARLsim::getLogFpInf() { return _impl->getLogFpInf(); }
 const FILE* CARLsim::getLogFpErr() { return _impl->getLogFpErr(); }

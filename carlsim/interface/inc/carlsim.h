@@ -1497,6 +1497,35 @@ public:
 	 void getFiringMT(std::vector<bool>& firing, int netId);
 #endif
 
+#ifdef LN_AXON_PLAST
+	/*!
+	  * \brief Extracts the path from a spiking wave front and returns the eligibility
+	  *
+	  * usage: pass the local ids of the start and goal neurons
+	  * 
+	  * \STATE ::SETUP_STATE, ::RUN_STATE
+	  */
+	 void findWavefrontPath(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId);
+
+	 /*!
+	 * \brief Updates the delays directly the backend memory
+	 * 
+	 * usage: pass the connection delays as tuple (lNidPre, lNIdPost, delay)
+	 * 
+	 */
+	 bool updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
+
+
+	 /*!
+	 * \brief print entrails of SNN to string buffer
+	 * 
+	 * unit test, pretty print
+	 */
+	 void printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost);
+
+#endif
+
+
 	/*!
 	 * \brief gets AMPA vector of a group
 	 *
