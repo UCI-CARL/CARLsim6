@@ -1527,7 +1527,7 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 		switch (configs.icalcType) {
 		case COBA:
 		case alpha1_ADK13:
-			if (IS_REGULAR_NEURON(nid, networkConfigGPU.numNReg, networkConfigGPU.numNPois)) {
+			if ((threadIdx.x < lastId) && (IS_REGULAR_NEURON(nid, networkConfigGPU.numNReg, networkConfigGPU.numNPois))) {
 				runtimeDataGPU.gAMPA[nid] *= configs.dAMPA;
 				if (configs.with_NMDA_rise) {
 					runtimeDataGPU.gNMDA_r[nid] *= configs.rNMDA;
@@ -1549,7 +1549,7 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 		}
 #else
 		// update the conductane parameter of the current neron
-		if (networkConfigGPU.sim_with_conductances && IS_REGULAR_NEURON(nid, networkConfigGPU.numNReg, networkConfigGPU.numNPois)) {
+		if ((threadIdx.x < lastId) && (networkConfigGPU.sim_with_conductances && IS_REGULAR_NEURON(nid, networkConfigGPU.numNReg, networkConfigGPU.numNPois))) {
 			runtimeDataGPU.gAMPA[nid]       *= networkConfigGPU.dAMPA;
 			if (networkConfigGPU.sim_with_NMDA_rise) {
 				runtimeDataGPU.gNMDA_r[nid] *= networkConfigGPU.rNMDA;
