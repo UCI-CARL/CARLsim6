@@ -64,6 +64,7 @@
 #include <spike_buffer.h>
 #include <error_code.h>
 
+
 // \FIXME what are the following for? why were they all the way at the bottom of this file?
 
 #define COMPACTION_ALIGNMENT_PRE  16
@@ -744,9 +745,9 @@ void SNN::setNeuronParameters(int gGrpId, float izh_C, float izh_C_sd, float izh
 		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak = izh_vpeak;
 		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak_sd = izh_vpeak_sd;
 #ifdef JK_CA3_SNN
-		// 		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_ref = izh_ref;
+				groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_ref = izh_ref;
 		//  \todo JK why 1
-		groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_ref = 1;
+		// groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_ref = 1;
 #endif
 		groupConfigMap[gGrpId].withParamModel_9 = 1;
 		groupConfigMap[gGrpId].isLIF = 0;
@@ -1263,6 +1264,7 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	CUDA_RESET_TIMER(timer);
 	CUDA_START_TIMER(timer);
 #endif
+
 
 	//KERNEL_INFO("Reached the advSimStep loop!");
 
@@ -2764,7 +2766,7 @@ void SNN::doSTPUpdateAndDecayCond() {
 		cpu_set_t cpus;
 		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
 		int threadCount = 0;
-	#endif
+	#endif		
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -7312,9 +7314,9 @@ void SNN::resetNeuron(int netId, int lGrpId, int lNId) {
 	managerRuntimeData.Izh_vr[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vr_sd * (float)drand48();
 	managerRuntimeData.Izh_vt[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vt + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vt_sd * (float)drand48();
 #ifdef JK_CA3_SNN
-	// 	managerRuntimeData.Izh_ref[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_ref;
+		managerRuntimeData.Izh_ref[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_ref;
 	// todo JK init with -1 to be backward compatible, => apply Config for both
-	managerRuntimeData.Izh_ref[lNId] = 1;
+	// managerRuntimeData.Izh_ref[lNId] = 1;
 	managerRuntimeData.Izh_ref_c[lNId] = 0;
 #endif
 	managerRuntimeData.Izh_vpeak[lNId] = groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak + groupConfigMap[gGrpId].neuralDynamicsConfig.Izh_vpeak_sd * (float)drand48();
