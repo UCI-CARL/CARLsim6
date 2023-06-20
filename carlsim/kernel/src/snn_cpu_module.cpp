@@ -1117,7 +1117,7 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 	int lStartNIdPost = groupConfigs[netIdPost][lGrpIdPost].lStartN;
 	int lEndNIdPost = groupConfigs[netIdPost][lGrpIdPost].lEndN;
 
-	uint8_t* delays = new uint8_t[numPreN * numPostN];
+	uint8_t* delays = new uint8_t[(numPreN + 1) * (numPostN + 1)];
 	memset(delays, 0, numPreN * numPostN);                                                 
 	for (int lNIdPre = groupConfigs[netIdPost][lGrpIdPre].lStartN; lNIdPre <= groupConfigs[netIdPost][lGrpIdPre].lEndN; lNIdPre++) {  
 		unsigned int offset = managerRuntimeData.cumulativePost[lNIdPre];
@@ -1191,10 +1191,6 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 			printEntrails(buffer, buff_len, 8, gGrpIdPre, gGrpIdPost);
 			printf("before pre=%d, post=%d delay=%d\n%s\n", connInfo.nSrc, connInfo.nDest, connInfo.delay, buffer);
 #endif
-			connInfo.srcGLoffset = GLoffset[connInfo.nSrc];
-
-			int lNIdPre = connInfo.nSrc + GLoffset[connInfo.grpSrc];
-			unsigned int offset = runtimeData[netId].cumulativePre[lNIdPre];
 
 			// old delay
 			int old_delay = getDelay(connInfo.nSrc, connInfo.nDest);
@@ -1206,6 +1202,15 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 				direction = right;
 			else
 				direction = none;
+
+
+			// translate relative indices to local 
+			connInfo.nSrc += lStartNIdPre;
+			connInfo.nDest += lStartNIdPost;
+
+			connInfo.srcGLoffset = GLoffset[connInfo.nSrc];
+			int lNIdPre = connInfo.nSrc + GLoffset[connInfo.grpSrc];
+			unsigned int offset = runtimeData[netId].cumulativePre[lNIdPre];
 
 			int nId_left = -1;
 			int delay_left = -1;
@@ -1241,7 +1246,7 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 						break;
 #endif
 #endif
-					delay_left = getDelay(connInfo.nSrc, nId_left);
+					delay_left = getDelay(connInfo.nSrc - lStartNIdPre, nId_left - lStartNIdPost);  // rel id
 					if (connInfo.delay < delay_left) {
 						auto postSynapticIds_synId = runtimeData[netId].postSynapticIds[post_pos];
 						runtimeData[netId].postSynapticIds[post_pos] = runtimeData[netId].postSynapticIds[post_pos + 1];
@@ -1276,7 +1281,7 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 						break;
 #endif
 #endif
-					delay_left = getDelay(connInfo.nSrc, nId_left);
+					delay_left = getDelay(connInfo.nSrc - lStartNIdPre, nId_left - lStartNIdPost);   // rel id
 					if (connInfo.delay > delay_left) {
 						auto postSynapticIds_synId = runtimeData[netId].postSynapticIds[post_pos];
 
@@ -1301,6 +1306,8 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 					continue;
 #endif
 				preSynInfo.gsId = synId - runtimeData[netId].cumulativePost[connInfo.nSrc];
+#define SET_CONN_GRP_ID(val, grpId) ((grpId << NUM_SYNAPSE_BITS) | GET_CONN_SYN_ID(val))
+				preSynInfo.gsId = SET_CONN_GRP_ID(preSynInfo, lGrpIdPre);
 			}
 
 #ifdef DEBUG_updateDelays_CPU
@@ -1331,7 +1338,7 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 			}
 
 			offset = 0;
-			for (int t = 0; t < 21; t++) {
+			for (int t = 0; t < glbNetworkConfig.maxDelay + 1; t++) {
 				DelayInfo& dPar = runtimeData[netId].postDelayInfo[lNIdPre * (glbNetworkConfig.maxDelay + 1) + t];
 				if (dPar.delay_length > 0) {
 					dPar.delay_index_start = offset;
@@ -1355,7 +1362,7 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 		}
 	}
 
-	delete delays;
+	delete[] delays;
 
 	return false;
 }
@@ -1379,6 +1386,17 @@ void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int gGrpId
 		}
 	assert(lGrpIdPre != -1);
 
+
+	//int numPreN = groupConfigMap[gGrpIdPre].numN;  // already used below
+	int numPostN = groupConfigMap[gGrpIdPost].numN;
+
+	//Cache group boundaries
+	int lStartNIdPre = groupConfigs[netIdPost][lGrpIdPre].lStartN;
+	int lEndNIdPre = groupConfigs[netIdPost][lGrpIdPre].lEndN;
+	int lStartNIdPost = groupConfigs[netIdPost][lGrpIdPost].lStartN;
+	int lEndNIdPost = groupConfigs[netIdPost][lGrpIdPost].lEndN;
+
+
 	std::map<int, int> GLoffset; // global nId to local nId offset
 	std::map<int, int> GLgrpId; // global grpId to local grpId offset
 
@@ -1396,7 +1414,7 @@ void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int gGrpId
 
 	sprintf_s(lineBuffer, lineBufferLength, "%-9s      %-9s      %-9s      %-9s\n", "Npost", "Npre", "cumPost", "cumPre");
 	append(); 
-	for (int lNId = 0; lNId < numN; lNId++) {
+	for (int lNId = lStartNIdPre; lNId <= lEndNIdPre; lNId++) {
 		int _Npost = runtimeData[netId].Npost[lNId];
 		int _Npre = runtimeData[netId].Npre[lNId];
 		int _cumulativePost = runtimeData[netId].cumulativePost[lNId];
@@ -1407,8 +1425,8 @@ void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int gGrpId
 
 	int start = 0;
 	
-	int numPostSynapses = groupConfigs[netIdPost][lGrpIdPost].numPostSynapses;
-	int numPreSynapses = groupConfigs[netIdPost][lGrpIdPre].numPreSynapses;
+	int numPostSynapses = groupConfigs[netIdPost][lGrpIdPre].numPostSynapses;
+	int numPreSynapses = groupConfigs[netIdPost][lGrpIdPost].numPreSynapses;
 
 	sprintf_s(lineBuffer, lineBufferLength, "\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
 	append();
@@ -1439,7 +1457,7 @@ void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int gGrpId
 		sprintf_s(lineBuffer, lineBufferLength, "%4d ", t+1);  append();
 	}
 	sprintf_s(lineBuffer, lineBufferLength, "\n");  append();
-	for (int lNId = 0; lNId < numPreN; lNId++)  
+	for (int lNId = lStartNIdPre; lNId <= lEndNIdPre; lNId++)
 	{
 		sprintf_s(lineBuffer, lineBufferLength, "%2d ", lNId);  append();
 		for (int t = 0; t < maxDelay + 1; t++) {
