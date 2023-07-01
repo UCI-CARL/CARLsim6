@@ -8105,21 +8105,21 @@ bool SNN::updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int
 	assert(lGrpIdPre != -1);
 
 	bool success = false;
-	if (netId < CPU_RUNTIME_BASE) 
-		; // GPU runtime
+	if (netId < CPU_RUNTIME_BASE) // GPU runtime
+	    success = updateDelays_GPU(netId, lGrpIdPre, lGrpIdPost, connDelays); 
 	else {
 		success = updateDelays_CPU(netId, lGrpIdPre, lGrpIdPost, connDelays); 
 	}
 	return success;
 }
 
-
-void SNN::printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost) {
+													   
+void SNN::printEntrails(char* buffer, unsigned length, int gGrpIdPre, int gGrpIdPost) {
 
 	int netIdPre = groupConfigMDMap[gGrpIdPre].netId;
 	int netIdPost = groupConfigMDMap[gGrpIdPost].netId;
 	assert(netIdPre == netIdPost);  // KERNEL Error
-	//int netId = netIdPre;
+	int netId = netIdPre;
 	int lGrpIdPost = groupConfigMDMap[gGrpIdPost].lGrpId;
 	int lGrpIdPre = -1;  // SNN::getDelays
 	for (int lGrpId = 0; lGrpId < networkConfigs[netIdPost].numGroupsAssigned; lGrpId++)
@@ -8129,12 +8129,11 @@ void SNN::printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre,
 		}
 	assert(lGrpIdPre != -1);
 
-	bool success = false;
-	if (netId < CPU_RUNTIME_BASE) // GPU runtime
-		;//findWavefrontPath_GPU((path, netId, grpId, startNId, goalNId);
+	if (netId < CPU_RUNTIME_BASE) // GPU runtime 
+		printEntrails_GPU(buffer, length, netId, lGrpIdPre, lGrpIdPost);
 	else {
 		//#ifdef __NO_PTHREADS__
-		printEntrails_CPU(buffer, length, netId, gGrpIdPre, gGrpIdPost);  
+		printEntrails_CPU(buffer, length, netId, lGrpIdPre, lGrpIdPost);
 	}
 
 }

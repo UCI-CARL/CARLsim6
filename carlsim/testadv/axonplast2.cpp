@@ -1214,16 +1214,16 @@ TEST(axonplast2, updateDelays) {
 	CARLsim* sim = nullptr; 
 	int CA3_Pyramidal;
 
-	auto createSim = [&]() {
-		sim = new CARLsim("update_delays", CPU_MODE, SILENT);
+	auto createSim = [&](int mode) {
+		sim = new CARLsim("update_delays", mode ? GPU_MODE : CPU_MODE, SILENT);
 
 		CA3_Pyramidal = sim->createGroup("CA3_Pyramidal", 16, // 4x4
-			EXCITATORY_NEURON, -1, CPU_CORES);
+			EXCITATORY_NEURON, -1, mode ? GPU_CORES : CPU_CORES);
 		sim->setNeuronParameters(CA3_Pyramidal, 0.02f, 0.2f, -65.0f, 8.0f); // RS
 
 		// any SNN must be damped inorder to be roboust
 		int CA3_Basket = sim->createGroup("CA3_Basket", 16, // 4x4
-			INHIBITORY_NEURON, -1, CPU_CORES);
+			INHIBITORY_NEURON, -1, mode ? GPU_CORES : CPU_CORES);
 		sim->setNeuronParameters(CA3_Basket, 0.02, 0.2f, -50.0f, 2.75f); // xx
 
 
@@ -1257,58 +1257,61 @@ TEST(axonplast2, updateDelays) {
 	//Get Connection Matrix 
 	//todo AxonPlast Utils -> Matrix operations, Data structures, Wrappers,...
 
-	createSim(); 
-	ConnectionMatrix before(sim, CA3_Pyramidal);
-	before.printMatrix();
-	delete sim;
+	for (int mode = 0; mode < TESTED_MODES; mode++) {
 
-	// decement each value by 1 and compare the result
-	int passed = 0, failed = 0;
-	for (int pre = 0; pre < before.numPreN; pre++) {
-		for (int post = 0; post < before.numPostN; post++) {
-			auto d = before(pre, post);
-			if (d > 1) { 
-				createSim();
+		createSim(mode);
+		ConnectionMatrix before(sim, CA3_Pyramidal);
+		before.printMatrix();
+		delete sim;
 
-				auto d_expected = d - 1;
-				//auto d_expected = d + 1; // works, required for Tolman Mazes
-				//auto d_expected = 120;  // => MAX_DELAY e.g. 20 
-				//auto d_expected = 0; // => ? UNDEF, IGNORE or MIN_DELAY e.g. 1
+		// decement each value by 1 and compare the result
+		int passed = 0, failed = 0;
+		for (int pre = 0; pre < before.numPreN; pre++) {
+			for (int post = 0; post < before.numPostN; post++) {
+				auto d = before(pre, post);
+				if (d > 1) {
+					createSim(mode);
 
-				ConnectionMatrix expected(before); // copy 
-				//expected(pre, post) = d_expected; 
-				//expected[std::pair<int,int>(pre,post)] = d_expected; 
-				expected.setDelay(pre, post, d_expected);
+					auto d_expected = d - 1;
+					//auto d_expected = d + 1; // works, required for Tolman Mazes
+					//auto d_expected = 120;  // => MAX_DELAY e.g. 20 
+					//auto d_expected = 0; // => ? UNDEF, IGNORE or MIN_DELAY e.g. 1
 
-				//Maze::ConnDelays_t connDelays2;
-				std::vector<std::tuple<int, int, uint8_t>> connDelays2; 
-				connDelays2.push_back(std::tuple<int, int, uint8_t>(pre, post, d_expected));
+					ConnectionMatrix expected(before); // copy 
+					//expected(pre, post) = d_expected; 
+					//expected[std::pair<int,int>(pre,post)] = d_expected; 
+					expected.setDelay(pre, post, d_expected);
 
-				printf("updateDelays pre %d  post %d  delay %d\n", pre, post, d_expected);
+					//Maze::ConnDelays_t connDelays2;
+					std::vector<std::tuple<int, int, uint8_t>> connDelays2;
+					connDelays2.push_back(std::tuple<int, int, uint8_t>(pre, post, d_expected));
 
-				sim->updateDelays(CA3_Pyramidal, CA3_Pyramidal, connDelays2);
+					printf("updateDelays pre %d  post %d  delay %d\n", pre, post, d_expected);
 
-				ConnectionMatrix after(sim, CA3_Pyramidal);
+					sim->updateDelays(CA3_Pyramidal, CA3_Pyramidal, connDelays2);
 
-				//EXPECT_TRUE(after == expected); 
-				if (after == expected) {
-					passed++;
-				} else {
-					printf("\nExpected:\n");
-					expected.printMatrix();
-					printf("\nAfter:\n");
-					after.printMatrix();
-					failed++;
+					ConnectionMatrix after(sim, CA3_Pyramidal);
+
+					//EXPECT_TRUE(after == expected); 
+					if (after == expected) {
+						passed++;
+					}
+					else {
+						printf("\nExpected:\n");
+						expected.printMatrix();
+						printf("\nAfter:\n");
+						after.printMatrix();
+						failed++;
+					}
+
+					delete sim;
 				}
-
-				delete sim;
 			}
 		}
+
+		EXPECT_GT(passed, 0);
+		EXPECT_EQ(failed, 0);
 	}
-
-	EXPECT_GT(passed, 0); 
-	EXPECT_EQ(failed, 0);
-
 }
 
 #endif

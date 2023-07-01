@@ -1369,32 +1369,36 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 
 
 
-void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost) {
+void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost) {
 
 	const int lineBufferLength = 1024;
 	char lineBuffer[lineBufferLength];
 
-	// snatch old delays 
-	int netIdPost = groupConfigMDMap[gGrpIdPost].netId;
-	int lGrpIdPost = groupConfigMDMap[gGrpIdPost].lGrpId;
-	int lGrpIdPre = -1;
+	//// snatch old delays 
+	//int netIdPost = groupConfigMDMap[gGrpIdPost].netId;
+	//int lGrpIdPost = groupConfigMDMap[gGrpIdPost].lGrpId;
+	//int lGrpIdPre = -1;
 
-	for (int lGrpId = 0; lGrpId < networkConfigs[netIdPost].numGroupsAssigned; lGrpId++)
-		if (groupConfigs[netIdPost][lGrpId].gGrpId == gGrpIdPre) {
-			lGrpIdPre = lGrpId;
-			break;
-		}
-	assert(lGrpIdPre != -1);
+	//for (int lGrpId = 0; lGrpId < networkConfigs[netIdPost].numGroupsAssigned; lGrpId++)
+	//	if (groupConfigs[netIdPost][lGrpId].gGrpId == gGrpIdPre) {
+	//		lGrpIdPre = lGrpId;
+	//		break;
+	//	}
+	//assert(lGrpIdPre != -1);
+
+	// Manager asserts netIdPre == netIdPost;
 
 
 	//int numPreN = groupConfigMap[gGrpIdPre].numN;  // already used below
-	int numPostN = groupConfigMap[gGrpIdPost].numN;
+	//int numPostN = groupConfigMap[gGrpIdPost].numN;
+	int numPostN = groupConfigs[netId][lGrpIdPost].numN;
 
 	//Cache group boundaries
-	int lStartNIdPre = groupConfigs[netIdPost][lGrpIdPre].lStartN;
-	int lEndNIdPre = groupConfigs[netIdPost][lGrpIdPre].lEndN;
-	int lStartNIdPost = groupConfigs[netIdPost][lGrpIdPost].lStartN;
-	int lEndNIdPost = groupConfigs[netIdPost][lGrpIdPost].lEndN;
+	int lStartNIdPre = groupConfigs[netId][lGrpIdPre].lStartN;
+	int lEndNIdPre = groupConfigs[netId][lGrpIdPre].lEndN;
+	int lStartNIdPost = groupConfigs[netId][lGrpIdPost].lStartN;
+	int lEndNIdPost = groupConfigs[netId][lGrpIdPost].lEndN;
+
 
 
 	std::map<int, int> GLoffset; // global nId to local nId offset
@@ -1425,8 +1429,10 @@ void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int gGrpId
 
 	int start = 0;
 	
-	int numPostSynapses = groupConfigs[netIdPost][lGrpIdPre].numPostSynapses;
-	int numPreSynapses = groupConfigs[netIdPost][lGrpIdPost].numPreSynapses;
+	// Manager asserts netIdPre == netIdPost;
+	int numPostSynapses = groupConfigs[netId][lGrpIdPre].numPostSynapses;
+	int numPreSynapses = groupConfigs[netId][lGrpIdPost].numPreSynapses;
+
 
 	sprintf_s(lineBuffer, lineBufferLength, "\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
 	append();
@@ -1450,7 +1456,8 @@ void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int gGrpId
 		append();
 	}
 
-	int numPreN = groupConfigMap[gGrpIdPre].numN;
+	//int numPreN = groupConfigMap[gGrpIdPre].numN;
+	int numPreN = groupConfigs[netId][lGrpIdPre].numN;
 
 	sprintf_s(lineBuffer, lineBufferLength, "\npostDelayInfo (pre x d)\n   ");  append();
 	for (int t = 0; t < maxDelay + 1; t++) {

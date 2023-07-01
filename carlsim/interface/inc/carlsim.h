@@ -1521,7 +1521,7 @@ public:
 	 * 
 	 * unit test, pretty print
 	 */
-	 void printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost);
+	 void printEntrails(char* buffer, unsigned length, int gGrpIdPre, int gGrpIdPost);
 
 #endif
 

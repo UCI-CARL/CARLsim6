@@ -553,7 +553,7 @@ public:
 #ifdef LN_AXON_PLAST	
 	void findWavefrontPath(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId);
 	bool updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
-	void printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost);
+	void printEntrails(char* buffer, unsigned length, int gGrpIdPre, int gGrpIdPost);
 #endif
 
 	/*!
@@ -1220,7 +1220,18 @@ private:
 #ifdef LN_AXON_PLAST
 	void findWavefrontPath_CPU(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId);
 	bool updateDelays_CPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
-	void printEntrails_CPU(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost);
+	void printEntrails_CPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost);
+#ifndef __NO_CUDA__
+	//	void findWavefrontPath_GPU(std::vector<int>& path, int netId, int grpId, int startNId, int goalNId);
+	bool updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
+	void printEntrails_GPU(int netId, int lGrpIdPre, int lGrpIdPost);
+	void printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost);
+#else	                   
+	bool updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) { assert(false); }
+	void printEntrails_GPU(int netId, int lGrpIdPre, int lGrpIdPost) { assert(false); }
+	void printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost) { assert(false); }
+#endif
+
 #endif
 
 	// +++++ PRIVATE PROPERTIES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //

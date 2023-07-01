@@ -1422,9 +1422,9 @@ public:
 	bool updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) {
 		return snn_->updateDelays(gGrpIdPre, gGrpIdPost, connDelays);
 	}
-
-	void printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost) {
-		return snn_->printEntrails(buffer, length, netId, gGrpIdPre, gGrpIdPost);
+										
+	void printEntrails(char* buffer, unsigned length, int gGrpIdPre, int gGrpIdPost) {
+		return snn_->printEntrails(buffer, length,gGrpIdPre, gGrpIdPost);
 	}
 #endif
 
@@ -2306,8 +2306,8 @@ bool CARLsim::updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple
 	return _impl->updateDelays(gGrpIdPre, gGrpIdPost, connDelays);
 }
 
-void CARLsim::printEntrails(char* buffer, unsigned length, int netId, int gGrpIdPre, int gGrpIdPost) {
-	_impl->printEntrails(buffer, length, netId, gGrpIdPre, gGrpIdPost);
+void CARLsim::printEntrails(char* buffer, unsigned length, int gGrpIdPre, int gGrpIdPost) {
+	_impl->printEntrails(buffer, length, gGrpIdPre, gGrpIdPost);
 }
 #endif
 

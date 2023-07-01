@@ -542,6 +542,793 @@ void SNN::resetSpikeCnt_GPU(int netId, int lGrpId) {
 	}
 }
 
+
+
+
+
+namespace PrintEntrails {
+
+	struct PrePost {
+		int lNId;
+		int _Npost;
+		int _Npre;
+		int _cumulativePost;
+		int _cumulativePre;
+	};
+
+	struct SynId {
+		int pos;
+		int grpId;
+		int synId;
+		int lNId;
+	};
+
+	struct DelayInfo {
+		int start;
+		int length;
+	};
+
+
+	struct Form {
+		// header
+		int lStartNIdPre;
+		int lEndNIdPre;
+		int maxDelay;
+
+		// PrePost   lStartNIdPre; lNId <= lEndNIdPre
+		int nPrePost;   // lStartNIdPre - lEndNIdPre + 1;
+
+	};
+
+}
+
+
+
+// print entrails
+__global__ void kernel_printEntrailsPrePost(int lGrpIdPre, int lGrpIdPost, PrintEntrails::Form* form, PrintEntrails::PrePost* prepost) {
+	int idx = blockDim.x * blockIdx.x + threadIdx.x;
+
+	int lStartNIdPre = groupConfigsGPU[lGrpIdPre].lStartN;
+	int lEndNIdPre = groupConfigsGPU[lGrpIdPre].lEndN;
+	int nPrePost = lEndNIdPre - lStartNIdPre + 1;
+
+	if (idx == 0) {
+
+		//printf("__DEVICE__ printEntrails lGrpIdPre=%d  lGrpIdPos=%d\n", lGrpIdPre, lGrpIdPost);
+
+		//Cache group boundaries
+		form->lStartNIdPre = lStartNIdPre;
+		form->lEndNIdPre = lEndNIdPre;
+		form->maxDelay = networkConfigGPU.maxDelay;
+		form->nPrePost = nPrePost;
+
+		//printf("%-9s      %-9s      %-9s      %-9s\n", "Npost", "Npre", "cumPost", "cumPre");
+	}
+
+	//for (int lNId = form->lStartNIdPre; lNId <= form->lEndNIdPre; lNId++) {   // grp boundaries	
+	if (idx < nPrePost) {
+		int lNId = idx + lStartNIdPre;
+		auto& r = prepost[lNId - lStartNIdPre];
+		r.lNId = lNId;
+		r._Npost = runtimeDataGPU.Npost[lNId];
+		r._Npre = runtimeDataGPU.Npre[lNId];
+		r._cumulativePost = runtimeDataGPU.cumulativePost[lNId];
+		r._cumulativePre = runtimeDataGPU.cumulativePre[lNId];
+		//printf("[%3d] %3d      [%3d] %3d      [%3d] %3d      [%3d] %3d\n", r.lNId, r._Npost, r.lNId, r._Npre, r.lNId, r._cumulativePost, r.lNId, r._cumulativePre);
+	}
+
+	__syncthreads();
+}
+
+
+// print entrails
+__global__ void kernel_printEntrailsPostSynIds(int lGrpIdPre, int lGrpIdPost, int numPostSynapses, PrintEntrails::SynId* postSynIds) {
+
+	int idx = blockDim.x * blockIdx.x + threadIdx.x;
+
+	int start = 0;  // ISSUE
+	assert(numPostSynapses == groupConfigsGPU[lGrpIdPre].numPostSynapses);
+
+	if (idx == 0) {		
+		//printf("\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
+	}
+
+	//for (int pos = start; pos < numPostSynapses; pos++) {
+	if (idx < numPostSynapses) {
+		auto& r = postSynIds[idx];
+		r.pos = idx + start;
+		auto postSynInfo = runtimeDataGPU.postSynapticIds[r.pos];
+		r.lNId = GET_CONN_NEURON_ID(postSynInfo);
+		r.grpId = GET_CONN_GRP_ID(postSynInfo);
+		r.synId = GET_CONN_SYN_ID(postSynInfo);
+		//printf("[%3d] {%3d %3d} %3d \n", r.pos, r.grpId, r.synId, r.lNId);
+	}
+
+	__syncthreads();
+}
+
+
+// print entrails
+__global__ void kernel_printEntrailsPreSynIds(int lGrpIdPre, int lGrpIdPost, int numPreSynapses, PrintEntrails::SynId* preSynIds) {
+
+	int idx = blockDim.x * blockIdx.x + threadIdx.x;
+
+	int start = 0;  // ISSUE
+//	assert(numPreSynapses == groupConfigsGPU[lGrpIdPre].numPreSynapses);
+	assert(numPreSynapses == groupConfigsGPU[lGrpIdPost].numPreSynapses);
+
+	if (idx == 0) {
+		//printf("\n%s (%s, %s, %s)\n", "preSynapticIds", "connectionGroupId", "synapseId", "preNId");
+	}
+
+	//for (int pos = start; pos < numPostSynapses; pos++) {
+	if (idx < numPreSynapses) {
+		auto& r = preSynIds[idx];
+		r.pos = idx + start;
+		auto preSynInfo = runtimeDataGPU.preSynapticIds[r.pos];  
+		r.lNId = GET_CONN_NEURON_ID(preSynInfo);
+		r.grpId = GET_CONN_GRP_ID(preSynInfo);
+		r.synId = GET_CONN_SYN_ID(preSynInfo);
+		//printf("[%3d] {%3d %3d} %3d\n", r.pos, r.grpId, r.synId, r.lNId);
+	}
+
+	__syncthreads();
+}
+
+
+
+
+// print entrails
+__global__ void kernel_printEntrailsDelayInfo(int lGrpIdPre, int lGrpIdPost, int nPrePost, int maxDelay, PrintEntrails::DelayInfo* delayInfo) {
+
+	int idx = blockDim.x * blockIdx.x + threadIdx.x;
+
+	int lStartNIdPre = groupConfigsGPU[lGrpIdPre].lStartN;
+
+	if (idx == 0) {
+		//printf("\npostDelayInfo (pre x d)\n   ");
+		//for (int t = 0; t < maxDelay + 1; t++) {
+		//	printf("%4d ", t + 1);
+		//}
+		//printf("\n");
+	}
+ 
+	//for (int lNId = lStartNIdPre; lNId <= lEndNIdPre; lNId++) 
+	if(idx < nPrePost * (maxDelay+1)) {
+		int lNId = (idx / (maxDelay + 1)) + lStartNIdPre;
+		//if(idx % (maxDelay+1) == 0)  // line start
+		//	printf("%2d ", lNId);
+		auto& r = delayInfo[idx];
+		//for (int t = 0; t < maxDelay + 1; t++) {
+			int t = idx % (maxDelay + 1);
+			r.start = runtimeDataGPU.postDelayInfo[lNId * (maxDelay + 1) + t].delay_index_start;
+			r.length = runtimeDataGPU.postDelayInfo[lNId * (maxDelay + 1) + t].delay_length;
+			//printf("[%d,%d]", r.start, r.length); 
+		//}
+		//if((idx + 1) % (maxDelay+1) == 0)  // line end
+		//	printf("\n");
+	}
+
+	__syncthreads();
+}
+
+
+// wrapper to call printEntrails kernel
+void SNN::printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost) {
+	assert(runtimeData[netId].allocated);
+	assert(runtimeData[netId].memType == GPU_MEM);
+	checkAndSetGPUDevice(netId);
+
+	const int lineBufferLength = 1024;
+	char lineBuffer[lineBufferLength];
+	strcpy_s(buffer, length, ""); // init buffer
+	auto append = [&]() {strcat_s(buffer, length, lineBuffer); };  // adhoc def - INV
+
+	//Cache group boundaries
+	int lStartNIdPre = groupConfigs[netId][lGrpIdPre].lStartN;
+	int lEndNIdPre = groupConfigs[netId][lGrpIdPre].lEndN;
+
+	// Prepare device memory
+	cudaError_t err = cudaSuccess;
+	PrintEntrails::Form* d_Form = NULL; 
+	err = cudaMalloc((void**)&d_Form, sizeof(PrintEntrails::Form));   
+	assert(err == cudaSuccess);
+
+	// future work: check with multiple groups
+	int nPrePost = lEndNIdPre - lStartNIdPre + 1;
+	PrintEntrails::PrePost* d_PrePost = NULL;
+	err = cudaMalloc((void**)&d_PrePost, sizeof(PrintEntrails::PrePost) * nPrePost);    
+	assert(err == cudaSuccess);
+
+	int numPostSynapses = groupConfigs[netId][lGrpIdPre].numPostSynapses;
+	PrintEntrails::SynId* d_PostSynId = NULL;
+	err = cudaMalloc((void**)&d_PostSynId, sizeof(PrintEntrails::SynId) * numPostSynapses);
+	assert(err == cudaSuccess);
+
+	int numPreSynapses = groupConfigs[netId][lGrpIdPost].numPreSynapses;
+	PrintEntrails::SynId* d_PreSynId = NULL;
+	err = cudaMalloc((void**)&d_PreSynId, sizeof(PrintEntrails::SynId) * numPreSynapses);
+	assert(err == cudaSuccess);
+
+	int maxDelay = glbNetworkConfig.maxDelay;
+	PrintEntrails::DelayInfo* d_DelayInfo = NULL;
+	int numDelayInfos = nPrePost * (maxDelay + 1);  // rows * columns
+	size_t nb_DelayInfo = sizeof(PrintEntrails::DelayInfo) * numDelayInfos;  // n bytes
+	err = cudaMalloc((void**)&d_DelayInfo, nb_DelayInfo);
+	assert(err == cudaSuccess);
+
+	// Kernels
+	{
+		int numBlocks = (nPrePost / NUM_THREADS) + 1;
+		int blocksPerGrid = (nPrePost + NUM_THREADS - 1) / NUM_THREADS;
+		kernel_printEntrailsPrePost<<<numBlocks, NUM_THREADS>>>(lGrpIdPre, lGrpIdPost, d_Form, d_PrePost);
+	}
+
+	{
+		int numBlocks = (numPostSynapses / NUM_THREADS) + 1;
+		int blocksPerGrid = (numPostSynapses + NUM_THREADS - 1) / NUM_THREADS;
+		kernel_printEntrailsPostSynIds<<<numBlocks, NUM_THREADS>>>(lGrpIdPre, lGrpIdPost, numPostSynapses, d_PostSynId);
+	}
+
+	{
+		int numBlocks = (numPreSynapses / NUM_THREADS) + 1;
+		int blocksPerGrid = (numPreSynapses + NUM_THREADS - 1) / NUM_THREADS;
+		kernel_printEntrailsPreSynIds<<<numBlocks, NUM_THREADS>>>(lGrpIdPre, lGrpIdPost, numPreSynapses, d_PreSynId);
+	}
+
+	{
+		int numBlocks = (numDelayInfos / NUM_THREADS) + 1;
+		int blocksPerGrid = (numDelayInfos + NUM_THREADS - 1) / NUM_THREADS;
+		kernel_printEntrailsDelayInfo<<<numBlocks, NUM_THREADS>>>(lGrpIdPre, lGrpIdPost, nPrePost, maxDelay, d_DelayInfo);
+	}
+
+
+	// Prepare Host memory
+	PrintEntrails::Form* h_form = NULL;
+	h_form = (PrintEntrails::Form*) malloc(sizeof(PrintEntrails::Form));
+	err = cudaMemcpy(h_form, d_Form, sizeof(PrintEntrails::Form), cudaMemcpyDeviceToHost);
+	assert(err == cudaSuccess);
+	//printf("h_form nPrePost %d \n", h_form->nPrePost);
+	//assert(h_form->nPrePost == nPrePost);
+
+	PrintEntrails::PrePost* h_PrePost = NULL;
+	h_PrePost = (PrintEntrails::PrePost*) malloc(sizeof(PrintEntrails::PrePost) * h_form->nPrePost);
+	err = cudaMemcpy(h_PrePost, d_PrePost, sizeof(PrintEntrails::PrePost) * h_form->nPrePost, cudaMemcpyDeviceToHost);
+	assert(err == cudaSuccess);
+
+	PrintEntrails::SynId* h_PostSynId = NULL;
+	h_PostSynId = (PrintEntrails::SynId*)malloc(sizeof(PrintEntrails::SynId) * numPostSynapses);
+	err = cudaMemcpy(h_PostSynId, d_PostSynId, sizeof(PrintEntrails::SynId) * numPostSynapses, cudaMemcpyDeviceToHost);
+	assert(err == cudaSuccess);
+
+	PrintEntrails::SynId* h_PreSynId = NULL;
+	h_PreSynId = (PrintEntrails::SynId*)malloc(sizeof(PrintEntrails::SynId) * numPreSynapses);
+	err = cudaMemcpy(h_PreSynId, d_PreSynId, sizeof(PrintEntrails::SynId) * numPreSynapses, cudaMemcpyDeviceToHost);
+	assert(err == cudaSuccess);
+
+	PrintEntrails::DelayInfo* h_DelayInfo = NULL;
+	h_DelayInfo = (PrintEntrails::DelayInfo*)malloc(nb_DelayInfo);
+	err = cudaMemcpy(h_DelayInfo, d_DelayInfo, nb_DelayInfo, cudaMemcpyDeviceToHost);
+	assert(err == cudaSuccess);
+
+
+	sprintf_s(lineBuffer, lineBufferLength, "%-9s      %-9s      %-9s      %-9s\n", "Npost", "Npre", "cumPost", "cumPre");
+	append();
+	for (int lNId = lStartNIdPre; lNId <= lEndNIdPre; lNId++) {   // 20230619 honor grp boundaries
+		auto& r = h_PrePost[lNId - lStartNIdPre];
+		assert(r.lNId == lNId);
+		sprintf_s(lineBuffer, lineBufferLength, "[%3d] %3d      [%3d] %3d      [%3d] %3d      [%3d] %3d\n", lNId,
+			r._Npost, r.lNId, r._Npre, r.lNId, r._cumulativePost, r.lNId, r._cumulativePre);
+		append();
+	}
+
+	sprintf_s(lineBuffer, lineBufferLength, "\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
+	append();
+	for (int i = 0; i < numPostSynapses; i++) {    
+		auto& r = h_PostSynId[i];
+		sprintf_s(lineBuffer, lineBufferLength, "[%3d] {%3d %3d} %3d \n", r.pos, r.grpId, r.synId, r.lNId);
+		append();
+	}
+
+	sprintf_s(lineBuffer, lineBufferLength, "\n%s (%s, %s, %s)\n", "preSynapticIds", "connectionGroupId", "synapseId", "preNId");
+	append();
+	for (int i = 0; i < numPreSynapses; i++) {  
+		auto& r = h_PreSynId[i];
+		sprintf_s(lineBuffer, lineBufferLength, "[%3d] {%3d %3d} %3d\n", r.pos, r.grpId, r.synId, r.lNId);
+		append();
+	}
+
+	sprintf_s(lineBuffer, lineBufferLength, "\npostDelayInfo (pre x d)\n   ");  append();
+	for (int t = 0; t < maxDelay + 1; t++) {
+		sprintf_s(lineBuffer, lineBufferLength, "%4d ", t + 1);  append();
+	}
+	sprintf_s(lineBuffer, lineBufferLength, "\n");  append();
+
+	int i = 0;
+	for(int row=0; row < nPrePost; row++)
+	{
+		int lNId = row + lStartNIdPre;
+		sprintf_s(lineBuffer, lineBufferLength, "%2d ", lNId);  append();
+		for (int t = 0; t < maxDelay + 1; t++) {
+			assert(row * (maxDelay + 1) + t == i);
+			auto& r = h_DelayInfo[row*(maxDelay+1)+t];
+			sprintf_s(lineBuffer, lineBufferLength, "[%d,%d]", r.start, r.length);  append();
+			i++;
+		}
+		sprintf_s(lineBuffer, lineBufferLength, "\n"); append();
+	}
+
+	// Free Device memory
+	err = cudaFree(d_Form);				assert(err == cudaSuccess);
+	err = cudaFree(d_PrePost);			assert(err == cudaSuccess);
+	err = cudaFree(d_PostSynId);		assert(err == cudaSuccess);
+	err = cudaFree(d_PreSynId);			assert(err == cudaSuccess);
+	err = cudaFree(d_DelayInfo);		assert(err == cudaSuccess);
+
+	// Free Host memory
+	free(h_form);
+	free(h_PrePost); 
+	free(h_PostSynId);
+	free(h_PreSynId);
+	free(h_DelayInfo);
+}
+
+
+
+
+
+
+
+__device__ void printEntrails(int lGrpIdPre, int lGrpIdPost) {
+
+	//if (threadIdx.x == 0 && blockIdx.x == 0) {
+		//KERNEL_INFO("kernel_printEntrails lGrpIdPre=%d  lGrpIdPos=%d", lGrpIdPre, lGrpIdPost); 
+		printf("__device__ printEntrails lGrpIdPre=%d  lGrpIdPos=%d\n", lGrpIdPre, lGrpIdPost);
+	//}
+
+		//Cache group boundaries
+		int lStartNIdPre = groupConfigsGPU[lGrpIdPre].lStartN;
+		int lEndNIdPre = groupConfigsGPU[lGrpIdPre].lEndN;
+
+		int maxDelay = networkConfigGPU.maxDelay;
+
+		printf("%-9s      %-9s      %-9s      %-9s\n", "Npost", "Npre", "cumPost", "cumPre");
+		for (int lNId = lStartNIdPre; lNId <= lEndNIdPre; lNId++) {   // grp boundaries
+			int _Npost = runtimeDataGPU.Npost[lNId];
+			int _Npre = runtimeDataGPU.Npre[lNId];
+			int _cumulativePost = runtimeDataGPU.cumulativePost[lNId];
+			int _cumulativePre = runtimeDataGPU.cumulativePre[lNId];
+			printf("[%3d] %3d      [%3d] %3d      [%3d] %3d      [%3d] %3d\n", lNId, _Npost, lNId, _Npre, lNId, _cumulativePost, lNId, _cumulativePre);
+		}
+
+		int start = 0;
+		int numPostSynapses = groupConfigsGPU[lGrpIdPre].numPostSynapses;
+		int numPreSynapses = groupConfigsGPU[lGrpIdPost].numPreSynapses;
+
+		printf("\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
+		for (int pos = start; pos < numPostSynapses; pos++) { 
+			auto postSynInfo = runtimeDataGPU.postSynapticIds[pos]; 
+			int lNId = GET_CONN_NEURON_ID(postSynInfo);
+			int grpId = GET_CONN_GRP_ID(postSynInfo);
+			int synId = GET_CONN_SYN_ID(postSynInfo);
+			printf("[%3d] {%3d %3d} %3d \n", pos, grpId, synId, lNId);
+		}
+
+		printf("\n%s (%s, %s, %s)\n", "preSynapticIds", "connectionGroupId", "synapseId", "preNId");
+		for (int pos = start; pos < numPreSynapses; pos++) {     
+			auto preSynInfo = runtimeDataGPU.preSynapticIds[pos];  
+			int lNId = GET_CONN_NEURON_ID(preSynInfo);
+			int grpId = GET_CONN_GRP_ID(preSynInfo);
+			int synId = GET_CONN_SYN_ID(preSynInfo);
+			printf("[%3d] {%3d %3d} %3d\n", pos, grpId, synId, lNId);
+		}
+
+		printf("\npostDelayInfo (pre x d)\n   ");  
+		for (int t = 0; t < maxDelay + 1; t++) {
+			printf("%4d ", t + 1);
+		}
+		printf("\n");
+
+
+		for (int lNId = lStartNIdPre; lNId <= lEndNIdPre; lNId++)    // grp boundaries
+		{
+			printf("%2d ", lNId);  
+			for (int t = 0; t < maxDelay + 1; t++) {
+				printf("[%d,%d]",
+					runtimeDataGPU.postDelayInfo[lNId * (maxDelay + 1) + t].delay_index_start,
+					runtimeDataGPU.postDelayInfo[lNId * (maxDelay + 1) + t].delay_length);  
+			}
+			printf("\n"); 
+		}
+
+}
+
+// print entrails
+__global__ void kernel_printEntrails(int lGrpIdPre, int lGrpIdPost) {
+	printEntrails(lGrpIdPre, lGrpIdPost);
+}
+
+// wrapper to call printEntrails kernel
+void SNN::printEntrails_GPU(int netId, int lGrpIdPre, int lGrpIdPost) {
+	assert(runtimeData[netId].allocated);
+	assert(runtimeData[netId].memType == GPU_MEM);
+	checkAndSetGPUDevice(netId);
+	kernel_printEntrails<<<1,1>>>(lGrpIdPre, lGrpIdPost);
+}
+
+//#define DEBUG_updateDelays_GPU
+//#define DEBUG_updateDelays_GPU_Entrails  
+// crashes if _A  AND  _B is defined
+// : GPU operations could not be completed (error code an illegal memory access was encountered SNN::updateDelays_GPU #1091).
+//#define DEBUG_updateDelays_GPU_Entrails_A
+//#define DEBUG_updateDelays_GPU_Entrails_B
+
+// updateDelays kernel
+__global__ void kernel_updateDelays(int lGrpIdPre, int lGrpIdPost, 
+	//std::vector<std::tuple<int, int, uint8_t>> connDelays,
+	int connDelaysN, const int *connDelaysPre, const int *connDelaysPost, const uint8_t *connDelaysD,
+	int numPreN, int numPostN, int maxDelay, int numN) {
+
+	//int idx = blockDim.x * blockIdx.x + threadIdx.x;
+	//if (idx != 0)
+	//	return;
+
+	//Cache group boundaries
+	int lStartNIdPre = groupConfigsGPU[lGrpIdPre].lStartN;
+	int lEndNIdPre = groupConfigsGPU[lGrpIdPre].lEndN;
+	int lStartNIdPost = groupConfigsGPU[lGrpIdPost].lStartN;
+	int lEndNIdPost = groupConfigsGPU[lGrpIdPost].lEndN;
+
+	uint8_t* delays = new uint8_t[(numPreN + 1) * (numPostN + 1)];
+
+	memset(delays, 0, numPreN * numPostN);
+	// (pre,post)->delay                            
+	for (int lNIdPre = groupConfigsGPU[lGrpIdPre].lStartN; lNIdPre <= groupConfigsGPU[lGrpIdPre].lEndN; lNIdPre++) {  
+		unsigned int offset = runtimeDataGPU.cumulativePost[lNIdPre];
+		for (int t = 0; t < maxDelay; t++) {
+			DelayInfo dPar = runtimeDataGPU.postDelayInfo[lNIdPre * (maxDelay + 1) + t];
+			for (int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d++) {
+				// get synaptic info
+				SynInfo postSynInfo =runtimeDataGPU.postSynapticIds[offset + idx_d];
+				// get local post neuron id
+				int lNIdPost = GET_CONN_NEURON_ID(postSynInfo);
+				assert(lNIdPost < numN);
+				if (lNIdPost >= groupConfigsGPU[lGrpIdPost].lStartN && lNIdPost <= groupConfigsGPU[lGrpIdPost].lEndN) {
+					delays[(lNIdPre - groupConfigsGPU[lGrpIdPre].lStartN) + numPreN * (lNIdPost - groupConfigsGPU[lGrpIdPost].lStartN)] = t + 1;
+				}
+			}
+		}
+	}
+
+	// access to serialized storage, grouped by pre
+	auto getDelay = [&](int pre, int post) { return delays[post * numPostN + pre]; };
+	auto setDelay = [&](int pre, int post, int8_t delay) { delays[post * numPostN + pre] = delay; };
+
+
+#ifdef DEBUG_updateDelays_GPU
+	// iterate over pre and print the delay of each post connection
+	auto printDelays = [&]() {
+		for (int i = 0; i < numPreN; i++) {
+			for (int j = 0; j < numPostN; j++) {
+				int d = getDelay(i, j);
+				if (d > 0)
+					printf("pre:%d post:%d delay:%d\n", i, j, d);
+			}
+		}
+	};
+#endif
+	
+	for (int i=0; i<connDelaysN; i++) {
+
+#ifdef DEBUG_updateDelays_GPU
+		printDelays();
+#endif
+
+// ISSUE without printf if DEBUG_updateDelays_GPU is on
+// Assertion failed: err == cudaSuccess, file C:/cockroach-ut3/src/CARLsim6/carlsim/kernel/src/gpu_module/snn_gpu_module.cu, line 1087
+// GPU operations could not be completed (error code an illegal memory access was encountered SNN::updateDelays_GPU #1091).
+//printf("%s  #%d  (%s)\n", __FUNCTION__ ,  __LINE__, __FILE__);
+
+		ConnectionInfo connInfo;
+		connInfo.grpSrc = lGrpIdPre;
+		connInfo.grpDest = lGrpIdPost;
+		connInfo.initWt = -1.0f;
+		connInfo.maxWt = -1.0f;
+		connInfo.connId = -1;
+		connInfo.preSynId = -1;
+
+		int post_pos, pre_pos;
+		enum { left, right, none } direction;
+
+//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+		{
+			// new delay
+			connInfo.nSrc = connDelaysPre[i];	// snn_manager.cpp  SNN::generateConnectionRuntime
+			connInfo.nDest = connDelaysPost[i];
+
+			connInfo.delay = connDelaysD[i];
+
+//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+
+#ifdef DEBUG_updateDelays_GPU_Entrails_A
+			printf("before pre=%d, post=%d delay=%d\n", connInfo.nSrc, connInfo.nDest, connInfo.delay);
+			printEntrails(lGrpIdPre, lGrpIdPost);
+#endif
+
+			// old delay
+			int old_delay = getDelay(connInfo.nSrc, connInfo.nDest);
+
+			// direction		
+			if (connInfo.delay < old_delay)
+				direction = left;
+			else if (connInfo.delay > old_delay)
+				direction = right;
+			else
+				direction = none;
+
+			//{FIXING 20230619
+			// translate relative indizes to local 
+			connInfo.nSrc += lStartNIdPre;
+			connInfo.nDest += lStartNIdPost;
+			//}
+
+			// GPU_ISSUE_1 GLoffset,  try to handle in host wrapper
+			//connInfo.srcGLoffset = GLoffset[connInfo.nSrc];
+			//int lNIdPre = connInfo.nSrc + GLoffset[connInfo.grpSrc];
+			
+			connInfo.srcGLoffset = 0;
+			int lNIdPre = connInfo.nSrc + 0;
+
+
+			unsigned int offset = runtimeDataGPU.cumulativePre[lNIdPre];
+
+
+			int nId_left = -1;
+			int delay_left = -1;
+
+			int post_pos = -1;
+			int pre_pos = -1;
+			int start = runtimeDataGPU.cumulativePost[connInfo.nSrc]; // start index 
+
+			int n = runtimeDataGPU.Npost[connInfo.nSrc]; // neuron has n synapses
+
+
+
+			if (direction == left) { // down
+
+				// search post_pos of syn to nDest from end
+				for (int pos = start + n - 1; pos >= start; pos--)   // up
+					if (runtimeDataGPU.postSynapticIds[pos].nId == connInfo.nDest) {
+						post_pos = pos;
+						break;
+					}
+
+				while (post_pos > 0)
+				{
+					post_pos--;
+					nId_left = runtimeDataGPU.postSynapticIds[post_pos].nId;
+					delay_left = getDelay(connInfo.nSrc - lStartNIdPre, nId_left - lStartNIdPost);  // rel id
+					if (connInfo.delay < delay_left) {
+						auto postSynapticIds_synId = runtimeDataGPU.postSynapticIds[post_pos];
+						runtimeDataGPU.postSynapticIds[post_pos] = runtimeDataGPU.postSynapticIds[post_pos + 1];
+						runtimeDataGPU.postSynapticIds[post_pos + 1] = postSynapticIds_synId;
+					}
+					else
+						break;
+				}
+
+			}
+			else if (direction == right) { // down
+
+			   // search position of syn to nDest from start
+				for (int pos = start; pos < start + n; pos++)   // down
+					if (runtimeDataGPU.postSynapticIds[pos].nId == connInfo.nDest) {
+						post_pos = pos;
+						break;
+					}
+
+				// move right (down) while lower delay
+				while (post_pos < start + n - 1) {
+					post_pos++;
+					nId_left = runtimeDataGPU.postSynapticIds[post_pos].nId;
+					delay_left = getDelay(connInfo.nSrc - lStartNIdPre, nId_left - lStartNIdPost);   // rel id
+
+					if (connInfo.delay > delay_left) {
+						auto postSynapticIds_synId = runtimeDataGPU.postSynapticIds[post_pos];
+						runtimeDataGPU.postSynapticIds[post_pos] = runtimeDataGPU.postSynapticIds[post_pos - 1];
+						runtimeDataGPU.postSynapticIds[post_pos - 1] = postSynapticIds_synId;
+					}
+					else
+						break;
+				}
+			}
+			else
+				continue;  // skip nop
+
+			for (int synId = runtimeDataGPU.cumulativePost[connInfo.nSrc]; synId < runtimeDataGPU.Npost[connInfo.nSrc] + runtimeDataGPU.cumulativePost[connInfo.nSrc]; synId++) {
+				SynInfo& postSynInfo = runtimeDataGPU.postSynapticIds[synId];
+				int nId = postSynInfo.nId;
+				int preSynId = GET_CONN_SYN_ID(postSynInfo);
+				int pre_pos = runtimeDataGPU.cumulativePre[nId] + preSynId;
+				SynInfo& preSynInfo = runtimeDataGPU.preSynapticIds[pre_pos];
+				preSynInfo.gsId = synId - runtimeDataGPU.cumulativePost[connInfo.nSrc];
+#define SET_CONN_GRP_ID(val, grpId) ((grpId << NUM_SYNAPSE_BITS) | GET_CONN_SYN_ID(val))
+				preSynInfo.gsId = SET_CONN_GRP_ID(preSynInfo, lGrpIdPre);
+			}
+
+
+#ifdef DEBUG_updateDelays_GPU
+			printf("%d\n", post_pos);
+#endif
+
+			// old postDelayInfo
+			int t_old = old_delay - 1;  // transform delay in ms to offset: 1 ms becomes 0, 2 ms becomes 1, .. 
+			DelayInfo& dPar_old = runtimeDataGPU.postDelayInfo[lNIdPre * (maxDelay + 1) + t_old];
+
+
+			if (dPar_old.delay_length >= 0) {
+				dPar_old.delay_length--; // decrement
+				dPar_old.delay_index_start = 0; // reset entry  
+			}
+			else {
+				printf("KERNEL_ERROR Post-synaptic delay was not sorted correctly pre_id=%d, offset=%d", lNIdPre, offset);
+			}
+
+			int t_new = connInfo.delay - 1;  // transform delay in ms to offset: 1 ms becomes 0, 2 ms becomes 1, .. 
+			DelayInfo& dPar_new = runtimeDataGPU.postDelayInfo[lNIdPre * (maxDelay + 1) + t_new];
+
+			if (dPar_new.delay_length >= 0) {
+				dPar_new.delay_length++; // decrement
+				dPar_old.delay_index_start = 0; // reset entry  
+			}
+			else {
+				printf("KERNEL_ERROR Post-synaptic delay was not sorted correctly pre_id=%d, offset=%d", lNIdPre, offset);
+			}
+
+			offset = 0;
+			for (int t = 0; t < maxDelay + 1; t++) {
+				DelayInfo& dPar = runtimeDataGPU.postDelayInfo[lNIdPre * (maxDelay + 1) + t];
+				if (dPar.delay_length > 0) {
+					dPar.delay_index_start = offset;
+					offset += dPar.delay_length;
+				}
+			}
+#ifdef DEBUG_updateDelays_GPU_Entrails_B
+			printf("after pre=%d, post=%d delay=%d\n%s\n", connInfo.nSrc, connInfo.nDest, connInfo.delay);
+			printEntrails(lGrpIdPre, lGrpIdPost);
+#endif
+
+			if (offset == n) {
+				setDelay(connInfo.nSrc, connInfo.nDest, connInfo.delay); // update delay cache 
+			}
+			else
+			{
+				printf("WARNING: skipping setDelay (offset!=n): pre=%d, post=%d delay=%d\n",
+					connInfo.nSrc, connInfo.nDest, connInfo.delay);
+			}
+
+		}
+
+	}
+
+	delete[] delays;
+
+}
+
+// wrapper to call updateDelays kernel
+bool SNN::updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) {
+	assert(runtimeData[netId].allocated);
+	assert(runtimeData[netId].memType == GPU_MEM);
+	checkAndSetGPUDevice(netId);
+
+	int numPreN = groupConfigMap[lGrpIdPre].numN;
+	int numPostN = groupConfigMap[lGrpIdPost].numN;
+	int maxDelay = glbNetworkConfig.maxDelay; 
+	int numN = glbNetworkConfig.numN; 
+
+
+	int connDelaysN = connDelays.size();
+	int connDelaysPreSize = sizeof(int) * connDelaysN;
+	int connDelaysPostSize = sizeof(int) * connDelaysN;
+	int connDelaysDSize = sizeof(uint8_t) * connDelaysN;
+
+
+	// allocate host memory
+	int *h_connDelaysPre = (int*) malloc(connDelaysPreSize);
+	int *h_connDelaysPost = (int*) malloc(connDelaysPostSize);
+	uint8_t * h_connDelaysD = (uint8_t*) malloc(connDelaysDSize);
+
+	// prepare host memory
+	int i = 0;
+	for (auto iter = connDelays.begin(); iter != connDelays.end(); iter++, i++) {
+		h_connDelaysPre[i] = std::get<0>(*iter);	// snn_manager.cpp  SNN::generateConnectionRuntime
+		h_connDelaysPost[i] = std::get<1>(*iter);
+		h_connDelaysD[i] = std::get<2>(*iter);		
+	}
+
+	// Prepare device memory
+	cudaError_t err = cudaSuccess;
+
+	int* d_connDelaysPre = NULL;
+	int* d_connDelaysPost = NULL;
+	uint8_t* d_connDelaysD = NULL;
+
+	err = cudaMalloc((void**)&d_connDelaysPre, connDelaysPreSize);
+	assert(err == cudaSuccess);
+	err = cudaMalloc((void**)&d_connDelaysPost, connDelaysPostSize);	
+	assert(err == cudaSuccess);	
+	err = cudaMalloc((void**)&d_connDelaysD, connDelaysDSize);
+	assert(err == cudaSuccess);
+
+	err = cudaMemcpy(d_connDelaysPre, h_connDelaysPre, connDelaysPreSize, cudaMemcpyHostToDevice);
+	assert(err == cudaSuccess);
+	err = cudaMemcpy(d_connDelaysPost, h_connDelaysPost, connDelaysPostSize, cudaMemcpyHostToDevice);
+	assert(err == cudaSuccess);
+	err = cudaMemcpy(d_connDelaysD, h_connDelaysD, connDelaysDSize, cudaMemcpyHostToDevice);
+	assert(err == cudaSuccess);
+
+	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+	kernel_updateDelays<<<1,1>>>(lGrpIdPre, lGrpIdPost, 
+		//connDelays,  // hint connDelays have relative/global Ids
+		connDelaysN, d_connDelaysPre, d_connDelaysPost, d_connDelaysD,
+		numPreN, numPostN, maxDelay, numN);  
+
+
+	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		fprintf(stderr, "Failed to launch vectorAdd kernel (error code %s).\n", cudaGetErrorString(err));
+		exit(EXIT_FAILURE);
+	}
+
+
+	// fix ISSUE withput printf 
+	// Assertion failed: err == cudaSuccess, file C:/cockroach-ut3/src/CARLsim6/carlsim/kernel/src/gpu_module/snn_gpu_module.cu, line 1087
+	// GPU operations could not be completed (error code an illegal memory access was encountered).
+	//cudaThreadSynchronize();
+	cudaDeviceSynchronize();
+	err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		fprintf(stderr, "GPU operations could not be completed (error code %s %s #%d).\n", cudaGetErrorString(err), __FUNCTION__, __LINE__);
+		exit(EXIT_FAILURE);
+	}
+
+	//__host__?__device__?cudaError_t cudaDeviceSynchronize (void)
+	//	Wait for compute device to finish.
+
+
+	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+	// Free device memory
+	err = cudaFree(d_connDelaysPre);
+	assert(err == cudaSuccess);
+	err = cudaFree(d_connDelaysPost);
+	assert(err == cudaSuccess);
+	err = cudaFree(d_connDelaysD);
+	assert(err == cudaSuccess);
+
+	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+	// Free host memory
+	free(h_connDelaysPre);
+	free(h_connDelaysPost);
+	free(h_connDelaysD);
+
+	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+	return false; // change to void
+}
+
+
+
+
+
+
+
 #define LTP_GROUPING_SZ 16 //!< synaptic grouping for LTP Calculation
 /*!
  * \brief Computes the STDP update values for each of fired neurons stored in the local firing table.
