@@ -2,7 +2,7 @@
 	<img src="http://socsci.uci.edu/~jkrichma/CARL-Logo-small.jpg" width="300"/>
 </div>
 
-# CARLsim 6
+# CARLsim 6.1
 
 [![Build Status](https://travis-ci.org/UCI-CARL/CARLsim5.svg?branch=master)](https://github.com/UCI-CARL/CARLsim6/actions/runs/1684806099)
 [![Coverage Status](https://coveralls.io/repos/github/UCI-CARL/CARLsim4/badge.svg?branch=master)](https://coveralls.io/github/UCI-CARL/CARLsim4?branch=master)
@@ -16,17 +16,28 @@ generic x86 CPUs and standard off-the-shelf GPUs.
 The simulator provides a PyNN-like programming interface in C/C++, 
 which allows for details and parameters to be specified at the synapse, neuron, and network level.
 
+
 New features in CARLsim 6 include:
 - CUDA 11 support
 - CMake build system
 - Neuromodulatory features
 - Integration of Python LEAP 
+- Axonal Plasticity learning rule (release 6.1)
 
-If you use CARLsim 6 in your research, please cite this [paper](https://www.socsci.uci.edu/~jkrichma/CARLsim6-IJCNN2022.pdf):
+
+If you use CARLsim 6 in your research, please cite our [paper](https://ieeexplore.ieee.org/document/9892644):
 
 Niedermeier, L., Chen, K., Xing, J., Das, A., Kopsick, J., Scott, E., Sutton, N., Weber, K., Dutt, N., and Krichmar, J.L. (2022).
-"CARLsim 6: An Open Source Library for Large-Scale, Biologically Detailed Spiking Neural Network Simulation."
-In Proceedings of IEEE International Joint Conference on Neural Networks (IJCNN), (To appear in WCCI IJCNN 2022).
+"CARLsim 6: An Open Source Library for Large-Scale, Biologically Detailed Spiking Neural Network Simulation".  
+Presented at the [WCCI2022 IEEE WORLD CONGRESS ON COMPUTATIONAL INTELLIGENCE, Padua, Italy, 2022](https://wcci2022.org/).  
+In [Proceedings 2022 of IEEE International Joint Conference on Neural Networks (IJCNN)](https://ieeexplore.ieee.org/document/9892644).
+
+For the new learning rule Axonal Plasticity, please cite this [paper](https://www.socsci.uci.edu/~jkrichma/CARLsim61-IJCNN2023.pdf):
+
+Niedermeier, L. and Krichmar, J.L. (2023).  
+"Experience-Dependent Axonal Plasticity in Large-Scale Spiking Neural Network Simulations".  
+Presented at the [International Joint Conference on Neural Networks (IJCNN), Queensland, Australia, 2023](https://2023.ijcnn.org).   
+To appear in  the [Proceedings 2023 of IEEE International Joint Conference on Neural Networks (IJCNN)](https://ieeexplore.ieee.org/xpl/conhome/1000500/all-proceedings).
 
 
 ## Quickstart for Linux
@@ -73,6 +84,6 @@ If the Prerequisites cannot be met consider using a former version like CARLsim 
 
 The latest release was tested on the following platforms:  
 - Linux:  Ubuntu 20.04 LTS  
-- Windows: Windows 10 Professional, Windows 11 Education  
+- Windows: Windows 10 Professional, Windows 11 Education/Professional  
 - CUDA: 11.2, 11.4, 11.5, 11.7  
 - GPUs: Titan Xp, 1080ti, RTX 3090, A100  
