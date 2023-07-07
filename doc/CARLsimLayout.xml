@@ -85,7 +85,16 @@
 				<tab type="user" visible="no" title="14.8 Further readings" url="@ref ch20s8_misc"/>
 				<tab type="user" visible="no" title="14.9 References" url="@ref ch20s9_references"/>
 			</tab>
-
+			
+			<tab type="usergroup" visible="yes" title="15. Axonal Plasticity" url="@ref ch21_axonplast">
+				<tab type="user" visible="no" title="15.1 Introduction" url="@ref ch21s1_axonplast_overview"/>        				
+				<tab type="user" visible="no" title="15.2 Adjusting Axonal Delays" url="@ref ch21s2_axonplast_carlsim"/>        				
+				<tab type="user" visible="no" title="15.3 Usage of updateDelays" url="@ref ch21s3_axonplast_usage"/>        				
+				<tab type="user" visible="no" title="15.4 Conceptual Background" url="@ref ch21s4_axonplast_usage"/>        				
+				<tab type="user" visible="no" title="15.5 Impementation Details" url="@ref ch21s5_axonplast_implementation"/>     
+				<tab type="user" visible="no" title="15.6 References" url="@ref ch21s6_axonplast_references"/>      				
+      </tab>
+			
 		</tab>
 		<tab type="usergroup" visible="yes" title="Tutorial">
 			<tab type="usergroup" visible="yes" title="1. Basic Concepts" url="@ref tut1_basic_concepts">

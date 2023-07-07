@@ -32,7 +32,7 @@ PROJECT_NAME           = "CARLsim"
 # This could be handy for archiving the generated documentation or
 # if some version control system is used.
 
-PROJECT_NUMBER         = 6.0.0
+PROJECT_NUMBER         = 6.1.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer
@@ -690,6 +690,7 @@ INPUT                  = ../carlsim/interface/inc \
                          source/user_guide/13_example_networks \
                          source/user_guide/14_pycarl \
 						             source/user_guide/20_neuromodulation \
+						             source/user_guide/21_axonal_plasticity \
                          source/tutorial/1_basic_concepts/doc \
                          source/tutorial/2_random_spnet/doc \
                          source/tutorial/3_plasticity/doc \
@@ -802,6 +803,7 @@ IMAGE_PATH             = source/user_guide \
                          source/user_guide/13_example_networks \
                          source/user_guide/14_pycarl \
                          source/user_guide/20_neuromodulation \
+                         source/user_guide/21_axonal_plasticity \
                          source/tutorial/1_basic_concepts/doc \
                          source/tutorial/2_random_spnet/doc \
                          source/tutorial/3_plasticity/doc \
