@@ -1,6 +1,15 @@
 # Dependencies
 
-    find_package(GTest REQUIRED)
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  # Specify the commit you depend on and update it regularly.
+  URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+# find_package(GTest REQUIRED)
 
 # Targets
 
@@ -10,7 +19,7 @@
         main.cpp
         multi_runtimes.cpp
         stdp_adv.cpp
-		axonplast2.cpp
+        axonplast2.cpp
     )
 
     #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     
@@ -30,7 +39,7 @@
     target_include_directories(carlsim-testsadv
         PRIVATE
             ${GTEST_INCLUDE_DIRS}
-			../../tools/stopwatch
+ #           C:/Test/github/PTHREADS-BUILT/include
     )
 
 # Linking
@@ -38,8 +47,8 @@
     target_link_libraries(carlsim-testsadv
         PRIVATE
             carlsim-spike-generators
-			carlsim-stopwatch
             ${GTEST_LIBRARIES}
+            GTest::gtest
     )
 
 if(MSVC)
@@ -47,6 +56,8 @@ if(MSVC)
     # Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)
     target_link_options(carlsim-testsadv PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
 endif()
+
+include(GoogleTest)
 
 # Release
 # Param.  --gtest_filter=-*Gauss*:*eath*:*LN*
