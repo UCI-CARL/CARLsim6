@@ -1,9 +1,7 @@
 # Subdirectories
 
-    if(CARLSIM_SHARED)
-      add_subdirectory(spike_generators)
-      add_subdirectory(stopwatch)
-    endif()
+    add_subdirectory(spike_generators)
+    add_subdirectory(stopwatch)
     
     if(CARLSIM_TOOLS)
       add_subdirectory(simple_weight_tuner)
