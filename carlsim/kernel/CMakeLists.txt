@@ -1,6 +1,7 @@
 # Dependencies
 
     if(NOT CARLSIM_NO_CUDA)
+    	# SET(CUDA_USE_STATIC_CUDA_RUNTIME OFF)
         find_package(CUDA 11 REQUIRED)
     endif()
 
@@ -9,9 +10,9 @@
 		find_package(Threads REQUIRED)
 	endif()
 
-	if(NOT CARLSIM_STATIC)
-		message(FATAL_ERROR "Invalid context, CMake will exit.")
-	endif()
+	#if(NOT CARLSIM_STATIC)
+	#	message(FATAL_ERROR "Invalid context, CMake will exit.")
+	#endif()
 
 # Targets
 
@@ -25,6 +26,7 @@
 					${CARLSIM_CUDA_GENCODE}
 	        )
 		endif()
+		
 		if(UNIX)
 	        cuda_add_library(carlsim-kernel-cuda
 	            src/gpu_module/snn_gpu_module.cu
