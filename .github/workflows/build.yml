@@ -1,0 +1,38 @@
+name: cmake build
+
+on:
+  push: # pull_request:
+    branches: [ "main" ] 
+
+jobs:
+  build:
+    runs-on: ubu20GPU # ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Build
+      run:  | 
+            mkdir ${{github.workspace}}/build
+            cd ${{github.workspace}}/build
+            cmake -DCMAKE_INSTALL_PREFIX=/tmp/carlsim6 \
+                  -DCMAKE_BUILD_TYPE=Release .. \
+                  -DCARLSIM_TEST=ON
+            make -j$(nproc) install
+            
+    - name: Run tests
+      run:  | 
+            cd ${{github.workspace}}
+            ./build/carlsim/test/carlsim-tests
+            ./build/carlsim/test6/carlsim-tests6
+            lcov --directory ./ --capture --output-file ./code_coverage.lcov \
+                 -rc lcov_branch_coverage=1
+            lcov --remove ./code_coverage.lcov -o ./code_coverage.lcov \
+                 '/usr/*' '/tmp/*' '${{github.workspace}}/build/*'
+            
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with: 
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            path-to-lcov: ${{github.workspace}}/code_coverage.lcov
+            debug: False # True
