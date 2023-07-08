@@ -1,6 +1,10 @@
 # Targets
 
-    add_library(carlsim-spike-generators SHARED)
+    if(CARLSIM_STATIC)
+        add_library(carlsim-spike-generators STATIC)
+    else()
+        add_library(carlsim-spike-generators)
+    endif()
 
     target_compile_definitions(carlsim-spike-generators PRIVATE CARLSIM_DLL)
     
@@ -34,7 +38,11 @@
 
 # Linking
 
-    target_link_libraries(carlsim-spike-generators PUBLIC carlsim)
+    if(CARLSIM_STATIC)
+        target_link_libraries(carlsim-spike-generators PUBLIC -static carlsim)
+    else()
+        target_link_libraries(carlsim-spike-generators PUBLIC carlsim)
+    endif()
 
 # Installation
 
