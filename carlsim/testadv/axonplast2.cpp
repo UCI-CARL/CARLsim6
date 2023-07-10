@@ -7,9 +7,7 @@
 
 // include stopwatch for timing
 #include <stopwatch.h>
-
 #include <periodic_spikegen.h>
-
 #include <algorithm>
 
 /*
@@ -20,7 +18,6 @@
 * based on Sample Maze 4x4
 */
 
-// F... zero based indezes versus 0 based --> only the one..
 
 class Maze
 {
@@ -345,7 +342,7 @@ TEST(axonplast2, path) {
 			int d = delays[j * numPostN + i];
 			//int d = delays[j + i * numPreN];
 			if (d > 0) {
-				// TODO if DEBUG_AXONPLAST
+				// if DEBUG_AXONPLAST
 				printf(" % 2d", d);
 			}
 			else
@@ -824,7 +821,7 @@ TEST(axonplast2, conductance) {
 
 	std::vector<int> path;
 	std::vector<float> eligibility (16, 0.0f);
-	sim.findWavefrontPath(path, eligibility, 8, CA3_Pyramidal, 0, 15);  // Design flaw,  grpIds are global, see getDelays,  netId must not be passed but derived
+	sim.findWavefrontPath(path, eligibility, 8, CA3_Pyramidal, 0, 15);  
 
 	const int buffer_len = 100;
 	char buffer[buffer_len];
@@ -1088,30 +1085,6 @@ struct ConnectionMatrix {
 			delete [] delays;
 	};
 
-	//// copy assignment
-	////https://en.cppreference.com/w/cpp/language/operators
-	//ConnectionMatrix& operator=(const ConnectionMatrix& other) {
-	//	delete delays;
-	//	numPreN = other.numPreN;
-	//	numPostN = other.numPostN;
-	//	delays = new uint8_t[numPreN * numPostN];
-	//	//std::copy<uint8_t, uint8_t>(other.delays, numPreN*numPostN, delays); // requires it
-	//	//for (int i = 0; i < numPreN * numPostN; i++)
-	//	//	delays[i] = other.delays[i];
-	//	memcpy(delays, other.delays, sizeof(uint8_t) * numPreN * numPostN);
-	//}
-
-	//// move assignement
-	//ConnectionMatrix& operator=(ConnectionMatrix& other) {
-	//	//move content
-	//	numPreN = other.numPreN; 
-	//	numPostN = other.numPostN;
-	//	delays = other.delays;
-	//	//clear other
-	//	other.delays = nullptr; 
-	//	other.numPreN = 0; 
-	//	other.numPostN = 0;
-	//}
 
 	unsigned getDelay(int pre, int post) {
 		return delays[post * numPostN + pre];
@@ -1237,10 +1210,6 @@ TEST(axonplast2, updateDelays) {
 
 		sim->connect(CA3_Pyramidal, CA3_Pyramidal, &conn, SYN_FIXED);  // SYN_AXONPLAST
 
-		//as expected, cause for invalid delay updates
-		// without PATCH_updateDelays_ConnGroup: 7 failures, starting the first (0,1) -> 3
-		// with PATCH_updateDelays_ConnGroup: 30 failures, but first 6 ok, the delay before is updated
-		// FIXED with PATCH_updateDelays_PreNId with 
 		sim->connect(CA3_Pyramidal, CA3_Basket, "one-to-one", RangeWeight(200), 1.0f, RangeDelay(1), SYN_FIXED); // trigger inhib
 		sim->connect(CA3_Basket, CA3_Pyramidal, "one-to-one", RangeWeight(200), 1.0f, RangeDelay(1), SYN_FIXED); // inhib pyramidal
 
@@ -1254,8 +1223,7 @@ TEST(axonplast2, updateDelays) {
 
 	};
 
-	//Get Connection Matrix 
-	//todo AxonPlast Utils -> Matrix operations, Data structures, Wrappers,...
+	//Get Connection Matrix
 
 	for (int mode = 0; mode < TESTED_MODES; mode++) {
 
@@ -1273,13 +1241,9 @@ TEST(axonplast2, updateDelays) {
 					createSim(mode);
 
 					auto d_expected = d - 1;
-					//auto d_expected = d + 1; // works, required for Tolman Mazes
-					//auto d_expected = 120;  // => MAX_DELAY e.g. 20 
-					//auto d_expected = 0; // => ? UNDEF, IGNORE or MIN_DELAY e.g. 1
+
 
 					ConnectionMatrix expected(before); // copy 
-					//expected(pre, post) = d_expected; 
-					//expected[std::pair<int,int>(pre,post)] = d_expected; 
 					expected.setDelay(pre, post, d_expected);
 
 					//Maze::ConnDelays_t connDelays2;

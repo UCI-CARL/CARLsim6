@@ -1222,7 +1222,6 @@ private:
 	bool updateDelays_CPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
 	void printEntrails_CPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost);
 #ifndef __NO_CUDA__
-	//	void findWavefrontPath_GPU(std::vector<int>& path, int netId, int grpId, int startNId, int goalNId);
 	bool updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
 	void printEntrails_GPU(int netId, int lGrpIdPre, int lGrpIdPost);
 	void printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost);

@@ -511,22 +511,24 @@ STRICT_PROTO_MATCHING  = NO
 # disable (NO) the todo list. This list is created by putting \todo
 # commands in the documentation.
 
-#GENERATE_TODOLIST      = NO
+GENERATE_TODOLIST      = NO
 # during stabilization
 # \todo <what (review | refact | fix | implement | ..) > <who (LN|KX|JW|KW|..)>   
-GENERATE_TODOLIST      = YES
+#GENERATE_TODOLIST      = YES
 
 # The GENERATE_TESTLIST tag can be used to enable (YES) or
 # disable (NO) the test list. This list is created by putting \test
 # commands in the documentation.
 
-GENERATE_TESTLIST      = YES
+GENERATE_TESTLIST      = NO
+#GENERATE_TESTLIST      = YES
 
 # The GENERATE_BUGLIST tag can be used to enable (YES) or
 # disable (NO) the bug list. This list is created by putting \bug
 # commands in the documentation.
 
-GENERATE_BUGLIST       = YES
+GENERATE_BUGLIST       = NO
+#GENERATE_BUGLIST       = YES
 
 # The GENERATE_DEPRECATEDLIST tag can be used to enable (YES) or
 # disable (NO) the deprecated list. This list is created by putting
@@ -1607,6 +1609,7 @@ INCLUDE_FILE_PATTERNS  =
 # instead of the = operator.
 
 PREDEFINED             =  LN_I_CALC_TYPES \
+                          LN_AXON_PLAST \
                           LN_FIX_DA_DECAY_CPU \
                           LN_FIX_DA_DECAY_GPU \
                           #LN_FIX_CONNLIST_ \

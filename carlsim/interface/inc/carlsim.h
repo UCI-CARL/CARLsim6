@@ -1499,19 +1499,24 @@ public:
 
 #ifdef LN_AXON_PLAST
 	/*!
-	  * \brief Extracts the path from a spiking wave front and returns the eligibility
+	  * \brief Extracts the path from a spiking wave front and returns the eligibility trace.
 	  *
-	  * usage: pass the local ids of the start and goal neurons
+	  * The the start and goal neurons are identified by local ids. 
 	  * 
 	  * \STATE ::SETUP_STATE, ::RUN_STATE
 	  */
 	 void findWavefrontPath(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId);
 
 	 /*!
-	 * \brief Updates the delays directly the backend memory
+	 * \brief Updates the delays directly the backend memory.
 	 * 
-	 * usage: pass the connection delays as tuple (lNidPre, lNIdPost, delay)
+	 * The connection delays to be updated are passed as a vector of tuples (neuronIdPre, neuronIdPost, delay). 
+	 * The neuron ids reference the pre- and post-synaptic neuron group.
 	 * 
+	 * \STATE ::SETUP_STATE, ::RUN_STATE
+	 * \param[in] gGrpIdPre		the global ID of the pre-synaptic group
+	 * \param[in] gGrpIdPost	the global ID of the post-synaptic group
+	 * \param[in] connDelays	the new delays as tuples (neuronIdPre, neuronIdPost, delay)
 	 */
 	 bool updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
 
@@ -1519,7 +1524,13 @@ public:
 	 /*!
 	 * \brief print entrails of SNN to string buffer
 	 * 
-	 * unit test, pretty print
+	 * Pretty printing of interal structures to support unit testing.
+	 *
+	 * \STATE ::SETUP_STATE, ::RUN_STATE
+	 * \param[in] buffer		the string buffer that holds the pretty printing content
+	 * \param[in] length		the size of the string buffer
+	 * \param[in] gGrpIdPre		the global ID of the pre-synaptic group
+	 * \param[in] gGrpIdPost	the global ID of the post-synaptic group
 	 */
 	 void printEntrails(char* buffer, unsigned length, int gGrpIdPre, int gGrpIdPost);
 

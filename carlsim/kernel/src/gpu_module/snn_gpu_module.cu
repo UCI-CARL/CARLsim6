@@ -958,20 +958,11 @@ void SNN::printEntrails_GPU(int netId, int lGrpIdPre, int lGrpIdPost) {
 
 //#define DEBUG_updateDelays_GPU
 //#define DEBUG_updateDelays_GPU_Entrails  
-// crashes if _A  AND  _B is defined
-// : GPU operations could not be completed (error code an illegal memory access was encountered SNN::updateDelays_GPU #1091).
-//#define DEBUG_updateDelays_GPU_Entrails_A
-//#define DEBUG_updateDelays_GPU_Entrails_B
 
 // updateDelays kernel
 __global__ void kernel_updateDelays(int lGrpIdPre, int lGrpIdPost, 
-	//std::vector<std::tuple<int, int, uint8_t>> connDelays,
 	int connDelaysN, const int *connDelaysPre, const int *connDelaysPost, const uint8_t *connDelaysD,
 	int numPreN, int numPostN, int maxDelay, int numN) {
-
-	//int idx = blockDim.x * blockIdx.x + threadIdx.x;
-	//if (idx != 0)
-	//	return;
 
 	//Cache group boundaries
 	int lStartNIdPre = groupConfigsGPU[lGrpIdPre].lStartN;
@@ -1024,11 +1015,6 @@ __global__ void kernel_updateDelays(int lGrpIdPre, int lGrpIdPost,
 		printDelays();
 #endif
 
-// ISSUE without printf if DEBUG_updateDelays_GPU is on
-// Assertion failed: err == cudaSuccess, file C:/cockroach-ut3/src/CARLsim6/carlsim/kernel/src/gpu_module/snn_gpu_module.cu, line 1087
-// GPU operations could not be completed (error code an illegal memory access was encountered SNN::updateDelays_GPU #1091).
-//printf("%s  #%d  (%s)\n", __FUNCTION__ ,  __LINE__, __FILE__);
-
 		ConnectionInfo connInfo;
 		connInfo.grpSrc = lGrpIdPre;
 		connInfo.grpDest = lGrpIdPost;
@@ -1040,17 +1026,12 @@ __global__ void kernel_updateDelays(int lGrpIdPre, int lGrpIdPost,
 		int post_pos, pre_pos;
 		enum { left, right, none } direction;
 
-//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
-
 		{
 			// new delay
 			connInfo.nSrc = connDelaysPre[i];	// snn_manager.cpp  SNN::generateConnectionRuntime
 			connInfo.nDest = connDelaysPost[i];
 
 			connInfo.delay = connDelaysD[i];
-
-//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
-
 
 #ifdef DEBUG_updateDelays_GPU_Entrails_A
 			printf("before pre=%d, post=%d delay=%d\n", connInfo.nSrc, connInfo.nDest, connInfo.delay);
@@ -1068,15 +1049,9 @@ __global__ void kernel_updateDelays(int lGrpIdPre, int lGrpIdPost,
 			else
 				direction = none;
 
-			//{FIXING 20230619
 			// translate relative indizes to local 
 			connInfo.nSrc += lStartNIdPre;
 			connInfo.nDest += lStartNIdPost;
-			//}
-
-			// GPU_ISSUE_1 GLoffset,  try to handle in host wrapper
-			//connInfo.srcGLoffset = GLoffset[connInfo.nSrc];
-			//int lNIdPre = connInfo.nSrc + GLoffset[connInfo.grpSrc];
 			
 			connInfo.srcGLoffset = 0;
 			int lNIdPre = connInfo.nSrc + 0;
@@ -1093,8 +1068,6 @@ __global__ void kernel_updateDelays(int lGrpIdPre, int lGrpIdPost,
 			int start = runtimeDataGPU.cumulativePost[connInfo.nSrc]; // start index 
 
 			int n = runtimeDataGPU.Npost[connInfo.nSrc]; // neuron has n synapses
-
-
 
 			if (direction == left) { // down
 
@@ -1272,10 +1245,8 @@ bool SNN::updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector
 	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
 
 	kernel_updateDelays<<<1,1>>>(lGrpIdPre, lGrpIdPost, 
-		//connDelays,  // hint connDelays have relative/global Ids
 		connDelaysN, d_connDelaysPre, d_connDelaysPost, d_connDelaysD,
 		numPreN, numPostN, maxDelay, numN);  
-
 
 	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
 
@@ -1286,20 +1257,12 @@ bool SNN::updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector
 	}
 
 
-	// fix ISSUE withput printf 
-	// Assertion failed: err == cudaSuccess, file C:/cockroach-ut3/src/CARLsim6/carlsim/kernel/src/gpu_module/snn_gpu_module.cu, line 1087
-	// GPU operations could not be completed (error code an illegal memory access was encountered).
-	//cudaThreadSynchronize();
 	cudaDeviceSynchronize();
 	err = cudaGetLastError();
 	if (err != cudaSuccess) {
 		fprintf(stderr, "GPU operations could not be completed (error code %s %s #%d).\n", cudaGetErrorString(err), __FUNCTION__, __LINE__);
 		exit(EXIT_FAILURE);
 	}
-
-	//__host__?__device__?cudaError_t cudaDeviceSynchronize (void)
-	//	Wait for compute device to finish.
-
 
 	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
 
@@ -1322,9 +1285,6 @@ bool SNN::updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector
 
 	return false; // change to void
 }
-
-
-
 
 
 

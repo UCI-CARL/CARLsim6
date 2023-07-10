@@ -57,7 +57,7 @@ endif()
 	option(CARLSIM_LN_GPU_STDP "Enables GPU accelerated functions for STDP" ON)  # feature GPU device functions (experimental)
 
 	option(CARLSIM_JK_CA3_SSN "J. Kopsick extensions for Neuron-Type Specific CA3 SNN" OFF) # feature ported on basis of CARLsim4 branch
-	option(CARLSIM_LN_AXON_PLAST "Axonal plasticity, Spiking Wave Propagation" OFF) # L. Niedermeier, J. Krichmar, IJCNN 2023
+	option(CARLSIM_LN_AXON_PLAST "Axonal plasticity, Spiking Wave Propagation" ON) # L. Niedermeier, J. Krichmar, IJCNN 2023
 
 	set(CARLSIM_CUDA_GENCODE "" CACHE STRING "Enforce code generation for specific CUDA archtecture and device, e.g. -gencode arch=compute_86,code=sm_86 for RTX3090, 80 for A100, 61 for Titan Xp" )  
 	

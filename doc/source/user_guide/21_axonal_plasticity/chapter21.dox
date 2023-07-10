@@ -92,7 +92,7 @@ by setupNetwork.
 \image html axonplast_fig3.png "Fig. 3. Validation of the structural integrity for updateDelays. The runtime data structures RT = (pre/postSynapticIds, postDelayInfo) are the result of setupNetwork().   S_1 is a SNN and ∆D defines the change of delays that transforms S_1 to the SNN S_2 in the state CONFIG. Applying updateDelays in the state RUN with the same delay change ∆D results in the same runtime data structure."
 
 
-\section ch21s5_axonplast_implementation 15.5 Impementation Details
+\section ch21s5_axonplast_implementation 15.5 Implementation Details
 
 For the contributors we provide some details of the implementation. 
 Please refer to our paper for more information. 

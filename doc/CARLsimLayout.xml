@@ -91,7 +91,7 @@
 				<tab type="user" visible="no" title="15.2 Adjusting Axonal Delays" url="@ref ch21s2_axonplast_carlsim"/>        				
 				<tab type="user" visible="no" title="15.3 Usage of updateDelays" url="@ref ch21s3_axonplast_usage"/>        				
 				<tab type="user" visible="no" title="15.4 Conceptual Background" url="@ref ch21s4_axonplast_usage"/>        				
-				<tab type="user" visible="no" title="15.5 Impementation Details" url="@ref ch21s5_axonplast_implementation"/>     
+				<tab type="user" visible="no" title="15.5 Implementation Details" url="@ref ch21s5_axonplast_implementation"/>     
 				<tab type="user" visible="no" title="15.6 References" url="@ref ch21s6_axonplast_references"/>      				
       </tab>
 			
