@@ -12,27 +12,14 @@ if(CARLSIM_NO_CUDA)
 endif()
 
 # Linking    
-if(CARLSIM_STATIC)
-    target_link_libraries(hello_world PRIVATE
-        -static
-        carlsim
-        carlsim-stopwatch
-    )
-else()
-    target_link_libraries(hello_world PRIVATE
-        carlsim
-        carlsim-stopwatch
-    )
-endif()
-
+target_link_libraries(hello_world PRIVATE
+    carlsim
+    carlsim-stopwatch
+)
 target_include_directories(hello_world PRIVATE
     ../../tools/stopwatch
 )
    
-if(CARLSIM_TEST)
-    #target_compile_options(hello_world PUBLIC -g -O0 -fprofile-arcs -ftest-coverage)
-    target_link_libraries(hello_world PRIVATE gcov)
-endif()   
         
 # Installation   
 install(TARGETS hello_world

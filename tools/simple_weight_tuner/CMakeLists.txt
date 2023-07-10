@@ -1,12 +1,7 @@
 
 # Targets
 
-    if(CARLSIM_STATIC)
-        add_library(carlsim-simple-weight-tuner STATIC)
-    else()
-        add_library(carlsim-simple-weight-tuner)
-    endif()
-    
+    add_library(carlsim-simple-weight-tuner SHARED)
 
     target_compile_definitions(carlsim-simple-weight-tuner PRIVATE CARLSIM_DLL)
 
@@ -28,11 +23,8 @@
         POSITION_INDEPENDENT_CODE TRUE)
 
 # Linking
-    if(CARLSIM_STATIC)
-        target_link_libraries(carlsim-simple-weight-tuner PRIVATE -static carlsim)
-    else()
-        target_link_libraries(carlsim-simple-weight-tuner PRIVATE carlsim)
-    endif()
+
+    target_link_libraries(carlsim-simple-weight-tuner PRIVATE carlsim)
 
 # Installation
 

@@ -10,9 +10,9 @@
 		find_package(Threads REQUIRED)
 	endif()
 
-	#if(NOT CARLSIM_STATIC)
-	#	message(FATAL_ERROR "Invalid context, CMake will exit.")
-	#endif()
+	if(NOT CARLSIM_STATIC)
+		message(FATAL_ERROR "Invalid context, CMake will exit.")
+	endif()
 
 # Targets
 

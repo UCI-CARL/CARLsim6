@@ -29,6 +29,7 @@ endif()
 
     # all options have to be captured in the carlsim_conf.h.in, see below
 
+    option(CARLSIM_GH_ACTIONS "Configure CMake for GitHub Actions" OFF)         # @TODO set this when called by GitHub WFs 
     option(CARLSIM_NO_CUDA "Turn off CUDA support" OFF)         # more for boot straping and quality ensurance
     option(CARLSIM_NO_PTHREADS "Turn off PTHREADS" ON)          # since CARLsim5, Linux Release builds throw segmentation violation 
     option(CARLSIM_SHARED "Build CARLSIM as shared library" ON)     # this is the primary supported way
@@ -39,7 +40,7 @@ endif()
     option(CARLSIM_TUTORIALS "Build CARLSIM tutorials" OFF)      # not for minimal version and production     
     option(CARLSIM_PYCARL "Build CARLSIM PyCARL" OFF)            # not for CR but SNN
     option(CARLSIM_TOOLS "Build CARLSIM Tools" ON)              # check for dependecies
-    option(CARLSIM_TEST "Build CARLSIM Tests" OFF)               # mandadory for development
+    option(CARLSIM_TEST "Build CARLSIM Tests" ON)               # mandadory for development
          
     # an option translates to one or more compile definitions assigned to one or multiple targets
     # it can be set manually or by a super build customized to a specific profil
@@ -76,11 +77,12 @@ endif()
 		# @TODO find permanent home in this file
 		# SET(CUDA_USE_STATIC_CUDA_RUNTIME OFF)
 		# @TODO find permanent home in this file
-		if(CARLSIM_TEST)
-			set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
-			set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} ${CMAKE_NVCC_FLAGS}")
-			set(CMAKE_NVCC_FLAGS "${CMAKE_CUDA_FLAGS}")
-		endif()
+		# @TODO GH_ACTIONS
+		#if(CARLSIM_TEST)
+		#	set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+		#	set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} ${CMAKE_NVCC_FLAGS}")
+		#	set(CMAKE_NVCC_FLAGS "${CMAKE_CUDA_FLAGS}")
+		#endif()
 		find_package(CUDA 11 REQUIRED)
     endif()
 
@@ -178,8 +180,10 @@ if(CARLSIM_TEST)
         ${kernel_HDRS}
         ${monitor_SRCS} 
         ${monitor_HDRS}
-        PROPERTIES
-        COMPILE_FLAGS  "-g -O0 -fprofile-arcs -ftest-coverage"
+# @TODO
+#if(CARLSIMGH_ACTIONS) AND UNIX 
+#        PROPERTIES
+#        COMPILE_FLAGS  "-g -O0 -fprofile-arcs -ftest-coverage"
     )
 endif()
 
@@ -215,7 +219,7 @@ endif()
 
 # Properties
 
-set_property(TARGET carlsim PROPERTY VERSION "6.0.0")
+set_property(TARGET carlsim PROPERTY VERSION "6.1.0")
 if(UNIX)
 	# Since we build shared library enable position independent code
 #		set_property(TARGET carlsim PROPERTY POSITION_INDEPENDENT_CODE TRUE)   
@@ -359,12 +363,13 @@ endif()
 
 ### Linking ###
 
-if(CARLSIM_TEST)
-    target_link_libraries(carlsim
-        PUBLIC
-        gcov
-    )
-endif()
+# @TODO GH_ACTIONS
+#if(CARLSIM_TEST)
+#    target_link_libraries(carlsim
+#        PUBLIC
+#        gcov
+#    )
+#endif()
 
 if(NOT CARLSIM_NO_CUDA)
 	target_link_libraries(carlsim

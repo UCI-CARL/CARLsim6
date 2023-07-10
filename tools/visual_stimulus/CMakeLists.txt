@@ -1,10 +1,6 @@
 # Targets
 
-    if(CARLSIM_STATIC)
-        add_library(carlsim-visual-stimulus STATIC)
-    else()
-        add_library(carlsim-visual-stimulus)
-    endif()
+    add_library(carlsim-visual-stimulus SHARED)
 
     target_compile_definitions(carlsim-visual-stimulus PRIVATE CARLSIM_DLL)
 
@@ -27,11 +23,7 @@
 
 # Linking
 
-    if(CARLSIM_STATIC)
-        target_link_libraries(carlsim-visual-stimulus PRIVATE -static carlsim)
-    else()
-        target_link_libraries(carlsim-visual-stimulus PRIVATE carlsim)
-    endif()
+    target_link_libraries(carlsim-visual-stimulus PRIVATE carlsim)
 
 # Installation
 
