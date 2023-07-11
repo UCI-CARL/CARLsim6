@@ -1,21 +1,19 @@
-
-
 # Includes
-    include_directories(interface/inc)
-    include_directories(monitor)
+include_directories(interface/inc)
+include_directories(monitor)
 
 # Subdirectories
-
 if(CARLSIM_STATIC)
-    add_subdirectory(interface)
-    add_subdirectory(kernel)
-    add_subdirectory(monitor)
+  add_subdirectory(interface)
+  add_subdirectory(kernel)
+  add_subdirectory(monitor)
 endif()
 
 if(CARLSIM_TEST)    
     add_subdirectory(test)
-    add_subdirectory(testadv)
     add_subdirectory(test6)
+    # Removing for v1 of CI with Github Actions. @TODO GH_ACTIONS option
+    add_subdirectory(testadv)
 endif()
 
 # add benchmark as embedded sub project

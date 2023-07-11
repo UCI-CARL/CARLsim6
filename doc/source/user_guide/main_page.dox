@@ -3,7 +3,7 @@
 
 \tableofcontents
 
-\section main_carlsim CARLsim 6
+\section main_carlsim CARLsim 6.1
 CARLsim is an efficient, easy-to-use, GPU-accelerated library for simulating large-scale spiking neural network (SNN)
 models with a high degree of biological detail.
 CARLsim allows execution of networks of Izhikevich spiking neurons with realistic synaptic dynamics
@@ -16,8 +16,9 @@ The functionality of the simulator has been greatly expanded by the addition of 
 that enable and simplify the creation, tuning, and simulation of complex networks with spatial structure.
 
 New features include:
-- CUDA 11 support and cMake build system (see \ref ch1_getting_started) 
+- Axonal Plasticity learning rule (see \ref ch21_axonal_plasticity)
 - Neuromodulatory features (see \ref ch20_neuromodulation)
+- CUDA 11 support and cMake build system (see \ref ch1_getting_started) 
 - Automated parameter tuning interface that utilizes evolutionary algorithms for Python (LEAP)
   (see \ref ch10_ecj_leap)
 - Extended test suite for functional code verification (see \ref ch11_regression_suite)
@@ -58,6 +59,9 @@ Info</a> mailing list.
 The simulator—along with its various releases, computational studies, and sample code—has previously been published 
 in the following studies:
 
+- Niedermeier, L. and Krichmar, J.L. (2023).
+  Experience-Dependent Axonal Plasticity in Large-Scale Spiking Neural Network Simulations.
+  (To appear in IJCNN 2023) (CARLsim_6.1)
 - Niedermeier, L., Chen, K., Xing, J., Das, A., Kopsick, J., Scott, E., Sutton, N., Weber, K., Dutt, N., and Krichmar, J.L. (2022).
   CARLsim6: An Open Source Library for Large-Scale, Biologically Detailed Spiking Neural Network Simulation.
   (To appear in WCCI IJCNN 2022) (CARLsim_6.0)

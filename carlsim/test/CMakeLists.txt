@@ -1,6 +1,17 @@
 # Dependencies
 
-    find_package(GTest REQUIRED)
+# @TODO GH_ACTIONS
+#include(FetchContent)
+#FetchContent_Declare(
+#  googletest
+#  # Specify the commit you depend on and update it regularly.
+#  URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+#)
+## For Windows: Prevent overriding the parent project's compiler/linker settings
+#set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+#FetchContent_MakeAvailable(googletest)
+
+find_package(GTest REQUIRED)
 
 # Targets
 
@@ -43,8 +54,7 @@
         PRIVATE
             carlsim-spike-generators
             ${GTEST_LIBRARIES}
-#            C:/Test/github/gtest-1-10_dist/lib/gtest_main.lib
-#            C:/Test/github/gtest-1-10_dist/lib/gtest.lib
+            GTest::gtest
     )
 
 
@@ -53,3 +63,14 @@ if(MSVC)
     # Generate Debug Information optimized for sharing and publishing (/DEBUG:FULL)
     target_link_options(carlsim-tests PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
 endif()
+
+# @TODO GH_ACTIONS
+#if(CARLSIM_TEST)
+#    target_link_libraries(carlsim-tests
+#        PRIVATE
+#        gcov
+#    )
+#    target_compile_options(carlsim-tests PRIVATE -g -O0 -fprofile-arcs -ftest-coverage)
+#endif()
+
+#include(GoogleTest)

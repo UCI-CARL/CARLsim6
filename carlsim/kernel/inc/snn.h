@@ -550,6 +550,12 @@ public:
 	void updateCurSpikeMT(std::vector<bool>& firings, int netId);
 #endif 
 
+#ifdef LN_AXON_PLAST	
+	void findWavefrontPath(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId);
+	bool updateDelays(int gGrpIdPre, int gGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
+	void printEntrails(char* buffer, unsigned length, int gGrpIdPre, int gGrpIdPost);
+#endif
+
 	/*!
 	 * \brief copy required spikes from firing buffer to spike buffer
 	 *
@@ -1209,6 +1215,23 @@ private:
 	void resetFiredNeuron(int lNId, short int lGrpId, int netId);
 	bool getPoissonSpike(int lNId, int netId);
 	bool getSpikeGenBit(unsigned int nIdPos, int netId);
+
+	
+#ifdef LN_AXON_PLAST
+	void findWavefrontPath_CPU(std::vector<int>& path, std::vector<float>& eligibility, int netId, int grpId, int startNId, int goalNId);
+	bool updateDelays_CPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
+	void printEntrails_CPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost);
+#ifndef __NO_CUDA__
+	bool updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays);
+	void printEntrails_GPU(int netId, int lGrpIdPre, int lGrpIdPost);
+	void printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost);
+#else	                   
+	bool updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) { assert(false); }
+	void printEntrails_GPU(int netId, int lGrpIdPre, int lGrpIdPost) { assert(false); }
+	void printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost) { assert(false); }
+#endif
+
+#endif
 
 	// +++++ PRIVATE PROPERTIES +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 	SNNState snnState; //!< state of the network

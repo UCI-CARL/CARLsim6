@@ -32,7 +32,7 @@ PROJECT_NAME           = "CARLsim"
 # This could be handy for archiving the generated documentation or
 # if some version control system is used.
 
-PROJECT_NUMBER         = 6.0.0
+PROJECT_NUMBER         = 6.1.0
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer
@@ -511,22 +511,24 @@ STRICT_PROTO_MATCHING  = NO
 # disable (NO) the todo list. This list is created by putting \todo
 # commands in the documentation.
 
-#GENERATE_TODOLIST      = NO
+GENERATE_TODOLIST      = NO
 # during stabilization
 # \todo <what (review | refact | fix | implement | ..) > <who (LN|KX|JW|KW|..)>   
-GENERATE_TODOLIST      = YES
+#GENERATE_TODOLIST      = YES
 
 # The GENERATE_TESTLIST tag can be used to enable (YES) or
 # disable (NO) the test list. This list is created by putting \test
 # commands in the documentation.
 
-GENERATE_TESTLIST      = YES
+GENERATE_TESTLIST      = NO
+#GENERATE_TESTLIST      = YES
 
 # The GENERATE_BUGLIST tag can be used to enable (YES) or
 # disable (NO) the bug list. This list is created by putting \bug
 # commands in the documentation.
 
-GENERATE_BUGLIST       = YES
+GENERATE_BUGLIST       = NO
+#GENERATE_BUGLIST       = YES
 
 # The GENERATE_DEPRECATEDLIST tag can be used to enable (YES) or
 # disable (NO) the deprecated list. This list is created by putting
@@ -690,6 +692,7 @@ INPUT                  = ../carlsim/interface/inc \
                          source/user_guide/13_example_networks \
                          source/user_guide/14_pycarl \
 						             source/user_guide/20_neuromodulation \
+						             source/user_guide/21_axonal_plasticity \
                          source/tutorial/1_basic_concepts/doc \
                          source/tutorial/2_random_spnet/doc \
                          source/tutorial/3_plasticity/doc \
@@ -802,6 +805,7 @@ IMAGE_PATH             = source/user_guide \
                          source/user_guide/13_example_networks \
                          source/user_guide/14_pycarl \
                          source/user_guide/20_neuromodulation \
+                         source/user_guide/21_axonal_plasticity \
                          source/tutorial/1_basic_concepts/doc \
                          source/tutorial/2_random_spnet/doc \
                          source/tutorial/3_plasticity/doc \
@@ -1605,6 +1609,7 @@ INCLUDE_FILE_PATTERNS  =
 # instead of the = operator.
 
 PREDEFINED             =  LN_I_CALC_TYPES \
+                          LN_AXON_PLAST \
                           LN_FIX_DA_DECAY_CPU \
                           LN_FIX_DA_DECAY_GPU \
                           #LN_FIX_CONNLIST_ \
