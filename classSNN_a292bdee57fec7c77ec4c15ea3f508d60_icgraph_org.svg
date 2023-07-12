@@ -9,150 +9,150 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1022)">
 <title>getNumGroups</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-1022 955,-1022 955,4 -4,4"/>
-<!-- Node835 -->
+<!-- Node839 -->
 <g id="node1" class="node">
-<title>Node835</title>
+<title>Node839</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-95.5 0,-114.5 83,-114.5 83,-95.5 0,-95.5"/>
 <text text-anchor="middle" x="41.5" y="-102.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumGroups</text>
 </g>
-<!-- Node836 -->
+<!-- Node840 -->
 <g id="node2" class="node">
-<title>Node836</title>
+<title>Node840</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="CARLsim::Impl::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="119,-545.5 119,-564.5 275,-564.5 275,-545.5 119,-545.5"/>
 <text text-anchor="middle" x="197" y="-552.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node835&#45;&gt;Node836 -->
+<!-- Node839&#45;&gt;Node840 -->
 <g id="edge1" class="edge">
-<title>Node835&#45;&gt;Node836</title>
+<title>Node839&#45;&gt;Node840</title>
 <path fill="none" stroke="#191970" d="M48.1758,-124.3191C74.9617,-201.8344 174.133,-488.8254 193.6522,-545.3118"/>
 <polygon fill="#191970" stroke="#191970" points="51.4666,-123.1259 44.8925,-114.8174 44.8505,-125.4121 51.4666,-123.1259"/>
 </g>
-<!-- Node916 -->
+<!-- Node920 -->
 <g id="node42" class="node">
-<title>Node916</title>
+<title>Node920</title>
 <g id="a_node42"><a xlink:href="classSNN.html#a866a9c6e2b2630816fc66adda1381655" target="_top" xlink:title="Returns pointer to existing SpikeMonitor object, NULL else. ">
 <polygon fill="#ffffff" stroke="#000000" points="153.5,-114.5 153.5,-133.5 240.5,-133.5 240.5,-114.5 153.5,-114.5"/>
 <text text-anchor="middle" x="197" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node835&#45;&gt;Node916 -->
+<!-- Node839&#45;&gt;Node920 -->
 <g id="edge55" class="edge">
-<title>Node835&#45;&gt;Node916</title>
+<title>Node839&#45;&gt;Node920</title>
 <path fill="none" stroke="#191970" d="M93.1134,-111.3065C112.6169,-113.6895 134.6036,-116.376 153.3112,-118.6618"/>
 <polygon fill="#191970" stroke="#191970" points="93.5219,-107.8304 83.1711,-110.0917 92.6728,-114.7787 93.5219,-107.8304"/>
 </g>
-<!-- Node964 -->
+<!-- Node968 -->
 <g id="node45" class="node">
-<title>Node964</title>
+<title>Node968</title>
 <g id="a_node45"><a xlink:href="classSNN.html#ad25000cd1457c9b9869122534ada6fdd" target="_top" xlink:title="getSpikeMonitorCore">
 <polygon fill="#ffffff" stroke="#000000" points="143,-76.5 143,-95.5 251,-95.5 251,-76.5 143,-76.5"/>
 <text text-anchor="middle" x="197" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSpikeMonitorCore</text>
 </a>
 </g>
 </g>
-<!-- Node835&#45;&gt;Node964 -->
+<!-- Node839&#45;&gt;Node968 -->
 <g id="edge59" class="edge">
-<title>Node835&#45;&gt;Node964</title>
+<title>Node839&#45;&gt;Node968</title>
 <path fill="none" stroke="#191970" d="M93.3652,-98.6628C109.2859,-96.7175 126.8412,-94.5725 142.9069,-92.6094"/>
 <polygon fill="#191970" stroke="#191970" points="92.6728,-95.2213 83.1711,-99.9083 93.5219,-102.1696 92.6728,-95.2213"/>
 </g>
-<!-- Node965 -->
+<!-- Node969 -->
 <g id="node46" class="node">
-<title>Node965</title>
+<title>Node969</title>
 <g id="a_node46"><a xlink:href="classSNN.html#a0eb87addfa5eebdfee4bd6b927b8945f" target="_top" xlink:title="Returns pointer to existing NeuronMonitor object, NULL else. ">
 <polygon fill="#ffffff" stroke="#000000" points="150,-38.5 150,-57.5 244,-57.5 244,-38.5 150,-38.5"/>
 <text text-anchor="middle" x="197" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNeuronMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node835&#45;&gt;Node965 -->
+<!-- Node839&#45;&gt;Node969 -->
 <g id="edge62" class="edge">
-<title>Node835&#45;&gt;Node965</title>
+<title>Node839&#45;&gt;Node969</title>
 <path fill="none" stroke="#191970" d="M67.3084,-90.5887C82.0957,-82.7827 101.2004,-73.4451 119,-67 129.0908,-63.3462 140.168,-60.1715 150.7253,-57.5182"/>
 <polygon fill="#191970" stroke="#191970" points="65.4192,-87.6307 58.2716,-95.4513 68.7362,-93.7949 65.4192,-87.6307"/>
 </g>
-<!-- Node966 -->
+<!-- Node970 -->
 <g id="node48" class="node">
-<title>Node966</title>
+<title>Node970</title>
 <g id="a_node48"><a xlink:href="classSNN.html#a9aa73fa9478383c4af1eed8387d82db9" target="_top" xlink:title="getNeuronMonitorCore">
 <polygon fill="#ffffff" stroke="#000000" points="139.5,-.5 139.5,-19.5 254.5,-19.5 254.5,-.5 139.5,-.5"/>
 <text text-anchor="middle" x="197" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNeuronMonitorCore</text>
 </a>
 </g>
 </g>
-<!-- Node835&#45;&gt;Node966 -->
+<!-- Node839&#45;&gt;Node970 -->
 <g id="edge65" class="edge">
-<title>Node835&#45;&gt;Node966</title>
+<title>Node839&#45;&gt;Node970</title>
 <path fill="none" stroke="#191970" d="M54.8784,-87.1633C68.9328,-69.7038 92.6299,-43.6564 119,-29 125.944,-25.1406 133.6627,-22.0578 141.4668,-19.5973"/>
 <polygon fill="#191970" stroke="#191970" points="51.8393,-85.3686 48.4448,-95.4049 57.3571,-89.676 51.8393,-85.3686"/>
 </g>
-<!-- Node967 -->
+<!-- Node971 -->
 <g id="node49" class="node">
-<title>Node967</title>
+<title>Node971</title>
 <g id="a_node49"><a xlink:href="classSNN.html#aa9a9c5646dd11beb60fcf70d2216024a" target="_top" xlink:title="returns whether group has homeostasis enabled (true) or not (false) ">
 <polygon fill="#ffffff" stroke="#000000" points="133,-152.5 133,-171.5 261,-171.5 261,-152.5 133,-152.5"/>
 <text text-anchor="middle" x="197" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isGroupWithHomeostasis</text>
 </a>
 </g>
 </g>
-<!-- Node835&#45;&gt;Node967 -->
+<!-- Node839&#45;&gt;Node971 -->
 <g id="edge68" class="edge">
-<title>Node835&#45;&gt;Node967</title>
+<title>Node839&#45;&gt;Node971</title>
 <path fill="none" stroke="#191970" d="M67.3084,-119.4113C82.0957,-127.2173 101.2004,-136.5549 119,-143 129.0908,-146.6538 140.168,-149.8285 150.7253,-152.4818"/>
 <polygon fill="#191970" stroke="#191970" points="68.7362,-116.2051 58.2716,-114.5487 65.4192,-122.3693 68.7362,-116.2051"/>
 </g>
-<!-- Node837 -->
+<!-- Node841 -->
 <g id="node3" class="node">
-<title>Node837</title>
+<title>Node841</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" target="_top" xlink:title="CARLsim::Impl::connectCompartments">
 <polygon fill="#ffffff" stroke="#000000" points="562,-256.5 562,-275.5 751,-275.5 751,-256.5 562,-256.5"/>
 <text text-anchor="middle" x="656.5" y="-263.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::connectCompartments</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node837 -->
+<!-- Node840&#45;&gt;Node841 -->
 <g id="edge2" class="edge">
-<title>Node836&#45;&gt;Node837</title>
+<title>Node840&#45;&gt;Node841</title>
 <path fill="none" stroke="#191970" d="M211.3085,-537.3351C231.1127,-514.1931 269.1969,-474.1918 311,-454 398.3775,-411.7949 454.2613,-481.3426 526,-416 570.6392,-375.3408 517.8411,-326.1804 562,-285 566.0388,-281.2337 570.6066,-278.1226 575.4999,-275.5605"/>
 <polygon fill="#191970" stroke="#191970" points="208.3754,-535.3866 204.6438,-545.3026 213.7446,-539.878 208.3754,-535.3866"/>
 </g>
-<!-- Node839 -->
+<!-- Node843 -->
 <g id="node5" class="node">
-<title>Node839</title>
+<title>Node843</title>
 <g id="a_node5"><a xlink:href="classCARLsim_1_1Impl.html#af614535178ba3d0a11d4a6bda3fa5413" target="_top" xlink:title="CARLsim::Impl::getConductanceAMPA">
 <polygon fill="#ffffff" stroke="#000000" points="323.5,-802.5 323.5,-821.5 513.5,-821.5 513.5,-802.5 323.5,-802.5"/>
 <text text-anchor="middle" x="418.5" y="-809.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getConductanceAMPA</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node839 -->
+<!-- Node840&#45;&gt;Node843 -->
 <g id="edge4" class="edge">
-<title>Node836&#45;&gt;Node839</title>
+<title>Node840&#45;&gt;Node843</title>
 <path fill="none" stroke="#191970" d="M200.1983,-574.6115C208.8392,-620.8381 237.1823,-736.9397 311,-793 315.9808,-796.7826 321.4638,-799.9057 327.2367,-802.4766"/>
 <polygon fill="#191970" stroke="#191970" points="203.6299,-573.9163 198.4483,-564.675 196.736,-575.1305 203.6299,-573.9163"/>
 </g>
-<!-- Node841 -->
+<!-- Node845 -->
 <g id="node7" class="node">
-<title>Node841</title>
+<title>Node845</title>
 <g id="a_node7"><a xlink:href="classCARLsim_1_1Impl.html#a450adf3cd56dd307b86c7d33df5afffd" target="_top" xlink:title="CARLsim::Impl::getConductanceNMDA">
 <polygon fill="#ffffff" stroke="#000000" points="323,-726.5 323,-745.5 514,-745.5 514,-726.5 323,-726.5"/>
 <text text-anchor="middle" x="418.5" y="-733.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getConductanceNMDA</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node841 -->
+<!-- Node840&#45;&gt;Node845 -->
 <g id="edge6" class="edge">
-<title>Node836&#45;&gt;Node841</title>
+<title>Node840&#45;&gt;Node845</title>
 <path fill="none" stroke="#191970" d="M204.5442,-574.0935C219.3086,-608.7598 255.503,-681.7201 311,-717 316.9978,-720.8129 323.5452,-723.9164 330.3524,-726.4366"/>
 <polygon fill="#191970" stroke="#191970" points="207.6983,-572.561 200.6525,-564.6485 201.2262,-575.2278 207.6983,-572.561"/>
 </g>
-<!-- Node843 -->
+<!-- Node847 -->
 <g id="node9" class="node">
-<title>Node843</title>
+<title>Node847</title>
 <g id="a_node9"><a xlink:href="classCARLsim_1_1Impl.html#aaf0866addc7106a9d3ca39fe467af659" target="_top" xlink:title="CARLsim::Impl::getConductance\lGABAa">
 <polygon fill="#ffffff" stroke="#000000" points="338,-677 338,-707 499,-707 499,-677 338,-677"/>
 <text text-anchor="start" x="346" y="-695" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getConductance</text>
@@ -160,15 +160,15 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node843 -->
+<!-- Node840&#45;&gt;Node847 -->
 <g id="edge8" class="edge">
-<title>Node836&#45;&gt;Node843</title>
+<title>Node840&#45;&gt;Node847</title>
 <path fill="none" stroke="#191970" d="M209.9185,-572.8037C229.0755,-597.8451 267.4722,-643.0779 311,-667 319.3122,-671.5682 328.4291,-675.3046 337.7288,-678.3599"/>
 <polygon fill="#191970" stroke="#191970" points="212.5503,-570.4788 203.7573,-564.5683 206.9453,-574.6721 212.5503,-570.4788"/>
 </g>
-<!-- Node845 -->
+<!-- Node849 -->
 <g id="node11" class="node">
-<title>Node845</title>
+<title>Node849</title>
 <g id="a_node11"><a xlink:href="classCARLsim_1_1Impl.html#a917e6c84361a393ba5752f365cce008f" target="_top" xlink:title="CARLsim::Impl::getConductance\lGABAb">
 <polygon fill="#ffffff" stroke="#000000" points="338,-540 338,-570 499,-570 499,-540 338,-540"/>
 <text text-anchor="start" x="346" y="-558" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getConductance</text>
@@ -176,60 +176,60 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node845 -->
+<!-- Node840&#45;&gt;Node849 -->
 <g id="edge10" class="edge">
-<title>Node836&#45;&gt;Node845</title>
+<title>Node840&#45;&gt;Node849</title>
 <path fill="none" stroke="#191970" d="M285.2013,-555C302.5444,-555 320.6578,-555 337.7415,-555"/>
 <polygon fill="#191970" stroke="#191970" points="285.0926,-551.5001 275.0926,-555 285.0926,-558.5001 285.0926,-551.5001"/>
 </g>
-<!-- Node847 -->
+<!-- Node851 -->
 <g id="node13" class="node">
-<title>Node847</title>
+<title>Node851</title>
 <g id="a_node13"><a xlink:href="classCARLsim_1_1Impl.html#a63f122c6ae63a6d02a3fb8bace721910" target="_top" xlink:title="CARLsim::Impl::getDelays">
 <polygon fill="#ffffff" stroke="#000000" points="351.5,-501.5 351.5,-520.5 485.5,-520.5 485.5,-501.5 351.5,-501.5"/>
 <text text-anchor="middle" x="418.5" y="-508.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getDelays</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node847 -->
+<!-- Node840&#45;&gt;Node851 -->
 <g id="edge12" class="edge">
-<title>Node836&#45;&gt;Node847</title>
+<title>Node840&#45;&gt;Node851</title>
 <path fill="none" stroke="#191970" d="M251.0207,-543.3552C269.968,-539.343 291.4082,-534.8842 311,-531 328.8762,-527.4559 348.4624,-523.7574 365.9623,-520.5186"/>
 <polygon fill="#191970" stroke="#191970" points="250.1257,-539.9671 241.0716,-545.4692 251.5807,-546.8142 250.1257,-539.9671"/>
 </g>
-<!-- Node849 -->
+<!-- Node853 -->
 <g id="node15" class="node">
-<title>Node849</title>
+<title>Node853</title>
 <g id="a_node15"><a xlink:href="classCARLsim_1_1Impl.html#ac13b30c40669d3cb8264bd6e211b449d" target="_top" xlink:title="CARLsim::Impl::getGroupGrid3D">
 <polygon fill="#ffffff" stroke="#000000" points="338,-463.5 338,-482.5 499,-482.5 499,-463.5 338,-463.5"/>
 <text text-anchor="middle" x="418.5" y="-470.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupGrid3D</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node849 -->
+<!-- Node840&#45;&gt;Node853 -->
 <g id="edge14" class="edge">
-<title>Node836&#45;&gt;Node849</title>
+<title>Node840&#45;&gt;Node853</title>
 <path fill="none" stroke="#191970" d="M219.0635,-539.9049C241.2989,-525.4086 277.0852,-503.9931 311,-492 321.9889,-488.1141 333.9021,-484.9987 345.6613,-482.5078"/>
 <polygon fill="#191970" stroke="#191970" points="217.0854,-537.017 210.6849,-545.46 220.9535,-542.8512 217.0854,-537.017"/>
 </g>
-<!-- Node851 -->
+<!-- Node855 -->
 <g id="node17" class="node">
-<title>Node851</title>
+<title>Node855</title>
 <g id="a_node17"><a xlink:href="classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="CARLsim::Impl::getGroupName">
 <polygon fill="#ffffff" stroke="#ff0000" points="340.5,-638.5 340.5,-657.5 496.5,-657.5 496.5,-638.5 340.5,-638.5"/>
 <text text-anchor="middle" x="418.5" y="-645.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node851 -->
+<!-- Node840&#45;&gt;Node855 -->
 <g id="edge16" class="edge">
-<title>Node836&#45;&gt;Node851</title>
+<title>Node840&#45;&gt;Node855</title>
 <path fill="none" stroke="#191970" d="M216.4969,-571.1945C238.1783,-588.3196 274.919,-614.783 311,-629 320.8745,-632.8908 331.5729,-635.9886 342.2623,-638.4541"/>
 <polygon fill="#191970" stroke="#191970" points="218.4185,-568.2483 208.4339,-564.7044 214.0292,-573.7012 218.4185,-568.2483"/>
 </g>
-<!-- Node892 -->
+<!-- Node896 -->
 <g id="node30" class="node">
-<title>Node892</title>
+<title>Node896</title>
 <g id="a_node30"><a xlink:href="classCARLsim_1_1Impl.html#acda1b88993a1c30fefeb2d6cf762154a" target="_top" xlink:title="CARLsim::Impl::getGroupStart\lNeuronId">
 <polygon fill="#ffffff" stroke="#ff0000" points="343,-376 343,-406 494,-406 494,-376 343,-376"/>
 <text text-anchor="start" x="351" y="-394" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupStart</text>
@@ -237,15 +237,15 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node892 -->
+<!-- Node840&#45;&gt;Node896 -->
 <g id="edge29" class="edge">
-<title>Node836&#45;&gt;Node892</title>
+<title>Node840&#45;&gt;Node896</title>
 <path fill="none" stroke="#191970" d="M207.6932,-536.4343C225.4011,-507.3668 263.6085,-451.3102 311,-421 320.7124,-414.7883 331.7171,-409.8434 342.8889,-405.9121"/>
 <polygon fill="#191970" stroke="#191970" points="204.5945,-534.7974 202.4901,-545.1812 210.6106,-538.3761 204.5945,-534.7974"/>
 </g>
-<!-- Node894 -->
+<!-- Node898 -->
 <g id="node31" class="node">
-<title>Node894</title>
+<title>Node898</title>
 <g id="a_node31"><a xlink:href="classCARLsim_1_1Impl.html#a12040462a7fa56b1cbc871265b3f2f8c" target="_top" xlink:title="CARLsim::Impl::getGroupEnd\lNeuronId">
 <polygon fill="#ffffff" stroke="#ff0000" points="345,-327 345,-357 492,-357 492,-327 345,-327"/>
 <text text-anchor="start" x="353" y="-345" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupEnd</text>
@@ -253,15 +253,15 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node894 -->
+<!-- Node840&#45;&gt;Node898 -->
 <g id="edge30" class="edge">
-<title>Node836&#45;&gt;Node894</title>
+<title>Node840&#45;&gt;Node898</title>
 <path fill="none" stroke="#191970" d="M203.1129,-535.3691C216.213,-496.695 250.7991,-410.6263 311,-367 321.0075,-359.7478 332.7963,-354.563 344.8335,-350.8642"/>
 <polygon fill="#191970" stroke="#191970" points="199.6309,-534.7576 199.8575,-545.35 206.2859,-536.9282 199.6309,-534.7576"/>
 </g>
-<!-- Node896 -->
+<!-- Node900 -->
 <g id="node32" class="node">
-<title>Node896</title>
+<title>Node900</title>
 <g id="a_node32"><a xlink:href="classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" target="_top" xlink:title="CARLsim::Impl::getGroupNum\lNeurons">
 <polygon fill="#ffffff" stroke="#ff0000" points="343,-229 343,-259 494,-259 494,-229 343,-229"/>
 <text text-anchor="start" x="351" y="-247" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupNum</text>
@@ -269,15 +269,15 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node896 -->
+<!-- Node840&#45;&gt;Node900 -->
 <g id="edge31" class="edge">
-<title>Node836&#45;&gt;Node896</title>
+<title>Node840&#45;&gt;Node900</title>
 <path fill="none" stroke="#191970" d="M198.7586,-535.0433C204.4769,-482.7646 227.3374,-340.9098 311,-269 320.1547,-261.1314 331.3139,-255.6215 342.9368,-251.7861"/>
 <polygon fill="#191970" stroke="#191970" points="195.2456,-535.0009 197.7364,-545.2987 202.211,-535.6952 195.2456,-535.0009"/>
 </g>
-<!-- Node899 -->
+<!-- Node903 -->
 <g id="node33" class="node">
-<title>Node899</title>
+<title>Node903</title>
 <g id="a_node33"><a xlink:href="classCARLsim_1_1Impl.html#af750970a60eaa5f0cb82ae57c279443c" target="_top" xlink:title="CARLsim::Impl::getNeuron\lLocation3D">
 <polygon fill="#ffffff" stroke="#000000" points="589,-207 589,-237 724,-237 724,-207 589,-207"/>
 <text text-anchor="start" x="597" y="-225" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNeuron</text>
@@ -285,60 +285,60 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node899 -->
+<!-- Node840&#45;&gt;Node903 -->
 <g id="edge35" class="edge">
-<title>Node836&#45;&gt;Node899</title>
+<title>Node840&#45;&gt;Node903</title>
 <path fill="none" stroke="#191970" d="M200.6102,-535.4217C213.1747,-469.6431 257.1702,-258.5431 311,-220 353.9182,-189.2698 501.1266,-201.7389 588.9406,-212.5331"/>
 <polygon fill="#191970" stroke="#191970" points="197.1578,-534.8426 198.7493,-545.3172 204.0372,-536.1364 197.1578,-534.8426"/>
 </g>
-<!-- Node901 -->
+<!-- Node905 -->
 <g id="node34" class="node">
-<title>Node901</title>
+<title>Node905</title>
 <g id="a_node34"><a xlink:href="classCARLsim_1_1Impl.html#a8f28281023666c073fff6141def960b5" target="_top" xlink:title="CARLsim::Impl::getNeuronId">
 <polygon fill="#ffffff" stroke="#ff0000" points="347,-977.5 347,-996.5 490,-996.5 490,-977.5 347,-977.5"/>
 <text text-anchor="middle" x="418.5" y="-984.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNeuronId</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node901 -->
+<!-- Node840&#45;&gt;Node905 -->
 <g id="edge36" class="edge">
-<title>Node836&#45;&gt;Node901</title>
+<title>Node840&#45;&gt;Node905</title>
 <path fill="none" stroke="#191970" d="M199.6452,-574.7021C210.066,-649.3218 250.6865,-913.1265 311,-968 320.9533,-977.0555 333.6545,-982.5496 346.8137,-985.761"/>
 <polygon fill="#191970" stroke="#191970" points="203.108,-574.1909 198.2805,-564.7598 196.173,-575.1429 203.108,-574.1909"/>
 </g>
-<!-- Node903 -->
+<!-- Node907 -->
 <g id="node35" class="node">
-<title>Node903</title>
+<title>Node907</title>
 <g id="a_node35"><a xlink:href="classCARLsim_1_1Impl.html#aa1c9457d6e17337cfc20cee263f1159f" target="_top" xlink:title="CARLsim::Impl::getGroupNeuromodulatorInfo">
 <polygon fill="#ffffff" stroke="#ff0000" points="311,-939.5 311,-958.5 526,-958.5 526,-939.5 311,-939.5"/>
 <text text-anchor="middle" x="418.5" y="-946.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupNeuromodulatorInfo</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node903 -->
+<!-- Node840&#45;&gt;Node907 -->
 <g id="edge37" class="edge">
-<title>Node836&#45;&gt;Node903</title>
+<title>Node840&#45;&gt;Node907</title>
 <path fill="none" stroke="#191970" d="M200.2192,-574.6617C212.0963,-644.7692 255.6521,-880.9342 311,-930 315.1837,-933.7089 319.8307,-936.8152 324.7786,-939.4087"/>
 <polygon fill="#191970" stroke="#191970" points="203.6315,-573.8456 198.5335,-564.5579 196.7269,-574.9976 203.6315,-573.8456"/>
 </g>
-<!-- Node905 -->
+<!-- Node909 -->
 <g id="node36" class="node">
-<title>Node905</title>
+<title>Node909</title>
 <g id="a_node36"><a xlink:href="classCARLsim_1_1Impl.html#aa2f49d6a802e4b3697bb20ef5ee51690" target="_top" xlink:title="CARLsim::Impl::getSpikeMonitor">
 <polygon fill="#ffffff" stroke="#ff0000" points="338,-114.5 338,-133.5 499,-133.5 499,-114.5 338,-114.5"/>
 <text text-anchor="middle" x="418.5" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node905 -->
+<!-- Node840&#45;&gt;Node909 -->
 <g id="edge38" class="edge">
-<title>Node836&#45;&gt;Node905</title>
+<title>Node840&#45;&gt;Node909</title>
 <path fill="none" stroke="#191970" d="M199.6525,-535.3451C210.1001,-460.9039 250.8051,-197.7313 311,-143 318.6424,-136.0513 327.9029,-131.2001 337.7463,-127.8682"/>
 <polygon fill="#191970" stroke="#191970" points="196.1838,-534.879 198.2842,-545.2635 203.1181,-535.8357 196.1838,-534.879"/>
 </g>
-<!-- Node907 -->
+<!-- Node911 -->
 <g id="node37" class="node">
-<title>Node907</title>
+<title>Node911</title>
 <g id="a_node37"><a xlink:href="classCARLsim_1_1Impl.html#aa9a9c5646dd11beb60fcf70d2216024a" target="_top" xlink:title="CARLsim::Impl::isGroupWith\lHomeostasis">
 <polygon fill="#ffffff" stroke="#ff0000" points="346.5,-278 346.5,-308 490.5,-308 490.5,-278 346.5,-278"/>
 <text text-anchor="start" x="354.5" y="-296" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isGroupWith</text>
@@ -346,15 +346,15 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node907 -->
+<!-- Node840&#45;&gt;Node911 -->
 <g id="edge39" class="edge">
-<title>Node836&#45;&gt;Node907</title>
+<title>Node840&#45;&gt;Node911</title>
 <path fill="none" stroke="#191970" d="M200.4844,-535.4367C209.6878,-489.7661 239.0618,-375.6372 311,-318 321.2432,-309.7931 333.7015,-304.1882 346.4561,-300.3804"/>
 <polygon fill="#191970" stroke="#191970" points="197.0012,-535.0182 198.5655,-545.4969 203.8772,-536.3298 197.0012,-535.0182"/>
 </g>
-<!-- Node909 -->
+<!-- Node913 -->
 <g id="node38" class="node">
-<title>Node909</title>
+<title>Node913</title>
 <g id="a_node38"><a xlink:href="classCARLsim_1_1Impl.html#a31ec8880e31fbcb9d002d713ce0d8f1d" target="_top" xlink:title="CARLsim::Impl::isExcitatory\lGroup">
 <polygon fill="#ffffff" stroke="#ff0000" points="347.5,-890 347.5,-920 489.5,-920 489.5,-890 347.5,-890"/>
 <text text-anchor="start" x="355.5" y="-908" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isExcitatory</text>
@@ -362,15 +362,15 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node909 -->
+<!-- Node840&#45;&gt;Node913 -->
 <g id="edge41" class="edge">
-<title>Node836&#45;&gt;Node909</title>
+<title>Node840&#45;&gt;Node913</title>
 <path fill="none" stroke="#191970" d="M201.2058,-574.4524C215.3371,-638.0579 262.9286,-838.237 311,-881 321.2156,-890.0875 334.1106,-895.971 347.3914,-899.7313"/>
 <polygon fill="#191970" stroke="#191970" points="204.5919,-573.5534 199.0294,-564.5362 197.7546,-575.054 204.5919,-573.5534"/>
 </g>
-<!-- Node911 -->
+<!-- Node915 -->
 <g id="node39" class="node">
-<title>Node911</title>
+<title>Node915</title>
 <g id="a_node39"><a xlink:href="classCARLsim_1_1Impl.html#a3f0193605d59ef263b682a468bbcbf87" target="_top" xlink:title="CARLsim::Impl::isInhibitory\lGroup">
 <polygon fill="#ffffff" stroke="#ff0000" points="350,-841 350,-871 487,-871 487,-841 350,-841"/>
 <text text-anchor="start" x="358" y="-859" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isInhibitory</text>
@@ -378,15 +378,15 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node911 -->
+<!-- Node840&#45;&gt;Node915 -->
 <g id="edge43" class="edge">
-<title>Node836&#45;&gt;Node911</title>
+<title>Node840&#45;&gt;Node915</title>
 <path fill="none" stroke="#191970" d="M199.0365,-574.6188C205.3948,-625.3862 229.6083,-761.9148 311,-831 322.0293,-840.3617 335.9033,-846.3759 349.9847,-850.2029"/>
 <polygon fill="#191970" stroke="#191970" points="202.508,-574.1702 197.8832,-564.6381 195.5543,-574.9738 202.508,-574.1702"/>
 </g>
-<!-- Node913 -->
+<!-- Node917 -->
 <g id="node40" class="node">
-<title>Node913</title>
+<title>Node917</title>
 <g id="a_node40"><a xlink:href="classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" target="_top" xlink:title="CARLsim::Impl::isPoisson\lGroup">
 <polygon fill="#ffffff" stroke="#ff0000" points="352,-589 352,-619 485,-619 485,-589 352,-589"/>
 <text text-anchor="start" x="360" y="-607" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isPoisson</text>
@@ -394,150 +394,150 @@
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node913 -->
+<!-- Node840&#45;&gt;Node917 -->
 <g id="edge45" class="edge">
-<title>Node836&#45;&gt;Node913</title>
+<title>Node840&#45;&gt;Node917</title>
 <path fill="none" stroke="#191970" d="M249.9818,-566.7206C280.4818,-573.4677 319.0994,-582.0107 351.6695,-589.2158"/>
 <polygon fill="#191970" stroke="#191970" points="250.49,-563.2485 239.9701,-564.5058 248.978,-570.0832 250.49,-563.2485"/>
 </g>
-<!-- Node915 -->
+<!-- Node919 -->
 <g id="node41" class="node">
-<title>Node915</title>
+<title>Node919</title>
 <g id="a_node41"><a xlink:href="classCARLsim.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="returns the number of groups in the network ">
 <polygon fill="#ffffff" stroke="#000000" points="353,-764.5 353,-783.5 484,-783.5 484,-764.5 353,-764.5"/>
 <text text-anchor="middle" x="418.5" y="-771.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node836&#45;&gt;Node915 -->
+<!-- Node840&#45;&gt;Node919 -->
 <g id="edge54" class="edge">
-<title>Node836&#45;&gt;Node915</title>
+<title>Node840&#45;&gt;Node919</title>
 <path fill="none" stroke="#191970" d="M202.1288,-574.7815C213.844,-615.7142 246.6572,-709.6616 311,-755 323.2392,-763.6242 338.1617,-768.735 352.9459,-771.6796"/>
 <polygon fill="#191970" stroke="#191970" points="205.4498,-573.6571 199.4306,-564.9381 198.6988,-575.5077 205.4498,-573.6571"/>
 </g>
-<!-- Node838 -->
+<!-- Node842 -->
 <g id="node4" class="node">
-<title>Node838</title>
+<title>Node842</title>
 <g id="a_node4"><a xlink:href="classCARLsim.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" target="_top" xlink:title="make a compartmental connection between two compartmentally enabled groups Note: all compartmentally ...">
 <polygon fill="#ffffff" stroke="#000000" points="787,-256.5 787,-275.5 951,-275.5 951,-256.5 787,-256.5"/>
 <text text-anchor="middle" x="869" y="-263.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::connectCompartments</text>
 </a>
 </g>
 </g>
-<!-- Node837&#45;&gt;Node838 -->
+<!-- Node841&#45;&gt;Node842 -->
 <g id="edge3" class="edge">
-<title>Node837&#45;&gt;Node838</title>
+<title>Node841&#45;&gt;Node842</title>
 <path fill="none" stroke="#191970" d="M761.2772,-266C769.8329,-266 778.4014,-266 786.7606,-266"/>
 <polygon fill="#191970" stroke="#191970" points="761.2527,-262.5001 751.2527,-266 761.2527,-269.5001 761.2527,-262.5001"/>
 </g>
-<!-- Node840 -->
+<!-- Node844 -->
 <g id="node6" class="node">
-<title>Node840</title>
+<title>Node844</title>
 <g id="a_node6"><a xlink:href="classCARLsim.html#a9f12565a3b01482ccba3b63c5d6c3279" target="_top" xlink:title="gets AMPA vector of a group ">
 <polygon fill="#ffffff" stroke="#000000" points="574,-960.5 574,-979.5 739,-979.5 739,-960.5 574,-960.5"/>
 <text text-anchor="middle" x="656.5" y="-967.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getConductanceAMPA</text>
 </a>
 </g>
 </g>
-<!-- Node839&#45;&gt;Node840 -->
+<!-- Node843&#45;&gt;Node844 -->
 <g id="edge5" class="edge">
-<title>Node839&#45;&gt;Node840</title>
+<title>Node843&#45;&gt;Node844</title>
 <path fill="none" stroke="#191970" d="M519.5598,-826.9316C521.8055,-828.4852 523.9586,-830.1713 526,-832 567.1575,-868.8686 521.1103,-913.8346 562,-951 566.0866,-954.7144 570.6899,-957.7869 575.6088,-960.3212"/>
 <polygon fill="#191970" stroke="#191970" points="520.8707,-823.6412 510.4795,-821.5735 517.3132,-829.6699 520.8707,-823.6412"/>
 </g>
-<!-- Node842 -->
+<!-- Node846 -->
 <g id="node8" class="node">
-<title>Node842</title>
+<title>Node846</title>
 <g id="a_node8"><a xlink:href="classCARLsim.html#ab251be3aba6d73b79fdb0d44019b1790" target="_top" xlink:title="gets NMDA vector of a group ">
 <polygon fill="#ffffff" stroke="#000000" points="573,-922.5 573,-941.5 740,-941.5 740,-922.5 573,-922.5"/>
 <text text-anchor="middle" x="656.5" y="-929.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getConductanceNMDA</text>
 </a>
 </g>
 </g>
-<!-- Node841&#45;&gt;Node842 -->
+<!-- Node845&#45;&gt;Node846 -->
 <g id="edge7" class="edge">
-<title>Node841&#45;&gt;Node842</title>
+<title>Node845&#45;&gt;Node846</title>
 <path fill="none" stroke="#191970" d="M521.8845,-751.4263C523.3051,-752.552 524.6788,-753.7422 526,-755 578.1617,-804.6621 510.4248,-862.7291 562,-913 565.8348,-916.7378 570.1874,-919.838 574.8686,-922.4017"/>
 <polygon fill="#191970" stroke="#191970" points="523.5335,-748.3183 513.2775,-745.6603 519.6375,-754.1339 523.5335,-748.3183"/>
 </g>
-<!-- Node844 -->
+<!-- Node848 -->
 <g id="node10" class="node">
-<title>Node844</title>
+<title>Node848</title>
 <g id="a_node10"><a xlink:href="classCARLsim.html#a42c7f8460a85cfb8566a1959da9a925d" target="_top" xlink:title="gets GABAa vector of a group ">
 <polygon fill="#ffffff" stroke="#000000" points="571.5,-884.5 571.5,-903.5 741.5,-903.5 741.5,-884.5 571.5,-884.5"/>
 <text text-anchor="middle" x="656.5" y="-891.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getConductanceGABAa</text>
 </a>
 </g>
 </g>
-<!-- Node843&#45;&gt;Node844 -->
+<!-- Node847&#45;&gt;Node848 -->
 <g id="edge9" class="edge">
-<title>Node843&#45;&gt;Node844</title>
+<title>Node847&#45;&gt;Node848</title>
 <path fill="none" stroke="#191970" d="M508.3419,-704.2437C514.833,-707.6264 520.8418,-711.8186 526,-717 576.8132,-768.041 510.4248,-824.7291 562,-875 565.8348,-878.7378 570.1874,-881.838 574.8686,-884.4017"/>
 <polygon fill="#191970" stroke="#191970" points="509.7794,-701.0525 499.226,-700.1156 506.8917,-707.4291 509.7794,-701.0525"/>
 </g>
-<!-- Node846 -->
+<!-- Node850 -->
 <g id="node12" class="node">
-<title>Node846</title>
+<title>Node850</title>
 <g id="a_node12"><a xlink:href="classCARLsim.html#aa50bf7b25bc7c5c164e2a11ee763796e" target="_top" xlink:title="gets GABAb vector of a group ">
 <polygon fill="#ffffff" stroke="#000000" points="571.5,-370.5 571.5,-389.5 741.5,-389.5 741.5,-370.5 571.5,-370.5"/>
 <text text-anchor="middle" x="656.5" y="-377.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getConductanceGABAb</text>
 </a>
 </g>
 </g>
-<!-- Node845&#45;&gt;Node846 -->
+<!-- Node849&#45;&gt;Node850 -->
 <g id="edge11" class="edge">
-<title>Node845&#45;&gt;Node846</title>
+<title>Node849&#45;&gt;Node850</title>
 <path fill="none" stroke="#191970" d="M508.7138,-542.189C515.0236,-538.9173 520.8948,-534.9064 526,-530 569.5345,-488.1601 517.8411,-440.1804 562,-399 566.0388,-395.2337 570.6066,-392.1226 575.4999,-389.5605"/>
 <polygon fill="#191970" stroke="#191970" points="506.8775,-539.1771 499.1937,-546.4715 509.7493,-545.561 506.8775,-539.1771"/>
 </g>
-<!-- Node848 -->
+<!-- Node852 -->
 <g id="node14" class="node">
-<title>Node848</title>
+<title>Node852</title>
 <g id="a_node14"><a xlink:href="classCARLsim.html#aab97629d22d95919c0a44591aa272fbc" target="_top" xlink:title="gets delays ">
 <polygon fill="#ffffff" stroke="#000000" points="601.5,-332.5 601.5,-351.5 711.5,-351.5 711.5,-332.5 601.5,-332.5"/>
 <text text-anchor="middle" x="656.5" y="-339.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getDelays</text>
 </a>
 </g>
 </g>
-<!-- Node847&#45;&gt;Node848 -->
+<!-- Node851&#45;&gt;Node852 -->
 <g id="edge13" class="edge">
-<title>Node847&#45;&gt;Node848</title>
+<title>Node851&#45;&gt;Node852</title>
 <path fill="none" stroke="#191970" d="M495.6648,-508.2897C506.8403,-504.9558 517.4388,-499.7979 526,-492 570.6392,-451.3408 517.8411,-402.1804 562,-361 572.6476,-351.0705 586.9724,-345.6956 601.2452,-342.9264"/>
 <polygon fill="#191970" stroke="#191970" points="494.586,-504.9516 485.7321,-510.7705 496.2822,-511.743 494.586,-504.9516"/>
 </g>
-<!-- Node850 -->
+<!-- Node854 -->
 <g id="node16" class="node">
-<title>Node850</title>
+<title>Node854</title>
 <g id="a_node16"><a xlink:href="classCARLsim.html#ac13b30c40669d3cb8264bd6e211b449d" target="_top" xlink:title="returns the 3D grid struct of a group ">
 <polygon fill="#ffffff" stroke="#000000" points="588.5,-294.5 588.5,-313.5 724.5,-313.5 724.5,-294.5 588.5,-294.5"/>
 <text text-anchor="middle" x="656.5" y="-301.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getGroupGrid3D</text>
 </a>
 </g>
 </g>
-<!-- Node849&#45;&gt;Node850 -->
+<!-- Node853&#45;&gt;Node854 -->
 <g id="edge15" class="edge">
-<title>Node849&#45;&gt;Node850</title>
+<title>Node853&#45;&gt;Node854</title>
 <path fill="none" stroke="#191970" d="M508.635,-461.0042C514.9622,-457.7966 520.8589,-453.8481 526,-449 568.3722,-409.0426 519.2058,-362.5051 562,-323 569.3777,-316.1893 578.4882,-311.5274 588.1139,-308.3812"/>
 <polygon fill="#191970" stroke="#191970" points="506.8446,-457.9678 499.0948,-465.1922 509.6583,-464.3774 506.8446,-457.9678"/>
 </g>
-<!-- Node852 -->
+<!-- Node856 -->
 <g id="node18" class="node">
-<title>Node852</title>
+<title>Node856</title>
 <g id="a_node18"><a xlink:href="classCARLsim_1_1Impl.html#afed01f52e943df5e5476428c4fbef8f7" target="_top" xlink:title="CARLsim::Impl::connect">
 <polygon fill="#ffffff" stroke="#ff0000" points="594,-408.5 594,-427.5 719,-427.5 719,-408.5 594,-408.5"/>
 <text text-anchor="middle" x="656.5" y="-415.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::connect</text>
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node852 -->
+<!-- Node855&#45;&gt;Node856 -->
 <g id="edge17" class="edge">
-<title>Node851&#45;&gt;Node852</title>
+<title>Node855&#45;&gt;Node856</title>
 <path fill="none" stroke="#191970" d="M506.1233,-642.2228C513.4708,-638.9776 520.2669,-634.6684 526,-629 587.4283,-568.2655 501.6014,-499.7587 562,-438 570.5594,-429.2479 581.9214,-423.8609 593.7917,-420.6316"/>
 <polygon fill="#191970" stroke="#191970" points="504.7085,-639.0148 496.5602,-645.7865 507.1529,-645.5742 504.7085,-639.0148"/>
 </g>
-<!-- Node854 -->
+<!-- Node858 -->
 <g id="node19" class="node">
-<title>Node854</title>
+<title>Node858</title>
 <g id="a_node19"><a xlink:href="classCARLsim_1_1Impl.html#adb7dd274136fd2a3307c0f7f0767275a" target="_top" xlink:title="CARLsim::Impl::setCompartment\lParameters">
 <polygon fill="#ffffff" stroke="#ff0000" points="575,-835 575,-865 738,-865 738,-835 575,-835"/>
 <text text-anchor="start" x="583" y="-853" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setCompartment</text>
@@ -545,30 +545,30 @@
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node854 -->
+<!-- Node855&#45;&gt;Node858 -->
 <g id="edge18" class="edge">
-<title>Node851&#45;&gt;Node854</title>
+<title>Node855&#45;&gt;Node858</title>
 <path fill="none" stroke="#191970" d="M506.11,-654.9469C513.4271,-658.1955 520.2209,-662.4556 526,-668 577.6592,-717.5607 512.227,-773.5453 562,-825 565.7757,-828.9033 570.084,-832.2214 574.7329,-835.0396"/>
 <polygon fill="#191970" stroke="#191970" points="507.1904,-651.6136 496.5987,-651.3524 504.7157,-658.1616 507.1904,-651.6136"/>
 </g>
-<!-- Node856 -->
+<!-- Node860 -->
 <g id="node20" class="node">
-<title>Node856</title>
+<title>Node860</title>
 <g id="a_node20"><a xlink:href="classCARLsim_1_1Impl.html#af9e05685af30a329664ab73a6a420d7f" target="_top" xlink:title="CARLsim::Impl::setHomeostasis">
 <polygon fill="#ffffff" stroke="#ff0000" points="576,-496.5 576,-515.5 737,-515.5 737,-496.5 576,-496.5"/>
 <text text-anchor="middle" x="656.5" y="-503.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setHomeostasis</text>
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node856 -->
+<!-- Node855&#45;&gt;Node860 -->
 <g id="edge19" class="edge">
-<title>Node851&#45;&gt;Node856</title>
+<title>Node855&#45;&gt;Node860</title>
 <path fill="none" stroke="#191970" d="M506.5133,-640.8033C513.5705,-637.8083 520.2008,-633.9468 526,-629 563.2133,-597.2563 525.1618,-557.1783 562,-525 566.2852,-521.2569 571.099,-518.1729 576.2254,-515.639"/>
 <polygon fill="#191970" stroke="#191970" points="504.8736,-637.6746 496.6633,-644.3709 507.2575,-644.2562 504.8736,-637.6746"/>
 </g>
-<!-- Node858 -->
+<!-- Node862 -->
 <g id="node21" class="node">
-<title>Node858</title>
+<title>Node862</title>
 <g id="a_node21"><a xlink:href="classCARLsim_1_1Impl.html#aef4d35935c52e55a957aa96e4d6218f6" target="_top" xlink:title="CARLsim::Impl::setHomeoBase\lFiringRate">
 <polygon fill="#ffffff" stroke="#ff0000" points="577.5,-447 577.5,-477 735.5,-477 735.5,-447 577.5,-447"/>
 <text text-anchor="start" x="585.5" y="-465" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setHomeoBase</text>
@@ -576,15 +576,15 @@
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node858 -->
+<!-- Node855&#45;&gt;Node862 -->
 <g id="edge20" class="edge">
-<title>Node851&#45;&gt;Node858</title>
+<title>Node855&#45;&gt;Node862</title>
 <path fill="none" stroke="#191970" d="M506.1302,-641.6884C513.4106,-638.5379 520.1916,-634.3973 526,-629 573.6953,-584.681 516.2004,-533.2754 562,-487 566.5364,-482.4165 571.8082,-478.6428 577.4972,-475.5396"/>
 <polygon fill="#191970" stroke="#191970" points="504.8511,-638.4296 496.6767,-645.1697 507.2701,-644.9984 504.8511,-638.4296"/>
 </g>
-<!-- Node860 -->
+<!-- Node864 -->
 <g id="node22" class="node">
-<title>Node860</title>
+<title>Node864</title>
 <g id="a_node22"><a xlink:href="classCARLsim_1_1Impl.html#aa6e1dc5ae50722ae3d693f2c963d84cd" target="_top" xlink:title="CARLsim::Impl::setNeuron\lParameters">
 <polygon fill="#ffffff" stroke="#ff0000" points="589,-660 589,-690 724,-690 724,-660 589,-660"/>
 <text text-anchor="start" x="597" y="-678" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setNeuron</text>
@@ -592,15 +592,15 @@
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node860 -->
+<!-- Node855&#45;&gt;Node864 -->
 <g id="edge21" class="edge">
-<title>Node851&#45;&gt;Node860</title>
+<title>Node855&#45;&gt;Node864</title>
 <path fill="none" stroke="#191970" d="M507.0258,-658.0428C534.1343,-661.1182 563.505,-664.4502 588.9776,-667.3399"/>
 <polygon fill="#191970" stroke="#191970" points="507.0906,-654.5278 496.7597,-656.8782 506.3015,-661.4832 507.0906,-654.5278"/>
 </g>
-<!-- Node862 -->
+<!-- Node866 -->
 <g id="node23" class="node">
-<title>Node862</title>
+<title>Node866</title>
 <g id="a_node23"><a xlink:href="classCARLsim_1_1Impl.html#ae3d3c73126e9aa3fe8e81ea180860952" target="_top" xlink:title="CARLsim::Impl::setNeuron\lParametersLIF">
 <polygon fill="#ffffff" stroke="#ff0000" points="589,-611 589,-641 724,-641 724,-611 589,-611"/>
 <text text-anchor="start" x="597" y="-629" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setNeuron</text>
@@ -608,90 +608,90 @@
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node862 -->
+<!-- Node855&#45;&gt;Node866 -->
 <g id="edge22" class="edge">
-<title>Node851&#45;&gt;Node862</title>
+<title>Node855&#45;&gt;Node866</title>
 <path fill="none" stroke="#191970" d="M507.0258,-639.8169C534.1343,-637.3111 563.505,-634.5962 588.9776,-632.2416"/>
 <polygon fill="#191970" stroke="#191970" points="506.3951,-636.3602 496.7597,-640.7659 507.0395,-643.3305 506.3951,-636.3602"/>
 </g>
-<!-- Node864 -->
+<!-- Node868 -->
 <g id="node24" class="node">
-<title>Node864</title>
+<title>Node868</title>
 <g id="a_node24"><a xlink:href="classCARLsim_1_1Impl.html#ae15083e3e6bfdb506a10b6ad835a2fc1" target="_top" xlink:title="CARLsim::Impl::setNeuromodulator">
 <polygon fill="#ffffff" stroke="#ff0000" points="570,-796.5 570,-815.5 743,-815.5 743,-796.5 570,-796.5"/>
 <text text-anchor="middle" x="656.5" y="-803.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setNeuromodulator</text>
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node864 -->
+<!-- Node855&#45;&gt;Node868 -->
 <g id="edge23" class="edge">
-<title>Node851&#45;&gt;Node864</title>
+<title>Node855&#45;&gt;Node868</title>
 <path fill="none" stroke="#191970" d="M506.0899,-655.526C513.3465,-658.6687 520.1342,-662.7454 526,-668 567.1575,-704.8686 521.1103,-749.8346 562,-787 566.0866,-790.7144 570.6899,-793.7869 575.6088,-796.3212"/>
 <polygon fill="#191970" stroke="#191970" points="507.2742,-652.2323 496.6813,-652.0264 504.8338,-658.7931 507.2742,-652.2323"/>
 </g>
-<!-- Node866 -->
+<!-- Node870 -->
 <g id="node25" class="node">
-<title>Node866</title>
+<title>Node870</title>
 <g id="a_node25"><a xlink:href="classCARLsim_1_1Impl.html#ac79aadf0ac87b2ae34f39ae796ad81a3" target="_top" xlink:title="CARLsim::Impl::setESTDP">
 <polygon fill="#ffffff" stroke="#ff0000" points="588,-572.5 588,-591.5 725,-591.5 725,-572.5 588,-572.5"/>
 <text text-anchor="middle" x="656.5" y="-579.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setESTDP</text>
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node866 -->
+<!-- Node855&#45;&gt;Node870 -->
 <g id="edge24" class="edge">
-<title>Node851&#45;&gt;Node866</title>
+<title>Node855&#45;&gt;Node870</title>
 <path fill="none" stroke="#191970" d="M506.572,-635.9713C513.2593,-633.9912 519.8084,-631.6853 526,-629 544.3486,-621.0421 543.7877,-610.2652 562,-602 571.6205,-597.6339 582.2291,-594.2056 592.7567,-591.5178"/>
 <polygon fill="#191970" stroke="#191970" points="505.4378,-632.6523 496.7009,-638.6454 507.2682,-639.4088 505.4378,-632.6523"/>
 </g>
-<!-- Node871 -->
+<!-- Node875 -->
 <g id="node26" class="node">
-<title>Node871</title>
+<title>Node875</title>
 <g id="a_node26"><a xlink:href="classCARLsim_1_1Impl.html#a675bb0d593722135066c11b0d3d99d50" target="_top" xlink:title="CARLsim::Impl::setISTDP">
 <polygon fill="#ffffff" stroke="#ff0000" points="589.5,-534.5 589.5,-553.5 723.5,-553.5 723.5,-534.5 589.5,-534.5"/>
 <text text-anchor="middle" x="656.5" y="-541.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setISTDP</text>
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node871 -->
+<!-- Node855&#45;&gt;Node875 -->
 <g id="edge25" class="edge">
-<title>Node851&#45;&gt;Node871</title>
+<title>Node855&#45;&gt;Node875</title>
 <path fill="none" stroke="#191970" d="M506.4217,-639.4545C513.3832,-636.7268 520.022,-633.2966 526,-629 553.1322,-609.499 535.0986,-582.8181 562,-563 570.0839,-557.0446 579.5696,-552.8371 589.3558,-549.8853"/>
 <polygon fill="#191970" stroke="#191970" points="505.0926,-636.2099 496.7605,-642.7542 507.355,-642.8342 505.0926,-636.2099"/>
 </g>
-<!-- Node873 -->
+<!-- Node877 -->
 <g id="node27" class="node">
-<title>Node873</title>
+<title>Node877</title>
 <g id="a_node27"><a xlink:href="classCARLsim_1_1Impl.html#aa2a365fb2d2fa56ec274bc4ba7be6747" target="_top" xlink:title="CARLsim::Impl::setSTP">
 <polygon fill="#ffffff" stroke="#ff0000" points="595,-998.5 595,-1017.5 718,-1017.5 718,-998.5 595,-998.5"/>
 <text text-anchor="middle" x="656.5" y="-1005.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setSTP</text>
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node873 -->
+<!-- Node855&#45;&gt;Node877 -->
 <g id="edge26" class="edge">
-<title>Node851&#45;&gt;Node873</title>
+<title>Node855&#45;&gt;Node877</title>
 <path fill="none" stroke="#191970" d="M506.2492,-654.0266C513.6395,-657.439 520.4089,-661.9896 526,-668 623.7799,-773.1136 464.9832,-883.1817 562,-989 570.5949,-998.3746 582.4153,-1003.8576 594.7885,-1006.9334"/>
 <polygon fill="#191970" stroke="#191970" points="507.1874,-650.6367 496.5983,-650.2887 504.6592,-657.1642 507.1874,-650.6367"/>
 </g>
-<!-- Node875 -->
+<!-- Node879 -->
 <g id="node28" class="node">
-<title>Node875</title>
+<title>Node879</title>
 <g id="a_node28"><a xlink:href="classCARLsim_1_1Impl.html#aac61df1a82373e89549e608b78557b82" target="_top" xlink:title="CARLsim::Impl::setNM4STP">
 <polygon fill="#ffffff" stroke="#ff0000" points="584.5,-758.5 584.5,-777.5 728.5,-777.5 728.5,-758.5 584.5,-758.5"/>
 <text text-anchor="middle" x="656.5" y="-765.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setNM4STP</text>
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node875 -->
+<!-- Node855&#45;&gt;Node879 -->
 <g id="edge27" class="edge">
-<title>Node851&#45;&gt;Node875</title>
+<title>Node855&#45;&gt;Node879</title>
 <path fill="none" stroke="#191970" d="M506.4669,-656.7425C513.4753,-659.6594 520.1098,-663.3501 526,-668 556.9216,-692.4102 531.2558,-724.3668 562,-749 568.5298,-754.2319 576.1138,-758.1449 584.0911,-761.0546"/>
 <polygon fill="#191970" stroke="#191970" points="507.3074,-653.3251 496.713,-653.2271 504.934,-659.9105 507.3074,-653.3251"/>
 </g>
-<!-- Node877 -->
+<!-- Node881 -->
 <g id="node29" class="node">
-<title>Node877</title>
+<title>Node881</title>
 <g id="a_node29"><a xlink:href="classCARLsim_1_1Impl.html#a012dcdbbe9769131d98ddf680743bff3" target="_top" xlink:title="CARLsim::Impl::setConnection\lMonitor">
 <polygon fill="#ffffff" stroke="#ff0000" points="580,-709 580,-739 733,-739 733,-709 580,-709"/>
 <text text-anchor="start" x="588" y="-727" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setConnection</text>
@@ -699,195 +699,195 @@
 </a>
 </g>
 </g>
-<!-- Node851&#45;&gt;Node877 -->
+<!-- Node855&#45;&gt;Node881 -->
 <g id="edge28" class="edge">
-<title>Node851&#45;&gt;Node877</title>
+<title>Node855&#45;&gt;Node881</title>
 <path fill="none" stroke="#191970" d="M506.652,-660.2766C513.3445,-662.4472 519.8715,-664.9995 526,-668 545.2266,-677.4133 543.0883,-689.9691 562,-700 568.4301,-703.4106 575.3663,-706.3526 582.4571,-708.8871"/>
 <polygon fill="#191970" stroke="#191970" points="507.3366,-656.8296 496.7551,-657.3616 505.3588,-663.5444 507.3366,-656.8296"/>
 </g>
-<!-- Node896&#45;&gt;Node837 -->
+<!-- Node900&#45;&gt;Node841 -->
 <g id="edge33" class="edge">
-<title>Node896&#45;&gt;Node837</title>
+<title>Node900&#45;&gt;Node841</title>
 <path fill="none" stroke="#191970" d="M504.101,-251.9127C522.8291,-253.6439 542.7581,-255.486 561.8177,-257.2479"/>
 <polygon fill="#191970" stroke="#191970" points="504.4114,-248.4266 494.1317,-250.9912 503.7671,-255.3968 504.4114,-248.4266"/>
 </g>
-<!-- Node896&#45;&gt;Node852 -->
+<!-- Node900&#45;&gt;Node856 -->
 <g id="edge32" class="edge">
-<title>Node896&#45;&gt;Node852</title>
+<title>Node900&#45;&gt;Node856</title>
 <path fill="none" stroke="#191970" d="M503.7291,-254.4334C511.9289,-258.0803 519.5698,-262.8323 526,-269 569.2663,-310.5005 518.1143,-358.1549 562,-399 570.8199,-407.2088 582.1537,-412.3031 593.8897,-415.3855"/>
 <polygon fill="#191970" stroke="#191970" points="504.8577,-251.1172 494.2686,-250.7687 502.3292,-257.6446 504.8577,-251.1172"/>
 </g>
-<!-- Node896&#45;&gt;Node899 -->
+<!-- Node900&#45;&gt;Node903 -->
 <g id="edge34" class="edge">
-<title>Node896&#45;&gt;Node899</title>
+<title>Node900&#45;&gt;Node903</title>
 <path fill="none" stroke="#191970" d="M504.2353,-236.0749C532.0165,-233.5069 562.4276,-230.6958 588.7173,-228.2656"/>
 <polygon fill="#191970" stroke="#191970" points="503.7671,-232.6032 494.1317,-237.0088 504.4114,-239.5734 503.7671,-232.6032"/>
 </g>
-<!-- Node907&#45;&gt;Node858 -->
+<!-- Node911&#45;&gt;Node862 -->
 <g id="edge40" class="edge">
-<title>Node907&#45;&gt;Node858</title>
+<title>Node911&#45;&gt;Node862</title>
 <path fill="none" stroke="#191970" d="M500.1713,-302.1589C509.6804,-305.9418 518.606,-311.0735 526,-318 566.3261,-355.7762 522.2476,-398.6206 562,-437 566.5174,-441.3613 571.7029,-444.9842 577.2692,-447.9909"/>
 <polygon fill="#191970" stroke="#191970" points="501.0977,-298.7757 490.5029,-298.8091 498.806,-305.39 501.0977,-298.7757"/>
 </g>
-<!-- Node909&#45;&gt;Node873 -->
+<!-- Node913&#45;&gt;Node877 -->
 <g id="edge42" class="edge">
-<title>Node909&#45;&gt;Node873</title>
+<title>Node913&#45;&gt;Node877</title>
 <path fill="none" stroke="#191970" d="M499.2485,-916.2576C508.782,-919.7113 517.9627,-924.1925 526,-930 550.8984,-947.9909 536.8338,-971.3856 562,-989 571.597,-995.7171 583.0112,-1000.1814 594.5313,-1003.1227"/>
 <polygon fill="#191970" stroke="#191970" points="500.2189,-912.8928 489.6268,-913.1353 498.0582,-919.5511 500.2189,-912.8928"/>
 </g>
-<!-- Node911&#45;&gt;Node873 -->
+<!-- Node915&#45;&gt;Node877 -->
 <g id="edge44" class="edge">
-<title>Node911&#45;&gt;Node873</title>
+<title>Node915&#45;&gt;Node877</title>
 <path fill="none" stroke="#191970" d="M497.0988,-864.2643C507.7078,-868.1058 517.7573,-873.4922 526,-881 563.4058,-915.0706 524.086,-955.4959 562,-989 571.1541,-997.0894 582.7717,-1002.1103 594.7035,-1005.1549"/>
 <polygon fill="#191970" stroke="#191970" points="497.824,-860.8231 487.2343,-861.1542 495.7191,-867.4992 497.824,-860.8231"/>
 </g>
-<!-- Node913&#45;&gt;Node837 -->
+<!-- Node917&#45;&gt;Node841 -->
 <g id="edge47" class="edge">
-<title>Node913&#45;&gt;Node837</title>
+<title>Node917&#45;&gt;Node841</title>
 <path fill="none" stroke="#191970" d="M494.7356,-599.2542C506.5811,-595.3086 517.6404,-589.2238 526,-580 614.6998,-482.1304 472.2658,-381.9221 562,-285 565.4107,-281.3161 569.3198,-278.2347 573.5636,-275.6651"/>
 <polygon fill="#191970" stroke="#191970" points="493.7734,-595.889 485.1038,-601.979 495.6789,-602.6246 493.7734,-595.889"/>
 </g>
-<!-- Node913&#45;&gt;Node852 -->
+<!-- Node917&#45;&gt;Node856 -->
 <g id="edge46" class="edge">
-<title>Node913&#45;&gt;Node852</title>
+<title>Node917&#45;&gt;Node856</title>
 <path fill="none" stroke="#191970" d="M495.0011,-597.941C506.5002,-594.093 517.3752,-588.3813 526,-580 572.6925,-534.6258 515.0566,-483.1146 562,-438 570.7056,-429.6335 581.9894,-424.3912 593.7125,-421.1774"/>
 <polygon fill="#191970" stroke="#191970" points="493.8729,-594.6236 485.2308,-600.7527 495.8088,-601.3506 493.8729,-594.6236"/>
 </g>
-<!-- Node913&#45;&gt;Node856 -->
+<!-- Node917&#45;&gt;Node860 -->
 <g id="edge48" class="edge">
-<title>Node913&#45;&gt;Node856</title>
+<title>Node917&#45;&gt;Node860</title>
 <path fill="none" stroke="#191970" d="M494.9274,-594.6738C505.9513,-591.1842 516.6967,-586.4394 526,-580 550.0222,-563.3728 537.8025,-541.3711 562,-525 567.6828,-521.1553 573.9692,-518.0547 580.5201,-515.5585"/>
 <polygon fill="#191970" stroke="#191970" points="493.8658,-591.3367 485.1973,-597.4283 495.7726,-598.072 493.8658,-591.3367"/>
 </g>
-<!-- Node913&#45;&gt;Node858 -->
+<!-- Node917&#45;&gt;Node862 -->
 <g id="edge49" class="edge">
-<title>Node913&#45;&gt;Node858</title>
+<title>Node917&#45;&gt;Node862</title>
 <path fill="none" stroke="#191970" d="M494.8105,-596.8134C506.1731,-593.0793 517.0539,-587.6981 526,-580 559.596,-551.0906 528.9736,-516.5585 562,-487 566.5524,-482.9256 571.6932,-479.5027 577.167,-476.6288"/>
 <polygon fill="#191970" stroke="#191970" points="493.8301,-593.4534 485.1844,-599.5773 495.762,-600.1815 493.8301,-593.4534"/>
 </g>
-<!-- Node913&#45;&gt;Node860 -->
+<!-- Node917&#45;&gt;Node864 -->
 <g id="edge50" class="edge">
-<title>Node913&#45;&gt;Node860</title>
+<title>Node917&#45;&gt;Node864</title>
 <path fill="none" stroke="#191970" d="M494.9172,-618.5697C505.528,-621.5136 516.1567,-624.9709 526,-629 543.3536,-636.1033 544.7191,-643.7216 562,-651 570.5019,-654.5808 579.6669,-657.7248 588.8272,-660.4555"/>
 <polygon fill="#191970" stroke="#191970" points="495.7626,-615.173 485.2008,-616.0087 493.9785,-621.9419 495.7626,-615.173"/>
 </g>
-<!-- Node913&#45;&gt;Node862 -->
+<!-- Node917&#45;&gt;Node866 -->
 <g id="edge51" class="edge">
-<title>Node913&#45;&gt;Node862</title>
+<title>Node917&#45;&gt;Node866</title>
 <path fill="none" stroke="#191970" d="M495.1451,-611.0848C525.2369,-613.8664 559.4843,-617.0322 588.6626,-619.7293"/>
 <polygon fill="#191970" stroke="#191970" points="495.3925,-607.5929 485.1127,-610.1575 494.7481,-614.5632 495.3925,-607.5929"/>
 </g>
-<!-- Node913&#45;&gt;Node866 -->
+<!-- Node917&#45;&gt;Node870 -->
 <g id="edge52" class="edge">
-<title>Node913&#45;&gt;Node866</title>
+<title>Node917&#45;&gt;Node870</title>
 <path fill="none" stroke="#191970" d="M495.4476,-596.8872C525.1809,-594.1387 558.9338,-591.0187 587.8321,-588.3475"/>
 <polygon fill="#191970" stroke="#191970" points="494.7481,-593.4368 485.1127,-597.8425 495.3925,-600.4071 494.7481,-593.4368"/>
 </g>
-<!-- Node913&#45;&gt;Node871 -->
+<!-- Node917&#45;&gt;Node875 -->
 <g id="edge53" class="edge">
-<title>Node913&#45;&gt;Node871</title>
+<title>Node917&#45;&gt;Node875</title>
 <path fill="none" stroke="#191970" d="M495.0995,-589.0937C505.5849,-586.4175 516.1306,-583.3851 526,-580 542.7371,-574.2593 545.2029,-568.5626 562,-563 573.3586,-559.2385 585.744,-556.096 597.6965,-553.5201"/>
 <polygon fill="#191970" stroke="#191970" points="493.9666,-585.7678 485.089,-591.5503 495.635,-592.5661 493.9666,-585.7678"/>
 </g>
-<!-- Node916&#45;&gt;Node905 -->
+<!-- Node920&#45;&gt;Node909 -->
 <g id="edge56" class="edge">
-<title>Node916&#45;&gt;Node905</title>
+<title>Node920&#45;&gt;Node909</title>
 <path fill="none" stroke="#191970" d="M250.8145,-124C276.8774,-124 308.7186,-124 337.6251,-124"/>
 <polygon fill="#191970" stroke="#191970" points="250.7613,-120.5001 240.7613,-124 250.7612,-127.5001 250.7613,-120.5001"/>
 </g>
-<!-- Node917 -->
+<!-- Node921 -->
 <g id="node43" class="node">
-<title>Node917</title>
+<title>Node921</title>
 <g id="a_node43"><a xlink:href="classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" target="_top" xlink:title="getSimTimeMs">
 <polygon fill="#ffffff" stroke="#ff0000" points="377,-38.5 377,-57.5 460,-57.5 460,-38.5 377,-38.5"/>
 <text text-anchor="middle" x="418.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSimTimeMs</text>
 </a>
 </g>
 </g>
-<!-- Node916&#45;&gt;Node917 -->
+<!-- Node920&#45;&gt;Node921 -->
 <g id="edge57" class="edge">
-<title>Node916&#45;&gt;Node917</title>
+<title>Node920&#45;&gt;Node921</title>
 <path fill="none" stroke="#191970" d="M250.6902,-115.2506C259.1472,-112.6662 267.548,-109.3231 275,-105 295.1234,-93.3259 290.5134,-78.0243 311,-67 331.1108,-56.1779 356.107,-51.3342 376.9337,-49.2384"/>
 <polygon fill="#191970" stroke="#191970" points="249.5177,-111.9424 240.7902,-117.9492 251.3587,-118.696 249.5177,-111.9424"/>
 </g>
-<!-- Node963 -->
+<!-- Node967 -->
 <g id="node44" class="node">
-<title>Node963</title>
+<title>Node967</title>
 <g id="a_node44"><a xlink:href="classSNN.html#ace11f3a7995a24298caf842498eebbaf" target="_top" xlink:title="sets up a spike monitor registered with a callback to process the spikes, there can only be one Spike...">
 <polygon fill="#ffffff" stroke="#ff0000" points="375,-76.5 375,-95.5 462,-95.5 462,-76.5 375,-76.5"/>
 <text text-anchor="middle" x="418.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node916&#45;&gt;Node963 -->
+<!-- Node920&#45;&gt;Node967 -->
 <g id="edge58" class="edge">
-<title>Node916&#45;&gt;Node963</title>
+<title>Node920&#45;&gt;Node967</title>
 <path fill="none" stroke="#191970" d="M250.6534,-114.7953C288.733,-108.2625 339.2083,-99.6031 374.8296,-93.492"/>
 <polygon fill="#191970" stroke="#191970" points="250.0254,-111.3519 240.7613,-116.4924 251.2091,-118.2511 250.0254,-111.3519"/>
 </g>
-<!-- Node964&#45;&gt;Node917 -->
+<!-- Node968&#45;&gt;Node921 -->
 <g id="edge60" class="edge">
-<title>Node964&#45;&gt;Node917</title>
+<title>Node968&#45;&gt;Node921</title>
 <path fill="none" stroke="#191970" d="M261.4177,-74.9487C298.5583,-68.5769 344.1798,-60.7502 376.6688,-55.1765"/>
 <polygon fill="#191970" stroke="#191970" points="260.4492,-71.5636 251.185,-76.7042 261.6328,-78.4628 260.4492,-71.5636"/>
 </g>
-<!-- Node964&#45;&gt;Node963 -->
+<!-- Node968&#45;&gt;Node967 -->
 <g id="edge61" class="edge">
-<title>Node964&#45;&gt;Node963</title>
+<title>Node968&#45;&gt;Node967</title>
 <path fill="none" stroke="#191970" d="M261.2443,-86C297.744,-86 342.4786,-86 374.8906,-86"/>
 <polygon fill="#191970" stroke="#191970" points="261.185,-82.5001 251.185,-86 261.185,-89.5001 261.185,-82.5001"/>
 </g>
-<!-- Node965&#45;&gt;Node917 -->
+<!-- Node969&#45;&gt;Node921 -->
 <g id="edge63" class="edge">
-<title>Node965&#45;&gt;Node917</title>
+<title>Node969&#45;&gt;Node921</title>
 <path fill="none" stroke="#191970" d="M254.2465,-48C292.6298,-48 342.2989,-48 376.9239,-48"/>
 <polygon fill="#191970" stroke="#191970" points="254.2457,-44.5001 244.2456,-48 254.2456,-51.5001 254.2457,-44.5001"/>
 </g>
-<!-- Node949 -->
+<!-- Node953 -->
 <g id="node47" class="node">
-<title>Node949</title>
+<title>Node953</title>
 <g id="a_node47"><a xlink:href="classSNN.html#a4c62ae1b8cff6aedfdf98cb8808d14e1" target="_top" xlink:title="sets up a neuron monitor registered with a callback to process the neuron state values, there can only be one NeuronMonitor per group ">
 <polygon fill="#ffffff" stroke="#ff0000" points="371.5,-.5 371.5,-19.5 465.5,-19.5 465.5,-.5 371.5,-.5"/>
 <text text-anchor="middle" x="418.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setNeuronMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node965&#45;&gt;Node949 -->
+<!-- Node969&#45;&gt;Node953 -->
 <g id="edge64" class="edge">
-<title>Node965&#45;&gt;Node949</title>
+<title>Node969&#45;&gt;Node953</title>
 <path fill="none" stroke="#191970" d="M254.2149,-38.1844C290.5796,-31.9457 337.0841,-23.9675 371.327,-18.0929"/>
 <polygon fill="#191970" stroke="#191970" points="253.5098,-34.7541 244.2456,-39.8947 254.6935,-41.6533 253.5098,-34.7541"/>
 </g>
-<!-- Node966&#45;&gt;Node917 -->
+<!-- Node970&#45;&gt;Node921 -->
 <g id="edge66" class="edge">
-<title>Node966&#45;&gt;Node917</title>
+<title>Node970&#45;&gt;Node921</title>
 <path fill="none" stroke="#191970" d="M262.8006,-21.2886C299.756,-27.6286 344.7532,-35.3482 376.8523,-40.855"/>
 <polygon fill="#191970" stroke="#191970" points="263.0557,-17.7813 252.6079,-19.54 261.8721,-24.6805 263.0557,-17.7813"/>
 </g>
-<!-- Node966&#45;&gt;Node949 -->
+<!-- Node970&#45;&gt;Node953 -->
 <g id="edge67" class="edge">
-<title>Node966&#45;&gt;Node949</title>
+<title>Node970&#45;&gt;Node953</title>
 <path fill="none" stroke="#191970" d="M264.621,-10C299.1052,-10 340.2008,-10 371.2448,-10"/>
 <polygon fill="#191970" stroke="#191970" points="264.6183,-6.5001 254.6183,-10 264.6183,-13.5001 264.6183,-6.5001"/>
 </g>
-<!-- Node967&#45;&gt;Node907 -->
+<!-- Node971&#45;&gt;Node911 -->
 <g id="edge69" class="edge">
-<title>Node967&#45;&gt;Node907</title>
+<title>Node971&#45;&gt;Node911</title>
 <path fill="none" stroke="#191970" d="M210.6587,-179.7645C230.1924,-203.868 268.4778,-246.4994 311,-269 321.9019,-274.7687 334.1344,-279.1541 346.335,-282.487"/>
 <polygon fill="#191970" stroke="#191970" points="213.2936,-177.4543 204.3373,-171.7942 207.8091,-181.8041 213.2936,-177.4543"/>
 </g>
-<!-- Node968 -->
+<!-- Node972 -->
 <g id="node50" class="node">
-<title>Node968</title>
+<title>Node972</title>
 <g id="a_node50"><a xlink:href="classSNN.html#a0ef541007b0004e308c89f2f326fb328" target="_top" xlink:title="isDopaminergicGroup">
 <polygon fill="#ffffff" stroke="#000000" points="363.5,-152.5 363.5,-171.5 473.5,-171.5 473.5,-152.5 363.5,-152.5"/>
 <text text-anchor="middle" x="418.5" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isDopaminergicGroup</text>
 </a>
 </g>
 </g>
-<!-- Node967&#45;&gt;Node968 -->
+<!-- Node971&#45;&gt;Node972 -->
 <g id="edge70" class="edge">
-<title>Node967&#45;&gt;Node968</title>
+<title>Node971&#45;&gt;Node972</title>
 <path fill="none" stroke="#191970" d="M271.1021,-162C301.197,-162 335.3611,-162 363.2154,-162"/>
 <polygon fill="#191970" stroke="#191970" points="271.067,-158.5001 261.067,-162 271.0669,-165.5001 271.067,-158.5001"/>
 </g>

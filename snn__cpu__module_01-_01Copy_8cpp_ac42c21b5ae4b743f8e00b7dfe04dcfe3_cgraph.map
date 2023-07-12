@@ -1,0 +1,16 @@
+<map id="dvdtLIF" name="dvdtLIF">
+<area shape="rect" id="node2" href="$snn__cpu__module_01-_01Copy_8cpp.html#a112c9dae16b9adda24246f72616861e4" title="dvdtIzhikevich4" alt="" coords="177,5,291,32"/>
+<area shape="rect" id="node3" href="$snn__cpu__module_01-_01Copy_8cpp.html#a8c7d863355ffdb02791fdb297060f8f3" title="dvdtIzhikevich9" alt="" coords="177,56,291,83"/>
+<area shape="rect" id="node4" href="$snn__cpu__module_01-_01Copy_8cpp.html#a11a7a5c9993341ad98dff8d3a326e83a" title="dudtIzhikevich4" alt="" coords="177,107,291,133"/>
+<area shape="rect" id="node5" href="$snn__cpu__module_01-_01Copy_8cpp.html#af71e0cec317109faf95af68a66b028f4" title="dudtIzhikevich9" alt="" coords="177,157,291,184"/>
+<area shape="rect" id="node6" href="$classSNN.html#a477f99451786873b73e2623b6f89b766" title="deallocates all dynamical structures and exits " alt="" coords="163,208,305,235"/>
+<area shape="rect" id="node7" href="$classSNN.html#ad4930e827d0e5cc6a63dc4a07e1879dc" title="SNN::isSimulationWithCOBA" alt="" coords="137,259,331,285"/>
+<area shape="rect" id="node8" href="$classSNN.html#a201166567b58f8243db9455ad31b3763" title="SNN::isSimulationWithNMDARise" alt="" coords="122,309,346,336"/>
+<area shape="rect" id="node9" href="$classSNN.html#a07bf973035202abfd4ae588d1ebe5a2e" title="SNN::isSimulationWithGABAbRise" alt="" coords="120,360,348,387"/>
+<area shape="rect" id="node10" href="$classPoissonRate.html#a0bc9734220de46306a6db7b2b33f7902" title="Checks whether the firing rates are allocated on CPU or GPU. " alt="" coords="396,403,557,429"/>
+<area shape="rect" id="node12" href="$classPoissonRate.html#a855d40a5432bc45e3f614bf7fce96d80" title="Returns pointer to CPU&#45;allocated firing rate array (deprecated) " alt="" coords="135,461,333,488"/>
+<area shape="rect" id="node14" href="$classPoissonRate.html#a00ddee44990cd4763a7d4df074e6d405" title="Returns the number of neurons for which to generate Poisson spike trains. " alt="" coords="134,519,334,545"/>
+<area shape="rect" id="node11" href="$classPoissonRate_1_1Impl.html#a0bc9734220de46306a6db7b2b33f7902" title="PoissonRate::Impl::\lisOnGPU" alt="" coords="605,425,744,466"/>
+<area shape="rect" id="node13" href="$classPoissonRate_1_1Impl.html#a0c556a18de003bbbc945fd08f867b0c4" title="PoissonRate::Impl::\lgetRatePtrCPU" alt="" coords="407,454,546,495"/>
+<area shape="rect" id="node15" href="$classPoissonRate_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" title="PoissonRate::Impl::\lgetNumNeurons" alt="" coords="407,519,546,561"/>
+</map>

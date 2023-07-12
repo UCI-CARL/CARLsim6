@@ -48,22 +48,22 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 700;
 var viewHeight = 104;
-var sectionId = 'dynsection-19';
+var sectionId = 'dynsection-20';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>getConductanceGABAa</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 696,-100 696,4 -4,4"/>
-<!-- Node122 -->
+<!-- Node126 -->
 <g id="node1" class="node">
-<title>Node122</title>
+<title>Node126</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 121,-57.5 121,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="60.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConductanceGABAa</text>
 </g>
-<!-- Node123 -->
+<!-- Node127 -->
 <g id="node2" class="node">
-<title>Node123</title>
+<title>Node127</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#aaf0866addc7106a9d3ca39fe467af659" target="_top" xlink:title="CARLsim::Impl::getConductance\lGABAa">
 <polygon fill="#ffffff" stroke="#000000" points="157,-33 157,-63 318,-63 318,-33 157,-33"/>
 <text text-anchor="start" x="165" y="-51" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getConductance</text>
@@ -71,84 +71,84 @@ var sectionId = 'dynsection-19';
 </a>
 </g>
 </g>
-<!-- Node122&#45;&gt;Node123 -->
+<!-- Node126&#45;&gt;Node127 -->
 <g id="edge1" class="edge">
-<title>Node122&#45;&gt;Node123</title>
+<title>Node126&#45;&gt;Node127</title>
 <path fill="none" stroke="#191970" d="M121.4134,-48C129.6071,-48 138.1513,-48 146.7241,-48"/>
 <polygon fill="#191970" stroke="#191970" points="146.7816,-51.5001 156.7815,-48 146.7815,-44.5001 146.7816,-51.5001"/>
 </g>
-<!-- Node124 -->
+<!-- Node128 -->
 <g id="node3" class="node">
-<title>Node124</title>
+<title>Node128</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="374,-76.5 374,-95.5 490,-95.5 490,-76.5 374,-76.5"/>
 <text text-anchor="middle" x="432" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node123&#45;&gt;Node124 -->
+<!-- Node127&#45;&gt;Node128 -->
 <g id="edge2" class="edge">
-<title>Node123&#45;&gt;Node124</title>
+<title>Node127&#45;&gt;Node128</title>
 <path fill="none" stroke="#191970" d="M314.3716,-63.0186C333.9923,-66.852 354.7718,-70.9117 373.3181,-74.5352"/>
 <polygon fill="#191970" stroke="#191970" points="372.8847,-78.0166 383.3703,-76.4991 374.227,-71.1465 372.8847,-78.0166"/>
 </g>
-<!-- Node125 -->
+<!-- Node129 -->
 <g id="node4" class="node">
-<title>Node125</title>
+<title>Node129</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="CARLsim::Impl::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="354,-38.5 354,-57.5 510,-57.5 510,-38.5 354,-38.5"/>
 <text text-anchor="middle" x="432" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node123&#45;&gt;Node125 -->
+<!-- Node127&#45;&gt;Node129 -->
 <g id="edge3" class="edge">
-<title>Node123&#45;&gt;Node125</title>
+<title>Node127&#45;&gt;Node129</title>
 <path fill="none" stroke="#191970" d="M318.0146,-48C326.5026,-48 335.166,-48 343.7355,-48"/>
 <polygon fill="#191970" stroke="#191970" points="343.7362,-51.5001 353.7362,-48 343.7361,-44.5001 343.7362,-51.5001"/>
 </g>
-<!-- Node127 -->
+<!-- Node131 -->
 <g id="node6" class="node">
-<title>Node127</title>
+<title>Node131</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a42c7f8460a85cfb8566a1959da9a925d" target="_top" xlink:title="SNN::getConductanceGABAa">
 <polygon fill="#ffffff" stroke="#000000" points="357.5,-.5 357.5,-19.5 506.5,-19.5 506.5,-.5 357.5,-.5"/>
 <text text-anchor="middle" x="432" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConductanceGABAa</text>
 </a>
 </g>
 </g>
-<!-- Node123&#45;&gt;Node127 -->
+<!-- Node127&#45;&gt;Node131 -->
 <g id="edge5" class="edge">
-<title>Node123&#45;&gt;Node127</title>
+<title>Node127&#45;&gt;Node131</title>
 <path fill="none" stroke="#191970" d="M314.3716,-32.9814C333.9923,-29.148 354.7718,-25.0883 373.3181,-21.4648"/>
 <polygon fill="#191970" stroke="#191970" points="374.227,-24.8535 383.3703,-19.5009 372.8847,-17.9834 374.227,-24.8535"/>
 </g>
-<!-- Node126 -->
+<!-- Node130 -->
 <g id="node5" class="node">
-<title>Node126</title>
+<title>Node130</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="564,-38.5 564,-57.5 674,-57.5 674,-38.5 564,-38.5"/>
 <text text-anchor="middle" x="619" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node125&#45;&gt;Node126 -->
+<!-- Node129&#45;&gt;Node130 -->
 <g id="edge4" class="edge">
-<title>Node125&#45;&gt;Node126</title>
+<title>Node129&#45;&gt;Node130</title>
 <path fill="none" stroke="#191970" d="M510.2213,-48C524.7178,-48 539.718,-48 553.7766,-48"/>
 <polygon fill="#191970" stroke="#191970" points="553.8264,-51.5001 563.8264,-48 553.8264,-44.5001 553.8264,-51.5001"/>
 </g>
-<!-- Node128 -->
+<!-- Node132 -->
 <g id="node7" class="node">
-<title>Node128</title>
+<title>Node132</title>
 <g id="a_node7"><a xlink:href="classSNN.html#ad4930e827d0e5cc6a63dc4a07e1879dc" target="_top" xlink:title="SNN::isSimulationWithCOBA">
 <polygon fill="#ffffff" stroke="#000000" points="546,-.5 546,-19.5 692,-19.5 692,-.5 546,-.5"/>
 <text text-anchor="middle" x="619" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isSimulationWithCOBA</text>
 </a>
 </g>
 </g>
-<!-- Node127&#45;&gt;Node128 -->
+<!-- Node131&#45;&gt;Node132 -->
 <g id="edge6" class="edge">
-<title>Node127&#45;&gt;Node128</title>
+<title>Node131&#45;&gt;Node132</title>
 <path fill="none" stroke="#191970" d="M506.7135,-10C516.3026,-10 526.1666,-10 535.8793,-10"/>
 <polygon fill="#191970" stroke="#191970" points="535.9284,-13.5001 545.9284,-10 535.9283,-6.5001 535.9284,-13.5001"/>
 </g>

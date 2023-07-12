@@ -48,91 +48,91 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 732;
 var viewHeight = 85;
-var sectionId = 'dynsection-95';
+var sectionId = 'dynsection-96';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>isSimulationWithNMDARise</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-81 728,-81 728,4 -4,4"/>
-<!-- Node1571 -->
+<!-- Node1575 -->
 <g id="node1" class="node">
-<title>Node1571</title>
+<title>Node1575</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 140,-57.5 140,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="70" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isSimulationWithNMDARise</text>
 </g>
-<!-- Node1572 -->
+<!-- Node1576 -->
 <g id="node2" class="node">
-<title>Node1572</title>
+<title>Node1576</title>
 <g id="a_node2"><a xlink:href="snn__cpu__module_8cpp.html#ac42c21b5ae4b743f8e00b7dfe04dcfe3" target="_top" xlink:title="dvdtLIF">
 <polygon fill="#ffffff" stroke="#000000" points="210,-57.5 210,-76.5 260,-76.5 260,-57.5 210,-57.5"/>
 <text text-anchor="middle" x="235" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">dvdtLIF</text>
 </a>
 </g>
 </g>
-<!-- Node1571&#45;&gt;Node1572 -->
+<!-- Node1575&#45;&gt;Node1576 -->
 <g id="edge1" class="edge">
-<title>Node1571&#45;&gt;Node1572</title>
+<title>Node1575&#45;&gt;Node1576</title>
 <path fill="none" stroke="#191970" d="M150.6438,-57.2863C172.1679,-59.7648 193.8605,-62.2627 209.8573,-64.1048"/>
 <polygon fill="#191970" stroke="#191970" points="150.7882,-53.7798 140.4535,-56.1128 149.9874,-60.7339 150.7882,-53.7798"/>
 </g>
-<!-- Node1573 -->
+<!-- Node1577 -->
 <g id="node3" class="node">
-<title>Node1573</title>
+<title>Node1577</title>
 <g id="a_node3"><a xlink:href="classSNN.html#ab251be3aba6d73b79fdb0d44019b1790" target="_top" xlink:title="getConductanceNMDA">
 <polygon fill="#ffffff" stroke="#000000" points="176,-19.5 176,-38.5 294,-38.5 294,-19.5 176,-19.5"/>
 <text text-anchor="middle" x="235" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConductanceNMDA</text>
 </a>
 </g>
 </g>
-<!-- Node1571&#45;&gt;Node1573 -->
+<!-- Node1575&#45;&gt;Node1577 -->
 <g id="edge2" class="edge">
-<title>Node1571&#45;&gt;Node1573</title>
+<title>Node1575&#45;&gt;Node1577</title>
 <path fill="none" stroke="#191970" d="M150.4884,-38.7316C159.067,-37.7438 167.6747,-36.7526 175.94,-35.8008"/>
 <polygon fill="#191970" stroke="#191970" points="149.9874,-35.2661 140.4535,-39.8872 150.7882,-42.2202 149.9874,-35.2661"/>
 </g>
-<!-- Node1574 -->
+<!-- Node1578 -->
 <g id="node4" class="node">
-<title>Node1574</title>
+<title>Node1578</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a450adf3cd56dd307b86c7d33df5afffd" target="_top" xlink:title="CARLsim::Impl::getConductanceNMDA">
 <polygon fill="#ffffff" stroke="#000000" points="330,-38.5 330,-57.5 521,-57.5 521,-38.5 330,-38.5"/>
 <text text-anchor="middle" x="425.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getConductanceNMDA</text>
 </a>
 </g>
 </g>
-<!-- Node1573&#45;&gt;Node1574 -->
+<!-- Node1577&#45;&gt;Node1578 -->
 <g id="edge3" class="edge">
-<title>Node1573&#45;&gt;Node1574</title>
+<title>Node1577&#45;&gt;Node1578</title>
 <path fill="none" stroke="#191970" d="M304.2633,-35.9082C312.6212,-36.7417 321.2681,-37.6042 329.9186,-38.4669"/>
 <polygon fill="#191970" stroke="#191970" points="304.5292,-32.4174 294.2311,-34.9076 303.8344,-39.3828 304.5292,-32.4174"/>
 </g>
-<!-- Node1576 -->
+<!-- Node1580 -->
 <g id="node6" class="node">
-<title>Node1576</title>
+<title>Node1580</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a0d88c00011be6536c68f8e6bc70ca1a3" target="_top" xlink:title="temporary getter to return pointer to current[] ">
 <polygon fill="#ffffff" stroke="#000000" points="394.5,-.5 394.5,-19.5 456.5,-19.5 456.5,-.5 394.5,-.5"/>
 <text text-anchor="middle" x="425.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getCurrent</text>
 </a>
 </g>
 </g>
-<!-- Node1573&#45;&gt;Node1576 -->
+<!-- Node1577&#45;&gt;Node1580 -->
 <g id="edge5" class="edge">
-<title>Node1573&#45;&gt;Node1576</title>
+<title>Node1577&#45;&gt;Node1580</title>
 <path fill="none" stroke="#191970" d="M304.5045,-22.0678C335.2972,-18.9966 369.9711,-15.5383 394.2811,-13.1137"/>
 <polygon fill="#191970" stroke="#191970" points="303.8344,-18.6172 294.2311,-23.0924 304.5292,-25.5826 303.8344,-18.6172"/>
 </g>
-<!-- Node1575 -->
+<!-- Node1579 -->
 <g id="node5" class="node">
-<title>Node1575</title>
+<title>Node1579</title>
 <g id="a_node5"><a xlink:href="classCARLsim.html#ab251be3aba6d73b79fdb0d44019b1790" target="_top" xlink:title="gets NMDA vector of a group ">
 <polygon fill="#ffffff" stroke="#000000" points="557,-38.5 557,-57.5 724,-57.5 724,-38.5 557,-38.5"/>
 <text text-anchor="middle" x="640.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getConductanceNMDA</text>
 </a>
 </g>
 </g>
-<!-- Node1574&#45;&gt;Node1575 -->
+<!-- Node1578&#45;&gt;Node1579 -->
 <g id="edge4" class="edge">
-<title>Node1574&#45;&gt;Node1575</title>
+<title>Node1578&#45;&gt;Node1579</title>
 <path fill="none" stroke="#191970" d="M531.1184,-48C539.709,-48 548.3157,-48 556.7188,-48"/>
 <polygon fill="#191970" stroke="#191970" points="531.0542,-44.5001 521.0542,-48 531.0542,-51.5001 531.0542,-44.5001"/>
 </g>

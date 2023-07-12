@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 35)">
 <title>getWeightRange</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-35 381,-35 381,4 -4,4"/>
-<!-- Node362 -->
+<!-- Node366 -->
 <g id="node1" class="node">
-<title>Node362</title>
+<title>Node366</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-6 0,-25 89,-25 89,-6 0,-6"/>
 <text text-anchor="middle" x="44.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getWeightRange</text>
 </g>
-<!-- Node363 -->
+<!-- Node367 -->
 <g id="node2" class="node">
-<title>Node363</title>
+<title>Node367</title>
 <g id="a_node2"><a xlink:href="classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" target="_top" xlink:title="SimpleWeightTuner::\lImpl::iterate">
 <polygon fill="#ffffff" stroke="#000000" points="125,-.5 125,-30.5 233,-30.5 233,-.5 125,-.5"/>
 <text text-anchor="start" x="133" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -25,15 +25,15 @@
 </a>
 </g>
 </g>
-<!-- Node362&#45;&gt;Node363 -->
+<!-- Node366&#45;&gt;Node367 -->
 <g id="edge1" class="edge">
-<title>Node362&#45;&gt;Node363</title>
+<title>Node366&#45;&gt;Node367</title>
 <path fill="none" stroke="#191970" d="M99.2982,-15.5C107.6434,-15.5 116.2537,-15.5 124.5906,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="99.2866,-12.0001 89.2866,-15.5 99.2865,-19.0001 99.2866,-12.0001"/>
 </g>
-<!-- Node364 -->
+<!-- Node368 -->
 <g id="node3" class="node">
-<title>Node364</title>
+<title>Node368</title>
 <g id="a_node3"><a xlink:href="classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" target="_top" xlink:title="Performs an iteration step of the tuning algorithm. ">
 <polygon fill="#ffffff" stroke="#000000" points="269,-.5 269,-30.5 377,-30.5 377,-.5 269,-.5"/>
 <text text-anchor="start" x="277" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -41,9 +41,9 @@
 </a>
 </g>
 </g>
-<!-- Node363&#45;&gt;Node364 -->
+<!-- Node367&#45;&gt;Node368 -->
 <g id="edge2" class="edge">
-<title>Node363&#45;&gt;Node364</title>
+<title>Node367&#45;&gt;Node368</title>
 <path fill="none" stroke="#191970" d="M243.2702,-15.5C251.7504,-15.5 260.3754,-15.5 268.6672,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="243.03,-12.0001 233.03,-15.5 243.0299,-19.0001 243.03,-12.0001"/>
 </g>

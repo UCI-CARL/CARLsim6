@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 111.5)">
 <title>getNeuronLocation3D</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-111.5 482,-111.5 482,4 -4,4"/>
-<!-- Node697 -->
+<!-- Node701 -->
 <g id="node1" class="node">
-<title>Node697</title>
+<title>Node701</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 111,-57.5 111,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="55.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNeuronLocation3D</text>
 </g>
-<!-- Node698 -->
+<!-- Node702 -->
 <g id="node2" class="node">
-<title>Node698</title>
+<title>Node702</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#aba1eac7ee46971637423204a63e9892b" target="_top" xlink:title="CARLsim::Impl::getNeuron\lLocation3D">
 <polygon fill="#ffffff" stroke="#000000" points="147,-77 147,-107 282,-107 282,-77 147,-77"/>
 <text text-anchor="start" x="155" y="-95" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNeuron</text>
@@ -25,54 +25,54 @@
 </a>
 </g>
 </g>
-<!-- Node697&#45;&gt;Node698 -->
+<!-- Node701&#45;&gt;Node702 -->
 <g id="edge1" class="edge">
-<title>Node697&#45;&gt;Node698</title>
+<title>Node701&#45;&gt;Node702</title>
 <path fill="none" stroke="#191970" d="M99.7316,-60.2402C118.4257,-65.4134 140.3831,-71.4897 160.0593,-76.9346"/>
 <polygon fill="#191970" stroke="#191970" points="100.5719,-56.8413 90.0006,-57.5473 98.7049,-63.5877 100.5719,-56.8413"/>
 </g>
-<!-- Node700 -->
+<!-- Node704 -->
 <g id="node4" class="node">
-<title>Node700</title>
+<title>Node704</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a16a41fdf2dc50772b36743ef7c168800" target="_top" xlink:title="getNetworkName">
 <polygon fill="#ffffff" stroke="#000000" points="168,-38.5 168,-57.5 261,-57.5 261,-38.5 168,-38.5"/>
 <text text-anchor="middle" x="214.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNetworkName</text>
 </a>
 </g>
 </g>
-<!-- Node697&#45;&gt;Node700 -->
+<!-- Node701&#45;&gt;Node704 -->
 <g id="edge3" class="edge">
-<title>Node697&#45;&gt;Node700</title>
+<title>Node701&#45;&gt;Node704</title>
 <path fill="none" stroke="#191970" d="M121.2618,-48C136.9103,-48 153.2912,-48 167.8791,-48"/>
 <polygon fill="#191970" stroke="#191970" points="121.1105,-44.5001 111.1105,-48 121.1104,-51.5001 121.1105,-44.5001"/>
 </g>
-<!-- Node701 -->
+<!-- Node705 -->
 <g id="node5" class="node">
-<title>Node701</title>
+<title>Node705</title>
 <g id="a_node5"><a xlink:href="snn__manager_8cpp.html#af7e3c6ada8c131790477ada99ec34bc3" target="_top" xlink:title="compareDelay">
 <polygon fill="#ffffff" stroke="#000000" points="174.5,-.5 174.5,-19.5 254.5,-19.5 254.5,-.5 174.5,-.5"/>
 <text text-anchor="middle" x="214.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">compareDelay</text>
 </a>
 </g>
 </g>
-<!-- Node697&#45;&gt;Node701 -->
+<!-- Node701&#45;&gt;Node705 -->
 <g id="edge4" class="edge">
-<title>Node697&#45;&gt;Node701</title>
+<title>Node701&#45;&gt;Node705</title>
 <path fill="none" stroke="#191970" d="M105.5766,-36.032C127.858,-30.7069 153.7294,-24.5238 174.6661,-19.5201"/>
 <polygon fill="#191970" stroke="#191970" points="104.5349,-32.6823 95.6224,-38.411 106.1621,-39.4906 104.5349,-32.6823"/>
 </g>
-<!-- Node699 -->
+<!-- Node703 -->
 <g id="node3" class="node">
-<title>Node699</title>
+<title>Node703</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#aba1eac7ee46971637423204a63e9892b" target="_top" xlink:title="returns the 3D location a neuron codes for ">
 <polygon fill="#ffffff" stroke="#000000" points="318,-82.5 318,-101.5 478,-101.5 478,-82.5 318,-82.5"/>
 <text text-anchor="middle" x="398" y="-89.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getNeuronLocation3D</text>
 </a>
 </g>
 </g>
-<!-- Node698&#45;&gt;Node699 -->
+<!-- Node702&#45;&gt;Node703 -->
 <g id="edge2" class="edge">
-<title>Node698&#45;&gt;Node699</title>
+<title>Node702&#45;&gt;Node703</title>
 <path fill="none" stroke="#191970" d="M292.27,-92C300.7336,-92 309.3597,-92 317.851,-92"/>
 <polygon fill="#191970" stroke="#191970" points="292.0469,-88.5001 282.0469,-92 292.0468,-95.5001 292.0469,-88.5001"/>
 </g>

@@ -13,6 +13,7 @@ var classCARLsim_1_1Impl =
     [ "createGroupLIF", "classCARLsim_1_1Impl.html#ab47cbdc62b1d4af153d9f8395cf5e5b1", null ],
     [ "createSpikeGeneratorGroup", "classCARLsim_1_1Impl.html#ac0226503b3b9761dcfc076af9319a5f9", null ],
     [ "createSpikeGeneratorGroup", "classCARLsim_1_1Impl.html#ae84b2469456be28869fd1cf8d6b7c6b2", null ],
+    [ "findWavefrontPath", "classCARLsim_1_1Impl.html#ad13c02b52b9a865e150da3b256f06d4d", null ],
     [ "getCARLsimState", "classCARLsim_1_1Impl.html#adca40e384322cbaa6bfda0fe6a6f3159", null ],
     [ "getConductanceAMPA", "classCARLsim_1_1Impl.html#af614535178ba3d0a11d4a6bda3fa5413", null ],
     [ "getConductanceConfig", "classCARLsim_1_1Impl.html#a00ecb4d15c32a4c7327f2efae5157e79", null ],
@@ -66,6 +67,7 @@ var classCARLsim_1_1Impl =
     [ "isSimulationWithCOBA", "classCARLsim_1_1Impl.html#ad4930e827d0e5cc6a63dc4a07e1879dc", null ],
     [ "isSimulationWithCUBA", "classCARLsim_1_1Impl.html#abde047c2a6a1d24f09055ecda4a8f7e1", null ],
     [ "loadSimulation", "classCARLsim_1_1Impl.html#aeebb0912ac3497ef828e666805371722", null ],
+    [ "printEntrails", "classCARLsim_1_1Impl.html#aa596c1e0057978f4b98b708a7dc5d526", null ],
     [ "runNetwork", "classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0", null ],
     [ "saveSimulation", "classCARLsim_1_1Impl.html#aa665c758ce50f34c0a66dffe3a2a6476", null ],
     [ "scaleWeights", "classCARLsim_1_1Impl.html#a7cc8c47ac0dac59e837ea3b0d229bec5", null ],
@@ -124,5 +126,6 @@ var classCARLsim_1_1Impl =
     [ "setWeight", "classCARLsim_1_1Impl.html#a8e9bda0e94ad99cf8ac306cf0b76b9d5", null ],
     [ "setWeightAndWeightChangeUpdate", "classCARLsim_1_1Impl.html#a94b3b953bb658e1a96cd8a6a6163a5fe", null ],
     [ "startTesting", "classCARLsim_1_1Impl.html#a16c476749914764857bce0610df17908", null ],
-    [ "stopTesting", "classCARLsim_1_1Impl.html#aae1c74dcc597646739be4812e5872d71", null ]
+    [ "stopTesting", "classCARLsim_1_1Impl.html#aae1c74dcc597646739be4812e5872d71", null ],
+    [ "updateDelays", "classCARLsim_1_1Impl.html#a3517d9fb7fd35ab493c6f3caa924461b", null ]
 ];

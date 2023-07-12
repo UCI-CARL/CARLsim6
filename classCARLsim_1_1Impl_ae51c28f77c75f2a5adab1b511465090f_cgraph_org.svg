@@ -9,147 +9,147 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 138)">
 <title>setHomeostasis</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-138 542,-138 542,4 -4,4"/>
-<!-- Node951 -->
+<!-- Node959 -->
 <g id="node1" class="node">
-<title>Node951</title>
+<title>Node959</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-57.5 0,-76.5 88,-76.5 88,-57.5 0,-57.5"/>
 <text text-anchor="middle" x="44" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setHomeostasis</text>
 </g>
-<!-- Node952 -->
+<!-- Node960 -->
 <g id="node2" class="node">
-<title>Node952</title>
+<title>Node960</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="140.5,-38.5 140.5,-57.5 223.5,-57.5 223.5,-38.5 140.5,-38.5"/>
 <text text-anchor="middle" x="182" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node951&#45;&gt;Node952 -->
+<!-- Node959&#45;&gt;Node960 -->
 <g id="edge1" class="edge">
-<title>Node951&#45;&gt;Node952</title>
+<title>Node959&#45;&gt;Node960</title>
 <path fill="none" stroke="#191970" d="M88.0435,-60.936C101.4999,-59.0833 116.42,-57.0291 130.3344,-55.1134"/>
 <polygon fill="#191970" stroke="#191970" points="130.824,-58.5791 140.2532,-53.7478 129.8692,-51.6445 130.824,-58.5791"/>
 </g>
-<!-- Node953 -->
+<!-- Node961 -->
 <g id="node3" class="node">
-<title>Node953</title>
+<title>Node961</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="276,-114.5 276,-133.5 392,-133.5 392,-114.5 276,-114.5"/>
 <text text-anchor="middle" x="334" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node951&#45;&gt;Node953 -->
+<!-- Node959&#45;&gt;Node961 -->
 <g id="edge6" class="edge">
-<title>Node951&#45;&gt;Node953</title>
+<title>Node959&#45;&gt;Node961</title>
 <path fill="none" stroke="#191970" d="M59.8924,-76.6263C75.5844,-85.6204 100.5656,-98.594 124,-105 170.3231,-117.6628 224.315,-122.3371 265.9521,-123.8849"/>
 <polygon fill="#191970" stroke="#191970" points="265.8811,-127.3843 275.9882,-124.2067 266.1055,-120.3879 265.8811,-127.3843"/>
 </g>
-<!-- Node957 -->
+<!-- Node965 -->
 <g id="node7" class="node">
-<title>Node957</title>
+<title>Node965</title>
 <g id="a_node7"><a xlink:href="classCARLsim_1_1Impl.html#ae136e178382096490a2d34f78cd2afa2" target="_top" xlink:title="isPoissonGroup">
 <polygon fill="#ffffff" stroke="#000000" points="139,-76.5 139,-95.5 225,-95.5 225,-76.5 139,-76.5"/>
 <text text-anchor="middle" x="182" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isPoissonGroup</text>
 </a>
 </g>
 </g>
-<!-- Node951&#45;&gt;Node957 -->
+<!-- Node959&#45;&gt;Node965 -->
 <g id="edge7" class="edge">
-<title>Node951&#45;&gt;Node957</title>
+<title>Node959&#45;&gt;Node965</title>
 <path fill="none" stroke="#191970" d="M88.0435,-73.064C100.9922,-74.8467 115.296,-76.8161 128.755,-78.6692"/>
 <polygon fill="#191970" stroke="#191970" points="128.4621,-82.1618 138.846,-80.0585 129.4169,-75.2272 128.4621,-82.1618"/>
 </g>
-<!-- Node959 -->
+<!-- Node967 -->
 <g id="node9" class="node">
-<title>Node959</title>
+<title>Node967</title>
 <g id="a_node9"><a xlink:href="classSNN.html#ae51c28f77c75f2a5adab1b511465090f" target="_top" xlink:title="Sets the homeostasis parameters. g is the grpID, enable=true(false) enables(disables) homeostasis...">
 <polygon fill="#ffffff" stroke="#000000" points="124,-.5 124,-19.5 240,-19.5 240,-.5 124,-.5"/>
 <text text-anchor="middle" x="182" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setHomeostasis</text>
 </a>
 </g>
 </g>
-<!-- Node951&#45;&gt;Node959 -->
+<!-- Node959&#45;&gt;Node967 -->
 <g id="edge11" class="edge">
-<title>Node951&#45;&gt;Node959</title>
+<title>Node959&#45;&gt;Node967</title>
 <path fill="none" stroke="#191970" d="M62.453,-57.4124C78.4795,-49.2855 102.4384,-37.6122 124,-29 129.4213,-26.8346 135.1954,-24.7213 140.9194,-22.7379"/>
 <polygon fill="#191970" stroke="#191970" points="142.0725,-26.0428 150.4341,-19.5363 139.8401,-19.4083 142.0725,-26.0428"/>
 </g>
-<!-- Node952&#45;&gt;Node953 -->
+<!-- Node960&#45;&gt;Node961 -->
 <g id="edge2" class="edge">
-<title>Node952&#45;&gt;Node953</title>
+<title>Node960&#45;&gt;Node961</title>
 <path fill="none" stroke="#191970" d="M220.3534,-57.5664C227.1709,-60.0905 234.0021,-63.202 240,-67 259.6552,-79.4462 256.3448,-92.5538 276,-105 279.1864,-107.0177 282.608,-108.8416 286.1377,-110.4867"/>
 <polygon fill="#191970" stroke="#191970" points="285.0688,-113.8325 295.6466,-114.4336 287.7524,-107.3673 285.0688,-113.8325"/>
 </g>
-<!-- Node954 -->
+<!-- Node962 -->
 <g id="node4" class="node">
-<title>Node954</title>
+<title>Node962</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="292.5,-38.5 292.5,-57.5 375.5,-57.5 375.5,-38.5 292.5,-38.5"/>
 <text text-anchor="middle" x="334" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node952&#45;&gt;Node954 -->
+<!-- Node960&#45;&gt;Node962 -->
 <g id="edge3" class="edge">
-<title>Node952&#45;&gt;Node954</title>
+<title>Node960&#45;&gt;Node962</title>
 <path fill="none" stroke="#191970" d="M223.5347,-48C241.6402,-48 263.0566,-48 282.1895,-48"/>
 <polygon fill="#191970" stroke="#191970" points="282.2517,-51.5001 292.2517,-48 282.2517,-44.5001 282.2517,-51.5001"/>
 </g>
-<!-- Node956 -->
+<!-- Node964 -->
 <g id="node6" class="node">
-<title>Node956</title>
+<title>Node964</title>
 <g id="a_node6"><a xlink:href="classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="SNN::getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="279,-.5 279,-19.5 389,-19.5 389,-.5 279,-.5"/>
 <text text-anchor="middle" x="334" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node952&#45;&gt;Node956 -->
+<!-- Node960&#45;&gt;Node964 -->
 <g id="edge5" class="edge">
-<title>Node952&#45;&gt;Node956</title>
+<title>Node960&#45;&gt;Node964</title>
 <path fill="none" stroke="#191970" d="M220.356,-38.411C240.3237,-33.4191 264.9295,-27.2676 286.1334,-21.9666"/>
 <polygon fill="#191970" stroke="#191970" points="287.0673,-25.341 295.9198,-19.5201 285.3695,-18.55 287.0673,-25.341"/>
 </g>
-<!-- Node955 -->
+<!-- Node963 -->
 <g id="node5" class="node">
-<title>Node955</title>
+<title>Node963</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="428,-38.5 428,-57.5 538,-57.5 538,-38.5 428,-38.5"/>
 <text text-anchor="middle" x="483" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node954&#45;&gt;Node955 -->
+<!-- Node962&#45;&gt;Node963 -->
 <g id="edge4" class="edge">
-<title>Node954&#45;&gt;Node955</title>
+<title>Node962&#45;&gt;Node963</title>
 <path fill="none" stroke="#191970" d="M375.5048,-48C388.5315,-48 403.2449,-48 417.5109,-48"/>
 <polygon fill="#191970" stroke="#191970" points="417.7892,-51.5001 427.7892,-48 417.7891,-44.5001 417.7892,-51.5001"/>
 </g>
-<!-- Node957&#45;&gt;Node953 -->
+<!-- Node965&#45;&gt;Node961 -->
 <g id="edge8" class="edge">
-<title>Node957&#45;&gt;Node953</title>
+<title>Node965&#45;&gt;Node961</title>
 <path fill="none" stroke="#191970" d="M220.356,-95.589C240.3237,-100.5809 264.9295,-106.7324 286.1334,-112.0334"/>
 <polygon fill="#191970" stroke="#191970" points="285.3695,-115.45 295.9198,-114.4799 287.0673,-108.659 285.3695,-115.45"/>
 </g>
-<!-- Node957&#45;&gt;Node954 -->
+<!-- Node965&#45;&gt;Node962 -->
 <g id="edge9" class="edge">
-<title>Node957&#45;&gt;Node954</title>
+<title>Node965&#45;&gt;Node962</title>
 <path fill="none" stroke="#191970" d="M220.356,-76.411C240.3237,-71.4191 264.9295,-65.2676 286.1334,-59.9666"/>
 <polygon fill="#191970" stroke="#191970" points="287.0673,-63.341 295.9198,-57.5201 285.3695,-56.55 287.0673,-63.341"/>
 </g>
-<!-- Node958 -->
+<!-- Node966 -->
 <g id="node8" class="node">
-<title>Node958</title>
+<title>Node966</title>
 <g id="a_node8"><a xlink:href="classSNN.html#a3764348d44236ad4932627cd4d199c31" target="_top" xlink:title="SNN::isPoissonGroup">
 <polygon fill="#ffffff" stroke="#000000" points="277.5,-76.5 277.5,-95.5 390.5,-95.5 390.5,-76.5 277.5,-76.5"/>
 <text text-anchor="middle" x="334" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isPoissonGroup</text>
 </a>
 </g>
 </g>
-<!-- Node957&#45;&gt;Node958 -->
+<!-- Node965&#45;&gt;Node966 -->
 <g id="edge10" class="edge">
-<title>Node957&#45;&gt;Node958</title>
+<title>Node965&#45;&gt;Node966</title>
 <path fill="none" stroke="#191970" d="M225.1505,-86C238.2165,-86 252.8865,-86 267.1231,-86"/>
 <polygon fill="#191970" stroke="#191970" points="267.384,-89.5001 277.3839,-86 267.3839,-82.5001 267.384,-89.5001"/>
 </g>

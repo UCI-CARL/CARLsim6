@@ -14,7 +14,8 @@ var menudata={children:[
 {text:"11. Regression Suite",url:"ch11_regression_suite.html"},
 {text:"12. Advanced Topics",url:"ch12_advanced_topics.html"},
 {text:"13. pyCARL",url:"ch14_pyCARL.html"},
-{text:"14. Neuromodulation",url:"ch20_neuromodulation.html"}]},
+{text:"14. Neuromodulation",url:"ch20_neuromodulation.html"},
+{text:"15. Axonal Plasticity",url:"ch21_axonplast.html"}]},
 {text:"Tutorial",url:"usergroup1.html",children:[
 {text:"1. Basic Concepts",url:"tut1_basic_concepts.html"},
 {text:"2. 80-20 Random Spiking Network",url:"tut2_random_spnet.html"},

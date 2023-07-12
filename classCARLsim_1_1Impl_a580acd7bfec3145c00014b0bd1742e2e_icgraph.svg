@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setConductances</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 275,-24 275,4 -4,4"/>
-<!-- Node731 -->
+<!-- Node739 -->
 <g id="node1" class="node">
-<title>Node731</title>
+<title>Node739</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 93,-19.5 93,-.5 0,-.5"/>
 <text text-anchor="middle" x="46.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setConductances</text>
 </g>
-<!-- Node732 -->
+<!-- Node740 -->
 <g id="node2" class="node">
-<title>Node732</title>
+<title>Node740</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a580acd7bfec3145c00014b0bd1742e2e" target="_top" xlink:title="Sets default values for conduction decay and rise times or disables COBA alltogether. ">
 <polygon fill="#ffffff" stroke="#000000" points="129,-.5 129,-19.5 271,-19.5 271,-.5 129,-.5"/>
 <text text-anchor="middle" x="200" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setConductances</text>
 </a>
 </g>
 </g>
-<!-- Node731&#45;&gt;Node732 -->
+<!-- Node739&#45;&gt;Node740 -->
 <g id="edge1" class="edge">
-<title>Node731&#45;&gt;Node732</title>
+<title>Node739&#45;&gt;Node740</title>
 <path fill="none" stroke="#191970" d="M103.5962,-10C111.8151,-10 120.3563,-10 128.8073,-10"/>
 <polygon fill="#191970" stroke="#191970" points="103.3892,-6.5001 93.3891,-10 103.3891,-13.5001 103.3892,-6.5001"/>
 </g>

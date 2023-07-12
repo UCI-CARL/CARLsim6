@@ -48,22 +48,22 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 1004;
 var viewHeight = 170;
-var sectionId = 'dynsection-57';
+var sectionId = 'dynsection-58';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>getWeightRange</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-166 1000,-166 1000,4 -4,4"/>
-<!-- Node351 -->
+<!-- Node355 -->
 <g id="node1" class="node">
-<title>Node351</title>
+<title>Node355</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-104.5 0,-123.5 89,-123.5 89,-104.5 0,-104.5"/>
 <text text-anchor="middle" x="44.5" y="-111.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getWeightRange</text>
 </g>
-<!-- Node352 -->
+<!-- Node356 -->
 <g id="node2" class="node">
-<title>Node352</title>
+<title>Node356</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a4afa2f85f5939e81ec45c7760e23d932" target="_top" xlink:title="CARLsim::Impl::getWeight\lRange">
 <polygon fill="#ffffff" stroke="#000000" points="125,-99 125,-129 259,-129 259,-99 125,-99"/>
 <text text-anchor="start" x="133" y="-117" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getWeight</text>
@@ -71,150 +71,150 @@ var sectionId = 'dynsection-57';
 </a>
 </g>
 </g>
-<!-- Node351&#45;&gt;Node352 -->
+<!-- Node355&#45;&gt;Node356 -->
 <g id="edge1" class="edge">
-<title>Node351&#45;&gt;Node352</title>
+<title>Node355&#45;&gt;Node356</title>
 <path fill="none" stroke="#191970" d="M89.1551,-114C97.2606,-114 105.9246,-114 114.6558,-114"/>
 <polygon fill="#191970" stroke="#191970" points="114.9071,-117.5001 124.907,-114 114.907,-110.5001 114.9071,-117.5001"/>
 </g>
-<!-- Node353 -->
+<!-- Node357 -->
 <g id="node3" class="node">
-<title>Node353</title>
+<title>Node357</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="326.5,-142.5 326.5,-161.5 442.5,-161.5 442.5,-142.5 326.5,-142.5"/>
 <text text-anchor="middle" x="384.5" y="-149.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node352&#45;&gt;Node353 -->
+<!-- Node356&#45;&gt;Node357 -->
 <g id="edge2" class="edge">
-<title>Node352&#45;&gt;Node353</title>
+<title>Node356&#45;&gt;Node357</title>
 <path fill="none" stroke="#191970" d="M259.0569,-127.2372C280.9761,-131.5641 305.1263,-136.3314 326.335,-140.5181"/>
 <polygon fill="#191970" stroke="#191970" points="325.6811,-143.9565 336.1697,-142.4595 327.0369,-137.089 325.6811,-143.9565"/>
 </g>
-<!-- Node354 -->
+<!-- Node358 -->
 <g id="node4" class="node">
-<title>Node354</title>
+<title>Node358</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="CARLsim::Impl::getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="295,-104.5 295,-123.5 474,-123.5 474,-104.5 295,-104.5"/>
 <text text-anchor="middle" x="384.5" y="-111.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node352&#45;&gt;Node354 -->
+<!-- Node356&#45;&gt;Node358 -->
 <g id="edge3" class="edge">
-<title>Node352&#45;&gt;Node354</title>
+<title>Node356&#45;&gt;Node358</title>
 <path fill="none" stroke="#191970" d="M259.0569,-114C267.4017,-114 276.0699,-114 284.7761,-114"/>
 <polygon fill="#191970" stroke="#191970" points="284.9967,-117.5001 294.9967,-114 284.9967,-110.5001 284.9967,-117.5001"/>
 </g>
-<!-- Node358 -->
+<!-- Node362 -->
 <g id="node8" class="node">
-<title>Node358</title>
+<title>Node362</title>
 <g id="a_node8"><a xlink:href="classSNN.html#a4afa2f85f5939e81ec45c7760e23d932" target="_top" xlink:title="returns RangeWeight struct of a connection ">
 <polygon fill="#ffffff" stroke="#000000" points="326,-57.5 326,-76.5 443,-76.5 443,-57.5 326,-57.5"/>
 <text text-anchor="middle" x="384.5" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getWeightRange</text>
 </a>
 </g>
 </g>
-<!-- Node352&#45;&gt;Node358 -->
+<!-- Node356&#45;&gt;Node362 -->
 <g id="edge7" class="edge">
-<title>Node352&#45;&gt;Node358</title>
+<title>Node356&#45;&gt;Node362</title>
 <path fill="none" stroke="#191970" d="M253.4375,-98.9997C279.9354,-92.53 310.5018,-85.0671 335.4472,-78.9765"/>
 <polygon fill="#191970" stroke="#191970" points="336.528,-82.3155 345.4125,-76.5434 334.8677,-75.5153 336.528,-82.3155"/>
 </g>
-<!-- Node355 -->
+<!-- Node359 -->
 <g id="node5" class="node">
-<title>Node355</title>
+<title>Node359</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="SNN::getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="511,-114.5 511,-133.5 645,-133.5 645,-114.5 511,-114.5"/>
 <text text-anchor="middle" x="578" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node354&#45;&gt;Node355 -->
+<!-- Node358&#45;&gt;Node359 -->
 <g id="edge4" class="edge">
-<title>Node354&#45;&gt;Node355</title>
+<title>Node358&#45;&gt;Node359</title>
 <path fill="none" stroke="#191970" d="M474.1694,-118.6341C483.0514,-119.0931 492.0133,-119.5562 500.7536,-120.0079"/>
 <polygon fill="#191970" stroke="#191970" points="500.7269,-123.5111 510.8942,-120.532 501.0882,-116.5205 500.7269,-123.5111"/>
 </g>
-<!-- Node356 -->
+<!-- Node360 -->
 <g id="node6" class="node">
-<title>Node356</title>
+<title>Node360</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a52f149e224abff772962dea6680398e2" target="_top" xlink:title="gets number of connections associated with a connection ID ">
 <polygon fill="#ffffff" stroke="#000000" points="682,-114.5 682,-133.5 854,-133.5 854,-114.5 682,-114.5"/>
 <text text-anchor="middle" x="768" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumSynapticConnections</text>
 </a>
 </g>
 </g>
-<!-- Node355&#45;&gt;Node356 -->
+<!-- Node359&#45;&gt;Node360 -->
 <g id="edge5" class="edge">
-<title>Node355&#45;&gt;Node356</title>
+<title>Node359&#45;&gt;Node360</title>
 <path fill="none" stroke="#191970" d="M645.2543,-124C653.8637,-124 662.8063,-124 671.7636,-124"/>
 <polygon fill="#191970" stroke="#191970" points="671.866,-127.5001 681.866,-124 671.8659,-120.5001 671.866,-127.5001"/>
 </g>
-<!-- Node357 -->
+<!-- Node361 -->
 <g id="node7" class="node">
-<title>Node357</title>
+<title>Node361</title>
 <g id="a_node7"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="890,-95.5 890,-114.5 996,-114.5 996,-95.5 890,-95.5"/>
 <text text-anchor="middle" x="943" y="-102.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node356&#45;&gt;Node357 -->
+<!-- Node360&#45;&gt;Node361 -->
 <g id="edge6" class="edge">
-<title>Node356&#45;&gt;Node357</title>
+<title>Node360&#45;&gt;Node361</title>
 <path fill="none" stroke="#191970" d="M854.2183,-114.6392C862.711,-113.7171 871.2199,-112.7933 879.4247,-111.9025"/>
 <polygon fill="#191970" stroke="#191970" points="880.067,-115.3534 889.6308,-110.7944 879.3114,-108.3943 880.067,-115.3534"/>
 </g>
-<!-- Node358&#45;&gt;Node357 -->
+<!-- Node362&#45;&gt;Node361 -->
 <g id="edge11" class="edge">
-<title>Node358&#45;&gt;Node357</title>
+<title>Node362&#45;&gt;Node361</title>
 <path fill="none" stroke="#191970" d="M443.2137,-70.9948C549.0253,-78.1942 770.8199,-93.285 879.8099,-100.7006"/>
 <polygon fill="#191970" stroke="#191970" points="879.783,-104.2068 889.9975,-101.3937 880.2582,-97.2229 879.783,-104.2068"/>
 </g>
-<!-- Node359 -->
+<!-- Node363 -->
 <g id="node9" class="node">
-<title>Node359</title>
+<title>Node363</title>
 <g id="a_node9"><a xlink:href="classSNN.html#a3c23ef1a19946fdd9c096367a45ac48e" target="_top" xlink:title="Sets the integration method and the number of integration steps per 1ms simulation time step...">
 <polygon fill="#ffffff" stroke="#000000" points="510,-38.5 510,-57.5 646,-57.5 646,-38.5 510,-38.5"/>
 <text text-anchor="middle" x="578" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setIntegrationMethod</text>
 </a>
 </g>
 </g>
-<!-- Node358&#45;&gt;Node359 -->
+<!-- Node362&#45;&gt;Node363 -->
 <g id="edge8" class="edge">
-<title>Node358&#45;&gt;Node359</title>
+<title>Node362&#45;&gt;Node363</title>
 <path fill="none" stroke="#191970" d="M443.0815,-61.2478C460.902,-59.498 480.7801,-57.5461 499.6832,-55.69"/>
 <polygon fill="#191970" stroke="#191970" points="500.1531,-59.1608 509.7632,-54.7003 499.469,-52.1943 500.1531,-59.1608"/>
 </g>
-<!-- Node360 -->
+<!-- Node364 -->
 <g id="node10" class="node">
-<title>Node360</title>
+<title>Node364</title>
 <g id="a_node10"><a xlink:href="classSpikeBuffer.html#ac6bf1a12c5c98ddec5b65e07fe74cabe" target="_top" xlink:title="advance to next time step ">
 <polygon fill="#ffffff" stroke="#000000" points="532,-.5 532,-19.5 624,-19.5 624,-.5 532,-.5"/>
 <text text-anchor="middle" x="578" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeBuffer::step</text>
 </a>
 </g>
 </g>
-<!-- Node358&#45;&gt;Node360 -->
+<!-- Node362&#45;&gt;Node364 -->
 <g id="edge9" class="edge">
-<title>Node358&#45;&gt;Node360</title>
+<title>Node362&#45;&gt;Node364</title>
 <path fill="none" stroke="#191970" d="M415.3899,-57.4444C440.7591,-49.6453 477.6501,-38.4159 510,-29 517.6133,-26.784 525.7208,-24.4748 533.5868,-22.261"/>
 <polygon fill="#191970" stroke="#191970" points="534.6803,-25.5894 543.3656,-19.5219 532.7922,-18.8489 534.6803,-25.5894"/>
 </g>
-<!-- Node361 -->
+<!-- Node365 -->
 <g id="node11" class="node">
-<title>Node361</title>
+<title>Node365</title>
 <g id="a_node11"><a xlink:href="classSpikeBuffer_1_1Impl.html#ac6bf1a12c5c98ddec5b65e07fe74cabe" target="_top" xlink:title="SpikeBuffer::Impl::step">
 <polygon fill="#ffffff" stroke="#000000" points="709.5,-.5 709.5,-19.5 826.5,-19.5 826.5,-.5 709.5,-.5"/>
 <text text-anchor="middle" x="768" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeBuffer::Impl::step</text>
 </a>
 </g>
 </g>
-<!-- Node360&#45;&gt;Node361 -->
+<!-- Node364&#45;&gt;Node365 -->
 <g id="edge10" class="edge">
-<title>Node360&#45;&gt;Node361</title>
+<title>Node364&#45;&gt;Node365</title>
 <path fill="none" stroke="#191970" d="M624.4792,-10C646.9773,-10 674.4382,-10 699.2928,-10"/>
 <polygon fill="#191970" stroke="#191970" points="699.3979,-13.5001 709.3978,-10 699.3978,-6.5001 699.3979,-13.5001"/>
 </g>

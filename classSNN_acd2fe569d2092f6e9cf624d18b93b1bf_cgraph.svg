@@ -9,159 +9,159 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 366)">
 <title>getLogFpLog</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-366 255,-366 255,4 -4,4"/>
-<!-- Node653 -->
+<!-- Node657 -->
 <g id="node1" class="node">
-<title>Node653</title>
+<title>Node657</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-171.5 0,-190.5 73,-190.5 73,-171.5 0,-171.5"/>
 <text text-anchor="middle" x="36.5" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getLogFpLog</text>
 </g>
-<!-- Node654 -->
+<!-- Node658 -->
 <g id="node2" class="node">
-<title>Node654</title>
+<title>Node658</title>
 <g id="a_node2"><a xlink:href="classSNN.html#a2f4a65f43d2b15b984464dfb19959fe3" target="_top" xlink:title="Sets the file pointers for all log files file pointer NULL means don&#39;t change it. ...">
 <polygon fill="#ffffff" stroke="#000000" points="149,-342.5 149,-361.5 211,-361.5 211,-342.5 149,-342.5"/>
 <text text-anchor="middle" x="180" y="-349.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setLogsFp</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node654 -->
+<!-- Node657&#45;&gt;Node658 -->
 <g id="edge1" class="edge">
-<title>Node653&#45;&gt;Node654</title>
+<title>Node657&#45;&gt;Node658</title>
 <path fill="none" stroke="#191970" d="M38.1826,-190.5387C43.4245,-217.3447 62.0135,-293.9344 109,-333 117.4021,-339.9857 128.1275,-344.4239 138.6818,-347.2372"/>
 <polygon fill="#191970" stroke="#191970" points="138.1446,-350.7034 148.667,-349.4668 139.6701,-343.8716 138.1446,-350.7034"/>
 </g>
-<!-- Node655 -->
+<!-- Node659 -->
 <g id="node3" class="node">
-<title>Node655</title>
+<title>Node659</title>
 <g id="a_node3"><a xlink:href="classSNN.html#a44b05911f213714c351379021852e12a" target="_top" xlink:title="find connection ID based on pre&#45;post group pair, O(N) ">
 <polygon fill="#ffffff" stroke="#000000" points="142.5,-304.5 142.5,-323.5 217.5,-323.5 217.5,-304.5 142.5,-304.5"/>
 <text text-anchor="middle" x="180" y="-311.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConnectId</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node655 -->
+<!-- Node657&#45;&gt;Node659 -->
 <g id="edge2" class="edge">
-<title>Node653&#45;&gt;Node655</title>
+<title>Node657&#45;&gt;Node659</title>
 <path fill="none" stroke="#191970" d="M39.8376,-190.6635C47.9722,-212.7402 70.987,-267.1141 109,-295 115.9512,-300.0993 124.1786,-303.8305 132.5245,-306.5604"/>
 <polygon fill="#191970" stroke="#191970" points="131.7316,-309.9734 142.3067,-309.3272 133.6368,-303.2376 131.7316,-309.9734"/>
 </g>
-<!-- Node656 -->
+<!-- Node660 -->
 <g id="node4" class="node">
-<title>Node656</title>
+<title>Node660</title>
 <g id="a_node4"><a xlink:href="classSNN.html#acdfe8b1c7c69be228cc51535cfec0215" target="_top" xlink:title="required for homeostasis ">
 <polygon fill="#ffffff" stroke="#000000" points="132.5,-266.5 132.5,-285.5 227.5,-285.5 227.5,-266.5 132.5,-266.5"/>
 <text text-anchor="middle" x="180" y="-273.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConnectConfig</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node656 -->
+<!-- Node657&#45;&gt;Node660 -->
 <g id="edge3" class="edge">
-<title>Node653&#45;&gt;Node656</title>
+<title>Node657&#45;&gt;Node660</title>
 <path fill="none" stroke="#191970" d="M42.8868,-190.5372C54.2348,-206.7238 79.512,-239.5151 109,-257 113.3474,-259.5778 118.0492,-261.8128 122.8917,-263.7493"/>
 <polygon fill="#191970" stroke="#191970" points="121.7266,-267.0496 132.3213,-267.117 124.0811,-260.4574 121.7266,-267.0496"/>
 </g>
-<!-- Node657 -->
+<!-- Node661 -->
 <g id="node5" class="node">
-<title>Node657</title>
+<title>Node661</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a37221c7881b5fa8d1d806804fb9521ab" target="_top" xlink:title="getConnSTDPInfo">
 <polygon fill="#ffffff" stroke="#000000" points="131.5,-228.5 131.5,-247.5 228.5,-247.5 228.5,-228.5 131.5,-228.5"/>
 <text text-anchor="middle" x="180" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConnSTDPInfo</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node657 -->
+<!-- Node657&#45;&gt;Node661 -->
 <g id="edge4" class="edge">
-<title>Node653&#45;&gt;Node657</title>
+<title>Node657&#45;&gt;Node661</title>
 <path fill="none" stroke="#191970" d="M52.1475,-190.5009C66.518,-198.9077 88.613,-211.0428 109,-219 115.2294,-221.4314 121.8838,-223.6636 128.528,-225.6762"/>
 <polygon fill="#191970" stroke="#191970" points="127.6264,-229.0587 138.2047,-228.4654 129.5653,-222.3326 127.6264,-229.0587"/>
 </g>
-<!-- Node658 -->
+<!-- Node662 -->
 <g id="node6" class="node">
-<title>Node658</title>
+<title>Node662</title>
 <g id="a_node6"><a xlink:href="classSNN.html#aee3e497537bc8121f6c0c8fb3730ae72" target="_top" xlink:title="returns the RangeDelay struct of a connection ">
 <polygon fill="#ffffff" stroke="#000000" points="138,-190.5 138,-209.5 222,-209.5 222,-190.5 138,-190.5"/>
 <text text-anchor="middle" x="180" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getDelayRange</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node658 -->
+<!-- Node657&#45;&gt;Node662 -->
 <g id="edge5" class="edge">
-<title>Node653&#45;&gt;Node658</title>
+<title>Node657&#45;&gt;Node662</title>
 <path fill="none" stroke="#191970" d="M73.0824,-185.8437C89.6803,-188.0413 109.6139,-190.6806 127.749,-193.0818"/>
 <polygon fill="#191970" stroke="#191970" points="127.5193,-196.5818 137.8922,-194.4248 128.4382,-189.6424 127.5193,-196.5818"/>
 </g>
-<!-- Node659 -->
+<!-- Node663 -->
 <g id="node7" class="node">
-<title>Node659</title>
+<title>Node663</title>
 <g id="a_node7"><a xlink:href="classSNN.html#a317da03ce4b0b13d9621e277f468e058" target="_top" xlink:title="Returns the delay information for all synaptic connections between a pre&#45;synaptic and a post&#45;synaptic...">
 <polygon fill="#ffffff" stroke="#000000" points="149.5,-152.5 149.5,-171.5 210.5,-171.5 210.5,-152.5 149.5,-152.5"/>
 <text text-anchor="middle" x="180" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getDelays</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node659 -->
+<!-- Node657&#45;&gt;Node663 -->
 <g id="edge6" class="edge">
-<title>Node653&#45;&gt;Node659</title>
+<title>Node657&#45;&gt;Node663</title>
 <path fill="none" stroke="#191970" d="M73.0824,-176.1563C93.2568,-173.4852 118.3593,-170.1615 139.1703,-167.406"/>
 <polygon fill="#191970" stroke="#191970" points="139.8524,-170.8463 149.3064,-166.064 138.9335,-163.9069 139.8524,-170.8463"/>
 </g>
-<!-- Node660 -->
+<!-- Node664 -->
 <g id="node8" class="node">
-<title>Node660</title>
+<title>Node664</title>
 <g id="a_node8"><a xlink:href="classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" target="_top" xlink:title="getGroupGrid3D">
 <polygon fill="#ffffff" stroke="#000000" points="136.5,-114.5 136.5,-133.5 223.5,-133.5 223.5,-114.5 136.5,-114.5"/>
 <text text-anchor="middle" x="180" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupGrid3D</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node660 -->
+<!-- Node657&#45;&gt;Node664 -->
 <g id="edge7" class="edge">
-<title>Node653&#45;&gt;Node660</title>
+<title>Node657&#45;&gt;Node664</title>
 <path fill="none" stroke="#191970" d="M52.1475,-171.4991C66.518,-163.0923 88.613,-150.9572 109,-143 115.2294,-140.5686 121.8838,-138.3364 128.528,-136.3238"/>
 <polygon fill="#191970" stroke="#191970" points="129.5653,-139.6674 138.2047,-133.5346 127.6264,-132.9413 129.5653,-139.6674"/>
 </g>
-<!-- Node661 -->
+<!-- Node665 -->
 <g id="node9" class="node">
-<title>Node661</title>
+<title>Node665</title>
 <g id="a_node9"><a xlink:href="classSNN.html#a757c874860e9e4d5ce0716e76b1a3e78" target="_top" xlink:title="getGroupId">
 <polygon fill="#ffffff" stroke="#000000" points="147.5,-76.5 147.5,-95.5 212.5,-95.5 212.5,-76.5 147.5,-76.5"/>
 <text text-anchor="middle" x="180" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupId</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node661 -->
+<!-- Node657&#45;&gt;Node665 -->
 <g id="edge8" class="edge">
-<title>Node653&#45;&gt;Node661</title>
+<title>Node657&#45;&gt;Node665</title>
 <path fill="none" stroke="#191970" d="M42.8868,-171.4628C54.2348,-155.2762 79.512,-122.4849 109,-105 117.6348,-99.88 127.6677,-96.1125 137.424,-93.3497"/>
 <polygon fill="#191970" stroke="#191970" points="138.585,-96.6663 147.4207,-90.8198 136.8676,-89.8803 138.585,-96.6663"/>
 </g>
-<!-- Node662 -->
+<!-- Node666 -->
 <g id="node10" class="node">
-<title>Node662</title>
+<title>Node666</title>
 <g id="a_node10"><a xlink:href="classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="138.5,-38.5 138.5,-57.5 221.5,-57.5 221.5,-38.5 138.5,-38.5"/>
 <text text-anchor="middle" x="180" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node662 -->
+<!-- Node657&#45;&gt;Node666 -->
 <g id="edge9" class="edge">
-<title>Node653&#45;&gt;Node662</title>
+<title>Node657&#45;&gt;Node666</title>
 <path fill="none" stroke="#191970" d="M39.8376,-171.3365C47.9722,-149.2598 70.987,-94.8859 109,-67 114.8709,-62.6932 121.6522,-59.3623 128.6463,-56.7863"/>
 <polygon fill="#191970" stroke="#191970" points="129.7879,-60.096 138.2501,-53.7208 127.6593,-53.4275 129.7879,-60.096"/>
 </g>
-<!-- Node663 -->
+<!-- Node667 -->
 <g id="node11" class="node">
-<title>Node663</title>
+<title>Node667</title>
 <g id="a_node11"><a xlink:href="classSNN.html#aa1c9457d6e17337cfc20cee263f1159f" target="_top" xlink:title="getGroupNeuromodulatorInfo">
 <polygon fill="#ffffff" stroke="#000000" points="109,-.5 109,-19.5 251,-19.5 251,-.5 109,-.5"/>
 <text text-anchor="middle" x="180" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupNeuromodulatorInfo</text>
 </a>
 </g>
 </g>
-<!-- Node653&#45;&gt;Node663 -->
+<!-- Node657&#45;&gt;Node667 -->
 <g id="edge10" class="edge">
-<title>Node653&#45;&gt;Node663</title>
+<title>Node657&#45;&gt;Node667</title>
 <path fill="none" stroke="#191970" d="M38.1826,-171.4613C43.4245,-144.6553 62.0135,-68.0656 109,-29 111.0176,-27.3226 113.1691,-25.792 115.42,-24.3956"/>
 <polygon fill="#191970" stroke="#191970" points="117.2747,-27.3757 124.5218,-19.6473 114.0369,-21.1695 117.2747,-27.3757"/>
 </g>

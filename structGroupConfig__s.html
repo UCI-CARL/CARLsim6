@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CARLsim
-   &#160;<span id="projectnumber">6.0.0</span>
+   &#160;<span id="projectnumber">6.1.0</span>
    </div>
    <div id="projectbrief">CARLsim: a GPU-accelerated SNN simulator</div>
   </td>
@@ -97,8 +97,7 @@ $(document).ready(function(){initNavTree('structGroupConfig__s.html','');});
 <div class="dynheader">
 Collaboration diagram for GroupConfig_s:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="structGroupConfig__s__coll__graph.svg" width="476" height="506"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="structGroupConfig__s__coll__graph.svg" width="476" height="506"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -111,6 +110,8 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:af82556c7104104738bbf482d433d37ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="snn__datastructures_8h.html#af28a795fde1434e519cd2008e7be1284">ACNE12Config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGroupConfig__s.html#af82556c7104104738bbf482d433d37ad">acneConfig</a></td></tr>
 <tr class="memdesc:af82556c7104104738bbf482d433d37ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">ACNE config at group level.  <a href="#af82556c7104104738bbf482d433d37ad">More...</a><br /></td></tr>
 <tr class="separator:af82556c7104104738bbf482d433d37ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1c9634803a9f5af29880415ea19bc81"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGroupConfig__s.html#aa1c9634803a9f5af29880415ea19bc81">AxonPlast_TAU</a></td></tr>
+<tr class="separator:aa1c9634803a9f5af29880415ea19bc81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95047fffdea3638d59beb9879d017466"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGroupConfig__s.html#a95047fffdea3638d59beb9879d017466">compCouplingDown</a></td></tr>
 <tr class="separator:a95047fffdea3638d59beb9879d017466"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5393b8e1e349bd99ac658a68c5166fff"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGroupConfig__s.html#a5393b8e1e349bd99ac658a68c5166fff">compCouplingUp</a></td></tr>
@@ -157,6 +158,8 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a5031ed8980f58badcd4fc5666a22d7f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGroupConfig__s.html#a5031ed8980f58badcd4fc5666a22d7f5">with_NMDA_rise</a></td></tr>
 <tr class="memdesc:a5031ed8980f58badcd4fc5666a22d7f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">replaces sim_with_NMDA_rise  <a href="#a5031ed8980f58badcd4fc5666a22d7f5">More...</a><br /></td></tr>
 <tr class="separator:a5031ed8980f58badcd4fc5666a22d7f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4254bd1d66709f572c393c33c1f5dc44"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGroupConfig__s.html#a4254bd1d66709f572c393c33c1f5dc44">WithAxonPlast</a></td></tr>
+<tr class="separator:a4254bd1d66709f572c393c33c1f5dc44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff7eaa76b4f9a633f31599d755138c68"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGroupConfig__s.html#aff7eaa76b4f9a633f31599d755138c68">withCompartments</a></td></tr>
 <tr class="separator:aff7eaa76b4f9a633f31599d755138c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b1b30ad9d43c553f7d01baa7a525028"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structGroupConfig__s.html#a4b1b30ad9d43c553f7d01baa7a525028">WithDA_MOD</a></td></tr>
@@ -216,7 +219,23 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00473">473</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00477">477</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+
+</div>
+</div>
+<a id="aa1c9634803a9f5af29880415ea19bc81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1c9634803a9f5af29880415ea19bc81">&#9670;&nbsp;</a></span>AxonPlast_TAU</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int AxonPlast_TAU</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00483">483</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -232,7 +251,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00452">452</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00456">456</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -248,7 +267,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00451">451</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00455">455</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -264,7 +283,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00472">472</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00476">476</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -280,7 +299,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00462">462</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00466">466</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -296,7 +315,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00442">442</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00446">446</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -312,7 +331,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00466">466</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00470">470</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -328,7 +347,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00469">469</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00473">473</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -344,7 +363,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00448">448</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00452">452</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -360,7 +379,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00446">446</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00450">450</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -376,7 +395,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00463">463</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00467">467</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -392,7 +411,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00467">467</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00471">471</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -408,7 +427,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00475">475</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00479">479</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -424,7 +443,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00474">474</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00478">478</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -440,7 +459,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00445">445</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00449">449</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -456,7 +475,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00443">443</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00447">447</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -472,7 +491,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00460">460</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00464">464</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -488,7 +507,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00465">465</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00469">469</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -504,7 +523,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00444">444</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00448">448</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -520,7 +539,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00471">471</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00475">475</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -536,7 +555,23 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00470">470</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00474">474</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+
+</div>
+</div>
+<a id="a4254bd1d66709f572c393c33c1f5dc44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4254bd1d66709f572c393c33c1f5dc44">&#9670;&nbsp;</a></span>WithAxonPlast</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool WithAxonPlast</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00482">482</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -552,7 +587,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00449">449</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00453">453</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -568,7 +603,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00455">455</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00459">459</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -584,7 +619,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00447">447</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00451">451</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -600,7 +635,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00457">457</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00461">461</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -616,7 +651,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00454">454</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__datastructures_8h_source.html#l00458">458</a> of file <a class="el" href="snn__datastructures_8h_source.html">snn_datastructures.h</a>.</p>
 
 </div>
 </div>
@@ -629,7 +664,7 @@ Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="structGroupConfig__s.html">GroupConfig_s</a></li>
-    <li class="footer">Generated on Thu Jul 14 2022 18:14:06 for CARLsim by
+    <li class="footer">Generated on Mon Jul 10 2023 12:42:46 for CARLsim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

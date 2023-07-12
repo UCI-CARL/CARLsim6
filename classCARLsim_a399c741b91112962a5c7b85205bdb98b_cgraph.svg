@@ -9,39 +9,39 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getNumNeuronsReg</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 495,-24 495,4 -4,4"/>
-<!-- Node300 -->
+<!-- Node304 -->
 <g id="node1" class="node">
-<title>Node300</title>
+<title>Node304</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 106,-19.5 106,-.5 0,-.5"/>
 <text text-anchor="middle" x="53" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumNeuronsReg</text>
 </g>
-<!-- Node301 -->
+<!-- Node305 -->
 <g id="node2" class="node">
-<title>Node301</title>
+<title>Node305</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a399c741b91112962a5c7b85205bdb98b" target="_top" xlink:title="CARLsim::Impl::getNumNeuronsReg">
 <polygon fill="#ffffff" stroke="#000000" points="142,-.5 142,-19.5 321,-19.5 321,-.5 142,-.5"/>
 <text text-anchor="middle" x="231.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumNeuronsReg</text>
 </a>
 </g>
 </g>
-<!-- Node300&#45;&gt;Node301 -->
+<!-- Node304&#45;&gt;Node305 -->
 <g id="edge1" class="edge">
-<title>Node300&#45;&gt;Node301</title>
+<title>Node304&#45;&gt;Node305</title>
 <path fill="none" stroke="#191970" d="M106.0726,-10C114.286,-10 122.9914,-10 131.8351,-10"/>
 <polygon fill="#191970" stroke="#191970" points="131.8599,-13.5001 141.8598,-10 131.8598,-6.5001 131.8599,-13.5001"/>
 </g>
-<!-- Node302 -->
+<!-- Node306 -->
 <g id="node3" class="node">
-<title>Node302</title>
+<title>Node306</title>
 <g id="a_node3"><a xlink:href="classSNN.html#a399c741b91112962a5c7b85205bdb98b" target="_top" xlink:title="SNN::getNumNeuronsReg">
 <polygon fill="#ffffff" stroke="#000000" points="357,-.5 357,-19.5 491,-19.5 491,-.5 357,-.5"/>
 <text text-anchor="middle" x="424" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumNeuronsReg</text>
 </a>
 </g>
 </g>
-<!-- Node301&#45;&gt;Node302 -->
+<!-- Node305&#45;&gt;Node306 -->
 <g id="edge2" class="edge">
-<title>Node301&#45;&gt;Node302</title>
+<title>Node305&#45;&gt;Node306</title>
 <path fill="none" stroke="#191970" d="M321.2688,-10C329.7703,-10 338.3396,-10 346.7097,-10"/>
 <polygon fill="#191970" stroke="#191970" points="346.8027,-13.5001 356.8027,-10 346.8027,-6.5001 346.8027,-13.5001"/>
 </g>

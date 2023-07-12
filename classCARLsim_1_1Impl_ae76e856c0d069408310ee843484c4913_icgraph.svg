@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setLogsFpCustom</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 283,-24 283,4 -4,4"/>
-<!-- Node1011 -->
+<!-- Node1019 -->
 <g id="node1" class="node">
-<title>Node1011</title>
+<title>Node1019</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 97,-19.5 97,-.5 0,-.5"/>
 <text text-anchor="middle" x="48.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setLogsFpCustom</text>
 </g>
-<!-- Node1012 -->
+<!-- Node1020 -->
 <g id="node2" class="node">
-<title>Node1012</title>
+<title>Node1020</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#ae44a5bdfa2bd49f91e588c398d156c89" target="_top" xlink:title="Sets the file pointers for all log files in CUSTOM mode. ">
 <polygon fill="#ffffff" stroke="#000000" points="133,-.5 133,-19.5 279,-19.5 279,-.5 133,-.5"/>
 <text text-anchor="middle" x="206" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setLogsFpCustom</text>
 </a>
 </g>
 </g>
-<!-- Node1011&#45;&gt;Node1012 -->
+<!-- Node1019&#45;&gt;Node1020 -->
 <g id="edge1" class="edge">
-<title>Node1011&#45;&gt;Node1012</title>
+<title>Node1019&#45;&gt;Node1020</title>
 <path fill="none" stroke="#191970" d="M107.0553,-10C115.4211,-10 124.113,-10 132.7174,-10"/>
 <polygon fill="#191970" stroke="#191970" points="107.0404,-6.5001 97.0403,-10 107.0403,-13.5001 107.0404,-6.5001"/>
 </g>

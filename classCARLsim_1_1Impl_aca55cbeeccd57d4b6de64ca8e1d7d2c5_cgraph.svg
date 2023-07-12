@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getLogFpInf</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 204,-24 204,4 -4,4"/>
-<!-- Node274 -->
+<!-- Node278 -->
 <g id="node1" class="node">
-<title>Node274</title>
+<title>Node278</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 68,-19.5 68,-.5 0,-.5"/>
 <text text-anchor="middle" x="34" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getLogFpInf</text>
 </g>
-<!-- Node275 -->
+<!-- Node279 -->
 <g id="node2" class="node">
-<title>Node275</title>
+<title>Node279</title>
 <g id="a_node2"><a xlink:href="classSNN.html#aca55cbeeccd57d4b6de64ca8e1d7d2c5" target="_top" xlink:title="function writes population weights from gIDpre to gIDpost to file fname in binary. ">
 <polygon fill="#ffffff" stroke="#000000" points="104,-.5 104,-19.5 200,-19.5 200,-.5 104,-.5"/>
 <text text-anchor="middle" x="152" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getLogFpInf</text>
 </a>
 </g>
 </g>
-<!-- Node274&#45;&gt;Node275 -->
+<!-- Node278&#45;&gt;Node279 -->
 <g id="edge1" class="edge">
-<title>Node274&#45;&gt;Node275</title>
+<title>Node278&#45;&gt;Node279</title>
 <path fill="none" stroke="#191970" d="M68.1305,-10C76.1538,-10 84.9281,-10 93.6824,-10"/>
 <polygon fill="#191970" stroke="#191970" points="93.9039,-13.5001 103.9038,-10 93.9038,-6.5001 93.9039,-13.5001"/>
 </g>

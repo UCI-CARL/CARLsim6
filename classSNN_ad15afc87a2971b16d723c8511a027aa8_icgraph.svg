@@ -48,22 +48,22 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 580;
 var viewHeight = 66;
-var sectionId = 'dynsection-88';
+var sectionId = 'dynsection-89';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>isInhibitoryGroup</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 576,-62 576,4 -4,4"/>
-<!-- Node1485 -->
+<!-- Node1489 -->
 <g id="node1" class="node">
-<title>Node1485</title>
+<title>Node1489</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 90,-38.5 90,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="45" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isInhibitoryGroup</text>
 </g>
-<!-- Node1486 -->
+<!-- Node1490 -->
 <g id="node2" class="node">
-<title>Node1486</title>
+<title>Node1490</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a3f0193605d59ef263b682a468bbcbf87" target="_top" xlink:title="CARLsim::Impl::isInhibitory\lGroup">
 <polygon fill="#ffffff" stroke="#000000" points="126,-14 126,-44 263,-44 263,-14 126,-14"/>
 <text text-anchor="start" x="134" y="-32" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isInhibitory</text>
@@ -71,54 +71,54 @@ var sectionId = 'dynsection-88';
 </a>
 </g>
 </g>
-<!-- Node1485&#45;&gt;Node1486 -->
+<!-- Node1489&#45;&gt;Node1490 -->
 <g id="edge1" class="edge">
-<title>Node1485&#45;&gt;Node1486</title>
+<title>Node1489&#45;&gt;Node1490</title>
 <path fill="none" stroke="#191970" d="M100.535,-29C108.8153,-29 117.4331,-29 125.9431,-29"/>
 <polygon fill="#191970" stroke="#191970" points="100.2607,-25.5001 90.2606,-29 100.2606,-32.5001 100.2607,-25.5001"/>
 </g>
-<!-- Node1487 -->
+<!-- Node1491 -->
 <g id="node3" class="node">
-<title>Node1487</title>
+<title>Node1491</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#aa2a365fb2d2fa56ec274bc4ba7be6747" target="_top" xlink:title="CARLsim::Impl::setSTP">
 <polygon fill="#ffffff" stroke="#000000" points="307,-38.5 307,-57.5 430,-57.5 430,-38.5 307,-38.5"/>
 <text text-anchor="middle" x="368.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setSTP</text>
 </a>
 </g>
 </g>
-<!-- Node1486&#45;&gt;Node1487 -->
+<!-- Node1490&#45;&gt;Node1491 -->
 <g id="edge2" class="edge">
-<title>Node1486&#45;&gt;Node1487</title>
+<title>Node1490&#45;&gt;Node1491</title>
 <path fill="none" stroke="#191970" d="M273.4477,-37.6207C284.6084,-38.8394 295.9475,-40.0776 306.7216,-41.2541"/>
 <polygon fill="#191970" stroke="#191970" points="273.5903,-34.1156 263.2694,-36.5093 272.8304,-41.0742 273.5903,-34.1156"/>
 </g>
-<!-- Node1489 -->
+<!-- Node1493 -->
 <g id="node5" class="node">
-<title>Node1489</title>
+<title>Node1493</title>
 <g id="a_node5"><a xlink:href="classCARLsim.html#a3f0193605d59ef263b682a468bbcbf87" target="_top" xlink:title="returns ">
 <polygon fill="#ffffff" stroke="#000000" points="299,-.5 299,-19.5 438,-19.5 438,-.5 299,-.5"/>
 <text text-anchor="middle" x="368.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::isInhibitoryGroup</text>
 </a>
 </g>
 </g>
-<!-- Node1486&#45;&gt;Node1489 -->
+<!-- Node1490&#45;&gt;Node1493 -->
 <g id="edge4" class="edge">
-<title>Node1486&#45;&gt;Node1489</title>
+<title>Node1490&#45;&gt;Node1493</title>
 <path fill="none" stroke="#191970" d="M273.2169,-20.4045C281.7496,-19.4727 290.3896,-18.5293 298.8045,-17.6104"/>
 <polygon fill="#191970" stroke="#191970" points="272.8304,-16.9258 263.2694,-21.4907 273.5903,-23.8844 272.8304,-16.9258"/>
 </g>
-<!-- Node1488 -->
+<!-- Node1492 -->
 <g id="node4" class="node">
-<title>Node1488</title>
+<title>Node1492</title>
 <g id="a_node4"><a xlink:href="classCARLsim.html#a54170c96807d6cdf699fa3664f81505e" target="_top" xlink:title="Sets STP params U, tau_u, and tau_x of a neuron group (pre&#45;synaptically) ">
 <polygon fill="#ffffff" stroke="#000000" points="474,-38.5 474,-57.5 572,-57.5 572,-38.5 474,-38.5"/>
 <text text-anchor="middle" x="523" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setSTP</text>
 </a>
 </g>
 </g>
-<!-- Node1487&#45;&gt;Node1488 -->
+<!-- Node1491&#45;&gt;Node1492 -->
 <g id="edge3" class="edge">
-<title>Node1487&#45;&gt;Node1488</title>
+<title>Node1491&#45;&gt;Node1492</title>
 <path fill="none" stroke="#191970" d="M440.2826,-48C451.5501,-48 462.9734,-48 473.5874,-48"/>
 <polygon fill="#191970" stroke="#191970" points="440.0065,-44.5001 430.0064,-48 440.0064,-51.5001 440.0065,-44.5001"/>
 </g>

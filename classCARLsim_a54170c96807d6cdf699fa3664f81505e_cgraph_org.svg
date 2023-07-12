@@ -9,60 +9,60 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 199.5)">
 <title>setSTP</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-199.5 743,-199.5 743,4 -4,4"/>
-<!-- Node1043 -->
+<!-- Node1051 -->
 <g id="node1" class="node">
-<title>Node1043</title>
+<title>Node1051</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-88.5 0,-107.5 50,-107.5 50,-88.5 0,-88.5"/>
 <text text-anchor="middle" x="25" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setSTP</text>
 </g>
-<!-- Node1044 -->
+<!-- Node1052 -->
 <g id="node2" class="node">
-<title>Node1044</title>
+<title>Node1052</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#aa2a365fb2d2fa56ec274bc4ba7be6747" target="_top" xlink:title="CARLsim::Impl::setSTP">
 <polygon fill="#ffffff" stroke="#000000" points="86,-88.5 86,-107.5 209,-107.5 209,-88.5 86,-88.5"/>
 <text text-anchor="middle" x="147.5" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setSTP</text>
 </a>
 </g>
 </g>
-<!-- Node1043&#45;&gt;Node1044 -->
+<!-- Node1051&#45;&gt;Node1052 -->
 <g id="edge1" class="edge">
-<title>Node1043&#45;&gt;Node1044</title>
+<title>Node1051&#45;&gt;Node1052</title>
 <path fill="none" stroke="#191970" d="M50.0853,-98C57.7446,-98 66.5794,-98 75.7375,-98"/>
 <polygon fill="#191970" stroke="#191970" points="75.7615,-101.5001 85.7614,-98 75.7614,-94.5001 75.7615,-101.5001"/>
 </g>
-<!-- Node1045 -->
+<!-- Node1053 -->
 <g id="node3" class="node">
-<title>Node1045</title>
+<title>Node1053</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="CARLsim::Impl::getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="245,-88.5 245,-107.5 401,-107.5 401,-88.5 245,-88.5"/>
 <text text-anchor="middle" x="323" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node1044&#45;&gt;Node1045 -->
+<!-- Node1052&#45;&gt;Node1053 -->
 <g id="edge2" class="edge">
-<title>Node1044&#45;&gt;Node1045</title>
+<title>Node1052&#45;&gt;Node1053</title>
 <path fill="none" stroke="#191970" d="M209.3747,-98C217.6027,-98 226.164,-98 234.732,-98"/>
 <polygon fill="#191970" stroke="#191970" points="234.7734,-101.5001 244.7734,-98 234.7733,-94.5001 234.7734,-101.5001"/>
 </g>
-<!-- Node1046 -->
+<!-- Node1054 -->
 <g id="node4" class="node">
-<title>Node1046</title>
+<title>Node1054</title>
 <g id="a_node4"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="457,-126.5 457,-145.5 573,-145.5 573,-126.5 457,-126.5"/>
 <text text-anchor="middle" x="515" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node1044&#45;&gt;Node1046 -->
+<!-- Node1052&#45;&gt;Node1054 -->
 <g id="edge7" class="edge">
-<title>Node1044&#45;&gt;Node1046</title>
+<title>Node1052&#45;&gt;Node1054</title>
 <path fill="none" stroke="#191970" d="M190.5111,-107.5575C207.4203,-111.0057 227.0482,-114.6282 245,-117 313.2741,-126.0202 391.865,-130.9396 446.5847,-133.4972"/>
 <polygon fill="#191970" stroke="#191970" points="446.7098,-137.0064 456.858,-133.9627 447.0267,-130.0135 446.7098,-137.0064"/>
 </g>
-<!-- Node1050 -->
+<!-- Node1058 -->
 <g id="node8" class="node">
-<title>Node1050</title>
+<title>Node1058</title>
 <g id="a_node8"><a xlink:href="classCARLsim_1_1Impl.html#a31ec8880e31fbcb9d002d713ce0d8f1d" target="_top" xlink:title="CARLsim::Impl::isExcitatory\lGroup">
 <polygon fill="#ffffff" stroke="#000000" points="252,-39 252,-69 394,-69 394,-39 252,-39"/>
 <text text-anchor="start" x="260" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isExcitatory</text>
@@ -70,15 +70,15 @@
 </a>
 </g>
 </g>
-<!-- Node1044&#45;&gt;Node1050 -->
+<!-- Node1052&#45;&gt;Node1058 -->
 <g id="edge8" class="edge">
-<title>Node1044&#45;&gt;Node1050</title>
+<title>Node1052&#45;&gt;Node1058</title>
 <path fill="none" stroke="#191970" d="M185.5809,-88.4527C205.3401,-83.4988 230.1093,-77.2888 253.1571,-71.5105"/>
 <polygon fill="#191970" stroke="#191970" points="254.0611,-74.8922 262.9097,-69.0654 252.3588,-68.1024 254.0611,-74.8922"/>
 </g>
-<!-- Node1052 -->
+<!-- Node1060 -->
 <g id="node10" class="node">
-<title>Node1052</title>
+<title>Node1060</title>
 <g id="a_node10"><a xlink:href="classCARLsim_1_1Impl.html#a3f0193605d59ef263b682a468bbcbf87" target="_top" xlink:title="CARLsim::Impl::isInhibitory\lGroup">
 <polygon fill="#ffffff" stroke="#000000" points="254.5,-165 254.5,-195 391.5,-195 391.5,-165 254.5,-165"/>
 <text text-anchor="start" x="262.5" y="-183" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isInhibitory</text>
@@ -86,129 +86,129 @@
 </a>
 </g>
 </g>
-<!-- Node1044&#45;&gt;Node1052 -->
+<!-- Node1052&#45;&gt;Node1060 -->
 <g id="edge12" class="edge">
-<title>Node1044&#45;&gt;Node1052</title>
+<title>Node1052&#45;&gt;Node1060</title>
 <path fill="none" stroke="#191970" d="M164.0932,-107.6574C183.2473,-118.6141 215.86,-136.6864 245,-150 253.4314,-153.8522 262.5126,-157.6502 271.3942,-161.1811"/>
 <polygon fill="#191970" stroke="#191970" points="270.325,-164.5208 280.9131,-164.8976 272.8709,-158.0002 270.325,-164.5208"/>
 </g>
-<!-- Node1054 -->
+<!-- Node1062 -->
 <g id="node12" class="node">
-<title>Node1054</title>
+<title>Node1062</title>
 <g id="a_node12"><a xlink:href="classSNN.html#a54170c96807d6cdf699fa3664f81505e" target="_top" xlink:title="Sets STP params U, tau_u, and tau_x of a neuron group (pre&#45;synaptically) CARLsim implements the short...">
 <polygon fill="#ffffff" stroke="#000000" points="284.5,-.5 284.5,-19.5 361.5,-19.5 361.5,-.5 284.5,-.5"/>
 <text text-anchor="middle" x="323" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setSTP</text>
 </a>
 </g>
 </g>
-<!-- Node1044&#45;&gt;Node1054 -->
+<!-- Node1052&#45;&gt;Node1062 -->
 <g id="edge16" class="edge">
-<title>Node1044&#45;&gt;Node1054</title>
+<title>Node1052&#45;&gt;Node1062</title>
 <path fill="none" stroke="#191970" d="M158.0588,-88.4493C175.0992,-73.5421 210.2761,-44.8161 245,-29 254.2275,-24.797 264.5096,-21.4485 274.5017,-18.8081"/>
 <polygon fill="#191970" stroke="#191970" points="275.4661,-22.1754 284.3474,-16.3984 273.802,-15.3761 275.4661,-22.1754"/>
 </g>
-<!-- Node1045&#45;&gt;Node1046 -->
+<!-- Node1053&#45;&gt;Node1054 -->
 <g id="edge3" class="edge">
-<title>Node1045&#45;&gt;Node1046</title>
+<title>Node1053&#45;&gt;Node1054</title>
 <path fill="none" stroke="#191970" d="M371.4497,-107.589C397.471,-112.739 429.7279,-119.1232 457.0688,-124.5344"/>
 <polygon fill="#191970" stroke="#191970" points="456.4094,-127.9718 466.8987,-126.4799 457.7685,-121.105 456.4094,-127.9718"/>
 </g>
-<!-- Node1047 -->
+<!-- Node1055 -->
 <g id="node5" class="node">
-<title>Node1047</title>
+<title>Node1055</title>
 <g id="a_node5"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="CARLsim::Impl::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="437,-50.5 437,-69.5 593,-69.5 593,-50.5 437,-50.5"/>
 <text text-anchor="middle" x="515" y="-57.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node1045&#45;&gt;Node1047 -->
+<!-- Node1053&#45;&gt;Node1055 -->
 <g id="edge4" class="edge">
-<title>Node1045&#45;&gt;Node1047</title>
+<title>Node1053&#45;&gt;Node1055</title>
 <path fill="none" stroke="#191970" d="M371.4497,-88.411C397.471,-83.261 429.7279,-76.8768 457.0688,-71.4656"/>
 <polygon fill="#191970" stroke="#191970" points="457.7685,-74.895 466.8987,-69.5201 456.4094,-68.0282 457.7685,-74.895"/>
 </g>
-<!-- Node1049 -->
+<!-- Node1057 -->
 <g id="node7" class="node">
-<title>Node1049</title>
+<title>Node1057</title>
 <g id="a_node7"><a xlink:href="classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="SNN::getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="460,-88.5 460,-107.5 570,-107.5 570,-88.5 460,-88.5"/>
 <text text-anchor="middle" x="515" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node1045&#45;&gt;Node1049 -->
+<!-- Node1053&#45;&gt;Node1057 -->
 <g id="edge6" class="edge">
-<title>Node1045&#45;&gt;Node1049</title>
+<title>Node1053&#45;&gt;Node1057</title>
 <path fill="none" stroke="#191970" d="M401.0938,-98C417.2752,-98 434.1603,-98 449.8212,-98"/>
 <polygon fill="#191970" stroke="#191970" points="449.9163,-101.5001 459.9162,-98 449.9162,-94.5001 449.9163,-101.5001"/>
 </g>
-<!-- Node1048 -->
+<!-- Node1056 -->
 <g id="node6" class="node">
-<title>Node1048</title>
+<title>Node1056</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="629,-50.5 629,-69.5 739,-69.5 739,-50.5 629,-50.5"/>
 <text text-anchor="middle" x="684" y="-57.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node1047&#45;&gt;Node1048 -->
+<!-- Node1055&#45;&gt;Node1056 -->
 <g id="edge5" class="edge">
-<title>Node1047&#45;&gt;Node1048</title>
+<title>Node1055&#45;&gt;Node1056</title>
 <path fill="none" stroke="#191970" d="M593.069,-60C601.6771,-60 610.3747,-60 618.8018,-60"/>
 <polygon fill="#191970" stroke="#191970" points="618.9225,-63.5001 628.9225,-60 618.9225,-56.5001 618.9225,-63.5001"/>
 </g>
-<!-- Node1050&#45;&gt;Node1046 -->
+<!-- Node1058&#45;&gt;Node1054 -->
 <g id="edge9" class="edge">
-<title>Node1050&#45;&gt;Node1046</title>
+<title>Node1058&#45;&gt;Node1054</title>
 <path fill="none" stroke="#191970" d="M381.5432,-69.1597C388.3374,-71.9555 394.9808,-75.2154 401,-79 420.6949,-91.3832 416.8766,-105.3259 437,-117 440.7298,-119.1637 444.6972,-121.082 448.7904,-122.7825"/>
 <polygon fill="#191970" stroke="#191970" points="447.9234,-126.1931 458.5168,-126.3682 450.3448,-119.6252 447.9234,-126.1931"/>
 </g>
-<!-- Node1050&#45;&gt;Node1047 -->
+<!-- Node1058&#45;&gt;Node1055 -->
 <g id="edge10" class="edge">
-<title>Node1050&#45;&gt;Node1047</title>
+<title>Node1058&#45;&gt;Node1055</title>
 <path fill="none" stroke="#191970" d="M394.2209,-56.2257C404.7346,-56.5542 415.6739,-56.8961 426.4859,-57.2339"/>
 <polygon fill="#191970" stroke="#191970" points="426.6904,-60.7419 436.7948,-57.5561 426.9091,-53.7454 426.6904,-60.7419"/>
 </g>
-<!-- Node1051 -->
+<!-- Node1059 -->
 <g id="node9" class="node">
-<title>Node1051</title>
+<title>Node1059</title>
 <g id="a_node9"><a xlink:href="classSNN.html#a13067d0c1634b4e91f819e06e5fd634f" target="_top" xlink:title="SNN::isExcitatoryGroup">
 <polygon fill="#ffffff" stroke="#000000" points="454,-12.5 454,-31.5 576,-31.5 576,-12.5 454,-12.5"/>
 <text text-anchor="middle" x="515" y="-19.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isExcitatoryGroup</text>
 </a>
 </g>
 </g>
-<!-- Node1050&#45;&gt;Node1051 -->
+<!-- Node1058&#45;&gt;Node1059 -->
 <g id="edge11" class="edge">
-<title>Node1050&#45;&gt;Node1051</title>
+<title>Node1058&#45;&gt;Node1059</title>
 <path fill="none" stroke="#191970" d="M394.2209,-42.1299C411.7957,-39.2007 430.5598,-36.0734 447.9301,-33.1783"/>
 <polygon fill="#191970" stroke="#191970" points="448.6884,-36.6003 457.9769,-31.5039 447.5375,-29.6955 448.6884,-36.6003"/>
 </g>
-<!-- Node1052&#45;&gt;Node1046 -->
+<!-- Node1060&#45;&gt;Node1054 -->
 <g id="edge13" class="edge">
-<title>Node1052&#45;&gt;Node1046</title>
+<title>Node1060&#45;&gt;Node1054</title>
 <path fill="none" stroke="#191970" d="M388.5385,-164.9808C413.0479,-159.364 440.5126,-153.07 463.5689,-147.7863"/>
 <polygon fill="#191970" stroke="#191970" points="464.5258,-151.1578 473.4913,-145.5124 462.9621,-144.3347 464.5258,-151.1578"/>
 </g>
-<!-- Node1052&#45;&gt;Node1047 -->
+<!-- Node1060&#45;&gt;Node1055 -->
 <g id="edge14" class="edge">
-<title>Node1052&#45;&gt;Node1047</title>
+<title>Node1060&#45;&gt;Node1055</title>
 <path fill="none" stroke="#191970" d="M343.1588,-164.9067C359.2772,-152.5606 382.2062,-134.3654 401,-117 418.087,-101.2117 416.8766,-90.6741 437,-79 440.7298,-76.8363 444.6972,-74.918 448.7904,-73.2175"/>
 <polygon fill="#191970" stroke="#191970" points="450.3448,-76.3748 458.5168,-69.6318 447.9234,-69.8069 450.3448,-76.3748"/>
 </g>
-<!-- Node1053 -->
+<!-- Node1061 -->
 <g id="node11" class="node">
-<title>Node1053</title>
+<title>Node1061</title>
 <g id="a_node11"><a xlink:href="classSNN.html#ad15afc87a2971b16d723c8511a027aa8" target="_top" xlink:title="SNN::isInhibitoryGroup">
 <polygon fill="#ffffff" stroke="#000000" points="456,-170.5 456,-189.5 574,-189.5 574,-170.5 456,-170.5"/>
 <text text-anchor="middle" x="515" y="-177.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isInhibitoryGroup</text>
 </a>
 </g>
 </g>
-<!-- Node1052&#45;&gt;Node1053 -->
+<!-- Node1060&#45;&gt;Node1061 -->
 <g id="edge15" class="edge">
-<title>Node1052&#45;&gt;Node1053</title>
+<title>Node1060&#45;&gt;Node1061</title>
 <path fill="none" stroke="#191970" d="M391.5033,-180C409.0583,-180 427.9531,-180 445.5552,-180"/>
 <polygon fill="#191970" stroke="#191970" points="445.7498,-183.5001 455.7497,-180 445.7497,-176.5001 445.7498,-183.5001"/>
 </g>

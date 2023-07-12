@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setConnectionMonitor</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 313,-24 313,4 -4,4"/>
-<!-- Node784 -->
+<!-- Node792 -->
 <g id="node1" class="node">
-<title>Node784</title>
+<title>Node792</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 112,-19.5 112,-.5 0,-.5"/>
 <text text-anchor="middle" x="56" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setConnectionMonitor</text>
 </g>
-<!-- Node785 -->
+<!-- Node793 -->
 <g id="node2" class="node">
-<title>Node785</title>
+<title>Node793</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a0f4f273689484d0ceaa5a40f64fc82fc" target="_top" xlink:title="Sets a connection monitor for a group, custom ConnectionMonitor class. ">
 <polygon fill="#ffffff" stroke="#000000" points="148,-.5 148,-19.5 309,-19.5 309,-.5 148,-.5"/>
 <text text-anchor="middle" x="228.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setConnectionMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node784&#45;&gt;Node785 -->
+<!-- Node792&#45;&gt;Node793 -->
 <g id="edge1" class="edge">
-<title>Node784&#45;&gt;Node785</title>
+<title>Node792&#45;&gt;Node793</title>
 <path fill="none" stroke="#191970" d="M122.0816,-10C130.4705,-10 139.129,-10 147.715,-10"/>
 <polygon fill="#191970" stroke="#191970" points="122.0058,-6.5001 112.0058,-10 122.0058,-13.5001 122.0058,-6.5001"/>
 </g>

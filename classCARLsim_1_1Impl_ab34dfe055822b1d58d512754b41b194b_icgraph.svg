@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getIcalcType</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 235,-24 235,4 -4,4"/>
-<!-- Node264 -->
+<!-- Node268 -->
 <g id="node1" class="node">
-<title>Node264</title>
+<title>Node268</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 73,-19.5 73,-.5 0,-.5"/>
 <text text-anchor="middle" x="36.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getIcalcType</text>
 </g>
-<!-- Node265 -->
+<!-- Node269 -->
 <g id="node2" class="node">
-<title>Node265</title>
+<title>Node269</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a274b6b9ff6f04a3bc3ca28bb5a5a37af" target="_top" xlink:title="Returns the iCalc of a group. ">
 <polygon fill="#ffffff" stroke="#000000" points="109,-.5 109,-19.5 231,-19.5 231,-.5 109,-.5"/>
 <text text-anchor="middle" x="170" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getIcalcType</text>
 </a>
 </g>
 </g>
-<!-- Node264&#45;&gt;Node265 -->
+<!-- Node268&#45;&gt;Node269 -->
 <g id="edge1" class="edge">
-<title>Node264&#45;&gt;Node265</title>
+<title>Node268&#45;&gt;Node269</title>
 <path fill="none" stroke="#191970" d="M83.4833,-10C91.7168,-10 100.3912,-10 108.9402,-10"/>
 <polygon fill="#191970" stroke="#191970" points="83.3329,-6.5001 73.3329,-10 83.3328,-13.5001 83.3329,-6.5001"/>
 </g>

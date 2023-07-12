@@ -48,106 +48,106 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 764;
 var viewHeight = 104;
-var sectionId = 'dynsection-29';
+var sectionId = 'dynsection-31';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>getDelayRange</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 760,-100 760,4 -4,4"/>
-<!-- Node152 -->
+<!-- Node156 -->
 <g id="node1" class="node">
-<title>Node152</title>
+<title>Node156</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 84,-57.5 84,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="42" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getDelayRange</text>
 </g>
-<!-- Node153 -->
+<!-- Node157 -->
 <g id="node2" class="node">
-<title>Node153</title>
+<title>Node157</title>
 <g id="a_node2"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="120,-76.5 120,-95.5 236,-95.5 236,-76.5 120,-76.5"/>
 <text text-anchor="middle" x="178" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node152&#45;&gt;Node153 -->
+<!-- Node156&#45;&gt;Node157 -->
 <g id="edge1" class="edge">
-<title>Node152&#45;&gt;Node153</title>
+<title>Node156&#45;&gt;Node157</title>
 <path fill="none" stroke="#191970" d="M76.3185,-57.589C93.7943,-62.4719 115.2407,-68.4643 133.9251,-73.685"/>
 <polygon fill="#191970" stroke="#191970" points="133.1194,-77.0938 143.6924,-76.4141 135.0032,-70.3521 133.1194,-77.0938"/>
 </g>
-<!-- Node154 -->
+<!-- Node158 -->
 <g id="node3" class="node">
-<title>Node154</title>
+<title>Node158</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="125,-38.5 125,-57.5 231,-57.5 231,-38.5 125,-38.5"/>
 <text text-anchor="middle" x="178" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node152&#45;&gt;Node154 -->
+<!-- Node156&#45;&gt;Node158 -->
 <g id="edge2" class="edge">
-<title>Node152&#45;&gt;Node154</title>
+<title>Node156&#45;&gt;Node158</title>
 <path fill="none" stroke="#191970" d="M84.2858,-48C93.8767,-48 104.2679,-48 114.5215,-48"/>
 <polygon fill="#191970" stroke="#191970" points="114.6944,-51.5001 124.6944,-48 114.6944,-44.5001 114.6944,-51.5001"/>
 </g>
-<!-- Node158 -->
+<!-- Node162 -->
 <g id="node7" class="node">
-<title>Node158</title>
+<title>Node162</title>
 <g id="a_node7"><a xlink:href="classSNN.html#aee3e497537bc8121f6c0c8fb3730ae72" target="_top" xlink:title="returns the RangeDelay struct of a connection ">
 <polygon fill="#ffffff" stroke="#000000" points="122,-.5 122,-19.5 234,-19.5 234,-.5 122,-.5"/>
 <text text-anchor="middle" x="178" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getDelayRange</text>
 </a>
 </g>
 </g>
-<!-- Node152&#45;&gt;Node158 -->
+<!-- Node156&#45;&gt;Node162 -->
 <g id="edge6" class="edge">
-<title>Node152&#45;&gt;Node158</title>
+<title>Node156&#45;&gt;Node162</title>
 <path fill="none" stroke="#191970" d="M76.3185,-38.411C93.7943,-33.5281 115.2407,-27.5357 133.9251,-22.315"/>
 <polygon fill="#191970" stroke="#191970" points="135.0032,-25.6479 143.6924,-19.5859 133.1194,-18.9062 135.0032,-25.6479"/>
 </g>
-<!-- Node155 -->
+<!-- Node159 -->
 <g id="node4" class="node">
-<title>Node155</title>
+<title>Node159</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="SNN::getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="272,-38.5 272,-57.5 406,-57.5 406,-38.5 272,-38.5"/>
 <text text-anchor="middle" x="339" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node154&#45;&gt;Node155 -->
+<!-- Node158&#45;&gt;Node159 -->
 <g id="edge3" class="edge">
-<title>Node154&#45;&gt;Node155</title>
+<title>Node158&#45;&gt;Node159</title>
 <path fill="none" stroke="#191970" d="M231.1636,-48C240.9183,-48 251.2807,-48 261.5758,-48"/>
 <polygon fill="#191970" stroke="#191970" points="261.8237,-51.5001 271.8236,-48 261.8236,-44.5001 261.8237,-51.5001"/>
 </g>
-<!-- Node156 -->
+<!-- Node160 -->
 <g id="node5" class="node">
-<title>Node156</title>
+<title>Node160</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a52f149e224abff772962dea6680398e2" target="_top" xlink:title="gets number of connections associated with a connection ID ">
 <polygon fill="#ffffff" stroke="#000000" points="442,-38.5 442,-57.5 614,-57.5 614,-38.5 442,-38.5"/>
 <text text-anchor="middle" x="528" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumSynapticConnections</text>
 </a>
 </g>
 </g>
-<!-- Node155&#45;&gt;Node156 -->
+<!-- Node159&#45;&gt;Node160 -->
 <g id="edge4" class="edge">
-<title>Node155&#45;&gt;Node156</title>
+<title>Node159&#45;&gt;Node160</title>
 <path fill="none" stroke="#191970" d="M406.1665,-48C414.4789,-48 423.1,-48 431.7407,-48"/>
 <polygon fill="#191970" stroke="#191970" points="431.8759,-51.5001 441.8759,-48 431.8759,-44.5001 431.8759,-51.5001"/>
 </g>
-<!-- Node157 -->
+<!-- Node161 -->
 <g id="node6" class="node">
-<title>Node157</title>
+<title>Node161</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="650,-38.5 650,-57.5 756,-57.5 756,-38.5 650,-38.5"/>
 <text text-anchor="middle" x="703" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node156&#45;&gt;Node157 -->
+<!-- Node160&#45;&gt;Node161 -->
 <g id="edge5" class="edge">
-<title>Node156&#45;&gt;Node157</title>
+<title>Node160&#45;&gt;Node161</title>
 <path fill="none" stroke="#191970" d="M614.2183,-48C622.711,-48 631.2199,-48 639.4247,-48"/>
 <polygon fill="#191970" stroke="#191970" points="639.6308,-51.5001 649.6308,-48 639.6308,-44.5001 639.6308,-51.5001"/>
 </g>

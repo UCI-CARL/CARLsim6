@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setConnectionModulation</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 343,-24 343,4 -4,4"/>
-<!-- Node756 -->
+<!-- Node764 -->
 <g id="node1" class="node">
-<title>Node756</title>
+<title>Node764</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 127,-19.5 127,-.5 0,-.5"/>
 <text text-anchor="middle" x="63.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setConnectionModulation</text>
 </g>
-<!-- Node757 -->
+<!-- Node765 -->
 <g id="node2" class="node">
-<title>Node757</title>
+<title>Node765</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#aceb9ef9d09b941d06f3619131ed2d950" target="_top" xlink:title="CARLsim::setConnectionModulation">
 <polygon fill="#ffffff" stroke="#000000" points="163,-.5 163,-19.5 339,-19.5 339,-.5 163,-.5"/>
 <text text-anchor="middle" x="251" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setConnectionModulation</text>
 </a>
 </g>
 </g>
-<!-- Node756&#45;&gt;Node757 -->
+<!-- Node764&#45;&gt;Node765 -->
 <g id="edge1" class="edge">
-<title>Node756&#45;&gt;Node757</title>
+<title>Node764&#45;&gt;Node765</title>
 <path fill="none" stroke="#191970" d="M137.3323,-10C145.7119,-10 154.314,-10 162.8539,-10"/>
 <polygon fill="#191970" stroke="#191970" points="137.2406,-6.5001 127.2406,-10 137.2405,-13.5001 137.2406,-6.5001"/>
 </g>

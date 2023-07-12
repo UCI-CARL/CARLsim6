@@ -9,31 +9,31 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 73.5)">
 <title>setWeightAndWeightChangeUpdate</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-73.5 353,-73.5 353,4 -4,4"/>
-<!-- Node1258 -->
+<!-- Node1266 -->
 <g id="node1" class="node">
-<title>Node1258</title>
+<title>Node1266</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-22.5 0,-52.5 143,-52.5 143,-22.5 0,-22.5"/>
 <text text-anchor="start" x="8" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setWeightAndWeightChange</text>
 <text text-anchor="middle" x="71.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">Update</text>
 </g>
-<!-- Node1259 -->
+<!-- Node1267 -->
 <g id="node2" class="node">
-<title>Node1259</title>
+<title>Node1267</title>
 <g id="a_node2"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="206,-50 206,-69 322,-69 322,-50 206,-50"/>
 <text text-anchor="middle" x="264" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node1258&#45;&gt;Node1259 -->
+<!-- Node1266&#45;&gt;Node1267 -->
 <g id="edge1" class="edge">
-<title>Node1258&#45;&gt;Node1259</title>
+<title>Node1266&#45;&gt;Node1267</title>
 <path fill="none" stroke="#191970" d="M143.1799,-45.692C160.2648,-47.6445 178.4566,-49.7236 195.3994,-51.6599"/>
 <polygon fill="#191970" stroke="#191970" points="195.4334,-55.1865 205.7662,-52.8447 196.2283,-48.2318 195.4334,-55.1865"/>
 </g>
-<!-- Node1260 -->
+<!-- Node1268 -->
 <g id="node3" class="node">
-<title>Node1260</title>
+<title>Node1268</title>
 <g id="a_node3"><a xlink:href="classSNN.html#a94b3b953bb658e1a96cd8a6a6163a5fe" target="_top" xlink:title="Sets the weight and weight change update parameters. ">
 <polygon fill="#ffffff" stroke="#000000" points="179,-.5 179,-30.5 349,-30.5 349,-.5 179,-.5"/>
 <text text-anchor="start" x="187" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setWeightAndWeightChange</text>
@@ -41,9 +41,9 @@
 </a>
 </g>
 </g>
-<!-- Node1258&#45;&gt;Node1260 -->
+<!-- Node1266&#45;&gt;Node1268 -->
 <g id="edge2" class="edge">
-<title>Node1258&#45;&gt;Node1260</title>
+<title>Node1266&#45;&gt;Node1268</title>
 <path fill="none" stroke="#191970" d="M143.1799,-29.308C151.5545,-28.3509 160.195,-27.3634 168.8241,-26.3772"/>
 <polygon fill="#191970" stroke="#191970" points="169.394,-29.835 178.9319,-25.2221 168.5991,-22.8803 169.394,-29.835"/>
 </g>

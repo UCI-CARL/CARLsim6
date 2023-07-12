@@ -9,75 +9,75 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1031)">
 <title>getSpikeMonitor</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-1031 1435,-1031 1435,4 -4,4"/>
-<!-- Node1266 -->
+<!-- Node1270 -->
 <g id="node1" class="node">
-<title>Node1266</title>
+<title>Node1270</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-969.5 0,-988.5 87,-988.5 87,-969.5 0,-969.5"/>
 <text text-anchor="middle" x="43.5" y="-976.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSpikeMonitor</text>
 </g>
-<!-- Node1267 -->
+<!-- Node1271 -->
 <g id="node2" class="node">
-<title>Node1267</title>
+<title>Node1271</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#aa2f49d6a802e4b3697bb20ef5ee51690" target="_top" xlink:title="CARLsim::Impl::getSpikeMonitor">
 <polygon fill="#ffffff" stroke="#000000" points="123,-969.5 123,-988.5 284,-988.5 284,-969.5 123,-969.5"/>
 <text text-anchor="middle" x="203.5" y="-976.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1266&#45;&gt;Node1267 -->
+<!-- Node1270&#45;&gt;Node1271 -->
 <g id="edge1" class="edge">
-<title>Node1266&#45;&gt;Node1267</title>
+<title>Node1270&#45;&gt;Node1271</title>
 <path fill="none" stroke="#191970" d="M97.3916,-979C105.6202,-979 114.2625,-979 122.9141,-979"/>
 <polygon fill="#191970" stroke="#191970" points="97.2207,-975.5001 87.2207,-979 97.2207,-982.5001 97.2207,-975.5001"/>
 </g>
-<!-- Node1271 -->
+<!-- Node1275 -->
 <g id="node6" class="node">
-<title>Node1271</title>
+<title>Node1275</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" target="_top" xlink:title="getSimTimeMs">
 <polygon fill="#ffffff" stroke="#000000" points="162,-779.5 162,-798.5 245,-798.5 245,-779.5 162,-779.5"/>
 <text text-anchor="middle" x="203.5" y="-786.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSimTimeMs</text>
 </a>
 </g>
 </g>
-<!-- Node1266&#45;&gt;Node1271 -->
+<!-- Node1270&#45;&gt;Node1275 -->
 <g id="edge5" class="edge">
-<title>Node1266&#45;&gt;Node1271</title>
+<title>Node1270&#45;&gt;Node1275</title>
 <path fill="none" stroke="#191970" d="M58.2944,-961.4316C91.1806,-922.3793 169.4715,-829.4088 195.1702,-798.8917"/>
 <polygon fill="#191970" stroke="#191970" points="55.4186,-959.413 51.6544,-969.3167 60.773,-963.922 55.4186,-959.413"/>
 </g>
-<!-- Node1319 -->
+<!-- Node1323 -->
 <g id="node48" class="node">
-<title>Node1319</title>
+<title>Node1323</title>
 <g id="a_node48"><a xlink:href="classSNN.html#ace11f3a7995a24298caf842498eebbaf" target="_top" xlink:title="sets up a spike monitor registered with a callback to process the spikes, there can only be one Spike...">
 <polygon fill="#ffffff" stroke="#000000" points="160,-1007.5 160,-1026.5 247,-1026.5 247,-1007.5 160,-1007.5"/>
 <text text-anchor="middle" x="203.5" y="-1014.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1266&#45;&gt;Node1319 -->
+<!-- Node1270&#45;&gt;Node1323 -->
 <g id="edge75" class="edge">
-<title>Node1266&#45;&gt;Node1319</title>
+<title>Node1270&#45;&gt;Node1323</title>
 <path fill="none" stroke="#191970" d="M93.5273,-990.9788C103.2998,-993.3125 113.4701,-995.7366 123,-998 135.9931,-1001.086 150.1697,-1004.4373 162.9552,-1007.4539"/>
 <polygon fill="#191970" stroke="#191970" points="94.0703,-987.5101 83.5307,-988.5903 92.4435,-994.3185 94.0703,-987.5101"/>
 </g>
-<!-- Node1268 -->
+<!-- Node1272 -->
 <g id="node3" class="node">
-<title>Node1268</title>
+<title>Node1272</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#a866a9c6e2b2630816fc66adda1381655" target="_top" xlink:title="Returns the number of spikes per neuron for a certain group. ">
 <polygon fill="#ffffff" stroke="#000000" points="335.5,-969.5 335.5,-988.5 471.5,-988.5 471.5,-969.5 335.5,-969.5"/>
 <text text-anchor="middle" x="403.5" y="-976.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1267&#45;&gt;Node1268 -->
+<!-- Node1271&#45;&gt;Node1272 -->
 <g id="edge2" class="edge">
-<title>Node1267&#45;&gt;Node1268</title>
+<title>Node1271&#45;&gt;Node1272</title>
 <path fill="none" stroke="#191970" d="M294.6545,-979C308.3115,-979 322.1903,-979 335.2613,-979"/>
 <polygon fill="#191970" stroke="#191970" points="294.2712,-975.5001 284.2712,-979 294.2711,-982.5001 294.2712,-975.5001"/>
 </g>
-<!-- Node1269 -->
+<!-- Node1273 -->
 <g id="node4" class="node">
-<title>Node1269</title>
+<title>Node1273</title>
 <g id="a_node4"><a xlink:href="classSimpleWeightTuner_1_1Impl.html#ac1c93ba1766ad5ada73dea7ba499d541" target="_top" xlink:title="SimpleWeightTuner::\lImpl::setTargetFiringRate">
 <polygon fill="#ffffff" stroke="#000000" points="751.5,-986 751.5,-1016 879.5,-1016 879.5,-986 751.5,-986"/>
 <text text-anchor="start" x="759.5" y="-1004" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -85,15 +85,15 @@
 </a>
 </g>
 </g>
-<!-- Node1268&#45;&gt;Node1269 -->
+<!-- Node1272&#45;&gt;Node1273 -->
 <g id="edge3" class="edge">
-<title>Node1268&#45;&gt;Node1269</title>
+<title>Node1272&#45;&gt;Node1273</title>
 <path fill="none" stroke="#191970" d="M481.8112,-983.1817C559.993,-987.3564 678.6918,-993.6947 751.4359,-997.5791"/>
 <polygon fill="#191970" stroke="#191970" points="481.7059,-979.6711 471.5334,-982.6329 481.3325,-986.6612 481.7059,-979.6711"/>
 </g>
-<!-- Node1270 -->
+<!-- Node1274 -->
 <g id="node5" class="node">
-<title>Node1270</title>
+<title>Node1274</title>
 <g id="a_node5"><a xlink:href="classSimpleWeightTuner.html#ac1c93ba1766ad5ada73dea7ba499d541" target="_top" xlink:title="Sets up the target firing rate of a specific group. ">
 <polygon fill="#ffffff" stroke="#000000" points="968,-986 968,-1016 1076,-1016 1076,-986 968,-986"/>
 <text text-anchor="start" x="976" y="-1004" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -101,60 +101,60 @@
 </a>
 </g>
 </g>
-<!-- Node1269&#45;&gt;Node1270 -->
+<!-- Node1273&#45;&gt;Node1274 -->
 <g id="edge4" class="edge">
-<title>Node1269&#45;&gt;Node1270</title>
+<title>Node1273&#45;&gt;Node1274</title>
 <path fill="none" stroke="#191970" d="M889.8262,-1001C915.6294,-1001 944.0542,-1001 967.9111,-1001"/>
 <polygon fill="#191970" stroke="#191970" points="889.706,-997.5001 879.7059,-1001 889.7059,-1004.5001 889.706,-997.5001"/>
 </g>
-<!-- Node1272 -->
+<!-- Node1276 -->
 <g id="node7" class="node">
-<title>Node1272</title>
+<title>Node1276</title>
 <g id="a_node7"><a xlink:href="classCARLsim_1_1Impl.html#a4f7e6f277778475791addfe313087f23" target="_top" xlink:title="CARLsim::Impl::getSimTimeMsec">
 <polygon fill="#ffffff" stroke="#000000" points="320,-931.5 320,-950.5 487,-950.5 487,-931.5 320,-931.5"/>
 <text text-anchor="middle" x="403.5" y="-938.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getSimTimeMsec</text>
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1272 -->
+<!-- Node1275&#45;&gt;Node1276 -->
 <g id="edge6" class="edge">
-<title>Node1271&#45;&gt;Node1272</title>
+<title>Node1275&#45;&gt;Node1276</title>
 <path fill="none" stroke="#191970" d="M215.038,-807.0791C233.7124,-834.8734 273.2265,-887.9263 320,-917 330.1202,-923.2906 341.946,-927.9842 353.4611,-931.4674"/>
 <polygon fill="#191970" stroke="#191970" points="217.9421,-805.1252 209.5235,-798.6927 212.0933,-808.9712 217.9421,-805.1252"/>
 </g>
-<!-- Node1274 -->
+<!-- Node1278 -->
 <g id="node9" class="node">
-<title>Node1274</title>
+<title>Node1278</title>
 <g id="a_node9"><a xlink:href="classGroupMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" target="_top" xlink:title="starts recording group data ">
 <polygon fill="#ffffff" stroke="#000000" points="523,-893.5 523,-912.5 689,-912.5 689,-893.5 523,-893.5"/>
 <text text-anchor="middle" x="606" y="-900.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">GroupMonitorCore::startRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1274 -->
+<!-- Node1275&#45;&gt;Node1278 -->
 <g id="edge8" class="edge">
-<title>Node1271&#45;&gt;Node1274</title>
+<title>Node1275&#45;&gt;Node1278</title>
 <path fill="none" stroke="#191970" d="M218.1482,-806.2671C238.4157,-828.7654 277.3676,-867.2082 320,-884 384.8203,-909.531 464.2781,-912.8198 522.9776,-910.5583"/>
 <polygon fill="#191970" stroke="#191970" points="220.5565,-803.7054 211.3266,-798.5035 215.298,-808.3258 220.5565,-803.7054"/>
 </g>
-<!-- Node1278 -->
+<!-- Node1282 -->
 <g id="node13" class="node">
-<title>Node1278</title>
+<title>Node1282</title>
 <g id="a_node13"><a xlink:href="classGroupMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" target="_top" xlink:title="stops recording group data ">
 <polygon fill="#ffffff" stroke="#000000" points="523.5,-855.5 523.5,-874.5 688.5,-874.5 688.5,-855.5 523.5,-855.5"/>
 <text text-anchor="middle" x="606" y="-862.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">GroupMonitorCore::stopRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1278 -->
+<!-- Node1275&#45;&gt;Node1282 -->
 <g id="edge12" class="edge">
-<title>Node1271&#45;&gt;Node1278</title>
+<title>Node1275&#45;&gt;Node1282</title>
 <path fill="none" stroke="#191970" d="M255.0893,-798.7411C332.7187,-813.3991 478.6506,-840.9539 555.5847,-855.4806"/>
 <polygon fill="#191970" stroke="#191970" points="255.5344,-795.2633 245.0586,-796.8471 254.2355,-802.1418 255.5344,-795.2633"/>
 </g>
-<!-- Node1280 -->
+<!-- Node1284 -->
 <g id="node15" class="node">
-<title>Node1280</title>
+<title>Node1284</title>
 <g id="a_node15"><a xlink:href="classNeuronMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" target="_top" xlink:title="starts recording Neuron state ">
 <polygon fill="#ffffff" stroke="#000000" points="350,-334 350,-364 457,-364 457,-334 350,-334"/>
 <text text-anchor="start" x="358" y="-352" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -162,30 +162,30 @@
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1280 -->
+<!-- Node1275&#45;&gt;Node1284 -->
 <g id="edge15" class="edge">
-<title>Node1271&#45;&gt;Node1280</title>
+<title>Node1275&#45;&gt;Node1284</title>
 <path fill="none" stroke="#191970" d="M212.1443,-769.9825C245.5866,-696.4096 366.1235,-431.2284 396.5078,-364.3828"/>
 <polygon fill="#191970" stroke="#191970" points="208.8151,-768.8488 207.8633,-779.4008 215.1877,-771.7454 208.8151,-768.8488"/>
 </g>
-<!-- Node1294 -->
+<!-- Node1298 -->
 <g id="node29" class="node">
-<title>Node1294</title>
+<title>Node1298</title>
 <g id="a_node29"><a xlink:href="classSNN.html#a8dd319bdd9a54e38f9254cbec099c30a" target="_top" xlink:title="copy required neuron state values from ??? buffer to ??? buffer ">
 <polygon fill="#ffffff" stroke="#000000" points="967,-529.5 967,-548.5 1077,-548.5 1077,-529.5 967,-529.5"/>
 <text text-anchor="middle" x="1022" y="-536.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">updateNeuronMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1294 -->
+<!-- Node1275&#45;&gt;Node1298 -->
 <g id="edge72" class="edge">
-<title>Node1271&#45;&gt;Node1294</title>
+<title>Node1275&#45;&gt;Node1298</title>
 <path fill="none" stroke="#191970" d="M214.0309,-770.1361C236.5759,-730.4768 289.9026,-640.6526 320,-623 545.8291,-490.5476 647.2533,-602.9069 906,-563 931.1015,-559.1286 958.9807,-553.4069 981.1158,-548.5212"/>
 <polygon fill="#191970" stroke="#191970" points="210.8597,-768.6341 208.9953,-779.0636 216.9567,-772.0732 210.8597,-768.6341"/>
 </g>
-<!-- Node1295 -->
+<!-- Node1299 -->
 <g id="node30" class="node">
-<title>Node1295</title>
+<title>Node1299</title>
 <g id="a_node30"><a xlink:href="classNeuronMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" target="_top" xlink:title="stops recording Neuron state ">
 <polygon fill="#ffffff" stroke="#000000" points="1138.5,-411 1138.5,-441 1245.5,-441 1245.5,-411 1138.5,-411"/>
 <text text-anchor="start" x="1146.5" y="-429" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -193,171 +193,171 @@
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1295 -->
+<!-- Node1275&#45;&gt;Node1299 -->
 <g id="edge55" class="edge">
-<title>Node1271&#45;&gt;Node1295</title>
+<title>Node1275&#45;&gt;Node1299</title>
 <path fill="none" stroke="#191970" d="M223.3172,-772.9422C245.599,-755.6188 283.4587,-728.3292 320,-712 439.975,-658.387 474.5909,-637 606,-637 606,-637 606,-637 815.5,-637 947.5855,-637 994.5535,-634.8233 1102,-558 1145.0946,-527.1878 1173.983,-468.8746 1185.8747,-441.2488"/>
 <polygon fill="#191970" stroke="#191970" points="220.9876,-770.322 215.3069,-779.2651 225.3247,-775.8165 220.9876,-770.322"/>
 </g>
-<!-- Node1311 -->
+<!-- Node1315 -->
 <g id="node39" class="node">
-<title>Node1311</title>
+<title>Node1315</title>
 <g id="a_node39"><a xlink:href="classSNN.html#a14317186d53aeff564b126a41a333d3c" target="_top" xlink:title="access group status (currently the concentration of neuromodulator) ">
 <polygon fill="#ffffff" stroke="#000000" points="351.5,-855.5 351.5,-874.5 455.5,-874.5 455.5,-855.5 351.5,-855.5"/>
 <text text-anchor="middle" x="403.5" y="-862.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">updateGroupMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1311 -->
+<!-- Node1275&#45;&gt;Node1315 -->
 <g id="edge56" class="edge">
-<title>Node1271&#45;&gt;Node1311</title>
+<title>Node1275&#45;&gt;Node1315</title>
 <path fill="none" stroke="#191970" d="M232.2403,-803.184C255.5402,-814.3509 289.4132,-829.8402 320,-841 334.8783,-846.4284 351.5987,-851.4413 366.1473,-855.4663"/>
 <polygon fill="#191970" stroke="#191970" points="233.4688,-799.8903 222.9424,-798.688 230.4215,-806.1923 233.4688,-799.8903"/>
 </g>
-<!-- Node1312 -->
+<!-- Node1316 -->
 <g id="node40" class="node">
-<title>Node1312</title>
+<title>Node1316</title>
 <g id="a_node40"><a xlink:href="classSNN.html#a876185f4e003c98fb227861e7b84fded" target="_top" xlink:title="copy required spikes from firing buffer to spike buffer ">
 <polygon fill="#ffffff" stroke="#000000" points="352,-741.5 352,-760.5 455,-760.5 455,-741.5 352,-741.5"/>
 <text text-anchor="middle" x="403.5" y="-748.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">updateSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1312 -->
+<!-- Node1275&#45;&gt;Node1316 -->
 <g id="edge60" class="edge">
-<title>Node1271&#45;&gt;Node1312</title>
+<title>Node1275&#45;&gt;Node1316</title>
 <path fill="none" stroke="#191970" d="M255.3654,-779.1456C285.6114,-773.3988 323.5727,-766.1862 353.4941,-760.5011"/>
 <polygon fill="#191970" stroke="#191970" points="254.5975,-775.7288 245.4266,-781.034 255.9041,-782.6058 254.5975,-775.7288"/>
 </g>
-<!-- Node1313 -->
+<!-- Node1317 -->
 <g id="node41" class="node">
-<title>Node1313</title>
+<title>Node1317</title>
 <g id="a_node41"><a xlink:href="classSpikeMonitorCore.html#ab91616c118b701c2afd9136393d1f19b" target="_top" xlink:title="starts recording AER data ">
 <polygon fill="#ffffff" stroke="#000000" points="524,-712.5 524,-731.5 688,-731.5 688,-712.5 524,-712.5"/>
 <text text-anchor="middle" x="606" y="-719.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::startRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1313 -->
+<!-- Node1275&#45;&gt;Node1317 -->
 <g id="edge73" class="edge">
-<title>Node1271&#45;&gt;Node1313</title>
+<title>Node1275&#45;&gt;Node1317</title>
 <path fill="none" stroke="#191970" d="M226.7651,-773.9521C249.5082,-760.1508 285.6334,-740.592 320,-732 387.2384,-715.1897 466.1223,-713.7306 523.9941,-715.8839"/>
 <polygon fill="#191970" stroke="#191970" points="224.8198,-771.04 218.1663,-779.2851 228.5093,-776.9888 224.8198,-771.04"/>
 </g>
-<!-- Node1317 -->
+<!-- Node1321 -->
 <g id="node46" class="node">
-<title>Node1317</title>
+<title>Node1321</title>
 <g id="a_node46"><a xlink:href="classSpikeMonitorCore.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" target="_top" xlink:title="stops recording AER data ">
 <polygon fill="#ffffff" stroke="#000000" points="524,-760.5 524,-779.5 688,-779.5 688,-760.5 524,-760.5"/>
 <text text-anchor="middle" x="606" y="-767.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::stopRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1271&#45;&gt;Node1317 -->
+<!-- Node1275&#45;&gt;Node1321 -->
 <g id="edge74" class="edge">
-<title>Node1271&#45;&gt;Node1317</title>
+<title>Node1275&#45;&gt;Node1321</title>
 <path fill="none" stroke="#191970" d="M255.088,-786.5648C322.9747,-783.3602 443.0968,-777.6898 523.6301,-773.8883"/>
 <polygon fill="#191970" stroke="#191970" points="254.8824,-783.0705 245.0586,-787.0382 255.2125,-790.0627 254.8824,-783.0705"/>
 </g>
-<!-- Node1273 -->
+<!-- Node1277 -->
 <g id="node8" class="node">
-<title>Node1273</title>
+<title>Node1277</title>
 <g id="a_node8"><a xlink:href="classCARLsim.html#a4f7e6f277778475791addfe313087f23" target="_top" xlink:title="returns ">
 <polygon fill="#ffffff" stroke="#000000" points="535,-931.5 535,-950.5 677,-950.5 677,-931.5 535,-931.5"/>
 <text text-anchor="middle" x="606" y="-938.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getSimTimeMsec</text>
 </a>
 </g>
 </g>
-<!-- Node1272&#45;&gt;Node1273 -->
+<!-- Node1276&#45;&gt;Node1277 -->
 <g id="edge7" class="edge">
-<title>Node1272&#45;&gt;Node1273</title>
+<title>Node1276&#45;&gt;Node1277</title>
 <path fill="none" stroke="#191970" d="M497.1643,-941C509.8583,-941 522.7122,-941 534.9219,-941"/>
 <polygon fill="#191970" stroke="#191970" points="497.0337,-937.5001 487.0336,-941 497.0336,-944.5001 497.0337,-937.5001"/>
 </g>
-<!-- Node1275 -->
+<!-- Node1279 -->
 <g id="node10" class="node">
-<title>Node1275</title>
+<title>Node1279</title>
 <g id="a_node10"><a xlink:href="classGroupMonitor.html#ab91616c118b701c2afd9136393d1f19b" target="_top" xlink:title="Starts a new recording period. ">
 <polygon fill="#ffffff" stroke="#000000" points="743,-931.5 743,-950.5 888,-950.5 888,-931.5 743,-931.5"/>
 <text text-anchor="middle" x="815.5" y="-938.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">GroupMonitor::startRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1274&#45;&gt;Node1275 -->
+<!-- Node1278&#45;&gt;Node1279 -->
 <g id="edge9" class="edge">
-<title>Node1274&#45;&gt;Node1275</title>
+<title>Node1278&#45;&gt;Node1279</title>
 <path fill="none" stroke="#191970" d="M668.5575,-914.347C698.616,-919.7991 734.2397,-926.2607 762.8831,-931.4561"/>
 <polygon fill="#191970" stroke="#191970" points="669.0594,-910.8809 658.5953,-912.54 667.8101,-917.7686 669.0594,-910.8809"/>
 </g>
-<!-- Node1276 -->
+<!-- Node1280 -->
 <g id="node11" class="node">
-<title>Node1276</title>
+<title>Node1280</title>
 <g id="a_node11"><a xlink:href="classGroupMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" target="_top" xlink:title="sets status of PersistentData mode ">
 <polygon fill="#ffffff" stroke="#000000" points="725,-893.5 725,-912.5 906,-912.5 906,-893.5 725,-893.5"/>
 <text text-anchor="middle" x="815.5" y="-900.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">GroupMonitorCore::setPersistentData</text>
 </a>
 </g>
 </g>
-<!-- Node1274&#45;&gt;Node1276 -->
+<!-- Node1278&#45;&gt;Node1280 -->
 <g id="edge10" class="edge">
-<title>Node1274&#45;&gt;Node1276</title>
+<title>Node1278&#45;&gt;Node1280</title>
 <path fill="none" stroke="#191970" d="M699.1055,-903C707.6811,-903 716.3622,-903 724.9149,-903"/>
 <polygon fill="#191970" stroke="#191970" points="699.1009,-899.5001 689.1008,-903 699.1008,-906.5001 699.1009,-899.5001"/>
 </g>
-<!-- Node1277 -->
+<!-- Node1281 -->
 <g id="node12" class="node">
-<title>Node1277</title>
+<title>Node1281</title>
 <g id="a_node12"><a xlink:href="classGroupMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" target="_top" xlink:title="Sets PersistentMode either on (true) or off (false) ">
 <polygon fill="#ffffff" stroke="#000000" points="942,-893.5 942,-912.5 1102,-912.5 1102,-893.5 942,-893.5"/>
 <text text-anchor="middle" x="1022" y="-900.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">GroupMonitor::setPersistentData</text>
 </a>
 </g>
 </g>
-<!-- Node1276&#45;&gt;Node1277 -->
+<!-- Node1280&#45;&gt;Node1281 -->
 <g id="edge11" class="edge">
-<title>Node1276&#45;&gt;Node1277</title>
+<title>Node1280&#45;&gt;Node1281</title>
 <path fill="none" stroke="#191970" d="M916.1716,-903C924.795,-903 933.4425,-903 941.8731,-903"/>
 <polygon fill="#191970" stroke="#191970" points="916.0739,-899.5001 906.0739,-903 916.0739,-906.5001 916.0739,-899.5001"/>
 </g>
-<!-- Node1278&#45;&gt;Node1276 -->
+<!-- Node1282&#45;&gt;Node1280 -->
 <g id="edge14" class="edge">
-<title>Node1278&#45;&gt;Node1276</title>
+<title>Node1282&#45;&gt;Node1280</title>
 <path fill="none" stroke="#191970" d="M668.5575,-876.347C698.616,-881.7991 734.2397,-888.2607 762.8831,-893.4561"/>
 <polygon fill="#191970" stroke="#191970" points="669.0594,-872.8809 658.5953,-874.54 667.8101,-879.7686 669.0594,-872.8809"/>
 </g>
-<!-- Node1279 -->
+<!-- Node1283 -->
 <g id="node14" class="node">
-<title>Node1279</title>
+<title>Node1283</title>
 <g id="a_node14"><a xlink:href="classGroupMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" target="_top" xlink:title="Ends a recording period. ">
 <polygon fill="#ffffff" stroke="#000000" points="743.5,-855.5 743.5,-874.5 887.5,-874.5 887.5,-855.5 743.5,-855.5"/>
 <text text-anchor="middle" x="815.5" y="-862.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">GroupMonitor::stopRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1278&#45;&gt;Node1279 -->
+<!-- Node1282&#45;&gt;Node1283 -->
 <g id="edge13" class="edge">
-<title>Node1278&#45;&gt;Node1279</title>
+<title>Node1282&#45;&gt;Node1283</title>
 <path fill="none" stroke="#191970" d="M699.046,-865C713.9414,-865 729.1565,-865 743.4661,-865"/>
 <polygon fill="#191970" stroke="#191970" points="698.8,-861.5001 688.7999,-865 698.7999,-868.5001 698.8,-861.5001"/>
 </g>
-<!-- Node1281 -->
+<!-- Node1285 -->
 <g id="node16" class="node">
-<title>Node1281</title>
+<title>Node1285</title>
 <g id="a_node16"><a xlink:href="classNeuronMonitor.html#ab91616c118b701c2afd9136393d1f19b" target="_top" xlink:title="NeuronMonitor::startRecording">
 <polygon fill="#ffffff" stroke="#000000" points="947,-.5 947,-19.5 1097,-19.5 1097,-.5 947,-.5"/>
 <text text-anchor="middle" x="1022" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::startRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1280&#45;&gt;Node1281 -->
+<!-- Node1284&#45;&gt;Node1285 -->
 <g id="edge16" class="edge">
-<title>Node1280&#45;&gt;Node1281</title>
+<title>Node1284&#45;&gt;Node1285</title>
 <path fill="none" stroke="#191970" d="M410.2161,-324.3129C423.8146,-278.9557 458.8986,-182.1493 523,-129 645.5507,-27.3878 840.2448,-9.6579 946.5865,-8.2103"/>
 <polygon fill="#191970" stroke="#191970" points="406.8507,-323.3515 407.4259,-333.9307 413.5736,-325.3019 406.8507,-323.3515"/>
 </g>
-<!-- Node1282 -->
+<!-- Node1286 -->
 <g id="node17" class="node">
-<title>Node1282</title>
+<title>Node1286</title>
 <g id="a_node17"><a xlink:href="classNeuronMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" target="_top" xlink:title="returns recording status ">
 <polygon fill="#ffffff" stroke="#000000" points="552.5,-334 552.5,-364 659.5,-364 659.5,-334 552.5,-334"/>
 <text text-anchor="start" x="560.5" y="-352" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -365,36 +365,36 @@
 </a>
 </g>
 </g>
-<!-- Node1280&#45;&gt;Node1282 -->
+<!-- Node1284&#45;&gt;Node1286 -->
 <g id="edge17" class="edge">
-<title>Node1280&#45;&gt;Node1282</title>
+<title>Node1284&#45;&gt;Node1286</title>
 <path fill="none" stroke="#191970" d="M467.4756,-342.6742C494.786,-342.0248 526.3016,-342.121 552.3659,-342.9628"/>
 <polygon fill="#191970" stroke="#191970" points="467.1332,-339.1823 457.2346,-342.9595 467.3283,-346.1795 467.1332,-339.1823"/>
 </g>
-<!-- Node1282&#45;&gt;Node1280 -->
+<!-- Node1286&#45;&gt;Node1284 -->
 <g id="edge41" class="edge">
-<title>Node1282&#45;&gt;Node1280</title>
+<title>Node1286&#45;&gt;Node1284</title>
 <path fill="none" stroke="#191970" d="M542.1297,-355.3233C514.8301,-355.9746 483.313,-355.8803 457.2346,-355.0405"/>
 <polygon fill="#191970" stroke="#191970" points="542.4676,-358.8153 552.3659,-355.0372 542.272,-351.8181 542.4676,-358.8153"/>
 </g>
-<!-- Node1283 -->
+<!-- Node1287 -->
 <g id="node18" class="node">
-<title>Node1283</title>
+<title>Node1287</title>
 <g id="a_node18"><a xlink:href="classNeuronMonitor.html#a3a3ffdb35b09328d22e5d72503ed1f55" target="_top" xlink:title="NeuronMonitor::isRecording">
 <polygon fill="#ffffff" stroke="#000000" points="746.5,-172.5 746.5,-191.5 884.5,-191.5 884.5,-172.5 746.5,-172.5"/>
 <text text-anchor="middle" x="815.5" y="-179.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::isRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1282&#45;&gt;Node1283 -->
+<!-- Node1286&#45;&gt;Node1287 -->
 <g id="edge18" class="edge">
-<title>Node1282&#45;&gt;Node1283</title>
+<title>Node1286&#45;&gt;Node1287</title>
 <path fill="none" stroke="#191970" d="M618.3566,-324.9206C636.8184,-291.5141 674.8664,-231.7554 725,-201 731.5686,-196.9704 738.8556,-193.7839 746.3606,-191.2661"/>
 <polygon fill="#191970" stroke="#191970" points="615.1321,-323.5263 613.4691,-333.9899 621.2943,-326.8472 615.1321,-323.5263"/>
 </g>
-<!-- Node1291 -->
+<!-- Node1295 -->
 <g id="node26" class="node">
-<title>Node1291</title>
+<title>Node1295</title>
 <g id="a_node26"><a xlink:href="classNeuronMonitorCore.html#ac8bb3912a3ce86b15842e79d0b421204" target="_top" xlink:title="deletes data from the neuron state vector ">
 <polygon fill="#ffffff" stroke="#000000" points="762,-74 762,-104 869,-104 869,-74 762,-74"/>
 <text text-anchor="start" x="770" y="-92" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -402,15 +402,15 @@
 </a>
 </g>
 </g>
-<!-- Node1282&#45;&gt;Node1291 -->
+<!-- Node1286&#45;&gt;Node1295 -->
 <g id="edge27" class="edge">
-<title>Node1282&#45;&gt;Node1291</title>
+<title>Node1286&#45;&gt;Node1295</title>
 <path fill="none" stroke="#191970" d="M617.084,-324.7147C633.6654,-293.5452 665.4913,-238.5526 689,-190 707.0575,-152.7057 693.7607,-131.2221 725,-104 735.2941,-95.0297 748.5765,-89.3621 761.7777,-86.1137"/>
 <polygon fill="#191970" stroke="#191970" points="613.9763,-323.1047 612.4535,-333.5896 620.1823,-326.3428 613.9763,-323.1047"/>
 </g>
-<!-- Node1293 -->
+<!-- Node1297 -->
 <g id="node28" class="node">
-<title>Node1293</title>
+<title>Node1297</title>
 <g id="a_node28"><a xlink:href="classNeuronMonitorCore.html#a743a4ad47ef60bc593cc9882bd4ffb57" target="_top" xlink:title="inserts a (time,neurId) tupel into the D Neuron State vector ">
 <polygon fill="#ffffff" stroke="#000000" points="762,-502 762,-532 869,-532 869,-502 762,-502"/>
 <text text-anchor="start" x="770" y="-520" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -418,27 +418,27 @@
 </a>
 </g>
 </g>
-<!-- Node1282&#45;&gt;Node1293 -->
+<!-- Node1286&#45;&gt;Node1297 -->
 <g id="edge32" class="edge">
-<title>Node1282&#45;&gt;Node1293</title>
+<title>Node1286&#45;&gt;Node1297</title>
 <path fill="none" stroke="#191970" d="M624.6872,-372.3087C645.5605,-401.1459 682.1083,-449.3038 725,-478 741.509,-489.0452 762.4261,-496.3273 779.9912,-501.8743"/>
 <polygon fill="#191970" stroke="#191970" points="627.4055,-370.094 618.7229,-364.0225 621.7242,-374.1833 627.4055,-370.094"/>
 </g>
-<!-- Node1282&#45;&gt;Node1294 -->
+<!-- Node1286&#45;&gt;Node1298 -->
 <g id="edge54" class="edge">
-<title>Node1282&#45;&gt;Node1294</title>
+<title>Node1286&#45;&gt;Node1298</title>
 <path fill="none" stroke="#191970" d="M626.3017,-371.3392C648.3815,-394.2626 685.7967,-429.2804 725,-449 798.8652,-486.1548 827.2352,-466.8475 906,-492 939.9469,-502.8405 978.0058,-519.0804 1000.9764,-529.3528"/>
 <polygon fill="#191970" stroke="#191970" points="628.8368,-368.9261 619.4212,-364.0684 623.7525,-373.7375 628.8368,-368.9261"/>
 </g>
-<!-- Node1282&#45;&gt;Node1295 -->
+<!-- Node1286&#45;&gt;Node1299 -->
 <g id="edge42" class="edge">
-<title>Node1282&#45;&gt;Node1295</title>
+<title>Node1286&#45;&gt;Node1299</title>
 <path fill="none" stroke="#191970" d="M663.2761,-367.8977C682.4746,-375.447 704.2758,-383.3067 725,-388 871.7668,-421.2377 1050.665,-421.5573 1138.3383,-422.6057"/>
 <polygon fill="#191970" stroke="#191970" points="664.3711,-364.5664 653.7859,-364.1146 661.779,-371.0688 664.3711,-364.5664"/>
 </g>
-<!-- Node1301 -->
+<!-- Node1305 -->
 <g id="node33" class="node">
-<title>Node1301</title>
+<title>Node1305</title>
 <g id="a_node33"><a xlink:href="classNeuronMonitorCore.html#a5113f6b476e3e3544ecbffefa313234d" target="_top" xlink:title="sets pointer to Neuron file ">
 <polygon fill="#ffffff" stroke="#ff0000" points="762,-358 762,-388 869,-388 869,-358 762,-358"/>
 <text text-anchor="start" x="770" y="-376" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -446,15 +446,15 @@
 </a>
 </g>
 </g>
-<!-- Node1282&#45;&gt;Node1301 -->
+<!-- Node1286&#45;&gt;Node1305 -->
 <g id="edge43" class="edge">
-<title>Node1282&#45;&gt;Node1301</title>
+<title>Node1286&#45;&gt;Node1305</title>
 <path fill="none" stroke="#191970" d="M669.8659,-350.0458C699.3218,-352.6942 733.8937,-356.7533 761.9602,-360.8918"/>
 <polygon fill="#191970" stroke="#191970" points="669.9425,-346.5396 659.6794,-349.1701 669.3428,-353.5139 669.9425,-346.5396"/>
 </g>
-<!-- Node1306 -->
+<!-- Node1310 -->
 <g id="node35" class="node">
-<title>Node1306</title>
+<title>Node1310</title>
 <g id="a_node35"><a xlink:href="classNeuronMonitorCore.html#a5414db20073ada3806b3c35686c9a6f4" target="_top" xlink:title="returns the Neuron state vector ">
 <polygon fill="#ffffff" stroke="#000000" points="762,-211 762,-241 869,-241 869,-211 762,-211"/>
 <text text-anchor="start" x="770" y="-229" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -462,15 +462,15 @@
 </a>
 </g>
 </g>
-<!-- Node1282&#45;&gt;Node1306 -->
+<!-- Node1286&#45;&gt;Node1310 -->
 <g id="edge46" class="edge">
-<title>Node1282&#45;&gt;Node1306</title>
+<title>Node1286&#45;&gt;Node1310</title>
 <path fill="none" stroke="#191970" d="M627.11,-326.425C649.3909,-303.8946 686.5496,-269.8503 725,-250 736.4105,-244.1092 749.3969,-239.5687 761.9,-236.1059"/>
 <polygon fill="#191970" stroke="#191970" points="624.3318,-324.2617 619.8717,-333.872 629.3514,-329.1406 624.3318,-324.2617"/>
 </g>
-<!-- Node1307 -->
+<!-- Node1311 -->
 <g id="node36" class="node">
-<title>Node1307</title>
+<title>Node1311</title>
 <g id="a_node36"><a xlink:href="classNeuronMonitorCore.html#aff9eb621d9c78a5e33f1435eff0e9ba9" target="_top" xlink:title="NeuronMonitorCore::\lgetVectorU">
 <polygon fill="#ffffff" stroke="#000000" points="762,-123 762,-153 869,-153 869,-123 762,-123"/>
 <text text-anchor="start" x="770" y="-141" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -478,15 +478,15 @@
 </a>
 </g>
 </g>
-<!-- Node1282&#45;&gt;Node1307 -->
+<!-- Node1286&#45;&gt;Node1311 -->
 <g id="edge48" class="edge">
-<title>Node1282&#45;&gt;Node1307</title>
+<title>Node1286&#45;&gt;Node1311</title>
 <path fill="none" stroke="#191970" d="M618.7211,-324.6348C642.793,-279.3792 695.2536,-184.9437 725,-163 735.7562,-155.0652 748.907,-149.6487 761.8148,-145.9512"/>
 <polygon fill="#191970" stroke="#191970" points="615.4796,-323.2777 613.9009,-333.7543 621.6683,-326.5488 615.4796,-323.2777"/>
 </g>
-<!-- Node1308 -->
+<!-- Node1312 -->
 <g id="node37" class="node">
-<title>Node1308</title>
+<title>Node1312</title>
 <g id="a_node37"><a xlink:href="classNeuronMonitorCore.html#aa1e83b424e9145add71076cadfadb200" target="_top" xlink:title="NeuronMonitorCore::\lgetVectorI">
 <polygon fill="#ffffff" stroke="#000000" points="762,-309 762,-339 869,-339 869,-309 762,-309"/>
 <text text-anchor="start" x="770" y="-327" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -494,15 +494,15 @@
 </a>
 </g>
 </g>
-<!-- Node1282&#45;&gt;Node1308 -->
+<!-- Node1286&#45;&gt;Node1312 -->
 <g id="edge50" class="edge">
-<title>Node1282&#45;&gt;Node1308</title>
+<title>Node1286&#45;&gt;Node1312</title>
 <path fill="none" stroke="#191970" d="M669.8659,-341.3788C699.3218,-337.8637 733.8937,-333.7382 761.9602,-330.389"/>
 <polygon fill="#191970" stroke="#191970" points="669.1942,-337.934 659.6794,-342.5943 670.0237,-344.8847 669.1942,-337.934"/>
 </g>
-<!-- Node1309 -->
+<!-- Node1313 -->
 <g id="node38" class="node">
-<title>Node1309</title>
+<title>Node1313</title>
 <g id="a_node38"><a xlink:href="classNeuronMonitorCore.html#aec9349ebca384aed5e233754559075e0" target="_top" xlink:title="prints neuron states in human&#45;readable format ">
 <polygon fill="#ffffff" stroke="#ff0000" points="762,-260 762,-290 869,-290 869,-260 762,-260"/>
 <text text-anchor="start" x="770" y="-278" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -510,144 +510,144 @@
 </a>
 </g>
 </g>
-<!-- Node1282&#45;&gt;Node1309 -->
+<!-- Node1286&#45;&gt;Node1313 -->
 <g id="edge52" class="edge">
-<title>Node1282&#45;&gt;Node1309</title>
+<title>Node1286&#45;&gt;Node1313</title>
 <path fill="none" stroke="#191970" d="M647.6527,-329.8275C670.2464,-319.855 698.8309,-307.9197 725,-299 736.6931,-295.0144 749.4197,-291.28 761.5355,-287.999"/>
 <polygon fill="#191970" stroke="#191970" points="646.0713,-326.7004 638.3609,-333.9668 648.9198,-333.0946 646.0713,-326.7004"/>
 </g>
-<!-- Node1283&#45;&gt;Node1281 -->
+<!-- Node1287&#45;&gt;Node1285 -->
 <g id="edge20" class="edge">
-<title>Node1283&#45;&gt;Node1281</title>
+<title>Node1287&#45;&gt;Node1285</title>
 <path fill="none" stroke="#191970" d="M894.0297,-170.7595C898.3621,-168.3231 902.4057,-165.4297 906,-162 950.3042,-119.724 898.0286,-71.6221 942,-29 945.8951,-25.2245 950.3965,-22.1512 955.2384,-19.6548"/>
 <polygon fill="#191970" stroke="#191970" points="892.3187,-167.6972 884.7828,-175.1445 895.3181,-174.0221 892.3187,-167.6972"/>
 </g>
-<!-- Node1284 -->
+<!-- Node1288 -->
 <g id="node19" class="node">
-<title>Node1284</title>
+<title>Node1288</title>
 <g id="a_node19"><a xlink:href="classNeuronMonitor.html#ac8bb3912a3ce86b15842e79d0b421204" target="_top" xlink:title="NeuronMonitor::clear">
 <polygon fill="#ffffff" stroke="#000000" points="968.5,-88.5 968.5,-107.5 1075.5,-107.5 1075.5,-88.5 968.5,-88.5"/>
 <text text-anchor="middle" x="1022" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::clear</text>
 </a>
 </g>
 </g>
-<!-- Node1283&#45;&gt;Node1284 -->
+<!-- Node1287&#45;&gt;Node1288 -->
 <g id="edge19" class="edge">
-<title>Node1283&#45;&gt;Node1284</title>
+<title>Node1287&#45;&gt;Node1288</title>
 <path fill="none" stroke="#191970" d="M892.8532,-168.7786C897.4392,-166.8205 901.8634,-164.5749 906,-162 927.7441,-148.465 920.3627,-130.7051 942,-117 949.9593,-111.9585 959.132,-108.2537 968.3634,-105.5314"/>
 <polygon fill="#191970" stroke="#191970" points="891.3695,-165.5977 883.2532,-172.4077 893.8448,-172.1455 891.3695,-165.5977"/>
 </g>
-<!-- Node1285 -->
+<!-- Node1289 -->
 <g id="node20" class="node">
-<title>Node1285</title>
+<title>Node1289</title>
 <g id="a_node20"><a xlink:href="classNeuronMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" target="_top" xlink:title="NeuronMonitor::stopRecording">
 <polygon fill="#ffffff" stroke="#000000" points="1282,-291.5 1282,-310.5 1431,-310.5 1431,-291.5 1282,-291.5"/>
 <text text-anchor="middle" x="1356.5" y="-298.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::stopRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1283&#45;&gt;Node1285 -->
+<!-- Node1287&#45;&gt;Node1289 -->
 <g id="edge21" class="edge">
-<title>Node1283&#45;&gt;Node1285</title>
+<title>Node1287&#45;&gt;Node1289</title>
 <path fill="none" stroke="#191970" d="M894.9142,-177.4148C952.9771,-175.8988 1033.2601,-177.6391 1102,-193 1196.6218,-214.1446 1300.3753,-269.1633 1339.9361,-291.4335"/>
 <polygon fill="#191970" stroke="#191970" points="894.5939,-173.9227 884.7033,-177.7208 894.8037,-180.9196 894.5939,-173.9227"/>
 </g>
-<!-- Node1286 -->
+<!-- Node1290 -->
 <g id="node21" class="node">
-<title>Node1286</title>
+<title>Node1290</title>
 <g id="a_node21"><a xlink:href="classNeuronMonitor.html#a0b7a1a6453e1fc0469e96a3ba76c0f8b" target="_top" xlink:title="NeuronMonitor::print">
 <polygon fill="#ffffff" stroke="#000000" points="969.5,-278.5 969.5,-297.5 1074.5,-297.5 1074.5,-278.5 969.5,-278.5"/>
 <text text-anchor="middle" x="1022" y="-285.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::print</text>
 </a>
 </g>
 </g>
-<!-- Node1283&#45;&gt;Node1286 -->
+<!-- Node1287&#45;&gt;Node1290 -->
 <g id="edge22" class="edge">
-<title>Node1283&#45;&gt;Node1286</title>
+<title>Node1287&#45;&gt;Node1290</title>
 <path fill="none" stroke="#191970" d="M894.0471,-193.7378C898.2689,-195.8051 902.2928,-198.2085 906,-201 933.3176,-221.5702 914.9546,-248.0732 942,-269 949.9031,-275.1151 959.4656,-279.3066 969.1892,-282.1693"/>
 <polygon fill="#191970" stroke="#191970" points="895.1093,-190.3874 884.535,-189.7289 892.3907,-196.8379 895.1093,-190.3874"/>
 </g>
-<!-- Node1287 -->
+<!-- Node1291 -->
 <g id="node22" class="node">
-<title>Node1287</title>
+<title>Node1291</title>
 <g id="a_node22"><a xlink:href="classNeuronMonitor.html#a22cd4deca28f0e9e8dd2e576b75b02a8" target="_top" xlink:title="Returns the ... ">
 <polygon fill="#ffffff" stroke="#000000" points="944.5,-202.5 944.5,-221.5 1099.5,-221.5 1099.5,-202.5 944.5,-202.5"/>
 <text text-anchor="middle" x="1022" y="-209.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::getLastUpdated</text>
 </a>
 </g>
 </g>
-<!-- Node1283&#45;&gt;Node1287 -->
+<!-- Node1287&#45;&gt;Node1291 -->
 <g id="edge23" class="edge">
-<title>Node1283&#45;&gt;Node1287</title>
+<title>Node1287&#45;&gt;Node1291</title>
 <path fill="none" stroke="#191970" d="M891.1644,-192.9924C912.6076,-196.1076 935.7639,-199.4717 956.5491,-202.4914"/>
 <polygon fill="#191970" stroke="#191970" points="891.521,-189.5075 881.1216,-191.5334 890.5145,-196.4348 891.521,-189.5075"/>
 </g>
-<!-- Node1288 -->
+<!-- Node1292 -->
 <g id="node23" class="node">
-<title>Node1288</title>
+<title>Node1292</title>
 <g id="a_node23"><a xlink:href="classNeuronMonitor.html#a5414db20073ada3806b3c35686c9a6f4" target="_top" xlink:title="returns the Neuron state vectors ">
 <polygon fill="#ffffff" stroke="#000000" points="954.5,-240.5 954.5,-259.5 1089.5,-259.5 1089.5,-240.5 954.5,-240.5"/>
 <text text-anchor="middle" x="1022" y="-247.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::getVectorV</text>
 </a>
 </g>
 </g>
-<!-- Node1283&#45;&gt;Node1288 -->
+<!-- Node1287&#45;&gt;Node1292 -->
 <g id="edge24" class="edge">
-<title>Node1283&#45;&gt;Node1288</title>
+<title>Node1287&#45;&gt;Node1292</title>
 <path fill="none" stroke="#191970" d="M890.3744,-194.6577C895.7677,-196.494 901.0327,-198.5954 906,-201 924.7463,-210.0749 923.3744,-221.6799 942,-231 949.6597,-234.8328 958.1234,-237.9127 966.5936,-240.3821"/>
 <polygon fill="#191970" stroke="#191970" points="891.1521,-191.2349 880.5647,-191.6305 889.088,-197.9236 891.1521,-191.2349"/>
 </g>
-<!-- Node1289 -->
+<!-- Node1293 -->
 <g id="node24" class="node">
-<title>Node1289</title>
+<title>Node1293</title>
 <g id="a_node24"><a xlink:href="classNeuronMonitor.html#aff9eb621d9c78a5e33f1435eff0e9ba9" target="_top" xlink:title="NeuronMonitor::getVectorU">
 <polygon fill="#ffffff" stroke="#000000" points="954,-126.5 954,-145.5 1090,-145.5 1090,-126.5 954,-126.5"/>
 <text text-anchor="middle" x="1022" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::getVectorU</text>
 </a>
 </g>
 </g>
-<!-- Node1283&#45;&gt;Node1289 -->
+<!-- Node1287&#45;&gt;Node1293 -->
 <g id="edge25" class="edge">
-<title>Node1283&#45;&gt;Node1289</title>
+<title>Node1287&#45;&gt;Node1293</title>
 <path fill="none" stroke="#191970" d="M868.8335,-170.2414C881.0475,-167.5409 893.9746,-164.6764 906,-162 930.3762,-156.5747 957.6241,-150.4695 979.5834,-145.5391"/>
 <polygon fill="#191970" stroke="#191970" points="867.7862,-166.8883 858.777,-172.4637 869.2967,-173.7235 867.7862,-166.8883"/>
 </g>
-<!-- Node1290 -->
+<!-- Node1294 -->
 <g id="node25" class="node">
-<title>Node1290</title>
+<title>Node1294</title>
 <g id="a_node25"><a xlink:href="classNeuronMonitor.html#aa1e83b424e9145add71076cadfadb200" target="_top" xlink:title="NeuronMonitor::getVectorI">
 <polygon fill="#ffffff" stroke="#000000" points="956.5,-316.5 956.5,-335.5 1087.5,-335.5 1087.5,-316.5 956.5,-316.5"/>
 <text text-anchor="middle" x="1022" y="-323.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::getVectorI</text>
 </a>
 </g>
 </g>
-<!-- Node1283&#45;&gt;Node1290 -->
+<!-- Node1287&#45;&gt;Node1294 -->
 <g id="edge26" class="edge">
-<title>Node1283&#45;&gt;Node1290</title>
+<title>Node1287&#45;&gt;Node1294</title>
 <path fill="none" stroke="#191970" d="M894.0155,-192.7452C898.318,-195.0481 902.3617,-197.7756 906,-201 943.2353,-233.9999 905.2009,-273.5145 942,-307 946.2233,-310.843 951.08,-313.949 956.2689,-316.4543"/>
 <polygon fill="#191970" stroke="#191970" points="895.4202,-189.5392 884.8678,-188.5911 892.5258,-195.9128 895.4202,-189.5392"/>
 </g>
-<!-- Node1291&#45;&gt;Node1280 -->
+<!-- Node1295&#45;&gt;Node1284 -->
 <g id="edge30" class="edge">
-<title>Node1291&#45;&gt;Node1280</title>
+<title>Node1295&#45;&gt;Node1284</title>
 <path fill="none" stroke="#191970" d="M752.0414,-102.5772C742.7661,-105.4873 733.4887,-108.939 725,-113 595.0831,-175.153 464.0409,-292.1042 419.4675,-333.7759"/>
 <polygon fill="#191970" stroke="#191970" points="753.0712,-105.9226 761.6734,-99.7376 751.0918,-99.2082 753.0712,-105.9226"/>
 </g>
-<!-- Node1291&#45;&gt;Node1282 -->
+<!-- Node1295&#45;&gt;Node1286 -->
 <g id="edge31" class="edge">
-<title>Node1291&#45;&gt;Node1282</title>
+<title>Node1295&#45;&gt;Node1286</title>
 <path fill="none" stroke="#191970" d="M752.2155,-106.6354C742.3181,-110.3011 732.801,-115.2022 725,-122 693.7607,-149.2221 707.0575,-170.7057 689,-208 666.3019,-254.8784 635.8504,-307.7603 618.8527,-333.6565"/>
 <polygon fill="#191970" stroke="#191970" points="753.3795,-109.937 761.7777,-103.4778 751.1845,-103.29 753.3795,-109.937"/>
 </g>
-<!-- Node1291&#45;&gt;Node1284 -->
+<!-- Node1295&#45;&gt;Node1288 -->
 <g id="edge28" class="edge">
-<title>Node1291&#45;&gt;Node1284</title>
+<title>Node1295&#45;&gt;Node1288</title>
 <path fill="none" stroke="#191970" d="M879.4664,-91.7879C907.9156,-93.0278 941.0411,-94.4715 968.1942,-95.655"/>
 <polygon fill="#191970" stroke="#191970" points="879.3593,-88.28 869.2164,-91.3411 879.0545,-95.2733 879.3593,-88.28"/>
 </g>
-<!-- Node1292 -->
+<!-- Node1296 -->
 <g id="node27" class="node">
-<title>Node1292</title>
+<title>Node1296</title>
 <g id="a_node27"><a xlink:href="classNeuronMonitorCore.html#a1fea34ca55f65e7cfeb05d870b2e741b" target="_top" xlink:title="constructor (called by CARLsim::setNeuronMonitor) ">
 <polygon fill="#ffffff" stroke="#000000" points="968.5,-39 968.5,-69 1075.5,-69 1075.5,-39 968.5,-39"/>
 <text text-anchor="start" x="976.5" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitorCore::</text>
@@ -655,192 +655,192 @@
 </a>
 </g>
 </g>
-<!-- Node1291&#45;&gt;Node1292 -->
+<!-- Node1295&#45;&gt;Node1296 -->
 <g id="edge29" class="edge">
-<title>Node1291&#45;&gt;Node1292</title>
+<title>Node1295&#45;&gt;Node1296</title>
 <path fill="none" stroke="#191970" d="M879.0923,-78.2216C907.6249,-73.3856 940.922,-67.742 968.1942,-63.1196"/>
 <polygon fill="#191970" stroke="#191970" points="878.4909,-74.7736 869.2164,-79.8955 879.6607,-81.6751 878.4909,-74.7736"/>
 </g>
-<!-- Node1293&#45;&gt;Node1282 -->
+<!-- Node1297&#45;&gt;Node1286 -->
 <g id="edge33" class="edge">
-<title>Node1293&#45;&gt;Node1282</title>
+<title>Node1297&#45;&gt;Node1286</title>
 <path fill="none" stroke="#191970" d="M752.0995,-509.7672C742.611,-506.1044 733.2545,-501.5226 725,-496 671.6236,-460.2891 628.0717,-394.4391 612.3263,-364.2162"/>
 <polygon fill="#191970" stroke="#191970" points="751.0014,-513.0912 761.5961,-513.1245 753.3346,-506.4915 751.0014,-513.0912"/>
 </g>
-<!-- Node1293&#45;&gt;Node1294 -->
+<!-- Node1297&#45;&gt;Node1298 -->
 <g id="edge34" class="edge">
-<title>Node1293&#45;&gt;Node1294</title>
+<title>Node1297&#45;&gt;Node1298</title>
 <path fill="none" stroke="#191970" d="M879.302,-523.7973C907.2872,-526.7788 939.823,-530.2451 966.754,-533.1142"/>
 <polygon fill="#191970" stroke="#191970" points="879.5309,-520.302 869.2164,-522.7228 878.7893,-527.2626 879.5309,-520.302"/>
 </g>
-<!-- Node1294&#45;&gt;Node1280 -->
+<!-- Node1298&#45;&gt;Node1284 -->
 <g id="edge35" class="edge">
-<title>Node1294&#45;&gt;Node1280</title>
+<title>Node1298&#45;&gt;Node1284</title>
 <path fill="none" stroke="#191970" d="M956.6402,-549.5071C895.5568,-556.9879 802.4135,-562.3564 725,-541 595.8984,-505.3841 466.3914,-402.7633 420.7275,-364.0357"/>
 <polygon fill="#191970" stroke="#191970" points="957.4357,-552.9339 966.9103,-548.1923 956.5468,-545.9905 957.4357,-552.9339"/>
 </g>
-<!-- Node1294&#45;&gt;Node1295 -->
+<!-- Node1298&#45;&gt;Node1299 -->
 <g id="edge36" class="edge">
-<title>Node1294&#45;&gt;Node1295</title>
+<title>Node1298&#45;&gt;Node1299</title>
 <path fill="none" stroke="#191970" d="M1044.9315,-523.7573C1077.5198,-502.0956 1136.8672,-462.6471 1169.3182,-441.0767"/>
 <polygon fill="#191970" stroke="#191970" points="1042.8846,-520.9151 1036.4941,-529.3657 1046.7597,-526.7448 1042.8846,-520.9151"/>
 </g>
-<!-- Node1296 -->
+<!-- Node1300 -->
 <g id="node31" class="node">
-<title>Node1296</title>
+<title>Node1300</title>
 <g id="a_node31"><a xlink:href="classSNN.html#a3df37c7539f784fe7a939c5da922f41b" target="_top" xlink:title="run the simulation for n sec ">
 <polygon fill="#ffffff" stroke="#000000" points="1158.5,-665.5 1158.5,-684.5 1225.5,-684.5 1225.5,-665.5 1158.5,-665.5"/>
 <text text-anchor="middle" x="1192" y="-672.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">runNetwork</text>
 </a>
 </g>
 </g>
-<!-- Node1294&#45;&gt;Node1296 -->
+<!-- Node1298&#45;&gt;Node1300 -->
 <g id="edge39" class="edge">
-<title>Node1294&#45;&gt;Node1296</title>
+<title>Node1298&#45;&gt;Node1300</title>
 <path fill="none" stroke="#191970" d="M1042.1586,-555.1269C1077.8002,-583.6402 1150.9068,-642.1254 1179.8316,-665.2653"/>
 <polygon fill="#191970" stroke="#191970" points="1043.9492,-552.0772 1033.9541,-548.5633 1039.5763,-557.5433 1043.9492,-552.0772"/>
 </g>
-<!-- Node1295&#45;&gt;Node1282 -->
+<!-- Node1299&#45;&gt;Node1286 -->
 <g id="edge38" class="edge">
-<title>Node1295&#45;&gt;Node1282</title>
+<title>Node1299&#45;&gt;Node1286</title>
 <path fill="none" stroke="#191970" d="M1128.2072,-434.4011C1037.4316,-439.4883 866.3203,-438.0043 725,-406 687.1952,-397.4385 645.8063,-378.3405 623.1703,-364.1582"/>
 <polygon fill="#191970" stroke="#191970" points="1128.5692,-437.8856 1138.3383,-433.785 1128.1443,-430.8985 1128.5692,-437.8856"/>
 </g>
-<!-- Node1295&#45;&gt;Node1285 -->
+<!-- Node1299&#45;&gt;Node1289 -->
 <g id="edge37" class="edge">
-<title>Node1295&#45;&gt;Node1285</title>
+<title>Node1299&#45;&gt;Node1289</title>
 <path fill="none" stroke="#191970" d="M1219.9989,-404.7243C1256.0526,-377.3278 1317.2099,-330.8557 1343.669,-310.75"/>
 <polygon fill="#191970" stroke="#191970" points="1217.6871,-402.0851 1211.8425,-410.9221 1221.9222,-407.6586 1217.6871,-402.0851"/>
 </g>
-<!-- Node1297 -->
+<!-- Node1301 -->
 <g id="node32" class="node">
-<title>Node1297</title>
+<title>Node1301</title>
 <g id="a_node32"><a xlink:href="classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" target="_top" xlink:title="CARLsim::Impl::runNetwork">
 <polygon fill="#ffffff" stroke="#ff0000" points="1286.5,-665.5 1286.5,-684.5 1426.5,-684.5 1426.5,-665.5 1286.5,-665.5"/>
 <text text-anchor="middle" x="1356.5" y="-672.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::runNetwork</text>
 </a>
 </g>
 </g>
-<!-- Node1296&#45;&gt;Node1297 -->
+<!-- Node1300&#45;&gt;Node1301 -->
 <g id="edge40" class="edge">
-<title>Node1296&#45;&gt;Node1297</title>
+<title>Node1300&#45;&gt;Node1301</title>
 <path fill="none" stroke="#191970" d="M1235.9645,-675C1251.3989,-675 1269.1487,-675 1286.1985,-675"/>
 <polygon fill="#191970" stroke="#191970" points="1235.686,-671.5001 1225.686,-675 1235.6859,-678.5001 1235.686,-671.5001"/>
 </g>
-<!-- Node1301&#45;&gt;Node1282 -->
+<!-- Node1305&#45;&gt;Node1286 -->
 <g id="edge45" class="edge">
-<title>Node1301&#45;&gt;Node1282</title>
+<title>Node1305&#45;&gt;Node1286</title>
 <path fill="none" stroke="#191970" d="M751.7805,-371.9673C722.3416,-369.3237 687.7674,-365.267 659.6794,-361.1288"/>
 <polygon fill="#191970" stroke="#191970" points="751.6974,-375.473 761.9602,-372.8413 752.2963,-368.4986 751.6974,-375.473"/>
 </g>
-<!-- Node1302 -->
+<!-- Node1306 -->
 <g id="node34" class="node">
-<title>Node1302</title>
+<title>Node1306</title>
 <g id="a_node34"><a xlink:href="classNeuronMonitor.html#a11168f8252e1416f1706b5f7cae0be1e" target="_top" xlink:title="NeuronMonitor::setLogFile">
 <polygon fill="#ffffff" stroke="#000000" points="956.5,-363.5 956.5,-382.5 1087.5,-382.5 1087.5,-363.5 956.5,-363.5"/>
 <text text-anchor="middle" x="1022" y="-370.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">NeuronMonitor::setLogFile</text>
 </a>
 </g>
 </g>
-<!-- Node1301&#45;&gt;Node1302 -->
+<!-- Node1305&#45;&gt;Node1306 -->
 <g id="edge44" class="edge">
-<title>Node1301&#45;&gt;Node1302</title>
+<title>Node1305&#45;&gt;Node1306</title>
 <path fill="none" stroke="#191970" d="M879.4605,-373C903.9026,-373 931.7971,-373 956.3906,-373"/>
 <polygon fill="#191970" stroke="#191970" points="879.2164,-369.5001 869.2164,-373 879.2163,-376.5001 879.2164,-369.5001"/>
 </g>
-<!-- Node1306&#45;&gt;Node1288 -->
+<!-- Node1310&#45;&gt;Node1292 -->
 <g id="edge47" class="edge">
-<title>Node1306&#45;&gt;Node1288</title>
+<title>Node1310&#45;&gt;Node1292</title>
 <path fill="none" stroke="#191970" d="M879.2257,-233.4064C903.0981,-236.1809 930.2905,-239.3413 954.4936,-242.1542"/>
 <polygon fill="#191970" stroke="#191970" points="879.5536,-229.921 869.2164,-232.2431 878.7454,-236.8742 879.5536,-229.921"/>
 </g>
-<!-- Node1307&#45;&gt;Node1289 -->
+<!-- Node1311&#45;&gt;Node1293 -->
 <g id="edge49" class="edge">
-<title>Node1307&#45;&gt;Node1289</title>
+<title>Node1311&#45;&gt;Node1293</title>
 <path fill="none" stroke="#191970" d="M879.4487,-137.3806C903.0168,-137.1524 929.7962,-136.893 953.7313,-136.6612"/>
 <polygon fill="#191970" stroke="#191970" points="879.182,-133.883 869.2164,-137.4797 879.2498,-140.8826 879.182,-133.883"/>
 </g>
-<!-- Node1308&#45;&gt;Node1290 -->
+<!-- Node1312&#45;&gt;Node1294 -->
 <g id="edge51" class="edge">
-<title>Node1308&#45;&gt;Node1290</title>
+<title>Node1312&#45;&gt;Node1294</title>
 <path fill="none" stroke="#191970" d="M879.4605,-324.6195C903.9026,-324.8562 931.7971,-325.1264 956.3906,-325.3646"/>
 <polygon fill="#191970" stroke="#191970" points="879.2498,-321.1174 869.2164,-324.5203 879.182,-328.117 879.2498,-321.1174"/>
 </g>
-<!-- Node1309&#45;&gt;Node1286 -->
+<!-- Node1313&#45;&gt;Node1290 -->
 <g id="edge53" class="edge">
-<title>Node1309&#45;&gt;Node1286</title>
+<title>Node1313&#45;&gt;Node1290</title>
 <path fill="none" stroke="#191970" d="M879.2111,-279.0109C908.0927,-280.8291 941.8363,-282.9534 969.2671,-284.6803"/>
 <polygon fill="#191970" stroke="#191970" points="879.4166,-275.517 869.2164,-278.3817 878.9767,-282.5031 879.4166,-275.517"/>
 </g>
-<!-- Node1311&#45;&gt;Node1274 -->
+<!-- Node1315&#45;&gt;Node1278 -->
 <g id="edge57" class="edge">
-<title>Node1311&#45;&gt;Node1274</title>
+<title>Node1315&#45;&gt;Node1278</title>
 <path fill="none" stroke="#191970" d="M464.3466,-876.4181C493.3207,-881.8552 527.5752,-888.2832 555.1412,-893.4561"/>
 <polygon fill="#191970" stroke="#191970" points="464.8119,-872.9444 454.3379,-874.54 463.5208,-879.8243 464.8119,-872.9444"/>
 </g>
-<!-- Node1311&#45;&gt;Node1278 -->
+<!-- Node1315&#45;&gt;Node1282 -->
 <g id="edge58" class="edge">
-<title>Node1311&#45;&gt;Node1278</title>
+<title>Node1315&#45;&gt;Node1282</title>
 <path fill="none" stroke="#191970" d="M465.8142,-865C483.995,-865 504.1517,-865 523.3799,-865"/>
 <polygon fill="#191970" stroke="#191970" points="465.6488,-861.5001 455.6488,-865 465.6487,-868.5001 465.6488,-861.5001"/>
 </g>
-<!-- Node1311&#45;&gt;Node1296 -->
+<!-- Node1315&#45;&gt;Node1300 -->
 <g id="edge59" class="edge">
-<title>Node1311&#45;&gt;Node1296</title>
+<title>Node1315&#45;&gt;Node1300</title>
 <path fill="none" stroke="#191970" d="M465.7698,-854.3894C484.1666,-851.4468 504.3661,-848.4036 523,-846 780.408,-812.7962 879.1611,-903.0571 1102,-770 1123.694,-757.0465 1120.7799,-744.4902 1138,-726 1152.0615,-710.9014 1169.6399,-694.7541 1180.8463,-684.767"/>
 <polygon fill="#191970" stroke="#191970" points="465.069,-850.9571 455.7562,-856.009 466.1868,-857.8673 465.069,-850.9571"/>
 </g>
-<!-- Node1312&#45;&gt;Node1296 -->
+<!-- Node1316&#45;&gt;Node1300 -->
 <g id="edge61" class="edge">
-<title>Node1312&#45;&gt;Node1296</title>
+<title>Node1316&#45;&gt;Node1300</title>
 <path fill="none" stroke="#191970" d="M430.5809,-737.0215C454.2685,-725.5593 489.9575,-710.108 523,-703 761.9443,-651.5988 1059.6549,-665.7417 1158.4319,-672.4382"/>
 <polygon fill="#191970" stroke="#191970" points="428.9285,-733.9339 421.5118,-741.4998 432.0279,-740.2104 428.9285,-733.9339"/>
 </g>
-<!-- Node1312&#45;&gt;Node1313 -->
+<!-- Node1316&#45;&gt;Node1317 -->
 <g id="edge62" class="edge">
-<title>Node1312&#45;&gt;Node1313</title>
+<title>Node1316&#45;&gt;Node1317</title>
 <path fill="none" stroke="#191970" d="M465.3086,-742.1484C488.7939,-738.7851 515.6349,-734.9412 539.5329,-731.5187"/>
 <polygon fill="#191970" stroke="#191970" points="464.5261,-738.7247 455.1233,-743.607 465.5185,-745.654 464.5261,-738.7247"/>
 </g>
-<!-- Node1312&#45;&gt;Node1317 -->
+<!-- Node1316&#45;&gt;Node1321 -->
 <g id="edge68" class="edge">
-<title>Node1312&#45;&gt;Node1317</title>
+<title>Node1316&#45;&gt;Node1321</title>
 <path fill="none" stroke="#191970" d="M465.1543,-756.7848C483.632,-758.5186 504.1981,-760.4482 523.7792,-762.2855"/>
 <polygon fill="#191970" stroke="#191970" points="465.4065,-753.2932 455.1233,-755.8437 464.7525,-760.2626 465.4065,-753.2932"/>
 </g>
-<!-- Node1314 -->
+<!-- Node1318 -->
 <g id="node42" class="node">
-<title>Node1314</title>
+<title>Node1318</title>
 <g id="a_node42"><a xlink:href="classSpikeMonitor.html#ab91616c118b701c2afd9136393d1f19b" target="_top" xlink:title="Starts a new recording period. ">
 <polygon fill="#ffffff" stroke="#000000" points="950.5,-703.5 950.5,-722.5 1093.5,-722.5 1093.5,-703.5 950.5,-703.5"/>
 <text text-anchor="middle" x="1022" y="-710.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitor::startRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1313&#45;&gt;Node1314 -->
+<!-- Node1317&#45;&gt;Node1318 -->
 <g id="edge63" class="edge">
-<title>Node1313&#45;&gt;Node1314</title>
+<title>Node1317&#45;&gt;Node1318</title>
 <path fill="none" stroke="#191970" d="M698.2426,-720.0044C774.2935,-718.359 880.6369,-716.0583 950.3872,-714.5493"/>
 <polygon fill="#191970" stroke="#191970" points="698.1101,-716.5063 688.1882,-720.2219 698.2616,-723.5047 698.1101,-716.5063"/>
 </g>
-<!-- Node1315 -->
+<!-- Node1319 -->
 <g id="node44" class="node">
-<title>Node1315</title>
+<title>Node1319</title>
 <g id="a_node44"><a xlink:href="classSpikeMonitorCore.html#a7ac2c997b5281ea2f2bc00cc9706d37c" target="_top" xlink:title="sets status of PersistentData mode ">
 <polygon fill="#ffffff" stroke="#000000" points="726,-741.5 726,-760.5 905,-760.5 905,-741.5 726,-741.5"/>
 <text text-anchor="middle" x="815.5" y="-748.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::setPersistentData</text>
 </a>
 </g>
 </g>
-<!-- Node1313&#45;&gt;Node1315 -->
+<!-- Node1317&#45;&gt;Node1319 -->
 <g id="edge65" class="edge">
-<title>Node1313&#45;&gt;Node1315</title>
+<title>Node1317&#45;&gt;Node1319</title>
 <path fill="none" stroke="#191970" d="M685.0172,-732.9379C705.2635,-735.7405 726.8771,-738.7324 746.5703,-741.4584"/>
 <polygon fill="#191970" stroke="#191970" points="685.2738,-729.4402 674.8883,-731.5359 684.3139,-736.3741 685.2738,-729.4402"/>
 </g>
-<!-- Node1299 -->
+<!-- Node1303 -->
 <g id="node43" class="node">
-<title>Node1299</title>
+<title>Node1303</title>
 <g id="a_node43"><a xlink:href="classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" target="_top" xlink:title="SimpleWeightTuner::\lImpl::iterate">
 <polygon fill="#ffffff" stroke="#ff0000" points="1138,-736 1138,-766 1246,-766 1246,-736 1138,-736"/>
 <text text-anchor="start" x="1146" y="-754" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -848,93 +848,93 @@
 </a>
 </g>
 </g>
-<!-- Node1314&#45;&gt;Node1299 -->
+<!-- Node1318&#45;&gt;Node1303 -->
 <g id="edge64" class="edge">
-<title>Node1314&#45;&gt;Node1299</title>
+<title>Node1318&#45;&gt;Node1303</title>
 <path fill="none" stroke="#191970" d="M1074.787,-724.7995C1094.8231,-729.2781 1117.6617,-734.3832 1137.8239,-738.8901"/>
 <polygon fill="#191970" stroke="#191970" points="1075.4209,-721.3548 1064.8982,-722.589 1073.8938,-728.1862 1075.4209,-721.3548"/>
 </g>
-<!-- Node1316 -->
+<!-- Node1320 -->
 <g id="node45" class="node">
-<title>Node1316</title>
+<title>Node1320</title>
 <g id="a_node45"><a xlink:href="classSpikeMonitor.html#a7ac2c997b5281ea2f2bc00cc9706d37c" target="_top" xlink:title="Sets PersistentMode either on (true) or off (false) ">
 <polygon fill="#ffffff" stroke="#000000" points="943,-741.5 943,-760.5 1101,-760.5 1101,-741.5 943,-741.5"/>
 <text text-anchor="middle" x="1022" y="-748.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitor::setPersistentData</text>
 </a>
 </g>
 </g>
-<!-- Node1315&#45;&gt;Node1316 -->
+<!-- Node1319&#45;&gt;Node1320 -->
 <g id="edge66" class="edge">
-<title>Node1315&#45;&gt;Node1316</title>
+<title>Node1319&#45;&gt;Node1320</title>
 <path fill="none" stroke="#191970" d="M915.1908,-751C924.4498,-751 933.7469,-751 942.784,-751"/>
 <polygon fill="#191970" stroke="#191970" points="915.173,-747.5001 905.173,-751 915.173,-754.5001 915.173,-747.5001"/>
 </g>
-<!-- Node1316&#45;&gt;Node1299 -->
+<!-- Node1320&#45;&gt;Node1303 -->
 <g id="edge67" class="edge">
-<title>Node1316&#45;&gt;Node1299</title>
+<title>Node1320&#45;&gt;Node1303</title>
 <path fill="none" stroke="#191970" d="M1111.2867,-751C1120.3682,-751 1129.3843,-751 1137.9189,-751"/>
 <polygon fill="#191970" stroke="#191970" points="1111.0278,-747.5001 1101.0278,-751 1111.0278,-754.5001 1111.0278,-747.5001"/>
 </g>
-<!-- Node1317&#45;&gt;Node1315 -->
+<!-- Node1321&#45;&gt;Node1319 -->
 <g id="edge71" class="edge">
-<title>Node1317&#45;&gt;Node1315</title>
+<title>Node1321&#45;&gt;Node1319</title>
 <path fill="none" stroke="#191970" d="M698.4384,-761.6166C707.5689,-760.7885 716.8259,-759.949 725.9267,-759.1236"/>
 <polygon fill="#191970" stroke="#191970" points="697.8416,-758.1562 688.1987,-762.5452 698.4739,-765.1276 697.8416,-758.1562"/>
 </g>
-<!-- Node1318 -->
+<!-- Node1322 -->
 <g id="node47" class="node">
-<title>Node1318</title>
+<title>Node1322</title>
 <g id="a_node47"><a xlink:href="classSpikeMonitor.html#a25e0e98dd4519eaaa6b258f0dcb91ac7" target="_top" xlink:title="Ends a recording period. ">
 <polygon fill="#ffffff" stroke="#000000" points="744,-779.5 744,-798.5 887,-798.5 887,-779.5 744,-779.5"/>
 <text text-anchor="middle" x="815.5" y="-786.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitor::stopRecording</text>
 </a>
 </g>
 </g>
-<!-- Node1317&#45;&gt;Node1318 -->
+<!-- Node1321&#45;&gt;Node1322 -->
 <g id="edge69" class="edge">
-<title>Node1317&#45;&gt;Node1318</title>
+<title>Node1321&#45;&gt;Node1322</title>
 <path fill="none" stroke="#191970" d="M698.1657,-778.3587C713.4335,-779.7434 729.063,-781.1608 743.7317,-782.4912"/>
 <polygon fill="#191970" stroke="#191970" points="698.4739,-774.8724 688.1987,-777.4548 697.8416,-781.8438 698.4739,-774.8724"/>
 </g>
-<!-- Node1318&#45;&gt;Node1299 -->
+<!-- Node1322&#45;&gt;Node1303 -->
 <g id="edge70" class="edge">
-<title>Node1318&#45;&gt;Node1299</title>
+<title>Node1322&#45;&gt;Node1303</title>
 <path fill="none" stroke="#191970" d="M897.1375,-786.6649C954.6303,-784.27 1033.2888,-779.4825 1102,-770 1113.7064,-768.3845 1126.1652,-766.1153 1137.9632,-763.7054"/>
 <polygon fill="#191970" stroke="#191970" points="896.869,-783.1728 887.0173,-787.0709 897.1496,-790.1672 896.869,-783.1728"/>
 </g>
-<!-- Node1320 -->
+<!-- Node1324 -->
 <g id="node49" class="node">
-<title>Node1320</title>
+<title>Node1324</title>
 <g id="a_node49"><a xlink:href="classCARLsim_1_1Impl.html#a76311719fdd8a942d292caead86cf0e6" target="_top" xlink:title="CARLsim::Impl::setSpikeMonitor">
 <polygon fill="#ffffff" stroke="#000000" points="323,-1007.5 323,-1026.5 484,-1026.5 484,-1007.5 323,-1007.5"/>
 <text text-anchor="middle" x="403.5" y="-1014.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1319&#45;&gt;Node1320 -->
+<!-- Node1323&#45;&gt;Node1324 -->
 <g id="edge76" class="edge">
-<title>Node1319&#45;&gt;Node1320</title>
+<title>Node1323&#45;&gt;Node1324</title>
 <path fill="none" stroke="#191970" d="M257.5554,-1017C277.5855,-1017 300.7578,-1017 322.6568,-1017"/>
 <polygon fill="#191970" stroke="#191970" points="257.3909,-1013.5001 247.3908,-1017 257.3908,-1020.5001 257.3909,-1013.5001"/>
 </g>
-<!-- Node1321 -->
+<!-- Node1325 -->
 <g id="node50" class="node">
-<title>Node1321</title>
+<title>Node1325</title>
 <g id="a_node50"><a xlink:href="classCARLsim.html#a1e0b4d170b65f5075f1a996554c842ab" target="_top" xlink:title="Sets a Spike Monitor for a groups, prints spikes to binary file. ">
 <polygon fill="#ffffff" stroke="#000000" points="538,-1007.5 538,-1026.5 674,-1026.5 674,-1007.5 538,-1007.5"/>
 <text text-anchor="middle" x="606" y="-1014.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1320&#45;&gt;Node1321 -->
+<!-- Node1324&#45;&gt;Node1325 -->
 <g id="edge77" class="edge">
-<title>Node1320&#45;&gt;Node1321</title>
+<title>Node1324&#45;&gt;Node1325</title>
 <path fill="none" stroke="#191970" d="M494.1818,-1017C508.8131,-1017 523.742,-1017 537.7284,-1017"/>
 <polygon fill="#191970" stroke="#191970" points="494.1152,-1013.5001 484.1152,-1017 494.1152,-1020.5001 494.1152,-1013.5001"/>
 </g>
-<!-- Node1321&#45;&gt;Node1269 -->
+<!-- Node1325&#45;&gt;Node1273 -->
 <g id="edge78" class="edge">
-<title>Node1321&#45;&gt;Node1269</title>
+<title>Node1325&#45;&gt;Node1273</title>
 <path fill="none" stroke="#191970" d="M684.0719,-1011.0375C706.2482,-1009.3438 730.1336,-1007.5196 751.3799,-1005.897"/>
 <polygon fill="#191970" stroke="#191970" points="683.7231,-1007.5538 674.0186,-1011.8053 684.2562,-1014.5335 683.7231,-1007.5538"/>
 </g>

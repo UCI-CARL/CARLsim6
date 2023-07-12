@@ -6,6 +6,7 @@ var searchData=
   ['se_5fda_5fmod',['SE_DA_MOD',['../carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12a3f2f1d3f74d7d0264cf7ccb3ed0cc788',1,'carlsim_datastructures.h']]],
   ['se_5fmod',['SE_MOD',['../carlsim__datastructures_8h.html#a6925c3689423e0dfefa99b7eeb642f12af7f249b58a1c4ecc160408d041b0d2d4',1,'carlsim_datastructures.h']]],
   ['serotonergic_5fneuron',['SEROTONERGIC_NEURON',['../carlsim__definitions_8h.html#a7cdfc6c6838ccfe53ff5dff352988f94',1,'carlsim_definitions.h']]],
+  ['set_5fconn_5fgrp_5fid',['SET_CONN_GRP_ID',['../snn__cpu__module_8cpp.html#a4dca7f483dbe6247f39de409eaf57d16',1,'snn_cpu_module.cpp']]],
   ['set_5fconn_5fpresent',['SET_CONN_PRESENT',['../snn__definitions_8h.html#acf8f2425534a81a71aae22cca500f75d',1,'snn_definitions.h']]],
   ['set_5ffixed_5fplastic',['SET_FIXED_PLASTIC',['../snn__definitions_8h.html#a8fcc4c64b8388ee9d636fb35ffa89e37',1,'snn_definitions.h']]],
   ['set_5finitwts_5frampdown',['SET_INITWTS_RAMPDOWN',['../snn__definitions_8h.html#a2d87b49213aa23127a959a1984b91f71',1,'snn_definitions.h']]],

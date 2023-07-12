@@ -2,6 +2,7 @@ var structGroupConfig__s =
 [
     [ "GroupConfig_s", "structGroupConfig__s.html#ae426578f8d231f63c8b38afe44375f10", null ],
     [ "acneConfig", "structGroupConfig__s.html#af82556c7104104738bbf482d433d37ad", null ],
+    [ "AxonPlast_TAU", "structGroupConfig__s.html#aa1c9634803a9f5af29880415ea19bc81", null ],
     [ "compCouplingDown", "structGroupConfig__s.html#a95047fffdea3638d59beb9879d017466", null ],
     [ "compCouplingUp", "structGroupConfig__s.html#a5393b8e1e349bd99ac658a68c5166fff", null ],
     [ "conductanceConfig", "structGroupConfig__s.html#a49ca073645837466f642735da5552d20", null ],
@@ -22,6 +23,7 @@ var structGroupConfig__s =
     [ "type", "structGroupConfig__s.html#a4bfea42429249a1f65204f0c0f34704a", null ],
     [ "with_GABAb_rise", "structGroupConfig__s.html#a6f5022335b2c11d3a401875511fb40f2", null ],
     [ "with_NMDA_rise", "structGroupConfig__s.html#a5031ed8980f58badcd4fc5666a22d7f5", null ],
+    [ "WithAxonPlast", "structGroupConfig__s.html#a4254bd1d66709f572c393c33c1f5dc44", null ],
     [ "withCompartments", "structGroupConfig__s.html#aff7eaa76b4f9a633f31599d755138c68", null ],
     [ "WithDA_MOD", "structGroupConfig__s.html#a4b1b30ad9d43c553f7d01baa7a525028", null ],
     [ "withParamModel_9", "structGroupConfig__s.html#ae6e760c8fdacd56117a5709c44930233", null ],

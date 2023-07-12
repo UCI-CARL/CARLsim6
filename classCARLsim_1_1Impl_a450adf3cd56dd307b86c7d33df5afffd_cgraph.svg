@@ -48,106 +48,106 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 512;
 var viewHeight = 142;
-var sectionId = 'dynsection-25';
+var sectionId = 'dynsection-27';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>getConductanceNMDA</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-138 508,-138 508,4 -4,4"/>
-<!-- Node134 -->
+<!-- Node138 -->
 <g id="node1" class="node">
-<title>Node134</title>
+<title>Node138</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-76.5 0,-95.5 118,-95.5 118,-76.5 0,-76.5"/>
 <text text-anchor="middle" x="59" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConductanceNMDA</text>
 </g>
-<!-- Node135 -->
+<!-- Node139 -->
 <g id="node2" class="node">
-<title>Node135</title>
+<title>Node139</title>
 <g id="a_node2"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="169,-114.5 169,-133.5 285,-133.5 285,-114.5 169,-114.5"/>
 <text text-anchor="middle" x="227" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node134&#45;&gt;Node135 -->
+<!-- Node138&#45;&gt;Node139 -->
 <g id="edge1" class="edge">
-<title>Node134&#45;&gt;Node135</title>
+<title>Node138&#45;&gt;Node139</title>
 <path fill="none" stroke="#191970" d="M101.3935,-95.589C123.7626,-100.6487 151.3982,-106.8996 175.0472,-112.2488"/>
 <polygon fill="#191970" stroke="#191970" points="174.3856,-115.6875 184.9114,-114.4799 175.9299,-108.8599 174.3856,-115.6875"/>
 </g>
-<!-- Node136 -->
+<!-- Node140 -->
 <g id="node3" class="node">
-<title>Node136</title>
+<title>Node140</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="185.5,-76.5 185.5,-95.5 268.5,-95.5 268.5,-76.5 185.5,-76.5"/>
 <text text-anchor="middle" x="227" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node134&#45;&gt;Node136 -->
+<!-- Node138&#45;&gt;Node140 -->
 <g id="edge2" class="edge">
-<title>Node134&#45;&gt;Node136</title>
+<title>Node138&#45;&gt;Node140</title>
 <path fill="none" stroke="#191970" d="M118.2305,-86C136.8753,-86 157.308,-86 175.3799,-86"/>
 <polygon fill="#191970" stroke="#191970" points="175.4323,-89.5001 185.4323,-86 175.4323,-82.5001 175.4323,-89.5001"/>
 </g>
-<!-- Node138 -->
+<!-- Node142 -->
 <g id="node5" class="node">
-<title>Node138</title>
+<title>Node142</title>
 <g id="a_node5"><a xlink:href="classSNN.html#ab251be3aba6d73b79fdb0d44019b1790" target="_top" xlink:title="SNN::getConductanceNMDA">
 <polygon fill="#ffffff" stroke="#000000" points="154,-38.5 154,-57.5 300,-57.5 300,-38.5 154,-38.5"/>
 <text text-anchor="middle" x="227" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConductanceNMDA</text>
 </a>
 </g>
 </g>
-<!-- Node134&#45;&gt;Node138 -->
+<!-- Node138&#45;&gt;Node142 -->
 <g id="edge4" class="edge">
-<title>Node134&#45;&gt;Node138</title>
+<title>Node138&#45;&gt;Node142</title>
 <path fill="none" stroke="#191970" d="M101.3935,-76.411C123.7626,-71.3513 151.3982,-65.1004 175.0472,-59.7512"/>
 <polygon fill="#191970" stroke="#191970" points="175.9299,-63.1401 184.9114,-57.5201 174.3856,-56.3125 175.9299,-63.1401"/>
 </g>
-<!-- Node137 -->
+<!-- Node141 -->
 <g id="node4" class="node">
-<title>Node137</title>
+<title>Node141</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="365,-76.5 365,-95.5 475,-95.5 475,-76.5 365,-76.5"/>
 <text text-anchor="middle" x="420" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node136&#45;&gt;Node137 -->
+<!-- Node140&#45;&gt;Node141 -->
 <g id="edge3" class="edge">
-<title>Node136&#45;&gt;Node137</title>
+<title>Node140&#45;&gt;Node141</title>
 <path fill="none" stroke="#191970" d="M268.8781,-86C293.8591,-86 326.1218,-86 354.4186,-86"/>
 <polygon fill="#191970" stroke="#191970" points="354.6435,-89.5001 364.6435,-86 354.6434,-82.5001 354.6435,-89.5001"/>
 </g>
-<!-- Node139 -->
+<!-- Node143 -->
 <g id="node6" class="node">
-<title>Node139</title>
+<title>Node143</title>
 <g id="a_node6"><a xlink:href="classSNN.html#ad4930e827d0e5cc6a63dc4a07e1879dc" target="_top" xlink:title="SNN::isSimulationWithCOBA">
 <polygon fill="#ffffff" stroke="#000000" points="347,-38.5 347,-57.5 493,-57.5 493,-38.5 347,-38.5"/>
 <text text-anchor="middle" x="420" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isSimulationWithCOBA</text>
 </a>
 </g>
 </g>
-<!-- Node138&#45;&gt;Node139 -->
+<!-- Node142&#45;&gt;Node143 -->
 <g id="edge5" class="edge">
-<title>Node138&#45;&gt;Node139</title>
+<title>Node142&#45;&gt;Node143</title>
 <path fill="none" stroke="#191970" d="M300.2402,-48C312.1536,-48 324.5699,-48 336.7024,-48"/>
 <polygon fill="#191970" stroke="#191970" points="336.8098,-51.5001 346.8098,-48 336.8097,-44.5001 336.8098,-51.5001"/>
 </g>
-<!-- Node140 -->
+<!-- Node144 -->
 <g id="node7" class="node">
-<title>Node140</title>
+<title>Node144</title>
 <g id="a_node7"><a xlink:href="classSNN.html#a201166567b58f8243db9455ad31b3763" target="_top" xlink:title="SNN::isSimulationWithNMDARise">
 <polygon fill="#ffffff" stroke="#000000" points="336,-.5 336,-19.5 504,-19.5 504,-.5 336,-.5"/>
 <text text-anchor="middle" x="420" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isSimulationWithNMDARise</text>
 </a>
 </g>
 </g>
-<!-- Node138&#45;&gt;Node140 -->
+<!-- Node142&#45;&gt;Node144 -->
 <g id="edge6" class="edge">
-<title>Node138&#45;&gt;Node140</title>
+<title>Node142&#45;&gt;Node144</title>
 <path fill="none" stroke="#191970" d="M275.702,-38.411C301.8588,-33.261 334.2837,-26.8768 361.7671,-21.4656"/>
 <polygon fill="#191970" stroke="#191970" points="362.5127,-24.886 371.6482,-19.5201 361.1604,-18.0179 362.5127,-24.886"/>
 </g>

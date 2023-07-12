@@ -9,39 +9,39 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setNM4weighted</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 469,-24 469,4 -4,4"/>
-<!-- Node1867 -->
+<!-- Node1875 -->
 <g id="node1" class="node">
-<title>Node1867</title>
+<title>Node1875</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 90,-19.5 90,-.5 0,-.5"/>
 <text text-anchor="middle" x="45" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setNM4weighted</text>
 </g>
-<!-- Node1868 -->
+<!-- Node1876 -->
 <g id="node2" class="node">
-<title>Node1868</title>
+<title>Node1876</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#abb1c64e1a1dccd802e71145edea251e2" target="_top" xlink:title="CARLsim::Impl::setNM4weighted">
 <polygon fill="#ffffff" stroke="#000000" points="126,-.5 126,-19.5 290,-19.5 290,-.5 126,-.5"/>
 <text text-anchor="middle" x="208" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setNM4weighted</text>
 </a>
 </g>
 </g>
-<!-- Node1867&#45;&gt;Node1868 -->
+<!-- Node1875&#45;&gt;Node1876 -->
 <g id="edge1" class="edge">
-<title>Node1867&#45;&gt;Node1868</title>
+<title>Node1875&#45;&gt;Node1876</title>
 <path fill="none" stroke="#191970" d="M100.4841,-10C108.6273,-10 117.1577,-10 125.6998,-10"/>
 <polygon fill="#191970" stroke="#191970" points="100.4046,-6.5001 90.4046,-10 100.4046,-13.5001 100.4046,-6.5001"/>
 </g>
-<!-- Node1869 -->
+<!-- Node1877 -->
 <g id="node3" class="node">
-<title>Node1869</title>
+<title>Node1877</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#aeda549f4dcee2377a1b335ea96b340f5" target="_top" xlink:title="Sets IcalcType to NM4weighted for a specific neuron group. ">
 <polygon fill="#ffffff" stroke="#000000" points="326,-.5 326,-19.5 465,-19.5 465,-.5 326,-.5"/>
 <text text-anchor="middle" x="395.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setNM4weighted</text>
 </a>
 </g>
 </g>
-<!-- Node1868&#45;&gt;Node1869 -->
+<!-- Node1876&#45;&gt;Node1877 -->
 <g id="edge2" class="edge">
-<title>Node1868&#45;&gt;Node1869</title>
+<title>Node1876&#45;&gt;Node1877</title>
 <path fill="none" stroke="#191970" d="M300.3281,-10C308.9426,-10 317.5731,-10 325.9286,-10"/>
 <polygon fill="#191970" stroke="#191970" points="300.2403,-6.5001 290.2402,-10 300.2402,-13.5001 300.2403,-6.5001"/>
 </g>

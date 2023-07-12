@@ -9,174 +9,174 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 366)">
 <title>getLogFpLog</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-366 420,-366 420,4 -4,4"/>
-<!-- Node278 -->
+<!-- Node282 -->
 <g id="node1" class="node">
-<title>Node278</title>
+<title>Node282</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-171.5 0,-190.5 73,-190.5 73,-171.5 0,-171.5"/>
 <text text-anchor="middle" x="36.5" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getLogFpLog</text>
 </g>
-<!-- Node279 -->
+<!-- Node283 -->
 <g id="node2" class="node">
-<title>Node279</title>
+<title>Node283</title>
 <g id="a_node2"><a xlink:href="classSNN.html#acd2fe569d2092f6e9cf624d18b93b1bf" target="_top" xlink:title="returns file pointer to log file ">
 <polygon fill="#ffffff" stroke="#000000" points="109,-171.5 109,-190.5 210,-190.5 210,-171.5 109,-171.5"/>
 <text text-anchor="middle" x="159.5" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getLogFpLog</text>
 </a>
 </g>
 </g>
-<!-- Node278&#45;&gt;Node279 -->
+<!-- Node282&#45;&gt;Node283 -->
 <g id="edge1" class="edge">
-<title>Node278&#45;&gt;Node279</title>
+<title>Node282&#45;&gt;Node283</title>
 <path fill="none" stroke="#191970" d="M73.071,-181C81.1129,-181 89.8393,-181 98.551,-181"/>
 <polygon fill="#191970" stroke="#191970" points="98.7292,-184.5001 108.7291,-181 98.7291,-177.5001 98.7292,-184.5001"/>
 </g>
-<!-- Node280 -->
+<!-- Node284 -->
 <g id="node3" class="node">
-<title>Node280</title>
+<title>Node284</title>
 <g id="a_node3"><a xlink:href="classSNN.html#a2f4a65f43d2b15b984464dfb19959fe3" target="_top" xlink:title="Sets the file pointers for all log files file pointer NULL means don&#39;t change it. ...">
 <polygon fill="#ffffff" stroke="#000000" points="286,-342.5 286,-361.5 376,-361.5 376,-342.5 286,-342.5"/>
 <text text-anchor="middle" x="331" y="-349.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setLogsFp</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node280 -->
+<!-- Node283&#45;&gt;Node284 -->
 <g id="edge2" class="edge">
-<title>Node279&#45;&gt;Node280</title>
+<title>Node283&#45;&gt;Node284</title>
 <path fill="none" stroke="#191970" d="M162.0166,-190.674C169.6102,-217.8362 194.9746,-295.2729 246,-333 254.7504,-339.4699 265.2986,-343.8036 275.9423,-346.691"/>
 <polygon fill="#191970" stroke="#191970" points="275.1625,-350.103 285.6951,-348.9558 276.746,-343.2844 275.1625,-350.103"/>
 </g>
-<!-- Node281 -->
+<!-- Node285 -->
 <g id="node4" class="node">
-<title>Node281</title>
+<title>Node285</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a44b05911f213714c351379021852e12a" target="_top" xlink:title="find connection ID based on pre&#45;post group pair, O(N) ">
 <polygon fill="#ffffff" stroke="#000000" points="279.5,-304.5 279.5,-323.5 382.5,-323.5 382.5,-304.5 279.5,-304.5"/>
 <text text-anchor="middle" x="331" y="-311.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConnectId</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node281 -->
+<!-- Node283&#45;&gt;Node285 -->
 <g id="edge3" class="edge">
-<title>Node279&#45;&gt;Node281</title>
+<title>Node283&#45;&gt;Node285</title>
 <path fill="none" stroke="#191970" d="M163.9437,-190.7887C174.6199,-213.1288 203.9801,-268.0185 246,-295 253.1333,-299.5804 261.2188,-303.0658 269.4973,-305.7162"/>
 <polygon fill="#191970" stroke="#191970" points="268.6847,-309.1234 279.2587,-308.4596 270.5786,-302.3845 268.6847,-309.1234"/>
 </g>
-<!-- Node282 -->
+<!-- Node286 -->
 <g id="node5" class="node">
-<title>Node282</title>
+<title>Node286</title>
 <g id="a_node5"><a xlink:href="classSNN.html#acdfe8b1c7c69be228cc51535cfec0215" target="_top" xlink:title="required for homeostasis ">
 <polygon fill="#ffffff" stroke="#000000" points="269.5,-266.5 269.5,-285.5 392.5,-285.5 392.5,-266.5 269.5,-266.5"/>
 <text text-anchor="middle" x="331" y="-273.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConnectConfig</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node282 -->
+<!-- Node283&#45;&gt;Node286 -->
 <g id="edge4" class="edge">
-<title>Node279&#45;&gt;Node282</title>
+<title>Node283&#45;&gt;Node286</title>
 <path fill="none" stroke="#191970" d="M167.4762,-190.6327C181.553,-206.9637 212.4999,-239.9665 246,-257 250.8018,-259.4415 255.9133,-261.5715 261.1552,-263.4293"/>
 <polygon fill="#191970" stroke="#191970" points="260.1017,-266.767 270.6928,-266.488 262.2393,-260.1013 260.1017,-266.767"/>
 </g>
-<!-- Node283 -->
+<!-- Node287 -->
 <g id="node6" class="node">
-<title>Node283</title>
+<title>Node287</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a37221c7881b5fa8d1d806804fb9521ab" target="_top" xlink:title="SNN::getConnSTDPInfo">
 <polygon fill="#ffffff" stroke="#000000" points="268.5,-228.5 268.5,-247.5 393.5,-247.5 393.5,-228.5 268.5,-228.5"/>
 <text text-anchor="middle" x="331" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConnSTDPInfo</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node283 -->
+<!-- Node283&#45;&gt;Node287 -->
 <g id="edge5" class="edge">
-<title>Node279&#45;&gt;Node283</title>
+<title>Node283&#45;&gt;Node287</title>
 <path fill="none" stroke="#191970" d="M178.3224,-190.5414C195.571,-198.9756 221.998,-211.1279 246,-219 253.9518,-221.608 262.4381,-223.9764 270.8561,-226.0868"/>
 <polygon fill="#191970" stroke="#191970" points="270.1297,-229.5118 280.6707,-228.4447 271.765,-222.7055 270.1297,-229.5118"/>
 </g>
-<!-- Node284 -->
+<!-- Node288 -->
 <g id="node7" class="node">
-<title>Node284</title>
+<title>Node288</title>
 <g id="a_node7"><a xlink:href="classSNN.html#aee3e497537bc8121f6c0c8fb3730ae72" target="_top" xlink:title="returns the RangeDelay struct of a connection ">
 <polygon fill="#ffffff" stroke="#000000" points="275,-190.5 275,-209.5 387,-209.5 387,-190.5 275,-190.5"/>
 <text text-anchor="middle" x="331" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getDelayRange</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node284 -->
+<!-- Node283&#45;&gt;Node288 -->
 <g id="edge6" class="edge">
-<title>Node279&#45;&gt;Node284</title>
+<title>Node283&#45;&gt;Node288</title>
 <path fill="none" stroke="#191970" d="M210.0281,-186.5979C227.2017,-188.5005 246.6566,-190.6558 264.8647,-192.6731"/>
 <polygon fill="#191970" stroke="#191970" points="264.505,-196.1545 274.8296,-193.777 265.2759,-189.1971 264.505,-196.1545"/>
 </g>
-<!-- Node285 -->
+<!-- Node289 -->
 <g id="node8" class="node">
-<title>Node285</title>
+<title>Node289</title>
 <g id="a_node8"><a xlink:href="classSNN.html#a317da03ce4b0b13d9621e277f468e058" target="_top" xlink:title="Returns the delay information for all synaptic connections between a pre&#45;synaptic and a post&#45;synaptic...">
 <polygon fill="#ffffff" stroke="#000000" points="286.5,-152.5 286.5,-171.5 375.5,-171.5 375.5,-152.5 286.5,-152.5"/>
 <text text-anchor="middle" x="331" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getDelays</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node285 -->
+<!-- Node283&#45;&gt;Node289 -->
 <g id="edge7" class="edge">
-<title>Node279&#45;&gt;Node285</title>
+<title>Node283&#45;&gt;Node289</title>
 <path fill="none" stroke="#191970" d="M210.0281,-175.4021C230.8312,-173.0974 254.9818,-170.4218 276.2089,-168.0702"/>
 <polygon fill="#191970" stroke="#191970" points="276.8134,-171.5247 286.3671,-166.9447 276.0425,-164.5673 276.8134,-171.5247"/>
 </g>
-<!-- Node286 -->
+<!-- Node290 -->
 <g id="node9" class="node">
-<title>Node286</title>
+<title>Node290</title>
 <g id="a_node9"><a xlink:href="classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" target="_top" xlink:title="SNN::getGroupGrid3D">
 <polygon fill="#ffffff" stroke="#000000" points="273.5,-114.5 273.5,-133.5 388.5,-133.5 388.5,-114.5 273.5,-114.5"/>
 <text text-anchor="middle" x="331" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupGrid3D</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node286 -->
+<!-- Node283&#45;&gt;Node290 -->
 <g id="edge8" class="edge">
-<title>Node279&#45;&gt;Node286</title>
+<title>Node283&#45;&gt;Node290</title>
 <path fill="none" stroke="#191970" d="M178.3224,-171.4586C195.571,-163.0244 221.998,-150.8721 246,-143 253.9518,-140.392 262.4381,-138.0236 270.8561,-135.9132"/>
 <polygon fill="#191970" stroke="#191970" points="271.765,-139.2945 280.6707,-133.5553 270.1297,-132.4882 271.765,-139.2945"/>
 </g>
-<!-- Node287 -->
+<!-- Node291 -->
 <g id="node10" class="node">
-<title>Node287</title>
+<title>Node291</title>
 <g id="a_node10"><a xlink:href="classSNN.html#a757c874860e9e4d5ce0716e76b1a3e78" target="_top" xlink:title="SNN::getGroupId">
 <polygon fill="#ffffff" stroke="#000000" points="285,-76.5 285,-95.5 377,-95.5 377,-76.5 285,-76.5"/>
 <text text-anchor="middle" x="331" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupId</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node287 -->
+<!-- Node283&#45;&gt;Node291 -->
 <g id="edge9" class="edge">
-<title>Node279&#45;&gt;Node287</title>
+<title>Node283&#45;&gt;Node291</title>
 <path fill="none" stroke="#191970" d="M167.4762,-171.3673C181.553,-155.0363 212.4999,-122.0335 246,-105 254.9971,-100.4253 265.0812,-96.9445 275.0738,-94.2982"/>
 <polygon fill="#191970" stroke="#191970" points="276.0837,-97.6553 284.9922,-91.9204 274.4518,-90.8482 276.0837,-97.6553"/>
 </g>
-<!-- Node288 -->
+<!-- Node292 -->
 <g id="node11" class="node">
-<title>Node288</title>
+<title>Node292</title>
 <g id="a_node11"><a xlink:href="classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="SNN::getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="276,-38.5 276,-57.5 386,-57.5 386,-38.5 276,-38.5"/>
 <text text-anchor="middle" x="331" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node288 -->
+<!-- Node283&#45;&gt;Node292 -->
 <g id="edge10" class="edge">
-<title>Node279&#45;&gt;Node288</title>
+<title>Node283&#45;&gt;Node292</title>
 <path fill="none" stroke="#191970" d="M163.9437,-171.2113C174.6199,-148.8712 203.9801,-93.9815 246,-67 252.1234,-63.0681 258.9484,-59.9431 265.9948,-57.4605"/>
 <polygon fill="#191970" stroke="#191970" points="267.1777,-60.7582 275.6957,-54.4579 265.1079,-54.0712 267.1777,-60.7582"/>
 </g>
-<!-- Node289 -->
+<!-- Node293 -->
 <g id="node12" class="node">
-<title>Node289</title>
+<title>Node293</title>
 <g id="a_node12"><a xlink:href="classSNN.html#aa1c9457d6e17337cfc20cee263f1159f" target="_top" xlink:title="SNN::getGroupNeuromodulatorInfo">
 <polygon fill="#ffffff" stroke="#000000" points="246,-.5 246,-19.5 416,-19.5 416,-.5 246,-.5"/>
 <text text-anchor="middle" x="331" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupNeuromodulatorInfo</text>
 </a>
 </g>
 </g>
-<!-- Node279&#45;&gt;Node289 -->
+<!-- Node283&#45;&gt;Node293 -->
 <g id="edge11" class="edge">
-<title>Node279&#45;&gt;Node289</title>
+<title>Node283&#45;&gt;Node293</title>
 <path fill="none" stroke="#191970" d="M162.0166,-171.326C169.6102,-144.1638 194.9746,-66.7271 246,-29 248.5324,-27.1276 251.2154,-25.4341 254.0077,-23.9028"/>
 <polygon fill="#191970" stroke="#191970" points="255.6964,-26.9761 263.2469,-19.5437 252.7095,-20.6453 255.6964,-26.9761"/>
 </g>

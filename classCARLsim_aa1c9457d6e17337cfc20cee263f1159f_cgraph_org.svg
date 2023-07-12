@@ -9,84 +9,84 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>getGroupNeuromodulatorInfo</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 749,-100 749,4 -4,4"/>
-<!-- Node198 -->
+<!-- Node202 -->
 <g id="node1" class="node">
-<title>Node198</title>
+<title>Node202</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 142,-57.5 142,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="71" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupNeuromodulatorInfo</text>
 </g>
-<!-- Node199 -->
+<!-- Node203 -->
 <g id="node2" class="node">
-<title>Node199</title>
+<title>Node203</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#aa1c9457d6e17337cfc20cee263f1159f" target="_top" xlink:title="CARLsim::Impl::getGroupNeuromodulatorInfo">
 <polygon fill="#ffffff" stroke="#000000" points="178,-38.5 178,-57.5 393,-57.5 393,-38.5 178,-38.5"/>
 <text text-anchor="middle" x="285.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupNeuromodulatorInfo</text>
 </a>
 </g>
 </g>
-<!-- Node198&#45;&gt;Node199 -->
+<!-- Node202&#45;&gt;Node203 -->
 <g id="edge1" class="edge">
-<title>Node198&#45;&gt;Node199</title>
+<title>Node202&#45;&gt;Node203</title>
 <path fill="none" stroke="#191970" d="M142.1275,-48C150.3668,-48 158.9281,-48 167.5831,-48"/>
 <polygon fill="#191970" stroke="#191970" points="167.7726,-51.5001 177.7726,-48 167.7725,-44.5001 167.7726,-51.5001"/>
 </g>
-<!-- Node200 -->
+<!-- Node204 -->
 <g id="node3" class="node">
-<title>Node200</title>
+<title>Node204</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="456,-76.5 456,-95.5 572,-95.5 572,-76.5 456,-76.5"/>
 <text text-anchor="middle" x="514" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node199&#45;&gt;Node200 -->
+<!-- Node203&#45;&gt;Node204 -->
 <g id="edge2" class="edge">
-<title>Node199&#45;&gt;Node200</title>
+<title>Node203&#45;&gt;Node204</title>
 <path fill="none" stroke="#191970" d="M342.8653,-57.54C374.3742,-62.7799 413.633,-69.3088 446.5982,-74.7909"/>
 <polygon fill="#191970" stroke="#191970" points="446.1724,-78.2681 456.6111,-76.4561 447.3208,-71.363 446.1724,-78.2681"/>
 </g>
-<!-- Node201 -->
+<!-- Node205 -->
 <g id="node4" class="node">
-<title>Node201</title>
+<title>Node205</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="CARLsim::Impl::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="436,-38.5 436,-57.5 592,-57.5 592,-38.5 436,-38.5"/>
 <text text-anchor="middle" x="514" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node199&#45;&gt;Node201 -->
+<!-- Node203&#45;&gt;Node205 -->
 <g id="edge3" class="edge">
-<title>Node199&#45;&gt;Node201</title>
+<title>Node203&#45;&gt;Node205</title>
 <path fill="none" stroke="#191970" d="M393.0591,-48C404.024,-48 415.0714,-48 425.7955,-48"/>
 <polygon fill="#191970" stroke="#191970" points="425.965,-51.5001 435.9649,-48 425.9649,-44.5001 425.965,-51.5001"/>
 </g>
-<!-- Node203 -->
+<!-- Node207 -->
 <g id="node6" class="node">
-<title>Node203</title>
+<title>Node207</title>
 <g id="a_node6"><a xlink:href="classSNN.html#aa1c9457d6e17337cfc20cee263f1159f" target="_top" xlink:title="SNN::getGroupNeuromodulatorInfo">
 <polygon fill="#ffffff" stroke="#000000" points="429,-.5 429,-19.5 599,-19.5 599,-.5 429,-.5"/>
 <text text-anchor="middle" x="514" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupNeuromodulatorInfo</text>
 </a>
 </g>
 </g>
-<!-- Node199&#45;&gt;Node203 -->
+<!-- Node203&#45;&gt;Node207 -->
 <g id="edge5" class="edge">
-<title>Node199&#45;&gt;Node203</title>
+<title>Node203&#45;&gt;Node207</title>
 <path fill="none" stroke="#191970" d="M342.8653,-38.46C374.3742,-33.2201 413.633,-26.6912 446.5982,-21.2091"/>
 <polygon fill="#191970" stroke="#191970" points="447.3208,-24.637 456.6111,-19.5439 446.1724,-17.7319 447.3208,-24.637"/>
 </g>
-<!-- Node202 -->
+<!-- Node206 -->
 <g id="node5" class="node">
-<title>Node202</title>
+<title>Node206</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="635,-38.5 635,-57.5 745,-57.5 745,-38.5 635,-38.5"/>
 <text text-anchor="middle" x="690" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node201&#45;&gt;Node202 -->
+<!-- Node205&#45;&gt;Node206 -->
 <g id="edge4" class="edge">
-<title>Node201&#45;&gt;Node202</title>
+<title>Node205&#45;&gt;Node206</title>
 <path fill="none" stroke="#191970" d="M592.2211,-48C603.144,-48 614.2704,-48 624.9159,-48"/>
 <polygon fill="#191970" stroke="#191970" points="624.9527,-51.5001 634.9527,-48 624.9526,-44.5001 624.9527,-51.5001"/>
 </g>

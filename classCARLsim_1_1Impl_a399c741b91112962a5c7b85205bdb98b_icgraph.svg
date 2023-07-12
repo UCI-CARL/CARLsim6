@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getNumNeuronsReg</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 301,-24 301,4 -4,4"/>
-<!-- Node446 -->
+<!-- Node450 -->
 <g id="node1" class="node">
-<title>Node446</title>
+<title>Node450</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 106,-19.5 106,-.5 0,-.5"/>
 <text text-anchor="middle" x="53" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumNeuronsReg</text>
 </g>
-<!-- Node447 -->
+<!-- Node451 -->
 <g id="node2" class="node">
-<title>Node447</title>
+<title>Node451</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a399c741b91112962a5c7b85205bdb98b" target="_top" xlink:title="returns the total number of regular (Izhikevich) neurons ">
 <polygon fill="#ffffff" stroke="#000000" points="142,-.5 142,-19.5 297,-19.5 297,-.5 142,-.5"/>
 <text text-anchor="middle" x="219.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getNumNeuronsReg</text>
 </a>
 </g>
 </g>
-<!-- Node446&#45;&gt;Node447 -->
+<!-- Node450&#45;&gt;Node451 -->
 <g id="edge1" class="edge">
-<title>Node446&#45;&gt;Node447</title>
+<title>Node450&#45;&gt;Node451</title>
 <path fill="none" stroke="#191970" d="M116.2371,-10C124.6539,-10 133.3607,-10 141.9851,-10"/>
 <polygon fill="#191970" stroke="#191970" points="116.1395,-6.5001 106.1394,-10 116.1394,-13.5001 116.1395,-6.5001"/>
 </g>

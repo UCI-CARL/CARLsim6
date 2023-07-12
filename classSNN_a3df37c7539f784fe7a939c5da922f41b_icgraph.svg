@@ -48,52 +48,52 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 691;
 var viewHeight = 39;
-var sectionId = 'dynsection-99';
+var sectionId = 'dynsection-101';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>runNetwork</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-35 687,-35 687,4 -4,4"/>
-<!-- Node1679 -->
+<!-- Node1687 -->
 <g id="node1" class="node">
-<title>Node1679</title>
+<title>Node1687</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-6 0,-25 67,-25 67,-6 0,-6"/>
 <text text-anchor="middle" x="33.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">runNetwork</text>
 </g>
-<!-- Node1680 -->
+<!-- Node1688 -->
 <g id="node2" class="node">
-<title>Node1680</title>
+<title>Node1688</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a749f370debe5eec8661cf9ca1b1bb4c0" target="_top" xlink:title="CARLsim::Impl::runNetwork">
 <polygon fill="#ffffff" stroke="#000000" points="103,-6 103,-25 243,-25 243,-6 103,-6"/>
 <text text-anchor="middle" x="173" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::runNetwork</text>
 </a>
 </g>
 </g>
-<!-- Node1679&#45;&gt;Node1680 -->
+<!-- Node1687&#45;&gt;Node1688 -->
 <g id="edge1" class="edge">
-<title>Node1679&#45;&gt;Node1680</title>
+<title>Node1687&#45;&gt;Node1688</title>
 <path fill="none" stroke="#191970" d="M77.2708,-15.5C85.4331,-15.5 94.1492,-15.5 102.8732,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="77.2691,-12.0001 67.2691,-15.5 77.269,-19.0001 77.2691,-12.0001"/>
 </g>
-<!-- Node1681 -->
+<!-- Node1689 -->
 <g id="node3" class="node">
-<title>Node1681</title>
+<title>Node1689</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#aafb2d44405c96aafe089f96ff867018d" target="_top" xlink:title="run the simulation for time=(nSec*seconds + nMsec*milliseconds) ">
 <polygon fill="#ffffff" stroke="#000000" points="279,-6 279,-25 395,-25 395,-6 279,-6"/>
 <text text-anchor="middle" x="337" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::runNetwork</text>
 </a>
 </g>
 </g>
-<!-- Node1680&#45;&gt;Node1681 -->
+<!-- Node1688&#45;&gt;Node1689 -->
 <g id="edge2" class="edge">
-<title>Node1680&#45;&gt;Node1681</title>
+<title>Node1688&#45;&gt;Node1689</title>
 <path fill="none" stroke="#191970" d="M253.1489,-15.5C261.8022,-15.5 270.483,-15.5 278.8055,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="253.0265,-12.0001 243.0265,-15.5 253.0264,-19.0001 253.0265,-12.0001"/>
 </g>
-<!-- Node1682 -->
+<!-- Node1690 -->
 <g id="node4" class="node">
-<title>Node1682</title>
+<title>Node1690</title>
 <g id="a_node4"><a xlink:href="classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" target="_top" xlink:title="SimpleWeightTuner::\lImpl::iterate">
 <polygon fill="#ffffff" stroke="#000000" points="431,-.5 431,-30.5 539,-30.5 539,-.5 431,-.5"/>
 <text text-anchor="start" x="439" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -101,15 +101,15 @@ var sectionId = 'dynsection-99';
 </a>
 </g>
 </g>
-<!-- Node1681&#45;&gt;Node1682 -->
+<!-- Node1689&#45;&gt;Node1690 -->
 <g id="edge3" class="edge">
-<title>Node1681&#45;&gt;Node1682</title>
+<title>Node1689&#45;&gt;Node1690</title>
 <path fill="none" stroke="#191970" d="M405.1513,-15.5C413.8066,-15.5 422.5692,-15.5 430.9617,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="405.0688,-12.0001 395.0687,-15.5 405.0687,-19.0001 405.0688,-12.0001"/>
 </g>
-<!-- Node1683 -->
+<!-- Node1691 -->
 <g id="node5" class="node">
-<title>Node1683</title>
+<title>Node1691</title>
 <g id="a_node5"><a xlink:href="classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" target="_top" xlink:title="Performs an iteration step of the tuning algorithm. ">
 <polygon fill="#ffffff" stroke="#000000" points="575,-.5 575,-30.5 683,-30.5 683,-.5 575,-.5"/>
 <text text-anchor="start" x="583" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -117,9 +117,9 @@ var sectionId = 'dynsection-99';
 </a>
 </g>
 </g>
-<!-- Node1682&#45;&gt;Node1683 -->
+<!-- Node1690&#45;&gt;Node1691 -->
 <g id="edge4" class="edge">
-<title>Node1682&#45;&gt;Node1683</title>
+<title>Node1690&#45;&gt;Node1691</title>
 <path fill="none" stroke="#191970" d="M549.2702,-15.5C557.7504,-15.5 566.3754,-15.5 574.6672,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="549.03,-12.0001 539.03,-15.5 549.0299,-19.0001 549.03,-12.0001"/>
 </g>

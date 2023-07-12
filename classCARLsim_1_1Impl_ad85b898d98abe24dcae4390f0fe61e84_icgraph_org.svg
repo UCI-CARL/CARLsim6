@@ -9,159 +9,159 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 214)">
 <title>getGroupNumNeurons</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-214 517,-214 517,4 -4,4"/>
-<!-- Node244 -->
+<!-- Node248 -->
 <g id="node1" class="node">
-<title>Node244</title>
+<title>Node248</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-95.5 0,-114.5 114,-114.5 114,-95.5 0,-95.5"/>
 <text text-anchor="middle" x="57" y="-102.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupNumNeurons</text>
 </g>
-<!-- Node245 -->
+<!-- Node249 -->
 <g id="node2" class="node">
-<title>Node245</title>
+<title>Node249</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#afed01f52e943df5e5476428c4fbef8f7" target="_top" xlink:title="connect">
 <polygon fill="#ffffff" stroke="#000000" points="206,-190.5 206,-209.5 257,-209.5 257,-190.5 206,-190.5"/>
 <text text-anchor="middle" x="231.5" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">connect</text>
 </a>
 </g>
 </g>
-<!-- Node244&#45;&gt;Node245 -->
+<!-- Node248&#45;&gt;Node249 -->
 <g id="edge1" class="edge">
-<title>Node244&#45;&gt;Node245</title>
+<title>Node248&#45;&gt;Node249</title>
 <path fill="none" stroke="#191970" d="M72.8181,-121.8536C90.1264,-139.28 119.4955,-165.997 150,-181 167.6002,-189.6563 189.3022,-194.4667 205.8853,-197.0801"/>
 <polygon fill="#191970" stroke="#191970" points="75.2303,-119.3136 65.7536,-114.5761 70.2076,-124.1893 75.2303,-119.3136"/>
 </g>
-<!-- Node247 -->
+<!-- Node251 -->
 <g id="node4" class="node">
-<title>Node247</title>
+<title>Node251</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" target="_top" xlink:title="connectCompartments">
 <polygon fill="#ffffff" stroke="#000000" points="173.5,-152.5 173.5,-171.5 289.5,-171.5 289.5,-152.5 173.5,-152.5"/>
 <text text-anchor="middle" x="231.5" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">connectCompartments</text>
 </a>
 </g>
 </g>
-<!-- Node244&#45;&gt;Node247 -->
+<!-- Node248&#45;&gt;Node251 -->
 <g id="edge3" class="edge">
-<title>Node244&#45;&gt;Node247</title>
+<title>Node248&#45;&gt;Node251</title>
 <path fill="none" stroke="#191970" d="M87.0878,-118.7168C105.081,-126.5595 128.5467,-136.1641 150,-143 161.0744,-146.5287 173.1862,-149.7075 184.6057,-152.4104"/>
 <polygon fill="#191970" stroke="#191970" points="88.2637,-115.41 77.7022,-114.5698 85.4346,-121.8128 88.2637,-115.41"/>
 </g>
-<!-- Node249 -->
+<!-- Node253 -->
 <g id="node6" class="node">
-<title>Node249</title>
+<title>Node253</title>
 <g id="a_node6"><a xlink:href="classCARLsim_1_1Impl.html#a875708f5a61243433e23e99ce4d6aea1" target="_top" xlink:title="setExternalCurrent">
 <polygon fill="#ffffff" stroke="#000000" points="182.5,-114.5 182.5,-133.5 280.5,-133.5 280.5,-114.5 182.5,-114.5"/>
 <text text-anchor="middle" x="231.5" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setExternalCurrent</text>
 </a>
 </g>
 </g>
-<!-- Node244&#45;&gt;Node249 -->
+<!-- Node248&#45;&gt;Node253 -->
 <g id="edge5" class="edge">
-<title>Node244&#45;&gt;Node249</title>
+<title>Node248&#45;&gt;Node253</title>
 <path fill="none" stroke="#191970" d="M124.1359,-112.3099C143.5417,-114.4229 164.3514,-116.6887 182.4349,-118.6577"/>
 <polygon fill="#191970" stroke="#191970" points="124.458,-108.8244 114.1378,-111.2213 123.7002,-115.7833 124.458,-108.8244"/>
 </g>
-<!-- Node251 -->
+<!-- Node255 -->
 <g id="node8" class="node">
-<title>Node251</title>
+<title>Node255</title>
 <g id="a_node8"><a xlink:href="classCARLsim_1_1Impl.html#aec206ed9aaaed83f1d3170f012a86b70" target="_top" xlink:title="setSpikeRate">
 <polygon fill="#ffffff" stroke="#000000" points="193.5,-76.5 193.5,-95.5 269.5,-95.5 269.5,-76.5 193.5,-76.5"/>
 <text text-anchor="middle" x="231.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setSpikeRate</text>
 </a>
 </g>
 </g>
-<!-- Node244&#45;&gt;Node251 -->
+<!-- Node248&#45;&gt;Node255 -->
 <g id="edge7" class="edge">
-<title>Node244&#45;&gt;Node251</title>
+<title>Node248&#45;&gt;Node255</title>
 <path fill="none" stroke="#191970" d="M124.3489,-97.6669C147.6994,-95.1244 173.0586,-92.3632 193.2423,-90.1656"/>
 <polygon fill="#191970" stroke="#191970" points="123.7002,-94.2167 114.1378,-98.7787 124.458,-101.1756 123.7002,-94.2167"/>
 </g>
-<!-- Node253 -->
+<!-- Node257 -->
 <g id="node10" class="node">
-<title>Node253</title>
+<title>Node257</title>
 <g id="a_node10"><a xlink:href="classCARLsim_1_1Impl.html#af750970a60eaa5f0cb82ae57c279443c" target="_top" xlink:title="getNeuronLocation3D">
 <polygon fill="#ffffff" stroke="#000000" points="176,-38.5 176,-57.5 287,-57.5 287,-38.5 176,-38.5"/>
 <text text-anchor="middle" x="231.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNeuronLocation3D</text>
 </a>
 </g>
 </g>
-<!-- Node244&#45;&gt;Node253 -->
+<!-- Node248&#45;&gt;Node257 -->
 <g id="edge9" class="edge">
-<title>Node244&#45;&gt;Node253</title>
+<title>Node248&#45;&gt;Node257</title>
 <path fill="none" stroke="#191970" d="M87.0878,-91.2832C105.081,-83.4405 128.5467,-73.8359 150,-67 161.0744,-63.4713 173.1862,-60.2925 184.6057,-57.5896"/>
 <polygon fill="#191970" stroke="#191970" points="85.4346,-88.1872 77.7022,-95.4302 88.2637,-94.59 85.4346,-88.1872"/>
 </g>
-<!-- Node254 -->
+<!-- Node258 -->
 <g id="node11" class="node">
-<title>Node254</title>
+<title>Node258</title>
 <g id="a_node11"><a xlink:href="classCARLsim.html#ad85b898d98abe24dcae4390f0fe61e84" target="_top" xlink:title="returns the number of neurons of a group specified by grpId ">
 <polygon fill="#ffffff" stroke="#000000" points="150,-.5 150,-19.5 313,-19.5 313,-.5 150,-.5"/>
 <text text-anchor="middle" x="231.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getGroupNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node244&#45;&gt;Node254 -->
+<!-- Node248&#45;&gt;Node258 -->
 <g id="edge10" class="edge">
-<title>Node244&#45;&gt;Node254</title>
+<title>Node248&#45;&gt;Node258</title>
 <path fill="none" stroke="#191970" d="M72.8181,-88.1464C90.1264,-70.72 119.4955,-44.003 150,-29 157.8223,-25.1527 166.4549,-22.0652 175.0881,-19.5926"/>
 <polygon fill="#191970" stroke="#191970" points="70.2076,-85.8107 65.7536,-95.4239 75.2303,-90.6864 70.2076,-85.8107"/>
 </g>
-<!-- Node246 -->
+<!-- Node250 -->
 <g id="node3" class="node">
-<title>Node246</title>
+<title>Node250</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#a30b16b93d57551dcde0559e8a4e98e27" target="_top" xlink:title="Connects a presynaptic to a postsynaptic group using fixed/plastic weights and a range of delay value...">
 <polygon fill="#ffffff" stroke="#000000" points="381,-190.5 381,-209.5 481,-209.5 481,-190.5 381,-190.5"/>
 <text text-anchor="middle" x="431" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::connect</text>
 </a>
 </g>
 </g>
-<!-- Node245&#45;&gt;Node246 -->
+<!-- Node249&#45;&gt;Node250 -->
 <g id="edge2" class="edge">
-<title>Node245&#45;&gt;Node246</title>
+<title>Node249&#45;&gt;Node250</title>
 <path fill="none" stroke="#191970" d="M267.3095,-200C298.9926,-200 345.5524,-200 380.9233,-200"/>
 <polygon fill="#191970" stroke="#191970" points="267.1728,-196.5001 257.1727,-200 267.1727,-203.5001 267.1728,-196.5001"/>
 </g>
-<!-- Node248 -->
+<!-- Node252 -->
 <g id="node5" class="node">
-<title>Node248</title>
+<title>Node252</title>
 <g id="a_node5"><a xlink:href="classCARLsim.html#a7ce184c0de7c3d3c80b27a1ea7bb3e59" target="_top" xlink:title="make a compartmental connection between two compartmentally enabled groups Note: all compartmentally ...">
 <polygon fill="#ffffff" stroke="#000000" points="349,-152.5 349,-171.5 513,-171.5 513,-152.5 349,-152.5"/>
 <text text-anchor="middle" x="431" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::connectCompartments</text>
 </a>
 </g>
 </g>
-<!-- Node247&#45;&gt;Node248 -->
+<!-- Node251&#45;&gt;Node252 -->
 <g id="edge4" class="edge">
-<title>Node247&#45;&gt;Node248</title>
+<title>Node251&#45;&gt;Node252</title>
 <path fill="none" stroke="#191970" d="M299.9275,-162C315.7144,-162 332.6663,-162 348.9662,-162"/>
 <polygon fill="#191970" stroke="#191970" points="299.74,-158.5001 289.74,-162 299.7399,-165.5001 299.74,-158.5001"/>
 </g>
-<!-- Node250 -->
+<!-- Node254 -->
 <g id="node7" class="node">
-<title>Node250</title>
+<title>Node254</title>
 <g id="a_node7"><a xlink:href="classCARLsim.html#a875708f5a61243433e23e99ce4d6aea1" target="_top" xlink:title="Sets the amount of current (mA) to inject into a group. ">
 <polygon fill="#ffffff" stroke="#000000" points="357.5,-114.5 357.5,-133.5 504.5,-133.5 504.5,-114.5 357.5,-114.5"/>
 <text text-anchor="middle" x="431" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setExternalCurrent</text>
 </a>
 </g>
 </g>
-<!-- Node249&#45;&gt;Node250 -->
+<!-- Node253&#45;&gt;Node254 -->
 <g id="edge6" class="edge">
-<title>Node249&#45;&gt;Node250</title>
+<title>Node253&#45;&gt;Node254</title>
 <path fill="none" stroke="#191970" d="M290.5651,-124C311.4605,-124 335.2304,-124 357.1963,-124"/>
 <polygon fill="#191970" stroke="#191970" points="290.5587,-120.5001 280.5587,-124 290.5587,-127.5001 290.5587,-120.5001"/>
 </g>
-<!-- Node252 -->
+<!-- Node256 -->
 <g id="node9" class="node">
-<title>Node252</title>
+<title>Node256</title>
 <g id="a_node9"><a xlink:href="classCARLsim.html#a04f52d2840105c8ccacf8d378d1695cf" target="_top" xlink:title="Sets a spike rate. ">
 <polygon fill="#ffffff" stroke="#000000" points="368.5,-76.5 368.5,-95.5 493.5,-95.5 493.5,-76.5 368.5,-76.5"/>
 <text text-anchor="middle" x="431" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setSpikeRate</text>
 </a>
 </g>
 </g>
-<!-- Node251&#45;&gt;Node252 -->
+<!-- Node255&#45;&gt;Node256 -->
 <g id="edge8" class="edge">
-<title>Node251&#45;&gt;Node252</title>
+<title>Node255&#45;&gt;Node256</title>
 <path fill="none" stroke="#191970" d="M280.1604,-86C306.7047,-86 339.8604,-86 368.3218,-86"/>
 <polygon fill="#191970" stroke="#191970" points="279.9656,-82.5001 269.9656,-86 279.9656,-89.5001 279.9656,-82.5001"/>
 </g>

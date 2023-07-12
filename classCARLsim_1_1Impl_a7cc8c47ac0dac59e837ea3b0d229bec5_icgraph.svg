@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>scaleWeights</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 241,-24 241,4 -4,4"/>
-<!-- Node714 -->
+<!-- Node722 -->
 <g id="node1" class="node">
-<title>Node714</title>
+<title>Node722</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 76,-19.5 76,-.5 0,-.5"/>
 <text text-anchor="middle" x="38" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">scaleWeights</text>
 </g>
-<!-- Node715 -->
+<!-- Node723 -->
 <g id="node2" class="node">
-<title>Node715</title>
+<title>Node723</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a1233e96d5b75c1de533375d52ee18869" target="_top" xlink:title="reset Spike Counter to zero ">
 <polygon fill="#ffffff" stroke="#000000" points="112,-.5 112,-19.5 237,-19.5 237,-.5 112,-.5"/>
 <text text-anchor="middle" x="174.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::scaleWeights</text>
 </a>
 </g>
 </g>
-<!-- Node714&#45;&gt;Node715 -->
+<!-- Node722&#45;&gt;Node723 -->
 <g id="edge1" class="edge">
-<title>Node714&#45;&gt;Node715</title>
+<title>Node722&#45;&gt;Node723</title>
 <path fill="none" stroke="#191970" d="M86.2426,-10C94.5256,-10 103.2399,-10 111.8353,-10"/>
 <polygon fill="#191970" stroke="#191970" points="86.0229,-6.5001 76.0229,-10 86.0228,-13.5001 86.0229,-6.5001"/>
 </g>

@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getSpikeMonitorCore</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 231,-24 231,4 -4,4"/>
-<!-- Node1322 -->
+<!-- Node1326 -->
 <g id="node1" class="node">
-<title>Node1322</title>
+<title>Node1326</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 108,-19.5 108,-.5 0,-.5"/>
 <text text-anchor="middle" x="54" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSpikeMonitorCore</text>
 </g>
-<!-- Node1323 -->
+<!-- Node1327 -->
 <g id="node2" class="node">
-<title>Node1323</title>
+<title>Node1327</title>
 <g id="a_node2"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="144,-.5 144,-19.5 227,-19.5 227,-.5 144,-.5"/>
 <text text-anchor="middle" x="185.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node1322&#45;&gt;Node1323 -->
+<!-- Node1326&#45;&gt;Node1327 -->
 <g id="edge1" class="edge">
-<title>Node1322&#45;&gt;Node1323</title>
+<title>Node1326&#45;&gt;Node1327</title>
 <path fill="none" stroke="#191970" d="M108.2453,-10C116.6953,-10 125.407,-10 133.7984,-10"/>
 <polygon fill="#191970" stroke="#191970" points="133.8362,-13.5001 143.8361,-10 133.8361,-6.5001 133.8362,-13.5001"/>
 </g>

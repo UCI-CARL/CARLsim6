@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getNumGroups</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 233,-24 233,4 -4,4"/>
-<!-- Node344 -->
+<!-- Node348 -->
 <g id="node1" class="node">
-<title>Node344</title>
+<title>Node348</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 83,-19.5 83,-.5 0,-.5"/>
 <text text-anchor="middle" x="41.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumGroups</text>
 </g>
-<!-- Node345 -->
+<!-- Node349 -->
 <g id="node2" class="node">
-<title>Node345</title>
+<title>Node349</title>
 <g id="a_node2"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="119,-.5 119,-19.5 229,-19.5 229,-.5 119,-.5"/>
 <text text-anchor="middle" x="174" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node344&#45;&gt;Node345 -->
+<!-- Node348&#45;&gt;Node349 -->
 <g id="edge1" class="edge">
-<title>Node344&#45;&gt;Node345</title>
+<title>Node348&#45;&gt;Node349</title>
 <path fill="none" stroke="#191970" d="M83.0603,-10C91.2426,-10 100.0114,-10 108.7567,-10"/>
 <polygon fill="#191970" stroke="#191970" points="108.9757,-13.5001 118.9756,-10 108.9756,-6.5001 108.9757,-13.5001"/>
 </g>

@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getNumNeuronsGenExc</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 335,-24 335,4 -4,4"/>
-<!-- Node438 -->
+<!-- Node442 -->
 <g id="node1" class="node">
-<title>Node438</title>
+<title>Node442</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 123,-19.5 123,-.5 0,-.5"/>
 <text text-anchor="middle" x="61.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumNeuronsGenExc</text>
 </g>
-<!-- Node439 -->
+<!-- Node443 -->
 <g id="node2" class="node">
-<title>Node439</title>
+<title>Node443</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#ab63105935d2720c2fcadfd90fd8ea0be" target="_top" xlink:title="returns the total number of excitatory spike generator neurons ">
 <polygon fill="#ffffff" stroke="#000000" points="159,-.5 159,-19.5 331,-19.5 331,-.5 159,-.5"/>
 <text text-anchor="middle" x="245" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getNumNeuronsGenExc</text>
 </a>
 </g>
 </g>
-<!-- Node438&#45;&gt;Node439 -->
+<!-- Node442&#45;&gt;Node443 -->
 <g id="edge1" class="edge">
-<title>Node438&#45;&gt;Node439</title>
+<title>Node442&#45;&gt;Node443</title>
 <path fill="none" stroke="#191970" d="M133.2018,-10C141.5845,-10 150.2019,-10 158.7553,-10"/>
 <polygon fill="#191970" stroke="#191970" points="133.1134,-6.5001 123.1133,-10 133.1133,-13.5001 133.1134,-6.5001"/>
 </g>

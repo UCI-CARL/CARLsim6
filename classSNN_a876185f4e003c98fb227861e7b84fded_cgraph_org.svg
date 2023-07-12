@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 800.5)">
 <title>updateSpikeMonitor</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-800.5 1759,-800.5 1759,4 -4,4"/>
-<!-- Node2063 -->
+<!-- Node2075 -->
 <g id="node1" class="node">
-<title>Node2063</title>
+<title>Node2075</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-256.5 0,-275.5 103,-275.5 103,-256.5 0,-256.5"/>
 <text text-anchor="middle" x="51.5" y="-263.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">updateSpikeMonitor</text>
 </g>
-<!-- Node2064 -->
+<!-- Node2076 -->
 <g id="node2" class="node">
-<title>Node2064</title>
+<title>Node2076</title>
 <g id="a_node2"><a xlink:href="classSpikeMonitorCore.html#a102f8a26e80c556ee9a2ac503cd38ec9" target="_top" xlink:title="returns timestamp of last SpikeMonitor update ">
 <polygon fill="#ffffff" stroke="#000000" points="142,-766 142,-796 275,-796 275,-766 142,-766"/>
 <text text-anchor="start" x="150" y="-784" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getLast</text>
@@ -25,105 +25,105 @@
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2064 -->
+<!-- Node2075&#45;&gt;Node2076 -->
 <g id="edge1" class="edge">
-<title>Node2063&#45;&gt;Node2064</title>
+<title>Node2075&#45;&gt;Node2076</title>
 <path fill="none" stroke="#191970" d="M52.0134,-275.541C55.4744,-336.6528 77.1641,-673.0931 139,-751 141.7115,-754.4162 144.888,-757.4509 148.3634,-760.1455"/>
 <polygon fill="#191970" stroke="#191970" points="146.6694,-763.2219 156.9368,-765.8354 150.5402,-757.3894 146.6694,-763.2219"/>
 </g>
-<!-- Node2065 -->
+<!-- Node2077 -->
 <g id="node3" class="node">
-<title>Node2065</title>
+<title>Node2077</title>
 <g id="a_node3"><a xlink:href="classSNN.html#a5fd2b156623d78138bcb44167eabab78" target="_top" xlink:title="getSimTime">
 <polygon fill="#ffffff" stroke="#000000" points="923,-689.5 923,-708.5 992,-708.5 992,-689.5 923,-689.5"/>
 <text text-anchor="middle" x="957.5" y="-696.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSimTime</text>
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2065 -->
+<!-- Node2075&#45;&gt;Node2077 -->
 <g id="edge2" class="edge">
-<title>Node2063&#45;&gt;Node2065</title>
+<title>Node2075&#45;&gt;Node2077</title>
 <path fill="none" stroke="#191970" d="M53.9475,-275.8574C70.5919,-340.3096 173.2938,-699 397.5,-699 397.5,-699 397.5,-699 597,-699 710.6189,-699 844.3805,-699 912.5816,-699"/>
 <polygon fill="#191970" stroke="#191970" points="912.9514,-702.5001 922.9514,-699 912.9514,-695.5001 912.9514,-702.5001"/>
 </g>
-<!-- Node2066 -->
+<!-- Node2078 -->
 <g id="node4" class="node">
-<title>Node2066</title>
+<title>Node2078</title>
 <g id="a_node4"><a xlink:href="classSpikeMonitorCore.html#a3a0e4e77a2b83f5dd0e86aafcf227595" target="_top" xlink:title="returns the total accumulated time ">
 <polygon fill="#ffffff" stroke="#000000" points="314,-234.5 314,-253.5 481,-253.5 481,-234.5 314,-234.5"/>
 <text text-anchor="middle" x="397.5" y="-241.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getAccumTime</text>
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2066 -->
+<!-- Node2075&#45;&gt;Node2078 -->
 <g id="edge3" class="edge">
-<title>Node2063&#45;&gt;Node2066</title>
+<title>Node2075&#45;&gt;Node2078</title>
 <path fill="none" stroke="#191970" d="M103.2997,-262.7064C156.0891,-259.3498 239.1355,-254.0694 303.5529,-249.9735"/>
 <polygon fill="#191970" stroke="#191970" points="303.9664,-253.4544 313.7241,-249.3268 303.5221,-246.4685 303.9664,-253.4544"/>
 </g>
-<!-- Node2067 -->
+<!-- Node2079 -->
 <g id="node5" class="node">
-<title>Node2067</title>
+<title>Node2079</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" target="_top" xlink:title="getGroupNumNeurons">
 <polygon fill="#ffffff" stroke="#000000" points="151.5,-111.5 151.5,-130.5 265.5,-130.5 265.5,-111.5 151.5,-111.5"/>
 <text text-anchor="middle" x="208.5" y="-118.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2067 -->
+<!-- Node2075&#45;&gt;Node2079 -->
 <g id="edge4" class="edge">
-<title>Node2063&#45;&gt;Node2067</title>
+<title>Node2075&#45;&gt;Node2079</title>
 <path fill="none" stroke="#191970" d="M55.9248,-256.2864C66.7824,-233.5056 96.9534,-176.2145 139,-145 144.6468,-140.8079 151.0821,-137.3086 157.7048,-134.3981"/>
 <polygon fill="#191970" stroke="#191970" points="159.4554,-137.47 167.4721,-130.543 156.8855,-130.9588 159.4554,-137.47"/>
 </g>
-<!-- Node2068 -->
+<!-- Node2080 -->
 <g id="node6" class="node">
-<title>Node2068</title>
+<title>Node2080</title>
 <g id="a_node6"><a xlink:href="classSpikeMonitorCore.html#aaeb6a64ac5d9fd3b7a979f0f12ec87dc" target="_top" xlink:title="returns true if spike buffer is close to maxAllowedBufferSize ">
 <polygon fill="#ffffff" stroke="#000000" points="323,-155.5 323,-174.5 472,-174.5 472,-155.5 323,-155.5"/>
 <text text-anchor="middle" x="397.5" y="-162.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::isBufferBig</text>
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2068 -->
+<!-- Node2075&#45;&gt;Node2080 -->
 <g id="edge5" class="edge">
-<title>Node2063&#45;&gt;Node2068</title>
+<title>Node2075&#45;&gt;Node2080</title>
 <path fill="none" stroke="#191970" d="M57.5348,-256.4254C70.0403,-237.5656 100.8291,-195.9692 139,-179 193.9616,-154.5663 262.1031,-151.8529 314.6244,-154.8278"/>
 <polygon fill="#191970" stroke="#191970" points="314.7065,-158.3403 324.9118,-155.4939 315.1589,-151.355 314.7065,-158.3403"/>
 </g>
-<!-- Node2070 -->
+<!-- Node2082 -->
 <g id="node8" class="node">
-<title>Node2070</title>
+<title>Node2082</title>
 <g id="a_node8"><a xlink:href="classSNN.html#a424b0cf29d7dba87e4ebf244399acad0" target="_top" xlink:title="getSimTimeMs">
 <polygon fill="#ffffff" stroke="#000000" points="167,-73.5 167,-92.5 250,-92.5 250,-73.5 167,-73.5"/>
 <text text-anchor="middle" x="208.5" y="-80.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSimTimeMs</text>
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2070 -->
+<!-- Node2075&#45;&gt;Node2082 -->
 <g id="edge7" class="edge">
-<title>Node2063&#45;&gt;Node2070</title>
+<title>Node2075&#45;&gt;Node2082</title>
 <path fill="none" stroke="#191970" d="M53.8303,-256.1132C61.0876,-227.5535 86.0398,-144.284 139,-102 144.3856,-97.7001 150.672,-94.371 157.2221,-91.794"/>
 <polygon fill="#191970" stroke="#191970" points="158.5688,-95.0338 166.9332,-88.5309 156.3392,-88.3984 158.5688,-95.0338"/>
 </g>
-<!-- Node2076 -->
+<!-- Node2088 -->
 <g id="node14" class="node">
-<title>Node2076</title>
+<title>Node2088</title>
 <g id="a_node14"><a xlink:href="classSNN.html#a85facd004ae52ee52e72451b5d874fae" target="_top" xlink:title="getSimTimeSec">
 <polygon fill="#ffffff" stroke="#000000" points="165.5,-35.5 165.5,-54.5 251.5,-54.5 251.5,-35.5 165.5,-35.5"/>
 <text text-anchor="middle" x="208.5" y="-42.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSimTimeSec</text>
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2076 -->
+<!-- Node2075&#45;&gt;Node2088 -->
 <g id="edge16" class="edge">
-<title>Node2063&#45;&gt;Node2076</title>
+<title>Node2075&#45;&gt;Node2088</title>
 <path fill="none" stroke="#191970" d="M52.7375,-256.2585C57.3995,-223.7229 76.9247,-117.837 139,-64 143.8991,-59.751 149.6643,-56.4438 155.7439,-53.8711"/>
 <polygon fill="#191970" stroke="#191970" points="157.2317,-57.0566 165.4769,-50.4032 154.8822,-50.4627 157.2317,-57.0566"/>
 </g>
-<!-- Node2077 -->
+<!-- Node2089 -->
 <g id="node15" class="node">
-<title>Node2077</title>
+<title>Node2089</title>
 <g id="a_node15"><a xlink:href="classSpikeMonitorCore.html#a38f87732cc929797d9648e68cd509f1b" target="_top" xlink:title="sets timestamp of last SpikeMonitor update ">
 <polygon fill="#ffffff" stroke="#000000" points="142,-188 142,-218 275,-218 275,-188 142,-188"/>
 <text text-anchor="start" x="150" y="-206" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::setLast</text>
@@ -131,15 +131,15 @@
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2077 -->
+<!-- Node2075&#45;&gt;Node2089 -->
 <g id="edge17" class="edge">
-<title>Node2063&#45;&gt;Node2077</title>
+<title>Node2075&#45;&gt;Node2089</title>
 <path fill="none" stroke="#191970" d="M75.3449,-256.4317C98.1575,-247.2776 133.1953,-233.2178 161.6041,-221.8181"/>
 <polygon fill="#191970" stroke="#191970" points="162.9797,-225.0374 170.957,-218.065 160.3728,-218.541 162.9797,-225.0374"/>
 </g>
-<!-- Node2078 -->
+<!-- Node2090 -->
 <g id="node16" class="node">
-<title>Node2078</title>
+<title>Node2090</title>
 <g id="a_node16"><a xlink:href="classSpikeMonitorCore.html#a46187d03667c0fa3cc4dc3a654ee52e8" target="_top" xlink:title="returns a pointer to the spike file ">
 <polygon fill="#ffffff" stroke="#000000" points="139,-314 139,-344 278,-344 278,-314 139,-314"/>
 <text text-anchor="start" x="147" y="-332" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getSpike</text>
@@ -147,186 +147,186 @@
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2078 -->
+<!-- Node2075&#45;&gt;Node2090 -->
 <g id="edge21" class="edge">
-<title>Node2063&#45;&gt;Node2078</title>
+<title>Node2075&#45;&gt;Node2090</title>
 <path fill="none" stroke="#191970" d="M75.3449,-275.5683C98.1575,-284.7224 133.1953,-298.7822 161.6041,-310.1819"/>
 <polygon fill="#191970" stroke="#191970" points="160.3728,-313.459 170.957,-313.935 162.9797,-306.9626 160.3728,-313.459"/>
 </g>
-<!-- Node2080 -->
+<!-- Node2092 -->
 <g id="node18" class="node">
-<title>Node2080</title>
+<title>Node2092</title>
 <g id="a_node18"><a xlink:href="classSpikeMonitorCore.html#a3a3ffdb35b09328d22e5d72503ed1f55" target="_top" xlink:title="returns recording status ">
 <polygon fill="#ffffff" stroke="#000000" points="521,-394.5 521,-413.5 673,-413.5 673,-394.5 521,-394.5"/>
 <text text-anchor="middle" x="597" y="-401.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::isRecording</text>
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2080 -->
+<!-- Node2075&#45;&gt;Node2092 -->
 <g id="edge53" class="edge">
-<title>Node2063&#45;&gt;Node2080</title>
+<title>Node2075&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M57.5882,-275.5053C70.1898,-294.2596 101.1427,-335.7831 139,-354 258.2643,-411.3898 414.7006,-415.4792 510.4272,-411.1947"/>
 <polygon fill="#191970" stroke="#191970" points="510.8276,-414.6794 520.6447,-410.6951 510.4857,-407.6877 510.8276,-414.6794"/>
 </g>
-<!-- Node2085 -->
+<!-- Node2097 -->
 <g id="node23" class="node">
-<title>Node2085</title>
+<title>Node2097</title>
 <g id="a_node23"><a xlink:href="classSpikeMonitorCore.html#abe76071e1ac3632d55f2455b239b3d12" target="_top" xlink:title="returns recording mode ">
 <polygon fill="#ffffff" stroke="#000000" points="1617,-275.5 1617,-294.5 1755,-294.5 1755,-275.5 1617,-275.5"/>
 <text text-anchor="middle" x="1686" y="-282.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getMode</text>
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2085 -->
+<!-- Node2075&#45;&gt;Node2097 -->
 <g id="edge52" class="edge">
-<title>Node2063&#45;&gt;Node2085</title>
+<title>Node2075&#45;&gt;Node2097</title>
 <path fill="none" stroke="#191970" d="M53.0784,-275.633C61.1635,-324.0979 99.1088,-541.067 139,-595 216.9489,-700.3871 266.4181,-737 397.5,-737 397.5,-737 397.5,-737 1320,-737 1546.1004,-737 1656.6871,-391.1758 1680.8506,-304.5114"/>
 <polygon fill="#191970" stroke="#191970" points="1684.228,-305.4293 1683.479,-294.861 1677.474,-303.5898 1684.228,-305.4293"/>
 </g>
-<!-- Node2091 -->
+<!-- Node2103 -->
 <g id="node29" class="node">
-<title>Node2091</title>
+<title>Node2103</title>
 <g id="a_node29"><a xlink:href="classSpikeMonitorCore.html#a6e116c2994e0449c41e56d03370fa54c" target="_top" xlink:title="inserts a (time,neurId) tupel into the 2D spike vector ">
 <polygon fill="#ffffff" stroke="#000000" points="713,-221.5 713,-240.5 856,-240.5 856,-221.5 713,-221.5"/>
 <text text-anchor="middle" x="784.5" y="-228.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::pushAER</text>
 </a>
 </g>
 </g>
-<!-- Node2063&#45;&gt;Node2091 -->
+<!-- Node2075&#45;&gt;Node2103 -->
 <g id="edge54" class="edge">
-<title>Node2063&#45;&gt;Node2091</title>
+<title>Node2075&#45;&gt;Node2103</title>
 <path fill="none" stroke="#191970" d="M103.3127,-268.0702C115.0457,-268.4572 127.4498,-268.8021 139,-269 200.7687,-270.0586 216.229,-269.9127 278,-269 368.2518,-267.6665 390.9427,-269.0699 481,-263 556.3635,-257.9205 641.9117,-248.5744 702.9291,-241.2891"/>
 <polygon fill="#191970" stroke="#191970" points="703.3746,-244.7608 712.8856,-240.0926 702.5394,-237.8108 703.3746,-244.7608"/>
 </g>
-<!-- Node2069 -->
+<!-- Node2081 -->
 <g id="node7" class="node">
-<title>Node2069</title>
+<title>Node2081</title>
 <g id="a_node7"><a xlink:href="classSpikeMonitorCore.html#a30f19d45f562061cc82c04e7289ba956" target="_top" xlink:title="returns the approximate size of the spike vector in bytes ">
 <polygon fill="#ffffff" stroke="#000000" points="517,-167.5 517,-186.5 677,-186.5 677,-167.5 517,-167.5"/>
 <text text-anchor="middle" x="597" y="-174.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getBufferSize</text>
 </a>
 </g>
 </g>
-<!-- Node2068&#45;&gt;Node2069 -->
+<!-- Node2080&#45;&gt;Node2081 -->
 <g id="edge6" class="edge">
-<title>Node2068&#45;&gt;Node2069</title>
+<title>Node2080&#45;&gt;Node2081</title>
 <path fill="none" stroke="#191970" d="M472.0701,-169.4854C483.3693,-170.1651 495.1296,-170.8725 506.718,-171.5695"/>
 <polygon fill="#191970" stroke="#191970" points="506.6493,-175.0716 516.8415,-172.1784 507.0697,-168.0842 506.6493,-175.0716"/>
 </g>
-<!-- Node2071 -->
+<!-- Node2083 -->
 <g id="node9" class="node">
-<title>Node2071</title>
+<title>Node2083</title>
 <g id="a_node9"><a xlink:href="classSNN.html#a866a9c6e2b2630816fc66adda1381655" target="_top" xlink:title="Returns pointer to existing SpikeMonitor object, NULL else. ">
 <polygon fill="#ffffff" stroke="#000000" points="354,-114.5 354,-133.5 441,-133.5 441,-114.5 354,-114.5"/>
 <text text-anchor="middle" x="397.5" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSpikeMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node2070&#45;&gt;Node2071 -->
+<!-- Node2082&#45;&gt;Node2083 -->
 <g id="edge8" class="edge">
-<title>Node2070&#45;&gt;Node2071</title>
+<title>Node2082&#45;&gt;Node2083</title>
 <path fill="none" stroke="#191970" d="M250.4452,-92.0992C277.9985,-98.0764 314.2919,-105.9496 343.9285,-112.3787"/>
 <polygon fill="#191970" stroke="#191970" points="343.187,-115.7991 353.7017,-114.4988 344.6711,-108.9583 343.187,-115.7991"/>
 </g>
-<!-- Node2073 -->
+<!-- Node2085 -->
 <g id="node11" class="node">
-<title>Node2073</title>
+<title>Node2085</title>
 <g id="a_node11"><a xlink:href="classSNN.html#ad25000cd1457c9b9869122534ada6fdd" target="_top" xlink:title="getSpikeMonitorCore">
 <polygon fill="#ffffff" stroke="#000000" points="343.5,-76.5 343.5,-95.5 451.5,-95.5 451.5,-76.5 343.5,-76.5"/>
 <text text-anchor="middle" x="397.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSpikeMonitorCore</text>
 </a>
 </g>
 </g>
-<!-- Node2070&#45;&gt;Node2073 -->
+<!-- Node2082&#45;&gt;Node2085 -->
 <g id="edge10" class="edge">
-<title>Node2070&#45;&gt;Node2073</title>
+<title>Node2082&#45;&gt;Node2085</title>
 <path fill="none" stroke="#191970" d="M250.4452,-83.6658C274.7462,-84.0515 305.8456,-84.5452 333.1808,-84.9791"/>
 <polygon fill="#191970" stroke="#191970" points="333.3966,-88.4828 343.4509,-85.1421 333.5077,-81.4837 333.3966,-88.4828"/>
 </g>
-<!-- Node2074 -->
+<!-- Node2086 -->
 <g id="node12" class="node">
-<title>Node2074</title>
+<title>Node2086</title>
 <g id="a_node12"><a xlink:href="classSNN.html#a0eb87addfa5eebdfee4bd6b927b8945f" target="_top" xlink:title="Returns pointer to existing NeuronMonitor object, NULL else. ">
 <polygon fill="#ffffff" stroke="#000000" points="350.5,-38.5 350.5,-57.5 444.5,-57.5 444.5,-38.5 350.5,-38.5"/>
 <text text-anchor="middle" x="397.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNeuronMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node2070&#45;&gt;Node2074 -->
+<!-- Node2082&#45;&gt;Node2086 -->
 <g id="edge12" class="edge">
-<title>Node2070&#45;&gt;Node2074</title>
+<title>Node2082&#45;&gt;Node2086</title>
 <path fill="none" stroke="#191970" d="M250.4452,-75.2324C276.9059,-70.3322 311.4272,-63.9394 340.3724,-58.5792"/>
 <polygon fill="#191970" stroke="#191970" points="341.1602,-61.9929 350.3557,-56.7304 339.8855,-55.1099 341.1602,-61.9929"/>
 </g>
-<!-- Node2075 -->
+<!-- Node2087 -->
 <g id="node13" class="node">
-<title>Node2075</title>
+<title>Node2087</title>
 <g id="a_node13"><a xlink:href="classSNN.html#a9aa73fa9478383c4af1eed8387d82db9" target="_top" xlink:title="getNeuronMonitorCore">
 <polygon fill="#ffffff" stroke="#000000" points="340,-.5 340,-19.5 455,-19.5 455,-.5 340,-.5"/>
 <text text-anchor="middle" x="397.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNeuronMonitorCore</text>
 </a>
 </g>
 </g>
-<!-- Node2070&#45;&gt;Node2075 -->
+<!-- Node2082&#45;&gt;Node2087 -->
 <g id="edge14" class="edge">
-<title>Node2070&#45;&gt;Node2075</title>
+<title>Node2082&#45;&gt;Node2087</title>
 <path fill="none" stroke="#191970" d="M250.2887,-75.2369C259.7672,-72.4948 269.5284,-68.8402 278,-64 297.3758,-52.9296 294.39,-39.6501 314,-29 319.1054,-26.2273 324.5979,-23.8583 330.2402,-21.8345"/>
 <polygon fill="#191970" stroke="#191970" points="331.3901,-25.1413 339.8355,-18.744 329.244,-18.4783 331.3901,-25.1413"/>
 </g>
-<!-- Node2072 -->
+<!-- Node2084 -->
 <g id="node10" class="node">
-<title>Node2072</title>
+<title>Node2084</title>
 <g id="a_node10"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="555.5,-57.5 555.5,-76.5 638.5,-76.5 638.5,-57.5 555.5,-57.5"/>
 <text text-anchor="middle" x="597" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node2071&#45;&gt;Node2072 -->
+<!-- Node2083&#45;&gt;Node2084 -->
 <g id="edge9" class="edge">
-<title>Node2071&#45;&gt;Node2072</title>
+<title>Node2083&#45;&gt;Node2084</title>
 <path fill="none" stroke="#191970" d="M441.0296,-114.8982C453.9564,-111.9794 468.1049,-108.5709 481,-105 507.8638,-97.5608 537.7459,-87.7343 560.4525,-79.9376"/>
 <polygon fill="#191970" stroke="#191970" points="561.723,-83.2017 570.0286,-76.624 559.4339,-76.5865 561.723,-83.2017"/>
 </g>
-<!-- Node2073&#45;&gt;Node2072 -->
+<!-- Node2085&#45;&gt;Node2084 -->
 <g id="edge11" class="edge">
-<title>Node2073&#45;&gt;Node2072</title>
+<title>Node2085&#45;&gt;Node2084</title>
 <path fill="none" stroke="#191970" d="M451.7507,-80.8333C480.8326,-78.0636 516.4811,-74.6685 545.1835,-71.9349"/>
 <polygon fill="#191970" stroke="#191970" points="545.7956,-75.3925 555.4187,-70.9601 545.1319,-68.4241 545.7956,-75.3925"/>
 </g>
-<!-- Node2074&#45;&gt;Node2072 -->
+<!-- Node2086&#45;&gt;Node2084 -->
 <g id="edge13" class="edge">
-<title>Node2074&#45;&gt;Node2072</title>
+<title>Node2086&#45;&gt;Node2084</title>
 <path fill="none" stroke="#191970" d="M444.5261,-52.4787C474.7473,-55.3569 514.0295,-59.098 545.1527,-62.0622"/>
 <polygon fill="#191970" stroke="#191970" points="545.0831,-65.5713 555.3699,-63.0352 545.7468,-58.6028 545.0831,-65.5713"/>
 </g>
-<!-- Node2075&#45;&gt;Node2072 -->
+<!-- Node2087&#45;&gt;Node2084 -->
 <g id="edge15" class="edge">
-<title>Node2075&#45;&gt;Node2072</title>
+<title>Node2087&#45;&gt;Node2084</title>
 <path fill="none" stroke="#191970" d="M443.1949,-19.5927C455.5246,-22.3998 468.8213,-25.6275 481,-29 507.8638,-36.4392 537.7459,-46.2657 560.4525,-54.0624"/>
 <polygon fill="#191970" stroke="#191970" points="559.4339,-57.4135 570.0286,-57.376 561.723,-50.7983 559.4339,-57.4135"/>
 </g>
-<!-- Node2077&#45;&gt;Node2066 -->
+<!-- Node2089&#45;&gt;Node2078 -->
 <g id="edge20" class="edge">
-<title>Node2077&#45;&gt;Node2066</title>
+<title>Node2089&#45;&gt;Node2078</title>
 <path fill="none" stroke="#191970" d="M275.1343,-217.4551C297.6125,-222.3313 322.4007,-227.7086 343.7547,-232.341"/>
 <polygon fill="#191970" stroke="#191970" points="343.1043,-235.7812 353.619,-234.4808 344.5883,-228.9403 343.1043,-235.7812"/>
 </g>
-<!-- Node2077&#45;&gt;Node2068 -->
+<!-- Node2089&#45;&gt;Node2080 -->
 <g id="edge18" class="edge">
-<title>Node2077&#45;&gt;Node2068</title>
+<title>Node2089&#45;&gt;Node2080</title>
 <path fill="none" stroke="#191970" d="M275.1343,-189.6026C296.4148,-185.324 319.7657,-180.6291 340.3129,-176.4979"/>
 <polygon fill="#191970" stroke="#191970" points="341.0392,-179.922 350.1531,-174.5195 339.6594,-173.0594 341.0392,-179.922"/>
 </g>
-<!-- Node2077&#45;&gt;Node2069 -->
+<!-- Node2089&#45;&gt;Node2081 -->
 <g id="edge19" class="edge">
-<title>Node2077&#45;&gt;Node2069</title>
+<title>Node2089&#45;&gt;Node2081</title>
 <path fill="none" stroke="#191970" d="M275.2855,-198.5304C339.1804,-194.2543 436.0177,-187.7736 506.757,-183.0394"/>
 <polygon fill="#191970" stroke="#191970" points="507.2536,-186.5141 516.9975,-182.3541 506.7861,-179.5297 507.2536,-186.5141"/>
 </g>
-<!-- Node2079 -->
+<!-- Node2091 -->
 <g id="node17" class="node">
-<title>Node2079</title>
+<title>Node2091</title>
 <g id="a_node17"><a xlink:href="classSpikeMonitorCore.html#a1d57dedf987505ea4cdcd4475578ce68" target="_top" xlink:title="sets pointer to spike file ">
 <polygon fill="#ffffff" stroke="#000000" points="328,-314 328,-344 467,-344 467,-314 328,-314"/>
 <text text-anchor="start" x="336" y="-332" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::setSpike</text>
@@ -334,90 +334,90 @@
 </a>
 </g>
 </g>
-<!-- Node2078&#45;&gt;Node2079 -->
+<!-- Node2090&#45;&gt;Node2091 -->
 <g id="edge22" class="edge">
-<title>Node2078&#45;&gt;Node2079</title>
+<title>Node2090&#45;&gt;Node2091</title>
 <path fill="none" stroke="#191970" d="M278.0714,-329C290.8614,-329 304.3076,-329 317.378,-329"/>
 <polygon fill="#191970" stroke="#191970" points="317.7599,-332.5001 327.7599,-329 317.7599,-325.5001 317.7599,-332.5001"/>
 </g>
-<!-- Node2079&#45;&gt;Node2080 -->
+<!-- Node2091&#45;&gt;Node2092 -->
 <g id="edge23" class="edge">
-<title>Node2079&#45;&gt;Node2080</title>
+<title>Node2091&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M437.8718,-344.1774C474.2449,-357.8515 527.1794,-377.7517 561.8474,-390.7847"/>
 <polygon fill="#191970" stroke="#191970" points="560.9543,-394.1881 571.5464,-394.431 563.4177,-387.6358 560.9543,-394.1881"/>
 </g>
-<!-- Node2079&#45;&gt;Node2085 -->
+<!-- Node2091&#45;&gt;Node2097 -->
 <g id="edge50" class="edge">
-<title>Node2079&#45;&gt;Node2085</title>
+<title>Node2091&#45;&gt;Node2097</title>
 <path fill="none" stroke="#191970" d="M429.3041,-313.8171C485.2247,-287.9001 605.4464,-235.6377 713,-212 819.4537,-188.6041 848.5057,-193 957.5,-193 957.5,-193 957.5,-193 1320,-193 1437.4225,-193 1468.9611,-198.8526 1581,-234 1609.674,-242.9952 1640.3601,-258.6817 1661.1062,-270.2894"/>
 <polygon fill="#191970" stroke="#191970" points="1659.4744,-273.3878 1669.8958,-275.2969 1662.9395,-267.3056 1659.4744,-273.3878"/>
 </g>
-<!-- Node2092 -->
+<!-- Node2104 -->
 <g id="node30" class="node">
-<title>Node2092</title>
+<title>Node2104</title>
 <g id="a_node30"><a xlink:href="classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" target="_top" xlink:title="getGroupGrid3D">
 <polygon fill="#ffffff" stroke="#000000" points="553.5,-319.5 553.5,-338.5 640.5,-338.5 640.5,-319.5 553.5,-319.5"/>
 <text text-anchor="middle" x="597" y="-326.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupGrid3D</text>
 </a>
 </g>
 </g>
-<!-- Node2079&#45;&gt;Node2092 -->
+<!-- Node2091&#45;&gt;Node2104 -->
 <g id="edge51" class="edge">
-<title>Node2079&#45;&gt;Node2092</title>
+<title>Node2091&#45;&gt;Node2104</title>
 <path fill="none" stroke="#191970" d="M467.2754,-329C492.2346,-329 519.9539,-329 543.3406,-329"/>
 <polygon fill="#191970" stroke="#191970" points="543.4154,-332.5001 553.4154,-329 543.4153,-325.5001 543.4154,-332.5001"/>
 </g>
-<!-- Node2081 -->
+<!-- Node2093 -->
 <g id="node19" class="node">
-<title>Node2081</title>
+<title>Node2093</title>
 <g id="a_node19"><a xlink:href="classSpikeMonitorCore.html#af0ba89c38f6852cdf9d914687ad6a445" target="_top" xlink:title="prints the AER vector in human&#45;readable format ">
 <polygon fill="#ffffff" stroke="#000000" points="725,-411.5 725,-430.5 844,-430.5 844,-411.5 725,-411.5"/>
 <text text-anchor="middle" x="784.5" y="-418.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::print</text>
 </a>
 </g>
 </g>
-<!-- Node2080&#45;&gt;Node2081 -->
+<!-- Node2092&#45;&gt;Node2093 -->
 <g id="edge24" class="edge">
-<title>Node2080&#45;&gt;Node2081</title>
+<title>Node2092&#45;&gt;Node2093</title>
 <path fill="none" stroke="#191970" d="M673.2634,-404.27C693.1884,-405.8337 714.206,-407.9159 732.5419,-410.1745"/>
 <polygon fill="#191970" stroke="#191970" points="732.348,-413.6784 742.713,-411.4836 733.2416,-406.7356 732.348,-413.6784"/>
 </g>
-<!-- Node2080&#45;&gt;Node2091 -->
+<!-- Node2092&#45;&gt;Node2103 -->
 <g id="edge47" class="edge">
-<title>Node2080&#45;&gt;Node2091</title>
+<title>Node2092&#45;&gt;Node2103</title>
 <path fill="none" stroke="#191970" d="M606.2485,-394.4878C622.6877,-382.9203 657.131,-364.3539 677,-339 702.4167,-306.567 683.9926,-280.5225 712.4205,-248.0097"/>
 <polygon fill="#191970" stroke="#191970" points="715.2472,-250.1236 719.7138,-240.5163 710.2309,-245.2413 715.2472,-250.1236"/>
 </g>
-<!-- Node2081&#45;&gt;Node2065 -->
+<!-- Node2093&#45;&gt;Node2077 -->
 <g id="edge26" class="edge">
-<title>Node2081&#45;&gt;Node2065</title>
+<title>Node2093&#45;&gt;Node2077</title>
 <path fill="none" stroke="#191970" d="M790.4551,-430.5694C815.5132,-470.8362 912.6344,-626.9038 946.0948,-680.6725"/>
 <polygon fill="#191970" stroke="#191970" points="943.3148,-682.8298 951.57,-689.4709 949.258,-679.1313 943.3148,-682.8298"/>
 </g>
-<!-- Node2081&#45;&gt;Node2080 -->
+<!-- Node2093&#45;&gt;Node2092 -->
 <g id="edge25" class="edge">
-<title>Node2081&#45;&gt;Node2080</title>
+<title>Node2093&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M724.7853,-421.9239C700.4862,-420.3345 672.6575,-417.7394 649.1866,-414.8536"/>
 <polygon fill="#191970" stroke="#191970" points="649.443,-411.3578 639.0787,-413.5557 648.5514,-418.3008 649.443,-411.3578"/>
 </g>
-<!-- Node2082 -->
+<!-- Node2094 -->
 <g id="node20" class="node">
-<title>Node2082</title>
+<title>Node2094</title>
 <g id="a_node20"><a xlink:href="classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="916,-449.5 916,-468.5 999,-468.5 999,-449.5 916,-449.5"/>
 <text text-anchor="middle" x="957.5" y="-456.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node2081&#45;&gt;Node2082 -->
+<!-- Node2093&#45;&gt;Node2094 -->
 <g id="edge27" class="edge">
-<title>Node2081&#45;&gt;Node2082</title>
+<title>Node2093&#45;&gt;Node2094</title>
 <path fill="none" stroke="#191970" d="M828.1552,-430.589C851.8208,-435.7872 881.2106,-442.2428 905.9918,-447.6861"/>
 <polygon fill="#191970" stroke="#191970" points="905.4272,-451.1454 915.9453,-449.8724 906.929,-444.3084 905.4272,-451.1454"/>
 </g>
-<!-- Node2083 -->
+<!-- Node2095 -->
 <g id="node21" class="node">
-<title>Node2083</title>
+<title>Node2095</title>
 <g id="a_node21"><a xlink:href="classSpikeMonitorCore.html#af6c333e6cefff92d0e354eca70625cdc" target="_top" xlink:title="returns the total number of recorded spikes in the group ">
 <polygon fill="#ffffff" stroke="#000000" points="1254.5,-449 1254.5,-479 1385.5,-479 1385.5,-449 1254.5,-449"/>
 <text text-anchor="start" x="1262.5" y="-467" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getPop</text>
@@ -425,15 +425,15 @@
 </a>
 </g>
 </g>
-<!-- Node2081&#45;&gt;Node2083 -->
+<!-- Node2093&#45;&gt;Node2095 -->
 <g id="edge28" class="edge">
-<title>Node2081&#45;&gt;Node2083</title>
+<title>Node2093&#45;&gt;Node2095</title>
 <path fill="none" stroke="#191970" d="M824.8167,-430.5253C835.3721,-433.9275 846.4596,-438.3583 856,-444 874.9435,-455.2021 871.5492,-469.8692 892,-478 1013.6112,-526.35 1170.3447,-501.5879 1256.399,-481.3993"/>
 <polygon fill="#191970" stroke="#191970" points="1257.3746,-484.7646 1266.2817,-479.0276 1255.741,-477.9579 1257.3746,-484.7646"/>
 </g>
-<!-- Node2086 -->
+<!-- Node2098 -->
 <g id="node24" class="node">
-<title>Node2086</title>
+<title>Node2098</title>
 <g id="a_node24"><a xlink:href="classSpikeMonitorCore.html#a9cf20c30ff0efdbc5e3c5194648a7fb3" target="_top" xlink:title="returns the total recorded time in ms ">
 <polygon fill="#ffffff" stroke="#000000" points="1241,-368 1241,-398 1399,-398 1399,-368 1241,-368"/>
 <text text-anchor="start" x="1249" y="-386" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getRecording</text>
@@ -441,15 +441,15 @@
 </a>
 </g>
 </g>
-<!-- Node2081&#45;&gt;Node2086 -->
+<!-- Node2093&#45;&gt;Node2098 -->
 <g id="edge33" class="edge">
-<title>Node2081&#45;&gt;Node2086</title>
+<title>Node2093&#45;&gt;Node2098</title>
 <path fill="none" stroke="#191970" d="M844.1117,-416.7699C938.0937,-410.1007 1121.2626,-397.1027 1230.9093,-389.322"/>
 <polygon fill="#191970" stroke="#191970" points="1231.2313,-392.8081 1240.9584,-388.6089 1230.7357,-385.8256 1231.2313,-392.8081"/>
 </g>
-<!-- Node2087 -->
+<!-- Node2099 -->
 <g id="node25" class="node">
-<title>Node2087</title>
+<title>Node2099</title>
 <g id="a_node25"><a xlink:href="classSpikeMonitorCore.html#ae62d623e8edfc6b05309256c1d825bbd" target="_top" xlink:title="returns the recorded mean firing rate of the group ">
 <polygon fill="#ffffff" stroke="#000000" points="1066.5,-412 1066.5,-442 1197.5,-442 1197.5,-412 1066.5,-412"/>
 <text text-anchor="start" x="1074.5" y="-430" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getPop</text>
@@ -457,15 +457,15 @@
 </a>
 </g>
 </g>
-<!-- Node2081&#45;&gt;Node2087 -->
+<!-- Node2093&#45;&gt;Node2099 -->
 <g id="edge34" class="edge">
-<title>Node2081&#45;&gt;Node2087</title>
+<title>Node2093&#45;&gt;Node2099</title>
 <path fill="none" stroke="#191970" d="M844.2374,-422.0314C902.7841,-423.0423 992.2527,-424.5871 1055.8713,-425.6855"/>
 <polygon fill="#191970" stroke="#191970" points="1056.1872,-429.1914 1066.2461,-425.8647 1056.3081,-422.1925 1056.1872,-429.1914"/>
 </g>
-<!-- Node2088 -->
+<!-- Node2100 -->
 <g id="node26" class="node">
-<title>Node2088</title>
+<title>Node2100</title>
 <g id="a_node26"><a xlink:href="classSpikeMonitorCore.html#ad0c4b32bb5cc0c7a8d95ed6023a2695f" target="_top" xlink:title="computes the standard deviation of firing rates in the group ">
 <polygon fill="#ffffff" stroke="#000000" points="892,-526 892,-556 1023,-556 1023,-526 892,-526"/>
 <text text-anchor="start" x="900" y="-544" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getPop</text>
@@ -473,15 +473,15 @@
 </a>
 </g>
 </g>
-<!-- Node2081&#45;&gt;Node2088 -->
+<!-- Node2093&#45;&gt;Node2100 -->
 <g id="edge38" class="edge">
-<title>Node2081&#45;&gt;Node2088</title>
+<title>Node2093&#45;&gt;Node2100</title>
 <path fill="none" stroke="#191970" d="M794.1693,-430.6591C812.1982,-448.2954 852.6917,-486.1768 892,-511 897.8264,-514.6794 904.1786,-518.1645 910.5605,-521.3686"/>
 <polygon fill="#191970" stroke="#191970" points="909.3457,-524.6682 919.8742,-525.8518 912.3818,-518.3609 909.3457,-524.6682"/>
 </g>
-<!-- Node2090 -->
+<!-- Node2102 -->
 <g id="node28" class="node">
-<title>Node2090</title>
+<title>Node2102</title>
 <g id="a_node28"><a xlink:href="classSpikeMonitorCore.html#aed09edf4583ac05d42fccc7e3556e3c5" target="_top" xlink:title="returns the recorded mean firing rate for a specific neuron ">
 <polygon fill="#ffffff" stroke="#000000" points="1059,-300 1059,-330 1205,-330 1205,-300 1059,-300"/>
 <text text-anchor="start" x="1067" y="-318" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getNeuron</text>
@@ -489,21 +489,21 @@
 </a>
 </g>
 </g>
-<!-- Node2081&#45;&gt;Node2090 -->
+<!-- Node2093&#45;&gt;Node2102 -->
 <g id="edge43" class="edge">
-<title>Node2081&#45;&gt;Node2090</title>
+<title>Node2093&#45;&gt;Node2102</title>
 <path fill="none" stroke="#191970" d="M801.1142,-411.4738C821.8091,-399.962 858.5299,-380.6865 892,-369 942.9003,-351.2276 1001.9601,-337.8521 1048.7553,-328.8587"/>
 <polygon fill="#191970" stroke="#191970" points="1049.6744,-332.247 1058.8499,-326.9498 1048.3737,-325.3689 1049.6744,-332.247"/>
 </g>
-<!-- Node2083&#45;&gt;Node2080 -->
+<!-- Node2095&#45;&gt;Node2092 -->
 <g id="edge29" class="edge">
-<title>Node2083&#45;&gt;Node2080</title>
+<title>Node2095&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M1311.3612,-479.2185C1294.8463,-506.5585 1255.867,-563.1688 1205,-585 1077.1644,-639.8649 1029.8649,-602.5839 892,-584 810.372,-572.9967 782.9636,-579.4659 713,-536 665.2711,-506.3477 626.1766,-451.0376 607.9975,-422.3371"/>
 <polygon fill="#191970" stroke="#191970" points="610.8906,-420.361 602.6519,-413.6995 604.9383,-424.0447 610.8906,-420.361"/>
 </g>
-<!-- Node2084 -->
+<!-- Node2096 -->
 <g id="node22" class="node">
-<title>Node2084</title>
+<title>Node2096</title>
 <g id="a_node22"><a xlink:href="classSpikeMonitorCore.html#a005a2f884f6260054483d4fa6ed6ddbb" target="_top" xlink:title="returns the number of recorded spikes of a specific neuron ">
 <polygon fill="#ffffff" stroke="#000000" points="1435,-378 1435,-408 1581,-408 1581,-378 1435,-378"/>
 <text text-anchor="start" x="1443" y="-396" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getNeuron</text>
@@ -511,57 +511,57 @@
 </a>
 </g>
 </g>
-<!-- Node2083&#45;&gt;Node2084 -->
+<!-- Node2095&#45;&gt;Node2096 -->
 <g id="edge30" class="edge">
-<title>Node2083&#45;&gt;Node2084</title>
+<title>Node2095&#45;&gt;Node2096</title>
 <path fill="none" stroke="#191970" d="M1359.87,-448.9427C1388.6585,-438.0704 1427.7227,-423.3175 1458.507,-411.6915"/>
 <polygon fill="#191970" stroke="#191970" points="1460.069,-414.843 1468.1875,-408.0356 1457.5958,-408.2944 1460.069,-414.843"/>
 </g>
-<!-- Node2084&#45;&gt;Node2080 -->
+<!-- Node2096&#45;&gt;Node2092 -->
 <g id="edge31" class="edge">
-<title>Node2084&#45;&gt;Node2080</title>
+<title>Node2096&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M1497.709,-408.1767C1457.9135,-464.8704 1307.5558,-661 1132,-661 957.5,-661 957.5,-661 957.5,-661 841.7052,-661 804.6046,-641.8311 713,-571 659.8523,-529.9048 621.6174,-457.6171 605.4951,-423.2259"/>
 <polygon fill="#191970" stroke="#191970" points="608.5487,-421.4871 601.2095,-413.8459 602.1818,-424.3961 608.5487,-421.4871"/>
 </g>
-<!-- Node2084&#45;&gt;Node2085 -->
+<!-- Node2096&#45;&gt;Node2097 -->
 <g id="edge32" class="edge">
-<title>Node2084&#45;&gt;Node2085</title>
+<title>Node2096&#45;&gt;Node2097</title>
 <path fill="none" stroke="#191970" d="M1532.7501,-377.9831C1566.6292,-357.4272 1627.1048,-320.7341 1661.0751,-300.123"/>
 <polygon fill="#191970" stroke="#191970" points="1663.1756,-302.9424 1669.9094,-294.7628 1659.5445,-296.9578 1663.1756,-302.9424"/>
 </g>
-<!-- Node2087&#45;&gt;Node2080 -->
+<!-- Node2099&#45;&gt;Node2092 -->
 <g id="edge35" class="edge">
-<title>Node2087&#45;&gt;Node2080</title>
+<title>Node2099&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M1066.3097,-419.3669C1010.4613,-413.2815 928.0957,-405.2585 856,-402 792.5093,-399.1304 776.5532,-401.4522 713,-402 703.3323,-402.0833 693.2118,-402.2057 683.1483,-402.3496"/>
 <polygon fill="#191970" stroke="#191970" points="683.0689,-398.8503 673.1226,-402.5 683.174,-405.8495 683.0689,-398.8503"/>
 </g>
-<!-- Node2087&#45;&gt;Node2083 -->
+<!-- Node2099&#45;&gt;Node2095 -->
 <g id="edge36" class="edge">
-<title>Node2087&#45;&gt;Node2083</title>
+<title>Node2099&#45;&gt;Node2095</title>
 <path fill="none" stroke="#191970" d="M1197.7533,-439.9408C1212.78,-442.8982 1228.8685,-446.0645 1244.2756,-449.0968"/>
 <polygon fill="#191970" stroke="#191970" points="1243.7962,-452.5695 1254.2838,-451.0665 1245.148,-445.7013 1243.7962,-452.5695"/>
 </g>
-<!-- Node2087&#45;&gt;Node2086 -->
+<!-- Node2099&#45;&gt;Node2098 -->
 <g id="edge37" class="edge">
-<title>Node2087&#45;&gt;Node2086</title>
+<title>Node2099&#45;&gt;Node2098</title>
 <path fill="none" stroke="#191970" d="M1196.1731,-411.9808C1212.1172,-408.2492 1229.3385,-404.2186 1245.7227,-400.384"/>
 <polygon fill="#191970" stroke="#191970" points="1246.8579,-403.713 1255.7971,-398.0262 1245.2626,-396.8972 1246.8579,-403.713"/>
 </g>
-<!-- Node2088&#45;&gt;Node2080 -->
+<!-- Node2100&#45;&gt;Node2092 -->
 <g id="edge39" class="edge">
-<title>Node2088&#45;&gt;Node2080</title>
+<title>Node2100&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M917.7525,-525.8949C846.7002,-498.893 699.058,-442.7849 631.7696,-417.2134"/>
 <polygon fill="#191970" stroke="#191970" points="632.6546,-413.8056 622.0634,-413.5248 630.1678,-420.349 632.6546,-413.8056"/>
 </g>
-<!-- Node2088&#45;&gt;Node2087 -->
+<!-- Node2100&#45;&gt;Node2099 -->
 <g id="edge40" class="edge">
-<title>Node2088&#45;&gt;Node2087</title>
+<title>Node2100&#45;&gt;Node2099</title>
 <path fill="none" stroke="#191970" d="M980.6723,-525.8617C1011.395,-505.7906 1065.7419,-470.2861 1100.2616,-447.7345"/>
 <polygon fill="#191970" stroke="#191970" points="1102.5523,-450.4188 1109.0098,-442.0194 1098.7238,-444.5585 1102.5523,-450.4188"/>
 </g>
-<!-- Node2089 -->
+<!-- Node2101 -->
 <g id="node27" class="node">
-<title>Node2089</title>
+<title>Node2101</title>
 <g id="a_node27"><a xlink:href="classSpikeMonitorCore.html#a0fc20fcc5876030d796debd148ae7cee" target="_top" xlink:title="returns a list of firing rates for all neurons in the group (sorted by neuron ID ascending) ...">
 <polygon fill="#ffffff" stroke="#000000" points="1069.5,-545 1069.5,-575 1194.5,-575 1194.5,-545 1069.5,-545"/>
 <text text-anchor="start" x="1077.5" y="-563" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeMonitorCore::getAll</text>
@@ -569,45 +569,45 @@
 </a>
 </g>
 </g>
-<!-- Node2088&#45;&gt;Node2089 -->
+<!-- Node2100&#45;&gt;Node2101 -->
 <g id="edge41" class="edge">
-<title>Node2088&#45;&gt;Node2089</title>
+<title>Node2100&#45;&gt;Node2101</title>
 <path fill="none" stroke="#191970" d="M1023.471,-548.1831C1035.116,-549.451 1047.2997,-550.7776 1059.1214,-552.0648"/>
 <polygon fill="#191970" stroke="#191970" points="1059.0742,-555.5803 1069.3943,-553.1833 1059.832,-548.6214 1059.0742,-555.5803"/>
 </g>
-<!-- Node2089&#45;&gt;Node2080 -->
+<!-- Node2101&#45;&gt;Node2092 -->
 <g id="edge42" class="edge">
-<title>Node2089&#45;&gt;Node2080</title>
+<title>Node2101&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M1069.3874,-569.3325C1020.5408,-574.7557 951.2663,-578.3519 892,-566 777.2414,-542.0828 661.1727,-456.1571 616.3288,-420.1032"/>
 <polygon fill="#191970" stroke="#191970" points="618.2955,-417.1911 608.3312,-413.5906 613.8754,-422.619 618.2955,-417.1911"/>
 </g>
-<!-- Node2090&#45;&gt;Node2080 -->
+<!-- Node2102&#45;&gt;Node2092 -->
 <g id="edge44" class="edge">
-<title>Node2090&#45;&gt;Node2080</title>
+<title>Node2102&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M1058.8938,-316.0964C1011.1523,-317.6649 947.5888,-321.3655 892,-330 799.2183,-344.4117 692.9956,-374.507 636.7719,-391.5439"/>
 <polygon fill="#191970" stroke="#191970" points="635.742,-388.1988 627.1991,-394.4652 637.7852,-394.894 635.742,-388.1988"/>
 </g>
-<!-- Node2090&#45;&gt;Node2084 -->
+<!-- Node2102&#45;&gt;Node2096 -->
 <g id="edge45" class="edge">
-<title>Node2090&#45;&gt;Node2084</title>
+<title>Node2102&#45;&gt;Node2096</title>
 <path fill="none" stroke="#191970" d="M1205.0691,-324.2474C1259.039,-331.7526 1334.0895,-343.6068 1399,-359 1417.4712,-363.3804 1437.3762,-369.2414 1455.0574,-374.8623"/>
 <polygon fill="#191970" stroke="#191970" points="1454.0367,-378.2106 1464.6283,-377.9495 1456.1856,-371.5486 1454.0367,-378.2106"/>
 </g>
-<!-- Node2090&#45;&gt;Node2086 -->
+<!-- Node2102&#45;&gt;Node2098 -->
 <g id="edge46" class="edge">
-<title>Node2090&#45;&gt;Node2086</title>
+<title>Node2102&#45;&gt;Node2098</title>
 <path fill="none" stroke="#191970" d="M1173.7233,-330.0914C1201.8356,-340.2597 1239.0947,-353.7364 1268.9729,-364.5434"/>
 <polygon fill="#191970" stroke="#191970" points="1267.7991,-367.8407 1278.3933,-367.9508 1270.1801,-361.258 1267.7991,-367.8407"/>
 </g>
-<!-- Node2091&#45;&gt;Node2080 -->
+<!-- Node2103&#45;&gt;Node2092 -->
 <g id="edge48" class="edge">
-<title>Node2091&#45;&gt;Node2080</title>
+<title>Node2103&#45;&gt;Node2092</title>
 <path fill="none" stroke="#191970" d="M763.8971,-240.5008C748.1338,-244.8442 726.8217,-250.7931 713,-264 680.955,-294.6196 704.3389,-322.1141 677,-357 666.9634,-369.8073 653.2079,-380.8826 639.9327,-389.2502"/>
 <polygon fill="#191970" stroke="#191970" points="638.1435,-386.242 631.3223,-394.3489 641.7102,-392.2652 638.1435,-386.242"/>
 </g>
-<!-- Node2091&#45;&gt;Node2085 -->
+<!-- Node2103&#45;&gt;Node2097 -->
 <g id="edge49" class="edge">
-<title>Node2091&#45;&gt;Node2085</title>
+<title>Node2103&#45;&gt;Node2097</title>
 <path fill="none" stroke="#191970" d="M856.0446,-231C926.3016,-231 1036.528,-231 1132,-231 1132,-231 1132,-231 1320,-231 1434.7852,-231 1567.6721,-257.3158 1637.4494,-273.2058"/>
 <polygon fill="#191970" stroke="#191970" points="1636.7462,-276.6354 1647.2768,-275.4702 1638.318,-269.8141 1636.7462,-276.6354"/>
 </g>

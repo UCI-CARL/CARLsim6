@@ -48,37 +48,37 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 662;
 var viewHeight = 78;
-var sectionId = 'dynsection-54';
+var sectionId = 'dynsection-55';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>getNumNeurons</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-73.5 658,-73.5 658,4 -4,4"/>
-<!-- Node970 -->
+<!-- Node974 -->
 <g id="node1" class="node">
-<title>Node970</title>
+<title>Node974</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-22.5 0,-41.5 88,-41.5 88,-22.5 0,-22.5"/>
 <text text-anchor="middle" x="44" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumNeurons</text>
 </g>
-<!-- Node971 -->
+<!-- Node975 -->
 <g id="node2" class="node">
-<title>Node971</title>
+<title>Node975</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" target="_top" xlink:title="CARLsim::Impl::getNumNeurons">
 <polygon fill="#ffffff" stroke="#000000" points="124,-22.5 124,-41.5 285,-41.5 285,-22.5 124,-22.5"/>
 <text text-anchor="middle" x="204.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node970&#45;&gt;Node971 -->
+<!-- Node974&#45;&gt;Node975 -->
 <g id="edge1" class="edge">
-<title>Node970&#45;&gt;Node971</title>
+<title>Node974&#45;&gt;Node975</title>
 <path fill="none" stroke="#191970" d="M98.3895,-32C106.5614,-32 115.1339,-32 123.7146,-32"/>
 <polygon fill="#191970" stroke="#191970" points="98.2822,-28.5001 88.2822,-32 98.2822,-35.5001 98.2822,-28.5001"/>
 </g>
-<!-- Node972 -->
+<!-- Node976 -->
 <g id="node3" class="node">
-<title>Node972</title>
+<title>Node976</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#aba1eac7ee46971637423204a63e9892b" target="_top" xlink:title="CARLsim::Impl::getNeuron\lLocation3D">
 <polygon fill="#ffffff" stroke="#000000" points="322,-39 322,-69 457,-69 457,-39 322,-39"/>
 <text text-anchor="start" x="330" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNeuron</text>
@@ -86,39 +86,39 @@ var sectionId = 'dynsection-54';
 </a>
 </g>
 </g>
-<!-- Node971&#45;&gt;Node972 -->
+<!-- Node975&#45;&gt;Node976 -->
 <g id="edge2" class="edge">
-<title>Node971&#45;&gt;Node972</title>
+<title>Node975&#45;&gt;Node976</title>
 <path fill="none" stroke="#191970" d="M294.7906,-42.7373C303.8724,-43.8173 312.9827,-44.9006 321.7709,-45.9457"/>
 <polygon fill="#191970" stroke="#191970" points="294.9111,-39.227 284.5677,-41.5216 294.0844,-46.178 294.9111,-39.227"/>
 </g>
-<!-- Node974 -->
+<!-- Node978 -->
 <g id="node5" class="node">
-<title>Node974</title>
+<title>Node978</title>
 <g id="a_node5"><a xlink:href="classCARLsim.html#a00ddee44990cd4763a7d4df074e6d405" target="_top" xlink:title="returns the total number of allocated neurons in the network ">
 <polygon fill="#ffffff" stroke="#000000" points="321,-.5 321,-19.5 458,-19.5 458,-.5 321,-.5"/>
 <text text-anchor="middle" x="389.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node971&#45;&gt;Node974 -->
+<!-- Node975&#45;&gt;Node978 -->
 <g id="edge4" class="edge">
-<title>Node971&#45;&gt;Node974</title>
+<title>Node975&#45;&gt;Node978</title>
 <path fill="none" stroke="#191970" d="M294.5484,-21.2915C303.4152,-20.2371 312.312,-19.1791 320.9127,-18.1563"/>
 <polygon fill="#191970" stroke="#191970" points="294.0844,-17.822 284.5677,-22.4784 294.9111,-24.773 294.0844,-17.822"/>
 </g>
-<!-- Node973 -->
+<!-- Node977 -->
 <g id="node4" class="node">
-<title>Node973</title>
+<title>Node977</title>
 <g id="a_node4"><a xlink:href="classCARLsim.html#aba1eac7ee46971637423204a63e9892b" target="_top" xlink:title="returns the 3D location a neuron codes for ">
 <polygon fill="#ffffff" stroke="#000000" points="494,-44.5 494,-63.5 654,-63.5 654,-44.5 494,-44.5"/>
 <text text-anchor="middle" x="574" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getNeuronLocation3D</text>
 </a>
 </g>
 </g>
-<!-- Node972&#45;&gt;Node973 -->
+<!-- Node976&#45;&gt;Node977 -->
 <g id="edge3" class="edge">
-<title>Node972&#45;&gt;Node973</title>
+<title>Node976&#45;&gt;Node977</title>
 <path fill="none" stroke="#191970" d="M467.3401,-54C476.1041,-54 485.0459,-54 493.8386,-54"/>
 <polygon fill="#191970" stroke="#191970" points="467.1534,-50.5001 457.1533,-54 467.1533,-57.5001 467.1534,-50.5001"/>
 </g>

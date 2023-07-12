@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 557.5113)">
 <title>setConnectionMonitor</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-557.5113 1103,-557.5113 1103,4 -4,4"/>
-<!-- Node587 -->
+<!-- Node595 -->
 <g id="node1" class="node">
-<title>Node587</title>
+<title>Node595</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-439.0113 0,-458.0113 112,-458.0113 112,-439.0113 0,-439.0113"/>
 <text text-anchor="middle" x="56" y="-446.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setConnectionMonitor</text>
 </g>
-<!-- Node588 -->
+<!-- Node596 -->
 <g id="node2" class="node">
-<title>Node588</title>
+<title>Node596</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a012dcdbbe9769131d98ddf680743bff3" target="_top" xlink:title="CARLsim::Impl::setConnection\lMonitor">
 <polygon fill="#ffffff" stroke="#000000" points="148,-433.5113 148,-463.5113 301,-463.5113 301,-433.5113 148,-433.5113"/>
 <text text-anchor="start" x="156" y="-451.5113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setConnection</text>
@@ -25,153 +25,153 @@
 </a>
 </g>
 </g>
-<!-- Node587&#45;&gt;Node588 -->
+<!-- Node595&#45;&gt;Node596 -->
 <g id="edge1" class="edge">
-<title>Node587&#45;&gt;Node588</title>
+<title>Node595&#45;&gt;Node596</title>
 <path fill="none" stroke="#191970" d="M112.1081,-448.5113C120.3653,-448.5113 129.03,-448.5113 137.7305,-448.5113"/>
 <polygon fill="#191970" stroke="#191970" points="137.9384,-452.0114 147.9384,-448.5113 137.9383,-445.0114 137.9384,-452.0114"/>
 </g>
-<!-- Node589 -->
+<!-- Node597 -->
 <g id="node3" class="node">
-<title>Node589</title>
+<title>Node597</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="CARLsim::Impl::getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="337,-477.0113 337,-496.0113 493,-496.0113 493,-477.0113 337,-477.0113"/>
 <text text-anchor="middle" x="415" y="-484.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node588&#45;&gt;Node589 -->
+<!-- Node596&#45;&gt;Node597 -->
 <g id="edge2" class="edge">
-<title>Node588&#45;&gt;Node589</title>
+<title>Node596&#45;&gt;Node597</title>
 <path fill="none" stroke="#191970" d="M299.7906,-463.5299C319.0079,-467.3633 339.3601,-471.423 357.5249,-475.0464"/>
 <polygon fill="#191970" stroke="#191970" points="356.8789,-478.4865 367.3704,-477.0104 358.2483,-471.6217 356.8789,-478.4865"/>
 </g>
-<!-- Node590 -->
+<!-- Node598 -->
 <g id="node4" class="node">
-<title>Node590</title>
+<title>Node598</title>
 <g id="a_node4"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="549,-534.0113 549,-553.0113 665,-553.0113 665,-534.0113 549,-534.0113"/>
 <text text-anchor="middle" x="607" y="-541.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node588&#45;&gt;Node590 -->
+<!-- Node596&#45;&gt;Node598 -->
 <g id="edge7" class="edge">
-<title>Node588&#45;&gt;Node590</title>
+<title>Node596&#45;&gt;Node598</title>
 <path fill="none" stroke="#191970" d="M248.5266,-463.6341C270.6546,-476.8311 304.8316,-495.4053 337,-505.5113 403.7481,-526.4807 483.4215,-535.9034 538.8463,-540.1226"/>
 <polygon fill="#191970" stroke="#191970" points="538.6778,-543.6194 548.9046,-540.8514 539.1838,-536.6377 538.6778,-543.6194"/>
 </g>
-<!-- Node593 -->
+<!-- Node601 -->
 <g id="node7" class="node">
-<title>Node593</title>
+<title>Node601</title>
 <g id="a_node7"><a xlink:href="classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="SNN::getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="959,-401.0113 959,-420.0113 1069,-420.0113 1069,-401.0113 959,-401.0113"/>
 <text text-anchor="middle" x="1014" y="-408.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node588&#45;&gt;Node593 -->
+<!-- Node596&#45;&gt;Node601 -->
 <g id="edge8" class="edge">
-<title>Node588&#45;&gt;Node593</title>
+<title>Node596&#45;&gt;Node601</title>
 <path fill="none" stroke="#191970" d="M301.2777,-444.8159C456.2375,-437.3574 803.9305,-420.6223 948.7508,-413.6518"/>
 <polygon fill="#191970" stroke="#191970" points="949.0017,-417.1439 958.8219,-413.1671 948.6651,-410.152 949.0017,-417.1439"/>
 </g>
-<!-- Node594 -->
+<!-- Node602 -->
 <g id="node8" class="node">
-<title>Node594</title>
+<title>Node602</title>
 <g id="a_node8"><a xlink:href="classSNN.html#a9773c7b8f7fbb53c92ec5623ea99cb69" target="_top" xlink:title="sets up a network monitor registered with a callback to process the spikes. ">
 <polygon fill="#ffffff" stroke="#000000" points="345,-236.0113 345,-255.0113 485,-255.0113 485,-236.0113 345,-236.0113"/>
 <text text-anchor="middle" x="415" y="-243.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setConnectionMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node588&#45;&gt;Node594 -->
+<!-- Node596&#45;&gt;Node602 -->
 <g id="edge9" class="edge">
-<title>Node588&#45;&gt;Node594</title>
+<title>Node596&#45;&gt;Node602</title>
 <path fill="none" stroke="#191970" d="M238.8185,-433.2533C273.5552,-396.2372 362.1308,-301.8496 398.763,-262.8137"/>
 <polygon fill="#191970" stroke="#191970" points="401.4626,-265.0517 405.7535,-255.3646 396.3582,-260.2615 401.4626,-265.0517"/>
 </g>
-<!-- Node589&#45;&gt;Node590 -->
+<!-- Node597&#45;&gt;Node598 -->
 <g id="edge3" class="edge">
-<title>Node589&#45;&gt;Node590</title>
+<title>Node597&#45;&gt;Node598</title>
 <path fill="none" stroke="#191970" d="M441.5242,-496.0464C464.505,-504.1405 498.7278,-515.7951 529,-524.5113 537.4662,-526.9489 546.507,-529.3412 555.3225,-531.5618"/>
 <polygon fill="#191970" stroke="#191970" points="554.5892,-534.9859 565.1371,-533.9894 556.27,-528.1906 554.5892,-534.9859"/>
 </g>
-<!-- Node591 -->
+<!-- Node599 -->
 <g id="node5" class="node">
-<title>Node591</title>
+<title>Node599</title>
 <g id="a_node5"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="CARLsim::Impl::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="529,-496.0113 529,-515.0113 685,-515.0113 685,-496.0113 529,-496.0113"/>
 <text text-anchor="middle" x="607" y="-503.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node589&#45;&gt;Node591 -->
+<!-- Node597&#45;&gt;Node599 -->
 <g id="edge4" class="edge">
-<title>Node589&#45;&gt;Node591</title>
+<title>Node597&#45;&gt;Node599</title>
 <path fill="none" stroke="#191970" d="M493.0938,-494.2393C501.6006,-495.0811 510.3019,-495.9422 518.9175,-496.7948"/>
 <polygon fill="#191970" stroke="#191970" points="518.6794,-500.2882 528.9755,-497.7901 519.3688,-493.3223 518.6794,-500.2882"/>
 </g>
-<!-- Node589&#45;&gt;Node593 -->
+<!-- Node597&#45;&gt;Node601 -->
 <g id="edge6" class="edge">
-<title>Node589&#45;&gt;Node593</title>
+<title>Node597&#45;&gt;Node601</title>
 <path fill="none" stroke="#191970" d="M493.3905,-483.704C588.547,-479.3226 753.5916,-468.5892 893,-443.5113 920.7521,-438.519 951.39,-430.133 974.8925,-423.0643"/>
 <polygon fill="#191970" stroke="#191970" points="975.9581,-426.3985 984.499,-420.1292 973.9127,-419.704 975.9581,-426.3985"/>
 </g>
-<!-- Node592 -->
+<!-- Node600 -->
 <g id="node6" class="node">
-<title>Node592</title>
+<title>Node600</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="752,-496.0113 752,-515.0113 862,-515.0113 862,-496.0113 752,-496.0113"/>
 <text text-anchor="middle" x="807" y="-503.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node591&#45;&gt;Node592 -->
+<!-- Node599&#45;&gt;Node600 -->
 <g id="edge5" class="edge">
-<title>Node591&#45;&gt;Node592</title>
+<title>Node599&#45;&gt;Node600</title>
 <path fill="none" stroke="#191970" d="M685.1845,-505.5113C703.863,-505.5113 723.609,-505.5113 741.6404,-505.5113"/>
 <polygon fill="#191970" stroke="#191970" points="741.7498,-509.0114 751.7498,-505.5113 741.7498,-502.0114 741.7498,-509.0114"/>
 </g>
-<!-- Node594&#45;&gt;Node593 -->
+<!-- Node602&#45;&gt;Node601 -->
 <g id="edge11" class="edge">
-<title>Node594&#45;&gt;Node593</title>
+<title>Node602&#45;&gt;Node601</title>
 <path fill="none" stroke="#191970" d="M436.7993,-255.0353C459.7023,-265.0053 496.8008,-281.0524 529,-294.5113 613.9812,-330.0324 631.9289,-349.0616 721,-372.5113 797.7842,-392.7262 888.8381,-402.3882 948.8308,-406.8682"/>
 <polygon fill="#191970" stroke="#191970" points="948.6965,-410.3675 958.9221,-407.5948 949.1993,-403.3856 948.6965,-410.3675"/>
 </g>
-<!-- Node595 -->
+<!-- Node603 -->
 <g id="node9" class="node">
-<title>Node595</title>
+<title>Node603</title>
 <g id="a_node9"><a xlink:href="classSNN.html#a44b05911f213714c351379021852e12a" target="_top" xlink:title="find connection ID based on pre&#45;post group pair, O(N) ">
 <polygon fill="#ffffff" stroke="#000000" points="962.5,-40.0113 962.5,-59.0113 1065.5,-59.0113 1065.5,-40.0113 962.5,-40.0113"/>
 <text text-anchor="middle" x="1014" y="-47.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConnectId</text>
 </a>
 </g>
 </g>
-<!-- Node594&#45;&gt;Node595 -->
+<!-- Node602&#45;&gt;Node603 -->
 <g id="edge10" class="edge">
-<title>Node594&#45;&gt;Node595</title>
+<title>Node602&#45;&gt;Node603</title>
 <path fill="none" stroke="#191970" d="M426.8582,-235.8611C465.9314,-204.7095 595.321,-106.6436 721,-68.5113 798.2367,-45.0769 892.0196,-43.3629 952.3328,-45.4656"/>
 <polygon fill="#191970" stroke="#191970" points="952.3243,-48.9679 962.4547,-45.8654 952.6006,-41.9733 952.3243,-48.9679"/>
 </g>
-<!-- Node596 -->
+<!-- Node604 -->
 <g id="node10" class="node">
-<title>Node596</title>
+<title>Node604</title>
 <g id="a_node10"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="961,-2.0113 961,-21.0113 1067,-21.0113 1067,-2.0113 961,-2.0113"/>
 <text text-anchor="middle" x="1014" y="-9.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node594&#45;&gt;Node596 -->
+<!-- Node602&#45;&gt;Node604 -->
 <g id="edge12" class="edge">
-<title>Node594&#45;&gt;Node596</title>
+<title>Node602&#45;&gt;Node604</title>
 <path fill="none" stroke="#191970" d="M418.59,-235.6141C429.7896,-206.2551 467.0878,-119.1714 529,-78.5113 659.3791,7.1136 852.0494,4.4099 950.715,-3.9877"/>
 <polygon fill="#191970" stroke="#191970" points="950.5568,-7.4875 960.83,-4.897 951.1836,-.5156 950.5568,-7.4875"/>
 </g>
-<!-- Node597 -->
+<!-- Node605 -->
 <g id="node11" class="node">
-<title>Node597</title>
+<title>Node605</title>
 <g id="a_node11"><a xlink:href="classConnectionMonitorCore.html#a5e62c217cf681fc744ef481c41f36206" target="_top" xlink:title="sets pointer to connection file ">
 <polygon fill="#ffffff" stroke="#000000" points="547.5,-254.5113 547.5,-284.5113 666.5,-284.5113 666.5,-254.5113 547.5,-254.5113"/>
 <text text-anchor="start" x="555.5" y="-272.5113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">ConnectionMonitorCore</text>
@@ -179,15 +179,15 @@
 </a>
 </g>
 </g>
-<!-- Node594&#45;&gt;Node597 -->
+<!-- Node602&#45;&gt;Node605 -->
 <g id="edge13" class="edge">
-<title>Node594&#45;&gt;Node597</title>
+<title>Node602&#45;&gt;Node605</title>
 <path fill="none" stroke="#191970" d="M485.1314,-254.2777C502.0754,-256.3957 520.1812,-258.6589 537.1139,-260.7755"/>
 <polygon fill="#191970" stroke="#191970" points="537.1275,-264.3044 547.4844,-262.0718 537.9958,-257.3584 537.1275,-264.3044"/>
 </g>
-<!-- Node598 -->
+<!-- Node606 -->
 <g id="node12" class="node">
-<title>Node598</title>
+<title>Node606</title>
 <g id="a_node12"><a xlink:href="classConnectionMonitorCore.html#a02fd73d861ef2e4aabb38c0c9ff82947" target="_top" xlink:title="ConnectionMonitorCore\l::init">
 <polygon fill="#ffffff" stroke="#000000" points="547.5,-205.5113 547.5,-235.5113 666.5,-235.5113 666.5,-205.5113 547.5,-205.5113"/>
 <text text-anchor="start" x="555.5" y="-223.5113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">ConnectionMonitorCore</text>
@@ -195,258 +195,258 @@
 </a>
 </g>
 </g>
-<!-- Node594&#45;&gt;Node598 -->
+<!-- Node602&#45;&gt;Node606 -->
 <g id="edge14" class="edge">
-<title>Node594&#45;&gt;Node598</title>
+<title>Node602&#45;&gt;Node606</title>
 <path fill="none" stroke="#191970" d="M485.1314,-236.3796C502.0754,-234.1734 520.1812,-231.8158 537.1139,-229.611"/>
 <polygon fill="#191970" stroke="#191970" points="538.0201,-233.0227 547.4844,-228.2607 537.1162,-226.0813 538.0201,-233.0227"/>
 </g>
-<!-- Node599 -->
+<!-- Node607 -->
 <g id="node13" class="node">
-<title>Node599</title>
+<title>Node607</title>
 <g id="a_node13"><a xlink:href="classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" target="_top" xlink:title="SNN::getGroupNumNeurons">
 <polygon fill="#ffffff" stroke="#000000" points="736,-230.0113 736,-249.0113 878,-249.0113 878,-230.0113 736,-230.0113"/>
 <text text-anchor="middle" x="807" y="-237.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node598&#45;&gt;Node599 -->
+<!-- Node606&#45;&gt;Node607 -->
 <g id="edge15" class="edge">
-<title>Node598&#45;&gt;Node599</title>
+<title>Node606&#45;&gt;Node607</title>
 <path fill="none" stroke="#191970" d="M666.7357,-226.1862C685.2611,-227.9461 705.9998,-229.9163 725.7297,-231.7906"/>
 <polygon fill="#191970" stroke="#191970" points="725.6519,-235.2989 735.9381,-232.7604 726.314,-228.3303 725.6519,-235.2989"/>
 </g>
-<!-- Node600 -->
+<!-- Node608 -->
 <g id="node14" class="node">
-<title>Node600</title>
+<title>Node608</title>
 <g id="a_node14"><a xlink:href="classSNN.html#a821a04dec998f1fcebcc048d39cc8b21" target="_top" xlink:title="returns whether synapses in connection are fixed (false) or plastic (true) ">
 <polygon fill="#ffffff" stroke="#000000" points="741.5,-154.0113 741.5,-173.0113 872.5,-173.0113 872.5,-154.0113 741.5,-154.0113"/>
 <text text-anchor="middle" x="807" y="-161.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isConnectionPlastic</text>
 </a>
 </g>
 </g>
-<!-- Node598&#45;&gt;Node600 -->
+<!-- Node606&#45;&gt;Node608 -->
 <g id="edge16" class="edge">
-<title>Node598&#45;&gt;Node600</title>
+<title>Node606&#45;&gt;Node608</title>
 <path fill="none" stroke="#191970" d="M648.6387,-205.4706C670.0912,-198.0185 696.769,-189.2068 721,-182.5113 730.1884,-179.9723 740.0019,-177.5432 749.5911,-175.3209"/>
 <polygon fill="#191970" stroke="#191970" points="750.4874,-178.7066 759.4672,-173.084 748.9411,-171.8796 750.4874,-178.7066"/>
 </g>
-<!-- Node601 -->
+<!-- Node609 -->
 <g id="node15" class="node">
-<title>Node601</title>
+<title>Node609</title>
 <g id="a_node15"><a xlink:href="classSNN.html#a52f149e224abff772962dea6680398e2" target="_top" xlink:title="gets number of connections associated with a connection ID ">
 <polygon fill="#ffffff" stroke="#000000" points="721,-78.0113 721,-97.0113 893,-97.0113 893,-78.0113 721,-78.0113"/>
 <text text-anchor="middle" x="807" y="-85.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumSynapticConnections</text>
 </a>
 </g>
 </g>
-<!-- Node598&#45;&gt;Node601 -->
+<!-- Node606&#45;&gt;Node609 -->
 <g id="edge17" class="edge">
-<title>Node598&#45;&gt;Node601</title>
+<title>Node606&#45;&gt;Node609</title>
 <path fill="none" stroke="#191970" d="M617.6694,-205.2149C635.8542,-180.3761 675.3478,-131.5353 721,-106.5113 725.2194,-104.1984 729.701,-102.1671 734.3166,-100.383"/>
 <polygon fill="#191970" stroke="#191970" points="735.6299,-103.6323 743.9376,-97.0572 733.3429,-97.0164 735.6299,-103.6323"/>
 </g>
-<!-- Node602 -->
+<!-- Node610 -->
 <g id="node16" class="node">
-<title>Node602</title>
+<title>Node610</title>
 <g id="a_node16"><a xlink:href="classSNN.html#acdfe8b1c7c69be228cc51535cfec0215" target="_top" xlink:title="required for homeostasis ">
 <polygon fill="#ffffff" stroke="#000000" points="952.5,-344.0113 952.5,-363.0113 1075.5,-363.0113 1075.5,-344.0113 952.5,-344.0113"/>
 <text text-anchor="middle" x="1014" y="-351.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConnectConfig</text>
 </a>
 </g>
 </g>
-<!-- Node598&#45;&gt;Node602 -->
+<!-- Node606&#45;&gt;Node610 -->
 <g id="edge19" class="edge">
-<title>Node598&#45;&gt;Node602</title>
+<title>Node606&#45;&gt;Node610</title>
 <path fill="none" stroke="#191970" d="M654.9408,-235.5739C664.8985,-238.7874 675.3084,-242.2095 685,-245.5113 701.1024,-250.9972 704.6606,-253.7776 721,-258.5113 796.1958,-280.2961 824.8639,-257.9567 893,-296.5113 913.2477,-307.9684 908.7665,-323.0291 929,-334.5113 933.4077,-337.0126 938.1182,-339.1846 942.9766,-341.0707"/>
 <polygon fill="#191970" stroke="#191970" points="941.8666,-344.3901 952.4614,-344.3567 944.1582,-337.7758 941.8666,-344.3901"/>
 </g>
-<!-- Node603 -->
+<!-- Node611 -->
 <g id="node17" class="node">
-<title>Node603</title>
+<title>Node611</title>
 <g id="a_node17"><a xlink:href="classSNN.html#aca55cbeeccd57d4b6de64ca8e1d7d2c5" target="_top" xlink:title="function writes population weights from gIDpre to gIDpost to file fname in binary. ">
 <polygon fill="#ffffff" stroke="#000000" points="759,-116.0113 759,-135.0113 855,-135.0113 855,-116.0113 759,-116.0113"/>
 <text text-anchor="middle" x="807" y="-123.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getLogFpInf</text>
 </a>
 </g>
 </g>
-<!-- Node598&#45;&gt;Node603 -->
+<!-- Node606&#45;&gt;Node611 -->
 <g id="edge20" class="edge">
-<title>Node598&#45;&gt;Node603</title>
+<title>Node606&#45;&gt;Node611</title>
 <path fill="none" stroke="#191970" d="M625.1183,-205.2959C646.6287,-188.0093 684.2355,-160.1731 721,-144.5113 729.7701,-140.7752 739.369,-137.732 748.873,-135.2657"/>
 <polygon fill="#191970" stroke="#191970" points="749.8006,-138.6425 758.704,-132.8997 748.1626,-131.8368 749.8006,-138.6425"/>
 </g>
-<!-- Node604 -->
+<!-- Node612 -->
 <g id="node18" class="node">
-<title>Node604</title>
+<title>Node612</title>
 <g id="a_node18"><a xlink:href="classSNN.html#a5de043bd478d97d08d1671967cddc551" target="_top" xlink:title="returns file pointer to error log ">
 <polygon fill="#ffffff" stroke="#000000" points="758,-344.0113 758,-363.0113 856,-363.0113 856,-344.0113 758,-344.0113"/>
 <text text-anchor="middle" x="807" y="-351.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getLogFpErr</text>
 </a>
 </g>
 </g>
-<!-- Node598&#45;&gt;Node604 -->
+<!-- Node606&#45;&gt;Node612 -->
 <g id="edge21" class="edge">
-<title>Node598&#45;&gt;Node604</title>
+<title>Node606&#45;&gt;Node612</title>
 <path fill="none" stroke="#191970" d="M666.7219,-233.4375C673.3922,-236.6163 679.6851,-240.5769 685,-245.5113 716.27,-274.5428 688.4181,-306.9603 721,-334.5113 728.7061,-341.0275 738.1549,-345.4466 747.9356,-348.4169"/>
 <polygon fill="#191970" stroke="#191970" points="747.2198,-351.8464 757.7748,-350.9283 748.951,-345.0638 747.2198,-351.8464"/>
 </g>
-<!-- Node605 -->
+<!-- Node613 -->
 <g id="node19" class="node">
-<title>Node605</title>
+<title>Node613</title>
 <g id="a_node19"><a xlink:href="classSNN.html#a618dd0ac460a947283a39c3044e727d6" target="_top" xlink:title="returns file pointer to debug log ">
 <polygon fill="#ffffff" stroke="#000000" points="755.5,-306.0113 755.5,-325.0113 858.5,-325.0113 858.5,-306.0113 755.5,-306.0113"/>
 <text text-anchor="middle" x="807" y="-313.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getLogFpDeb</text>
 </a>
 </g>
 </g>
-<!-- Node598&#45;&gt;Node605 -->
+<!-- Node606&#45;&gt;Node613 -->
 <g id="edge22" class="edge">
-<title>Node598&#45;&gt;Node605</title>
+<title>Node606&#45;&gt;Node613</title>
 <path fill="none" stroke="#191970" d="M666.7098,-235.4772C673.1567,-238.2923 679.3993,-241.6097 685,-245.5113 706.3018,-260.3507 699.42,-277.0795 721,-291.5113 728.3959,-296.4574 736.7986,-300.392 745.3849,-303.5201"/>
 <polygon fill="#191970" stroke="#191970" points="744.5202,-306.9201 755.1132,-306.7201 746.7075,-300.2706 744.5202,-306.9201"/>
 </g>
-<!-- Node606 -->
+<!-- Node614 -->
 <g id="node20" class="node">
-<title>Node606</title>
+<title>Node614</title>
 <g id="a_node20"><a xlink:href="classSNN.html#acd2fe569d2092f6e9cf624d18b93b1bf" target="_top" xlink:title="returns file pointer to log file ">
 <polygon fill="#ffffff" stroke="#000000" points="756.5,-192.0113 756.5,-211.0113 857.5,-211.0113 857.5,-192.0113 756.5,-192.0113"/>
 <text text-anchor="middle" x="807" y="-199.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getLogFpLog</text>
 </a>
 </g>
 </g>
-<!-- Node598&#45;&gt;Node606 -->
+<!-- Node606&#45;&gt;Node614 -->
 <g id="edge23" class="edge">
-<title>Node598&#45;&gt;Node606</title>
+<title>Node606&#45;&gt;Node614</title>
 <path fill="none" stroke="#191970" d="M666.7357,-214.8364C691.8248,-212.4529 720.9732,-209.6838 746.1775,-207.2894"/>
 <polygon fill="#191970" stroke="#191970" points="746.7257,-210.7532 756.3498,-206.3231 746.0636,-203.7846 746.7257,-210.7532"/>
 </g>
-<!-- Node601&#45;&gt;Node596 -->
+<!-- Node609&#45;&gt;Node604 -->
 <g id="edge18" class="edge">
-<title>Node601&#45;&gt;Node596</title>
+<title>Node609&#45;&gt;Node604</title>
 <path fill="none" stroke="#191970" d="M824.2819,-77.9673C847.4841,-65.4999 890.2756,-43.7103 929,-30.5113 936.6315,-27.9101 944.7714,-25.5683 952.8769,-23.4906"/>
 <polygon fill="#191970" stroke="#191970" points="953.827,-26.8614 962.7103,-21.0875 952.1652,-20.0615 953.827,-26.8614"/>
 </g>
-<!-- Node606&#45;&gt;Node593 -->
+<!-- Node614&#45;&gt;Node601 -->
 <g id="edge32" class="edge">
-<title>Node606&#45;&gt;Node593</title>
+<title>Node614&#45;&gt;Node601</title>
 <path fill="none" stroke="#191970" d="M857.5627,-203.2147C870.5545,-205.9916 883.5226,-211.1762 893,-220.5113 942.4602,-269.2293 884.7299,-319.0332 929,-372.5113 938.1239,-383.5329 951.1003,-391.4758 964.1744,-397.1513"/>
 <polygon fill="#191970" stroke="#191970" points="963.0713,-400.4786 973.6579,-400.8948 965.6415,-393.9675 963.0713,-400.4786"/>
 </g>
-<!-- Node606&#45;&gt;Node595 -->
+<!-- Node614&#45;&gt;Node603 -->
 <g id="edge25" class="edge">
-<title>Node606&#45;&gt;Node595</title>
+<title>Node614&#45;&gt;Node603</title>
 <path fill="none" stroke="#191970" d="M857.5716,-199.2487C870.4113,-196.447 883.2996,-191.3895 893,-182.5113 932.1948,-146.6382 889.8496,-104.4329 929,-68.5113 935.6381,-62.4207 943.7902,-58.1359 952.3921,-55.1462"/>
 <polygon fill="#191970" stroke="#191970" points="953.6071,-58.4383 962.2383,-52.294 951.6593,-51.7147 953.6071,-58.4383"/>
 </g>
-<!-- Node606&#45;&gt;Node602 -->
+<!-- Node614&#45;&gt;Node610 -->
 <g id="edge26" class="edge">
-<title>Node606&#45;&gt;Node602</title>
+<title>Node614&#45;&gt;Node610</title>
 <path fill="none" stroke="#191970" d="M857.5716,-203.7739C870.4113,-206.5756 883.2996,-211.633 893,-220.5113 932.1948,-256.3844 889.8496,-298.5897 929,-334.5113 933.1085,-338.281 937.7971,-341.3589 942.8133,-343.8662"/>
 <polygon fill="#191970" stroke="#191970" points="941.5669,-347.1389 952.1418,-347.7889 944.2804,-340.6862 941.5669,-347.1389"/>
 </g>
-<!-- Node607 -->
+<!-- Node615 -->
 <g id="node21" class="node">
-<title>Node607</title>
+<title>Node615</title>
 <g id="a_node21"><a xlink:href="classSNN.html#a2f4a65f43d2b15b984464dfb19959fe3" target="_top" xlink:title="Sets the file pointers for all log files file pointer NULL means don&#39;t change it. ...">
 <polygon fill="#ffffff" stroke="#000000" points="969,-154.0113 969,-173.0113 1059,-173.0113 1059,-154.0113 969,-154.0113"/>
 <text text-anchor="middle" x="1014" y="-161.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setLogsFp</text>
 </a>
 </g>
 </g>
-<!-- Node606&#45;&gt;Node607 -->
+<!-- Node614&#45;&gt;Node615 -->
 <g id="edge24" class="edge">
-<title>Node606&#45;&gt;Node607</title>
+<title>Node614&#45;&gt;Node615</title>
 <path fill="none" stroke="#191970" d="M857.6379,-192.2154C888.3107,-186.5847 927.4506,-179.3996 958.8975,-173.6267"/>
 <polygon fill="#191970" stroke="#191970" points="959.6131,-177.0539 968.8168,-171.8058 958.3492,-170.169 959.6131,-177.0539"/>
 </g>
-<!-- Node608 -->
+<!-- Node616 -->
 <g id="node22" class="node">
-<title>Node608</title>
+<title>Node616</title>
 <g id="a_node22"><a xlink:href="classSNN.html#a37221c7881b5fa8d1d806804fb9521ab" target="_top" xlink:title="SNN::getConnSTDPInfo">
 <polygon fill="#ffffff" stroke="#000000" points="951.5,-116.0113 951.5,-135.0113 1076.5,-135.0113 1076.5,-116.0113 951.5,-116.0113"/>
 <text text-anchor="middle" x="1014" y="-123.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConnSTDPInfo</text>
 </a>
 </g>
 </g>
-<!-- Node606&#45;&gt;Node608 -->
+<!-- Node614&#45;&gt;Node616 -->
 <g id="edge27" class="edge">
-<title>Node606&#45;&gt;Node608</title>
+<title>Node614&#45;&gt;Node616</title>
 <path fill="none" stroke="#191970" d="M857.5076,-195.5649C869.6529,-192.7525 882.2207,-188.6108 893,-182.5113 913.2477,-171.0542 908.7665,-155.9935 929,-144.5113 932.9536,-142.2677 937.1507,-140.2891 941.4798,-138.5441"/>
 <polygon fill="#191970" stroke="#191970" points="942.8929,-141.7556 951.1242,-135.085 940.5296,-135.1666 942.8929,-141.7556"/>
 </g>
-<!-- Node609 -->
+<!-- Node617 -->
 <g id="node23" class="node">
-<title>Node609</title>
+<title>Node617</title>
 <g id="a_node23"><a xlink:href="classSNN.html#aee3e497537bc8121f6c0c8fb3730ae72" target="_top" xlink:title="returns the RangeDelay struct of a connection ">
 <polygon fill="#ffffff" stroke="#000000" points="958,-78.0113 958,-97.0113 1070,-97.0113 1070,-78.0113 958,-78.0113"/>
 <text text-anchor="middle" x="1014" y="-85.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getDelayRange</text>
 </a>
 </g>
 </g>
-<!-- Node606&#45;&gt;Node609 -->
+<!-- Node614&#45;&gt;Node617 -->
 <g id="edge28" class="edge">
-<title>Node606&#45;&gt;Node609</title>
+<title>Node614&#45;&gt;Node617</title>
 <path fill="none" stroke="#191970" d="M857.6964,-198.1472C870.244,-195.3143 882.9559,-190.5168 893,-182.5113 922.2277,-159.2158 899.8012,-129.8429 929,-106.5113 934.685,-101.9686 941.2365,-98.4624 948.1277,-95.7636"/>
 <polygon fill="#191970" stroke="#191970" points="949.3153,-99.057 957.6859,-92.5622 947.0921,-92.4194 949.3153,-99.057"/>
 </g>
-<!-- Node610 -->
+<!-- Node618 -->
 <g id="node24" class="node">
-<title>Node610</title>
+<title>Node618</title>
 <g id="a_node24"><a xlink:href="classSNN.html#a317da03ce4b0b13d9621e277f468e058" target="_top" xlink:title="Returns the delay information for all synaptic connections between a pre&#45;synaptic and a post&#45;synaptic...">
 <polygon fill="#ffffff" stroke="#000000" points="969.5,-306.0113 969.5,-325.0113 1058.5,-325.0113 1058.5,-306.0113 969.5,-306.0113"/>
 <text text-anchor="middle" x="1014" y="-313.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getDelays</text>
 </a>
 </g>
 </g>
-<!-- Node606&#45;&gt;Node610 -->
+<!-- Node614&#45;&gt;Node618 -->
 <g id="edge29" class="edge">
-<title>Node606&#45;&gt;Node610</title>
+<title>Node614&#45;&gt;Node618</title>
 <path fill="none" stroke="#191970" d="M857.6964,-204.8754C870.244,-207.7083 882.9559,-212.5058 893,-220.5113 922.2277,-243.8068 899.8012,-273.1796 929,-296.5113 937.6826,-303.4492 948.3861,-307.9694 959.2345,-310.8884"/>
 <polygon fill="#191970" stroke="#191970" points="958.658,-314.3464 969.1842,-313.1423 960.2046,-307.5193 958.658,-314.3464"/>
 </g>
-<!-- Node611 -->
+<!-- Node619 -->
 <g id="node25" class="node">
-<title>Node611</title>
+<title>Node619</title>
 <g id="a_node25"><a xlink:href="classSNN.html#ac13b30c40669d3cb8264bd6e211b449d" target="_top" xlink:title="SNN::getGroupGrid3D">
 <polygon fill="#ffffff" stroke="#000000" points="956.5,-268.0113 956.5,-287.0113 1071.5,-287.0113 1071.5,-268.0113 956.5,-268.0113"/>
 <text text-anchor="middle" x="1014" y="-275.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupGrid3D</text>
 </a>
 </g>
 </g>
-<!-- Node606&#45;&gt;Node611 -->
+<!-- Node614&#45;&gt;Node619 -->
 <g id="edge30" class="edge">
-<title>Node606&#45;&gt;Node611</title>
+<title>Node614&#45;&gt;Node619</title>
 <path fill="none" stroke="#191970" d="M857.5076,-207.4577C869.6529,-210.27 882.2207,-214.4118 893,-220.5113 913.2477,-231.9684 908.7665,-247.0291 929,-258.5113 934.5235,-261.6458 940.5224,-264.2631 946.6922,-266.4487"/>
 <polygon fill="#191970" stroke="#191970" points="945.8947,-269.8672 956.4844,-269.5401 948.0021,-263.1919 945.8947,-269.8672"/>
 </g>
-<!-- Node612 -->
+<!-- Node620 -->
 <g id="node26" class="node">
-<title>Node612</title>
+<title>Node620</title>
 <g id="a_node26"><a xlink:href="classSNN.html#a757c874860e9e4d5ce0716e76b1a3e78" target="_top" xlink:title="SNN::getGroupId">
 <polygon fill="#ffffff" stroke="#000000" points="968,-230.0113 968,-249.0113 1060,-249.0113 1060,-230.0113 968,-230.0113"/>
 <text text-anchor="middle" x="1014" y="-237.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupId</text>
 </a>
 </g>
 </g>
-<!-- Node606&#45;&gt;Node612 -->
+<!-- Node614&#45;&gt;Node620 -->
 <g id="edge31" class="edge">
-<title>Node606&#45;&gt;Node612</title>
+<title>Node614&#45;&gt;Node620</title>
 <path fill="none" stroke="#191970" d="M857.6379,-210.8071C887.9867,-216.3784 926.6246,-223.4714 957.8984,-229.2125"/>
 <polygon fill="#191970" stroke="#191970" points="957.306,-232.6621 967.7736,-231.0253 958.57,-225.7772 957.306,-232.6621"/>
 </g>
-<!-- Node613 -->
+<!-- Node621 -->
 <g id="node27" class="node">
-<title>Node613</title>
+<title>Node621</title>
 <g id="a_node27"><a xlink:href="classSNN.html#aa1c9457d6e17337cfc20cee263f1159f" target="_top" xlink:title="SNN::getGroupNeuromodulatorInfo">
 <polygon fill="#ffffff" stroke="#000000" points="929,-192.0113 929,-211.0113 1099,-211.0113 1099,-192.0113 929,-192.0113"/>
 <text text-anchor="middle" x="1014" y="-199.0113" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupNeuromodulatorInfo</text>
 </a>
 </g>
 </g>
-<!-- Node606&#45;&gt;Node613 -->
+<!-- Node614&#45;&gt;Node621 -->
 <g id="edge33" class="edge">
-<title>Node606&#45;&gt;Node613</title>
+<title>Node614&#45;&gt;Node621</title>
 <path fill="none" stroke="#191970" d="M857.6379,-201.5113C876.0498,-201.5113 897.5126,-201.5113 918.531,-201.5113"/>
 <polygon fill="#191970" stroke="#191970" points="918.7982,-205.0114 928.7981,-201.5113 918.7981,-198.0114 918.7982,-205.0114"/>
 </g>

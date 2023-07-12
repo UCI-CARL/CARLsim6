@@ -9,30 +9,30 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 215.8489)">
 <title>setDefaultSTPparams</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-215.8489 458,-215.8489 458,4 -4,4"/>
-<!-- Node823 -->
+<!-- Node831 -->
 <g id="node1" class="node">
-<title>Node823</title>
+<title>Node831</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-95.5 0,-114.5 113,-114.5 113,-95.5 0,-95.5"/>
 <text text-anchor="middle" x="56.5" y="-102.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setDefaultSTPparams</text>
 </g>
-<!-- Node824 -->
+<!-- Node832 -->
 <g id="node2" class="node">
-<title>Node824</title>
+<title>Node832</title>
 <g id="a_node2"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="338,-95.5 338,-114.5 454,-114.5 454,-95.5 338,-95.5"/>
 <text text-anchor="middle" x="396" y="-102.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node823&#45;&gt;Node824 -->
+<!-- Node831&#45;&gt;Node832 -->
 <g id="edge1" class="edge">
-<title>Node823&#45;&gt;Node824</title>
+<title>Node831&#45;&gt;Node832</title>
 <path fill="none" stroke="#191970" d="M62.7137,-114.5789C75.8683,-133.858 108.6588,-176.8762 149,-193 212.1432,-218.2375 238.756,-217.9838 302,-193 337.657,-178.9141 367.7259,-144.2071 383.6913,-122.8298"/>
 <polygon fill="#191970" stroke="#191970" points="386.6292,-124.7396 389.6452,-114.5831 380.9538,-120.6421 386.6292,-124.7396"/>
 </g>
-<!-- Node825 -->
+<!-- Node833 -->
 <g id="node3" class="node">
-<title>Node825</title>
+<title>Node833</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#a19dee0cb90e81a639376e253cf142d3f" target="_top" xlink:title="setDefaultConductanceTime\lConstants">
 <polygon fill="#ffffff" stroke="#000000" points="155,-153 155,-183 296,-183 296,-153 155,-153"/>
 <text text-anchor="start" x="163" y="-171" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setDefaultConductanceTime</text>
@@ -40,99 +40,99 @@
 </a>
 </g>
 </g>
-<!-- Node823&#45;&gt;Node825 -->
+<!-- Node831&#45;&gt;Node833 -->
 <g id="edge2" class="edge">
-<title>Node823&#45;&gt;Node825</title>
+<title>Node831&#45;&gt;Node833</title>
 <path fill="none" stroke="#191970" d="M78.3742,-114.5213C97.0051,-122.5016 124.5622,-134.0012 149,-143 155.0232,-145.2179 161.3481,-147.4449 167.6724,-149.6062"/>
 <polygon fill="#191970" stroke="#191970" points="166.9726,-153.0636 177.5667,-152.9378 169.2064,-146.4296 166.9726,-153.0636"/>
 </g>
-<!-- Node826 -->
+<!-- Node834 -->
 <g id="node4" class="node">
-<title>Node826</title>
+<title>Node834</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a800d13fcd2488793532832fb094c252f" target="_top" xlink:title="setDefaultESTDPparams">
 <polygon fill="#ffffff" stroke="#000000" points="161.5,-114.5 161.5,-133.5 289.5,-133.5 289.5,-114.5 161.5,-114.5"/>
 <text text-anchor="middle" x="225.5" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setDefaultESTDPparams</text>
 </a>
 </g>
 </g>
-<!-- Node823&#45;&gt;Node826 -->
+<!-- Node831&#45;&gt;Node834 -->
 <g id="edge4" class="edge">
-<title>Node823&#45;&gt;Node826</title>
+<title>Node831&#45;&gt;Node834</title>
 <path fill="none" stroke="#191970" d="M113.2447,-111.3796C125.4266,-112.7491 138.4743,-114.216 151.2082,-115.6477"/>
 <polygon fill="#191970" stroke="#191970" points="151.0022,-119.1465 161.3306,-116.7857 151.7843,-112.1903 151.0022,-119.1465"/>
 </g>
-<!-- Node827 -->
+<!-- Node835 -->
 <g id="node5" class="node">
-<title>Node827</title>
+<title>Node835</title>
 <g id="a_node5"><a xlink:href="classCARLsim_1_1Impl.html#a5640d10d796eb10b044cfc8c2e021619" target="_top" xlink:title="setDefaultISTDPparams">
 <polygon fill="#ffffff" stroke="#000000" points="163.5,-76.5 163.5,-95.5 287.5,-95.5 287.5,-76.5 163.5,-76.5"/>
 <text text-anchor="middle" x="225.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setDefaultISTDPparams</text>
 </a>
 </g>
 </g>
-<!-- Node823&#45;&gt;Node827 -->
+<!-- Node831&#45;&gt;Node835 -->
 <g id="edge6" class="edge">
-<title>Node823&#45;&gt;Node827</title>
+<title>Node831&#45;&gt;Node835</title>
 <path fill="none" stroke="#191970" d="M113.2447,-98.6204C126.0821,-97.1772 139.881,-95.6258 153.2609,-94.1216"/>
 <polygon fill="#191970" stroke="#191970" points="153.8417,-97.5784 163.388,-92.983 153.0595,-90.6222 153.8417,-97.5784"/>
 </g>
-<!-- Node828 -->
+<!-- Node836 -->
 <g id="node6" class="node">
-<title>Node828</title>
+<title>Node836</title>
 <g id="a_node6"><a xlink:href="classCARLsim_1_1Impl.html#a13fbb8775775a31cb974b709430a6d30" target="_top" xlink:title="setDefaultHomeostasisParams">
 <polygon fill="#ffffff" stroke="#000000" points="149,-38.5 149,-57.5 302,-57.5 302,-38.5 149,-38.5"/>
 <text text-anchor="middle" x="225.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setDefaultHomeostasisParams</text>
 </a>
 </g>
 </g>
-<!-- Node823&#45;&gt;Node828 -->
+<!-- Node831&#45;&gt;Node836 -->
 <g id="edge8" class="edge">
-<title>Node823&#45;&gt;Node828</title>
+<title>Node831&#45;&gt;Node836</title>
 <path fill="none" stroke="#191970" d="M77.4783,-95.3492C96.0146,-87.0723 123.9225,-75.2163 149,-67 156.4979,-64.5434 164.4989,-62.2296 172.3959,-60.1189"/>
 <polygon fill="#191970" stroke="#191970" points="173.4923,-63.4506 182.2976,-57.5584 171.7398,-56.6735 173.4923,-63.4506"/>
 </g>
-<!-- Node829 -->
+<!-- Node837 -->
 <g id="node7" class="node">
-<title>Node829</title>
+<title>Node837</title>
 <g id="a_node7"><a xlink:href="classCARLsim_1_1Impl.html#a47e42a4aff33749f6040039bdff2bf9a" target="_top" xlink:title="setDefaultSaveOptions">
 <polygon fill="#ffffff" stroke="#000000" points="166.5,-.5 166.5,-19.5 284.5,-19.5 284.5,-.5 166.5,-.5"/>
 <text text-anchor="middle" x="225.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setDefaultSaveOptions</text>
 </a>
 </g>
 </g>
-<!-- Node823&#45;&gt;Node829 -->
+<!-- Node831&#45;&gt;Node837 -->
 <g id="edge10" class="edge">
-<title>Node823&#45;&gt;Node829</title>
+<title>Node831&#45;&gt;Node837</title>
 <path fill="none" stroke="#191970" d="M65.2219,-95.4752C80.5656,-79.3072 114.0852,-46.5433 149,-29 153.8148,-26.5808 158.9582,-24.4563 164.2153,-22.593"/>
 <polygon fill="#191970" stroke="#191970" points="165.3128,-25.9167 173.7543,-19.5142 163.1627,-19.255 165.3128,-25.9167"/>
 </g>
-<!-- Node825&#45;&gt;Node824 -->
+<!-- Node833&#45;&gt;Node832 -->
 <g id="edge3" class="edge">
-<title>Node825&#45;&gt;Node824</title>
+<title>Node833&#45;&gt;Node832</title>
 <path fill="none" stroke="#191970" d="M273.4184,-152.8969C282.9294,-149.7428 292.8123,-146.3539 302,-143 322.7879,-135.4115 345.8282,-126.1119 363.8952,-118.6119"/>
 <polygon fill="#191970" stroke="#191970" points="365.4963,-121.7362 373.375,-114.6526 362.7985,-115.2769 365.4963,-121.7362"/>
 </g>
-<!-- Node826&#45;&gt;Node824 -->
+<!-- Node834&#45;&gt;Node832 -->
 <g id="edge5" class="edge">
-<title>Node826&#45;&gt;Node824</title>
+<title>Node834&#45;&gt;Node832</title>
 <path fill="none" stroke="#191970" d="M289.9587,-116.8169C302.2622,-115.4459 315.181,-114.0062 327.6026,-112.622"/>
 <polygon fill="#191970" stroke="#191970" points="328.3445,-116.0611 337.8953,-111.475 327.5692,-109.1041 328.3445,-116.0611"/>
 </g>
-<!-- Node827&#45;&gt;Node824 -->
+<!-- Node835&#45;&gt;Node832 -->
 <g id="edge7" class="edge">
-<title>Node827&#45;&gt;Node824</title>
+<title>Node835&#45;&gt;Node832</title>
 <path fill="none" stroke="#191970" d="M287.5367,-92.9132C300.663,-94.3759 314.5841,-95.9273 327.9204,-97.4134"/>
 <polygon fill="#191970" stroke="#191970" points="327.6557,-100.9055 337.9818,-98.5346 328.431,-93.9486 327.6557,-100.9055"/>
 </g>
-<!-- Node828&#45;&gt;Node824 -->
+<!-- Node836&#45;&gt;Node832 -->
 <g id="edge9" class="edge">
-<title>Node828&#45;&gt;Node824</title>
+<title>Node836&#45;&gt;Node832</title>
 <path fill="none" stroke="#191970" d="M268.6888,-57.6C279.6418,-60.3419 291.3265,-63.5362 302,-67 323.5722,-74.0008 347.2408,-83.5803 365.4312,-91.3694"/>
 <polygon fill="#191970" stroke="#191970" points="364.097,-94.6057 374.6642,-95.3703 366.8802,-88.1828 364.097,-94.6057"/>
 </g>
-<!-- Node829&#45;&gt;Node824 -->
+<!-- Node837&#45;&gt;Node832 -->
 <g id="edge11" class="edge">
-<title>Node829&#45;&gt;Node824</title>
+<title>Node837&#45;&gt;Node832</title>
 <path fill="none" stroke="#191970" d="M277.2198,-19.566C285.7285,-22.0587 294.2812,-25.1596 302,-29 332.632,-44.2405 362.3718,-70.8925 379.9325,-88.2403"/>
 <polygon fill="#191970" stroke="#191970" points="377.58,-90.8389 387.1034,-95.4818 382.554,-85.9134 377.58,-90.8389"/>
 </g>

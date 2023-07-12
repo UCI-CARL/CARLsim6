@@ -48,22 +48,22 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 647;
 var viewHeight = 104;
-var sectionId = 'dynsection-30';
+var sectionId = 'dynsection-31';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>getGroupNumNeurons</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 643,-100 643,4 -4,4"/>
-<!-- Node205 -->
+<!-- Node209 -->
 <g id="node1" class="node">
-<title>Node205</title>
+<title>Node209</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 114,-57.5 114,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="57" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupNumNeurons</text>
 </g>
-<!-- Node206 -->
+<!-- Node210 -->
 <g id="node2" class="node">
-<title>Node206</title>
+<title>Node210</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84" target="_top" xlink:title="CARLsim::Impl::getGroupNum\lNeurons">
 <polygon fill="#ffffff" stroke="#000000" points="150,-33 150,-63 301,-63 301,-33 150,-33"/>
 <text text-anchor="start" x="158" y="-51" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupNum</text>
@@ -71,69 +71,69 @@ var sectionId = 'dynsection-30';
 </a>
 </g>
 </g>
-<!-- Node205&#45;&gt;Node206 -->
+<!-- Node209&#45;&gt;Node210 -->
 <g id="edge1" class="edge">
-<title>Node205&#45;&gt;Node206</title>
+<title>Node209&#45;&gt;Node210</title>
 <path fill="none" stroke="#191970" d="M114.0464,-48C122.3497,-48 131.048,-48 139.7674,-48"/>
 <polygon fill="#191970" stroke="#191970" points="139.9906,-51.5001 149.9906,-48 139.9906,-44.5001 139.9906,-51.5001"/>
 </g>
-<!-- Node207 -->
+<!-- Node211 -->
 <g id="node3" class="node">
-<title>Node207</title>
+<title>Node211</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="357,-76.5 357,-95.5 473,-95.5 473,-76.5 357,-76.5"/>
 <text text-anchor="middle" x="415" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node206&#45;&gt;Node207 -->
+<!-- Node210&#45;&gt;Node211 -->
 <g id="edge2" class="edge">
-<title>Node206&#45;&gt;Node207</title>
+<title>Node210&#45;&gt;Node211</title>
 <path fill="none" stroke="#191970" d="M300.3954,-63.0186C319.4233,-66.8342 339.5697,-70.8741 357.5755,-74.4848"/>
 <polygon fill="#191970" stroke="#191970" points="357.1274,-77.9645 367.6204,-76.4991 358.5038,-71.1012 357.1274,-77.9645"/>
 </g>
-<!-- Node208 -->
+<!-- Node212 -->
 <g id="node4" class="node">
-<title>Node208</title>
+<title>Node212</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="CARLsim::Impl::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="337,-38.5 337,-57.5 493,-57.5 493,-38.5 337,-38.5"/>
 <text text-anchor="middle" x="415" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node206&#45;&gt;Node208 -->
+<!-- Node210&#45;&gt;Node212 -->
 <g id="edge3" class="edge">
-<title>Node206&#45;&gt;Node208</title>
+<title>Node210&#45;&gt;Node212</title>
 <path fill="none" stroke="#191970" d="M301.2124,-48C309.6595,-48 318.3172,-48 326.9017,-48"/>
 <polygon fill="#191970" stroke="#191970" points="326.9285,-51.5001 336.9285,-48 326.9284,-44.5001 326.9285,-51.5001"/>
 </g>
-<!-- Node210 -->
+<!-- Node214 -->
 <g id="node6" class="node">
-<title>Node210</title>
+<title>Node214</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" target="_top" xlink:title="SNN::getGroupNumNeurons">
 <polygon fill="#ffffff" stroke="#000000" points="344,-.5 344,-19.5 486,-19.5 486,-.5 344,-.5"/>
 <text text-anchor="middle" x="415" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node206&#45;&gt;Node210 -->
+<!-- Node210&#45;&gt;Node214 -->
 <g id="edge5" class="edge">
-<title>Node206&#45;&gt;Node210</title>
+<title>Node210&#45;&gt;Node214</title>
 <path fill="none" stroke="#191970" d="M300.3954,-32.9814C319.4233,-29.1658 339.5697,-25.1259 357.5755,-21.5152"/>
 <polygon fill="#191970" stroke="#191970" points="358.5038,-24.8988 367.6204,-19.5009 357.1274,-18.0355 358.5038,-24.8988"/>
 </g>
-<!-- Node209 -->
+<!-- Node213 -->
 <g id="node5" class="node">
-<title>Node209</title>
+<title>Node213</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="529,-38.5 529,-57.5 639,-57.5 639,-38.5 529,-38.5"/>
 <text text-anchor="middle" x="584" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node208&#45;&gt;Node209 -->
+<!-- Node212&#45;&gt;Node213 -->
 <g id="edge4" class="edge">
-<title>Node208&#45;&gt;Node209</title>
+<title>Node212&#45;&gt;Node213</title>
 <path fill="none" stroke="#191970" d="M493.069,-48C501.6771,-48 510.3747,-48 518.8018,-48"/>
 <polygon fill="#191970" stroke="#191970" points="518.9225,-51.5001 528.9225,-48 518.9225,-44.5001 518.9225,-51.5001"/>
 </g>

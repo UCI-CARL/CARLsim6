@@ -48,46 +48,46 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 520;
 var viewHeight = 28;
-var sectionId = 'dynsection-58';
+var sectionId = 'dynsection-59';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>getNumNeuronsReg</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 516,-24 516,4 -4,4"/>
-<!-- Node988 -->
+<!-- Node992 -->
 <g id="node1" class="node">
-<title>Node988</title>
+<title>Node992</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 106,-19.5 106,-.5 0,-.5"/>
 <text text-anchor="middle" x="53" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumNeuronsReg</text>
 </g>
-<!-- Node989 -->
+<!-- Node993 -->
 <g id="node2" class="node">
-<title>Node989</title>
+<title>Node993</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a399c741b91112962a5c7b85205bdb98b" target="_top" xlink:title="CARLsim::Impl::getNumNeuronsReg">
 <polygon fill="#ffffff" stroke="#000000" points="142,-.5 142,-19.5 321,-19.5 321,-.5 142,-.5"/>
 <text text-anchor="middle" x="231.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumNeuronsReg</text>
 </a>
 </g>
 </g>
-<!-- Node988&#45;&gt;Node989 -->
+<!-- Node992&#45;&gt;Node993 -->
 <g id="edge1" class="edge">
-<title>Node988&#45;&gt;Node989</title>
+<title>Node992&#45;&gt;Node993</title>
 <path fill="none" stroke="#191970" d="M116.087,-10C124.4521,-10 133.1535,-10 141.8598,-10"/>
 <polygon fill="#191970" stroke="#191970" points="116.0726,-6.5001 106.0726,-10 116.0726,-13.5001 116.0726,-6.5001"/>
 </g>
-<!-- Node990 -->
+<!-- Node994 -->
 <g id="node3" class="node">
-<title>Node990</title>
+<title>Node994</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#a399c741b91112962a5c7b85205bdb98b" target="_top" xlink:title="returns the total number of regular (Izhikevich) neurons ">
 <polygon fill="#ffffff" stroke="#000000" points="357,-.5 357,-19.5 512,-19.5 512,-.5 357,-.5"/>
 <text text-anchor="middle" x="434.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getNumNeuronsReg</text>
 </a>
 </g>
 </g>
-<!-- Node989&#45;&gt;Node990 -->
+<!-- Node993&#45;&gt;Node994 -->
 <g id="edge2" class="edge">
-<title>Node989&#45;&gt;Node990</title>
+<title>Node993&#45;&gt;Node994</title>
 <path fill="none" stroke="#191970" d="M331.2043,-10C339.8057,-10 348.4243,-10 356.813,-10"/>
 <polygon fill="#191970" stroke="#191970" points="331.1297,-6.5001 321.1297,-10 331.1296,-13.5001 331.1297,-6.5001"/>
 </g>

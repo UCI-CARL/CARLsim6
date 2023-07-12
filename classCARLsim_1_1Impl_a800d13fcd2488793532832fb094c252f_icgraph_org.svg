@@ -9,84 +9,84 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>setDefaultESTDPparams</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 550,-100 550,4 -4,4"/>
-<!-- Node794 -->
+<!-- Node802 -->
 <g id="node1" class="node">
-<title>Node794</title>
+<title>Node802</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 128,-57.5 128,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="64" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setDefaultESTDPparams</text>
 </g>
-<!-- Node795 -->
+<!-- Node803 -->
 <g id="node2" class="node">
-<title>Node795</title>
+<title>Node803</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a4eaad13df15f4a2710688a7be024a4f2" target="_top" xlink:title="setDefaultSTDPparams">
 <polygon fill="#ffffff" stroke="#000000" points="191.5,-76.5 191.5,-95.5 312.5,-95.5 312.5,-76.5 191.5,-76.5"/>
 <text text-anchor="middle" x="252" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setDefaultSTDPparams</text>
 </a>
 </g>
 </g>
-<!-- Node794&#45;&gt;Node795 -->
+<!-- Node802&#45;&gt;Node803 -->
 <g id="edge1" class="edge">
-<title>Node794&#45;&gt;Node795</title>
+<title>Node802&#45;&gt;Node803</title>
 <path fill="none" stroke="#191970" d="M121.4365,-59.6095C148.1744,-65.014 179.5879,-71.3635 204.9008,-76.4799"/>
 <polygon fill="#191970" stroke="#191970" points="121.9356,-56.1397 111.4403,-57.589 120.5487,-63.0009 121.9356,-56.1397"/>
 </g>
-<!-- Node797 -->
+<!-- Node805 -->
 <g id="node4" class="node">
-<title>Node797</title>
+<title>Node805</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#abb10cfa3d0f3a246442e1187ecb837ae" target="_top" xlink:title="setDefaultSTPparams">
 <polygon fill="#ffffff" stroke="#000000" points="195.5,-38.5 195.5,-57.5 308.5,-57.5 308.5,-38.5 195.5,-38.5"/>
 <text text-anchor="middle" x="252" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setDefaultSTPparams</text>
 </a>
 </g>
 </g>
-<!-- Node794&#45;&gt;Node797 -->
+<!-- Node802&#45;&gt;Node805 -->
 <g id="edge3" class="edge">
-<title>Node794&#45;&gt;Node797</title>
+<title>Node802&#45;&gt;Node805</title>
 <path fill="none" stroke="#191970" d="M138.2864,-48C157.2811,-48 177.4004,-48 195.3498,-48"/>
 <polygon fill="#191970" stroke="#191970" points="138.1732,-44.5001 128.1731,-48 138.1731,-51.5001 138.1732,-44.5001"/>
 </g>
-<!-- Node799 -->
+<!-- Node807 -->
 <g id="node6" class="node">
-<title>Node799</title>
+<title>Node807</title>
 <g id="a_node6"><a xlink:href="classCARLsim.html#a800d13fcd2488793532832fb094c252f" target="_top" xlink:title="sets default values for E&#45;STDP params ">
 <polygon fill="#ffffff" stroke="#000000" points="164,-.5 164,-19.5 340,-19.5 340,-.5 164,-.5"/>
 <text text-anchor="middle" x="252" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setDefaultESTDPparams</text>
 </a>
 </g>
 </g>
-<!-- Node794&#45;&gt;Node799 -->
+<!-- Node802&#45;&gt;Node807 -->
 <g id="edge5" class="edge">
-<title>Node794&#45;&gt;Node799</title>
+<title>Node802&#45;&gt;Node807</title>
 <path fill="none" stroke="#191970" d="M121.4365,-36.3905C148.1744,-30.986 179.5879,-24.6365 204.9008,-19.5201"/>
 <polygon fill="#191970" stroke="#191970" points="120.5487,-32.9991 111.4403,-38.411 121.9356,-39.8603 120.5487,-32.9991"/>
 </g>
-<!-- Node796 -->
+<!-- Node804 -->
 <g id="node3" class="node">
-<title>Node796</title>
+<title>Node804</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#a4eaad13df15f4a2710688a7be024a4f2" target="_top" xlink:title="sets default STDP params ">
 <polygon fill="#ffffff" stroke="#000000" points="376,-76.5 376,-95.5 546,-95.5 546,-76.5 376,-76.5"/>
 <text text-anchor="middle" x="461" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setDefaultSTDPparams</text>
 </a>
 </g>
 </g>
-<!-- Node795&#45;&gt;Node796 -->
+<!-- Node803&#45;&gt;Node804 -->
 <g id="edge2" class="edge">
-<title>Node795&#45;&gt;Node796</title>
+<title>Node803&#45;&gt;Node804</title>
 <path fill="none" stroke="#191970" d="M323.0668,-86C339.9646,-86 358.1661,-86 375.6296,-86"/>
 <polygon fill="#191970" stroke="#191970" points="322.7322,-82.5001 312.7322,-86 322.7322,-89.5001 322.7322,-82.5001"/>
 </g>
-<!-- Node798 -->
+<!-- Node806 -->
 <g id="node5" class="node">
-<title>Node798</title>
+<title>Node806</title>
 <g id="a_node5"><a xlink:href="classCARLsim.html#abb10cfa3d0f3a246442e1187ecb837ae" target="_top" xlink:title="Sets default values for STP params U, tau_u, and tau_x of a neuron group (pre&#45;synaptically) ...">
 <polygon fill="#ffffff" stroke="#000000" points="380,-38.5 380,-57.5 542,-57.5 542,-38.5 380,-38.5"/>
 <text text-anchor="middle" x="461" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setDefaultSTPparams</text>
 </a>
 </g>
 </g>
-<!-- Node797&#45;&gt;Node798 -->
+<!-- Node805&#45;&gt;Node806 -->
 <g id="edge4" class="edge">
-<title>Node797&#45;&gt;Node798</title>
+<title>Node805&#45;&gt;Node806</title>
 <path fill="none" stroke="#191970" d="M318.7895,-48C338.1584,-48 359.5235,-48 379.6774,-48"/>
 <polygon fill="#191970" stroke="#191970" points="318.5584,-44.5001 308.5584,-48 318.5584,-51.5001 318.5584,-44.5001"/>
 </g>

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['lambda',['lambda',['../structPulseCurve.html#acac4a565486bad0b88b62387d8a5d891',1,'PulseCurve::lambda()'],['../structConnSTDPInfo__s.html#a36f58ad605f0e4fbaced9c72d90e94b8',1,'ConnSTDPInfo_s::LAMBDA()'],['../structSTDPConfig__s.html#a36f58ad605f0e4fbaced9c72d90e94b8',1,'STDPConfig_s::LAMBDA()'],['../structConnectConfigRT__s.html#a36f58ad605f0e4fbaced9c72d90e94b8',1,'ConnectConfigRT_s::LAMBDA()']]],
+  ['lambda',['LAMBDA',['../structConnSTDPInfo__s.html#a36f58ad605f0e4fbaced9c72d90e94b8',1,'ConnSTDPInfo_s::LAMBDA()'],['../structSTDPConfig__s.html#a36f58ad605f0e4fbaced9c72d90e94b8',1,'STDPConfig_s::LAMBDA()'],['../structConnectConfigRT__s.html#a36f58ad605f0e4fbaced9c72d90e94b8',1,'ConnectConfigRT_s::LAMBDA()'],['../structPulseCurve.html#acac4a565486bad0b88b62387d8a5d891',1,'PulseCurve::lambda()']]],
   ['lastspiketime',['lastSpikeTime',['../structRuntimeData__s.html#a5656a8a1e8717fa7e01d81984c72f2a8',1,'RuntimeData_s']]],
   ['lconnid',['lConnId',['../structConnectConfigMD__s.html#a033aa2baec867f61ced3e73b3a7fd8ef',1,'ConnectConfigMD_s']]],
   ['lendn',['lEndN',['../structGroupConfigMD__s.html#a99089b0e323cff25fb07598762c8f4df',1,'GroupConfigMD_s::lEndN()'],['../structGroupConfigRT__s.html#a99089b0e323cff25fb07598762c8f4df',1,'GroupConfigRT_s::lEndN()']]],

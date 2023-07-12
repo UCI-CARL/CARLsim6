@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getNeuronMonitor</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 217,-24 217,4 -4,4"/>
-<!-- Node705 -->
+<!-- Node709 -->
 <g id="node1" class="node">
-<title>Node705</title>
+<title>Node709</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 94,-19.5 94,-.5 0,-.5"/>
 <text text-anchor="middle" x="47" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNeuronMonitor</text>
 </g>
-<!-- Node706 -->
+<!-- Node710 -->
 <g id="node2" class="node">
-<title>Node706</title>
+<title>Node710</title>
 <g id="a_node2"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="130,-.5 130,-19.5 213,-19.5 213,-.5 130,-.5"/>
 <text text-anchor="middle" x="171.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node705&#45;&gt;Node706 -->
+<!-- Node709&#45;&gt;Node710 -->
 <g id="edge1" class="edge">
-<title>Node705&#45;&gt;Node706</title>
+<title>Node709&#45;&gt;Node710</title>
 <path fill="none" stroke="#191970" d="M94.0681,-10C102.3905,-10 111.0984,-10 119.5461,-10"/>
 <polygon fill="#191970" stroke="#191970" points="119.678,-13.5001 129.678,-10 119.678,-6.5001 119.678,-13.5001"/>
 </g>

@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getNumNeuronsGenExc</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 314,-24 314,4 -4,4"/>
-<!-- Node436 -->
+<!-- Node440 -->
 <g id="node1" class="node">
-<title>Node436</title>
+<title>Node440</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 123,-19.5 123,-.5 0,-.5"/>
 <text text-anchor="middle" x="61.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumNeuronsGenExc</text>
 </g>
-<!-- Node437 -->
+<!-- Node441 -->
 <g id="node2" class="node">
-<title>Node437</title>
+<title>Node441</title>
 <g id="a_node2"><a xlink:href="classSNN.html#ab63105935d2720c2fcadfd90fd8ea0be" target="_top" xlink:title="SNN::getNumNeuronsGenExc">
 <polygon fill="#ffffff" stroke="#000000" points="159,-.5 159,-19.5 310,-19.5 310,-.5 159,-.5"/>
 <text text-anchor="middle" x="234.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumNeuronsGenExc</text>
 </a>
 </g>
 </g>
-<!-- Node436&#45;&gt;Node437 -->
+<!-- Node440&#45;&gt;Node441 -->
 <g id="edge1" class="edge">
-<title>Node436&#45;&gt;Node437</title>
+<title>Node440&#45;&gt;Node441</title>
 <path fill="none" stroke="#191970" d="M123.4683,-10C131.6019,-10 140.0509,-10 148.4936,-10"/>
 <polygon fill="#191970" stroke="#191970" points="148.7672,-13.5001 158.7672,-10 148.7671,-6.5001 148.7672,-13.5001"/>
 </g>

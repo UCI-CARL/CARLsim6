@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['todo_20list',['Todo List',['../todo.html',1,'']]],
   ['todo',['TODO',['../TODO.html',1,'']]],
   ['tutorial_201_3a_20basic_20concepts',['Tutorial 1: Basic Concepts',['../tut1_basic_concepts.html',1,'']]],
   ['tutorial_202_3a_2080_2d20_20random_20spiking_20network',['Tutorial 2: 80-20 Random Spiking Network',['../tut2_random_spnet.html',1,'']]],

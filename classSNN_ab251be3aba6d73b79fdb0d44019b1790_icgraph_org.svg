@@ -9,54 +9,54 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>getConductanceNMDA</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 552,-62 552,4 -4,4"/>
-<!-- Node149 -->
+<!-- Node153 -->
 <g id="node1" class="node">
-<title>Node149</title>
+<title>Node153</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 118,-38.5 118,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="59" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConductanceNMDA</text>
 </g>
-<!-- Node150 -->
+<!-- Node154 -->
 <g id="node2" class="node">
-<title>Node150</title>
+<title>Node154</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a450adf3cd56dd307b86c7d33df5afffd" target="_top" xlink:title="CARLsim::Impl::getConductanceNMDA">
 <polygon fill="#ffffff" stroke="#000000" points="154,-38.5 154,-57.5 345,-57.5 345,-38.5 154,-38.5"/>
 <text text-anchor="middle" x="249.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getConductanceNMDA</text>
 </a>
 </g>
 </g>
-<!-- Node149&#45;&gt;Node150 -->
+<!-- Node153&#45;&gt;Node154 -->
 <g id="edge1" class="edge">
-<title>Node149&#45;&gt;Node150</title>
+<title>Node153&#45;&gt;Node154</title>
 <path fill="none" stroke="#191970" d="M128.2633,-35.9082C136.6212,-36.7417 145.2681,-37.6042 153.9186,-38.4669"/>
 <polygon fill="#191970" stroke="#191970" points="128.5292,-32.4174 118.2311,-34.9076 127.8344,-39.3828 128.5292,-32.4174"/>
 </g>
-<!-- Node152 -->
+<!-- Node156 -->
 <g id="node4" class="node">
-<title>Node152</title>
+<title>Node156</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a0d88c00011be6536c68f8e6bc70ca1a3" target="_top" xlink:title="temporary getter to return pointer to current[] ">
 <polygon fill="#ffffff" stroke="#000000" points="218.5,-.5 218.5,-19.5 280.5,-19.5 280.5,-.5 218.5,-.5"/>
 <text text-anchor="middle" x="249.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getCurrent</text>
 </a>
 </g>
 </g>
-<!-- Node149&#45;&gt;Node152 -->
+<!-- Node153&#45;&gt;Node156 -->
 <g id="edge3" class="edge">
-<title>Node149&#45;&gt;Node152</title>
+<title>Node153&#45;&gt;Node156</title>
 <path fill="none" stroke="#191970" d="M128.5045,-22.0678C159.2972,-18.9966 193.9711,-15.5383 218.2811,-13.1137"/>
 <polygon fill="#191970" stroke="#191970" points="127.8344,-18.6172 118.2311,-23.0924 128.5292,-25.5826 127.8344,-18.6172"/>
 </g>
-<!-- Node151 -->
+<!-- Node155 -->
 <g id="node3" class="node">
-<title>Node151</title>
+<title>Node155</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#ab251be3aba6d73b79fdb0d44019b1790" target="_top" xlink:title="gets NMDA vector of a group ">
 <polygon fill="#ffffff" stroke="#000000" points="381,-38.5 381,-57.5 548,-57.5 548,-38.5 381,-38.5"/>
 <text text-anchor="middle" x="464.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getConductanceNMDA</text>
 </a>
 </g>
 </g>
-<!-- Node150&#45;&gt;Node151 -->
+<!-- Node154&#45;&gt;Node155 -->
 <g id="edge2" class="edge">
-<title>Node150&#45;&gt;Node151</title>
+<title>Node154&#45;&gt;Node155</title>
 <path fill="none" stroke="#191970" d="M355.1184,-48C363.709,-48 372.3157,-48 380.7188,-48"/>
 <polygon fill="#191970" stroke="#191970" points="355.0542,-44.5001 345.0542,-48 355.0542,-51.5001 355.0542,-44.5001"/>
 </g>

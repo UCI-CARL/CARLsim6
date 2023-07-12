@@ -9,54 +9,54 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>getNumSynapses</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 461,-62 461,4 -4,4"/>
-<!-- Node312 -->
+<!-- Node316 -->
 <g id="node1" class="node">
-<title>Node312</title>
+<title>Node316</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 95,-38.5 95,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="47.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumSynapses</text>
 </g>
-<!-- Node313 -->
+<!-- Node317 -->
 <g id="node2" class="node">
-<title>Node313</title>
+<title>Node317</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a7373a8cecde25ccd48b3df967b5b0417" target="_top" xlink:title="CARLsim::Impl::getNumSynapses">
 <polygon fill="#ffffff" stroke="#000000" points="131,-19.5 131,-38.5 299,-38.5 299,-19.5 131,-19.5"/>
 <text text-anchor="middle" x="215" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumSynapses</text>
 </a>
 </g>
 </g>
-<!-- Node312&#45;&gt;Node313 -->
+<!-- Node316&#45;&gt;Node317 -->
 <g id="edge1" class="edge">
-<title>Node312&#45;&gt;Node313</title>
+<title>Node316&#45;&gt;Node317</title>
 <path fill="none" stroke="#191970" d="M95.0507,-29C103.2024,-29 111.9206,-29 120.7979,-29"/>
 <polygon fill="#191970" stroke="#191970" points="120.8667,-32.5001 130.8666,-29 120.8666,-25.5001 120.8667,-32.5001"/>
 </g>
-<!-- Node314 -->
+<!-- Node318 -->
 <g id="node3" class="node">
-<title>Node314</title>
+<title>Node318</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="338,-38.5 338,-57.5 454,-57.5 454,-38.5 338,-38.5"/>
 <text text-anchor="middle" x="396" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node313&#45;&gt;Node314 -->
+<!-- Node317&#45;&gt;Node318 -->
 <g id="edge2" class="edge">
-<title>Node313&#45;&gt;Node314</title>
+<title>Node317&#45;&gt;Node318</title>
 <path fill="none" stroke="#191970" d="M299.1414,-37.8325C308.7685,-38.8431 318.492,-39.8638 327.8733,-40.8486"/>
 <polygon fill="#191970" stroke="#191970" points="327.5871,-44.3377 337.8979,-41.9009 328.318,-37.3759 327.5871,-44.3377"/>
 </g>
-<!-- Node315 -->
+<!-- Node319 -->
 <g id="node4" class="node">
-<title>Node315</title>
+<title>Node319</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a7373a8cecde25ccd48b3df967b5b0417" target="_top" xlink:title="SNN::getNumSynapses">
 <polygon fill="#ffffff" stroke="#000000" points="335,-.5 335,-19.5 457,-19.5 457,-.5 335,-.5"/>
 <text text-anchor="middle" x="396" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumSynapses</text>
 </a>
 </g>
 </g>
-<!-- Node313&#45;&gt;Node315 -->
+<!-- Node317&#45;&gt;Node319 -->
 <g id="edge3" class="edge">
-<title>Node313&#45;&gt;Node315</title>
+<title>Node317&#45;&gt;Node319</title>
 <path fill="none" stroke="#191970" d="M299.1414,-20.1675C307.6736,-19.2718 316.2816,-18.3682 324.66,-17.4887"/>
 <polygon fill="#191970" stroke="#191970" points="325.1654,-20.955 334.7453,-16.43 324.4345,-13.9933 325.1654,-20.955"/>
 </g>

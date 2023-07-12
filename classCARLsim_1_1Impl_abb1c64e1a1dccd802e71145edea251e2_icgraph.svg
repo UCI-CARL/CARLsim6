@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setNM4weighted</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 269,-24 269,4 -4,4"/>
-<!-- Node1136 -->
+<!-- Node1144 -->
 <g id="node1" class="node">
-<title>Node1136</title>
+<title>Node1144</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 90,-19.5 90,-.5 0,-.5"/>
 <text text-anchor="middle" x="45" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setNM4weighted</text>
 </g>
-<!-- Node1137 -->
+<!-- Node1145 -->
 <g id="node2" class="node">
-<title>Node1137</title>
+<title>Node1145</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#aeda549f4dcee2377a1b335ea96b340f5" target="_top" xlink:title="Sets IcalcType to NM4weighted for a specific neuron group. ">
 <polygon fill="#ffffff" stroke="#000000" points="126,-.5 126,-19.5 265,-19.5 265,-.5 126,-.5"/>
 <text text-anchor="middle" x="195.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setNM4weighted</text>
 </a>
 </g>
 </g>
-<!-- Node1136&#45;&gt;Node1137 -->
+<!-- Node1144&#45;&gt;Node1145 -->
 <g id="edge1" class="edge">
-<title>Node1136&#45;&gt;Node1137</title>
+<title>Node1144&#45;&gt;Node1145</title>
 <path fill="none" stroke="#191970" d="M100.4308,-10C108.7153,-10 117.3448,-10 125.8774,-10"/>
 <polygon fill="#191970" stroke="#191970" points="100.155,-6.5001 90.155,-10 100.1549,-13.5001 100.155,-6.5001"/>
 </g>

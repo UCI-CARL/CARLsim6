@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 117.5)">
 <title>setIntegrationMethod</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-117.5 952,-117.5 952,4 -4,4"/>
-<!-- Node1772 -->
+<!-- Node1780 -->
 <g id="node1" class="node">
-<title>Node1772</title>
+<title>Node1780</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-66.5 0,-85.5 108,-85.5 108,-66.5 0,-66.5"/>
 <text text-anchor="middle" x="54" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setIntegrationMethod</text>
 </g>
-<!-- Node1773 -->
+<!-- Node1781 -->
 <g id="node2" class="node">
-<title>Node1773</title>
+<title>Node1781</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a3c23ef1a19946fdd9c096367a45ac48e" target="_top" xlink:title="CARLsim::Impl::setIntegration\lMethod">
 <polygon fill="#ffffff" stroke="#000000" points="144,-83 144,-113 293,-113 293,-83 144,-83"/>
 <text text-anchor="start" x="152" y="-101" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setIntegration</text>
@@ -25,45 +25,45 @@
 </a>
 </g>
 </g>
-<!-- Node1772&#45;&gt;Node1773 -->
+<!-- Node1780&#45;&gt;Node1781 -->
 <g id="edge1" class="edge">
-<title>Node1772&#45;&gt;Node1773</title>
+<title>Node1780&#45;&gt;Node1781</title>
 <path fill="none" stroke="#191970" d="M118.3995,-84.6127C126.7898,-85.7348 135.4404,-86.8917 143.979,-88.0337"/>
 <polygon fill="#191970" stroke="#191970" points="118.6951,-81.1211 108.3194,-83.2646 117.7671,-88.0594 118.6951,-81.1211"/>
 </g>
-<!-- Node1775 -->
+<!-- Node1783 -->
 <g id="node4" class="node">
-<title>Node1775</title>
+<title>Node1783</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a4afa2f85f5939e81ec45c7760e23d932" target="_top" xlink:title="returns RangeWeight struct of a connection ">
 <polygon fill="#ffffff" stroke="#000000" points="174,-44.5 174,-63.5 263,-63.5 263,-44.5 174,-44.5"/>
 <text text-anchor="middle" x="218.5" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getWeightRange</text>
 </a>
 </g>
 </g>
-<!-- Node1772&#45;&gt;Node1775 -->
+<!-- Node1780&#45;&gt;Node1783 -->
 <g id="edge3" class="edge">
-<title>Node1772&#45;&gt;Node1775</title>
+<title>Node1780&#45;&gt;Node1783</title>
 <path fill="none" stroke="#191970" d="M118.4584,-67.3794C136.989,-64.9012 156.785,-62.2537 173.8356,-59.9734"/>
 <polygon fill="#191970" stroke="#191970" points="117.7671,-63.9406 108.3194,-68.7354 118.6951,-70.8789 117.7671,-63.9406"/>
 </g>
-<!-- Node1774 -->
+<!-- Node1782 -->
 <g id="node3" class="node">
-<title>Node1774</title>
+<title>Node1782</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#a3c23ef1a19946fdd9c096367a45ac48e" target="_top" xlink:title="CARLsim::setIntegrationMethod">
 <polygon fill="#ffffff" stroke="#000000" points="329,-88.5 329,-107.5 486,-107.5 486,-88.5 329,-88.5"/>
 <text text-anchor="middle" x="407.5" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setIntegrationMethod</text>
 </a>
 </g>
 </g>
-<!-- Node1773&#45;&gt;Node1774 -->
+<!-- Node1781&#45;&gt;Node1782 -->
 <g id="edge2" class="edge">
-<title>Node1773&#45;&gt;Node1774</title>
+<title>Node1781&#45;&gt;Node1782</title>
 <path fill="none" stroke="#191970" d="M303.207,-98C311.7907,-98 320.4833,-98 328.9975,-98"/>
 <polygon fill="#191970" stroke="#191970" points="303.1978,-94.5001 293.1978,-98 303.1978,-101.5001 303.1978,-94.5001"/>
 </g>
-<!-- Node1776 -->
+<!-- Node1784 -->
 <g id="node5" class="node">
-<title>Node1776</title>
+<title>Node1784</title>
 <g id="a_node5"><a xlink:href="classCARLsim_1_1Impl.html#a4afa2f85f5939e81ec45c7760e23d932" target="_top" xlink:title="CARLsim::Impl::getWeight\lRange">
 <polygon fill="#ffffff" stroke="#000000" points="340.5,-39 340.5,-69 474.5,-69 474.5,-39 340.5,-39"/>
 <text text-anchor="start" x="348.5" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getWeight</text>
@@ -71,45 +71,45 @@
 </a>
 </g>
 </g>
-<!-- Node1775&#45;&gt;Node1776 -->
+<!-- Node1783&#45;&gt;Node1784 -->
 <g id="edge4" class="edge">
-<title>Node1775&#45;&gt;Node1776</title>
+<title>Node1783&#45;&gt;Node1784</title>
 <path fill="none" stroke="#191970" d="M273.3105,-54C294.2919,-54 318.4631,-54 340.4604,-54"/>
 <polygon fill="#191970" stroke="#191970" points="273.2904,-50.5001 263.2904,-54 273.2903,-57.5001 273.2904,-50.5001"/>
 </g>
-<!-- Node1780 -->
+<!-- Node1788 -->
 <g id="node9" class="node">
-<title>Node1780</title>
+<title>Node1788</title>
 <g id="a_node9"><a xlink:href="classSNN.html#a1234b840b62d280e9131486f4fad0d93" target="_top" xlink:title="temporary getter to return pointer to stpx[] ">
 <polygon fill="#ffffff" stroke="#000000" points="380,-.5 380,-19.5 435,-19.5 435,-.5 380,-.5"/>
 <text text-anchor="middle" x="407.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getSTPx</text>
 </a>
 </g>
 </g>
-<!-- Node1775&#45;&gt;Node1780 -->
+<!-- Node1783&#45;&gt;Node1788 -->
 <g id="edge8" class="edge">
-<title>Node1775&#45;&gt;Node1780</title>
+<title>Node1783&#45;&gt;Node1788</title>
 <path fill="none" stroke="#191970" d="M269.6998,-42.0805C305.2258,-33.8099 351.1684,-23.1142 379.9925,-16.4039"/>
 <polygon fill="#191970" stroke="#191970" points="268.4561,-38.7763 259.5102,-44.4527 270.0434,-45.594 268.4561,-38.7763"/>
 </g>
-<!-- Node1777 -->
+<!-- Node1785 -->
 <g id="node6" class="node">
-<title>Node1777</title>
+<title>Node1785</title>
 <g id="a_node6"><a xlink:href="classCARLsim.html#a4afa2f85f5939e81ec45c7760e23d932" target="_top" xlink:title="returns the RangeWeight struct for a specific connection ID ">
 <polygon fill="#ffffff" stroke="#000000" points="522,-44.5 522,-63.5 660,-63.5 660,-44.5 522,-44.5"/>
 <text text-anchor="middle" x="591" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getWeightRange</text>
 </a>
 </g>
 </g>
-<!-- Node1776&#45;&gt;Node1777 -->
+<!-- Node1784&#45;&gt;Node1785 -->
 <g id="edge5" class="edge">
-<title>Node1776&#45;&gt;Node1777</title>
+<title>Node1784&#45;&gt;Node1785</title>
 <path fill="none" stroke="#191970" d="M484.7969,-54C497.1481,-54 509.8576,-54 521.9998,-54"/>
 <polygon fill="#191970" stroke="#191970" points="484.5267,-50.5001 474.5266,-54 484.5266,-57.5001 484.5267,-50.5001"/>
 </g>
-<!-- Node1778 -->
+<!-- Node1786 -->
 <g id="node7" class="node">
-<title>Node1778</title>
+<title>Node1786</title>
 <g id="a_node7"><a xlink:href="classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" target="_top" xlink:title="SimpleWeightTuner::\lImpl::iterate">
 <polygon fill="#ffffff" stroke="#000000" points="696,-39 696,-69 804,-69 804,-39 696,-39"/>
 <text text-anchor="start" x="704" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -117,15 +117,15 @@
 </a>
 </g>
 </g>
-<!-- Node1777&#45;&gt;Node1778 -->
+<!-- Node1785&#45;&gt;Node1786 -->
 <g id="edge6" class="edge">
-<title>Node1777&#45;&gt;Node1778</title>
+<title>Node1785&#45;&gt;Node1786</title>
 <path fill="none" stroke="#191970" d="M670.3532,-54C678.9579,-54 687.5649,-54 695.771,-54"/>
 <polygon fill="#191970" stroke="#191970" points="670.2772,-50.5001 660.2772,-54 670.2771,-57.5001 670.2772,-50.5001"/>
 </g>
-<!-- Node1779 -->
+<!-- Node1787 -->
 <g id="node8" class="node">
-<title>Node1779</title>
+<title>Node1787</title>
 <g id="a_node8"><a xlink:href="classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" target="_top" xlink:title="Performs an iteration step of the tuning algorithm. ">
 <polygon fill="#ffffff" stroke="#000000" points="840,-39 840,-69 948,-69 948,-39 840,-39"/>
 <text text-anchor="start" x="848" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -133,9 +133,9 @@
 </a>
 </g>
 </g>
-<!-- Node1778&#45;&gt;Node1779 -->
+<!-- Node1786&#45;&gt;Node1787 -->
 <g id="edge7" class="edge">
-<title>Node1778&#45;&gt;Node1779</title>
+<title>Node1786&#45;&gt;Node1787</title>
 <path fill="none" stroke="#191970" d="M814.2702,-54C822.7504,-54 831.3754,-54 839.6672,-54"/>
 <polygon fill="#191970" stroke="#191970" points="814.03,-50.5001 804.03,-54 814.0299,-57.5001 814.03,-50.5001"/>
 </g>

@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>setLogsFpCustom</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 425,-62 425,4 -4,4"/>
-<!-- Node829 -->
+<!-- Node837 -->
 <g id="node1" class="node">
-<title>Node829</title>
+<title>Node837</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 97,-38.5 97,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="48.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setLogsFpCustom</text>
 </g>
-<!-- Node830 -->
+<!-- Node838 -->
 <g id="node2" class="node">
-<title>Node830</title>
+<title>Node838</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#ae76e856c0d069408310ee843484c4913" target="_top" xlink:title="CARLsim::Impl::setLogsFp\lCustom">
 <polygon fill="#ffffff" stroke="#000000" points="133,-14 133,-44 269,-44 269,-14 133,-14"/>
 <text text-anchor="start" x="141" y="-32" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setLogsFp</text>
@@ -25,39 +25,39 @@
 </a>
 </g>
 </g>
-<!-- Node829&#45;&gt;Node830 -->
+<!-- Node837&#45;&gt;Node838 -->
 <g id="edge1" class="edge">
-<title>Node829&#45;&gt;Node830</title>
+<title>Node837&#45;&gt;Node838</title>
 <path fill="none" stroke="#191970" d="M97.1712,-29C105.316,-29 113.946,-29 122.6128,-29"/>
 <polygon fill="#191970" stroke="#191970" points="122.777,-32.5001 132.777,-29 122.777,-25.5001 122.777,-32.5001"/>
 </g>
-<!-- Node831 -->
+<!-- Node839 -->
 <g id="node3" class="node">
-<title>Node831</title>
+<title>Node839</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="305,-38.5 305,-57.5 421,-57.5 421,-38.5 305,-38.5"/>
 <text text-anchor="middle" x="363" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node830&#45;&gt;Node831 -->
+<!-- Node838&#45;&gt;Node839 -->
 <g id="edge2" class="edge">
-<title>Node830&#45;&gt;Node831</title>
+<title>Node838&#45;&gt;Node839</title>
 <path fill="none" stroke="#191970" d="M269.2331,-37.0026C277.6553,-37.9904 286.2664,-39.0004 294.6897,-39.9883"/>
 <polygon fill="#191970" stroke="#191970" points="294.5063,-43.4907 304.8459,-41.1795 295.3217,-36.5383 294.5063,-43.4907"/>
 </g>
-<!-- Node832 -->
+<!-- Node840 -->
 <g id="node4" class="node">
-<title>Node832</title>
+<title>Node840</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a2f4a65f43d2b15b984464dfb19959fe3" target="_top" xlink:title="Sets the file pointers for all log files file pointer NULL means don&#39;t change it. ...">
 <polygon fill="#ffffff" stroke="#000000" points="318,-.5 318,-19.5 408,-19.5 408,-.5 318,-.5"/>
 <text text-anchor="middle" x="363" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setLogsFp</text>
 </a>
 </g>
 </g>
-<!-- Node830&#45;&gt;Node832 -->
+<!-- Node838&#45;&gt;Node840 -->
 <g id="edge3" class="edge">
-<title>Node830&#45;&gt;Node832</title>
+<title>Node838&#45;&gt;Node840</title>
 <path fill="none" stroke="#191970" d="M269.2331,-20.9974C282.0687,-19.4919 295.3431,-17.9351 307.7229,-16.4831"/>
 <polygon fill="#191970" stroke="#191970" points="308.3582,-19.9327 317.8824,-15.2916 307.5427,-12.9803 308.3582,-19.9327"/>
 </g>

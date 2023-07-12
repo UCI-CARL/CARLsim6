@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>isGroupWithHomeostasis</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 650,-100 650,4 -4,4"/>
-<!-- Node395 -->
+<!-- Node399 -->
 <g id="node1" class="node">
-<title>Node395</title>
+<title>Node399</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 128,-57.5 128,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="64" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isGroupWithHomeostasis</text>
 </g>
-<!-- Node396 -->
+<!-- Node400 -->
 <g id="node2" class="node">
-<title>Node396</title>
+<title>Node400</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#aa9a9c5646dd11beb60fcf70d2216024a" target="_top" xlink:title="CARLsim::Impl::isGroupWith\lHomeostasis">
 <polygon fill="#ffffff" stroke="#000000" points="164,-33 164,-63 308,-63 308,-33 164,-33"/>
 <text text-anchor="start" x="172" y="-51" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isGroupWith</text>
@@ -25,90 +25,90 @@
 </a>
 </g>
 </g>
-<!-- Node395&#45;&gt;Node396 -->
+<!-- Node399&#45;&gt;Node400 -->
 <g id="edge1" class="edge">
-<title>Node395&#45;&gt;Node396</title>
+<title>Node399&#45;&gt;Node400</title>
 <path fill="none" stroke="#191970" d="M128.0465,-48C136.4216,-48 145.0945,-48 153.7175,-48"/>
 <polygon fill="#191970" stroke="#191970" points="153.7964,-51.5001 163.7963,-48 153.7963,-44.5001 153.7964,-51.5001"/>
 </g>
-<!-- Node397 -->
+<!-- Node401 -->
 <g id="node3" class="node">
-<title>Node397</title>
+<title>Node401</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="364,-76.5 364,-95.5 480,-95.5 480,-76.5 364,-76.5"/>
 <text text-anchor="middle" x="422" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node396&#45;&gt;Node397 -->
+<!-- Node400&#45;&gt;Node401 -->
 <g id="edge2" class="edge">
-<title>Node396&#45;&gt;Node397</title>
+<title>Node400&#45;&gt;Node401</title>
 <path fill="none" stroke="#191970" d="M308.1787,-62.7462C327.1319,-66.6184 347.3014,-70.739 365.3145,-74.4191"/>
 <polygon fill="#191970" stroke="#191970" points="364.8629,-77.8991 375.3611,-76.4716 366.2641,-71.0407 364.8629,-77.8991"/>
 </g>
-<!-- Node398 -->
+<!-- Node402 -->
 <g id="node4" class="node">
-<title>Node398</title>
+<title>Node402</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="CARLsim::Impl::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="344,-38.5 344,-57.5 500,-57.5 500,-38.5 344,-38.5"/>
 <text text-anchor="middle" x="422" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node396&#45;&gt;Node398 -->
+<!-- Node400&#45;&gt;Node402 -->
 <g id="edge3" class="edge">
-<title>Node396&#45;&gt;Node398</title>
+<title>Node400&#45;&gt;Node402</title>
 <path fill="none" stroke="#191970" d="M308.1787,-48C316.4548,-48 324.9629,-48 333.4221,-48"/>
 <polygon fill="#191970" stroke="#191970" points="333.6973,-51.5001 343.6973,-48 333.6972,-44.5001 333.6973,-51.5001"/>
 </g>
-<!-- Node400 -->
+<!-- Node404 -->
 <g id="node6" class="node">
-<title>Node400</title>
+<title>Node404</title>
 <g id="a_node6"><a xlink:href="classSNN.html#aa9a9c5646dd11beb60fcf70d2216024a" target="_top" xlink:title="returns whether group has homeostasis enabled (true) or not (false) ">
 <polygon fill="#ffffff" stroke="#000000" points="344,-.5 344,-19.5 500,-19.5 500,-.5 344,-.5"/>
 <text text-anchor="middle" x="422" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isGroupWithHomeostasis</text>
 </a>
 </g>
 </g>
-<!-- Node396&#45;&gt;Node400 -->
+<!-- Node400&#45;&gt;Node404 -->
 <g id="edge5" class="edge">
-<title>Node396&#45;&gt;Node400</title>
+<title>Node400&#45;&gt;Node404</title>
 <path fill="none" stroke="#191970" d="M308.1787,-33.2538C327.1319,-29.3816 347.3014,-25.261 365.3145,-21.5809"/>
 <polygon fill="#191970" stroke="#191970" points="366.2641,-24.9593 375.3611,-19.5284 364.8629,-18.1009 366.2641,-24.9593"/>
 </g>
-<!-- Node399 -->
+<!-- Node403 -->
 <g id="node5" class="node">
-<title>Node399</title>
+<title>Node403</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="536,-38.5 536,-57.5 646,-57.5 646,-38.5 536,-38.5"/>
 <text text-anchor="middle" x="591" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node398&#45;&gt;Node399 -->
+<!-- Node402&#45;&gt;Node403 -->
 <g id="edge4" class="edge">
-<title>Node398&#45;&gt;Node399</title>
+<title>Node402&#45;&gt;Node403</title>
 <path fill="none" stroke="#191970" d="M500.069,-48C508.6771,-48 517.3747,-48 525.8018,-48"/>
 <polygon fill="#191970" stroke="#191970" points="525.9225,-51.5001 535.9225,-48 525.9225,-44.5001 525.9225,-51.5001"/>
 </g>
-<!-- Node400&#45;&gt;Node399 -->
+<!-- Node404&#45;&gt;Node403 -->
 <g id="edge6" class="edge">
-<title>Node400&#45;&gt;Node399</title>
+<title>Node404&#45;&gt;Node403</title>
 <path fill="none" stroke="#191970" d="M464.6458,-19.589C487.1481,-24.6487 514.9482,-30.8996 538.7379,-36.2488"/>
 <polygon fill="#191970" stroke="#191970" points="538.1366,-39.7009 548.6608,-38.4799 539.6723,-32.8714 538.1366,-39.7009"/>
 </g>
-<!-- Node401 -->
+<!-- Node405 -->
 <g id="node7" class="node">
-<title>Node401</title>
+<title>Node405</title>
 <g id="a_node7"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="538,-.5 538,-19.5 644,-19.5 644,-.5 538,-.5"/>
 <text text-anchor="middle" x="591" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node400&#45;&gt;Node401 -->
+<!-- Node404&#45;&gt;Node405 -->
 <g id="edge7" class="edge">
-<title>Node400&#45;&gt;Node401</title>
+<title>Node404&#45;&gt;Node405</title>
 <path fill="none" stroke="#191970" d="M500.069,-10C509.369,-10 518.7735,-10 527.8283,-10"/>
 <polygon fill="#191970" stroke="#191970" points="527.8789,-13.5001 537.8788,-10 527.8788,-6.5001 527.8789,-13.5001"/>
 </g>

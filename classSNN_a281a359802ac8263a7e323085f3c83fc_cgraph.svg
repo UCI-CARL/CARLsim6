@@ -9,54 +9,54 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>setISTDP</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 183,-100 183,4 -4,4"/>
-<!-- Node1781 -->
+<!-- Node1789 -->
 <g id="node1" class="node">
-<title>Node1781</title>
+<title>Node1789</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 60,-57.5 60,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="30" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setISTDP</text>
 </g>
-<!-- Node1782 -->
+<!-- Node1790 -->
 <g id="node2" class="node">
-<title>Node1782</title>
+<title>Node1790</title>
 <g id="a_node2"><a xlink:href="classSNN.html#a44b05911f213714c351379021852e12a" target="_top" xlink:title="find connection ID based on pre&#45;post group pair, O(N) ">
 <polygon fill="#ffffff" stroke="#000000" points="100,-76.5 100,-95.5 175,-95.5 175,-76.5 100,-76.5"/>
 <text text-anchor="middle" x="137.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConnectId</text>
 </a>
 </g>
 </g>
-<!-- Node1781&#45;&gt;Node1782 -->
+<!-- Node1789&#45;&gt;Node1790 -->
 <g id="edge1" class="edge">
-<title>Node1781&#45;&gt;Node1782</title>
+<title>Node1789&#45;&gt;Node1790</title>
 <path fill="none" stroke="#191970" d="M57.1268,-57.589C70.3674,-62.2694 86.4917,-67.9692 100.8129,-73.0315"/>
 <polygon fill="#191970" stroke="#191970" points="99.7871,-76.3811 110.3819,-76.4141 102.1201,-69.7813 99.7871,-76.3811"/>
 </g>
-<!-- Node1783 -->
+<!-- Node1791 -->
 <g id="node3" class="node">
-<title>Node1783</title>
+<title>Node1791</title>
 <g id="a_node3"><a xlink:href="classSNN.html#ab0367f8ebd4019bf7d34ebddb1563fe7" target="_top" xlink:title="getGroupName">
 <polygon fill="#ffffff" stroke="#000000" points="96,-38.5 96,-57.5 179,-57.5 179,-38.5 96,-38.5"/>
 <text text-anchor="middle" x="137.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupName</text>
 </a>
 </g>
 </g>
-<!-- Node1781&#45;&gt;Node1783 -->
+<!-- Node1789&#45;&gt;Node1791 -->
 <g id="edge2" class="edge">
-<title>Node1781&#45;&gt;Node1783</title>
+<title>Node1789&#45;&gt;Node1791</title>
 <path fill="none" stroke="#191970" d="M60.2308,-48C68.1759,-48 76.975,-48 85.7052,-48"/>
 <polygon fill="#191970" stroke="#191970" points="85.8668,-51.5001 95.8668,-48 85.8667,-44.5001 85.8668,-51.5001"/>
 </g>
-<!-- Node1784 -->
+<!-- Node1792 -->
 <g id="node4" class="node">
-<title>Node1784</title>
+<title>Node1792</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="98.5,-.5 98.5,-19.5 176.5,-19.5 176.5,-.5 98.5,-.5"/>
 <text text-anchor="middle" x="137.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node1781&#45;&gt;Node1784 -->
+<!-- Node1789&#45;&gt;Node1792 -->
 <g id="edge3" class="edge">
-<title>Node1781&#45;&gt;Node1784</title>
+<title>Node1789&#45;&gt;Node1792</title>
 <path fill="none" stroke="#191970" d="M57.1268,-38.411C70.3674,-33.7306 86.4917,-28.0308 100.8129,-22.9685"/>
 <polygon fill="#191970" stroke="#191970" points="102.1201,-26.2187 110.3819,-19.5859 99.7871,-19.6189 102.1201,-26.2187"/>
 </g>

@@ -48,37 +48,37 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 559;
 var viewHeight = 39;
-var sectionId = 'dynsection-94';
+var sectionId = 'dynsection-96';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>getWeightRange</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-35 555,-35 555,4 -4,4"/>
-<!-- Node505 -->
+<!-- Node509 -->
 <g id="node1" class="node">
-<title>Node505</title>
+<title>Node509</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-6 0,-25 89,-25 89,-6 0,-6"/>
 <text text-anchor="middle" x="44.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getWeightRange</text>
 </g>
-<!-- Node506 -->
+<!-- Node510 -->
 <g id="node2" class="node">
-<title>Node506</title>
+<title>Node510</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a4afa2f85f5939e81ec45c7760e23d932" target="_top" xlink:title="returns the RangeWeight struct for a specific connection ID ">
 <polygon fill="#ffffff" stroke="#000000" points="125,-6 125,-25 263,-25 263,-6 125,-6"/>
 <text text-anchor="middle" x="194" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getWeightRange</text>
 </a>
 </g>
 </g>
-<!-- Node505&#45;&gt;Node506 -->
+<!-- Node509&#45;&gt;Node510 -->
 <g id="edge1" class="edge">
-<title>Node505&#45;&gt;Node506</title>
+<title>Node509&#45;&gt;Node510</title>
 <path fill="none" stroke="#191970" d="M99.5625,-15.5C107.7919,-15.5 116.3641,-15.5 124.84,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="99.355,-12.0001 89.3549,-15.5 99.3549,-19.0001 99.355,-12.0001"/>
 </g>
-<!-- Node507 -->
+<!-- Node511 -->
 <g id="node3" class="node">
-<title>Node507</title>
+<title>Node511</title>
 <g id="a_node3"><a xlink:href="classSimpleWeightTuner_1_1Impl.html#a312d84bfa66a5036bb52a4c39db6fa6c" target="_top" xlink:title="SimpleWeightTuner::\lImpl::iterate">
 <polygon fill="#ffffff" stroke="#000000" points="299,-.5 299,-30.5 407,-30.5 407,-.5 299,-.5"/>
 <text text-anchor="start" x="307" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -86,15 +86,15 @@ var sectionId = 'dynsection-94';
 </a>
 </g>
 </g>
-<!-- Node506&#45;&gt;Node507 -->
+<!-- Node510&#45;&gt;Node511 -->
 <g id="edge2" class="edge">
-<title>Node506&#45;&gt;Node507</title>
+<title>Node510&#45;&gt;Node511</title>
 <path fill="none" stroke="#191970" d="M273.3532,-15.5C281.9579,-15.5 290.5649,-15.5 298.771,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="273.2772,-12.0001 263.2772,-15.5 273.2771,-19.0001 273.2772,-12.0001"/>
 </g>
-<!-- Node508 -->
+<!-- Node512 -->
 <g id="node4" class="node">
-<title>Node508</title>
+<title>Node512</title>
 <g id="a_node4"><a xlink:href="classSimpleWeightTuner.html#a0df985e3ff7a27edc1e2e3fcc8261843" target="_top" xlink:title="Performs an iteration step of the tuning algorithm. ">
 <polygon fill="#ffffff" stroke="#000000" points="443,-.5 443,-30.5 551,-30.5 551,-.5 443,-.5"/>
 <text text-anchor="start" x="451" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SimpleWeightTuner::</text>
@@ -102,9 +102,9 @@ var sectionId = 'dynsection-94';
 </a>
 </g>
 </g>
-<!-- Node507&#45;&gt;Node508 -->
+<!-- Node511&#45;&gt;Node512 -->
 <g id="edge3" class="edge">
-<title>Node507&#45;&gt;Node508</title>
+<title>Node511&#45;&gt;Node512</title>
 <path fill="none" stroke="#191970" d="M417.2702,-15.5C425.7504,-15.5 434.3754,-15.5 442.6672,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="417.03,-12.0001 407.03,-15.5 417.0299,-19.0001 417.03,-12.0001"/>
 </g>

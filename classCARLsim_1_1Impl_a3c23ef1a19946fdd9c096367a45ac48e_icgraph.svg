@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setIntegrationMethod</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 305,-24 305,4 -4,4"/>
-<!-- Node964 -->
+<!-- Node972 -->
 <g id="node1" class="node">
-<title>Node964</title>
+<title>Node972</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 108,-19.5 108,-.5 0,-.5"/>
 <text text-anchor="middle" x="54" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setIntegrationMethod</text>
 </g>
-<!-- Node965 -->
+<!-- Node973 -->
 <g id="node2" class="node">
-<title>Node965</title>
+<title>Node973</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a3c23ef1a19946fdd9c096367a45ac48e" target="_top" xlink:title="CARLsim::setIntegrationMethod">
 <polygon fill="#ffffff" stroke="#000000" points="144,-.5 144,-19.5 301,-19.5 301,-.5 144,-.5"/>
 <text text-anchor="middle" x="222.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setIntegrationMethod</text>
 </a>
 </g>
 </g>
-<!-- Node964&#45;&gt;Node965 -->
+<!-- Node972&#45;&gt;Node973 -->
 <g id="edge1" class="edge">
-<title>Node964&#45;&gt;Node965</title>
+<title>Node972&#45;&gt;Node973</title>
 <path fill="none" stroke="#191970" d="M118.2724,-10C126.6282,-10 135.2622,-10 143.8193,-10"/>
 <polygon fill="#191970" stroke="#191970" points="118.242,-6.5001 108.242,-10 118.2419,-13.5001 118.242,-6.5001"/>
 </g>

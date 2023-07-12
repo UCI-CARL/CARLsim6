@@ -48,142 +48,142 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 749;
 var viewHeight = 142;
-var sectionId = 'dynsection-207';
+var sectionId = 'dynsection-211';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>setWeight</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-138 745,-138 745,4 -4,4"/>
-<!-- Node1247 -->
+<!-- Node1255 -->
 <g id="node1" class="node">
-<title>Node1247</title>
+<title>Node1255</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-76.5 0,-95.5 61,-95.5 61,-76.5 0,-76.5"/>
 <text text-anchor="middle" x="30.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setWeight</text>
 </g>
-<!-- Node1248 -->
+<!-- Node1256 -->
 <g id="node2" class="node">
-<title>Node1248</title>
+<title>Node1256</title>
 <g id="a_node2"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="97,-114.5 97,-133.5 213,-133.5 213,-114.5 97,-114.5"/>
 <text text-anchor="middle" x="155" y="-121.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node1247&#45;&gt;Node1248 -->
+<!-- Node1255&#45;&gt;Node1256 -->
 <g id="edge1" class="edge">
-<title>Node1247&#45;&gt;Node1248</title>
+<title>Node1255&#45;&gt;Node1256</title>
 <path fill="none" stroke="#191970" d="M61.2753,-95.3933C77.1665,-100.2436 96.7714,-106.2274 113.9361,-111.4664"/>
 <polygon fill="#191970" stroke="#191970" points="113.1278,-114.8791 123.714,-114.4509 115.1713,-108.184 113.1278,-114.8791"/>
 </g>
-<!-- Node1249 -->
+<!-- Node1257 -->
 <g id="node3" class="node">
-<title>Node1249</title>
+<title>Node1257</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="102,-76.5 102,-95.5 208,-95.5 208,-76.5 102,-76.5"/>
 <text text-anchor="middle" x="155" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node1247&#45;&gt;Node1249 -->
+<!-- Node1255&#45;&gt;Node1257 -->
 <g id="edge2" class="edge">
-<title>Node1247&#45;&gt;Node1249</title>
+<title>Node1255&#45;&gt;Node1257</title>
 <path fill="none" stroke="#191970" d="M61.2753,-86C70.5519,-86 81.0941,-86 91.6776,-86"/>
 <polygon fill="#191970" stroke="#191970" points="91.7974,-89.5001 101.7973,-86 91.7973,-82.5001 91.7974,-89.5001"/>
 </g>
-<!-- Node1253 -->
+<!-- Node1261 -->
 <g id="node7" class="node">
-<title>Node1253</title>
+<title>Node1261</title>
 <g id="a_node7"><a xlink:href="classSNN.html#af67a432c859556cff7d6b1d59638ad01" target="_top" xlink:title="sets the weight value of a specific synapse ">
 <polygon fill="#ffffff" stroke="#000000" points="110.5,-38.5 110.5,-57.5 199.5,-57.5 199.5,-38.5 110.5,-38.5"/>
 <text text-anchor="middle" x="155" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setWeight</text>
 </a>
 </g>
 </g>
-<!-- Node1247&#45;&gt;Node1253 -->
+<!-- Node1255&#45;&gt;Node1261 -->
 <g id="edge6" class="edge">
-<title>Node1247&#45;&gt;Node1253</title>
+<title>Node1255&#45;&gt;Node1261</title>
 <path fill="none" stroke="#191970" d="M61.2753,-76.6067C77.1665,-71.7564 96.7714,-65.7726 113.9361,-60.5336"/>
 <polygon fill="#191970" stroke="#191970" points="115.1713,-63.816 123.714,-57.5491 113.1278,-57.1209 115.1713,-63.816"/>
 </g>
-<!-- Node1250 -->
+<!-- Node1258 -->
 <g id="node4" class="node">
-<title>Node1250</title>
+<title>Node1258</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="SNN::getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="253,-76.5 253,-95.5 387,-95.5 387,-76.5 253,-76.5"/>
 <text text-anchor="middle" x="320" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node1249&#45;&gt;Node1250 -->
+<!-- Node1257&#45;&gt;Node1258 -->
 <g id="edge3" class="edge">
-<title>Node1249&#45;&gt;Node1250</title>
+<title>Node1257&#45;&gt;Node1258</title>
 <path fill="none" stroke="#191970" d="M208.1153,-86C219.1178,-86 230.9224,-86 242.5907,-86"/>
 <polygon fill="#191970" stroke="#191970" points="242.786,-89.5001 252.7859,-86 242.7859,-82.5001 242.786,-89.5001"/>
 </g>
-<!-- Node1251 -->
+<!-- Node1259 -->
 <g id="node5" class="node">
-<title>Node1251</title>
+<title>Node1259</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a52f149e224abff772962dea6680398e2" target="_top" xlink:title="gets number of connections associated with a connection ID ">
 <polygon fill="#ffffff" stroke="#000000" points="427,-76.5 427,-95.5 599,-95.5 599,-76.5 427,-76.5"/>
 <text text-anchor="middle" x="513" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumSynapticConnections</text>
 </a>
 </g>
 </g>
-<!-- Node1250&#45;&gt;Node1251 -->
+<!-- Node1258&#45;&gt;Node1259 -->
 <g id="edge4" class="edge">
-<title>Node1250&#45;&gt;Node1251</title>
+<title>Node1258&#45;&gt;Node1259</title>
 <path fill="none" stroke="#191970" d="M387.2311,-86C396.8589,-86 406.916,-86 416.9663,-86"/>
 <polygon fill="#191970" stroke="#191970" points="416.9983,-89.5001 426.9983,-86 416.9982,-82.5001 416.9983,-89.5001"/>
 </g>
-<!-- Node1252 -->
+<!-- Node1260 -->
 <g id="node6" class="node">
-<title>Node1252</title>
+<title>Node1260</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="635,-76.5 635,-95.5 741,-95.5 741,-76.5 635,-76.5"/>
 <text text-anchor="middle" x="688" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node1251&#45;&gt;Node1252 -->
+<!-- Node1259&#45;&gt;Node1260 -->
 <g id="edge5" class="edge">
-<title>Node1251&#45;&gt;Node1252</title>
+<title>Node1259&#45;&gt;Node1260</title>
 <path fill="none" stroke="#191970" d="M599.2183,-86C607.711,-86 616.2199,-86 624.4247,-86"/>
 <polygon fill="#191970" stroke="#191970" points="624.6308,-89.5001 634.6308,-86 624.6308,-82.5001 624.6308,-89.5001"/>
 </g>
-<!-- Node1253&#45;&gt;Node1250 -->
+<!-- Node1261&#45;&gt;Node1258 -->
 <g id="edge7" class="edge">
-<title>Node1253&#45;&gt;Node1250</title>
+<title>Node1261&#45;&gt;Node1258</title>
 <path fill="none" stroke="#191970" d="M196.6365,-57.589C218.5081,-62.6261 245.506,-68.8438 268.6636,-74.1771"/>
 <polygon fill="#191970" stroke="#191970" points="268.1325,-77.6463 278.6629,-76.4799 269.7036,-70.8249 268.1325,-77.6463"/>
 </g>
-<!-- Node1254 -->
+<!-- Node1262 -->
 <g id="node8" class="node">
-<title>Node1254</title>
+<title>Node1262</title>
 <g id="a_node8"><a xlink:href="classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" target="_top" xlink:title="SNN::getGroupNumNeurons">
 <polygon fill="#ffffff" stroke="#000000" points="249,-38.5 249,-57.5 391,-57.5 391,-38.5 249,-38.5"/>
 <text text-anchor="middle" x="320" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node1253&#45;&gt;Node1254 -->
+<!-- Node1261&#45;&gt;Node1262 -->
 <g id="edge8" class="edge">
-<title>Node1253&#45;&gt;Node1254</title>
+<title>Node1261&#45;&gt;Node1262</title>
 <path fill="none" stroke="#191970" d="M199.6514,-48C211.744,-48 225.2217,-48 238.6584,-48"/>
 <polygon fill="#191970" stroke="#191970" points="238.9019,-51.5001 248.9019,-48 238.9019,-44.5001 238.9019,-51.5001"/>
 </g>
-<!-- Node1255 -->
+<!-- Node1263 -->
 <g id="node9" class="node">
-<title>Node1255</title>
+<title>Node1263</title>
 <g id="a_node9"><a xlink:href="classSNN.html#a13067d0c1634b4e91f819e06e5fd634f" target="_top" xlink:title="SNN::isExcitatoryGroup">
 <polygon fill="#ffffff" stroke="#000000" points="259,-.5 259,-19.5 381,-19.5 381,-.5 259,-.5"/>
 <text text-anchor="middle" x="320" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isExcitatoryGroup</text>
 </a>
 </g>
 </g>
-<!-- Node1253&#45;&gt;Node1255 -->
+<!-- Node1261&#45;&gt;Node1263 -->
 <g id="edge9" class="edge">
-<title>Node1253&#45;&gt;Node1255</title>
+<title>Node1261&#45;&gt;Node1263</title>
 <path fill="none" stroke="#191970" d="M196.6365,-38.411C218.5081,-33.3739 245.506,-27.1562 268.6636,-21.8229"/>
 <polygon fill="#191970" stroke="#191970" points="269.7036,-25.1751 278.6629,-19.5201 268.1325,-18.3537 269.7036,-25.1751"/>
 </g>

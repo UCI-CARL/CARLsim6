@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>isGroupWith</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 209,-24 209,4 -4,4"/>
-<!-- Node527 -->
+<!-- Node531 -->
 <g id="node1" class="node">
-<title>Node527</title>
+<title>Node531</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 71,-19.5 71,-.5 0,-.5"/>
 <text text-anchor="middle" x="35.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isGroupWith</text>
 </g>
-<!-- Node528 -->
+<!-- Node532 -->
 <g id="node2" class="node">
-<title>Node528</title>
+<title>Node532</title>
 <g id="a_node2"><a xlink:href="classSNN.html#a9b8aa1975049078149d963fb8eb06215" target="_top" xlink:title="SNN::isGroupWith">
 <polygon fill="#ffffff" stroke="#000000" points="107,-.5 107,-19.5 205,-19.5 205,-.5 107,-.5"/>
 <text text-anchor="middle" x="156" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isGroupWith</text>
 </a>
 </g>
 </g>
-<!-- Node527&#45;&gt;Node528 -->
+<!-- Node531&#45;&gt;Node532 -->
 <g id="edge1" class="edge">
-<title>Node527&#45;&gt;Node528</title>
+<title>Node531&#45;&gt;Node532</title>
 <path fill="none" stroke="#191970" d="M71.0022,-10C79.0857,-10 87.8884,-10 96.6653,-10"/>
 <polygon fill="#191970" stroke="#191970" points="96.912,-13.5001 106.912,-10 96.912,-6.5001 96.912,-13.5001"/>
 </g>

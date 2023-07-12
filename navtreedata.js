@@ -2,7 +2,7 @@ var NAVTREE =
 [
   [ "CARLsim", "index.html", [
     [ "Overview", "index.html", [
-      [ "CARLsim 6", "index.html#main_carlsim", null ],
+      [ "CARLsim 6.1", "index.html#main_carlsim", null ],
       [ "Getting Started", "index.html#main_getting_started", null ],
       [ "References", "index.html#main_ref", null ]
     ] ],
@@ -86,6 +86,14 @@ var NAVTREE =
         [ "14.7 Conductance Modulation", "ch20_neuromodulation.html#ch20s7_mcoba", null ],
         [ "14.8 Further readings", "ch20_neuromodulation.html#ch20s8_misc", null ],
         [ "14.9 References", "ch20_neuromodulation.html#ch20s9_references", null ]
+      ] ],
+      [ "15. Axonal Plasticity", "ch21_axonplast.html", [
+        [ "15.1 Introduction", "ch21_axonplast.html#ch21s1_axonplast_overview", null ],
+        [ "15.2 Adjusting Axonal Delays", "ch21_axonplast.html#ch21s2_axonplast_carlsim", null ],
+        [ "15.3 Usage of updateDelays", "ch21_axonplast.html#ch21s3_axonplast_usage", null ],
+        [ "15.4 Conceptual Background", "ch21_axonplast.html#ch21s4_axonplast_usage", null ],
+        [ "15.5 Implementation Details", "ch21_axonplast.html#ch21s5_axonplast_implementation", null ],
+        [ "15.6 References", "ch21_axonplast.html#ch21s6_axonplast_references", null ]
       ] ]
     ] ],
     [ "Tutorial", "usergroup1.html", [
@@ -166,14 +174,14 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "@ref ch10s4_references",
-"ch5_synaptic_plasticity.html#ch5s5_references",
-"classCARLsim_1_1Impl.html#ad85b898d98abe24dcae4390f0fe61e84",
-"classSNN.html#a00ddee44990cd4763a7d4df074e6d405",
-"classSpikeMonitorCore.html#ad0c4b32bb5cc0c7a8d95ed6023a2695f",
-"globals_defs.html",
-"spikegen__from__vector_8cpp.html",
-"structGroupConfigRT__s.html#ae6e760c8fdacd56117a5709c44930233",
-"structRuntimeData__s.html#a0413c76b111e13ddeb946bc1c44474bb"
+"ch4_connections.html#ch4s3_user_defined",
+"classCARLsim_1_1Impl.html#abde047c2a6a1d24f09055ecda4a8f7e1",
+"classPoissonRate_1_1Impl.html#a0c556a18de003bbbc945fd08f867b0c4",
+"classSpikeMonitorCore.html#a576be2fdd29d7b433d7c3645cb9f3b1f",
+"functions_vars_t.html",
+"snn__manager_8cpp.html#aa8943407dd14602e2a7c01ea97e9ab89",
+"structGroupConfigRT__s.html#a7e055a9116090e05a3739b0f0c1a022c",
+"structRangeDelay.html#a7c5fe792ee6fe5e9ee1f1e058e12595f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

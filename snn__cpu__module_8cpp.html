@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CARLsim
-   &#160;<span id="projectnumber">6.0.0</span>
+   &#160;<span id="projectnumber">6.1.0</span>
    </div>
    <div id="projectbrief">CARLsim: a GPU-accelerated SNN simulator</div>
   </td>
@@ -82,6 +82,7 @@ $(document).ready(function(){initNavTree('snn__cpu__module_8cpp.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">snn_cpu_module.cpp File Reference</div>  </div>
@@ -93,12 +94,24 @@ $(document).ready(function(){initNavTree('snn__cpu__module_8cpp.html','');});
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for snn_cpu_module.cpp:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 </div>
 <p><a href="snn__cpu__module_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ab3a6ef6c4a142b21fc60c22533ca5bd8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="snn__cpu__module_8cpp.html#ab3a6ef6c4a142b21fc60c22533ca5bd8">LN_ELIGIBILITY_INSEARCH</a></td></tr>
+<tr class="separator:ab3a6ef6c4a142b21fc60c22533ca5bd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9efa720f8fb571f5ae20cb8675bcbe1e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="snn__cpu__module_8cpp.html#a9efa720f8fb571f5ae20cb8675bcbe1e">LN_MOST_RECENT</a></td></tr>
+<tr class="separator:a9efa720f8fb571f5ae20cb8675bcbe1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9224acef08c81a435f56aa94593b6dab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="snn__cpu__module_8cpp.html#a9224acef08c81a435f56aa94593b6dab">PATCH_updateDelays_PostNId</a></td></tr>
+<tr class="separator:a9224acef08c81a435f56aa94593b6dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6ee14a8c34a224e359b71f37114dc1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="snn__cpu__module_8cpp.html#ab6ee14a8c34a224e359b71f37114dc1c">PATCH_updateDelays_PostNId_Break</a></td></tr>
+<tr class="separator:ab6ee14a8c34a224e359b71f37114dc1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dca7f483dbe6247f39de409eaf57d16"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="snn__cpu__module_8cpp.html#a4dca7f483dbe6247f39de409eaf57d16">SET_CONN_GRP_ID</a>(val,  grpId)&#160;&#160;&#160;((grpId &lt;&lt; <a class="el" href="snn__definitions_8h.html#a7cf5ee1d88aba1375a36b064b5dfd63b">NUM_SYNAPSE_BITS</a>) | <a class="el" href="snn__definitions_8h.html#adf6728a5ed2ae2eabbfaf0c5cd906433">GET_CONN_SYN_ID</a>(val))</td></tr>
+<tr class="separator:a4dca7f483dbe6247f39de409eaf57d16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a11a7a5c9993341ad98dff8d3a326e83a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="snn__cpu__module_8cpp.html#a11a7a5c9993341ad98dff8d3a326e83a">dudtIzhikevich4</a> (float volt, float recov, float izhA, float izhB, float timeStep=1.0f)</td></tr>
@@ -112,6 +125,99 @@ Functions</h2></td></tr>
 <tr class="memitem:ac42c21b5ae4b743f8e00b7dfe04dcfe3"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="snn__cpu__module_8cpp.html#ac42c21b5ae4b743f8e00b7dfe04dcfe3">dvdtLIF</a> (float volt, float lif_vReset, float lif_gain, float lif_bias, int lif_tau_m, float totalCurrent, float timeStep=1.0f)</td></tr>
 <tr class="separator:ac42c21b5ae4b743f8e00b7dfe04dcfe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ab3a6ef6c4a142b21fc60c22533ca5bd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3a6ef6c4a142b21fc60c22533ca5bd8">&#9670;&nbsp;</a></span>LN_ELIGIBILITY_INSEARCH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LN_ELIGIBILITY_INSEARCH</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l00762">762</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9efa720f8fb571f5ae20cb8675bcbe1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9efa720f8fb571f5ae20cb8675bcbe1e">&#9670;&nbsp;</a></span>LN_MOST_RECENT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define LN_MOST_RECENT</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l00763">763</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9224acef08c81a435f56aa94593b6dab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9224acef08c81a435f56aa94593b6dab">&#9670;&nbsp;</a></span>PATCH_updateDelays_PostNId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PATCH_updateDelays_PostNId</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01089">1089</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab6ee14a8c34a224e359b71f37114dc1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6ee14a8c34a224e359b71f37114dc1c">&#9670;&nbsp;</a></span>PATCH_updateDelays_PostNId_Break</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PATCH_updateDelays_PostNId_Break</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01090">1090</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4dca7f483dbe6247f39de409eaf57d16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dca7f483dbe6247f39de409eaf57d16">&#9670;&nbsp;</a></span>SET_CONN_GRP_ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SET_CONN_GRP_ID</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">val, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">grpId&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;((grpId &lt;&lt; <a class="el" href="snn__definitions_8h.html#a7cf5ee1d88aba1375a36b064b5dfd63b">NUM_SYNAPSE_BITS</a>) | <a class="el" href="snn__definitions_8h.html#adf6728a5ed2ae2eabbfaf0c5cd906433">GET_CONN_SYN_ID</a>(val))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a11a7a5c9993341ad98dff8d3a326e83a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a11a7a5c9993341ad98dff8d3a326e83a">&#9670;&nbsp;</a></span>dudtIzhikevich4()</h2>
@@ -165,12 +271,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01224">1224</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01956">1956</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_a11a7a5c9993341ad98dff8d3a326e83a_icgraph.svg" width="239" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_a11a7a5c9993341ad98dff8d3a326e83a_icgraph.svg" width="239" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -233,12 +338,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01238">1238</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01970">1970</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_af71e0cec317109faf95af68a66b028f4_icgraph.svg" width="239" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_af71e0cec317109faf95af68a66b028f4_icgraph.svg" width="239" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -289,12 +393,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01218">1218</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01950">1950</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_a112c9dae16b9adda24246f72616861e4_icgraph.svg" width="239" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_a112c9dae16b9adda24246f72616861e4_icgraph.svg" width="239" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -369,12 +472,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01230">1230</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01962">1962</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_a8c7d863355ffdb02791fdb297060f8f3_icgraph.svg" width="239" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_a8c7d863355ffdb02791fdb297060f8f3_icgraph.svg" width="239" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -443,12 +545,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01244">1244</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="snn__cpu__module_8cpp_source.html#l01976">1976</a> of file <a class="el" href="snn__cpu__module_8cpp_source.html">snn_cpu_module.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_ac42c21b5ae4b743f8e00b7dfe04dcfe3_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="snn__cpu__module_8cpp_ac42c21b5ae4b743f8e00b7dfe04dcfe3_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -459,7 +560,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_149f82d01cbdfd1b8607983cc286b463.html">carlsim</a></li><li class="navelem"><a class="el" href="dir_06a4305d97c5fa523d824c152466b991.html">kernel</a></li><li class="navelem"><a class="el" href="dir_f8d2999d3083f30732c444a1c48d221e.html">src</a></li><li class="navelem"><a class="el" href="snn__cpu__module_8cpp.html">snn_cpu_module.cpp</a></li>
-    <li class="footer">Generated on Thu Jul 14 2022 18:14:00 for CARLsim by
+    <li class="footer">Generated on Mon Jul 10 2023 12:42:33 for CARLsim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

@@ -9,99 +9,99 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>getConnSTDPInfo</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 782,-100 782,4 -4,4"/>
-<!-- Node143 -->
+<!-- Node147 -->
 <g id="node1" class="node">
-<title>Node143</title>
+<title>Node147</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 97,-57.5 97,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="48.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConnSTDPInfo</text>
 </g>
-<!-- Node144 -->
+<!-- Node148 -->
 <g id="node2" class="node">
-<title>Node144</title>
+<title>Node148</title>
 <g id="a_node2"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="137.5,-76.5 137.5,-95.5 253.5,-95.5 253.5,-76.5 137.5,-76.5"/>
 <text text-anchor="middle" x="195.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node143&#45;&gt;Node144 -->
+<!-- Node147&#45;&gt;Node148 -->
 <g id="edge1" class="edge">
-<title>Node143&#45;&gt;Node144</title>
+<title>Node147&#45;&gt;Node148</title>
 <path fill="none" stroke="#191970" d="M85.5943,-57.589C104.8178,-62.5583 128.4863,-68.6767 148.9294,-73.9613"/>
 <polygon fill="#191970" stroke="#191970" points="148.1147,-77.3657 158.6724,-76.4799 149.8667,-70.5885 148.1147,-77.3657"/>
 </g>
-<!-- Node145 -->
+<!-- Node149 -->
 <g id="node3" class="node">
-<title>Node145</title>
+<title>Node149</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="142.5,-38.5 142.5,-57.5 248.5,-57.5 248.5,-38.5 142.5,-38.5"/>
 <text text-anchor="middle" x="195.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node143&#45;&gt;Node145 -->
+<!-- Node147&#45;&gt;Node149 -->
 <g id="edge2" class="edge">
-<title>Node143&#45;&gt;Node145</title>
+<title>Node147&#45;&gt;Node149</title>
 <path fill="none" stroke="#191970" d="M97.0407,-48C108.2953,-48 120.4358,-48 132.219,-48"/>
 <polygon fill="#191970" stroke="#191970" points="132.4508,-51.5001 142.4507,-48 132.4507,-44.5001 132.4508,-51.5001"/>
 </g>
-<!-- Node149 -->
+<!-- Node153 -->
 <g id="node7" class="node">
-<title>Node149</title>
+<title>Node153</title>
 <g id="a_node7"><a xlink:href="classSNN.html#a37221c7881b5fa8d1d806804fb9521ab" target="_top" xlink:title="SNN::getConnSTDPInfo">
 <polygon fill="#ffffff" stroke="#000000" points="133,-.5 133,-19.5 258,-19.5 258,-.5 133,-.5"/>
 <text text-anchor="middle" x="195.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConnSTDPInfo</text>
 </a>
 </g>
 </g>
-<!-- Node143&#45;&gt;Node149 -->
+<!-- Node147&#45;&gt;Node153 -->
 <g id="edge6" class="edge">
-<title>Node143&#45;&gt;Node149</title>
+<title>Node147&#45;&gt;Node153</title>
 <path fill="none" stroke="#191970" d="M85.5943,-38.411C104.8178,-33.4417 128.4863,-27.3233 148.9294,-22.0387"/>
 <polygon fill="#191970" stroke="#191970" points="149.8667,-25.4115 158.6724,-19.5201 148.1147,-18.6343 149.8667,-25.4115"/>
 </g>
-<!-- Node146 -->
+<!-- Node150 -->
 <g id="node4" class="node">
-<title>Node146</title>
+<title>Node150</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="SNN::getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="294,-38.5 294,-57.5 428,-57.5 428,-38.5 294,-38.5"/>
 <text text-anchor="middle" x="361" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node145&#45;&gt;Node146 -->
+<!-- Node149&#45;&gt;Node150 -->
 <g id="edge3" class="edge">
-<title>Node145&#45;&gt;Node146</title>
+<title>Node149&#45;&gt;Node150</title>
 <path fill="none" stroke="#191970" d="M248.7762,-48C259.8852,-48 271.8093,-48 283.5886,-48"/>
 <polygon fill="#191970" stroke="#191970" points="283.8787,-51.5001 293.8787,-48 283.8786,-44.5001 283.8787,-51.5001"/>
 </g>
-<!-- Node147 -->
+<!-- Node151 -->
 <g id="node5" class="node">
-<title>Node147</title>
+<title>Node151</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a52f149e224abff772962dea6680398e2" target="_top" xlink:title="gets number of connections associated with a connection ID ">
 <polygon fill="#ffffff" stroke="#000000" points="464,-38.5 464,-57.5 636,-57.5 636,-38.5 464,-38.5"/>
 <text text-anchor="middle" x="550" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumSynapticConnections</text>
 </a>
 </g>
 </g>
-<!-- Node146&#45;&gt;Node147 -->
+<!-- Node150&#45;&gt;Node151 -->
 <g id="edge4" class="edge">
-<title>Node146&#45;&gt;Node147</title>
+<title>Node150&#45;&gt;Node151</title>
 <path fill="none" stroke="#191970" d="M428.1665,-48C436.4789,-48 445.1,-48 453.7407,-48"/>
 <polygon fill="#191970" stroke="#191970" points="453.8759,-51.5001 463.8759,-48 453.8759,-44.5001 453.8759,-51.5001"/>
 </g>
-<!-- Node148 -->
+<!-- Node152 -->
 <g id="node6" class="node">
-<title>Node148</title>
+<title>Node152</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="672,-38.5 672,-57.5 778,-57.5 778,-38.5 672,-38.5"/>
 <text text-anchor="middle" x="725" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node147&#45;&gt;Node148 -->
+<!-- Node151&#45;&gt;Node152 -->
 <g id="edge5" class="edge">
-<title>Node147&#45;&gt;Node148</title>
+<title>Node151&#45;&gt;Node152</title>
 <path fill="none" stroke="#191970" d="M636.2183,-48C644.711,-48 653.2199,-48 661.4247,-48"/>
 <polygon fill="#191970" stroke="#191970" points="661.6308,-51.5001 671.6308,-48 661.6308,-44.5001 661.6308,-51.5001"/>
 </g>

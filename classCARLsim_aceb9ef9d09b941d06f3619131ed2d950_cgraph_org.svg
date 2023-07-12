@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 35)">
 <title>setConnectionModulation</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-35 650,-35 650,4 -4,4"/>
-<!-- Node582 -->
+<!-- Node590 -->
 <g id="node1" class="node">
-<title>Node582</title>
+<title>Node590</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-6 0,-25 127,-25 127,-6 0,-6"/>
 <text text-anchor="middle" x="63.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setConnectionModulation</text>
 </g>
-<!-- Node583 -->
+<!-- Node591 -->
 <g id="node2" class="node">
-<title>Node583</title>
+<title>Node591</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#aceb9ef9d09b941d06f3619131ed2d950" target="_top" xlink:title="CARLsim::Impl::setConnection\lModulation">
 <polygon fill="#ffffff" stroke="#000000" points="163,-.5 163,-30.5 316,-30.5 316,-.5 163,-.5"/>
 <text text-anchor="start" x="171" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setConnection</text>
@@ -25,39 +25,39 @@
 </a>
 </g>
 </g>
-<!-- Node582&#45;&gt;Node583 -->
+<!-- Node590&#45;&gt;Node591 -->
 <g id="edge1" class="edge">
-<title>Node582&#45;&gt;Node583</title>
+<title>Node590&#45;&gt;Node591</title>
 <path fill="none" stroke="#191970" d="M127.04,-15.5C135.3909,-15.5 144.0611,-15.5 152.7155,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="152.8478,-19.0001 162.8478,-15.5 152.8478,-12.0001 152.8478,-19.0001"/>
 </g>
-<!-- Node584 -->
+<!-- Node592 -->
 <g id="node3" class="node">
-<title>Node584</title>
+<title>Node592</title>
 <g id="a_node3"><a xlink:href="classSNN.html#aceb9ef9d09b941d06f3619131ed2d950" target="_top" xlink:title="SNN::setConnectionModulation">
 <polygon fill="#ffffff" stroke="#000000" points="352,-6 352,-25 507,-25 507,-6 352,-6"/>
 <text text-anchor="middle" x="429.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setConnectionModulation</text>
 </a>
 </g>
 </g>
-<!-- Node583&#45;&gt;Node584 -->
+<!-- Node591&#45;&gt;Node592 -->
 <g id="edge2" class="edge">
-<title>Node583&#45;&gt;Node584</title>
+<title>Node591&#45;&gt;Node592</title>
 <path fill="none" stroke="#191970" d="M316.2326,-15.5C324.5798,-15.5 333.1225,-15.5 341.5897,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="341.8622,-19.0001 351.8622,-15.5 341.8621,-12.0001 341.8622,-19.0001"/>
 </g>
-<!-- Node585 -->
+<!-- Node593 -->
 <g id="node4" class="node">
-<title>Node585</title>
+<title>Node593</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a44b05911f213714c351379021852e12a" target="_top" xlink:title="find connection ID based on pre&#45;post group pair, O(N) ">
 <polygon fill="#ffffff" stroke="#000000" points="543,-6 543,-25 646,-25 646,-6 543,-6"/>
 <text text-anchor="middle" x="594.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getConnectId</text>
 </a>
 </g>
 </g>
-<!-- Node584&#45;&gt;Node585 -->
+<!-- Node592&#45;&gt;Node593 -->
 <g id="edge3" class="edge">
-<title>Node584&#45;&gt;Node585</title>
+<title>Node592&#45;&gt;Node593</title>
 <path fill="none" stroke="#191970" d="M507.1685,-15.5C515.6315,-15.5 524.1626,-15.5 532.4039,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="532.6609,-19.0001 542.6609,-15.5 532.6608,-12.0001 532.6609,-19.0001"/>
 </g>

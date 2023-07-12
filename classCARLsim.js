@@ -16,6 +16,7 @@ var classCARLsim =
     [ "createSpikeGeneratorGroup", "classCARLsim.html#a1140f81bb80e9cc6de561c5213dd58d5", null ],
     [ "cudaDeviceCount", "classCARLsim.html#a8e1efea50fcff581761bd7730d0afc59", null ],
     [ "cudaDeviceDescription", "classCARLsim.html#ad9125d9ca019b694240d64c9af9b11d7", null ],
+    [ "findWavefrontPath", "classCARLsim.html#ad13c02b52b9a865e150da3b256f06d4d", null ],
     [ "getCARLsimState", "classCARLsim.html#adca40e384322cbaa6bfda0fe6a6f3159", null ],
     [ "getConductanceAMPA", "classCARLsim.html#a9f12565a3b01482ccba3b63c5d6c3279", null ],
     [ "getConductanceConfig", "classCARLsim.html#a00ecb4d15c32a4c7327f2efae5157e79", null ],
@@ -69,6 +70,7 @@ var classCARLsim =
     [ "isSimulationWithCOBA", "classCARLsim.html#ad4930e827d0e5cc6a63dc4a07e1879dc", null ],
     [ "isSimulationWithCUBA", "classCARLsim.html#abde047c2a6a1d24f09055ecda4a8f7e1", null ],
     [ "loadSimulation", "classCARLsim.html#aeebb0912ac3497ef828e666805371722", null ],
+    [ "printEntrails", "classCARLsim.html#aa596c1e0057978f4b98b708a7dc5d526", null ],
     [ "runNetwork", "classCARLsim.html#aafb2d44405c96aafe089f96ff867018d", null ],
     [ "saveSimulation", "classCARLsim.html#a3b08150d9a98f80df57852450c0d87ed", null ],
     [ "scaleWeights", "classCARLsim.html#a1233e96d5b75c1de533375d52ee18869", null ],
@@ -128,5 +130,6 @@ var classCARLsim =
     [ "setWeight", "classCARLsim.html#af67a432c859556cff7d6b1d59638ad01", null ],
     [ "setWeightAndWeightChangeUpdate", "classCARLsim.html#abee8ce393443c7bcf296a0014b6ff4c9", null ],
     [ "startTesting", "classCARLsim.html#abdef62cc54aac9c9e6e4c4e712452d64", null ],
-    [ "stopTesting", "classCARLsim.html#aae1c74dcc597646739be4812e5872d71", null ]
+    [ "stopTesting", "classCARLsim.html#aae1c74dcc597646739be4812e5872d71", null ],
+    [ "updateDelays", "classCARLsim.html#a3517d9fb7fd35ab493c6f3caa924461b", null ]
 ];

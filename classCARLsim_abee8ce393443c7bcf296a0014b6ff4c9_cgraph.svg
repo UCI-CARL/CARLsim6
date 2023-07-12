@@ -48,23 +48,23 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 527;
 var viewHeight = 78;
-var sectionId = 'dynsection-129';
+var sectionId = 'dynsection-131';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>setWeightAndWeightChangeUpdate</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-73.5 523,-73.5 523,4 -4,4"/>
-<!-- Node1090 -->
+<!-- Node1098 -->
 <g id="node1" class="node">
-<title>Node1090</title>
+<title>Node1098</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-22.5 0,-52.5 143,-52.5 143,-22.5 0,-22.5"/>
 <text text-anchor="start" x="8" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setWeightAndWeightChange</text>
 <text text-anchor="middle" x="71.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">Update</text>
 </g>
-<!-- Node1091 -->
+<!-- Node1099 -->
 <g id="node2" class="node">
-<title>Node1091</title>
+<title>Node1099</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a94b3b953bb658e1a96cd8a6a6163a5fe" target="_top" xlink:title="CARLsim::Impl::setWeight\lAndWeightChangeUpdate">
 <polygon fill="#ffffff" stroke="#000000" points="179,-22.5 179,-52.5 313,-52.5 313,-22.5 179,-22.5"/>
 <text text-anchor="start" x="187" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setWeight</text>
@@ -72,30 +72,30 @@ var sectionId = 'dynsection-129';
 </a>
 </g>
 </g>
-<!-- Node1090&#45;&gt;Node1091 -->
+<!-- Node1098&#45;&gt;Node1099 -->
 <g id="edge1" class="edge">
-<title>Node1090&#45;&gt;Node1091</title>
+<title>Node1098&#45;&gt;Node1099</title>
 <path fill="none" stroke="#191970" d="M143.2312,-37.5C151.585,-37.5 160.1349,-37.5 168.5612,-37.5"/>
 <polygon fill="#191970" stroke="#191970" points="168.7566,-41.0001 178.7565,-37.5 168.7565,-34.0001 168.7566,-41.0001"/>
 </g>
-<!-- Node1092 -->
+<!-- Node1100 -->
 <g id="node3" class="node">
-<title>Node1092</title>
+<title>Node1100</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="376,-50 376,-69 492,-69 492,-50 376,-50"/>
 <text text-anchor="middle" x="434" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node1091&#45;&gt;Node1092 -->
+<!-- Node1099&#45;&gt;Node1100 -->
 <g id="edge2" class="edge">
-<title>Node1091&#45;&gt;Node1092</title>
+<title>Node1099&#45;&gt;Node1100</title>
 <path fill="none" stroke="#191970" d="M313.0761,-45.3493C330.2654,-47.3608 348.7666,-49.5259 366.002,-51.5428"/>
 <polygon fill="#191970" stroke="#191970" points="365.6451,-55.0248 375.9841,-52.7109 366.4587,-48.0723 365.6451,-55.0248"/>
 </g>
-<!-- Node1093 -->
+<!-- Node1101 -->
 <g id="node4" class="node">
-<title>Node1093</title>
+<title>Node1101</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a94b3b953bb658e1a96cd8a6a6163a5fe" target="_top" xlink:title="Sets the weight and weight change update parameters. ">
 <polygon fill="#ffffff" stroke="#000000" points="349,-.5 349,-30.5 519,-30.5 519,-.5 349,-.5"/>
 <text text-anchor="start" x="357" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setWeightAndWeightChange</text>
@@ -103,9 +103,9 @@ var sectionId = 'dynsection-129';
 </a>
 </g>
 </g>
-<!-- Node1091&#45;&gt;Node1093 -->
+<!-- Node1099&#45;&gt;Node1101 -->
 <g id="edge3" class="edge">
-<title>Node1091&#45;&gt;Node1093</title>
+<title>Node1099&#45;&gt;Node1101</title>
 <path fill="none" stroke="#191970" d="M313.0761,-29.6507C321.4133,-28.675 330.0591,-27.6633 338.7195,-26.6499"/>
 <polygon fill="#191970" stroke="#191970" points="339.3496,-30.1001 348.875,-25.4614 338.5359,-23.1475 339.3496,-30.1001"/>
 </g>

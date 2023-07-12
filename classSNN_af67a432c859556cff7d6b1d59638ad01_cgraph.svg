@@ -48,91 +48,91 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 513;
 var viewHeight = 104;
-var sectionId = 'dynsection-137';
+var sectionId = 'dynsection-139';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>setWeight</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 509,-100 509,4 -4,4"/>
-<!-- Node1912 -->
+<!-- Node1920 -->
 <g id="node1" class="node">
-<title>Node1912</title>
+<title>Node1920</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 61,-57.5 61,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="30.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setWeight</text>
 </g>
-<!-- Node1913 -->
+<!-- Node1921 -->
 <g id="node2" class="node">
-<title>Node1913</title>
+<title>Node1921</title>
 <g id="a_node2"><a xlink:href="classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="101,-76.5 101,-95.5 207,-95.5 207,-76.5 101,-76.5"/>
 <text text-anchor="middle" x="154" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node1912&#45;&gt;Node1913 -->
+<!-- Node1920&#45;&gt;Node1921 -->
 <g id="edge1" class="edge">
-<title>Node1912&#45;&gt;Node1913</title>
+<title>Node1920&#45;&gt;Node1921</title>
 <path fill="none" stroke="#191970" d="M61.0281,-57.3933C76.7917,-62.2436 96.2391,-68.2274 113.266,-73.4664"/>
 <polygon fill="#191970" stroke="#191970" points="112.3782,-76.8552 122.9653,-76.4509 114.4368,-70.1647 112.3782,-76.8552"/>
 </g>
-<!-- Node1916 -->
+<!-- Node1924 -->
 <g id="node5" class="node">
-<title>Node1916</title>
+<title>Node1924</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a11e19a0ccbeca92ba843a5933b3321e0" target="_top" xlink:title="getGroupNumNeurons">
 <polygon fill="#ffffff" stroke="#000000" points="97,-38.5 97,-57.5 211,-57.5 211,-38.5 97,-38.5"/>
 <text text-anchor="middle" x="154" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node1912&#45;&gt;Node1916 -->
+<!-- Node1920&#45;&gt;Node1924 -->
 <g id="edge4" class="edge">
-<title>Node1912&#45;&gt;Node1916</title>
+<title>Node1920&#45;&gt;Node1924</title>
 <path fill="none" stroke="#191970" d="M61.0281,-48C68.9166,-48 77.7276,-48 86.6961,-48"/>
 <polygon fill="#191970" stroke="#191970" points="86.8481,-51.5001 96.8481,-48 86.848,-44.5001 86.8481,-51.5001"/>
 </g>
-<!-- Node1917 -->
+<!-- Node1925 -->
 <g id="node6" class="node">
-<title>Node1917</title>
+<title>Node1925</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a13067d0c1634b4e91f819e06e5fd634f" target="_top" xlink:title="isExcitatoryGroup">
 <polygon fill="#ffffff" stroke="#000000" points="106.5,-.5 106.5,-19.5 201.5,-19.5 201.5,-.5 106.5,-.5"/>
 <text text-anchor="middle" x="154" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isExcitatoryGroup</text>
 </a>
 </g>
 </g>
-<!-- Node1912&#45;&gt;Node1917 -->
+<!-- Node1920&#45;&gt;Node1925 -->
 <g id="edge5" class="edge">
-<title>Node1912&#45;&gt;Node1917</title>
+<title>Node1920&#45;&gt;Node1925</title>
 <path fill="none" stroke="#191970" d="M61.0281,-38.6067C76.7917,-33.7564 96.2391,-27.7726 113.266,-22.5336"/>
 <polygon fill="#191970" stroke="#191970" points="114.4368,-25.8353 122.9653,-19.5491 112.3782,-19.1448 114.4368,-25.8353"/>
 </g>
-<!-- Node1914 -->
+<!-- Node1922 -->
 <g id="node3" class="node">
-<title>Node1914</title>
+<title>Node1922</title>
 <g id="a_node3"><a xlink:href="classSNN.html#a52f149e224abff772962dea6680398e2" target="_top" xlink:title="gets number of connections associated with a connection ID ">
 <polygon fill="#ffffff" stroke="#000000" points="247,-76.5 247,-95.5 391,-95.5 391,-76.5 247,-76.5"/>
 <text text-anchor="middle" x="319" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumSynapticConnections</text>
 </a>
 </g>
 </g>
-<!-- Node1913&#45;&gt;Node1914 -->
+<!-- Node1921&#45;&gt;Node1922 -->
 <g id="edge2" class="edge">
-<title>Node1913&#45;&gt;Node1914</title>
+<title>Node1921&#45;&gt;Node1922</title>
 <path fill="none" stroke="#191970" d="M207.1153,-86C216.5832,-86 226.6451,-86 236.703,-86"/>
 <polygon fill="#191970" stroke="#191970" points="236.7374,-89.5001 246.7374,-86 236.7373,-82.5001 236.7374,-89.5001"/>
 </g>
-<!-- Node1915 -->
+<!-- Node1923 -->
 <g id="node4" class="node">
-<title>Node1915</title>
+<title>Node1923</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="427,-76.5 427,-95.5 505,-95.5 505,-76.5 427,-76.5"/>
 <text text-anchor="middle" x="466" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node1914&#45;&gt;Node1915 -->
+<!-- Node1922&#45;&gt;Node1923 -->
 <g id="edge3" class="edge">
-<title>Node1914&#45;&gt;Node1915</title>
+<title>Node1922&#45;&gt;Node1923</title>
 <path fill="none" stroke="#191970" d="M391.2081,-86C399.8871,-86 408.5901,-86 416.8329,-86"/>
 <polygon fill="#191970" stroke="#191970" points="416.9912,-89.5001 426.9911,-86 416.9911,-82.5001 416.9912,-89.5001"/>
 </g>

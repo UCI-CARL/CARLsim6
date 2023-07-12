@@ -9,39 +9,39 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>isSimulationWithSTP</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 268,-62 268,4 -4,4"/>
-<!-- Node1581 -->
+<!-- Node1585 -->
 <g id="node1" class="node">
-<title>Node1581</title>
+<title>Node1585</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 110,-38.5 110,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="55" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isSimulationWithSTP</text>
 </g>
-<!-- Node1582 -->
+<!-- Node1586 -->
 <g id="node2" class="node">
-<title>Node1582</title>
+<title>Node1586</title>
 <g id="a_node2"><a xlink:href="classSNN.html#a8e1efea50fcff581761bd7730d0afc59" target="_top" xlink:title="Get Info of suitable Harware for integration of CARLsim in NeuroInf&#45;IDEs NIIDEs (LN20201017) ...">
 <polygon fill="#ffffff" stroke="#000000" points="157.5,-38.5 157.5,-57.5 252.5,-57.5 252.5,-38.5 157.5,-38.5"/>
 <text text-anchor="middle" x="205" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">cudaDeviceCount</text>
 </a>
 </g>
 </g>
-<!-- Node1581&#45;&gt;Node1582 -->
+<!-- Node1585&#45;&gt;Node1586 -->
 <g id="edge1" class="edge">
-<title>Node1581&#45;&gt;Node1582</title>
+<title>Node1585&#45;&gt;Node1586</title>
 <path fill="none" stroke="#191970" d="M110.0027,-35.967C122.1528,-37.506 135.0581,-39.1407 147.3114,-40.6928"/>
 <polygon fill="#191970" stroke="#191970" points="147.0594,-44.1887 157.4199,-41.9732 147.9391,-37.2442 147.0594,-44.1887"/>
 </g>
-<!-- Node1583 -->
+<!-- Node1587 -->
 <g id="node3" class="node">
-<title>Node1583</title>
+<title>Node1587</title>
 <g id="a_node3"><a xlink:href="classSNN.html#ad9125d9ca019b694240d64c9af9b11d7" target="_top" xlink:title="cudaDeviceDescription">
 <polygon fill="#ffffff" stroke="#000000" points="146,-.5 146,-19.5 264,-19.5 264,-.5 146,-.5"/>
 <text text-anchor="middle" x="205" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">cudaDeviceDescription</text>
 </a>
 </g>
 </g>
-<!-- Node1581&#45;&gt;Node1583 -->
+<!-- Node1585&#45;&gt;Node1587 -->
 <g id="edge2" class="edge">
-<title>Node1581&#45;&gt;Node1583</title>
+<title>Node1585&#45;&gt;Node1587</title>
 <path fill="none" stroke="#191970" d="M110.0027,-22.033C118.4163,-20.9673 127.1921,-19.8557 135.8627,-18.7574"/>
 <polygon fill="#191970" stroke="#191970" points="136.4841,-22.2067 145.965,-17.4778 135.6044,-15.2622 136.4841,-22.2067"/>
 </g>

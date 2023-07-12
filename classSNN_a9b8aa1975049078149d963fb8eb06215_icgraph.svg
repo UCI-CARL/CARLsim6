@@ -48,97 +48,97 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 669;
 var viewHeight = 154;
-var sectionId = 'dynsection-81';
+var sectionId = 'dynsection-82';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>isGroupWith</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-150 665,-150 665,4 -4,4"/>
-<!-- Node1447 -->
+<!-- Node1451 -->
 <g id="node1" class="node">
-<title>Node1447</title>
+<title>Node1451</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-66.5 0,-85.5 71,-85.5 71,-66.5 0,-66.5"/>
 <text text-anchor="middle" x="35.5" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isGroupWith</text>
 </g>
-<!-- Node1448 -->
+<!-- Node1452 -->
 <g id="node2" class="node">
-<title>Node1448</title>
+<title>Node1452</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a9b8aa1975049078149d963fb8eb06215" target="_top" xlink:title="CARLsim::Impl::isGroupWith">
 <polygon fill="#ffffff" stroke="#000000" points="107,-124.5 107,-143.5 251,-143.5 251,-124.5 107,-124.5"/>
 <text text-anchor="middle" x="179" y="-131.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isGroupWith</text>
 </a>
 </g>
 </g>
-<!-- Node1447&#45;&gt;Node1448 -->
+<!-- Node1451&#45;&gt;Node1452 -->
 <g id="edge1" class="edge">
-<title>Node1447&#45;&gt;Node1448</title>
+<title>Node1451&#45;&gt;Node1452</title>
 <path fill="none" stroke="#191970" d="M59.9102,-90.6788C73.4422,-98.3754 90.7697,-107.5226 107,-114 117.0008,-117.9913 128.0852,-121.4968 138.4993,-124.412"/>
 <polygon fill="#191970" stroke="#191970" points="61.615,-87.6215 51.2085,-85.6327 58.1034,-93.677 61.615,-87.6215"/>
 </g>
-<!-- Node1450 -->
+<!-- Node1454 -->
 <g id="node4" class="node">
-<title>Node1450</title>
+<title>Node1454</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a0ef541007b0004e308c89f2f326fb328" target="_top" xlink:title="isDopaminergicGroup">
 <polygon fill="#ffffff" stroke="#000000" points="124,-85.5 124,-104.5 234,-104.5 234,-85.5 124,-85.5"/>
 <text text-anchor="middle" x="179" y="-92.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isDopaminergicGroup</text>
 </a>
 </g>
 </g>
-<!-- Node1447&#45;&gt;Node1450 -->
+<!-- Node1451&#45;&gt;Node1454 -->
 <g id="edge3" class="edge">
-<title>Node1447&#45;&gt;Node1450</title>
+<title>Node1451&#45;&gt;Node1454</title>
 <path fill="none" stroke="#191970" d="M81.3551,-82.0714C94.8609,-83.8596 109.7804,-85.835 123.807,-87.6922"/>
 <polygon fill="#191970" stroke="#191970" points="81.7139,-78.5884 71.3409,-80.7455 80.795,-85.5279 81.7139,-78.5884"/>
 </g>
-<!-- Node1451 -->
+<!-- Node1455 -->
 <g id="node5" class="node">
-<title>Node1451</title>
+<title>Node1455</title>
 <g id="a_node5"><a xlink:href="classSNN.html#aaee4444a6b301f4d169f14513a36c496" target="_top" xlink:title="isGroupWithCOBA">
 <polygon fill="#ffffff" stroke="#000000" points="129.5,-47.5 129.5,-66.5 228.5,-66.5 228.5,-47.5 129.5,-47.5"/>
 <text text-anchor="middle" x="179" y="-54.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isGroupWithCOBA</text>
 </a>
 </g>
 </g>
-<!-- Node1447&#45;&gt;Node1451 -->
+<!-- Node1451&#45;&gt;Node1455 -->
 <g id="edge4" class="edge">
-<title>Node1447&#45;&gt;Node1451</title>
+<title>Node1451&#45;&gt;Node1455</title>
 <path fill="none" stroke="#191970" d="M81.559,-69.9016C96.7875,-67.8853 113.7949,-65.6334 129.2849,-63.5825"/>
 <polygon fill="#191970" stroke="#191970" points="80.795,-66.4721 71.3409,-71.2545 81.7139,-73.4116 80.795,-66.4721"/>
 </g>
-<!-- Node1456 -->
+<!-- Node1460 -->
 <g id="node10" class="node">
-<title>Node1456</title>
+<title>Node1460</title>
 <g id="a_node10"><a xlink:href="classSNN.html#a37e12288373deae9fe0811818983b23e" target="_top" xlink:title="isGroupWithCUBA">
 <polygon fill="#ffffff" stroke="#000000" points="129.5,-6.5 129.5,-25.5 228.5,-25.5 228.5,-6.5 129.5,-6.5"/>
 <text text-anchor="middle" x="179" y="-13.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isGroupWithCUBA</text>
 </a>
 </g>
 </g>
-<!-- Node1447&#45;&gt;Node1456 -->
+<!-- Node1451&#45;&gt;Node1460 -->
 <g id="edge9" class="edge">
-<title>Node1447&#45;&gt;Node1456</title>
+<title>Node1451&#45;&gt;Node1460</title>
 <path fill="none" stroke="#191970" d="M59.9771,-61.4857C73.5289,-53.8377 90.8539,-44.6846 107,-38 118.4726,-33.2502 131.3456,-28.996 142.9996,-25.5237"/>
 <polygon fill="#191970" stroke="#191970" points="58.1885,-58.4767 51.2588,-66.4911 61.6739,-64.5473 58.1885,-58.4767"/>
 </g>
-<!-- Node1449 -->
+<!-- Node1453 -->
 <g id="node3" class="node">
-<title>Node1449</title>
+<title>Node1453</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#a9b8aa1975049078149d963fb8eb06215" target="_top" xlink:title="CARLsim::isGroupWith">
 <polygon fill="#ffffff" stroke="#000000" points="314,-126.5 314,-145.5 433,-145.5 433,-126.5 314,-126.5"/>
 <text text-anchor="middle" x="373.5" y="-133.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::isGroupWith</text>
 </a>
 </g>
 </g>
-<!-- Node1448&#45;&gt;Node1449 -->
+<!-- Node1452&#45;&gt;Node1453 -->
 <g id="edge2" class="edge">
-<title>Node1448&#45;&gt;Node1449</title>
+<title>Node1452&#45;&gt;Node1453</title>
 <path fill="none" stroke="#191970" d="M261.4243,-134.8476C279.0384,-135.0287 297.317,-135.2166 313.8751,-135.3869"/>
 <polygon fill="#191970" stroke="#191970" points="261.1837,-131.345 251.1482,-134.7419 261.1117,-138.3446 261.1837,-131.345"/>
 </g>
-<!-- Node1452 -->
+<!-- Node1456 -->
 <g id="node6" class="node">
-<title>Node1452</title>
+<title>Node1456</title>
 <g id="a_node6"><a xlink:href="classCARLsim_1_1Impl.html#a00ecb4d15c32a4c7327f2efae5157e79" target="_top" xlink:title="CARLsim::Impl::getConductance\lConfig">
 <polygon fill="#ffffff" stroke="#000000" points="293,-77 293,-107 454,-107 454,-77 293,-77"/>
 <text text-anchor="start" x="301" y="-95" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getConductance</text>
@@ -146,84 +146,84 @@ var sectionId = 'dynsection-81';
 </a>
 </g>
 </g>
-<!-- Node1451&#45;&gt;Node1452 -->
+<!-- Node1455&#45;&gt;Node1456 -->
 <g id="edge5" class="edge">
-<title>Node1451&#45;&gt;Node1452</title>
+<title>Node1455&#45;&gt;Node1456</title>
 <path fill="none" stroke="#191970" d="M238.9009,-67.7791C255.8791,-70.8343 274.6483,-74.2118 292.646,-77.4504"/>
 <polygon fill="#191970" stroke="#191970" points="239.0456,-64.249 228.5838,-65.9225 237.8058,-71.1383 239.0456,-64.249"/>
 </g>
-<!-- Node1454 -->
+<!-- Node1458 -->
 <g id="node8" class="node">
-<title>Node1454</title>
+<title>Node1458</title>
 <g id="a_node8"><a xlink:href="classCARLsim_1_1Impl.html#aaee4444a6b301f4d169f14513a36c496" target="_top" xlink:title="CARLsim::Impl::isGroupWithCOBA">
 <polygon fill="#ffffff" stroke="#000000" points="287,-38.5 287,-57.5 460,-57.5 460,-38.5 287,-38.5"/>
 <text text-anchor="middle" x="373.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isGroupWithCOBA</text>
 </a>
 </g>
 </g>
-<!-- Node1451&#45;&gt;Node1454 -->
+<!-- Node1455&#45;&gt;Node1458 -->
 <g id="edge7" class="edge">
-<title>Node1451&#45;&gt;Node1454</title>
+<title>Node1455&#45;&gt;Node1458</title>
 <path fill="none" stroke="#191970" d="M238.862,-54.23C254.0731,-53.5262 270.7238,-52.7557 286.9704,-52.0039"/>
 <polygon fill="#191970" stroke="#191970" points="238.4113,-50.7471 228.5838,-54.7056 238.7349,-57.7396 238.4113,-50.7471"/>
 </g>
-<!-- Node1453 -->
+<!-- Node1457 -->
 <g id="node7" class="node">
-<title>Node1453</title>
+<title>Node1457</title>
 <g id="a_node7"><a xlink:href="classCARLsim.html#a00ecb4d15c32a4c7327f2efae5157e79" target="_top" xlink:title="CARLsim::getConductanceConfig">
 <polygon fill="#ffffff" stroke="#000000" points="496,-82.5 496,-101.5 661,-101.5 661,-82.5 496,-82.5"/>
 <text text-anchor="middle" x="578.5" y="-89.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getConductanceConfig</text>
 </a>
 </g>
 </g>
-<!-- Node1452&#45;&gt;Node1453 -->
+<!-- Node1456&#45;&gt;Node1457 -->
 <g id="edge6" class="edge">
-<title>Node1452&#45;&gt;Node1453</title>
+<title>Node1456&#45;&gt;Node1457</title>
 <path fill="none" stroke="#191970" d="M464.2395,-92C474.7512,-92 485.4301,-92 495.8261,-92"/>
 <polygon fill="#191970" stroke="#191970" points="464.2272,-88.5001 454.2272,-92 464.2271,-95.5001 464.2272,-88.5001"/>
 </g>
-<!-- Node1455 -->
+<!-- Node1459 -->
 <g id="node9" class="node">
-<title>Node1455</title>
+<title>Node1459</title>
 <g id="a_node9"><a xlink:href="classCARLsim.html#aaee4444a6b301f4d169f14513a36c496" target="_top" xlink:title="CARLsim::isGroupWithCOBA">
 <polygon fill="#ffffff" stroke="#000000" points="504.5,-38.5 504.5,-57.5 652.5,-57.5 652.5,-38.5 504.5,-38.5"/>
 <text text-anchor="middle" x="578.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::isGroupWithCOBA</text>
 </a>
 </g>
 </g>
-<!-- Node1454&#45;&gt;Node1455 -->
+<!-- Node1458&#45;&gt;Node1459 -->
 <g id="edge8" class="edge">
-<title>Node1454&#45;&gt;Node1455</title>
+<title>Node1458&#45;&gt;Node1459</title>
 <path fill="none" stroke="#191970" d="M470.2227,-48C481.7399,-48 493.3547,-48 504.4829,-48"/>
 <polygon fill="#191970" stroke="#191970" points="470.1414,-44.5001 460.1413,-48 470.1413,-51.5001 470.1414,-44.5001"/>
 </g>
-<!-- Node1457 -->
+<!-- Node1461 -->
 <g id="node11" class="node">
-<title>Node1457</title>
+<title>Node1461</title>
 <g id="a_node11"><a xlink:href="classCARLsim_1_1Impl.html#a37e12288373deae9fe0811818983b23e" target="_top" xlink:title="CARLsim::Impl::isGroupWithCUBA">
 <polygon fill="#ffffff" stroke="#000000" points="287,-.5 287,-19.5 460,-19.5 460,-.5 287,-.5"/>
 <text text-anchor="middle" x="373.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::isGroupWithCUBA</text>
 </a>
 </g>
 </g>
-<!-- Node1456&#45;&gt;Node1457 -->
+<!-- Node1460&#45;&gt;Node1461 -->
 <g id="edge10" class="edge">
-<title>Node1456&#45;&gt;Node1457</title>
+<title>Node1460&#45;&gt;Node1461</title>
 <path fill="none" stroke="#191970" d="M238.862,-14.1534C254.0731,-13.6841 270.7238,-13.1705 286.9704,-12.6693"/>
 <polygon fill="#191970" stroke="#191970" points="238.4711,-10.6637 228.5838,-14.4704 238.687,-17.6603 238.4711,-10.6637"/>
 </g>
-<!-- Node1458 -->
+<!-- Node1462 -->
 <g id="node12" class="node">
-<title>Node1458</title>
+<title>Node1462</title>
 <g id="a_node12"><a xlink:href="classCARLsim.html#a37e12288373deae9fe0811818983b23e" target="_top" xlink:title="CARLsim::isGroupWithCUBA">
 <polygon fill="#ffffff" stroke="#000000" points="504.5,-.5 504.5,-19.5 652.5,-19.5 652.5,-.5 504.5,-.5"/>
 <text text-anchor="middle" x="578.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::isGroupWithCUBA</text>
 </a>
 </g>
 </g>
-<!-- Node1457&#45;&gt;Node1458 -->
+<!-- Node1461&#45;&gt;Node1462 -->
 <g id="edge11" class="edge">
-<title>Node1457&#45;&gt;Node1458</title>
+<title>Node1461&#45;&gt;Node1462</title>
 <path fill="none" stroke="#191970" d="M470.2227,-10C481.7399,-10 493.3547,-10 504.4829,-10"/>
 <polygon fill="#191970" stroke="#191970" points="470.1414,-6.5001 460.1413,-10 470.1413,-13.5001 470.1414,-6.5001"/>
 </g>

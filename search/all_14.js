@@ -12,6 +12,7 @@ var searchData=
   ['unknown_5fstim',['UNKNOWN_STIM',['../visual__stimulus_8h.html#a385229baa919d7f241dacf1b8119e2f1afa68a51817cf3a2adc9c37566e4fa81d',1,'visual_stimulus.h']]],
   ['update_5fweights_5ferror1',['UPDATE_WEIGHTS_ERROR1',['../error__code_8h.html#aafcefa69867e9980941cb5836e862407',1,'error_code.h']]],
   ['updateconnectionmonitor',['updateConnectionMonitor',['../classSNN.html#a68862cb4e6c749219c20c38aeab06986',1,'SNN']]],
+  ['updatedelays',['updateDelays',['../classCARLsim.html#a3517d9fb7fd35ab493c6f3caa924461b',1,'CARLsim::updateDelays()'],['../classCARLsim_1_1Impl.html#a3517d9fb7fd35ab493c6f3caa924461b',1,'CARLsim::Impl::updateDelays()'],['../classSNN.html#a3517d9fb7fd35ab493c6f3caa924461b',1,'SNN::updateDelays()']]],
   ['updategroupmonitor',['updateGroupMonitor',['../classSNN.html#a14317186d53aeff564b126a41a333d3c',1,'SNN']]],
   ['updateinterval',['UpdateInterval',['../carlsim__datastructures_8h.html#a6a112e306743bc57fce49c5684d03a2e',1,'carlsim_datastructures.h']]],
   ['updateinterval_5fstring',['updateInterval_string',['../carlsim__datastructures_8h.html#a32fba4aa8ffe50e4c9b7a67f56f32452',1,'carlsim_datastructures.h']]],

@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CARLsim
-   &#160;<span id="projectnumber">6.0.0</span>
+   &#160;<span id="projectnumber">6.1.0</span>
    </div>
    <div id="projectbrief">CARLsim: a GPU-accelerated SNN simulator</div>
   </td>
@@ -141,6 +141,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1140f81bb80e9cc6de561c5213dd58d5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCARLsim.html#a1140f81bb80e9cc6de561c5213dd58d5">createSpikeGeneratorGroup</a> (const std::string &amp;grpName, const <a class="el" href="structGrid3D.html">Grid3D</a> &amp;grid, int neurType, int preferredPartition=<a class="el" href="carlsim__definitions_8h.html#a756cb5435a9a4479ee2066ab9da0dbae">ANY</a>, <a class="el" href="carlsim__datastructures_8h.html#abd8abb75fc2813034b9ec6106ac26935">ComputingBackend</a> preferredBackend=<a class="el" href="carlsim__datastructures_8h.html#abd8abb75fc2813034b9ec6106ac26935abb15133ac8fa07c26855e6062b5ce9c1">CPU_CORES</a>)</td></tr>
 <tr class="memdesc:a1140f81bb80e9cc6de561c5213dd58d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">create a group of spike generators on a 3D grid  <a href="#a1140f81bb80e9cc6de561c5213dd58d5">More...</a><br /></td></tr>
 <tr class="separator:a1140f81bb80e9cc6de561c5213dd58d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad13c02b52b9a865e150da3b256f06d4d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCARLsim.html#ad13c02b52b9a865e150da3b256f06d4d">findWavefrontPath</a> (std::vector&lt; int &gt; &amp;path, std::vector&lt; float &gt; &amp;eligibility, int netId, int grpId, int startNId, int goalNId)</td></tr>
+<tr class="memdesc:ad13c02b52b9a865e150da3b256f06d4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts the path from a spiking wave front and returns the eligibility trace.  <a href="#ad13c02b52b9a865e150da3b256f06d4d">More...</a><br /></td></tr>
+<tr class="separator:ad13c02b52b9a865e150da3b256f06d4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adca40e384322cbaa6bfda0fe6a6f3159"><td class="memItemLeft" align="right" valign="top"><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2">CARLsimState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCARLsim.html#adca40e384322cbaa6bfda0fe6a6f3159">getCARLsimState</a> ()</td></tr>
 <tr class="memdesc:adca40e384322cbaa6bfda0fe6a6f3159"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes population weights from gIDpre to gIDpost to file fname in binary.  <a href="#adca40e384322cbaa6bfda0fe6a6f3159">More...</a><br /></td></tr>
 <tr class="separator:adca40e384322cbaa6bfda0fe6a6f3159"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -295,6 +298,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aeebb0912ac3497ef828e666805371722"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCARLsim.html#aeebb0912ac3497ef828e666805371722">loadSimulation</a> (FILE *fid)</td></tr>
 <tr class="memdesc:aeebb0912ac3497ef828e666805371722"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a simulation (and network state) from file. The file pointer fid must point to a valid <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> network save file (created with <a class="el" href="classCARLsim.html#a3b08150d9a98f80df57852450c0d87ed" title="Saves important simulation and network infos to file. ">CARLsim::saveSimulation</a>).  <a href="#aeebb0912ac3497ef828e666805371722">More...</a><br /></td></tr>
 <tr class="separator:aeebb0912ac3497ef828e666805371722"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa596c1e0057978f4b98b708a7dc5d526"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCARLsim.html#aa596c1e0057978f4b98b708a7dc5d526">printEntrails</a> (char *buffer, unsigned length, int gGrpIdPre, int gGrpIdPost)</td></tr>
+<tr class="memdesc:aa596c1e0057978f4b98b708a7dc5d526"><td class="mdescLeft">&#160;</td><td class="mdescRight">print entrails of <a class="el" href="classSNN.html" title="Contains all of CARLsim&#39;s core functionality. ">SNN</a> to string buffer  <a href="#aa596c1e0057978f4b98b708a7dc5d526">More...</a><br /></td></tr>
+<tr class="separator:aa596c1e0057978f4b98b708a7dc5d526"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aafb2d44405c96aafe089f96ff867018d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCARLsim.html#aafb2d44405c96aafe089f96ff867018d">runNetwork</a> (int nSec, int nMsec=0, bool printRunSummary=true)</td></tr>
 <tr class="memdesc:aafb2d44405c96aafe089f96ff867018d"><td class="mdescLeft">&#160;</td><td class="mdescRight">run the simulation for time=(nSec*seconds + nMsec*milliseconds)  <a href="#aafb2d44405c96aafe089f96ff867018d">More...</a><br /></td></tr>
 <tr class="separator:aafb2d44405c96aafe089f96ff867018d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -472,6 +478,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aae1c74dcc597646739be4812e5872d71"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCARLsim.html#aae1c74dcc597646739be4812e5872d71">stopTesting</a> ()</td></tr>
 <tr class="memdesc:aae1c74dcc597646739be4812e5872d71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exits a testing phase, making weight changes possible again.  <a href="#aae1c74dcc597646739be4812e5872d71">More...</a><br /></td></tr>
 <tr class="separator:aae1c74dcc597646739be4812e5872d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3517d9fb7fd35ab493c6f3caa924461b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCARLsim.html#a3517d9fb7fd35ab493c6f3caa924461b">updateDelays</a> (int gGrpIdPre, int gGrpIdPost, std::vector&lt; std::tuple&lt; int, int, uint8_t &gt;&gt; connDelays)</td></tr>
+<tr class="memdesc:a3517d9fb7fd35ab493c6f3caa924461b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the delays directly the backend memory.  <a href="#a3517d9fb7fd35ab493c6f3caa924461b">More...</a><br /></td></tr>
+<tr class="separator:a3517d9fb7fd35ab493c6f3caa924461b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -565,7 +574,7 @@ Static Public Member Functions</h2></td></tr>
 <dd>
 <a class="el" href="classCARLsim.html#ae44a5bdfa2bd49f91e588c398d156c89" title="Sets the file pointers for all log files in CUSTOM mode. ">setLogsFpCustom</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02041">2041</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02057">2057</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 
 </div>
 </div>
@@ -584,7 +593,7 @@ Static Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02043">2043</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02059">2059</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 
 </div>
 </div>
@@ -636,18 +645,16 @@ Static Public Member Functions</h2></td></tr>
 <a class="el" href="classCARLsim.html#a1233e96d5b75c1de533375d52ee18869" title="reset Spike Counter to zero ">scaleWeights</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02304">2304</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02335">2335</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a075514437469255e73d058ce7a31092b_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a075514437469255e73d058ce7a31092b_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a075514437469255e73d058ce7a31092b_icgraph.svg" width="490" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a075514437469255e73d058ce7a31092b_icgraph.svg" width="490" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -751,12 +758,11 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd>a unique ID associated with the newly created connection </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>ch4s1_primitive_types </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02046">2046</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02062">2062</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a30b16b93d57551dcde0559e8a4e98e27_cgraph.svg" width="100%" height="565"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a30b16b93d57551dcde0559e8a4e98e27_cgraph.svg" width="100%" height="565"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -802,12 +808,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>ch4s3_user_defined </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02053">2053</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02069">2069</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_afe43f33ddd154aa799c2f1d1552bf988_cgraph.svg" width="100%" height="565"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_afe43f33ddd154aa799c2f1d1552bf988_cgraph.svg" width="100%" height="565"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -865,12 +870,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>ch4s3_user_defined </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02056">2056</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02072">2072</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a0567d9693e6f637491185975090a7d4c_cgraph.svg" width="100%" height="565"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a0567d9693e6f637491185975090a7d4c_cgraph.svg" width="100%" height="565"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -903,12 +907,11 @@ Here is the call graph for this function:</div>
 <p>first group is in the lower layer; second group is in the upper layer </p><dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000003">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd>CONFIG </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02062">2062</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02078">2078</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7ce184c0de7c3d3c80b27a1ea7bb3e59_cgraph.svg" width="100%" height="543"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7ce184c0de7c3d3c80b27a1ea7bb3e59_cgraph.svg" width="100%" height="543"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -959,12 +962,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000004">TODO:</a></b></dt><dd>finish doc </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02070">2070</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02086">2086</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a6e11c10b6b079715074d857452c42e11_cgraph.svg" width="343" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a6e11c10b6b079715074d857452c42e11_cgraph.svg" width="343" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1025,12 +1027,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02067">2067</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02083">2083</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1f3fc840427123fe1f24f8563d9bd7e0_cgraph.svg" width="343" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1f3fc840427123fe1f24f8563d9bd7e0_cgraph.svg" width="343" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1081,12 +1082,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000005">TODO:</a></b></dt><dd>finish doc </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02078">2078</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02094">2094</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a723d7b7887644e2444c980a5834414e3_cgraph.svg" width="382" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a723d7b7887644e2444c980a5834414e3_cgraph.svg" width="382" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1145,12 +1145,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v4.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02075">2075</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02091">2091</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a26b150f31495df9dda324f5e3e5240f5_cgraph.svg" width="382" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a26b150f31495df9dda324f5e3e5240f5_cgraph.svg" width="382" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1201,12 +1200,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000006">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02086">2086</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02102">2102</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a0bf4d12b0b90740faf9a2f6a4add0351_cgraph.svg" width="431" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a0bf4d12b0b90740faf9a2f6a4add0351_cgraph.svg" width="431" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1257,12 +1255,11 @@ Here is the call graph for this function:</div>
 <p>Neurons of a group can be arranged topographically, so that they virtually lie on a 3D grid. This simplifies the creation of topographic connections in the network. Each neuron thus gets assigned a (x,y,z) location on a 3D grid (integer coordinates). Neuron numbers will be assigned to location in order; where the first dimension specifies the width, the second dimension is height, and the third dimension is depth. <a class="el" href="structGrid3D.html" title="A struct to arrange neurons on a 3D grid (a primitive cubic Bravais lattice with cubic side length 1)...">Grid3D(2,2,2)</a> would thus assign neurId 0 to location (0,0,0), neurId 1 to (1,0,0), neurId 3 to (0,1,0), neurId 6 to (2,2,1), and so on. The third dimension can be thought of as a depth (z-coordinate in 3D), a cortical column (each of which consists of a 2D arrangement of neurons on a plane), or a channel (such as RGB channels, each of which consists of a 2D arrangements of neurons coding for (x,y) coordinates of an image). For the user's convenience, the struct thus provides members Grid3D::depth, Grid3D::column, and Grid3D::channels, which differ only semantically. </p><dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000007">TODO:</a></b></dt><dd>finish doc </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02083">2083</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02099">2099</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1140f81bb80e9cc6de561c5213dd58d5_cgraph.svg" width="431" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1140f81bb80e9cc6de561c5213dd58d5_cgraph.svg" width="431" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1292,8 +1289,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8e1efea50fcff581761bd7730d0afc59_icgraph.svg" width="336" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8e1efea50fcff581761bd7730d0afc59_icgraph.svg" width="336" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1334,8 +1330,68 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_ad9125d9ca019b694240d64c9af9b11d7_icgraph.svg" width="367" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_ad9125d9ca019b694240d64c9af9b11d7_icgraph.svg" width="367" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+
+</div>
+</div>
+<a id="ad13c02b52b9a865e150da3b256f06d4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad13c02b52b9a865e150da3b256f06d4d">&#9670;&nbsp;</a></span>findWavefrontPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void findWavefrontPath </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; float &gt; &amp;&#160;</td>
+          <td class="paramname"><em>eligibility</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>netId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>grpId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>startNId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>goalNId</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The the start and goal neurons are identified by local ids.</p>
+<dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02301">2301</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_ad13c02b52b9a865e150da3b256f06d4d_cgraph.svg" width="632" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1365,18 +1421,16 @@ Here is the caller graph for this function:</div>
 <p>Certain methods can only be called in certain states. Check their documentation to see which method can be called in which state.</p>
 <p>Certain methods perform state transitions. setupNetwork will change the state from <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> to <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>. The first call to runNetwork will change the state from <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a> to <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a>. </p><dl class="section return"><dt>Returns</dt><dd>current <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> state </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02366">2366</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02397">2397</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_adca40e384322cbaa6bfda0fe6a6f3159_cgraph.svg" width="382" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_adca40e384322cbaa6bfda0fe6a6f3159_cgraph.svg" width="382" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_adca40e384322cbaa6bfda0fe6a6f3159_icgraph.svg" width="523" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_adca40e384322cbaa6bfda0fe6a6f3159_icgraph.svg" width="523" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1400,12 +1454,11 @@ Here is the caller graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000005">Deprecated:</a></b></dt><dd>This function is deprecated. It will be replaced by <a class="el" href="classNeuronMonitor.html">NeuronMonitor</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02380">2380</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02411">2411</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a9f12565a3b01482ccba3b63c5d6c3279_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a9f12565a3b01482ccba3b63c5d6c3279_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1466,12 +1519,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02505">2505</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02536">2536</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a00ecb4d15c32a4c7327f2efae5157e79_cgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a00ecb4d15c32a4c7327f2efae5157e79_cgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1532,12 +1584,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02512">2512</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02543">2543</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a6d0e32e79eff33f23847e7b33f962855_cgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a6d0e32e79eff33f23847e7b33f962855_cgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1561,12 +1612,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000007">Deprecated:</a></b></dt><dd>This function is deprecated. It will be replaced by <a class="el" href="classNeuronMonitor.html">NeuronMonitor</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02386">2386</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02417">2417</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a42c7f8460a85cfb8566a1959da9a925d_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a42c7f8460a85cfb8566a1959da9a925d_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1590,12 +1640,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000008">Deprecated:</a></b></dt><dd>This function is deprecated. It will be replaced by <a class="el" href="classNeuronMonitor.html">NeuronMonitor</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02389">2389</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02420">2420</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa50bf7b25bc7c5c164e2a11ee763796e_cgraph.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa50bf7b25bc7c5c164e2a11ee763796e_cgraph.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1619,12 +1668,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000006">Deprecated:</a></b></dt><dd>This function is deprecated. It will be replaced by <a class="el" href="classNeuronMonitor.html">NeuronMonitor</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02383">2383</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02414">2414</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ab251be3aba6d73b79fdb0d44019b1790_cgraph.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ab251be3aba6d73b79fdb0d44019b1790_cgraph.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1647,12 +1695,11 @@ Here is the call graph for this function:</div>
 <p>This function returns the current STDP setting of a group. </p><dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd>GroupSTDPInfo </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02462">2462</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02493">2493</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af8249e8ed1482db90a1aa71c8219b6e5_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af8249e8ed1482db90a1aa71c8219b6e5_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1683,12 +1730,11 @@ Here is the call graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="structRangeDelay.html" title="a range struct for synaptic delays ">RangeDelay</a> struct </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02392">2392</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02423">2423</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aee3e497537bc8121f6c0c8fb3730ae72_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aee3e497537bc8121f6c0c8fb3730ae72_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1733,12 +1779,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000019">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02395">2395</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02426">2426</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aab97629d22d95919c0a44591aa272fbc_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aab97629d22d95919c0a44591aa272fbc_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1761,12 +1806,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000034">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02456">2456</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02487">2487</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a12040462a7fa56b1cbc871265b3f2f8c_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a12040462a7fa56b1cbc871265b3f2f8c_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1796,12 +1840,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the 3D grid struct of a group </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02400">2400</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02431">2431</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ac13b30c40669d3cb8264bd6e211b449d_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ac13b30c40669d3cb8264bd6e211b449d_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1824,12 +1867,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000021">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02402">2402</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02433">2433</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a757c874860e9e4d5ce0716e76b1a3e78_cgraph.svg" width="500" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a757c874860e9e4d5ce0716e76b1a3e78_cgraph.svg" width="500" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1852,12 +1894,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000022">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02405">2405</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02436">2436</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ab0367f8ebd4019bf7d34ebddb1563fe7_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ab0367f8ebd4019bf7d34ebddb1563fe7_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1881,12 +1922,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a4f0474a2fcb6fd0ef846e1492895caf5" title="A struct for retrieving neuromodulator information of a group. ">GroupNeuromodulatorInfo</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02465">2465</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02496">2496</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa1c9457d6e17337cfc20cee263f1159f_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa1c9457d6e17337cfc20cee263f1159f_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1909,12 +1949,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000035">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02459">2459</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02490">2490</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ad85b898d98abe24dcae4390f0fe61e84_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ad85b898d98abe24dcae4390f0fe61e84_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1937,12 +1976,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000033">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02453">2453</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02484">2484</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_acda1b88993a1c30fefeb2d6cf762154a_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_acda1b88993a1c30fefeb2d6cf762154a_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -1972,12 +2010,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v6.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02502">2502</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02533">2533</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a274b6b9ff6f04a3bc3ca28bb5a5a37af_cgraph.svg" width="534" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a274b6b9ff6f04a3bc3ca28bb5a5a37af_cgraph.svg" width="534" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1997,12 +2034,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02286">2286</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02317">2317</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a2bfe7f1049cc5fc91550d2a838c6c73f_cgraph.svg" width="543" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a2bfe7f1049cc5fc91550d2a838c6c73f_cgraph.svg" width="543" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2022,12 +2058,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02285">2285</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02316">2316</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_af31d11b85238bb8d81d90e81361d9804_cgraph.svg" width="522" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_af31d11b85238bb8d81d90e81361d9804_cgraph.svg" width="522" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2047,12 +2082,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02284">2284</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02315">2315</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_af62db576db4f982a48d18adbbe84994b_cgraph.svg" width="515" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_af62db576db4f982a48d18adbbe84994b_cgraph.svg" width="515" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2072,12 +2106,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02287">2287</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02318">2318</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a62495363b0ec3da7e68bf2a90bdc4fd8_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a62495363b0ec3da7e68bf2a90bdc4fd8_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2098,12 +2131,11 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p>A compartmentally enabled neuron group cannot have more than this number of compartmental connections. This value is controlled by MAX_NUM_COMP_CONN in <a class="el" href="carlsim__definitions_8h.html">carlsim_definitions.h</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02420">2420</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02451">2451</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5c117765c2b542aa29975fc10830556d_cgraph.svg" width="451" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5c117765c2b542aa29975fc10830556d_cgraph.svg" width="451" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2143,12 +2175,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>relNeurId the neuron ID (relative to the group) of the 3D location </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02414">2414</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02445">2445</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8f28281023666c073fff6141def960b5_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8f28281023666c073fff6141def960b5_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2180,12 +2211,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the 3D location a neuron codes for as a <a class="el" href="structPoint3D.html" title="a point in 3D space ">Point3D</a> struct </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02408">2408</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02439">2439</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aba1eac7ee46971637423204a63e9892b_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aba1eac7ee46971637423204a63e9892b_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2228,12 +2258,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the 3D location a neuron codes for as a <a class="el" href="structPoint3D.html" title="a point in 3D space ">Point3D</a> struct </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02411">2411</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02442">2442</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af750970a60eaa5f0cb82ae57c279443c_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af750970a60eaa5f0cb82ae57c279443c_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2256,12 +2285,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>the number of connections (pairs of pre-post groups) in the network </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02418">2418</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02449">2449</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a14efb66377e70d7f0f4596c223fbc5cc_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a14efb66377e70d7f0f4596c223fbc5cc_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2284,12 +2312,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000024">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02426">2426</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02457">2457</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a292bdee57fec7c77ec4c15ea3f508d60_cgraph.svg" width="572" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a292bdee57fec7c77ec4c15ea3f508d60_cgraph.svg" width="572" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2312,12 +2339,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000025">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02429">2429</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02460">2460</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a00ddee44990cd4763a7d4df074e6d405_cgraph.svg" width="594" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a00ddee44990cd4763a7d4df074e6d405_cgraph.svg" width="594" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2340,12 +2366,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000029">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02441">2441</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02472">2472</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_ab752381982aecc0f21ff6d54ae64dab4_cgraph.svg" width="666" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_ab752381982aecc0f21ff6d54ae64dab4_cgraph.svg" width="666" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2368,12 +2393,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000030">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02444">2444</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02475">2475</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ab63105935d2720c2fcadfd90fd8ea0be_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ab63105935d2720c2fcadfd90fd8ea0be_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2396,12 +2420,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000031">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02447">2447</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02478">2478</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5beb6b2d5a33475c1d93203e264765f1_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5beb6b2d5a33475c1d93203e264765f1_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2424,12 +2447,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000026">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02432">2432</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02463">2463</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a399c741b91112962a5c7b85205bdb98b_cgraph.svg" width="666" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a399c741b91112962a5c7b85205bdb98b_cgraph.svg" width="666" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2452,12 +2474,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000027">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02435">2435</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02466">2466</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af730845ef43618f40aa2d3dee0a18fe0_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af730845ef43618f40aa2d3dee0a18fe0_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2480,12 +2501,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000028">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02438">2438</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02469">2469</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aab3213bb39ea25778422e80887685424_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aab3213bb39ea25778422e80887685424_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2507,12 +2527,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000032">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02450">2450</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02481">2481</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7373a8cecde25ccd48b3df967b5b0417_cgraph.svg" width="620" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7373a8cecde25ccd48b3df967b5b0417_cgraph.svg" width="620" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2535,12 +2554,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000023">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02423">2423</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02454">2454</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a52f149e224abff772962dea6680398e2_cgraph.svg" width="100%" height="385"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a52f149e224abff772962dea6680398e2_cgraph.svg" width="100%" height="385"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2562,12 +2580,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000036">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02469">2469</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02500">2500</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5fd2b156623d78138bcb44167eabab78_cgraph.svg" width="519" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5fd2b156623d78138bcb44167eabab78_cgraph.svg" width="519" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2589,12 +2606,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000038">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02473">2473</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02504">2504</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4f7e6f277778475791addfe313087f23_cgraph.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4f7e6f277778475791addfe313087f23_cgraph.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2616,12 +2632,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000037">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02471">2471</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02502">2502</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a85facd004ae52ee52e72451b5d874fae_cgraph.svg" width="587" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a85facd004ae52ee52e72451b5d874fae_cgraph.svg" width="587" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2666,18 +2681,16 @@ CARLsim::resetSpikeCounter</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>pointer to <a class="el" href="classSpikeMonitor.html" title="Class SpikeMonitor. ">SpikeMonitor</a> object if exists, NULL else </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02476">2476</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02507">2507</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a866a9c6e2b2630816fc66adda1381655_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a866a9c6e2b2630816fc66adda1381655_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a866a9c6e2b2630816fc66adda1381655_icgraph.svg" width="538" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a866a9c6e2b2630816fc66adda1381655_icgraph.svg" width="538" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2708,18 +2721,16 @@ Here is the caller graph for this function:</div>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="structRangeWeight.html" title="a range struct for synaptic weight magnitudes ">RangeWeight</a> struct </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02479">2479</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02510">2510</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4afa2f85f5939e81ec45c7760e23d932_cgraph.svg" width="100%" height="470"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4afa2f85f5939e81ec45c7760e23d932_cgraph.svg" width="100%" height="470"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4afa2f85f5939e81ec45c7760e23d932_icgraph.svg" width="514" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4afa2f85f5939e81ec45c7760e23d932_icgraph.svg" width="514" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2749,12 +2760,11 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v3.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02482">2482</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02513">2513</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a821a04dec998f1fcebcc048d39cc8b21_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a821a04dec998f1fcebcc048d39cc8b21_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2777,12 +2787,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000039">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02521">2521</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02552">2552</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a31ec8880e31fbcb9d002d713ce0d8f1d_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a31ec8880e31fbcb9d002d713ce0d8f1d_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2813,12 +2822,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02496">2496</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02527">2527</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a9b8aa1975049078149d963fb8eb06215_cgraph.svg" width="524" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a9b8aa1975049078149d963fb8eb06215_cgraph.svg" width="524" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2839,12 +2847,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02498">2498</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02529">2529</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aaee4444a6b301f4d169f14513a36c496_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aaee4444a6b301f4d169f14513a36c496_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2865,12 +2872,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02500">2500</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02531">2531</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a37e12288373deae9fe0811818983b23e_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a37e12288373deae9fe0811818983b23e_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2900,12 +2906,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v3.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02485">2485</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02516">2516</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa9a9c5646dd11beb60fcf70d2216024a_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa9a9c5646dd11beb60fcf70d2216024a_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2928,12 +2933,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000040">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02523">2523</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02554">2554</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a3f0193605d59ef263b682a468bbcbf87_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a3f0193605d59ef263b682a468bbcbf87_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2956,12 +2960,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000041">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02525">2525</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02556">2556</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ae136e178382096490a2d34f78cd2afa2_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ae136e178382096490a2d34f78cd2afa2_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -2990,12 +2993,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v6.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02489">2489</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02520">2520</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_ad4930e827d0e5cc6a63dc4a07e1879dc_cgraph.svg" width="651" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_ad4930e827d0e5cc6a63dc4a07e1879dc_cgraph.svg" width="651" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3024,12 +3026,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v6.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02491">2491</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02522">2522</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_abde047c2a6a1d24f09055ecda4a8f7e1_cgraph.svg" width="651" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_abde047c2a6a1d24f09055ecda4a8f7e1_cgraph.svg" width="651" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3064,12 +3065,69 @@ In addition, <a class="el" href="classCARLsim.html#a3b08150d9a98f80df57852450c0d
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classCARLsim.html#a3b08150d9a98f80df57852450c0d87ed" title="Saves important simulation and network infos to file. ">CARLsim::saveSimulation</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v2.0 </dd></dl>
 
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02340">2340</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_aeebb0912ac3497ef828e666805371722_cgraph.svg" width="574" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="aa596c1e0057978f4b98b708a7dc5d526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa596c1e0057978f4b98b708a7dc5d526">&#9670;&nbsp;</a></span>printEntrails()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void printEntrails </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned&#160;</td>
+          <td class="paramname"><em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>gGrpIdPre</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>gGrpIdPost</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Pretty printing of interal structures to support unit testing.</p>
+<dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">buffer</td><td>the string buffer that holds the pretty printing content </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">length</td><td>the size of the string buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gGrpIdPre</td><td>the global ID of the pre-synaptic group </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gGrpIdPost</td><td>the global ID of the post-synaptic group </td></tr>
+  </table>
+  </dd>
+</dl>
+
 <p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02309">2309</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_aeebb0912ac3497ef828e666805371722_cgraph.svg" width="574" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa596c1e0057978f4b98b708a7dc5d526_cgraph.svg" width="515" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3115,18 +3173,16 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02272">2272</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02288">2288</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aafb2d44405c96aafe089f96ff867018d_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aafb2d44405c96aafe089f96ff867018d_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_aafb2d44405c96aafe089f96ff867018d_icgraph.svg" width="484" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_aafb2d44405c96aafe089f96ff867018d_icgraph.svg" width="484" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3168,12 +3224,11 @@ Here is the caller graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classCARLsim.html#aeebb0912ac3497ef828e666805371722" title="Loads a simulation (and network state) from file. The file pointer fid must point to a valid CARLsim ...">CARLsim::loadSimulation</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v2.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02290">2290</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02321">2321</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a3b08150d9a98f80df57852450c0d87ed_cgraph.svg" width="582" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a3b08150d9a98f80df57852450c0d87ed_cgraph.svg" width="582" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3237,12 +3292,11 @@ CARLsim::getSpikeCounter</dd></dl>
 <a class="el" href="classCARLsim.html#a075514437469255e73d058ce7a31092b" title="Adds a constant bias to the weight of every synapse in the connection. ">biasWeights</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02312">2312</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02343">2343</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1233e96d5b75c1de533375d52ee18869_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1233e96d5b75c1de533375d52ee18869_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -3271,12 +3325,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02120">2120</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02136">2136</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a0629130336e8ccb546ed4280ef2e1e26_cgraph.svg" width="342" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a0629130336e8ccb546ed4280ef2e1e26_cgraph.svg" width="342" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3322,12 +3375,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02090">2090</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02106">2106</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_adb7dd274136fd2a3307c0f7f0767275a_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_adb7dd274136fd2a3307c0f7f0767275a_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -3356,12 +3408,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02096">2096</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02112">2112</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a580acd7bfec3145c00014b0bd1742e2e_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a580acd7bfec3145c00014b0bd1742e2e_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3422,12 +3473,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02099">2099</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02115">2115</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7a01382df0353bdb1200f4f7a0d2a185_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7a01382df0353bdb1200f4f7a0d2a185_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3502,12 +3552,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02102">2102</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02118">2118</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a2f35a57571cb1a5ba505246fb706311e_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a2f35a57571cb1a5ba505246fb706311e_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3547,12 +3596,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02108">2108</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02124">2124</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4ce75a9312f391d99e402853542daf2c_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4ce75a9312f391d99e402853542daf2c_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3619,12 +3667,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02112">2112</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02128">2128</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8656e3f2bb383d1ca403095c52bd834e_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8656e3f2bb383d1ca403095c52bd834e_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3705,12 +3752,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02116">2116</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02132">2132</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a43fab88d5b916f4b1001f4176e32a477_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a43fab88d5b916f4b1001f4176e32a477_cgraph.svg" width="615" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3747,12 +3793,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02224">2224</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02240">2240</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aceb9ef9d09b941d06f3619131ed2d950_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aceb9ef9d09b941d06f3619131ed2d950_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -3805,12 +3850,11 @@ Here is the call graph for this function:</div>
 <dd>
 ch9s1_matlab_oat </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02317">2317</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02348">2348</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a0f4f273689484d0ceaa5a40f64fc82fc_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a0f4f273689484d0ceaa5a40f64fc82fc_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -3877,12 +3921,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02527">2527</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02558">2558</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a19dee0cb90e81a639376e253cf142d3f_cgraph.svg" width="638" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a19dee0cb90e81a639376e253cf142d3f_cgraph.svg" width="638" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3934,12 +3977,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000010">Deprecated:</a></b></dt><dd>For clearness, setting STDP parameters using setESTDP and setISTDP is strongly recommended. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02549">2549</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02580">2580</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a800d13fcd2488793532832fb094c252f_cgraph.svg" width="612" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a800d13fcd2488793532832fb094c252f_cgraph.svg" width="612" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -3972,12 +4014,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000042">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02534">2534</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02565">2565</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a13fbb8775775a31cb974b709430a6d30_cgraph.svg" width="646" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a13fbb8775775a31cb974b709430a6d30_cgraph.svg" width="646" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -4029,12 +4070,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000011">Deprecated:</a></b></dt><dd>For clearness, setting STDP parameters using setESTDP and setISTDP is strongly recommended. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02554">2554</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02585">2585</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5640d10d796eb10b044cfc8c2e021619_cgraph.svg" width="607" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5640d10d796eb10b044cfc8c2e021619_cgraph.svg" width="607" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -4067,12 +4107,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000043">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02539">2539</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02570">2570</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a47e42a4aff33749f6040039bdff2bf9a_cgraph.svg" width="599" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a47e42a4aff33749f6040039bdff2bf9a_cgraph.svg" width="599" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -4124,12 +4163,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000009">Deprecated:</a></b></dt><dd>For clearness, setting STDP parameters using setESTDP and setISTDP is strongly recommended. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02544">2544</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02575">2575</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4eaad13df15f4a2710688a7be024a4f2_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4eaad13df15f4a2710688a7be024a4f2_cgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4189,12 +4227,11 @@ Here is the call graph for this function:</div>
 <a class="el" href="classCARLsim.html#a54170c96807d6cdf699fa3664f81505e" title="Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically) ">setSTP(int, bool, float, float, float)</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02559">2559</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02590">2590</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_abb10cfa3d0f3a246442e1187ecb837ae_cgraph.svg" width="100%" height="593"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_abb10cfa3d0f3a246442e1187ecb837ae_cgraph.svg" width="100%" height="593"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4235,12 +4272,11 @@ Here is the call graph for this function:</div>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">Deprecated:</a></b></dt><dd>For clearness, please do not use default STDP settings. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02211">2211</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02227">2227</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ac79aadf0ac87b2ae34f39ae796ad81a3_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ac79aadf0ac87b2ae34f39ae796ad81a3_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4303,12 +4339,11 @@ Here is the call graph for this function:</div>
 <a class="el" href="structExpCurve.html" title="A struct to assign exponential STDP curves. ">ExpCurve</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02214">2214</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02230">2230</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_adbca260c6751a0d6570f6206e1f60b50_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_adbca260c6751a0d6570f6206e1f60b50_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4373,12 +4408,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02220">2220</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02236">2236</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a654068d2d444462b6ba4b5cddf641650_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a654068d2d444462b6ba4b5cddf641650_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4441,12 +4475,11 @@ Here is the call graph for this function:</div>
 <a class="el" href="structTimingBasedCurve.html" title="A struct to assign a timing-based E-STDP curve. ">TimingBasedCurve</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02230">2230</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02246">2246</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a45d4ebed07a1bf9014e476b9b8f49ec8_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a45d4ebed07a1bf9014e476b9b8f49ec8_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4498,12 +4531,11 @@ If all neurons in the group should receive the same amount of current, you can u
 <dd>
 <a class="el" href="ch6_input.html#ch6s2_generating_current">6.2 Generating Current</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02322">2322</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02353">2353</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a875708f5a61243433e23e99ce4d6aea1_cgraph.svg" width="100%" height="503"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a875708f5a61243433e23e99ce4d6aea1_cgraph.svg" width="100%" height="503"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4546,12 +4578,11 @@ If each neuron in the group should receive a different amount of current, you ca
 <dd>
 <a class="el" href="ch6_input.html#ch6s2_generating_current">6.2 Generating Current</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02327">2327</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02358">2358</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a223dcbca759d4e8ac62b0865c3ee1c4c_cgraph.svg" width="100%" height="503"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a223dcbca759d4e8ac62b0865c3ee1c4c_cgraph.svg" width="100%" height="503"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4591,12 +4622,11 @@ Here is the call graph for this function:</div>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a></dd></dl>
 <p>LN2020: mode = DA_MODE -&gt; dopamine, compatibility, ALL_MODE -&gt; all neuro transmitter </p>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02330">2330</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02361">2361</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8ea5d069c849b257d8de63aa482f8837_cgraph.svg" width="100%" height="505"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8ea5d069c849b257d8de63aa482f8837_cgraph.svg" width="100%" height="505"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4643,12 +4673,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02136">2136</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02152">2152</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4f0d341bb17f0d6e0b3aa8db28ef4513_cgraph.svg" width="100%" height="504"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a4f0d341bb17f0d6e0b3aa8db28ef4513_cgraph.svg" width="100%" height="504"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4704,12 +4733,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02130">2130</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02146">2146</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ae51c28f77c75f2a5adab1b511465090f_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ae51c28f77c75f2a5adab1b511465090f_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4750,12 +4778,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02133">2133</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02149">2149</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af9e05685af30a329664ab73a6a420d7f_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af9e05685af30a329664ab73a6a420d7f_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4786,12 +4813,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02140">2140</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02156">2156</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a3c23ef1a19946fdd9c096367a45ac48e_cgraph.svg" width="631" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a3c23ef1a19946fdd9c096367a45ac48e_cgraph.svg" width="631" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -4832,12 +4858,11 @@ Here is the call graph for this function:</div>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd>For clearness, please do not use default STDP settings. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02235">2235</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02251">2251</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a675bb0d593722135066c11b0d3d99d50_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a675bb0d593722135066c11b0d3d99d50_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4900,12 +4925,11 @@ Here is the call graph for this function:</div>
 <a class="el" href="structExpCurve.html" title="A struct to assign exponential STDP curves. ">ExpCurve</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02238">2238</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02254">2254</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a30b0193a57cdc6ae3a2aa4cb9e3bc214_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a30b0193a57cdc6ae3a2aa4cb9e3bc214_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -4968,12 +4992,11 @@ Here is the call graph for this function:</div>
 <a class="el" href="structPulseCurve.html" title="struct to assign a pulse I-STDP curve ">PulseCurve</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02243">2243</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02259">2259</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8c7001b91b04109d181be94009cf263d_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8c7001b91b04109d181be94009cf263d_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5005,12 +5028,11 @@ Here is the call graph for this function:</div>
 <dl class="section attention"><dt>Attention</dt><dd>Make sure the directory exists! </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classCARLsim.html#ae44a5bdfa2bd49f91e588c398d156c89" title="Sets the file pointers for all log files in CUSTOM mode. ">setLogsFpCustom</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02295">2295</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02326">2326</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a94f066b8c3708203914c9c84ffae41a8_cgraph.svg" width="524" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a94f066b8c3708203914c9c84ffae41a8_cgraph.svg" width="524" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -5068,12 +5090,11 @@ Here is the call graph for this function:</div>
 Use NULL in order not to change current file pointers. </dd></dl>
 <dl class="section attention"><dt>Attention</dt><dd>Make sure to fclose the file pointers. But, do not fclose stdout or stderr, or they will remain closed for the remainder of the process. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02298">2298</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02329">2329</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_ae44a5bdfa2bd49f91e588c398d156c89_cgraph.svg" width="572" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_ae44a5bdfa2bd49f91e588c398d156c89_cgraph.svg" width="572" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -5161,12 +5182,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02189">2189</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02205">2205</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a88198ca833c0d254d5e7d75d2c8ee4fb_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a88198ca833c0d254d5e7d75d2c8ee4fb_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5287,12 +5307,11 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02176">2176</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02192">2192</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7cda0a72b53f907563e20862c10ce4bf_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7cda0a72b53f907563e20862c10ce4bf_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5343,12 +5362,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000011">TODO:</a></b></dt><dd>: this should be implemented via default arguments as members of the class, so that the user can call setDefaultNeuromodulators()</dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02196">2196</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02212">2212</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5cca1db130bdb0532beb07a3925cfcfa_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5cca1db130bdb0532beb07a3925cfcfa_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5398,12 +5416,11 @@ Here is the call graph for this function:</div>
 <dd>
 ch9s1_matlab_oat </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02345">2345</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02376">2376</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a9f96445ca9cb3edb1532b6c741ec5736_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a9f96445ca9cb3edb1532b6c741ec5736_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5478,12 +5495,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000008">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02146">2146</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02162">2162</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa6e1dc5ae50722ae3d693f2c963d84cd_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa6e1dc5ae50722ae3d693f2c963d84cd_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5534,12 +5550,11 @@ Here is the call graph for this function:</div>
 <dl class="TODO"><dt><b><a class="el" href="TODO.html#_TODO000009">TODO:</a></b></dt><dd>finish docu </dd></dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02151">2151</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02167">2167</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a2427fe79723f44b7bcfad7b197e130da_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a2427fe79723f44b7bcfad7b197e130da_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5635,12 +5650,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v3.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02155">2155</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02171">2171</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8918edb72018e769d344034ad54c1135_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a8918edb72018e769d344034ad54c1135_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5799,12 +5813,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section since"><dt>Since</dt><dd>v3.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02161">2161</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02177">2177</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5d412fc890ad0668eef5907126d270d6_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a5d412fc890ad0668eef5907126d270d6_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5871,12 +5884,11 @@ Here is the call graph for this function:</div>
 </dl>
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02171">2171</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02187">2187</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ae8becfdd05912ef1406493f7f28074b8_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_ae8becfdd05912ef1406493f7f28074b8_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -5941,12 +5953,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02257">2257</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02273">2273</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aac61df1a82373e89549e608b78557b82_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aac61df1a82373e89549e608b78557b82_cgraph.svg" width="100%" height="404"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -6014,12 +6025,11 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <p>This generalizes the concepts given in Krichmar 2012,2013 and Av 2015 and B 2019 by .. considering all possible NM level in a target neuron group and .. with factor e.g. for Krichmar 2021 type=ACNE12, wACh and wNE is .5f, wNorm=1.f, and .0f otherwise. </p>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02124">2124</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02140">2140</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_aeda549f4dcee2377a1b335ea96b340f5_cgraph.svg" width="607" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_aeda549f4dcee2377a1b335ea96b340f5_cgraph.svg" width="607" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -6079,12 +6089,11 @@ CARLsim::resetSpikeCounter</dd></dl>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="ch6_input.html#ch6s1_generating_spikes">6.1 Generating Spikes</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02335">2335</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02366">2366</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_adc71069e71cd551526ddafb3d873d649_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_adc71069e71cd551526ddafb3d873d649_cgraph.svg" width="100%" height="448"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -6134,18 +6143,16 @@ Here is the call graph for this function:</div>
 <dd>
 ch9s1_matlab_oat </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02340">2340</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02371">2371</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1e0b4d170b65f5075f1a996554c842ab_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1e0b4d170b65f5075f1a996554c842ab_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1e0b4d170b65f5075f1a996554c842ab_icgraph.svg" width="538" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a1e0b4d170b65f5075f1a996554c842ab_icgraph.svg" width="538" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -6199,12 +6206,11 @@ setSpikeRate will <em>not</em> take over ownership of <a class="el" href="classP
 <dd>
 <a class="el" href="classCARLsim.html#adc71069e71cd551526ddafb3d873d649" title="A SpikeCounter keeps track of the number of spikes per neuron in a group. ">setSpikeGenerator</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02350">2350</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02381">2381</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a04f52d2840105c8ccacf8d378d1695cf_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a04f52d2840105c8ccacf8d378d1695cf_cgraph.svg" width="100%" height="511"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -6245,12 +6251,11 @@ Here is the call graph for this function:</div>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>For clearness, do not use default STDP settings. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v2.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02201">2201</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02217">2217</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af69130fee82ddc631a62ed0878c65e9f_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af69130fee82ddc631a62ed0878c65e9f_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -6321,12 +6326,11 @@ Here is the call graph for this function:</div>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>For clearness, please use <a class="el" href="classCARLsim.html#ac79aadf0ac87b2ae34f39ae796ad81a3" title="Sets default E-STDP mode and parameters. ">CARLsim::setESTDP()</a> with E-STDP curve struct. </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v2.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02204">2204</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02220">2220</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7af60b34ea648c0cd4f0c762e6dd6f34_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a7af60b34ea648c0cd4f0c762e6dd6f34_cgraph.svg" width="100%" height="518"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -6394,12 +6398,11 @@ Here is the call graph for this function:</div>
 <dd>
 All outgoing synapses of a certain (pre-synaptic) neuron share the resources of that same neuron. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02248">2248</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02264">2264</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a54170c96807d6cdf699fa3664f81505e_cgraph.svg" width="100%" height="504"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_a54170c96807d6cdf699fa3664f81505e_cgraph.svg" width="100%" height="504"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -6448,12 +6451,11 @@ All outgoing synapses of a certain (pre-synaptic) neuron share the resources of 
 <a class="el" href="classCARLsim.html#a54170c96807d6cdf699fa3664f81505e" title="Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically) ">setSTP(int, bool, float, float, float)</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02253">2253</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02269">2269</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa2a365fb2d2fa56ec274bc4ba7be6747_cgraph.svg" width="100%" height="504"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_aa2a365fb2d2fa56ec274bc4ba7be6747_cgraph.svg" width="100%" height="504"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -6474,12 +6476,11 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 <dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a>. Will make <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> state switch from <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2ac7fa385000dcb927a21b44bce4fbfca9" title="configuration state, where the neural network is configured ">CONFIG_STATE</a> to <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02277">2277</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02293">2293</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a6d6c298c788eeb7b18a19d82a77761b3_cgraph.svg" width="566" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a6d6c298c788eeb7b18a19d82a77761b3_cgraph.svg" width="566" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -6501,8 +6502,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a927b0be20545057c25b97511a6b8bb14_icgraph.svg" width="534" height="63"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a927b0be20545057c25b97511a6b8bb14_icgraph.svg" width="534" height="63"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -6572,12 +6572,11 @@ A weight cannot drop below zero, no matter what. </dd></dl>
 <a class="el" href="classCARLsim.html#a1233e96d5b75c1de533375d52ee18869" title="reset Spike Counter to zero ">scaleWeights</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.0 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02355">2355</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02386">2386</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af67a432c859556cff7d6b1d59638ad01_cgraph.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_af67a432c859556cff7d6b1d59638ad01_cgraph.svg" width="100%" height="442"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -6623,12 +6622,11 @@ Here is the call graph for this function:</div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02264">2264</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02280">2280</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_abee8ce393443c7bcf296a0014b6ff4c9_cgraph.svg" width="100%" height="378"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classCARLsim_abee8ce393443c7bcf296a0014b6ff4c9_cgraph.svg" width="100%" height="378"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -6661,12 +6659,11 @@ Here is the call graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classCARLsim.html#aae1c74dcc597646739be4812e5872d71" title="Exits a testing phase, making weight changes possible again. ">CARLsim::stopTesting</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02360">2360</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02391">2391</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_abdef62cc54aac9c9e6e4c4e712452d64_cgraph.svg" width="542" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_abdef62cc54aac9c9e6e4c4e712452d64_cgraph.svg" width="542" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -6691,12 +6688,62 @@ Here is the call graph for this function:</div>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classCARLsim.html#abdef62cc54aac9c9e6e4c4e712452d64" title="Enters a testing phase in which all weight changes are disabled. ">CARLsim::startTesting</a> </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>v3.1 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02363">2363</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02394">2394</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_aae1c74dcc597646739be4812e5872d71_cgraph.svg" width="540" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_aae1c74dcc597646739be4812e5872d71_cgraph.svg" width="540" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
+
+</div>
+</div>
+<a id="a3517d9fb7fd35ab493c6f3caa924461b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3517d9fb7fd35ab493c6f3caa924461b">&#9670;&nbsp;</a></span>updateDelays()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool updateDelays </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>gGrpIdPre</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>gGrpIdPost</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::tuple&lt; int, int, uint8_t &gt;&gt;&#160;</td>
+          <td class="paramname"><em>connDelays</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>The connection delays to be updated are passed as a vector of tuples (neuronIdPre, neuronIdPost, delay). The neuron ids reference the pre- and post-synaptic neuron group.</p>
+<dl class="section user"><dt>Allowed CARLsim states:</dt><dd><a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a033f2f21470e4f79d5dc459619a6980c" title="setup state, where the neural network is prepared for execution and monitors are set ...">SETUP_STATE</a>, <a class="el" href="carlsim__datastructures_8h.html#a8d0d24f2706656b1102c5e3624df65b2a67606f8f4ae6a12252ebcf0ddc2cc652" title="run state, where the model is stepped ">RUN_STATE</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">gGrpIdPre</td><td>the global ID of the pre-synaptic group </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">gGrpIdPost</td><td>the global ID of the post-synaptic group </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">connDelays</td><td>the new delays as tuples (neuronIdPre, neuronIdPost, delay) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="carlsim_8cpp_source.html#l02305">2305</a> of file <a class="el" href="carlsim_8cpp_source.html">carlsim.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classCARLsim_a3517d9fb7fd35ab493c6f3caa924461b_cgraph.svg" width="548" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -6711,7 +6758,7 @@ Here is the call graph for this function:</div>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classCARLsim.html">CARLsim</a></li>
-    <li class="footer">Generated on Thu Jul 14 2022 18:14:02 for CARLsim by
+    <li class="footer">Generated on Mon Jul 10 2023 12:42:39 for CARLsim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

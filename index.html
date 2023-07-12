@@ -29,7 +29,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">CARLsim
-   &#160;<span id="projectnumber">6.0.0</span>
+   &#160;<span id="projectnumber">6.1.0</span>
    </div>
    <div id="projectbrief">CARLsim: a GPU-accelerated SNN simulator</div>
   </td>
@@ -86,18 +86,19 @@ $(document).ready(function(){initNavTree('index.html','');});
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#main_carlsim">CARLsim 6</a></li>
+<ul><li class="level1"><a href="#main_carlsim">CARLsim 6.1</a></li>
 <li class="level1"><a href="#main_getting_started">Getting Started</a></li>
 <li class="level1"><a href="#main_ref">References</a></li>
 </ul>
 </div>
 <div class="textblock"><h1><a class="anchor" id="main_carlsim"></a>
-CARLsim 6</h1>
+CARLsim 6.1</h1>
 <p><a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> is an efficient, easy-to-use, GPU-accelerated library for simulating large-scale spiking neural network (<a class="el" href="classSNN.html" title="Contains all of CARLsim&#39;s core functionality. ">SNN</a>) models with a high degree of biological detail. <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> allows execution of networks of Izhikevich spiking neurons with realistic synaptic dynamics on both generic x86 CPUs and standard off-the-shelf GPUs. The simulator provides a PyNN-like programming interface (C/C++), which allows for details and parameters to be specified at the synapse, neuron, and network level.</p>
 <p>The present release, <a class="el" href="classCARLsim.html" title="CARLsim User Interface This class provides a user interface to the public sections of CARLsimCore sou...">CARLsim</a> 6, builds on the efficiency and scalability of releases 4 and 5. The functionality of the simulator has been greatly expanded by the addition of a number of features that enable and simplify the creation, tuning, and simulation of complex networks with spatial structure.</p>
 <p>New features include:</p><ul>
-<li>CUDA 11 support and cMake build system (see <a class="el" href="ch1_getting_started.html">Chapter 1: Getting Started</a>)</li>
+<li>Axonal Plasticity learning rule (see ch21_axonal_plasticity)</li>
 <li>Neuromodulatory features (see <a class="el" href="ch20_neuromodulation.html">Chapter 14: Neuromodulation</a>)</li>
+<li>CUDA 11 support and cMake build system (see <a class="el" href="ch1_getting_started.html">Chapter 1: Getting Started</a>)</li>
 <li>Automated parameter tuning interface that utilizes evolutionary algorithms for Python (LEAP) (see <a class="el" href="ch10_ecj_leap.html">10. Parameter-Tuning ECJ and LEAP</a>)</li>
 <li>Extended test suite for functional code verification (see <a class="el" href="ch11_regression_suite.html">Chapter 11: Regression Suite</a>)</li>
 </ul>
@@ -113,6 +114,7 @@ References</h1>
 <p>For the most up-to-date information, software packages, and announcements, please refer to the <a href="http://www.socsci.uci.edu/~jkrichma/CARLsim/index.html" target="_blank"><b>CARL Website</b></a> or join the <a href="https://department-lists.uci.edu/mailman/listinfo/ics-carlsim" target="_blank">CARLsim Release Info</a> mailing list.</p>
 <p>The simulator—along with its various releases, computational studies, and sample code—has previously been published in the following studies:</p>
 <ul>
+<li>Niedermeier, L. and Krichmar, J.L. (2023). Experience-Dependent Axonal Plasticity in Large-Scale Spiking Neural Network Simulations. (To appear in IJCNN 2023) (CARLsim_6.1)</li>
 <li>Niedermeier, L., Chen, K., Xing, J., Das, A., Kopsick, J., Scott, E., Sutton, N., Weber, K., Dutt, N., and Krichmar, J.L. (2022). CARLsim6: An Open Source Library for Large-Scale, Biologically Detailed Spiking Neural Network Simulation. (To appear in WCCI IJCNN 2022) (CARLsim_6.0)</li>
 <li>Balaji, A., Adiraju, P., Kashyap, H. J., Das, A., Krichmar, J. L., Dutt, N. D., &amp; Catthoor, F. (2020). PyCARL: A PyNN Interface for Hardware-Software Co-Simulation of Spiking Neural Network. arXiv preprint arXiv:2003.09696. (To appear in IJCNN 2020) (CARLsim_v5.0)</li>
 <li>Chou, T.-S.*, Kashyap, H.J.*, Xing, J., Listopad, S., Rounds, E., Beyeler, M., Dutt, N., and Krichmar, J.L. (2018). CARLsim4: An Open Source Library for Large Scale, Biologically Detailed Spiking Neural Network Simulation using Heterogeneous Clusters. Paper presented at: International Joint Conference on Neural Networks (Rio de Janeiro, Brazil). (<em>equal contribution) (CARLsim_v4.0)</em></li>
@@ -127,7 +129,7 @@ References</h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Thu Jul 14 2022 18:15:52 for CARLsim by
+    <li class="footer">Generated on Mon Jul 10 2023 12:43:00 for CARLsim by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

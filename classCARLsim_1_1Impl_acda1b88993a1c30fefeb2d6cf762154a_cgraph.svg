@@ -9,69 +9,69 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>getGroupStartNeuronId</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 448,-100 448,4 -4,4"/>
-<!-- Node255 -->
+<!-- Node259 -->
 <g id="node1" class="node">
-<title>Node255</title>
+<title>Node259</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 117,-57.5 117,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="58.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupStartNeuronId</text>
 </g>
-<!-- Node256 -->
+<!-- Node260 -->
 <g id="node2" class="node">
-<title>Node256</title>
+<title>Node260</title>
 <g id="a_node2"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="167.5,-76.5 167.5,-95.5 283.5,-95.5 283.5,-76.5 167.5,-76.5"/>
 <text text-anchor="middle" x="225.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node255&#45;&gt;Node256 -->
+<!-- Node259&#45;&gt;Node260 -->
 <g id="edge1" class="edge">
-<title>Node255&#45;&gt;Node256</title>
+<title>Node259&#45;&gt;Node260</title>
 <path fill="none" stroke="#191970" d="M100.6412,-57.589C122.8771,-62.6487 150.3482,-68.8996 173.8564,-74.2488"/>
 <polygon fill="#191970" stroke="#191970" points="173.1345,-77.6739 183.6619,-76.4799 174.6877,-70.8484 173.1345,-77.6739"/>
 </g>
-<!-- Node257 -->
+<!-- Node261 -->
 <g id="node3" class="node">
-<title>Node257</title>
+<title>Node261</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="184,-38.5 184,-57.5 267,-57.5 267,-38.5 184,-38.5"/>
 <text text-anchor="middle" x="225.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node255&#45;&gt;Node257 -->
+<!-- Node259&#45;&gt;Node261 -->
 <g id="edge2" class="edge">
-<title>Node255&#45;&gt;Node257</title>
+<title>Node259&#45;&gt;Node261</title>
 <path fill="none" stroke="#191970" d="M117.378,-48C135.747,-48 155.862,-48 173.7076,-48"/>
 <polygon fill="#191970" stroke="#191970" points="173.9223,-51.5001 183.9223,-48 173.9223,-44.5001 173.9223,-51.5001"/>
 </g>
-<!-- Node259 -->
+<!-- Node263 -->
 <g id="node5" class="node">
-<title>Node259</title>
+<title>Node263</title>
 <g id="a_node5"><a xlink:href="classSNN.html#ae9a5dd6d3dac75c7c82667ac74cf4b34" target="_top" xlink:title="SNN::getGroupStartNeuronId">
 <polygon fill="#ffffff" stroke="#000000" points="153,-.5 153,-19.5 298,-19.5 298,-.5 153,-.5"/>
 <text text-anchor="middle" x="225.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupStartNeuronId</text>
 </a>
 </g>
 </g>
-<!-- Node255&#45;&gt;Node259 -->
+<!-- Node259&#45;&gt;Node263 -->
 <g id="edge4" class="edge">
-<title>Node255&#45;&gt;Node259</title>
+<title>Node259&#45;&gt;Node263</title>
 <path fill="none" stroke="#191970" d="M100.6412,-38.411C122.8771,-33.3513 150.3482,-27.1004 173.8564,-21.7512"/>
 <polygon fill="#191970" stroke="#191970" points="174.6877,-25.1516 183.6619,-19.5201 173.1345,-18.3261 174.6877,-25.1516"/>
 </g>
-<!-- Node258 -->
+<!-- Node262 -->
 <g id="node4" class="node">
-<title>Node258</title>
+<title>Node262</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="334,-38.5 334,-57.5 444,-57.5 444,-38.5 334,-38.5"/>
 <text text-anchor="middle" x="389" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node257&#45;&gt;Node258 -->
+<!-- Node261&#45;&gt;Node262 -->
 <g id="edge3" class="edge">
-<title>Node257&#45;&gt;Node258</title>
+<title>Node261&#45;&gt;Node262</title>
 <path fill="none" stroke="#191970" d="M267.181,-48C284.3433,-48 304.6359,-48 323.6863,-48"/>
 <polygon fill="#191970" stroke="#191970" points="323.812,-51.5001 333.812,-48 323.812,-44.5001 323.812,-51.5001"/>
 </g>

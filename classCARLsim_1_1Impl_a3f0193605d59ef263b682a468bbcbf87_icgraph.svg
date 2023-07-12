@@ -9,54 +9,54 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>isInhibitoryGroup</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 403,-62 403,4 -4,4"/>
-<!-- Node556 -->
+<!-- Node560 -->
 <g id="node1" class="node">
-<title>Node556</title>
+<title>Node560</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 90,-38.5 90,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="45" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isInhibitoryGroup</text>
 </g>
-<!-- Node557 -->
+<!-- Node561 -->
 <g id="node2" class="node">
-<title>Node557</title>
+<title>Node561</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#aa2a365fb2d2fa56ec274bc4ba7be6747" target="_top" xlink:title="setSTP">
 <polygon fill="#ffffff" stroke="#000000" points="170.5,-38.5 170.5,-57.5 220.5,-57.5 220.5,-38.5 170.5,-38.5"/>
 <text text-anchor="middle" x="195.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setSTP</text>
 </a>
 </g>
 </g>
-<!-- Node556&#45;&gt;Node557 -->
+<!-- Node560&#45;&gt;Node561 -->
 <g id="edge1" class="edge">
-<title>Node556&#45;&gt;Node557</title>
+<title>Node560&#45;&gt;Node561</title>
 <path fill="none" stroke="#191970" d="M100.2015,-35.969C124.1329,-38.9902 150.9824,-42.3798 170.0682,-44.7893"/>
 <polygon fill="#191970" stroke="#191970" points="100.5146,-32.4808 90.155,-34.7006 99.6378,-39.4257 100.5146,-32.4808"/>
 </g>
-<!-- Node559 -->
+<!-- Node563 -->
 <g id="node4" class="node">
-<title>Node559</title>
+<title>Node563</title>
 <g id="a_node4"><a xlink:href="classCARLsim.html#a3f0193605d59ef263b682a468bbcbf87" target="_top" xlink:title="returns ">
 <polygon fill="#ffffff" stroke="#000000" points="126,-.5 126,-19.5 265,-19.5 265,-.5 126,-.5"/>
 <text text-anchor="middle" x="195.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::isInhibitoryGroup</text>
 </a>
 </g>
 </g>
-<!-- Node556&#45;&gt;Node559 -->
+<!-- Node560&#45;&gt;Node563 -->
 <g id="edge3" class="edge">
-<title>Node556&#45;&gt;Node559</title>
+<title>Node560&#45;&gt;Node563</title>
 <path fill="none" stroke="#191970" d="M100.1548,-22.0369C108.5235,-20.9804 117.25,-19.8787 125.8774,-18.7896"/>
 <polygon fill="#191970" stroke="#191970" points="99.6378,-18.5743 90.155,-23.2994 100.5146,-25.5192 99.6378,-18.5743"/>
 </g>
-<!-- Node558 -->
+<!-- Node562 -->
 <g id="node3" class="node">
-<title>Node558</title>
+<title>Node562</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#a54170c96807d6cdf699fa3664f81505e" target="_top" xlink:title="Sets STP params U, tau_u, and tau_x of a neuron group (pre&#45;synaptically) ">
 <polygon fill="#ffffff" stroke="#000000" points="301,-38.5 301,-57.5 399,-57.5 399,-38.5 301,-38.5"/>
 <text text-anchor="middle" x="350" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setSTP</text>
 </a>
 </g>
 </g>
-<!-- Node557&#45;&gt;Node558 -->
+<!-- Node561&#45;&gt;Node562 -->
 <g id="edge2" class="edge">
-<title>Node557&#45;&gt;Node558</title>
+<title>Node561&#45;&gt;Node562</title>
 <path fill="none" stroke="#191970" d="M230.9245,-48C251.6369,-48 278.0925,-48 300.8042,-48"/>
 <polygon fill="#191970" stroke="#191970" points="230.667,-44.5001 220.667,-48 230.6669,-51.5001 230.667,-44.5001"/>
 </g>

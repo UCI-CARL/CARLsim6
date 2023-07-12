@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 35)">
 <title>getNumNeuronsGenExc</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-35 532,-35 532,4 -4,4"/>
-<!-- Node980 -->
+<!-- Node984 -->
 <g id="node1" class="node">
-<title>Node980</title>
+<title>Node984</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-6 0,-25 123,-25 123,-6 0,-6"/>
 <text text-anchor="middle" x="61.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumNeuronsGenExc</text>
 </g>
-<!-- Node981 -->
+<!-- Node985 -->
 <g id="node2" class="node">
-<title>Node981</title>
+<title>Node985</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#ab63105935d2720c2fcadfd90fd8ea0be" target="_top" xlink:title="CARLsim::Impl::getNumNeurons\lGenExc">
 <polygon fill="#ffffff" stroke="#000000" points="159,-.5 159,-30.5 320,-30.5 320,-.5 159,-.5"/>
 <text text-anchor="start" x="167" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumNeurons</text>
@@ -25,24 +25,24 @@
 </a>
 </g>
 </g>
-<!-- Node980&#45;&gt;Node981 -->
+<!-- Node984&#45;&gt;Node985 -->
 <g id="edge1" class="edge">
-<title>Node980&#45;&gt;Node981</title>
+<title>Node984&#45;&gt;Node985</title>
 <path fill="none" stroke="#191970" d="M133.3288,-15.5C141.689,-15.5 150.2593,-15.5 158.7294,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="133.2562,-12.0001 123.2562,-15.5 133.2562,-19.0001 133.2562,-12.0001"/>
 </g>
-<!-- Node982 -->
+<!-- Node986 -->
 <g id="node3" class="node">
-<title>Node982</title>
+<title>Node986</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#ab63105935d2720c2fcadfd90fd8ea0be" target="_top" xlink:title="returns the total number of excitatory spike generator neurons ">
 <polygon fill="#ffffff" stroke="#000000" points="356,-6 356,-25 528,-25 528,-6 356,-6"/>
 <text text-anchor="middle" x="442" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getNumNeuronsGenExc</text>
 </a>
 </g>
 </g>
-<!-- Node981&#45;&gt;Node982 -->
+<!-- Node985&#45;&gt;Node986 -->
 <g id="edge2" class="edge">
-<title>Node981&#45;&gt;Node982</title>
+<title>Node985&#45;&gt;Node986</title>
 <path fill="none" stroke="#191970" d="M330.3338,-15.5C338.7639,-15.5 347.2913,-15.5 355.679,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="330.1152,-12.0001 320.1152,-15.5 330.1152,-19.0001 330.1152,-12.0001"/>
 </g>

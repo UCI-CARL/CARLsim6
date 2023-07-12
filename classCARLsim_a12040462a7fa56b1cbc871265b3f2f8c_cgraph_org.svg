@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>getGroupEndNeuronId</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 638,-100 638,4 -4,4"/>
-<!-- Node173 -->
+<!-- Node177 -->
 <g id="node1" class="node">
-<title>Node173</title>
+<title>Node177</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 113,-57.5 113,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="56.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getGroupEndNeuronId</text>
 </g>
-<!-- Node174 -->
+<!-- Node178 -->
 <g id="node2" class="node">
-<title>Node174</title>
+<title>Node178</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a12040462a7fa56b1cbc871265b3f2f8c" target="_top" xlink:title="CARLsim::Impl::getGroupEnd\lNeuronId">
 <polygon fill="#ffffff" stroke="#000000" points="149,-33 149,-63 296,-63 296,-33 149,-33"/>
 <text text-anchor="start" x="157" y="-51" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getGroupEnd</text>
@@ -25,69 +25,69 @@
 </a>
 </g>
 </g>
-<!-- Node173&#45;&gt;Node174 -->
+<!-- Node177&#45;&gt;Node178 -->
 <g id="edge1" class="edge">
-<title>Node173&#45;&gt;Node174</title>
+<title>Node177&#45;&gt;Node178</title>
 <path fill="none" stroke="#191970" d="M113.1635,-48C121.3994,-48 130.0213,-48 138.6554,-48"/>
 <polygon fill="#191970" stroke="#191970" points="138.7743,-51.5001 148.7743,-48 138.7742,-44.5001 138.7743,-51.5001"/>
 </g>
-<!-- Node175 -->
+<!-- Node179 -->
 <g id="node3" class="node">
-<title>Node175</title>
+<title>Node179</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="352,-76.5 352,-95.5 468,-95.5 468,-76.5 352,-76.5"/>
 <text text-anchor="middle" x="410" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node174&#45;&gt;Node175 -->
+<!-- Node178&#45;&gt;Node179 -->
 <g id="edge2" class="edge">
-<title>Node174&#45;&gt;Node175</title>
+<title>Node178&#45;&gt;Node179</title>
 <path fill="none" stroke="#191970" d="M296.0668,-62.9095C315.023,-66.7513 335.135,-70.8274 353.1,-74.4683"/>
 <polygon fill="#191970" stroke="#191970" points="352.6245,-77.943 363.1204,-76.4991 354.0149,-71.0825 352.6245,-77.943"/>
 </g>
-<!-- Node176 -->
+<!-- Node180 -->
 <g id="node4" class="node">
-<title>Node176</title>
+<title>Node180</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="CARLsim::Impl::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="332,-38.5 332,-57.5 488,-57.5 488,-38.5 332,-38.5"/>
 <text text-anchor="middle" x="410" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node174&#45;&gt;Node176 -->
+<!-- Node178&#45;&gt;Node180 -->
 <g id="edge3" class="edge">
-<title>Node174&#45;&gt;Node176</title>
+<title>Node178&#45;&gt;Node180</title>
 <path fill="none" stroke="#191970" d="M296.0668,-48C304.4733,-48 313.107,-48 321.68,-48"/>
 <polygon fill="#191970" stroke="#191970" points="321.6989,-51.5001 331.6988,-48 321.6988,-44.5001 321.6989,-51.5001"/>
 </g>
-<!-- Node178 -->
+<!-- Node182 -->
 <g id="node6" class="node">
-<title>Node178</title>
+<title>Node182</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a646a92ebff4d7ee396c0087bc37b82a8" target="_top" xlink:title="SNN::getGroupEndNeuronId">
 <polygon fill="#ffffff" stroke="#000000" points="339.5,-.5 339.5,-19.5 480.5,-19.5 480.5,-.5 339.5,-.5"/>
 <text text-anchor="middle" x="410" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getGroupEndNeuronId</text>
 </a>
 </g>
 </g>
-<!-- Node174&#45;&gt;Node178 -->
+<!-- Node178&#45;&gt;Node182 -->
 <g id="edge5" class="edge">
-<title>Node174&#45;&gt;Node178</title>
+<title>Node178&#45;&gt;Node182</title>
 <path fill="none" stroke="#191970" d="M296.0668,-33.0905C315.023,-29.2487 335.135,-25.1726 353.1,-21.5317"/>
 <polygon fill="#191970" stroke="#191970" points="354.0149,-24.9175 363.1204,-19.5009 352.6245,-18.057 354.0149,-24.9175"/>
 </g>
-<!-- Node177 -->
+<!-- Node181 -->
 <g id="node5" class="node">
-<title>Node177</title>
+<title>Node181</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a292bdee57fec7c77ec4c15ea3f508d60" target="_top" xlink:title="SNN::getNumGroups">
 <polygon fill="#ffffff" stroke="#000000" points="524,-38.5 524,-57.5 634,-57.5 634,-38.5 524,-38.5"/>
 <text text-anchor="middle" x="579" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumGroups</text>
 </a>
 </g>
 </g>
-<!-- Node176&#45;&gt;Node177 -->
+<!-- Node180&#45;&gt;Node181 -->
 <g id="edge4" class="edge">
-<title>Node176&#45;&gt;Node177</title>
+<title>Node180&#45;&gt;Node181</title>
 <path fill="none" stroke="#191970" d="M488.069,-48C496.6771,-48 505.3747,-48 513.8018,-48"/>
 <polygon fill="#191970" stroke="#191970" points="513.9225,-51.5001 523.9225,-48 513.9225,-44.5001 513.9225,-51.5001"/>
 </g>

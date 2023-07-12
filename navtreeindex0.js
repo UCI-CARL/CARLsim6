@@ -234,6 +234,13 @@ var NAVTREEINDEX0 =
 "ch20_neuromodulation.html#ch20s7_mcoba":[1,13,6],
 "ch20_neuromodulation.html#ch20s8_misc":[1,13,7],
 "ch20_neuromodulation.html#ch20s9_references":[1,13,8],
+"ch21_axonplast.html":[1,14],
+"ch21_axonplast.html#ch21s1_axonplast_overview":[1,14,0],
+"ch21_axonplast.html#ch21s2_axonplast_carlsim":[1,14,1],
+"ch21_axonplast.html#ch21s3_axonplast_usage":[1,14,2],
+"ch21_axonplast.html#ch21s4_axonplast_usage":[1,14,3],
+"ch21_axonplast.html#ch21s5_axonplast_implementation":[1,14,4],
+"ch21_axonplast.html#ch21s6_axonplast_references":[1,14,5],
 "ch2_basic_concepts.html":[1,1],
 "ch2_basic_concepts.html#ch2s1_general_workflow":[1,1,0],
 "ch3_neurons_synapses_groups.html":[1,2],
@@ -242,12 +249,5 @@ var NAVTREEINDEX0 =
 "ch3_neurons_synapses_groups.html#ch3s3_groups":[1,2,2],
 "ch4_connections.html":[1,3],
 "ch4_connections.html#ch4s1_primitive_types":[1,3,0],
-"ch4_connections.html#ch4s2_library_tools":[1,3,1],
-"ch4_connections.html#ch4s3_user_defined":[1,3,2],
-"ch4_connections.html#ch4s4_migrating_connect":[1,3,3],
-"ch5_synaptic_plasticity.html":[1,4],
-"ch5_synaptic_plasticity.html#ch5s1_short_term_plasticity":[1,4,0],
-"ch5_synaptic_plasticity.html#ch5s2_spike_timing_dependent_plasticity":[1,4,1],
-"ch5_synaptic_plasticity.html#ch5s3_homeostasis":[1,4,2],
-"ch5_synaptic_plasticity.html#ch5s4_testing_phase":[1,4,3]
+"ch4_connections.html#ch4s2_library_tools":[1,3,1]
 };

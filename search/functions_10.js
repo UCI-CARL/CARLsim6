@@ -1,6 +1,7 @@
 var searchData=
 [
   ['updateconnectionmonitor',['updateConnectionMonitor',['../classSNN.html#a68862cb4e6c749219c20c38aeab06986',1,'SNN']]],
+  ['updatedelays',['updateDelays',['../classCARLsim.html#a3517d9fb7fd35ab493c6f3caa924461b',1,'CARLsim::updateDelays()'],['../classCARLsim_1_1Impl.html#a3517d9fb7fd35ab493c6f3caa924461b',1,'CARLsim::Impl::updateDelays()'],['../classSNN.html#a3517d9fb7fd35ab493c6f3caa924461b',1,'SNN::updateDelays()']]],
   ['updategroupmonitor',['updateGroupMonitor',['../classSNN.html#a14317186d53aeff564b126a41a333d3c',1,'SNN']]],
   ['updateneuronmonitor',['updateNeuronMonitor',['../classSNN.html#a8dd319bdd9a54e38f9254cbec099c30a',1,'SNN']]],
   ['updateoffset',['updateOffset',['../classPrePostGroupSpikeGenerator.html#a5c807c8b4b10f44a1456e148362fcc65',1,'PrePostGroupSpikeGenerator']]],

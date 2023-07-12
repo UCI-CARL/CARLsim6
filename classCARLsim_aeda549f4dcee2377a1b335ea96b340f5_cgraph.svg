@@ -9,69 +9,69 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>setNM4weighted</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 451,-100 451,4 -4,4"/>
-<!-- Node958 -->
+<!-- Node966 -->
 <g id="node1" class="node">
-<title>Node958</title>
+<title>Node966</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 90,-57.5 90,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="45" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setNM4weighted</text>
 </g>
-<!-- Node959 -->
+<!-- Node967 -->
 <g id="node2" class="node">
-<title>Node959</title>
+<title>Node967</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#abb1c64e1a1dccd802e71145edea251e2" target="_top" xlink:title="CARLsim::Impl::setNM4weighted">
 <polygon fill="#ffffff" stroke="#000000" points="126,-38.5 126,-57.5 290,-57.5 290,-38.5 126,-38.5"/>
 <text text-anchor="middle" x="208" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setNM4weighted</text>
 </a>
 </g>
 </g>
-<!-- Node958&#45;&gt;Node959 -->
+<!-- Node966&#45;&gt;Node967 -->
 <g id="edge1" class="edge">
-<title>Node958&#45;&gt;Node959</title>
+<title>Node966&#45;&gt;Node967</title>
 <path fill="none" stroke="#191970" d="M90.4046,-48C98.3262,-48 106.818,-48 115.4789,-48"/>
 <polygon fill="#191970" stroke="#191970" points="115.6998,-51.5001 125.6998,-48 115.6997,-44.5001 115.6998,-51.5001"/>
 </g>
-<!-- Node960 -->
+<!-- Node968 -->
 <g id="node3" class="node">
-<title>Node960</title>
+<title>Node968</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="328.5,-76.5 328.5,-95.5 444.5,-95.5 444.5,-76.5 328.5,-76.5"/>
 <text text-anchor="middle" x="386.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node959&#45;&gt;Node960 -->
+<!-- Node967&#45;&gt;Node968 -->
 <g id="edge2" class="edge">
-<title>Node959&#45;&gt;Node960</title>
+<title>Node967&#45;&gt;Node968</title>
 <path fill="none" stroke="#191970" d="M253.0431,-57.589C277.0225,-62.6939 306.6979,-69.0113 331.9721,-74.3918"/>
 <polygon fill="#191970" stroke="#191970" points="331.2712,-77.821 341.7808,-76.4799 332.7288,-70.9744 331.2712,-77.821"/>
 </g>
-<!-- Node961 -->
+<!-- Node969 -->
 <g id="node4" class="node">
-<title>Node961</title>
+<title>Node969</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a2f35a57571cb1a5ba505246fb706311e" target="_top" xlink:title="Sets custom values for conductance decay () or disables conductances alltogether These will be applie...">
 <polygon fill="#ffffff" stroke="#000000" points="326,-38.5 326,-57.5 447,-57.5 447,-38.5 326,-38.5"/>
 <text text-anchor="middle" x="386.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setConductances</text>
 </a>
 </g>
 </g>
-<!-- Node959&#45;&gt;Node961 -->
+<!-- Node967&#45;&gt;Node969 -->
 <g id="edge3" class="edge">
-<title>Node959&#45;&gt;Node961</title>
+<title>Node967&#45;&gt;Node969</title>
 <path fill="none" stroke="#191970" d="M290.1967,-48C298.7183,-48 307.3262,-48 315.707,-48"/>
 <polygon fill="#191970" stroke="#191970" points="315.7961,-51.5001 325.7961,-48 315.7961,-44.5001 315.7961,-51.5001"/>
 </g>
-<!-- Node962 -->
+<!-- Node970 -->
 <g id="node5" class="node">
-<title>Node962</title>
+<title>Node970</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a82e3422be6d3a1f7c6c78c92001f3ad1" target="_top" xlink:title="SNN::setNM4weighted">
 <polygon fill="#ffffff" stroke="#000000" points="327.5,-.5 327.5,-19.5 445.5,-19.5 445.5,-.5 327.5,-.5"/>
 <text text-anchor="middle" x="386.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setNM4weighted</text>
 </a>
 </g>
 </g>
-<!-- Node959&#45;&gt;Node962 -->
+<!-- Node967&#45;&gt;Node970 -->
 <g id="edge4" class="edge">
-<title>Node959&#45;&gt;Node962</title>
+<title>Node967&#45;&gt;Node970</title>
 <path fill="none" stroke="#191970" d="M253.0431,-38.411C277.0225,-33.3061 306.6979,-26.9887 331.9721,-21.6082"/>
 <polygon fill="#191970" stroke="#191970" points="332.7288,-25.0256 341.7808,-19.5201 331.2712,-18.179 332.7288,-25.0256"/>
 </g>

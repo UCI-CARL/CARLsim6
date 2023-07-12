@@ -16,6 +16,7 @@ var structRuntimeData__s =
     [ "extFiringTableEndIdxD2", "structRuntimeData__s.html#a65bbe79a8c8be8113fe25241099914d8", null ],
     [ "firingTableD1", "structRuntimeData__s.html#af1ef589b069778b7c7c7b34c751b3f46", null ],
     [ "firingTableD2", "structRuntimeData__s.html#a2aac8305ea8f1dd2a08c04e57590cf3c", null ],
+    [ "firingTimesD2", "structRuntimeData__s.html#a213c538b2bdbf58acc569095b9e22279", null ],
     [ "gAMPA", "structRuntimeData__s.html#ae1d3de332d42d0a724ada9f256a1d486", null ],
     [ "gGABAa", "structRuntimeData__s.html#a4d75effb9eafd25411fa74ed487d403d", null ],
     [ "gGABAb", "structRuntimeData__s.html#a58d528862d6c719afd10ea30f18178c2", null ],

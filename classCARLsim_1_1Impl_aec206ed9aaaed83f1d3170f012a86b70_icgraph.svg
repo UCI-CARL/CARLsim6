@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setSpikeRate</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 241,-24 241,4 -4,4"/>
-<!-- Node1187 -->
+<!-- Node1195 -->
 <g id="node1" class="node">
-<title>Node1187</title>
+<title>Node1195</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 76,-19.5 76,-.5 0,-.5"/>
 <text text-anchor="middle" x="38" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setSpikeRate</text>
 </g>
-<!-- Node1188 -->
+<!-- Node1196 -->
 <g id="node2" class="node">
-<title>Node1188</title>
+<title>Node1196</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a04f52d2840105c8ccacf8d378d1695cf" target="_top" xlink:title="Sets a spike rate. ">
 <polygon fill="#ffffff" stroke="#000000" points="112,-.5 112,-19.5 237,-19.5 237,-.5 112,-.5"/>
 <text text-anchor="middle" x="174.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setSpikeRate</text>
 </a>
 </g>
 </g>
-<!-- Node1187&#45;&gt;Node1188 -->
+<!-- Node1195&#45;&gt;Node1196 -->
 <g id="edge1" class="edge">
-<title>Node1187&#45;&gt;Node1188</title>
+<title>Node1195&#45;&gt;Node1196</title>
 <path fill="none" stroke="#191970" d="M86.2426,-10C94.5256,-10 103.2399,-10 111.8353,-10"/>
 <polygon fill="#191970" stroke="#191970" points="86.0229,-6.5001 76.0229,-10 86.0228,-13.5001 86.0229,-6.5001"/>
 </g>

@@ -9,75 +9,75 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>setupNetwork</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 420,-100 420,4 -4,4"/>
-<!-- Node1069 -->
+<!-- Node1077 -->
 <g id="node1" class="node">
-<title>Node1069</title>
+<title>Node1077</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 77,-38.5 77,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="38.5" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setupNetwork</text>
 </g>
-<!-- Node1070 -->
+<!-- Node1078 -->
 <g id="node2" class="node">
-<title>Node1070</title>
+<title>Node1078</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a6d6c298c788eeb7b18a19d82a77761b3" target="_top" xlink:title="CARLsim::Impl::setupNetwork">
 <polygon fill="#ffffff" stroke="#000000" points="113,-38.5 113,-57.5 264,-57.5 264,-38.5 113,-38.5"/>
 <text text-anchor="middle" x="188.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setupNetwork</text>
 </a>
 </g>
 </g>
-<!-- Node1069&#45;&gt;Node1070 -->
+<!-- Node1077&#45;&gt;Node1078 -->
 <g id="edge1" class="edge">
-<title>Node1069&#45;&gt;Node1070</title>
+<title>Node1077&#45;&gt;Node1078</title>
 <path fill="none" stroke="#191970" d="M77.1287,-33.893C85.2884,-34.9265 94.2058,-36.0561 103.3278,-37.2115"/>
 <polygon fill="#191970" stroke="#191970" points="102.9197,-40.6877 113.2803,-38.4722 103.7994,-33.7432 102.9197,-40.6877"/>
 </g>
-<!-- Node1073 -->
+<!-- Node1081 -->
 <g id="node5" class="node">
-<title>Node1073</title>
+<title>Node1081</title>
 <g id="a_node5"><a xlink:href="classCARLsim.html#a927b0be20545057c25b97511a6b8bb14" target="_top" xlink:title="featFastSetup LN 20201108 ">
 <polygon fill="#ffffff" stroke="#000000" points="312,-.5 312,-19.5 404,-19.5 404,-.5 312,-.5"/>
 <text text-anchor="middle" x="358" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setupNetworkMT</text>
 </a>
 </g>
 </g>
-<!-- Node1069&#45;&gt;Node1073 -->
+<!-- Node1077&#45;&gt;Node1081 -->
 <g id="edge5" class="edge">
-<title>Node1069&#45;&gt;Node1073</title>
+<title>Node1077&#45;&gt;Node1081</title>
 <path fill="none" stroke="#191970" d="M77.0392,-26.7082C133.0457,-23.3776 237.2714,-17.1795 301.8277,-13.3404"/>
 <polygon fill="#191970" stroke="#191970" points="302.06,-16.8329 311.8346,-12.7454 301.6444,-9.8453 302.06,-16.8329"/>
 </g>
-<!-- Node1071 -->
+<!-- Node1079 -->
 <g id="node3" class="node">
-<title>Node1071</title>
+<title>Node1079</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="300,-76.5 300,-95.5 416,-95.5 416,-76.5 300,-76.5"/>
 <text text-anchor="middle" x="358" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node1070&#45;&gt;Node1071 -->
+<!-- Node1078&#45;&gt;Node1079 -->
 <g id="edge2" class="edge">
-<title>Node1070&#45;&gt;Node1071</title>
+<title>Node1078&#45;&gt;Node1079</title>
 <path fill="none" stroke="#191970" d="M231.272,-57.589C253.8409,-62.6487 281.7232,-68.8996 305.5833,-74.2488"/>
 <polygon fill="#191970" stroke="#191970" points="305.0121,-77.7075 315.5356,-76.4799 306.5435,-70.8771 305.0121,-77.7075"/>
 </g>
-<!-- Node1072 -->
+<!-- Node1080 -->
 <g id="node4" class="node">
-<title>Node1072</title>
+<title>Node1080</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a6d6c298c788eeb7b18a19d82a77761b3" target="_top" xlink:title="build the network ">
 <polygon fill="#ffffff" stroke="#000000" points="305.5,-38.5 305.5,-57.5 410.5,-57.5 410.5,-38.5 305.5,-38.5"/>
 <text text-anchor="middle" x="358" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::setupNetwork</text>
 </a>
 </g>
 </g>
-<!-- Node1070&#45;&gt;Node1072 -->
+<!-- Node1078&#45;&gt;Node1080 -->
 <g id="edge3" class="edge">
-<title>Node1070&#45;&gt;Node1072</title>
+<title>Node1078&#45;&gt;Node1080</title>
 <path fill="none" stroke="#191970" d="M264.3263,-48C274.5318,-48 284.9119,-48 294.8657,-48"/>
 <polygon fill="#191970" stroke="#191970" points="295.0591,-51.5001 305.0591,-48 295.0591,-44.5001 295.0591,-51.5001"/>
 </g>
-<!-- Node1070&#45;&gt;Node1073 -->
+<!-- Node1078&#45;&gt;Node1081 -->
 <g id="edge4" class="edge">
-<title>Node1070&#45;&gt;Node1073</title>
+<title>Node1078&#45;&gt;Node1081</title>
 <path fill="none" stroke="#191970" d="M231.272,-38.411C253.8409,-33.3513 281.7232,-27.1004 305.5833,-21.7512"/>
 <polygon fill="#191970" stroke="#191970" points="306.5435,-25.1229 315.5356,-19.5201 305.0121,-18.2925 306.5435,-25.1229"/>
 </g>

@@ -48,106 +48,106 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 799;
 var viewHeight = 104;
-var sectionId = 'dynsection-95';
+var sectionId = 'dynsection-97';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>isConnectionPlastic</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 795,-100 795,4 -4,4"/>
-<!-- Node509 -->
+<!-- Node513 -->
 <g id="node1" class="node">
-<title>Node509</title>
+<title>Node513</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 104,-57.5 104,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="52" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isConnectionPlastic</text>
 </g>
-<!-- Node510 -->
+<!-- Node514 -->
 <g id="node2" class="node">
-<title>Node510</title>
+<title>Node514</title>
 <g id="a_node2"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="147.5,-76.5 147.5,-95.5 263.5,-95.5 263.5,-76.5 147.5,-76.5"/>
 <text text-anchor="middle" x="205.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node509&#45;&gt;Node510 -->
+<!-- Node513&#45;&gt;Node514 -->
 <g id="edge1" class="edge">
-<title>Node509&#45;&gt;Node510</title>
+<title>Node513&#45;&gt;Node514</title>
 <path fill="none" stroke="#191970" d="M90.7345,-57.589C110.8993,-62.5809 135.7479,-68.7324 157.1611,-74.0334"/>
 <polygon fill="#191970" stroke="#191970" points="156.4959,-77.4743 167.044,-76.4799 158.1781,-70.6794 156.4959,-77.4743"/>
 </g>
-<!-- Node511 -->
+<!-- Node515 -->
 <g id="node3" class="node">
-<title>Node511</title>
+<title>Node515</title>
 <g id="a_node3"><a xlink:href="classCARLsim_1_1Impl.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="152.5,-38.5 152.5,-57.5 258.5,-57.5 258.5,-38.5 152.5,-38.5"/>
 <text text-anchor="middle" x="205.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node509&#45;&gt;Node511 -->
+<!-- Node513&#45;&gt;Node515 -->
 <g id="edge2" class="edge">
-<title>Node509&#45;&gt;Node511</title>
+<title>Node513&#45;&gt;Node515</title>
 <path fill="none" stroke="#191970" d="M104.3967,-48C116.4744,-48 129.4498,-48 141.9441,-48"/>
 <polygon fill="#191970" stroke="#191970" points="142.2961,-51.5001 152.2961,-48 142.296,-44.5001 142.2961,-51.5001"/>
 </g>
-<!-- Node515 -->
+<!-- Node519 -->
 <g id="node7" class="node">
-<title>Node515</title>
+<title>Node519</title>
 <g id="a_node7"><a xlink:href="classSNN.html#a821a04dec998f1fcebcc048d39cc8b21" target="_top" xlink:title="returns whether synapses in connection are fixed (false) or plastic (true) ">
 <polygon fill="#ffffff" stroke="#000000" points="140,-.5 140,-19.5 271,-19.5 271,-.5 140,-.5"/>
 <text text-anchor="middle" x="205.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::isConnectionPlastic</text>
 </a>
 </g>
 </g>
-<!-- Node509&#45;&gt;Node515 -->
+<!-- Node513&#45;&gt;Node519 -->
 <g id="edge6" class="edge">
-<title>Node509&#45;&gt;Node515</title>
+<title>Node513&#45;&gt;Node519</title>
 <path fill="none" stroke="#191970" d="M90.7345,-38.411C110.8993,-33.4191 135.7479,-27.2676 157.1611,-21.9666"/>
 <polygon fill="#191970" stroke="#191970" points="158.1781,-25.3206 167.044,-19.5201 156.4959,-18.5257 158.1781,-25.3206"/>
 </g>
-<!-- Node512 -->
+<!-- Node516 -->
 <g id="node4" class="node">
-<title>Node512</title>
+<title>Node516</title>
 <g id="a_node4"><a xlink:href="classSNN.html#a14efb66377e70d7f0f4596c223fbc5cc" target="_top" xlink:title="SNN::getNumConnections">
 <polygon fill="#ffffff" stroke="#000000" points="307,-38.5 307,-57.5 441,-57.5 441,-38.5 307,-38.5"/>
 <text text-anchor="middle" x="374" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumConnections</text>
 </a>
 </g>
 </g>
-<!-- Node511&#45;&gt;Node512 -->
+<!-- Node515&#45;&gt;Node516 -->
 <g id="edge3" class="edge">
-<title>Node511&#45;&gt;Node512</title>
+<title>Node515&#45;&gt;Node516</title>
 <path fill="none" stroke="#191970" d="M258.8145,-48C270.8349,-48 283.831,-48 296.6148,-48"/>
 <polygon fill="#191970" stroke="#191970" points="296.7991,-51.5001 306.7991,-48 296.799,-44.5001 296.7991,-51.5001"/>
 </g>
-<!-- Node513 -->
+<!-- Node517 -->
 <g id="node5" class="node">
-<title>Node513</title>
+<title>Node517</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a52f149e224abff772962dea6680398e2" target="_top" xlink:title="gets number of connections associated with a connection ID ">
 <polygon fill="#ffffff" stroke="#000000" points="477,-38.5 477,-57.5 649,-57.5 649,-38.5 477,-38.5"/>
 <text text-anchor="middle" x="563" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumSynapticConnections</text>
 </a>
 </g>
 </g>
-<!-- Node512&#45;&gt;Node513 -->
+<!-- Node516&#45;&gt;Node517 -->
 <g id="edge4" class="edge">
-<title>Node512&#45;&gt;Node513</title>
+<title>Node516&#45;&gt;Node517</title>
 <path fill="none" stroke="#191970" d="M441.1665,-48C449.4789,-48 458.1,-48 466.7407,-48"/>
 <polygon fill="#191970" stroke="#191970" points="466.8759,-51.5001 476.8759,-48 466.8759,-44.5001 466.8759,-51.5001"/>
 </g>
-<!-- Node514 -->
+<!-- Node518 -->
 <g id="node6" class="node">
-<title>Node514</title>
+<title>Node518</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="685,-38.5 685,-57.5 791,-57.5 791,-38.5 685,-38.5"/>
 <text text-anchor="middle" x="738" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node513&#45;&gt;Node514 -->
+<!-- Node517&#45;&gt;Node518 -->
 <g id="edge5" class="edge">
-<title>Node513&#45;&gt;Node514</title>
+<title>Node517&#45;&gt;Node518</title>
 <path fill="none" stroke="#191970" d="M649.2183,-48C657.711,-48 666.2199,-48 674.4247,-48"/>
 <polygon fill="#191970" stroke="#191970" points="674.6308,-51.5001 684.6308,-48 674.6308,-44.5001 674.6308,-51.5001"/>
 </g>

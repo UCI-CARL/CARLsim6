@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setCompartmentParameters</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 368,-24 368,4 -4,4"/>
-<!-- Node726 -->
+<!-- Node734 -->
 <g id="node1" class="node">
-<title>Node726</title>
+<title>Node734</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 140,-19.5 140,-.5 0,-.5"/>
 <text text-anchor="middle" x="70" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setCompartmentParameters</text>
 </g>
-<!-- Node727 -->
+<!-- Node735 -->
 <g id="node2" class="node">
-<title>Node727</title>
+<title>Node735</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#adb7dd274136fd2a3307c0f7f0767275a" target="_top" xlink:title="Sets coupling constants G_u and G_d for the compartment. ">
 <polygon fill="#ffffff" stroke="#000000" points="176,-.5 176,-19.5 364,-19.5 364,-.5 176,-.5"/>
 <text text-anchor="middle" x="270" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setCompartmentParameters</text>
 </a>
 </g>
 </g>
-<!-- Node726&#45;&gt;Node727 -->
+<!-- Node734&#45;&gt;Node735 -->
 <g id="edge1" class="edge">
-<title>Node726&#45;&gt;Node727</title>
+<title>Node734&#45;&gt;Node735</title>
 <path fill="none" stroke="#191970" d="M150.3149,-10C158.673,-10 167.222,-10 175.7158,-10"/>
 <polygon fill="#191970" stroke="#191970" points="150.2313,-6.5001 140.2313,-10 150.2313,-13.5001 150.2313,-6.5001"/>
 </g>

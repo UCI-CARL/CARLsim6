@@ -41,7 +41,7 @@ var searchData=
   ['nm_5fach',['NM_ACh',['../carlsim__datastructures_8h.html#a217db4c21fabed71acd2ee408d51d383a7d8bfeb2b744d8d02339ca15e07add56',1,'carlsim_datastructures.h']]],
   ['nm_5fda',['NM_DA',['../carlsim__datastructures_8h.html#a217db4c21fabed71acd2ee408d51d383a41797717d39e506a1341422f64a1e775',1,'carlsim_datastructures.h']]],
   ['nm_5fne',['NM_NE',['../carlsim__datastructures_8h.html#a217db4c21fabed71acd2ee408d51d383af79a0067092af1d45b6d7818c8900f2e',1,'carlsim_datastructures.h']]],
-  ['nm_5fpka',['NM_PKA',['../structSTDPConfig__s.html#af5d16da1cf374943491eb9e7b504a05b',1,'STDPConfig_s::NM_PKA()'],['../structConnectConfigRT__s.html#af5d16da1cf374943491eb9e7b504a05b',1,'ConnectConfigRT_s::NM_PKA()'],['../structPkaPlcModulation.html#a9037e09b07186114f8d9465c774ab09e',1,'PkaPlcModulation::nm_pka()']]],
+  ['nm_5fpka',['nm_pka',['../structPkaPlcModulation.html#a9037e09b07186114f8d9465c774ab09e',1,'PkaPlcModulation::nm_pka()'],['../structSTDPConfig__s.html#af5d16da1cf374943491eb9e7b504a05b',1,'STDPConfig_s::NM_PKA()'],['../structConnectConfigRT__s.html#af5d16da1cf374943491eb9e7b504a05b',1,'ConnectConfigRT_s::NM_PKA()']]],
   ['nm_5fplc',['NM_PLC',['../structSTDPConfig__s.html#a5fe54bd1b792d458eab3d2192cd4c67d',1,'STDPConfig_s::NM_PLC()'],['../structConnectConfigRT__s.html#a5fe54bd1b792d458eab3d2192cd4c67d',1,'ConnectConfigRT_s::NM_PLC()'],['../structPkaPlcModulation.html#a6c95b679866dc4194401231f812c76f8',1,'PkaPlcModulation::nm_plc()']]],
   ['nm_5funknown',['NM_UNKNOWN',['../carlsim__datastructures_8h.html#a217db4c21fabed71acd2ee408d51d383a47c2f2d47a1d7fa0b665d1c8fcfef799',1,'carlsim_datastructures.h']]],
   ['no_5fkernel_5ferrors',['NO_KERNEL_ERRORS',['../error__code_8h.html#a8094931c5930d108c193d7353951860c',1,'error_code.h']]],

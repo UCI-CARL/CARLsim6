@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>isConnectionPlastic</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 296,-24 296,4 -4,4"/>
-<!-- Node516 -->
+<!-- Node520 -->
 <g id="node1" class="node">
-<title>Node516</title>
+<title>Node520</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 104,-19.5 104,-.5 0,-.5"/>
 <text text-anchor="middle" x="52" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isConnectionPlastic</text>
 </g>
-<!-- Node517 -->
+<!-- Node521 -->
 <g id="node2" class="node">
-<title>Node517</title>
+<title>Node521</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a821a04dec998f1fcebcc048d39cc8b21" target="_top" xlink:title="Returns whether a connection is fixed or plastic. ">
 <polygon fill="#ffffff" stroke="#000000" points="140,-.5 140,-19.5 292,-19.5 292,-.5 140,-.5"/>
 <text text-anchor="middle" x="216" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::isConnectionPlastic</text>
 </a>
 </g>
 </g>
-<!-- Node516&#45;&gt;Node517 -->
+<!-- Node520&#45;&gt;Node521 -->
 <g id="edge1" class="edge">
-<title>Node516&#45;&gt;Node517</title>
+<title>Node520&#45;&gt;Node521</title>
 <path fill="none" stroke="#191970" d="M114.3719,-10C122.7333,-10 131.384,-10 139.9477,-10"/>
 <polygon fill="#191970" stroke="#191970" points="114.3416,-6.5001 104.3415,-10 114.3415,-13.5001 114.3416,-6.5001"/>
 </g>

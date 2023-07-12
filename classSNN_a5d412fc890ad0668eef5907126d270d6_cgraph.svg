@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setNeuronParameters</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 264,-24 264,4 -4,4"/>
-<!-- Node1855 -->
+<!-- Node1863 -->
 <g id="node1" class="node">
-<title>Node1855</title>
+<title>Node1863</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 112,-19.5 112,-.5 0,-.5"/>
 <text text-anchor="middle" x="56" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setNeuronParameters</text>
 </g>
-<!-- Node1856 -->
+<!-- Node1864 -->
 <g id="node2" class="node">
-<title>Node1856</title>
+<title>Node1864</title>
 <g id="a_node2"><a xlink:href="classSNN.html#aa6e1dc5ae50722ae3d693f2c963d84cd" target="_top" xlink:title="Sets the Izhikevich parameters a, b, c, and d of a neuron group. ">
 <polygon fill="#ffffff" stroke="#000000" points="148,-.5 148,-19.5 260,-19.5 260,-.5 148,-.5"/>
 <text text-anchor="middle" x="204" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setNeuronParameters</text>
 </a>
 </g>
 </g>
-<!-- Node1855&#45;&gt;Node1856 -->
+<!-- Node1863&#45;&gt;Node1864 -->
 <g id="edge1" class="edge">
-<title>Node1855&#45;&gt;Node1856</title>
+<title>Node1863&#45;&gt;Node1864</title>
 <path fill="none" stroke="#191970" d="M112.3747,-10C120.6214,-10 129.1782,-10 137.6023,-10"/>
 <polygon fill="#191970" stroke="#191970" points="137.7821,-13.5001 147.7821,-10 137.7821,-6.5001 137.7821,-13.5001"/>
 </g>

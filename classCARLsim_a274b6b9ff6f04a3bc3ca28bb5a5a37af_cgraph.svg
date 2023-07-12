@@ -9,39 +9,39 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>getIcalcType</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 396,-24 396,4 -4,4"/>
-<!-- Node219 -->
+<!-- Node223 -->
 <g id="node1" class="node">
-<title>Node219</title>
+<title>Node223</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 73,-19.5 73,-.5 0,-.5"/>
 <text text-anchor="middle" x="36.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getIcalcType</text>
 </g>
-<!-- Node220 -->
+<!-- Node224 -->
 <g id="node2" class="node">
-<title>Node220</title>
+<title>Node224</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#ab34dfe055822b1d58d512754b41b194b" target="_top" xlink:title="CARLsim::Impl::getIcalcType">
 <polygon fill="#ffffff" stroke="#000000" points="109,-.5 109,-19.5 255,-19.5 255,-.5 109,-.5"/>
 <text text-anchor="middle" x="182" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getIcalcType</text>
 </a>
 </g>
 </g>
-<!-- Node219&#45;&gt;Node220 -->
+<!-- Node223&#45;&gt;Node224 -->
 <g id="edge1" class="edge">
-<title>Node219&#45;&gt;Node220</title>
+<title>Node223&#45;&gt;Node224</title>
 <path fill="none" stroke="#191970" d="M73.2158,-10C81.1674,-10 89.8874,-10 98.8217,-10"/>
 <polygon fill="#191970" stroke="#191970" points="98.9703,-13.5001 108.9703,-10 98.9702,-6.5001 98.9703,-13.5001"/>
 </g>
-<!-- Node221 -->
+<!-- Node225 -->
 <g id="node3" class="node">
-<title>Node221</title>
+<title>Node225</title>
 <g id="a_node3"><a xlink:href="classSNN.html#a274b6b9ff6f04a3bc3ca28bb5a5a37af" target="_top" xlink:title="SNN::getIcalcType">
 <polygon fill="#ffffff" stroke="#000000" points="291,-.5 291,-19.5 392,-19.5 392,-.5 291,-.5"/>
 <text text-anchor="middle" x="341.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getIcalcType</text>
 </a>
 </g>
 </g>
-<!-- Node220&#45;&gt;Node221 -->
+<!-- Node224&#45;&gt;Node225 -->
 <g id="edge2" class="edge">
-<title>Node220&#45;&gt;Node221</title>
+<title>Node224&#45;&gt;Node225</title>
 <path fill="none" stroke="#191970" d="M255.2145,-10C263.6215,-10 272.126,-10 280.3509,-10"/>
 <polygon fill="#191970" stroke="#191970" points="280.5913,-13.5001 290.5912,-10 280.5912,-6.5001 280.5913,-13.5001"/>
 </g>

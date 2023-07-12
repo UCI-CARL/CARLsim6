@@ -9,69 +9,69 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>getWeightRange</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 390,-100 390,4 -4,4"/>
-<!-- Node1401 -->
+<!-- Node1405 -->
 <g id="node1" class="node">
-<title>Node1401</title>
+<title>Node1405</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 89,-57.5 89,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="44.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getWeightRange</text>
 </g>
-<!-- Node1402 -->
+<!-- Node1406 -->
 <g id="node2" class="node">
-<title>Node1402</title>
+<title>Node1406</title>
 <g id="a_node2"><a xlink:href="classSNN.html#a3c23ef1a19946fdd9c096367a45ac48e" target="_top" xlink:title="Sets the integration method and the number of integration steps per 1ms simulation time step...">
 <polygon fill="#ffffff" stroke="#000000" points="125,-76.5 125,-95.5 233,-95.5 233,-76.5 125,-76.5"/>
 <text text-anchor="middle" x="179" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setIntegrationMethod</text>
 </a>
 </g>
 </g>
-<!-- Node1401&#45;&gt;Node1402 -->
+<!-- Node1405&#45;&gt;Node1406 -->
 <g id="edge1" class="edge">
-<title>Node1401&#45;&gt;Node1402</title>
+<title>Node1405&#45;&gt;Node1406</title>
 <path fill="none" stroke="#191970" d="M78.44,-57.589C95.7231,-62.4719 116.9329,-68.4643 135.4112,-73.685"/>
 <polygon fill="#191970" stroke="#191970" points="134.4959,-77.0633 145.0708,-76.4141 136.3992,-70.327 134.4959,-77.0633"/>
 </g>
-<!-- Node1403 -->
+<!-- Node1407 -->
 <g id="node3" class="node">
-<title>Node1403</title>
+<title>Node1407</title>
 <g id="a_node3"><a xlink:href="classSpikeBuffer.html#ac6bf1a12c5c98ddec5b65e07fe74cabe" target="_top" xlink:title="advance to next time step ">
 <polygon fill="#ffffff" stroke="#000000" points="133,-38.5 133,-57.5 225,-57.5 225,-38.5 133,-38.5"/>
 <text text-anchor="middle" x="179" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeBuffer::step</text>
 </a>
 </g>
 </g>
-<!-- Node1401&#45;&gt;Node1403 -->
+<!-- Node1405&#45;&gt;Node1407 -->
 <g id="edge2" class="edge">
-<title>Node1401&#45;&gt;Node1403</title>
+<title>Node1405&#45;&gt;Node1407</title>
 <path fill="none" stroke="#191970" d="M89.2866,-48C99.935,-48 111.4323,-48 122.5277,-48"/>
 <polygon fill="#191970" stroke="#191970" points="122.5686,-51.5001 132.5685,-48 122.5685,-44.5001 122.5686,-51.5001"/>
 </g>
-<!-- Node1405 -->
+<!-- Node1409 -->
 <g id="node5" class="node">
-<title>Node1405</title>
+<title>Node1409</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a477f99451786873b73e2623b6f89b766" target="_top" xlink:title="deallocates all dynamical structures and exits ">
 <polygon fill="#ffffff" stroke="#000000" points="140,-.5 140,-19.5 218,-19.5 218,-.5 140,-.5"/>
 <text text-anchor="middle" x="179" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">exitSimulation</text>
 </a>
 </g>
 </g>
-<!-- Node1401&#45;&gt;Node1405 -->
+<!-- Node1405&#45;&gt;Node1409 -->
 <g id="edge4" class="edge">
-<title>Node1401&#45;&gt;Node1405</title>
+<title>Node1405&#45;&gt;Node1409</title>
 <path fill="none" stroke="#191970" d="M78.44,-38.411C95.7231,-33.5281 116.9329,-27.5357 135.4112,-22.315"/>
 <polygon fill="#191970" stroke="#191970" points="136.3992,-25.673 145.0708,-19.5859 134.4959,-18.9367 136.3992,-25.673"/>
 </g>
-<!-- Node1404 -->
+<!-- Node1408 -->
 <g id="node4" class="node">
-<title>Node1404</title>
+<title>Node1408</title>
 <g id="a_node4"><a xlink:href="classSpikeBuffer_1_1Impl.html#ac6bf1a12c5c98ddec5b65e07fe74cabe" target="_top" xlink:title="SpikeBuffer::Impl::step">
 <polygon fill="#ffffff" stroke="#000000" points="269,-38.5 269,-57.5 386,-57.5 386,-38.5 269,-38.5"/>
 <text text-anchor="middle" x="327.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SpikeBuffer::Impl::step</text>
 </a>
 </g>
 </g>
-<!-- Node1403&#45;&gt;Node1404 -->
+<!-- Node1407&#45;&gt;Node1408 -->
 <g id="edge3" class="edge">
-<title>Node1403&#45;&gt;Node1404</title>
+<title>Node1407&#45;&gt;Node1408</title>
 <path fill="none" stroke="#191970" d="M225.1723,-48C235.7325,-48 247.1814,-48 258.4686,-48"/>
 <polygon fill="#191970" stroke="#191970" points="258.7589,-51.5001 268.7589,-48 258.7589,-44.5001 258.7589,-51.5001"/>
 </g>

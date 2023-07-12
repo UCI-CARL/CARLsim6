@@ -9,39 +9,39 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 62)">
 <title>startTesting</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-62 224,-62 224,4 -4,4"/>
-<!-- Node1263 -->
+<!-- Node1271 -->
 <g id="node1" class="node">
-<title>Node1263</title>
+<title>Node1271</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-19.5 0,-38.5 68,-38.5 68,-19.5 0,-19.5"/>
 <text text-anchor="middle" x="34" y="-26.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">startTesting</text>
 </g>
-<!-- Node1264 -->
+<!-- Node1272 -->
 <g id="node2" class="node">
-<title>Node1264</title>
+<title>Node1272</title>
 <g id="a_node2"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="104,-38.5 104,-57.5 220,-57.5 220,-38.5 104,-38.5"/>
 <text text-anchor="middle" x="162" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node1263&#45;&gt;Node1264 -->
+<!-- Node1271&#45;&gt;Node1272 -->
 <g id="edge1" class="edge">
-<title>Node1263&#45;&gt;Node1264</title>
+<title>Node1271&#45;&gt;Node1272</title>
 <path fill="none" stroke="#191970" d="M68.3017,-34.0917C76.2647,-35.2737 85.0158,-36.5727 93.8728,-37.8874"/>
 <polygon fill="#191970" stroke="#191970" points="93.4757,-41.3667 103.8813,-39.373 94.5036,-34.4426 93.4757,-41.3667"/>
 </g>
-<!-- Node1265 -->
+<!-- Node1273 -->
 <g id="node3" class="node">
-<title>Node1265</title>
+<title>Node1273</title>
 <g id="a_node3"><a xlink:href="classSNN.html#a2cd1a2dce1e32f83916153a99ac03c88" target="_top" xlink:title="enters a testing phase, where all weight updates are disabled ">
 <polygon fill="#ffffff" stroke="#000000" points="114,-.5 114,-19.5 210,-19.5 210,-.5 114,-.5"/>
 <text text-anchor="middle" x="162" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::startTesting</text>
 </a>
 </g>
 </g>
-<!-- Node1263&#45;&gt;Node1265 -->
+<!-- Node1271&#45;&gt;Node1273 -->
 <g id="edge2" class="edge">
-<title>Node1263&#45;&gt;Node1265</title>
+<title>Node1271&#45;&gt;Node1273</title>
 <path fill="none" stroke="#191970" d="M68.3017,-23.9083C79.1782,-22.2939 91.5251,-20.4611 103.6038,-18.6682"/>
 <polygon fill="#191970" stroke="#191970" points="104.2709,-22.1076 113.6486,-17.1772 103.243,-15.1835 104.2709,-22.1076"/>
 </g>

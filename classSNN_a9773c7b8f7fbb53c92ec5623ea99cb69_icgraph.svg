@@ -48,22 +48,22 @@ if (edges && edges.length) {
 <script type="text/javascript">
 var viewWidth = 506;
 var viewHeight = 39;
-var sectionId = 'dynsection-107';
+var sectionId = 'dynsection-109';
 </script>
 <script xlink:href="svgpan.js"/>
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>setConnectionMonitor</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-35 502,-35 502,4 -4,4"/>
-<!-- Node1731 -->
+<!-- Node1739 -->
 <g id="node1" class="node">
-<title>Node1731</title>
+<title>Node1739</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-6 0,-25 112,-25 112,-6 0,-6"/>
 <text text-anchor="middle" x="56" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setConnectionMonitor</text>
 </g>
-<!-- Node1732 -->
+<!-- Node1740 -->
 <g id="node2" class="node">
-<title>Node1732</title>
+<title>Node1740</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#a012dcdbbe9769131d98ddf680743bff3" target="_top" xlink:title="CARLsim::Impl::setConnection\lMonitor">
 <polygon fill="#ffffff" stroke="#000000" points="148,-.5 148,-30.5 301,-30.5 301,-.5 148,-.5"/>
 <text text-anchor="start" x="156" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::setConnection</text>
@@ -71,24 +71,24 @@ var sectionId = 'dynsection-107';
 </a>
 </g>
 </g>
-<!-- Node1731&#45;&gt;Node1732 -->
+<!-- Node1739&#45;&gt;Node1740 -->
 <g id="edge1" class="edge">
-<title>Node1731&#45;&gt;Node1732</title>
+<title>Node1739&#45;&gt;Node1740</title>
 <path fill="none" stroke="#191970" d="M122.2441,-15.5C130.6763,-15.5 139.3609,-15.5 147.9384,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="122.1081,-12.0001 112.1081,-15.5 122.108,-19.0001 122.1081,-12.0001"/>
 </g>
-<!-- Node1733 -->
+<!-- Node1741 -->
 <g id="node3" class="node">
-<title>Node1733</title>
+<title>Node1741</title>
 <g id="a_node3"><a xlink:href="classCARLsim.html#a0f4f273689484d0ceaa5a40f64fc82fc" target="_top" xlink:title="Sets a connection monitor for a group, custom ConnectionMonitor class. ">
 <polygon fill="#ffffff" stroke="#000000" points="337,-6 337,-25 498,-25 498,-6 337,-6"/>
 <text text-anchor="middle" x="417.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setConnectionMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1732&#45;&gt;Node1733 -->
+<!-- Node1740&#45;&gt;Node1741 -->
 <g id="edge2" class="edge">
-<title>Node1732&#45;&gt;Node1733</title>
+<title>Node1740&#45;&gt;Node1741</title>
 <path fill="none" stroke="#191970" d="M311.0833,-15.5C319.6808,-15.5 328.3844,-15.5 336.9173,-15.5"/>
 <polygon fill="#191970" stroke="#191970" points="311.0559,-12.0001 301.0559,-15.5 311.0559,-19.0001 311.0559,-12.0001"/>
 </g>

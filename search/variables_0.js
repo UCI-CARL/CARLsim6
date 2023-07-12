@@ -19,5 +19,6 @@ var searchData=
   ['avgtimescale',['avgTimeScale',['../structHomeostasisConfig__s.html#ac07a56473734a9a6a885019ddbf492f5',1,'HomeostasisConfig_s::avgTimeScale()'],['../structGroupConfigRT__s.html#ac07a56473734a9a6a885019ddbf492f5',1,'GroupConfigRT_s::avgTimeScale()']]],
   ['avgtimescale_5fdecay',['avgTimeScale_decay',['../structGroupConfigRT__s.html#a3f41cc2277463851fdf3883023630776',1,'GroupConfigRT_s']]],
   ['avgtimescaledecay',['avgTimeScaleDecay',['../structHomeostasisConfig__s.html#adf8d29a3813671e7cd9bb88e83ee5126',1,'HomeostasisConfig_s']]],
-  ['avgtimescaleinv',['avgTimeScaleInv',['../structHomeostasisConfig__s.html#a3ff7e08c3232115d55c90c6ff4643d2d',1,'HomeostasisConfig_s::avgTimeScaleInv()'],['../structGroupConfigRT__s.html#a3ff7e08c3232115d55c90c6ff4643d2d',1,'GroupConfigRT_s::avgTimeScaleInv()']]]
+  ['avgtimescaleinv',['avgTimeScaleInv',['../structHomeostasisConfig__s.html#a3ff7e08c3232115d55c90c6ff4643d2d',1,'HomeostasisConfig_s::avgTimeScaleInv()'],['../structGroupConfigRT__s.html#a3ff7e08c3232115d55c90c6ff4643d2d',1,'GroupConfigRT_s::avgTimeScaleInv()']]],
+  ['axonplast_5ftau',['AxonPlast_TAU',['../structGroupConfig__s.html#aa1c9634803a9f5af29880415ea19bc81',1,'GroupConfig_s::AxonPlast_TAU()'],['../structGroupConfigRT__s.html#aa1c9634803a9f5af29880415ea19bc81',1,'GroupConfigRT_s::AxonPlast_TAU()']]]
 ];

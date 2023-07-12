@@ -9,15 +9,15 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 100)">
 <title>getNeuronLocation3D</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-100 635,-100 635,4 -4,4"/>
-<!-- Node267 -->
+<!-- Node271 -->
 <g id="node1" class="node">
-<title>Node267</title>
+<title>Node271</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-38.5 0,-57.5 111,-57.5 111,-38.5 0,-38.5"/>
 <text text-anchor="middle" x="55.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getNeuronLocation3D</text>
 </g>
-<!-- Node268 -->
+<!-- Node272 -->
 <g id="node2" class="node">
-<title>Node268</title>
+<title>Node272</title>
 <g id="a_node2"><a xlink:href="classCARLsim_1_1Impl.html#aba1eac7ee46971637423204a63e9892b" target="_top" xlink:title="CARLsim::Impl::getNeuron\lLocation3D">
 <polygon fill="#ffffff" stroke="#000000" points="147,-33 147,-63 282,-63 282,-33 147,-33"/>
 <text text-anchor="start" x="155" y="-51" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNeuron</text>
@@ -25,69 +25,69 @@
 </a>
 </g>
 </g>
-<!-- Node267&#45;&gt;Node268 -->
+<!-- Node271&#45;&gt;Node272 -->
 <g id="edge1" class="edge">
-<title>Node267&#45;&gt;Node268</title>
+<title>Node271&#45;&gt;Node272</title>
 <path fill="none" stroke="#191970" d="M111.1105,-48C119.4137,-48 128.1002,-48 136.7589,-48"/>
 <polygon fill="#191970" stroke="#191970" points="136.886,-51.5001 146.886,-48 136.8859,-44.5001 136.886,-51.5001"/>
 </g>
-<!-- Node269 -->
+<!-- Node273 -->
 <g id="node3" class="node">
-<title>Node269</title>
+<title>Node273</title>
 <g id="a_node3"><a xlink:href="classUserErrors.html#a4bbedc6c0817d5e59e74e450bf00472c" target="_top" xlink:title="simple wrapper for assert statement ">
 <polygon fill="#ffffff" stroke="#000000" points="340.5,-76.5 340.5,-95.5 456.5,-95.5 456.5,-76.5 340.5,-76.5"/>
 <text text-anchor="middle" x="398.5" y="-83.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">UserErrors::assertTrue</text>
 </a>
 </g>
 </g>
-<!-- Node268&#45;&gt;Node269 -->
+<!-- Node272&#45;&gt;Node273 -->
 <g id="edge2" class="edge">
-<title>Node268&#45;&gt;Node269</title>
+<title>Node272&#45;&gt;Node273</title>
 <path fill="none" stroke="#191970" d="M282.2309,-61.9879C302.0348,-66.0778 323.4544,-70.5015 342.4483,-74.4241"/>
 <polygon fill="#191970" stroke="#191970" points="341.9295,-77.8907 352.4307,-76.4857 343.3453,-71.0354 341.9295,-77.8907"/>
 </g>
-<!-- Node270 -->
+<!-- Node274 -->
 <g id="node4" class="node">
-<title>Node270</title>
+<title>Node274</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a00ddee44990cd4763a7d4df074e6d405" target="_top" xlink:title="CARLsim::Impl::getNumNeurons">
 <polygon fill="#ffffff" stroke="#000000" points="318,-38.5 318,-57.5 479,-57.5 479,-38.5 318,-38.5"/>
 <text text-anchor="middle" x="398.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node268&#45;&gt;Node270 -->
+<!-- Node272&#45;&gt;Node274 -->
 <g id="edge3" class="edge">
-<title>Node268&#45;&gt;Node270</title>
+<title>Node272&#45;&gt;Node274</title>
 <path fill="none" stroke="#191970" d="M282.2309,-48C290.5534,-48 299.1612,-48 307.7544,-48"/>
 <polygon fill="#191970" stroke="#191970" points="307.8174,-51.5001 317.8174,-48 307.8174,-44.5001 307.8174,-51.5001"/>
 </g>
-<!-- Node272 -->
+<!-- Node276 -->
 <g id="node6" class="node">
-<title>Node272</title>
+<title>Node276</title>
 <g id="a_node6"><a xlink:href="classSNN.html#aba1eac7ee46971637423204a63e9892b" target="_top" xlink:title="SNN::getNeuronLocation3D">
 <polygon fill="#ffffff" stroke="#000000" points="329,-.5 329,-19.5 468,-19.5 468,-.5 329,-.5"/>
 <text text-anchor="middle" x="398.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNeuronLocation3D</text>
 </a>
 </g>
 </g>
-<!-- Node268&#45;&gt;Node272 -->
+<!-- Node272&#45;&gt;Node276 -->
 <g id="edge5" class="edge">
-<title>Node268&#45;&gt;Node272</title>
+<title>Node272&#45;&gt;Node276</title>
 <path fill="none" stroke="#191970" d="M282.2309,-34.0121C302.0348,-29.9222 323.4544,-25.4985 342.4483,-21.5759"/>
 <polygon fill="#191970" stroke="#191970" points="343.3453,-24.9646 352.4307,-19.5143 341.9295,-18.1093 343.3453,-24.9646"/>
 </g>
-<!-- Node271 -->
+<!-- Node275 -->
 <g id="node5" class="node">
-<title>Node271</title>
+<title>Node275</title>
 <g id="a_node5"><a xlink:href="classSNN.html#a00ddee44990cd4763a7d4df074e6d405" target="_top" xlink:title="SNN::getNumNeurons">
 <polygon fill="#ffffff" stroke="#000000" points="515,-38.5 515,-57.5 631,-57.5 631,-38.5 515,-38.5"/>
 <text text-anchor="middle" x="573" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">SNN::getNumNeurons</text>
 </a>
 </g>
 </g>
-<!-- Node270&#45;&gt;Node271 -->
+<!-- Node274&#45;&gt;Node275 -->
 <g id="edge4" class="edge">
-<title>Node270&#45;&gt;Node271</title>
+<title>Node274&#45;&gt;Node275</title>
 <path fill="none" stroke="#191970" d="M479.1097,-48C487.6805,-48 496.3373,-48 504.7466,-48"/>
 <polygon fill="#191970" stroke="#191970" points="504.859,-51.5001 514.859,-48 504.8589,-44.5001 504.859,-51.5001"/>
 </g>

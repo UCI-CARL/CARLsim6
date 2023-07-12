@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setHomeostasis</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 265,-24 265,4 -4,4"/>
-<!-- Node949 -->
+<!-- Node957 -->
 <g id="node1" class="node">
-<title>Node949</title>
+<title>Node957</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 88,-19.5 88,-.5 0,-.5"/>
 <text text-anchor="middle" x="44" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setHomeostasis</text>
 </g>
-<!-- Node950 -->
+<!-- Node958 -->
 <g id="node2" class="node">
-<title>Node950</title>
+<title>Node958</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#ae51c28f77c75f2a5adab1b511465090f" target="_top" xlink:title="Sets custom values for implementation of homeostatic synaptic scaling. ">
 <polygon fill="#ffffff" stroke="#000000" points="124,-.5 124,-19.5 261,-19.5 261,-.5 124,-.5"/>
 <text text-anchor="middle" x="192.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setHomeostasis</text>
 </a>
 </g>
 </g>
-<!-- Node949&#45;&gt;Node950 -->
+<!-- Node957&#45;&gt;Node958 -->
 <g id="edge1" class="edge">
-<title>Node949&#45;&gt;Node950</title>
+<title>Node957&#45;&gt;Node958</title>
 <path fill="none" stroke="#191970" d="M98.3846,-10C106.6384,-10 115.2457,-10 123.756,-10"/>
 <polygon fill="#191970" stroke="#191970" points="98.1529,-6.5001 88.1528,-10 98.1528,-13.5001 98.1529,-6.5001"/>
 </g>

@@ -9,45 +9,45 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 84)">
 <title>isSimulationWithGABAbRise</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-84 707,-84 707,4 -4,4"/>
-<!-- Node1562 -->
+<!-- Node1566 -->
 <g id="node1" class="node">
-<title>Node1562</title>
+<title>Node1566</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-41.5 0,-60.5 143,-60.5 143,-41.5 0,-41.5"/>
 <text text-anchor="middle" x="71.5" y="-48.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">isSimulationWithGABAbRise</text>
 </g>
-<!-- Node1563 -->
+<!-- Node1567 -->
 <g id="node2" class="node">
-<title>Node1563</title>
+<title>Node1567</title>
 <g id="a_node2"><a xlink:href="snn__cpu__module_8cpp.html#ac42c21b5ae4b743f8e00b7dfe04dcfe3" target="_top" xlink:title="dvdtLIF">
 <polygon fill="#ffffff" stroke="#000000" points="214.5,-60.5 214.5,-79.5 264.5,-79.5 264.5,-60.5 214.5,-60.5"/>
 <text text-anchor="middle" x="239.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">dvdtLIF</text>
 </a>
 </g>
 </g>
-<!-- Node1562&#45;&gt;Node1563 -->
+<!-- Node1566&#45;&gt;Node1567 -->
 <g id="edge1" class="edge">
-<title>Node1562&#45;&gt;Node1563</title>
+<title>Node1566&#45;&gt;Node1567</title>
 <path fill="none" stroke="#191970" d="M153.3843,-60.2607C175.5538,-62.768 197.9198,-65.2975 214.3004,-67.15"/>
 <polygon fill="#191970" stroke="#191970" points="153.5644,-56.7589 143.2344,-59.1128 152.7777,-63.7145 153.5644,-56.7589"/>
 </g>
-<!-- Node1564 -->
+<!-- Node1568 -->
 <g id="node3" class="node">
-<title>Node1564</title>
+<title>Node1568</title>
 <g id="a_node3"><a xlink:href="classSNN.html#aa50bf7b25bc7c5c164e2a11ee763796e" target="_top" xlink:title="getConductanceGABAb">
 <polygon fill="#ffffff" stroke="#000000" points="179,-22.5 179,-41.5 300,-41.5 300,-22.5 179,-22.5"/>
 <text text-anchor="middle" x="239.5" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getConductanceGABAb</text>
 </a>
 </g>
 </g>
-<!-- Node1562&#45;&gt;Node1564 -->
+<!-- Node1566&#45;&gt;Node1568 -->
 <g id="edge2" class="edge">
-<title>Node1562&#45;&gt;Node1564</title>
+<title>Node1566&#45;&gt;Node1568</title>
 <path fill="none" stroke="#191970" d="M153.2999,-41.7488C161.9048,-40.7756 170.5404,-39.799 178.8454,-38.8598"/>
 <polygon fill="#191970" stroke="#191970" points="152.7777,-38.2855 143.2344,-42.8872 153.5644,-45.2411 152.7777,-38.2855"/>
 </g>
-<!-- Node1565 -->
+<!-- Node1569 -->
 <g id="node4" class="node">
-<title>Node1565</title>
+<title>Node1569</title>
 <g id="a_node4"><a xlink:href="classCARLsim_1_1Impl.html#a917e6c84361a393ba5752f365cce008f" target="_top" xlink:title="CARLsim::Impl::getConductance\lGABAb">
 <polygon fill="#ffffff" stroke="#000000" points="336,-39 336,-69 497,-69 497,-39 336,-39"/>
 <text text-anchor="start" x="344" y="-57" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::Impl::getConductance</text>
@@ -55,39 +55,39 @@
 </a>
 </g>
 </g>
-<!-- Node1564&#45;&gt;Node1565 -->
+<!-- Node1568&#45;&gt;Node1569 -->
 <g id="edge3" class="edge">
-<title>Node1564&#45;&gt;Node1565</title>
+<title>Node1568&#45;&gt;Node1569</title>
 <path fill="none" stroke="#191970" d="M310.4484,-40.8184C318.7804,-41.8541 327.3287,-42.9166 335.7815,-43.9672"/>
 <polygon fill="#191970" stroke="#191970" points="310.7687,-37.3314 300.4134,-39.5712 309.9053,-44.278 310.7687,-37.3314"/>
 </g>
-<!-- Node1567 -->
+<!-- Node1571 -->
 <g id="node6" class="node">
-<title>Node1567</title>
+<title>Node1571</title>
 <g id="a_node6"><a xlink:href="classSNN.html#a0d88c00011be6536c68f8e6bc70ca1a3" target="_top" xlink:title="temporary getter to return pointer to current[] ">
 <polygon fill="#ffffff" stroke="#000000" points="385.5,-.5 385.5,-19.5 447.5,-19.5 447.5,-.5 385.5,-.5"/>
 <text text-anchor="middle" x="416.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">getCurrent</text>
 </a>
 </g>
 </g>
-<!-- Node1564&#45;&gt;Node1567 -->
+<!-- Node1568&#45;&gt;Node1571 -->
 <g id="edge5" class="edge">
-<title>Node1564&#45;&gt;Node1567</title>
+<title>Node1568&#45;&gt;Node1571</title>
 <path fill="none" stroke="#191970" d="M310.6219,-23.16C336.5879,-19.9326 364.6315,-16.4469 385.3301,-13.8742"/>
 <polygon fill="#191970" stroke="#191970" points="309.9053,-19.722 300.4134,-24.4288 310.7687,-26.6686 309.9053,-19.722"/>
 </g>
-<!-- Node1566 -->
+<!-- Node1570 -->
 <g id="node5" class="node">
-<title>Node1566</title>
+<title>Node1570</title>
 <g id="a_node5"><a xlink:href="classCARLsim.html#aa50bf7b25bc7c5c164e2a11ee763796e" target="_top" xlink:title="gets GABAb vector of a group ">
 <polygon fill="#ffffff" stroke="#000000" points="533,-44.5 533,-63.5 703,-63.5 703,-44.5 533,-44.5"/>
 <text text-anchor="middle" x="618" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::getConductanceGABAb</text>
 </a>
 </g>
 </g>
-<!-- Node1565&#45;&gt;Node1566 -->
+<!-- Node1569&#45;&gt;Node1570 -->
 <g id="edge4" class="edge">
-<title>Node1565&#45;&gt;Node1566</title>
+<title>Node1569&#45;&gt;Node1570</title>
 <path fill="none" stroke="#191970" d="M507.0729,-54C515.7002,-54 524.428,-54 532.9999,-54"/>
 <polygon fill="#191970" stroke="#191970" points="507.0069,-50.5001 497.0068,-54 507.0068,-57.5001 507.0069,-50.5001"/>
 </g>

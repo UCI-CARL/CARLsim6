@@ -9,24 +9,24 @@
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 24)">
 <title>setNeuronMonitor</title>
 <polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-24 277,-24 277,4 -4,4"/>
-<!-- Node1069 -->
+<!-- Node1077 -->
 <g id="node1" class="node">
-<title>Node1069</title>
+<title>Node1077</title>
 <polygon fill="#bfbfbf" stroke="#000000" points="0,-.5 0,-19.5 94,-19.5 94,-.5 0,-.5"/>
 <text text-anchor="middle" x="47" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">setNeuronMonitor</text>
 </g>
-<!-- Node1070 -->
+<!-- Node1078 -->
 <g id="node2" class="node">
-<title>Node1070</title>
+<title>Node1078</title>
 <g id="a_node2"><a xlink:href="classCARLsim.html#a9f96445ca9cb3edb1532b6c741ec5736" target="_top" xlink:title="Sets a Neuron Monitor for a groups, print voltage, recovery, and total current values to binary file...">
 <polygon fill="#ffffff" stroke="#000000" points="130,-.5 130,-19.5 273,-19.5 273,-.5 130,-.5"/>
 <text text-anchor="middle" x="201.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00" fill="#000000">CARLsim::setNeuronMonitor</text>
 </a>
 </g>
 </g>
-<!-- Node1069&#45;&gt;Node1070 -->
+<!-- Node1077&#45;&gt;Node1078 -->
 <g id="edge1" class="edge">
-<title>Node1069&#45;&gt;Node1070</title>
+<title>Node1077&#45;&gt;Node1078</title>
 <path fill="none" stroke="#191970" d="M104.4682,-10C112.7406,-10 121.3375,-10 129.8435,-10"/>
 <polygon fill="#191970" stroke="#191970" points="104.1946,-6.5001 94.1946,-10 104.1946,-13.5001 104.1946,-6.5001"/>
 </g>
