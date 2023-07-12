@@ -721,8 +721,8 @@ void SNN::printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpId
 
 	const int lineBufferLength = 1024;
 	char lineBuffer[lineBufferLength];
-	strcpy_s(buffer, length, ""); // init buffer
-	auto append = [&]() {strcat_s(buffer, length, lineBuffer); };  // adhoc def - INV
+	strcpy(buffer, ""); // init buffer
+	auto append = [&]() {strcat(buffer, lineBuffer); };  // adhoc def - INV
 
 	//Cache group boundaries
 	int lStartNIdPre = groupConfigs[netId][lGrpIdPre].lStartN;
@@ -812,50 +812,50 @@ void SNN::printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpId
 	assert(err == cudaSuccess);
 
 
-	sprintf_s(lineBuffer, lineBufferLength, "%-9s      %-9s      %-9s      %-9s\n", "Npost", "Npre", "cumPost", "cumPre");
+	sprintf(lineBuffer, "%-9s      %-9s      %-9s      %-9s\n", "Npost", "Npre", "cumPost", "cumPre");
 	append();
 	for (int lNId = lStartNIdPre; lNId <= lEndNIdPre; lNId++) {   // 20230619 honor grp boundaries
 		auto& r = h_PrePost[lNId - lStartNIdPre];
 		assert(r.lNId == lNId);
-		sprintf_s(lineBuffer, lineBufferLength, "[%3d] %3d      [%3d] %3d      [%3d] %3d      [%3d] %3d\n", lNId,
+		sprintf(lineBuffer, "[%3d] %3d      [%3d] %3d      [%3d] %3d      [%3d] %3d\n", lNId,
 			r._Npost, r.lNId, r._Npre, r.lNId, r._cumulativePost, r.lNId, r._cumulativePre);
 		append();
 	}
 
-	sprintf_s(lineBuffer, lineBufferLength, "\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
+	sprintf(lineBuffer, "\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
 	append();
 	for (int i = 0; i < numPostSynapses; i++) {    
 		auto& r = h_PostSynId[i];
-		sprintf_s(lineBuffer, lineBufferLength, "[%3d] {%3d %3d} %3d \n", r.pos, r.grpId, r.synId, r.lNId);
+		sprintf(lineBuffer, "[%3d] {%3d %3d} %3d \n", r.pos, r.grpId, r.synId, r.lNId);
 		append();
 	}
 
-	sprintf_s(lineBuffer, lineBufferLength, "\n%s (%s, %s, %s)\n", "preSynapticIds", "connectionGroupId", "synapseId", "preNId");
+	sprintf(lineBuffer, "\n%s (%s, %s, %s)\n", "preSynapticIds", "connectionGroupId", "synapseId", "preNId");
 	append();
 	for (int i = 0; i < numPreSynapses; i++) {  
 		auto& r = h_PreSynId[i];
-		sprintf_s(lineBuffer, lineBufferLength, "[%3d] {%3d %3d} %3d\n", r.pos, r.grpId, r.synId, r.lNId);
+		sprintf(lineBuffer, "[%3d] {%3d %3d} %3d\n", r.pos, r.grpId, r.synId, r.lNId);
 		append();
 	}
 
-	sprintf_s(lineBuffer, lineBufferLength, "\npostDelayInfo (pre x d)\n   ");  append();
+	sprintf(lineBuffer, "\npostDelayInfo (pre x d)\n   ");  append();
 	for (int t = 0; t < maxDelay + 1; t++) {
-		sprintf_s(lineBuffer, lineBufferLength, "%4d ", t + 1);  append();
+		sprintf(lineBuffer, "%4d ", t + 1);  append();
 	}
-	sprintf_s(lineBuffer, lineBufferLength, "\n");  append();
+	sprintf(lineBuffer, "\n");  append();
 
 	int i = 0;
 	for(int row=0; row < nPrePost; row++)
 	{
 		int lNId = row + lStartNIdPre;
-		sprintf_s(lineBuffer, lineBufferLength, "%2d ", lNId);  append();
+		sprintf(lineBuffer, "%2d ", lNId);  append();
 		for (int t = 0; t < maxDelay + 1; t++) {
 			assert(row * (maxDelay + 1) + t == i);
 			auto& r = h_DelayInfo[row*(maxDelay+1)+t];
-			sprintf_s(lineBuffer, lineBufferLength, "[%d,%d]", r.start, r.length);  append();
+			sprintf(lineBuffer, "[%d,%d]", r.start, r.length);  append();
 			i++;
 		}
-		sprintf_s(lineBuffer, lineBufferLength, "\n"); append();
+		sprintf(lineBuffer, "\n"); append();
 	}
 
 	// Free Device memory

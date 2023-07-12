@@ -406,7 +406,7 @@ TEST(axonplast2, path) {
 	const char* filename = "eligibility.txt";
 	std::FILE* file = std::fopen(filename, "w");
 	for (int nId = 0; nId < 16; nId++) {
-		sprintf_s(buffer, buffer_len, "%d %.3f\n", nId, eligibility[nId]);
+		sprintf(buffer, "%d %.3f\n", nId, eligibility[nId]);
 		fputs(buffer, file);
 	}
 	std::fclose(file);
@@ -614,7 +614,7 @@ TEST(axonplast2, interneurons) {
 	const char* filename = "eligibility.txt";
 	std::FILE* file = std::fopen(filename, "w");
 	for (int nId = 0; nId < 16; nId++) {
-		sprintf_s(buffer, buffer_len, "%d %.3f\n", nId, eligibility[nId]);
+		sprintf(buffer, "%d %.3f\n", nId, eligibility[nId]);
 		fputs(buffer, file);
 	}
 	std::fclose(file);
@@ -828,7 +828,7 @@ TEST(axonplast2, conductance) {
 	const char* filename = "eligibility.txt";
 	std::FILE* file = std::fopen(filename, "w");
 	for (int nId = 0; nId < 16; nId++) {
-		sprintf_s(buffer, buffer_len, "%d %.3f\n", nId, eligibility[nId]);
+		sprintf(buffer, "%d %.3f\n", nId, eligibility[nId]);
 		fputs(buffer, file);
 	}
 	std::fclose(file);
@@ -1023,7 +1023,7 @@ TEST(axonplast2, grouplevel) {
 	const char* filename = "eligibility.txt";
 	std::FILE* file = std::fopen(filename, "w");
 	for (int nId = 0; nId < 16; nId++) {
-		sprintf_s(buffer, buffer_len, "%d %.3f\n", nId, eligibility[nId]);
+		sprintf(buffer, "%d %.3f\n", nId, eligibility[nId]);
 		fputs(buffer, file);
 	}
 	std::fclose(file);
