@@ -41,12 +41,12 @@ jobs:
                   -DCMAKE_BUILD_TYPE=Release .. \
                   -DCARLSIM_GH_ACTIONS=ON
             make -j$(nproc) install
-            zip -r ${{github.workspace}}/binaries.zip /tmp/carlsim6
+            zip -r ${{github.workspace}}/binaries2.zip /tmp/carlsim6
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{github.workspace}}/binaries.zip
+        file: ${{github.workspace}}/binaries2.zip
         asset_name: ubu20cuda11.zip
         tag: ${{ github.ref }}
