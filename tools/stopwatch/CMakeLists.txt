@@ -1,7 +1,11 @@
 
 # Targets
 
-    add_library(carlsim-stopwatch SHARED)
+    if(CARLSIM_STATIC)
+        add_library(carlsim-stopwatch STATIC)
+    else()
+        add_library(carlsim-stopwatch SHARED)
+    endif()
 
     target_compile_definitions(carlsim-stopwatch PRIVATE CARLSIM_DLL)
 
@@ -16,17 +20,13 @@
     target_sources(carlsim-stopwatch PRIVATE ${SRCS} 
                                              ${HDRS})
 
-# Properties
-
-#    # Since we build shared library enable position independent code
-#    set_property(TARGET carlsim-stopwatch PROPERTY
-#        POSITION_INDEPENDENT_CODE TRUE)
-
 # Linking
 
-#target_include_directories(carlsim-stopwatch PRIVATE ../../carlsim/interface/inc)
-
-target_link_libraries(carlsim-stopwatch PRIVATE carlsim  )
+    if(CARLSIM_STATIC)
+        target_link_libraries(carlsim-stopwatch PRIVATE -static carlsim)
+    else()
+        target_link_libraries(carlsim-stopwatch PRIVATE carlsim)
+    endif()
 
 # Installation
 

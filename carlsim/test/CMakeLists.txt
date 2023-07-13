@@ -1,17 +1,18 @@
 # Dependencies
 
-# @TODO GH_ACTIONS
-#include(FetchContent)
-#FetchContent_Declare(
-#  googletest
-#  # Specify the commit you depend on and update it regularly.
-#  URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
-#)
-## For Windows: Prevent overriding the parent project's compiler/linker settings
-#set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-#FetchContent_MakeAvailable(googletest)
+find_package(GTest)
 
-find_package(GTest REQUIRED)
+if(NOT GTest_FOUND)
+    include(FetchContent)
+    FetchContent_Declare(
+        googletest
+        # Specify the commit you depend on and update it regularly.
+        URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+    )
+    # For Windows: Prevent overriding the parent project's compiler/linker settings
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
+endif()
 
 # Targets
 
@@ -54,8 +55,20 @@ find_package(GTest REQUIRED)
         PRIVATE
             carlsim-spike-generators
             ${GTEST_LIBRARIES}
+            #if(CARLSIM_GH_ACTIONS)
             GTest::gtest
+            gcov
+            #endif()
     )
+
+    #if(CARLSIM_GH_ACTIONS)
+    #target_link_libraries(carlsim-tests
+    #   PRIVATE
+    #        GTest::gtest
+    #        gcov
+    #)
+    #endif()
+
 
 
 if(MSVC)
@@ -64,13 +77,8 @@ if(MSVC)
     target_link_options(carlsim-tests PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
 endif()
 
-# @TODO GH_ACTIONS
-#if(CARLSIM_TEST)
-#    target_link_libraries(carlsim-tests
-#        PRIVATE
-#        gcov
-#    )
-#    target_compile_options(carlsim-tests PRIVATE -g -O0 -fprofile-arcs -ftest-coverage)
+#if(CARLSIM_GH_ACTIONS)
+    target_compile_options(carlsim-tests PRIVATE -g -O0 -fprofile-arcs -ftest-coverage)
 #endif()
 
-#include(GoogleTest)
+include(GoogleTest)

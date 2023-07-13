@@ -9,15 +9,16 @@ if(CARLSIM_STATIC)
   add_subdirectory(monitor)
 endif()
 
-if(CARLSIM_TEST)    
+if(CARLSIM_TEST)
     add_subdirectory(test)
     add_subdirectory(test6)
-    # Removing for v1 of CI with Github Actions. @TODO GH_ACTIONS option
-    add_subdirectory(testadv)
+    if(NOT CARLSIM_GH_ACTIONS)
+        add_subdirectory(testadv)
+    endif()
 endif()
 
 # add benchmark as embedded sub project
 # \sa standalone sub folder
-if(CARLSIM_BENCHMARKS)    
+if(CARLSIM_BENCHMARKS)
     add_subdirectory(benchmark)
-endif()    
+endif()

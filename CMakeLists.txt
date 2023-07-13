@@ -9,11 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 #LN20201126  https://cmake.org/cmake/help/latest/guide/tutorial/index.html#id20
 set(CMAKE_DEBUG_POSTFIX d)
 
-# @TODO test if necessary
-# @TODO find permanent home in this file
-# if(CARLSIM_STATIC)
-# 	set(CMAKE_POSITION_INDEPENDENT_CODE True)
-# endif()
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # LN2021 enforce parallel build as default
 if(MSVC)
@@ -29,7 +26,7 @@ endif()
 
     # all options have to be captured in the carlsim_conf.h.in, see below
 
-    option(CARLSIM_GH_ACTIONS "Configure CMake for GitHub Actions" OFF)         # @TODO set this when called by GitHub WFs 
+    option(CARLSIM_GH_ACTIONS "Configure CMake for GitHub Actions" OFF)         # Set this when called by GitHub WFs
     option(CARLSIM_NO_CUDA "Turn off CUDA support" OFF)         # more for boot straping and quality ensurance
     option(CARLSIM_NO_PTHREADS "Turn off PTHREADS" ON)          # since CARLsim5, Linux Release builds throw segmentation violation 
     option(CARLSIM_SHARED "Build CARLSIM as shared library" ON)     # this is the primary supported way
@@ -41,7 +38,7 @@ endif()
     option(CARLSIM_PYCARL "Build CARLSIM PyCARL" OFF)            # not for CR but SNN
     option(CARLSIM_TOOLS "Build CARLSIM Tools" ON)              # check for dependecies
     option(CARLSIM_TEST "Build CARLSIM Tests" ON)               # mandadory for development
-         
+
     # an option translates to one or more compile definitions assigned to one or multiple targets
     # it can be set manually or by a super build customized to a specific profil
     option(CARLSIM_LN_EXT "LN's Extension" ON)	# can switch off using the context (s.build / profile)
@@ -71,18 +68,18 @@ if(NOT CARLSIM_SHARED AND NOT CARLSIM_STATIC)
     message(FATAL_ERROR "Cannot build without either shared or static flag.")
 endif()
 
+if(CARLSIM_GH_ACTIONS AND NOT CARLSIM_TEST)
+    message(FATAL_ERROR "CARLSIM_GH_ACTIONS requires CARLSIM_TEST also be True.")
+endif()
+
 # Dependencies
 
     if(NOT CARLSIM_NO_CUDA)
-		# @TODO find permanent home in this file
-		# SET(CUDA_USE_STATIC_CUDA_RUNTIME OFF)
-		# @TODO find permanent home in this file
-		# @TODO GH_ACTIONS
-		#if(CARLSIM_TEST)
-		#	set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
-		#	set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} ${CMAKE_NVCC_FLAGS}")
-		#	set(CMAKE_NVCC_FLAGS "${CMAKE_CUDA_FLAGS}")
-		#endif()
+		if(CARLSIM_GH_ACTIONS)
+			set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
+			set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} ${CMAKE_NVCC_FLAGS}")
+			set(CMAKE_NVCC_FLAGS "${CMAKE_CUDA_FLAGS}")
+		endif()
 		find_package(CUDA 11 REQUIRED)
     endif()
 
@@ -180,11 +177,13 @@ if(CARLSIM_TEST)
         ${kernel_HDRS}
         ${monitor_SRCS} 
         ${monitor_HDRS}
-# @TODO
-#if(CARLSIMGH_ACTIONS) AND UNIX 
-#        PROPERTIES
-#        COMPILE_FLAGS  "-g -O0 -fprofile-arcs -ftest-coverage"
     )
+    if(CARLSIM_GH_ACTIONS AND UNIX)
+        set_source_files_properties(
+            PROPERTIES
+            COMPILE_FLAGS  "-g -O0 -fprofile-arcs -ftest-coverage"
+        )
+    endif()
 endif()
 
 if(NOT CARLSIM_NO_CUDA)
@@ -363,13 +362,12 @@ endif()
 
 ### Linking ###
 
-# @TODO GH_ACTIONS
-#if(CARLSIM_TEST)
-#    target_link_libraries(carlsim
-#        PUBLIC
-#        gcov
-#    )
-#endif()
+if(CARLSIM_GH_ACTIONS)
+    target_link_libraries(carlsim
+        PUBLIC
+        gcov
+    )
+endif()
 
 if(NOT CARLSIM_NO_CUDA)
 	target_link_libraries(carlsim
