@@ -1,7 +1,7 @@
 name: cmake build
 
 on:
-  pull_request: # pull
+  push: # pull_request:
     branches: [ "main" ] 
 
 jobs:
