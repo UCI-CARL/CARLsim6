@@ -3,10 +3,34 @@ on:
     types: [created]
 name: release binaries
 jobs:
-  build:
+  build_ubu18cuda11:
     # more appropriate permissions here? tinyurl.com/5725swh8
     permissions: write-all
-    runs-on: ubu20GPU # self-hosted # ubuntu_18
+    runs-on: ubu18cuda11 
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run:  | 
+            mkdir ${{github.workspace}}/build
+            cd ${{github.workspace}}/build
+            cmake -DCMAKE_INSTALL_PREFIX=/tmp/carlsim6 \
+                  -DCMAKE_BUILD_TYPE=Release .. \
+                  -DCARLSIM_TEST=OFF
+            make -j$(nproc) install
+            zip -r ${{github.workspace}}/binaries.zip /tmp/carlsim6
+
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{github.workspace}}/binaries.zip
+        asset_name: ubu18cuda11.zip
+        tag: ${{ github.ref }}
+        
+  build_ubu20cuda11:
+    # more appropriate permissions here? tinyurl.com/5725swh8
+    permissions: write-all
+    runs-on: ubu20cuda11 # self-hosted # ubuntu_18
     steps:
     - uses: actions/checkout@v3
     - name: Build
@@ -26,5 +50,3 @@ jobs:
         file: ${{github.workspace}}/binaries.zip
         asset_name: ubu20cuda11.zip
         tag: ${{ github.ref }}
-        overwrite: true
-        body: "" # "release text..."
