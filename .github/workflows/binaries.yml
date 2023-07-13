@@ -15,7 +15,7 @@ jobs:
             cd ${{github.workspace}}/build
             cmake -DCMAKE_INSTALL_PREFIX=/tmp/carlsim6 \
                   -DCMAKE_BUILD_TYPE=Release .. \
-                  -DCARLSIM_TEST=OFF
+                  -DCARLSIM_GH_ACTIONS=ON
             make -j$(nproc) install
             zip -r ${{github.workspace}}/binaries.zip /tmp/carlsim6
 
@@ -39,7 +39,7 @@ jobs:
             cd ${{github.workspace}}/build
             cmake -DCMAKE_INSTALL_PREFIX=/tmp/carlsim6 \
                   -DCMAKE_BUILD_TYPE=Release .. \
-                  -DCARLSIM_TEST=OFF
+                  -DCARLSIM_GH_ACTIONS=ON
             make -j$(nproc) install
             zip -r ${{github.workspace}}/binaries.zip /tmp/carlsim6
 
