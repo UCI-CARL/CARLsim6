@@ -5,8 +5,8 @@
 
 # CARLsim 6.1
 
-[![Build Status](https://github.com/bainro/autoCARL/actions/workflows/build.yml/badge.svg)](https://github.com/bainro/autoCARL/actions/runs)[![Build Status](https://github.com/bainro/autoCARL/actions/workflows/binaries.yml/badge.svg)](https://github.com/bainro/autoCARL/actions/runs)
-[![Coverage Status](https://coveralls.io/repos/github/bainro/autoCARL/badge.svg?branch=refs/heads/main)](https://coveralls.io/github/bainro/autoCARL?branch=refs/heads/main)
+[![Build Status](https://github.com/UCI-CARL/CARLsim6/actions/workflows/build.yml/badge.svg)](https://github.com/bainro/autoCARL/actions/runs)[![Build Status](https://github.com/UCI-CARL/CARLsim6/actions/workflows/binaries.yml/badge.svg)](https://github.com/bainro/autoCARL/actions/runs)
+[![Coverage Status](https://coveralls.io/repos/github/UCI-CARL/CARLsim6/badge.svg?branch=refs/heads/main)](https://coveralls.io/github/bainro/autoCARL?branch=refs/heads/main)
 [![Docs](https://img.shields.io/badge/docs-v6.0.0-blue.svg)](http://uci-carl.github.io/CARLsim6)
 [![Google group](https://img.shields.io/badge/Google-Discussion%20group-blue.svg)](https://groups.google.com/forum/#!forum/carlsim-snn-simulator)
 
