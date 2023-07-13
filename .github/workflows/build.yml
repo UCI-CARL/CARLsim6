@@ -1,12 +1,12 @@
 name: cmake build
 
 on:
-  push: # pull_request:
+  pull_request: # pull
     branches: [ "main" ] 
 
 jobs:
   build:
-    runs-on: ubu20GPU # ubuntu-latest
+    runs-on: ubu20cuda11 # ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
