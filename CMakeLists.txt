@@ -362,7 +362,7 @@ endif()
 
 ### Linking ###
 
-if(CARLSIM_GH_ACTIONS)
+if(CARLSIM_TEST)
     target_link_libraries(carlsim
         PUBLIC
         gcov
