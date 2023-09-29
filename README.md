@@ -33,15 +33,15 @@ GPUs: Titan Xp, 1080ti, RTX 3090, A100
 
 This is the CARLsim6 branch known as "ca3net" or "Hippocampome" or "connection specific short-term plasticity" ("CSTP"). Some further development may be wanted on this branch before it could be merged with the main CARLsim6 branch. It can be used in a way to produce correct results with CSTP and some Hippocampome.org properties but some issues exist with this branch. Some conditions that should be known about using this branch are:
 
-<br>* COBA is enabled by default and should always be used (see [issue #27](https://github.com/UCI-CARL/CARLsim6/issues/27)).
-<br>* Do not include setConductances() in a line of code (see [issue #27](https://github.com/UCI-CARL/CARLsim6/issues/27)).
-<br>* setSTP() needs to be set to "true" for any synaptic connection to work (see [issue #27](https://github.com/UCI-CARL/CARLsim6/issues/27)). The 9-parameter and not 3-parameter version of setSTP() should be used.
-<br>* Spike generator code may not work (see [issue #29](https://github.com/UCI-CARL/CARLsim6/issues/29)).
-<br>* If using a refractory period (e.g., setting its value to 1 or more in setNeuronParameters()) then a user should only use the RUNGE_KUTTA4 integration method (see [issue #24](https://github.com/UCI-CARL/CARLsim6/issues/24)).
-<br>* In connect() and other synaptic connection statements a user should only use a delay of 1 (see [issue #20](https://github.com/UCI-CARL/CARLsim6/issues/20)). Setting connection delays greater than one are allowed in the CSTP branch unlike in the main branch CARLsim code. However, there is indicated to be bugs with any delay greater than 1 so that should not be used.
-<br>* Grid3D neuron sizes are not processed correctly (see [issue #18](https://github.com/UCI-CARL/CARLsim6/issues/18)).
-<br>* Only the GPU version of CARLsim's processing should be used. For example, when including sim(), a user should only use GPU_MODE not CPU_MODE (see [issue #18](https://github.com/UCI-CARL/CARLsim6/issues/18)). Code for the Hippocampome features has only been developed for GPUs and will not work correctly with CPU.
-<br>* Only use CARLsim6 not a different CARLsim version (see [issue #18](https://github.com/UCI-CARL/CARLsim6/issues/18)). The code has not been developed for any other version.
+- COBA is enabled by default and should always be used (see [issue #27](https://github.com/UCI-CARL/CARLsim6/issues/27)).
+- Do not include setConductances() in a line of code (see [issue #27](https://github.com/UCI-CARL/CARLsim6/issues/27)).
+- setSTP() needs to be set to "true" for any synaptic connection to work (see [issue #27](https://github.com/UCI-CARL/CARLsim6/issues/27)). The 9-parameter and not 3-parameter version of setSTP() should be used.
+- Spike generator code may not work (see [issue #29](https://github.com/UCI-CARL/CARLsim6/issues/29)).
+- If using a refractory period (e.g., setting its value to 1 or more in setNeuronParameters()) then a user should only use the RUNGE_KUTTA4 integration method (see [issue #24](https://github.com/UCI-CARL/CARLsim6/issues/24)).
+- In connect() and other synaptic connection statements a user should only use a delay of 1 (see [issue #20](https://github.com/UCI-CARL/CARLsim6/issues/20)). Setting connection delays greater than one are allowed in the CSTP branch unlike in the main branch CARLsim code. However, there is indicated to be bugs with any delay greater than 1 so that should not be used.
+- Grid3D neuron sizes are not processed correctly (see [issue #18](https://github.com/UCI-CARL/CARLsim6/issues/18)).
+- Only the GPU version of CARLsim's processing should be used. For example, when including sim(), a user should only use GPU_MODE not CPU_MODE (see [issue #18](https://github.com/UCI-CARL/CARLsim6/issues/18)). Code for the Hippocampome features has only been developed for GPUs and will not work correctly with CPU.
+- Only use CARLsim6 not a different CARLsim version (see [issue #18](https://github.com/UCI-CARL/CARLsim6/issues/18)). The code has not been developed for any other version.
 
 # Setup CARLsim6 as data scientist
 
