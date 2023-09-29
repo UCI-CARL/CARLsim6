@@ -52,10 +52,10 @@ target_link_libraries(carlsim-tests6
 PRIVATE
     carlsim-spike-generators
     ${GTEST_LIBRARIES}
-    #if(CARLSIM_GH_ACTIONS)
-    GTest::gtest
-    gcov
-    #endif()
+#    if(CARLSIM_GH_ACTIONS)
+#	GTest::gtest
+#	gcov
+#    endif()
 )
 
 #if(CARLSIM_GH_ACTIONS)
@@ -72,8 +72,8 @@ if(MSVC)
     target_link_options(carlsim-tests6 PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
 endif()
 
-#if(CARLSIM_GH_ACTIONS)
+if(CARLSIM_GH_ACTIONS)
     target_compile_options(carlsim-tests6 PRIVATE -g -O0 -fprofile-arcs -ftest-coverage)
-#endif()
+endif()
 
 include(GoogleTest)

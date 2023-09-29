@@ -56,18 +56,18 @@ endif()
             carlsim-spike-generators
             ${GTEST_LIBRARIES}
             #if(CARLSIM_GH_ACTIONS)
-            GTest::gtest
-            gcov
+			#GTest::gtest
+			#gcov
             #endif()
     )
 
-    #if(CARLSIM_GH_ACTIONS)
-    #target_link_libraries(carlsim-tests
-    #   PRIVATE
-    #        GTest::gtest
-    #        gcov
-    #)
-    #endif()
+    if(CARLSIM_GH_ACTIONS)
+    target_link_libraries(carlsim-tests
+       PRIVATE
+            GTest::gtest
+            gcov
+    )
+    endif()
 
 
 

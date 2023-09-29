@@ -97,7 +97,7 @@ else()
 endif()
 
 # @TODO find permanent home in this file
-if(CARLSIM_TEST)
+if(CARLSIM_GH_ACTIONS AND CARLSIM_TEST)
         target_compile_options(carlsim PRIVATE -g -O0 -fprofile-arcs -ftest-coverage)
 endif()
 
@@ -362,7 +362,7 @@ endif()
 
 ### Linking ###
 
-if(CARLSIM_TEST)
+if(CARLSIM_GH_ACTIONS AND CARLSIM_TEST)
     target_link_libraries(carlsim
         PUBLIC
         gcov
