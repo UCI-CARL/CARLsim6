@@ -77,8 +77,8 @@ if(MSVC)
     target_link_options(carlsim-tests PRIVATE $<$<CONFIG:Debug>:/DEBUG:FULL>)
 endif()
 
-#if(CARLSIM_GH_ACTIONS)
+if(CARLSIM_GH_ACTIONS)
     target_compile_options(carlsim-tests PRIVATE -g -O0 -fprofile-arcs -ftest-coverage)
-#endif()
+endif()
 
 include(GoogleTest)

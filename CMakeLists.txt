@@ -38,6 +38,8 @@ endif()
     option(CARLSIM_PYCARL "Build CARLSIM PyCARL" OFF)            # not for CR but SNN
     option(CARLSIM_TOOLS "Build CARLSIM Tools" ON)              # check for dependecies
     option(CARLSIM_TEST "Build CARLSIM Tests" ON)               # mandadory for development
+    
+    option(CARLSIM_VLS_SIZING "Configure CARLsim for VLS Networks" OFF)  # 
 
     # an option translates to one or more compile definitions assigned to one or multiple targets
     # it can be set manually or by a super build customized to a specific profil
@@ -330,6 +332,13 @@ if(CARLSIM_LN_AXON_PLAST)
 	target_compile_definitions(carlsim PUBLIC LN_AXON_PLAST) 
 	if(NOT CARLSIM_NO_CUDA)
 		target_compile_definitions(carlsim-cuda PUBLIC LN_AXON_PLAST)
+	endif()
+endif()
+
+if(CARLSIM_VLS_SIZING) 
+	target_compile_definitions(carlsim PUBLIC VLS_SIZING) 
+	if(NOT CARLSIM_NO_CUDA)
+		target_compile_definitions(carlsim-cuda PUBLIC VLS_SIZING)
 	endif()
 endif()
 

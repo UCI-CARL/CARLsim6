@@ -22,6 +22,7 @@ find_package(GTest REQUIRED)
         multi_runtimes.cpp
         stdp_adv.cpp
         axonplast2.cpp
+		nrngrps_limit.cpp
     )
 
     #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     

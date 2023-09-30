@@ -104,8 +104,14 @@ __device__ unsigned int spikeCountExtRxD1GPU;
 
 __device__ __constant__ RuntimeData     runtimeDataGPU;
 __device__ __constant__ NetworkConfigRT	networkConfigGPU;
+
+#ifdef VLS_SIZING
+__device__				GroupConfigRT   groupConfigsGPU[MAX_GRP_PER_SNN];
+__device__				ConnectConfigRT   connectConfigsGPU[MAX_CONN_PER_SNN];
+#else 
 __device__ __constant__ GroupConfigRT   groupConfigsGPU[MAX_GRP_PER_SNN];
 __device__ __constant__ ConnectConfigRT   connectConfigsGPU[MAX_CONN_PER_SNN];
+#endif 
 
 #ifdef LN_I_CALC_TYPES
 __device__ float               d_mulSynFast[MAX_CONN_PER_SNN];
