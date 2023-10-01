@@ -64,14 +64,18 @@ public:
 		CARLsim* const network = new CARLsim("tuneFiringRates", simMode, verbosity);
 //! [experiment3]
 
+
 //! [experiment4]
 		// Define constant Izhikevich parameters for two types of neurons
 		const float REG_IZH[] = { 0.02f, 0.2f, -65.0f, 8.0f };
 		const float FAST_IZH[] = { 0.1f, 0.2f, -65.0f, 2.0f };
 
 		// The number of individuals (separate parameter configurations) we have received
+#ifdef UNIX
 		int indiNum = parameters.getNumInstances();
-
+#else
+		const int indiNum = 10;
+#endif
 		// Groups for each individual
 		int poissonGroup[indiNum];
 		int excGroup[indiNum];
@@ -90,6 +94,9 @@ public:
 		float inhError[indiNum];
 		float fitness[indiNum];
 //! [experiment5]
+
+
+
 
 //! [experiment6]
 		// We'll add groups for *all* the individuals to the same large CARLsim network object.
@@ -127,8 +134,8 @@ public:
 		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
 			network->setSpikeRate(poissonGroup[i],in);
 
-			excMonitor[i] = network->setSpikeMonitor(excGroup[i], "/dev/null");
-			inhMonitor[i] = network->setSpikeMonitor(inhGroup[i], "/dev/null");
+			excMonitor[i] = network->setSpikeMonitor(excGroup[i], "NULL");
+			inhMonitor[i] = network->setSpikeMonitor(inhGroup[i], "NULL");
 
 			excMonitor[i]->startRecording();
 			inhMonitor[i]->startRecording();
@@ -172,13 +179,18 @@ public:
 //! [experiment11]
 
 /*! Some poor-man's CLI parsing: teturns true iff the command-line arguments contain "-parameter". */
+// then use Boost to become rich
 const bool hasOpt(int argc, const char * const argv[], const char * const parameter) {
   assert(argc >= 0);
   assert(argv != NULL);
   assert(parameter != NULL);
 
   for (int i = 1; i < argc; i++) {
-    char dashParam[strlen(parameter) + 1];
+#ifdef UNIX
+	  char dashParam[strlen(parameter) + 1];
+#else
+	  char dashParam[4096];
+#endif
     strcpy(dashParam, "-");
     strcat(dashParam, parameter);
     if (0 == strcmp(dashParam, argv[i]))

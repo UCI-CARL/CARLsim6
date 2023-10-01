@@ -1,6 +1,8 @@
 #ifndef PTI_H
 #define PTI_H
 
+#include "carlsim_pti_api.h"
+
 #include "Experiment.h"
 
 #include <string>
@@ -25,7 +27,7 @@ using namespace std;
  * A program like this can serve as the interface between CARLsim an an optimization tool (such as the <a 
  * href="https://cs.gmu.edu/~eclab/projects/ecj/">ECJ metaheuristics toolkit</a>).
  */
-class PTI {
+class CARLSIM_PTI_API PTI {
 public:
     /*!
      * Parse command-line arguments and set up a PTI instance that writes fitnesses or phenotypes to the specified 

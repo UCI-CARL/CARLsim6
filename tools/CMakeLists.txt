@@ -8,6 +8,7 @@
     if(CARLSIM_TOOLS)
       add_subdirectory(simple_weight_tuner)
       add_subdirectory(offline_analysis_toolbox)
+      add_subdirectory(pti)
     endif()
     
     if(CARLSIM_TOOLS OR CARLSIM_PYCARL)
