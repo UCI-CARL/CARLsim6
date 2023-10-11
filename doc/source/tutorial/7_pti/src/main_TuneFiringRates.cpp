@@ -40,7 +40,8 @@ public:
 	static const int NUM_NEURONS_PER_GROUP = 100;
 
 	// Simulation time in seconds
-	static const int runTime = 2;
+	//static const int runTime = 2;
+	static const int runTime = 10;
 
 	// Target rates for the objective function
 	const float INPUT_TARGET_HZ = 30.0f;
@@ -71,31 +72,48 @@ public:
 		const float FAST_IZH[] = { 0.1f, 0.2f, -65.0f, 2.0f };
 
 		// The number of individuals (separate parameter configurations) we have received
-#ifdef UNIX
+//#ifdef UNIX
 		int indiNum = parameters.getNumInstances();
-#else
-		const int indiNum = 10;
-#endif
+//#else
+//		const int indiNum = 20;
+//#endif
+//		// Groups for each individual
+//		int poissonGroup[indiNum];
+//		int excGroup[indiNum];
+//		int inhGroup[indiNum];
+//
+//		// Measure spiking activity on each exc and inh group
+//		SpikeMonitor* excMonitor[indiNum];
+//		SpikeMonitor* inhMonitor[indiNum];
+////! [experiment4]
+//
+////! [experiment5]
+//		// We'll process the spiking activity into a fitness value
+//		float excHz[indiNum];
+//		float inhHz[indiNum];
+//		float excError[indiNum];
+//		float inhError[indiNum];
+//		float fitness[indiNum];
+////! [experiment5]
+
 		// Groups for each individual
-		int poissonGroup[indiNum];
-		int excGroup[indiNum];
-		int inhGroup[indiNum];
+		vector<int> poissonGroup(indiNum);
+		vector<int> excGroup(indiNum);
+		vector<int> inhGroup(indiNum);
 
 		// Measure spiking activity on each exc and inh group
-		SpikeMonitor* excMonitor[indiNum];
-		SpikeMonitor* inhMonitor[indiNum];
-//! [experiment4]
+		vector <SpikeMonitor*> excMonitor(indiNum);
+		vector <SpikeMonitor*> inhMonitor(indiNum);
+		//! [experiment4]
 
-//! [experiment5]
-		// We'll process the spiking activity into a fitness value
-		float excHz[indiNum];
-		float inhHz[indiNum];
-		float excError[indiNum];
-		float inhError[indiNum];
-		float fitness[indiNum];
-//! [experiment5]
-
-
+		//! [experiment5]
+				// We'll process the spiking activity into a fitness value
+		vector<float> excHz(indiNum);
+		vector<float> inhHz(indiNum);
+		vector<float> excError(indiNum);
+		vector<float> inhError(indiNum);
+		vector<float> fitness(indiNum);
+		//! [experiment5]
 
 
 //! [experiment6]
@@ -103,6 +121,7 @@ public:
 		// This allows us to run multiple networks side-by-side on the same GPU: we treat them as
 		// a single mega-network with many non-interacting components.
 		assert(parameters.getNumParameters() >= 4);
+
 		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
 			/** Decode a genome*/
 			poissonGroup[i] = network->createSpikeGeneratorGroup("poisson", NUM_NEURONS_PER_GROUP, EXCITATORY_NEURON);
@@ -153,6 +172,9 @@ public:
 //! [experiment9]
 
 //! [experiment10]
+
+
+
 		// For each sub-network, extract the mean firing rate and compute a fitness value based on its difference from the target rate
 		for(unsigned int i = 0; i < parameters.getNumInstances(); i++) {
 
@@ -167,6 +189,7 @@ public:
 
 			fitness[i] = 1/(excError[i] + inhError[i]);
 			outputStream << fitness[i] << endl;
+
 		}
 //! [experiment10]
 
@@ -189,7 +212,7 @@ const bool hasOpt(int argc, const char * const argv[], const char * const parame
 #ifdef UNIX
 	  char dashParam[strlen(parameter) + 1];
 #else
-	  char dashParam[4096];
+	  char dashParam[512];
 #endif
     strcpy(dashParam, "-");
     strcat(dashParam, parameter);
