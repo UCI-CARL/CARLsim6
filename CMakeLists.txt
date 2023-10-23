@@ -38,6 +38,8 @@ endif()
     option(CARLSIM_PYCARL "Build CARLSIM PyCARL" OFF)            # not for CR but SNN
     option(CARLSIM_TOOLS "Build CARLSIM Tools" ON)              # check for dependecies
     option(CARLSIM_TEST "Build CARLSIM Tests" ON)               # mandadory for development
+    
+    option(CARLSIM_VLS_SIZING "Configure CARLsim for VLS Networks" OFF)  # 
 
     # an option translates to one or more compile definitions assigned to one or multiple targets
     # it can be set manually or by a super build customized to a specific profil
@@ -97,7 +99,7 @@ else()
 endif()
 
 # @TODO find permanent home in this file
-if(CARLSIM_TEST)
+if(CARLSIM_GH_ACTIONS AND CARLSIM_TEST)
         target_compile_options(carlsim PRIVATE -g -O0 -fprofile-arcs -ftest-coverage)
 endif()
 
@@ -333,6 +335,13 @@ if(CARLSIM_LN_AXON_PLAST)
 	endif()
 endif()
 
+if(CARLSIM_VLS_SIZING) 
+	target_compile_definitions(carlsim PUBLIC VLS_SIZING) 
+	if(NOT CARLSIM_NO_CUDA)
+		target_compile_definitions(carlsim-cuda PUBLIC VLS_SIZING)
+	endif()
+endif()
+
 
 # Includes
 
@@ -344,25 +353,33 @@ target_include_directories(carlsim
 )
 
 if(NOT CARLSIM_NO_CUDA)
+  if(NOT DEFINED CARLSIM_CUDA_SAMPLES_INCLUDE_DIR)
+    if(DEFINED ENV{CARLSIM_CUDA_SAMPLES_INCLUDE_DIR})
+	     SET(CARLSIM_CUDA_SAMPLES_INCLUDE_DIR $ENV{CARLSIM_CUDA_SAMPLES_INCLUDE_DIR} CACHE STRING "CUDA samples set by ENV variable")
+	  elseif(IS_DIRECTORY $ENV{HOME}/cuda-samples/Common) 
+      SET(CARLSIM_CUDA_SAMPLES_INCLUDE_DIR $ENV{HOME}/cuda-samples/Common CACHE STRING "CUDA samples found in home directory")  
+	  elseif(MSVC) 
+	     SET(CARLSIM_CUDA_SAMPLES_INCLUDE_DIR "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v${CUDA_VERSION_STRING}/common/inc" CACHE STRING "CUDA samples set by default for Windows")
+    else()
+	     SET(CARLSIM_CUDA_SAMPLES_INCLUDE_DIR ${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc CACHE STRING "CUDA samples set by toolkit")
+		endif()
+	endif()
+	if(NOT IS_DIRECTORY ${CARLSIM_CUDA_SAMPLES_INCLUDE_DIR})
+		MESSAGE(FATAL_ERROR "CUDA samples not found: ${CARLSIM_CUDA_SAMPLES_INCLUDE_DIR}")
+	endif()  
 	target_include_directories(carlsim-cuda
 		PUBLIC
 			carlsim/kernel/inc
 			carlsim/interface/inc
 			carlsim/monitor
 			${CUDA_INCLUDE_DIRS}
-			${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc
-	  )
-	if(MSVC)
-		target_include_directories(carlsim-cuda
-			PUBLIC
-				"C:/ProgramData/NVIDIA Corporation/CUDA Samples/v${CUDA_VERSION_STRING}/common/inc"            
-		)
-	endif()
+			${CARLSIM_CUDA_SAMPLES_INCLUDE_DIR}
+	  )	  
 endif()
 
 ### Linking ###
 
-if(CARLSIM_TEST)
+if(CARLSIM_GH_ACTIONS AND CARLSIM_TEST)
     target_link_libraries(carlsim
         PUBLIC
         gcov

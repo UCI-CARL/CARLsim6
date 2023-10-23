@@ -132,9 +132,14 @@
 // increasing the following numbers will increase the load on constant memory
 // until a hard limit is reached, which is given by the datatype of the variable
 #ifdef LN_I_CALC_TYPES
-	// Fix issue: File uses too much global constant data (0x12140 bytes, 0x10000 max)
+#ifdef VLS_SIZING
+#define MAX_CONN_PER_SNN 32001	// USC 57000 exceeds adressing by int16_t
+#define MAX_GRP_PER_SNN 211		// USC 210
+#else
+// Fix issue: File uses too much global constant data (0x12140 bytes, 0x10000 max)
 #define MAX_CONN_PER_SNN 128	// hard limit: 2^16
 #define MAX_GRP_PER_SNN 96		// hard limit: 2^16
+#endif
 #else 
 #define MAX_CONN_PER_SNN 256	// hard limit: 2^16
 #define MAX_GRP_PER_SNN 128		// hard limit: 2^16

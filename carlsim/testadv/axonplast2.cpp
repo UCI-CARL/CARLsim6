@@ -72,7 +72,11 @@ public:
 	}
 
 	int row(int index) {
+#if defined(WIN32) || defined(WIN64)
 		return trunc(index / columns);
+#else
+		return index / columns;
+#endif
 	}
 
 	int column(int index) {
