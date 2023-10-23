@@ -37,7 +37,8 @@ if __name__ == '__main__':
     # Here we set up the external problem.  It will launch
     # the given command as a subprocess and pipe phenomes into
     # the subprocess's stdin.
-    problem = ExternalProcessProblem(command='TuneFiringRates.exe', maximize=True)
+	# problem = ExternalProcessProblem(command='TuneFiringRates.exe', maximize=True) # Windows
+    problem = ExternalProcessProblem(command='./TuneFiringRates', maximize=True)
     problem.bounds = [0.1, 1.0]  # Setting the min and max values that genes are allowed to assume
     
     # Uncomment these lines to see logs of what genomes and fitness values are sent to your external process.

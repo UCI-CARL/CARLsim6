@@ -353,20 +353,28 @@ target_include_directories(carlsim
 )
 
 if(NOT CARLSIM_NO_CUDA)
+  if(NOT DEFINED CARLSIM_CUDA_SAMPLES_INCLUDE_DIR)
+    if(DEFINED ENV{CARLSIM_CUDA_SAMPLES_INCLUDE_DIR})
+	     SET(CARLSIM_CUDA_SAMPLES_INCLUDE_DIR $ENV{CARLSIM_CUDA_SAMPLES_INCLUDE_DIR} CACHE STRING "CUDA samples set by ENV variable")
+	  elseif(IS_DIRECTORY $ENV{HOME}/cuda_samples/Common) 
+      SET(CARLSIM_CUDA_SAMPLES_INCLUDE_DIR $ENV{HOME}/cuda_samples/Common CACHE STRING "CUDA samples found in home directory")  
+	  elseif(MSVC) 
+	     SET(CARLSIM_CUDA_SAMPLES_INCLUDE_DIR "C:/ProgramData/NVIDIA Corporation/CUDA Samples/v${CUDA_VERSION_STRING}/common/inc" CACHE STRING "CUDA samples set by default for Windows")
+    else()
+	     SET(CARLSIM_CUDA_SAMPLES_INCLUDE_DIR ${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc CACHE STRING "CUDA samples set by toolkit")
+		endif()
+	endif()
+	if(NOT IS_DIRECTORY ${CARLSIM_CUDA_SAMPLES_INCLUDE_DIR})
+		MESSAGE(FATAL_ERROR "CUDA samples not found: ${CARLSIM_CUDA_SAMPLES_INCLUDE_DIR}")
+	endif()  
 	target_include_directories(carlsim-cuda
 		PUBLIC
 			carlsim/kernel/inc
 			carlsim/interface/inc
 			carlsim/monitor
 			${CUDA_INCLUDE_DIRS}
-			${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc
-	  )
-	if(MSVC)
-		target_include_directories(carlsim-cuda
-			PUBLIC
-				"C:/ProgramData/NVIDIA Corporation/CUDA Samples/v${CUDA_VERSION_STRING}/common/inc"            
-		)
-	endif()
+			${CARLSIM_CUDA_SAMPLES_INCLUDE_DIR}
+	  )	  
 endif()
 
 ### Linking ###

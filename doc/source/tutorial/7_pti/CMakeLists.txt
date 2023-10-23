@@ -31,3 +31,6 @@ install(TARGETS TuneFiringRates
         RUNTIME 
         DESTINATION $<$<CONFIG:Debug>:debug/>tutorials/7_parameter_tuning_interface 
         COMPONENT TuneFiringRates)
+
+install(FILES src/leap_TuneFiringRates.py
+		DESTINATION $<$<CONFIG:Debug>:debug/>tutorials/7_parameter_tuning_interface )
