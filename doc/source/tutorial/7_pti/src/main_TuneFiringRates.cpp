@@ -202,7 +202,6 @@ public:
 //! [experiment11]
 
 /*! Some poor-man's CLI parsing: teturns true iff the command-line arguments contain "-parameter". */
-// then use Boost to become rich
 const bool hasOpt(int argc, const char * const argv[], const char * const parameter) {
   assert(argc >= 0);
   assert(argv != NULL);

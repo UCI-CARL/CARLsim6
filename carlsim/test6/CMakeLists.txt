@@ -58,13 +58,13 @@ PRIVATE
 #    endif()
 )
 
-#if(CARLSIM_GH_ACTIONS)
-#    target_link_libraries(carlsim-tests6
-#    PRIVATE
-#        GTest::gtest
-#        gcov
-#    )
-#endif()
+if(CARLSIM_GH_ACTIONS)
+    target_link_libraries(carlsim-tests6
+    PRIVATE
+        GTest::gtest
+        gcov
+    )
+endif()
 
 if(MSVC)
     # Fixed Explorer Issue, see Release Notes of GTest Adapter
