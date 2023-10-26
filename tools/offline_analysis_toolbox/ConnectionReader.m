@@ -148,7 +148,7 @@ classdef ConnectionReader < handle
         end
         
         function [timeStamps, weights] = readWeights(obj, snapShots)
-            if nargin<2 || isempty(snapShots) || snapShots==-1
+            if nargin<2 || isempty(snapShots) || any(snapShots(:) == -1)
                 snapShots = 1:obj.nSnapshots;
             end
             
