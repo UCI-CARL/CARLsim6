@@ -51,6 +51,8 @@
 #include <carlsim.h>
 
 #include <stdio.h>
+
+#include <cstring>
 #include <vector>
 
 #include <periodic_spikegen.h>

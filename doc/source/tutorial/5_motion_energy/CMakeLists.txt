@@ -52,14 +52,15 @@ if(NOT CARLSIM_NO_CUDA)
 			inc
 			../../../../external//MotionEnergy/cppME/cppME/inc
 			${CUDA_INCLUDE_DIRS}
-			${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc
+#			${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc
+			${CARLSIM_CUDA_SAMPLES_INCLUDE_DIR}
 		)
-	if(MSVC)
-		target_include_directories(carlsim-motion-energy 
-			PUBLIC
-				"C:/ProgramData/NVIDIA Corporation/CUDA Samples/v${CUDA_VERSION_STRING}/common/inc" 					
-			)
-	endif()
+#	if(MSVC)
+#		target_include_directories(carlsim-motion-energy 
+#			PUBLIC
+#				"C:/ProgramData/NVIDIA Corporation/CUDA Samples/v${CUDA_VERSION_STRING}/common/inc" 					
+#			)
+#	endif()
 
 	add_dependencies(motion_energy motion_energy_scripts carlsim-motion-energy)
 
