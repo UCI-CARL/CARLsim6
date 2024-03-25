@@ -103,6 +103,7 @@
 #include <cassert>
 #include <cstdio>
 #include <climits>
+#include <sstream>
 
 // experimental
 #include <mutex>
