@@ -1,6 +1,6 @@
-project(carlsim)
-
 cmake_minimum_required(VERSION 3.21.0)
+
+project(carlsim)
 
 # specify the C++ standard aligned to YARP
 set(CMAKE_CXX_STANDARD 14)
