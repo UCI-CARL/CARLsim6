@@ -75,7 +75,11 @@ NeuronMonitorCore::NeuronMonitorCore(SNN* snn, int monitorId, int grpId) {
 }
 
 void NeuronMonitorCore::init() {
-	nNeurons_ = std::min(MAX_NEURON_MON_GRP_SZIE, snn_->getGroupNumNeurons(grpId_));	
+#if defined(WIN32) && defined(__NO_CUDA__)
+	nNeurons_ = std::min<int>(MAX_NEURON_MON_GRP_SZIE, snn_->getGroupNumNeurons(grpId_));
+#else
+	nNeurons_ = std::min(MAX_NEURON_MON_GRP_SZIE, snn_->getGroupNumNeurons(grpId_));
+#endif
 	assert(nNeurons_>0);
 
 	// so the first dimension is neuron ID

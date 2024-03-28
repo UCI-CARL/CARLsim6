@@ -8333,7 +8333,12 @@ void SNN::updateNeuronMonitor(int gGrpId) {
 			int grpNumNeurons = groupConfigs[netId][lGrpId].lEndN - groupConfigs[netId][lGrpId].lStartN + 1;
 			//printf("The lStartN is: %i; and lEndN is: %i\n", groupConfigs[netId][lGrpId].lStartN, groupConfigs[netId][lGrpId].lEndN);
 			// for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
+
+#if defined(WIN32) && defined(__NO_CUDA__)
+			for (int tmpNId = 0; tmpNId < std::min<int>(MAX_NEURON_MON_GRP_SZIE, grpNumNeurons); tmpNId++) {
+#else
 			for (int tmpNId = 0; tmpNId < std::min(MAX_NEURON_MON_GRP_SZIE, grpNumNeurons); tmpNId++) {
+#endif
 				int lNId = groupConfigs[netId][lGrpId].lStartN + tmpNId;
 				float v, u, I;
 
@@ -8404,7 +8409,14 @@ void SNN::printSimSummary() {
 	KERNEL_INFO("Random Seed:\t\t%d", randSeed_);
 	KERNEL_INFO("Timing:\t\t\tModel Simulation Time = %lld sec", (unsigned long long)simTimeSec);
 	KERNEL_INFO("\t\t\tActual Execution Time = %4.2f sec", etime/1000.0f);
-	float speed = float(simTimeSec) / std::max(.001f, etime / 1000.0f); 
+
+#if defined(WIN32) && defined(__NO_CUDA__)
+	float speed = float(simTimeSec) / std::max<float>(.001f, etime / 1000.0f);
+#else
+	float speed = float(simTimeSec) / std::max(.001f, etime / 1000.0f);
+#endif
+
+
 #ifdef _DEBUG
 	const char* build = "(Debug)";
 #else

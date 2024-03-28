@@ -997,10 +997,18 @@ void SNN::copyExtFiringTable(int netId) {
 				else {
 
 					
+#if defined(WIN32) && defined(__NO_CUDA__)
 #ifdef LN_MOST_RECENT
-					j_max = std::max(j_max, j_fired);  
+					j_max = std::max<int>(j_max, j_fired);
+#else
+					j_min = std::min<int>(j_min, j_fired);
+#endif
+#else
+#ifdef LN_MOST_RECENT
+					j_max = std::max(j_max, j_fired);
 #else
 					j_min = std::min(j_min, j_fired);
+#endif
 #endif
 				}
 			}
@@ -1021,15 +1029,16 @@ void SNN::copyExtFiringTable(int netId) {
 				current_time = rtD.firingTimesD2[last];
 				appendToPath(current, current_time);
 		}
-
+#if defined(WIN32) && defined(__NO_CUDA__)
+#else
 		std::ostringstream string_stream;
 		for (auto iter = path.rbegin(); iter < path.rend(); iter++) {
 			if (iter != path.rbegin())
 				string_stream << ",";
 			string_stream << *iter;
 		}
-
 		KERNEL_INFO("path: %s", string_stream.str().c_str());
+#endif
 
 
 #ifndef LN_ELIGIBILITY_INSEARCH
