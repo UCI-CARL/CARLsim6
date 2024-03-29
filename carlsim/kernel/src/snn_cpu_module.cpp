@@ -49,6 +49,7 @@
 */
 
 #include <snn.h>
+#include <sstream>
 #include <error_code.h>
 
 #include <spike_buffer.h>
@@ -1029,8 +1030,7 @@ void SNN::copyExtFiringTable(int netId) {
 				current_time = rtD.firingTimesD2[last];
 				appendToPath(current, current_time);
 		}
-#if defined(WIN32) && defined(__NO_CUDA__)
-#else
+
 		std::ostringstream string_stream;
 		for (auto iter = path.rbegin(); iter < path.rend(); iter++) {
 			if (iter != path.rbegin())
@@ -1038,7 +1038,6 @@ void SNN::copyExtFiringTable(int netId) {
 			string_stream << *iter;
 		}
 		KERNEL_INFO("path: %s", string_stream.str().c_str());
-#endif
 
 
 #ifndef LN_ELIGIBILITY_INSEARCH
