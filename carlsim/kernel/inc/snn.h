@@ -109,6 +109,7 @@
 
 #include <carlsim.h>
 #include <callback_core.h>
+#include <execution_stopwatch.h>
 
 #include <snn_definitions.h>
 #include <snn_datastructures.h>
@@ -1317,6 +1318,8 @@ private:
 	//! vairables for tracking performance
 #ifndef __NO_CUDA__
 	StopWatchInterface* timer;
+#else
+	ExecutionStopwatch* timer;
 #endif
 	float cumExecutionTime;
 	float lastExecutionTime;

@@ -1144,6 +1144,9 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 #ifndef __NO_CUDA__
 	CUDA_RESET_TIMER(timer);
 	CUDA_START_TIMER(timer);
+#else
+	timer->reset();
+	timer->start();
 #endif
 
 	//KERNEL_INFO("Reached the advSimStep loop!");
@@ -1213,8 +1216,13 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 #ifndef __NO_CUDA__
 	CUDA_STOP_TIMER(timer);
 	lastExecutionTime = CUDA_GET_TIMER_VALUE(timer);
-	cumExecutionTime += lastExecutionTime;
+#else
+	timer->stop();
+	lastExecutionTime = timer->get_time();
 #endif
+
+	cumExecutionTime += lastExecutionTime;
+
 	return 0;
 }
 
@@ -2609,6 +2617,9 @@ void SNN::SNNinit() {
 #ifndef __NO_CUDA__
 	CUDA_CREATE_TIMER(timer);
 	CUDA_RESET_TIMER(timer);
+#else
+	timer = new ExecutionStopwatch{};
+	timer->reset();
 #endif
 }
 
@@ -5252,6 +5263,8 @@ void SNN::deleteRuntimeData() {
 
 #ifndef __NO_CUDA__
 	CUDA_DELETE_TIMER(timer);
+#else
+	delete timer;
 #endif
 }
 
@@ -8396,6 +8409,10 @@ void SNN::printSimSummary() {
 	stopTiming();
 	etime = executionTime;
 
+#ifndef __NO_CUDA__
+	etime /= 1000.0f;
+#endif
+
 	fetchNetworkSpikeCount();
 
 	KERNEL_INFO("\n");
@@ -8408,12 +8425,12 @@ void SNN::printSimSummary() {
 	KERNEL_INFO("Simulation Mode:\t%s",sim_with_conductances?"COBA":"CUBA");
 	KERNEL_INFO("Random Seed:\t\t%d", randSeed_);
 	KERNEL_INFO("Timing:\t\t\tModel Simulation Time = %lld sec", (unsigned long long)simTimeSec);
-	KERNEL_INFO("\t\t\tActual Execution Time = %4.2f sec", etime/1000.0f);
+	KERNEL_INFO("\t\t\tActual Execution Time = %4.2f sec", etime);
 
 #if defined(WIN32) && defined(__NO_CUDA__)
-	float speed = float(simTimeSec) / std::max<float>(.001f, etime / 1000.0f);
+	float speed = float(simTimeSec) / std::max<float>(.001f, etime);
 #else
-	float speed = float(simTimeSec) / std::max(.001f, etime / 1000.0f);
+	float speed = float(simTimeSec) / std::max(.001f, etime);
 #endif
 
 

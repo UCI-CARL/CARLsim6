@@ -106,6 +106,7 @@ endif()
 set(interface_SRCS     
 	carlsim/interface/src/callback_core.cpp
 	carlsim/interface/src/carlsim.cpp
+	carlsim/interface/src/execution_stopwatch.cpp
 	carlsim/interface/src/linear_algebra.cpp
 	carlsim/interface/src/poisson_rate.cpp
 	carlsim/interface/src/user_errors.cpp
@@ -119,6 +120,7 @@ set(interface_HDRS
 	carlsim/interface/inc/carlsim_api.h
 	carlsim/interface/inc/carlsim_conf_api.h
 	carlsim/interface/inc/carlsim_log_definitions.h
+	carlsim/interface/inc/execution_stopwatch.h
 	carlsim/interface/inc/linear_algebra.h
 	carlsim/interface/inc/poisson_rate.h
 	carlsim/interface/inc/user_errors.h
