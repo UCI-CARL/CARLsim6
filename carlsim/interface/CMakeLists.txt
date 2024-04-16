@@ -3,6 +3,7 @@
     add_library(carlsim-interface 
         src/callback_core.cpp
         src/carlsim.cpp
+	src/execution_stopwatch.cpp
         src/linear_algebra.cpp
         src/poisson_rate.cpp
         src/user_errors.cpp
@@ -53,6 +54,7 @@
             inc/carlsim_definitions.h
             inc/carlsim.h
             inc/carlsim_log_definitions.h
+	    inc/execution_stopwatch.h
             inc/linear_algebra.h
             inc/poisson_rate.h
             inc/user_errors.h
