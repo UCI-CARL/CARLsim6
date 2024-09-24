@@ -109,6 +109,7 @@
 
 #include <carlsim.h>
 #include <callback_core.h>
+#include <execution_stopwatch.h>
 
 #include <snn_definitions.h>
 #include <snn_datastructures.h>
@@ -1226,7 +1227,7 @@ private:
 	void printEntrails_GPU(int netId, int lGrpIdPre, int lGrpIdPost);
 	void printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost);
 #else	                   
-	bool updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) { assert(false); }
+	bool updateDelays_GPU(int netId, int lGrpIdPre, int lGrpIdPost, std::vector<std::tuple<int, int, uint8_t>> connDelays) { assert(false); return false; }
 	void printEntrails_GPU(int netId, int lGrpIdPre, int lGrpIdPost) { assert(false); }
 	void printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpIdPre, int lGrpIdPost) { assert(false); }
 #endif
@@ -1317,6 +1318,8 @@ private:
 	//! vairables for tracking performance
 #ifndef __NO_CUDA__
 	StopWatchInterface* timer;
+#else
+	ExecutionStopwatch* timer;
 #endif
 	float cumExecutionTime;
 	float lastExecutionTime;

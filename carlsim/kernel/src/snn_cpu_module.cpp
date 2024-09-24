@@ -49,6 +49,7 @@
 */
 
 #include <snn.h>
+#include <sstream>
 #include <error_code.h>
 
 #include <spike_buffer.h>
@@ -997,10 +998,18 @@ void SNN::copyExtFiringTable(int netId) {
 				else {
 
 					
+#if defined(WIN32) && defined(__NO_CUDA__)
 #ifdef LN_MOST_RECENT
-					j_max = std::max(j_max, j_fired);  
+					j_max = std::max<int>(j_max, j_fired);
+#else
+					j_min = std::min<int>(j_min, j_fired);
+#endif
+#else
+#ifdef LN_MOST_RECENT
+					j_max = std::max(j_max, j_fired);
 #else
 					j_min = std::min(j_min, j_fired);
+#endif
 #endif
 				}
 			}
@@ -1028,7 +1037,6 @@ void SNN::copyExtFiringTable(int netId) {
 				string_stream << ",";
 			string_stream << *iter;
 		}
-
 		KERNEL_INFO("path: %s", string_stream.str().c_str());
 
 
