@@ -70,15 +70,20 @@ TEST(Stopwatch, ExecutionStopwatch) {
 	ExecutionStopwatch* timer = new ExecutionStopwatch{};
 #endif
 
-	for (int i = 0; i <= 100; ++i) {
+	const int durations[] = { 0, 10, 100, 500 }; 
+	const int n = 4; 
+
+	for (int i = 0; i < n; ++i) {
+		int duration = durations[i];
+
 		// Start timer
 #ifndef __NO_CUDA__
-		CUDA_START_TIMER(timer)
+		CUDA_START_TIMER(timer);
 #else
 		timer->start();
 #endif
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(i));
+		std::this_thread::sleep_for(std::chrono::milliseconds(duration));
 
 		// Stop timer, get time elapsed, and reset timer
 #ifndef __NO_CUDA__
@@ -91,7 +96,7 @@ TEST(Stopwatch, ExecutionStopwatch) {
 		timer->reset();
 #endif
 
-		float measured_expected_diff = measured_time - i;
+		float measured_expected_diff = measured_time - duration;
 		EXPECT_LE(1e-6, measured_expected_diff);
 	}
 

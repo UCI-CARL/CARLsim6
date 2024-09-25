@@ -47,6 +47,9 @@
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
 */
+
+#ifdef __NO_CUDA__
+
 #include "execution_stopwatch.h"
 
 #include <carlsim_log_definitions.h> // CARLSIM_WARN
@@ -95,3 +98,6 @@ void ExecutionStopwatch::reset() {
 		_stop_time = std::chrono::steady_clock::time_point::min();
 	}
 }
+
+
+#endif
