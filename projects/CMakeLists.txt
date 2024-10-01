@@ -10,6 +10,7 @@ if(CARLSIM_SAMPLES)
 #    add_subdirectory(test_kernel2)
 #    add_subdirectory(test_kernel3)
 #    add_subdirectory(lif_izhi_random_spnet)
+    add_subdirectory(spike_generator)
 endif()
 
  
