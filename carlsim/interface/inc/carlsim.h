@@ -94,9 +94,19 @@ class SpikeGenerator;
 #define srand48(x) srand(x)
 #endif
 
+//#ifndef drand48
+//#define drand48() (double(rand())/RAND_MAX)
+//#endif
+
+/*
+https://linux.die.net/man/3/srand48
+https://en.cppreference.com/w/cpp/numeric/random/rand
+*/
 #ifndef drand48
-#define drand48() (double(rand())/RAND_MAX)
+#define drand48() (double(rand())/(RAND_MAX+1.0))
 #endif
+
+
 
 #else
 
