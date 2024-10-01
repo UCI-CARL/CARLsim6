@@ -1357,18 +1357,22 @@ void SNN::scaleWeights(short int connId, float scale, bool updateWeightRange) {
 				// apply bias to weight
 				float weight = managerRuntimeData.wt[pos_ij] * scale;
 
+				// \sa SNN::connectNeurons
+				bool bExcit = isExcitatoryGroup(connectConfigMap[connId].grpSrc);
+				float absWt = bExcit ? weight : -1.0f * weight;  
+
 				// inform user of acton taken if weight is out of bounds
 //				bool needToPrintDebug = (weight>connInfo->maxWt || weight<connInfo->minWt);
-				bool needToPrintDebug = (weight > connectConfigMap[connId].maxWt || weight < 0.0f);
+				bool needToPrintDebug = (absWt > connectConfigMap[connId].maxWt || absWt < 0.0f);
 
 				if (updateWeightRange) {
 					// if this flag is set, we need to update minWt,maxWt accordingly
 					// will be saving new maxSynWt and copying to GPU below
 //					connInfo->minWt = fmin(connInfo->minWt, weight);
 #if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
-					connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, weight);
+					connectConfigMap[connId].maxWt = std::max<float>(connectConfigMap[connId].maxWt, absWt);
 #else
-					connectConfigMap[connId].maxWt = std::max(connectConfigMap[connId].maxWt, weight);
+					connectConfigMap[connId].maxWt = std::max(connectConfigMap[connId].maxWt, absWt);
 #endif
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("scaleWeights(%d,%f,%s): updated weight ranges to [%f,%f]", connId, scale,
@@ -1378,16 +1382,20 @@ void SNN::scaleWeights(short int connId, float scale, bool updateWeightRange) {
 					// constrain weight to boundary values
 					// compared to above, we swap minWt/maxWt logic
 #if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
-					weight = std::min<float>(weight, connectConfigMap[connId].maxWt);
+					absWt = std::min<float>(absWt, connectConfigMap[connId].maxWt);
 #else
-					weight = std::min(weight, connectConfigMap[connId].maxWt);	// LN2021 gcc
+					absWt = std::min(absWt, connectConfigMap[connId].maxWt);	// LN2021 gcc
 #endif
 //					weight = fmax(weight, connInfo->minWt);
 #if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
-					weight = std::max<float>(weight, 0.0f);   // \todo Issue 
+					absWt = std::max<float>(absWt, 0.0f);
 #else
-					weight = std::max(weight, 0.0f);   // \todo Issue  lower bound
+					absWt = std::max(absWt, 0.0f);
 #endif
+					
+					// inhibitory 
+					weight = bExcit ? absWt : -1.0f * absWt;
+
 					if (needToPrintDebug) {
 						KERNEL_DEBUG("scaleWeights(%d,%f,%s): constrained weight %f to [%f,%f]", connId, scale,
 							(updateWeightRange?"true":"false"), weight, 0.0f, connectConfigMap[connId].maxWt);
