@@ -1196,7 +1196,7 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 			connInfo.nDest = std::get<1>(*iter);
 			connInfo.delay = std::get<2>(*iter);
 #ifdef DEBUG_updateDelays_CPU
-			printEntrails(buffer, buff_len, 8, gGrpIdPre, gGrpIdPost);
+			printEntrails(buffer, buff_len, gGrpIdPre, gGrpIdPost);
 			printf("before pre=%d, post=%d delay=%d\n%s\n", connInfo.nSrc, connInfo.nDest, connInfo.delay, buffer);
 #endif
 
@@ -1354,7 +1354,7 @@ bool SNN::updateDelays_CPU(int netId, int gGrpIdPre, int gGrpIdPost, std::vector
 				}
 			}
 #ifdef DEBUG_updateDelays_CPU
-			printEntrails(buffer, buff_len, 8, gGrpIdPre, gGrpIdPost);
+			printEntrails(buffer, buff_len, gGrpIdPre, gGrpIdPost);
 			printf("after pre=%d, post=%d delay=%d\n%s\n", connInfo.nSrc, connInfo.nDest, connInfo.delay, buffer);
 #endif
 			

@@ -4,6 +4,7 @@
 #include "carlsim_tests.h"
 
 #include <carlsim.h>
+#include <snn_definitions.h>
 
 // include stopwatch for timing
 #include <stopwatch.h>
@@ -403,7 +404,7 @@ TEST(axonplast2, path) {
 
 	std::vector<int> path;
 	std::vector<float> eligibility (16, 0.0f);
-	sim.findWavefrontPath(path, eligibility, 8, CA3_Pyramidal, 0, 15);  // Design flaw,  grpIds are global, see getDelays,  netId must not be passed but derived
+	sim.findWavefrontPath(path, eligibility, CPU_RUNTIME_BASE, CA3_Pyramidal, 0, 15);  // Design flaw,  grpIds are global, see getDelays,  netId must not be passed but derived
 
 	const int buffer_len = 100;
 	char buffer[buffer_len];
@@ -611,7 +612,7 @@ TEST(axonplast2, interneurons) {
 
 	std::vector<int> path;
 	std::vector<float> eligibility (16, 0.0f);
-	sim.findWavefrontPath(path, eligibility, 8, CA3_Pyramidal, 0, 15);  // Design flaw,  grpIds are global, see getDelays,  netId must not be passed but derived
+	sim.findWavefrontPath(path, eligibility, CPU_RUNTIME_BASE, CA3_Pyramidal, 0, 15);  // Design flaw,  grpIds are global, see getDelays,  netId must not be passed but derived
 
 	const int buffer_len = 100;
 	char buffer[buffer_len];
@@ -825,7 +826,7 @@ TEST(axonplast2, conductance) {
 
 	std::vector<int> path;
 	std::vector<float> eligibility (16, 0.0f);
-	sim.findWavefrontPath(path, eligibility, 8, CA3_Pyramidal, 0, 15);  
+	sim.findWavefrontPath(path, eligibility, CPU_RUNTIME_BASE, CA3_Pyramidal, 0, 15);
 
 	const int buffer_len = 100;
 	char buffer[buffer_len];
@@ -1020,7 +1021,7 @@ TEST(axonplast2, grouplevel) {
 
 	std::vector<int> path;
 	std::vector<float> eligibility (16, 0.0f);
-	sim.findWavefrontPath(path, eligibility, 8, CA3_Pyramidal, 0, 15);  // Design flaw,  grpIds are global, see getDelays,  netId must not be passed but derived
+	sim.findWavefrontPath(path, eligibility, CPU_RUNTIME_BASE, CA3_Pyramidal, 0, 15);  // Design flaw,  grpIds are global, see getDelays,  netId must not be passed but derived
 
 	const int buffer_len = 100;
 	char buffer[buffer_len];
