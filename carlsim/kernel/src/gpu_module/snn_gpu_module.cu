@@ -1691,6 +1691,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 							// current based model with STP (CUBA)
 							// updated current for neuron 'post_nid'
 							AMPA_sum += change;									// \todo LN 2021 big issue is AMPA_sum really reused for CUBA -> this breaks the design  grp1 withCoba grp2 with Cuba -> both updates n.AMPAsum
+							//printf("AMPA_sum += %f\n", change);
 							break;
 						default:
 							; // do nothing
@@ -1727,6 +1728,7 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 #endif
 					tmp_I_cnt++;
 					tmp_I_set = tmp_I_set & (~(1 << (8 * cnt + wt_i)));
+					//printf("tmp_I_cnt %d  tmp_I_set %d\n", tmp_I_cnt, tmp_I_set);
 				}
 
 				// FIXME: move reset outside kernel for debbuing I_set, resume it later
@@ -1765,10 +1767,11 @@ __global__ void kernel_conductanceUpdate (int simTimeMs, int simTimeSec, int sim
 					}
 					break;
 				case CUBA: 
-					runtimeDataGPU.current[postNId] += AMPA_sum;		// \todo LN 20210913 big isse, see above \todo Jinwei
+					runtimeDataGPU.current[postNId] += AMPA_sum;
+					//printf("runtimeDataGPU.current[%d] += %f\n", postNId, AMPA_sum);
 					break;
 				case NM4W_LN21:
-					runtimeDataGPU.current[postNId] += AMPA_sum;		// \todo LN 20210913 big isse, see above \todo Jinwei
+					runtimeDataGPU.current[postNId] += AMPA_sum;
 					break;
 				default: 
 					; // do nothing
@@ -1903,6 +1906,8 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 		break;
 	case CUBA:
 		totalCurrent += runtimeDataGPU.current[nid];
+		//if (runtimeDataGPU.current[nid] > .0f)
+		//	printf("updateNeuronState %4d ms (last_iter=%d) CUBA runtimeDataGPU.current[%d] = %.1f,  totalCurrent = %.1f\n", simTimeMs, lastIteration, nid, runtimeDataGPU.current[nid], totalCurrent);
 		break;
 	case NM4W_LN21:
 		totalCurrent += runtimeDataGPU.current[nid];
@@ -1938,6 +1943,9 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 	if (groupConfigsGPU[grpId].withCompartments) {
 		totalCurrent += getCompCurrent_GPU(grpId, nid);
 	}
+
+	//if(lastIteration)
+	//	printf("@ %4d ms:  totalCurrent(grpId=%d, nidId=%d) = %.2f\n", simTimeMs, grpId, nid, totalCurrent);  // debug STP GPU   (lastIter==%d)
 
 	switch (networkConfigGPU.simIntegrationMethod) {
 	case FORWARD_EULER:
@@ -2349,8 +2357,10 @@ __global__ void kernel_STPUpdateAndDecayConductances (int t, int sec, int simTim
 				tau_u_inv = 1.0f / tau_u;
 				tau_x_inv = 1.0f / tau_x;
 			}
+			//printf("grp[%d] tau_u = %f  tau_x = %f\n", grpId, 1.0f/tau_u_inv, 1.0f/tau_x_inv);
 			runtimeDataGPU.stpu[ind_plus] = runtimeDataGPU.stpu[ind_minus] * (1.0f - tau_u_inv);
 			runtimeDataGPU.stpx[ind_plus] = runtimeDataGPU.stpx[ind_minus] + (1.0f - runtimeDataGPU.stpx[ind_minus]) * tau_x_inv;
+			//printf("grp[%d] (u-, u+) = (%.2f, %.2f)  (x-, x+) = (%.2f, %.2f)\n", grpId, runtimeDataGPU.stpu[ind_minus], runtimeDataGPU.stpu[ind_plus], runtimeDataGPU.stpx[ind_minus], runtimeDataGPU.stpx[ind_plus]);
 #else
 			runtimeDataGPU.stpu[ind_plus] = runtimeDataGPU.stpu[ind_minus] * (1.0f - groupConfigsGPU[grpId].STP_tau_u_inv);
 			runtimeDataGPU.stpx[ind_plus] = runtimeDataGPU.stpx[ind_minus] + (1.0f - runtimeDataGPU.stpx[ind_minus]) * groupConfigsGPU[grpId].STP_tau_x_inv;

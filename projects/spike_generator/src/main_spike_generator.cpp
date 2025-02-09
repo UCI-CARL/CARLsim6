@@ -106,9 +106,9 @@ int main() {
 
     sim.setNeuronParameters(gout2, 205.0, 0.0, 0.52, 0.0, -64.64, 0.0, -56.25, 0.0, 0.002, 0.0, 42.24, 0.0, 0.17, 0.0, -60.62, 0.0, -19.0, 0.0);//CA1 Tri, subtype2,ok
     
-    //sim.setSTP(gout1, true, 0.45f, 50.0f, 750.0f);
+    sim.setSTP(gout1, true, 0.45f, 50.0f, 750.0f);
                                      
-    //sim.setSTP(gout2, true, 0.15f, 750.0f, 50.0f);
+    sim.setSTP(gout2, true, 0.15f, 750.0f, 50.0f);
                                      
     
     MyConnection* myConn = new MyConnection;
