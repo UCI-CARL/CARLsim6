@@ -1,4 +1,4 @@
-/* * Copyright (c) 2016 Regents of the University of California. All rights reserved.
+﻿/* * Copyright (c) 2016 Regents of the University of California. All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions
@@ -82,8 +82,17 @@
 //
 ///////////////////////////////////////////////////////////////////
 
+#ifdef __CUDA12__
+ /* When a CUDA program containing managed variables is run on an execution 
+  platform with multiple GPUs, the variables are allocated only once, and not per GPU.   
+  https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#managed-specifier */
+__device__ __managed__ unsigned int  timeTableD2GPU[TIMING_COUNT];
+__device__ __managed__ unsigned int  timeTableD1GPU[TIMING_COUNT];
+//__device__ unsigned int* deviceIntBuffer;
+#else
 __device__ unsigned int  timeTableD2GPU[TIMING_COUNT];
 __device__ unsigned int  timeTableD1GPU[TIMING_COUNT];
+#endif
 
 __device__ unsigned int	spikeCountD2SecGPU;
 __device__ unsigned int	spikeCountD1SecGPU;
@@ -121,15 +130,23 @@ __device__ __constant__ float               d_mulSynFast[MAX_CONN_PER_SNN];
 __device__ __constant__ float               d_mulSynSlow[MAX_CONN_PER_SNN];
 #endif
 
-
 __device__  int	  loadBufferCount; 
 __device__  int   loadBufferSize;
 
+#ifdef __CUDA12__
+__device__ __managed__ cudaTextureObject_t timeTableD2GPU_tex;
+//__device__ cudaTextureObject_t timeTableD1GPU_tex;  // obsolete, no longer used since version 5
+//__device__ cudaTextureObject_t groupIdInfo_tex;	  // obsolete, no longer used since version 5
+//__device__  int timeTableD1GPU_tex_offset;  // obsolete due managed memory
+//__device__  int timeTableD2GPU_tex_offset;  // restricted to single GPU
+#else 
 texture <int,    1, cudaReadModeElementType>  timeTableD2GPU_tex;
 texture <int,    1, cudaReadModeElementType>  timeTableD1GPU_tex;
 texture <int,    1, cudaReadModeElementType>  groupIdInfo_tex; // groupIDInfo is allocated using cudaMalloc thus doesn't require an offset when using textures
 __device__  int timeTableD1GPU_tex_offset;
 __device__  int timeTableD2GPU_tex_offset;
+#endif
+
 
 // example of the quick synaptic table
 // index     cnt
@@ -269,8 +286,11 @@ void SNN::allocateGroupId(int netId) {
 
 	CUDA_CHECK_ERRORS(cudaMalloc((void**)&runtimeData[netId].groupIdInfo, sizeof(int3) * networkConfigs[netId].numGroups));
 	CUDA_CHECK_ERRORS(cudaMemcpy(runtimeData[netId].groupIdInfo, tempNeuronAllocation, sizeof(int3) * networkConfigs[netId].numGroups, cudaMemcpyHostToDevice));
-	CUDA_CHECK_ERRORS(cudaBindTexture(NULL, groupIdInfo_tex, runtimeData[netId].groupIdInfo, sizeof(int3) * networkConfigs[netId].numGroups));
+#ifdef __CUDA12__
 
+#else
+	CUDA_CHECK_ERRORS(cudaBindTexture(NULL, groupIdInfo_tex, runtimeData[netId].groupIdInfo, sizeof(int3) * networkConfigs[netId].numGroups));
+#endif
 	free(tempNeuronAllocation);
 }
 
@@ -766,25 +786,25 @@ void SNN::printEntrails_GPU(char* buffer, unsigned length, int netId, int lGrpId
 	// Kernels
 	{
 		int numBlocks = (nPrePost / NUM_THREADS) + 1;
-		int blocksPerGrid = (nPrePost + NUM_THREADS - 1) / NUM_THREADS;
+		//int blocksPerGrid = (nPrePost + NUM_THREADS - 1) / NUM_THREADS;
 		kernel_printEntrailsPrePost<<<numBlocks, NUM_THREADS>>>(lGrpIdPre, lGrpIdPost, d_Form, d_PrePost);
 	}
 
 	{
 		int numBlocks = (numPostSynapses / NUM_THREADS) + 1;
-		int blocksPerGrid = (numPostSynapses + NUM_THREADS - 1) / NUM_THREADS;
+		//int blocksPerGrid = (numPostSynapses + NUM_THREADS - 1) / NUM_THREADS;
 		kernel_printEntrailsPostSynIds<<<numBlocks, NUM_THREADS>>>(lGrpIdPre, lGrpIdPost, numPostSynapses, d_PostSynId);
 	}
 
 	{
 		int numBlocks = (numPreSynapses / NUM_THREADS) + 1;
-		int blocksPerGrid = (numPreSynapses + NUM_THREADS - 1) / NUM_THREADS;
+		//int blocksPerGrid = (numPreSynapses + NUM_THREADS - 1) / NUM_THREADS;
 		kernel_printEntrailsPreSynIds<<<numBlocks, NUM_THREADS>>>(lGrpIdPre, lGrpIdPost, numPreSynapses, d_PreSynId);
 	}
 
 	{
 		int numBlocks = (numDelayInfos / NUM_THREADS) + 1;
-		int blocksPerGrid = (numDelayInfos + NUM_THREADS - 1) / NUM_THREADS;
+		//int blocksPerGrid = (numDelayInfos + NUM_THREADS - 1) / NUM_THREADS;
 		kernel_printEntrailsDelayInfo<<<numBlocks, NUM_THREADS>>>(lGrpIdPre, lGrpIdPost, nPrePost, maxDelay, d_DelayInfo);
 	}
 
@@ -972,9 +992,9 @@ __global__ void kernel_updateDelays(int lGrpIdPre, int lGrpIdPost,
 
 	//Cache group boundaries
 	int lStartNIdPre = groupConfigsGPU[lGrpIdPre].lStartN;
-	int lEndNIdPre = groupConfigsGPU[lGrpIdPre].lEndN;
+	//int lEndNIdPre = groupConfigsGPU[lGrpIdPre].lEndN;
 	int lStartNIdPost = groupConfigsGPU[lGrpIdPost].lStartN;
-	int lEndNIdPost = groupConfigsGPU[lGrpIdPost].lEndN;
+	//int lEndNIdPost = groupConfigsGPU[lGrpIdPost].lEndN;
 
 	uint8_t* delays = new uint8_t[(numPreN + 1) * (numPostN + 1)];
 
@@ -1029,7 +1049,7 @@ __global__ void kernel_updateDelays(int lGrpIdPre, int lGrpIdPost,
 		connInfo.connId = -1;
 		connInfo.preSynId = -1;
 
-		int post_pos, pre_pos;
+		//int post_pos, pre_pos;
 		enum { left, right, none } direction;
 
 		{
@@ -1070,7 +1090,7 @@ __global__ void kernel_updateDelays(int lGrpIdPre, int lGrpIdPost,
 			int delay_left = -1;
 
 			int post_pos = -1;
-			int pre_pos = -1;
+			//int pre_pos = -1;
 			int start = runtimeDataGPU.cumulativePost[connInfo.nSrc]; // start index 
 
 			int n = runtimeDataGPU.Npost[connInfo.nSrc]; // neuron has n synapses
@@ -2857,12 +2877,21 @@ __global__ void kernel_doCurrentUpdateD2(int simTimeMs, int simTimeSec, int simT
 
 	__syncthreads();
 
+#ifdef __CUDA12__
+	// stores the number of fired neurons at time t
+	int k = tex1Dfetch<int>(timeTableD2GPU_tex, simTimeMs + networkConfigGPU.maxDelay + 1) - 1;
+
+	// stores the number of fired neurons at time (t - maxDelay_)
+	int k_end = tex1Dfetch<int>(timeTableD2GPU_tex, simTimeMs + 1);
+
+#else
 	// stores the number of fired neurons at time t
 	int k = tex1Dfetch(timeTableD2GPU_tex, simTimeMs + networkConfigGPU.maxDelay + 1 + timeTableD2GPU_tex_offset) - 1;
 
 	// stores the number of fired neurons at time (t - maxDelay_)
 	int k_end = tex1Dfetch(timeTableD2GPU_tex, simTimeMs + 1 + timeTableD2GPU_tex_offset);
 
+#endif
 	int t_pos = simTimeMs;
 
 	// we need to read (k-k_end) neurons from the firing 
@@ -2880,12 +2909,19 @@ __global__ void kernel_doCurrentUpdateD2(int simTimeMs, int simTimeSec, int simT
 				//int nid = GET_FIRING_TABLE_NID(val);
 				int nid = runtimeDataGPU.firingTableD2[fPos];
 
+#ifdef __CUDA12__
+				// find the time of firing based on the firing number fPos
+				while (!((fPos >= tex1Dfetch<int>(timeTableD2GPU_tex, t_pos + networkConfigGPU.maxDelay))
+					&& (fPos < tex1Dfetch<int>(timeTableD2GPU_tex, t_pos + networkConfigGPU.maxDelay + 1)))) {
+					t_pos--;
+				}
+#else
 				// find the time of firing based on the firing number fPos
 				while (!((fPos >= tex1Dfetch(timeTableD2GPU_tex, t_pos + networkConfigGPU.maxDelay + timeTableD2GPU_tex_offset))
 					&& (fPos < tex1Dfetch(timeTableD2GPU_tex, t_pos + networkConfigGPU.maxDelay + 1 + timeTableD2GPU_tex_offset)))) {
 					t_pos--;
 				}
-
+#endif
 				// find the time difference between firing of the neuron and the current time
 				int tD = simTimeMs - t_pos;
 
@@ -4426,6 +4462,12 @@ void SNN::deleteRuntimeData_GPU(int netId) {
 
 	if (runtimeData[netId].randNum != NULL) CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].randNum));
 	runtimeData[netId].randNum = NULL;
+
+#ifdef __CUDA12__
+	CUDA_CHECK_ERRORS( cudaDestroyTextureObject(timeTableD2GPU_tex) );
+#endif
+
+
 }
 
 void SNN::globalStateUpdate_C_GPU(int netId) {
@@ -4811,8 +4853,13 @@ void SNN::copySpikeTables(int netId, cudaMemcpyKind kind) {
 	CUDA_CHECK_ERRORS(cudaMemcpyFromSymbol(&gpuSpikeCountD1Sec, spikeCountD1SecGPU, sizeof(int), 0, cudaMemcpyDeviceToHost));
 	CUDA_CHECK_ERRORS(cudaMemcpy(managerRuntimeData.firingTableD2, runtimeData[netId].firingTableD2, sizeof(int)*(gpuSpikeCountD2Sec + gpuSpikeCountLastSecLeftD2), cudaMemcpyDeviceToHost));
 	CUDA_CHECK_ERRORS(cudaMemcpy(managerRuntimeData.firingTableD1, runtimeData[netId].firingTableD1, sizeof(int)*gpuSpikeCountD1Sec, cudaMemcpyDeviceToHost));
+#ifdef __CUDA12__
+	CUDA_CHECK_ERRORS(cudaMemcpy(managerRuntimeData.timeTableD2, timeTableD2GPU, sizeof(int) * (1000 + glbNetworkConfig.maxDelay + 1),cudaMemcpyDeviceToHost));
+	CUDA_CHECK_ERRORS(cudaMemcpy(managerRuntimeData.timeTableD1, timeTableD1GPU, sizeof(int) * (1000 + glbNetworkConfig.maxDelay + 1), cudaMemcpyDeviceToHost));
+#else
 	CUDA_CHECK_ERRORS(cudaMemcpyFromSymbol(managerRuntimeData.timeTableD2, timeTableD2GPU, sizeof(int)*(1000 + glbNetworkConfig.maxDelay + 1), 0, cudaMemcpyDeviceToHost));
 	CUDA_CHECK_ERRORS(cudaMemcpyFromSymbol(managerRuntimeData.timeTableD1, timeTableD1GPU, sizeof(int)*(1000 + glbNetworkConfig.maxDelay + 1), 0, cudaMemcpyDeviceToHost));
+#endif
 }
 
 /*!
@@ -5181,6 +5228,30 @@ void SNN::allocateSNN_GPU(int netId) {
 	// allocation of gpu runtime data is done
 	runtimeData[netId].allocated = true;
 
+#ifdef __CUDA12__
+	// Specify texture
+	struct cudaResourceDesc timeTableD2GPU_resDesc;
+	memset(&timeTableD2GPU_resDesc, 0, sizeof(timeTableD2GPU_resDesc));
+	timeTableD2GPU_resDesc.resType = cudaResourceTypeLinear;
+	//timeTableD2GPU_resDesc.res.linear.devPtr = devPtr;
+	timeTableD2GPU_resDesc.res.linear.devPtr = timeTableD2GPU; // managed
+	timeTableD2GPU_resDesc.res.linear.desc.f = cudaChannelFormatKindSigned;
+	timeTableD2GPU_resDesc.res.linear.desc.x = 32;
+	timeTableD2GPU_resDesc.res.linear.sizeInBytes = sizeof(int) * TIMING_COUNT;
+
+	// Specify texture object parameters
+	struct cudaTextureDesc timeTableD2GPU_texDesc;
+	memset(&timeTableD2GPU_texDesc, 0, sizeof(timeTableD2GPU_texDesc));
+	timeTableD2GPU_texDesc.normalizedCoords = 0;
+	timeTableD2GPU_texDesc.readMode = cudaReadModeElementType;
+	timeTableD2GPU_texDesc.addressMode[0] = cudaAddressModeClamp;
+	timeTableD2GPU_texDesc.addressMode[1] = cudaAddressModeClamp;
+	timeTableD2GPU_texDesc.addressMode[2] = cudaAddressModeClamp;
+	timeTableD2GPU_texDesc.filterMode = cudaFilterModePoint;
+
+	// Create texture object
+	CUDA_CHECK_ERRORS(cudaCreateTextureObject(&timeTableD2GPU_tex, &timeTableD2GPU_resDesc, &timeTableD2GPU_texDesc, NULL));
+#else
 	// map the timing table to texture.. saves a lot of headache in using shared memory
 	void* devPtr;
 	size_t offset;
@@ -5195,6 +5266,7 @@ void SNN::allocateSNN_GPU(int netId) {
 	offset = offset / sizeof(int);
 	CUDA_CHECK_ERRORS(cudaGetSymbolAddress(&devPtr, timeTableD1GPU_tex_offset));
 	CUDA_CHECK_ERRORS(cudaMemcpy(devPtr, &offset, sizeof(int), cudaMemcpyHostToDevice));
+#endif
 
 	initGPU(netId);
 }

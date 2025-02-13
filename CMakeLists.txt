@@ -198,6 +198,7 @@ if(NOT CARLSIM_NO_CUDA)
 			carlsim/kernel/src/gpu_module/snn_gpu_module.cu
 			OPTIONS
 				${CARLSIM_CUDA_GENCODE}
+				-Wno-deprecated-gpu-targets
 		)
 	endif()
 
