@@ -1562,6 +1562,24 @@ void SNN::updateLTP(int lNId, int lGrpId, int netId) {
 							runtimeData[netId].wtChange[pos_ij] -= STDP(stdp_tDiff, connectConfigMap[connId].stdpConfig.ALPHA_PLUS_EXC, connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_EXC);
 					}
 					break;
+
+
+#define LN_EXTENSION_PULSE
+
+#ifdef LN_EXTENSION_PULSE
+				case PULSE_CURVE: // pulse curve
+					if (stdp_tDiff <= connectConfigMap[connId].stdpConfig.LAMBDA) { // LTP of excitatory y synapse, which increases the synapse weight
+						runtimeData[netId].wtChange[pos_ij] += connectConfigMap[connId].stdpConfig.BETA_LTP;
+						//printf("E-STDP LTP\n");
+					}
+					else if (stdp_tDiff <= connectConfigMap[connId].stdpConfig.DELTA) { // LTD of excitatory synapse, which decreases the sysnapse weight
+						runtimeData[netId].wtChange[pos_ij] += connectConfigMap[connId].stdpConfig.BETA_LTD;
+						//printf("E-STDP LTD\n");
+					}
+					else { /*do nothing*/ }
+					break;
+#endif
+
 				default:
 					KERNEL_ERROR("Invalid E-STDP curve!");
 					break;
@@ -1945,6 +1963,20 @@ void SNN::generatePostSynapticSpike(int preNId, int postNId, int synId, int tD, 
 					if (stdp_tDiff * connectConfigMap[mulIndex].stdpConfig.TAU_MINUS_INV_EXC < 25)
 						runtimeData[netId].wtChange[pos] += STDP(stdp_tDiff, connectConfigMap[mulIndex].stdpConfig.ALPHA_MINUS_EXC, connectConfigMap[mulIndex].stdpConfig.TAU_MINUS_INV_EXC);
 					break;
+
+
+#ifdef LN_EXTENSION_PULSE
+				case PULSE_CURVE: // pulse curve
+					if (stdp_tDiff <= connectConfigMap[mulIndex].stdpConfig.LAMBDA) { // LTP of inhibitory synapse, which decreases synapse weight
+						runtimeData[netId].wtChange[pos] += connectConfigMap[mulIndex].stdpConfig.BETA_LTP;
+					}
+					else if (stdp_tDiff <= connectConfigMap[mulIndex].stdpConfig.DELTA) { // LTD of inhibitory syanpse, which increase synapse weight
+						runtimeData[netId].wtChange[pos] += connectConfigMap[mulIndex].stdpConfig.BETA_LTD;
+					}
+					else { /*do nothing*/ }
+					break;
+#endif
+
 				default:
 					KERNEL_ERROR("Invalid E-STDP curve");
 					break;

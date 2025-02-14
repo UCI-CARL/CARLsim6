@@ -840,6 +840,23 @@ public:
 	 */
 	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve);
 
+
+	/*!
+ * \brief Sets E-STDP with the pulse curve
+ *
+ * \param[in] grpId the group ID of group for which these settings are applied
+ * \param[in] isSet the flag indicating if E-STDP is enabled
+ * \param[in] type the flag indicating if E-STDP is modulated by dopamine (i.e., DA-STDP)
+ * \param[in] curve the struct defining the pulse curve
+ *
+ * \STATE ::CONFIG_STATE
+ * \sa STDPType
+ * \sa PulseCurve
+ * \since v6.2
+ */
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve);
+
+
 	/*!
 	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
 	 *

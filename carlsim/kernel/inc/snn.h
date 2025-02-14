@@ -402,6 +402,24 @@ public:
 	 */
 	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2);
 
+
+	//! Set the excitatory spike-timing-dependent plasticity (STDP) with associative curve for a neuron group
+	/*
+	* \brief STDP must be defined post-synaptically; that is, if STP should be implemented on the connections from group 0 to group 1,
+	* call setSTP on group 1.    
+	* \param[in] grpId ID of the neuron group
+	* \param[in] isSet_enable set to true to enable STDP for this group
+	* \param[in] type STDP type (STANDARD, DA_MOD)
+	* \param[in] curve STDP curve
+	* \param[in] ab1 magnitude for LTP change
+	* \param[in] ab2 magnitude for LTD change (leave positive)
+	* \param[in] tau1, the interval for LTP
+	* \param[in] tau2, the interval for LTD
+	*/
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2);
+
+
+
 	/*!
 	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
 	 * CARLsim implements the short-term plasticity model of (Tsodyks & Markram, 1998; Mongillo, Barak, & Tsodyks, 2008)

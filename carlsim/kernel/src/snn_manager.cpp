@@ -942,6 +942,67 @@ void SNN::setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPC
 																				groupConfigMap[postGrpId].grpName.c_str(), postGrpId);
 }
 
+
+
+
+// set ESTDP params
+void SNN::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2) {
+	assert(preGrpId >= -1);
+	assert(postGrpId >= -1);
+	assert(IS_EXCITATORY_TYPE(groupConfigMap[preGrpId].type) == true);
+
+	if (isSet) {
+		assert(type != UNKNOWN_STDP);
+		assert(tau1 > 0); assert(tau2 > 0);
+	}
+
+	short int connId = getConnectId(preGrpId, postGrpId);
+	if (connId < 0) {
+		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
+			postGrpId, getGroupName(postGrpId).c_str());
+		exitSimulation(KERNEL_ERROR_CONN_MISSING3);
+	}
+
+	// set STDP for a given connection
+	// set params for STDP curve
+	if (curve == EXP_CURVE) {
+		connectConfigMap[connId].stdpConfig.ALPHA_PLUS_INB = ab1;
+		connectConfigMap[connId].stdpConfig.ALPHA_MINUS_INB = ab2;
+		connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB = 1.0f / tau1;
+		connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_INB = 1.0f / tau2;
+		connectConfigMap[connId].stdpConfig.BETA_LTP = 0.0f;
+		connectConfigMap[connId].stdpConfig.BETA_LTD = 0.0f;
+		connectConfigMap[connId].stdpConfig.LAMBDA = 1.0f;
+		connectConfigMap[connId].stdpConfig.DELTA = 1.0f;
+	}
+	else {
+		connectConfigMap[connId].stdpConfig.ALPHA_PLUS_INB = 0.0f;
+		connectConfigMap[connId].stdpConfig.ALPHA_MINUS_INB = 0.0f;
+		connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB = 1.0f;
+		connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_INB = 1.0f;
+		connectConfigMap[connId].stdpConfig.BETA_LTP = ab1;
+		connectConfigMap[connId].stdpConfig.BETA_LTD = ab2;
+		connectConfigMap[connId].stdpConfig.LAMBDA = tau1;
+		connectConfigMap[connId].stdpConfig.DELTA = tau2;
+	}
+	// set flags for STDP function
+	//FIXME: separate STDPType to ESTDPType and ISTDPType
+	connectConfigMap[connId].stdpConfig.WithESTDPtype = type;
+	connectConfigMap[connId].stdpConfig.WithESTDPcurve = curve;
+	connectConfigMap[connId].stdpConfig.WithESTDP = isSet;
+	connectConfigMap[connId].stdpConfig.WithSTDP |= connectConfigMap[connId].stdpConfig.WithESTDP;
+	sim_with_stdp |= connectConfigMap[connId].stdpConfig.WithSTDP;
+
+	groupConfigMap[postGrpId].WithSTDP |= connectConfigMap[connId].stdpConfig.WithSTDP;
+	groupConfigMap[postGrpId].WithDA_MOD |= (type == DA_MOD);
+#ifdef LN_I_CALC_TYPES
+	groupConfigMap[postGrpId].WithPKA_PLC_MOD |= (type == PKA_PLC_MOD);
+#endif
+	KERNEL_INFO("E-STDP %s for %s(%d) to %s(%d)", isSet ? "enabled" : "disabled", groupConfigMap[preGrpId].grpName.c_str(), preGrpId,
+		groupConfigMap[postGrpId].grpName.c_str(), postGrpId);
+}
+
+
 // set STP params
 void SNN::setSTP(int gGrpId, bool isSet, float STP_U, float STP_tau_u, float STP_tau_x) {
 	assert(gGrpId >= -1);
