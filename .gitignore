@@ -48,3 +48,6 @@ doc/html/
 *.log
 *.stat
 *.dat
+
+#macOS metadata file
+.DS_Store
