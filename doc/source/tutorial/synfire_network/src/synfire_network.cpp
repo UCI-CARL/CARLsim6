@@ -79,6 +79,14 @@ int main(int argc, const char* argv[]) {
     }
 
     // ---------------- RUN STATE -------------------
+	
+    for (int i = 0; i < nGroups; i++) {
+        SMexc[i]->startRecording();
+        SMinh[i]->startRecording();
+        //SMexc[i]->print(false);
+        //SMinh[i]->print(false);
+    }
+	
     for (int t = 0; t < 20; t++) {
         std::vector<float> thalamCurrExc(nNeurExc, 0.0f);
         std::vector<float> thalamCurrInh(nNeurInh, 0.0f);
