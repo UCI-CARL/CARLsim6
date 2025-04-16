@@ -217,6 +217,48 @@ short int SNN::connect(int grpId1, int grpId2, ConnectionGeneratorCore* conn, fl
 	return (numConnections - 1);
 }
 
+// make custom connections from grpId1 to grpId2 using user defined connectivity file
+short int SNN::connect_userconn(int grpId1, int grpId2, ConnectionGeneratorCore* conn, float _mulSynFast, float _mulSynSlow,
+						bool synWtType) {
+	int retId=-1;
+
+	assert(grpId1 < numGroups);
+	assert(grpId2 < numGroups);
+
+	// initialize the configuration of a connection
+	ConnectConfig connConfig;
+	STDPConfig stdpConfig;
+
+	connConfig.grpSrc   = grpId1;
+	connConfig.grpDest  = grpId2;
+	connConfig.initWt	  = 0.0f;
+	connConfig.maxWt	  = 0.0f;
+	connConfig.maxDelay = MAX_SYN_DELAY;
+	connConfig.minDelay = 1;
+	connConfig.mulSynFast = _mulSynFast;
+	connConfig.mulSynSlow = _mulSynSlow;
+	connConfig.connProp = SET_CONN_PRESENT(1) | SET_FIXED_PLASTIC(synWtType);
+	connConfig.type = CONN_USER_CONNECTIVITY;
+	connConfig.conn = conn;
+	connConfig.connectionMonitorId = -1;
+	connConfig.connId = -1;
+	connConfig.numberOfConnections = 0;
+	connConfig.stdpConfig = stdpConfig;
+
+
+	// assign a connection id
+	assert(connConfig.connId == -1);
+	connConfig.connId = numConnections;
+
+	// store the configuration of a connection
+	connectConfigMap[numConnections] = connConfig; // connConfig.connId == numConnections
+
+	assert(numConnections < MAX_CONN_PER_SNN);	// make sure we don't overflow connId
+	numConnections++;
+
+	return (numConnections - 1);
+}
+
 // make a compartmental connection between two groups
 short int SNN::connectCompartments(int grpIdLower, int grpIdUpper) {
 	assert(grpIdLower >= 0 && grpIdLower < numGroups);
@@ -4321,6 +4363,9 @@ void SNN::connectNetwork() {
 				case CONN_USER_DEFINED:
 					connectUserDefined(netId, connIt, false);
 					break;
+				case CONN_USER_CONNECTIVITY:
+					connectUserConnectivity(netId, connIt, false);
+					break;
 				default:
 					KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
 					exitSimulation(KERNEL_ERROR_INVALID_CONN2);
@@ -4349,6 +4394,9 @@ void SNN::connectNetwork() {
 					break;
 				case CONN_USER_DEFINED:
 					connectUserDefined(netId, connIt, true);
+					break;
+				case CONN_USER_CONNECTIVITY:
+					connectUserConnectivity(netId, connIt, false);
 					break;
 				default:
 					KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
@@ -4474,6 +4522,9 @@ void SNN::connectNetworkMT() {
 			case CONN_USER_DEFINED:
 				connectUserDefined(netId, connIt, false);
 				break;
+			case CONN_USER_CONNECTIVITY:
+				connectUserConnectivity(netId, connIt, false);
+				break;
 			default:
 				KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
 				exitSimulation(-1);
@@ -4502,6 +4553,9 @@ void SNN::connectNetworkMT() {
 				break;
 			case CONN_USER_DEFINED:
 				connectUserDefined(netId, connIt, true);
+				break;
+			case CONN_USER_CONNECTIVITY:
+				connectUserConnectivity(netId, connIt, false);
 				break;
 			default:
 				KERNEL_ERROR("Invalid connection type( should be 'random', 'full', 'full-no-direct', or 'one-to-one')");
