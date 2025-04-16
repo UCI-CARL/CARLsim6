@@ -837,6 +837,7 @@ private:
 	void connectRandom(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);
 	void connectGaussian(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);
 	void connectUserDefined(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);
+	void connectUserConnectivity(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal);
 
 #ifdef LN_SETUP_NETWORK_MT
 	void connectNetworkMT();  //! featFastSetup LN20201108

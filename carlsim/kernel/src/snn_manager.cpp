@@ -5052,6 +5052,102 @@ void SNN::connectUserDefined(int netId, std::list<ConnectConfig>::iterator connI
 	}
 }
 
+// Creates connnections based on map stored by setUserConnectivity
+void SNN::connectUserConnectivity(int netId, std::list<ConnectConfig>::iterator connIt, bool isExternal) {
+	int grpSrc = connIt->grpSrc;
+	int grpDest = connIt->grpDest;
+	int externalNetId = -1;
+
+	if (isExternal) {
+		externalNetId = groupConfigMDMap[grpDest].netId;
+		assert(netId != externalNetId);
+	}
+
+	connIt->maxDelay = 0;
+
+	int preStartN = groupConfigMDMap[grpSrc].gStartN;
+	int postStartN = groupConfigMDMap[grpDest].gStartN;
+    std::string name_src = this->getGroupName(grpSrc);
+    std::string name_dest = this->getGroupName(grpDest);
+    std::string printstring;
+    printstring.append(name_src);
+    printstring.append(" -> ");
+    printstring.append(name_dest);
+    printstring.append("\n");
+    std::cout << printstring;
+		
+    // Split name_src and name_dest into region and celltype
+    int pos_delimiter = name_src.find("-");
+    std::string region_pre = name_src.substr(0, pos_delimiter);
+    std::string celltype_pre = name_src.substr(pos_delimiter + 1, name_src.length());
+
+    pos_delimiter = name_dest.find("-");
+    std::string region_post = name_dest.substr(0, pos_delimiter);
+    std::string celltype_post = name_dest.substr(pos_delimiter + 1, name_dest.length());
+
+    // Iterate through map of connectivity
+    for (auto const& pre_map : this->userconn[name_src][name_dest]) {
+    		// Get ID of presynaptic neuron
+        int pre_key = pre_map.first;
+        // Convert ID into index relative to grpSrc
+        int pre_nid = pre_key - preStartN;
+        for (const int &post_key : this->userconn[name_src][name_dest][pre_key]) {
+        		// Convert postsynaptic ID into index relative to grpDest
+            int post_nid = post_key - postStartN;
+
+            float weight, maxWt, delay;
+            bool connected;
+
+            // MyConnection defined in project source file sets synaptic weight
+            // TODO: Needs to set conduction delays too
+            connIt->conn->connect(this, grpSrc, pre_nid, grpDest, post_nid, weight, maxWt, delay, connected);
+
+            assert(delay >= 1);
+            assert(delay <= MAX_SYN_DELAY);
+            assert(abs(weight) <= abs(maxWt));
+
+            if (GET_FIXED_PLASTIC(connIt->connProp) == SYN_FIXED)
+                maxWt = weight;
+
+            if (fabs(maxWt) > connIt->maxWt)
+                connIt->maxWt = fabs(maxWt);
+
+            if (delay > connIt->maxDelay)
+                connIt->maxDelay = delay;
+
+            connectNeurons(netId, grpSrc, grpDest, pre_nid, post_nid, connIt->connId, weight, maxWt, delay, externalNetId);
+            connIt->numberOfConnections++;
+        }
+	}
+
+	std::list<GroupConfigMD>::iterator grpIt;
+	GroupConfigMD targetGrp;
+
+	// update numPostSynapses and numPreSynapses of groups in the local network
+	targetGrp.gGrpId = grpSrc; // the other fields does not matter
+	grpIt = std::find(groupPartitionLists[netId].begin(), groupPartitionLists[netId].end(), targetGrp);
+	assert(grpIt != groupPartitionLists[netId].end());
+	grpIt->numPostSynapses += connIt->numberOfConnections;
+
+	targetGrp.gGrpId = grpDest; // the other fields does not matter
+	grpIt = std::find(groupPartitionLists[netId].begin(), groupPartitionLists[netId].end(), targetGrp);
+	assert(grpIt != groupPartitionLists[netId].end());
+	grpIt->numPreSynapses += connIt->numberOfConnections;
+
+	// also update numPostSynapses and numPreSynapses of groups in the external network if the connection is external
+	if (isExternal) {
+		targetGrp.gGrpId = grpSrc; // the other fields does not matter
+		grpIt = std::find(groupPartitionLists[externalNetId].begin(), groupPartitionLists[externalNetId].end(), targetGrp);
+		assert(grpIt != groupPartitionLists[externalNetId].end());
+		grpIt->numPostSynapses += connIt->numberOfConnections;
+
+		targetGrp.gGrpId = grpDest; // the other fields does not matter
+		grpIt = std::find(groupPartitionLists[externalNetId].begin(), groupPartitionLists[externalNetId].end(), targetGrp);
+		assert(grpIt != groupPartitionLists[externalNetId].end());
+		grpIt->numPreSynapses += connIt->numberOfConnections;
+	}
+}
+
 //// make 'C' full connections from grpSrc to grpDest
 //void SNN::connectFull(short int connId) {
 //	int grpSrc = connectConfigMap[connId].grpSrc;
