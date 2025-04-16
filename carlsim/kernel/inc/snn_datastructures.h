@@ -78,7 +78,7 @@ enum MemType {
 };
 
 //! connection types, used internally (externally it's a string)
-enum conType_t { CONN_RANDOM, CONN_ONE_TO_ONE, CONN_FULL, CONN_FULL_NO_DIRECT, CONN_GAUSSIAN, CONN_USER_DEFINED, CONN_UNKNOWN};
+enum conType_t { CONN_RANDOM, CONN_ONE_TO_ONE, CONN_FULL, CONN_FULL_NO_DIRECT, CONN_GAUSSIAN, CONN_USER_DEFINED, CONN_USER_CONNECTIVITY, CONN_UNKNOWN};
 
 //! the state of spiking neural network, used with in kernel.
 enum SNNState {
