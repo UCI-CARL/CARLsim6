@@ -438,6 +438,11 @@ public:
 	 */
 	void setWeightAndWeightChangeUpdate(UpdateInterval wtANDwtChangeUpdateInterval, bool enableWtChangeDecay, float wtChangeDecay);
 
+	// Sets the user-specified connectivity stored as a nested map container
+	/*!
+	 * \param[in] map_userconn map_userconn[string "precell_type"][int precell_ID] = vector<int> postcell_IDs
+	*/
+	void setUserConnectivity(std::map<std::string, std::map<std::string, std::map<int, std::vector<int>>>> map_userconn);
 
 
 	// +++++ PUBLIC METHODS: RUNNING A SIMULATION +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //

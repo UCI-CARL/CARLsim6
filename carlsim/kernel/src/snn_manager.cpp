@@ -1031,6 +1031,11 @@ void SNN::setWeightAndWeightChangeUpdate(UpdateInterval wtANDwtChangeUpdateInter
 	KERNEL_INFO("STDP scale factor = %1.3f, wtChangeDecay = %1.3f", stdpScaleFactor_, wtChangeDecay_);
 }
 
+// Sets the user-specified connectivity stored as a nested map container
+void SNN::setUserConnectivity(std::map<std::string, std::map<std::string, std::map<int, std::vector<int>>>> map_userconn) {
+	userconn = map_userconn;
+}
+
 /// ************************************************************************************************************ ///
 /// PUBLIC METHODS: GENERATE A SIMULATION
 /// ************************************************************************************************************ ///
