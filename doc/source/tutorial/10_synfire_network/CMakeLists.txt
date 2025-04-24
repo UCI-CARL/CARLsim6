@@ -4,7 +4,7 @@ project(synfire)
 add_executable(synfire
     src/synfire_network.cpp
 )
-set_property(TARGET synfire PROPERTY PROJECT_LABEL synfire_network)
+set_property(TARGET synfire PROPERTY PROJECT_LABEL tutorial_10_synfire_network)
 
 set(scripts_OAT      
     scripts/initOAT.m
@@ -15,7 +15,7 @@ source_group("Scripts\\OAT" FILES ${scripts_OAT})
 add_custom_target(synfire_scripts
 	SOURCES ${scripts_OAT}
 )
-set_property(TARGET synfire_scripts PROPERTY PROJECT_LABEL synfire_network_scripts)
+set_property(TARGET synfire_scripts PROPERTY PROJECT_LABEL tutorial_10_synfire_network_scripts)
 
 add_dependencies(synfire synfire_scripts)
 
