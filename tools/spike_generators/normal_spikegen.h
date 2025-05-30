@@ -54,6 +54,7 @@
 
 #include <callback.h>
 #include <vector>
+#include <queue>
 
 /*!
  * \brief a normal distributed SpikeGenerator ...
@@ -66,13 +67,14 @@ public:
 	 * \brief NormalSpikeGenerator constructor
 	 * \param[in] mean  in ms 
 	 * \param[in] sd    in ms
-	 * \param[in] events  corresponds to neuron index in the group	
+	 * \param[in] coefficient the coefficient of the function	
 	 * \param[in] write_to_file  write stimulus package as AER file
 	 */
-	NormalSpikeGenerator(float mean = 10, float sd = 2.4, int events=400, bool write_to_file = false);
-
+    NormalSpikeGenerator(float mean = 10.0f, float sd = 2.4f, int coefficient = 400, bool write_to_file = false);
+    
 	//! NormalSpikeGenerator destructor
-	~NormalSpikeGenerator() {}
+	~NormalSpikeGenerator() override = default;
+
 
 	/*!
 	 * \brief schedules the next spike time
@@ -86,17 +88,15 @@ public:
 	 * \param[in] lastScheduledSpikeTime the last time (ms) at which a spike was scheduled for this nid, grpId
 	 * \returns the next spike time (ms)
 	 */
-	int nextSpikeTime(CARLsim* sim, int grpId, int nid, int currentTime, int lastScheduledSpikeTime, int endOfTimeSlice);
-
-
+    int nextSpikeTime(CARLsim* sim, int grpId, int nid, int currentTime, int lastScheduledSpikeTime, int endOfTimeSlice) override;
 
 private:
-	void checkFiringRate();
-	
-	float mean_;		//!< 
-	float sd_;		//!< 
-	int events_;		//!< 
+    void generateSpikeTimes();
 
+    float mean_;
+    float sd_;
+    int coefficient_;
+    std::vector<std::priority_queue<int, std::vector<int>, std::greater<int> > > spikeTimesPerNeuron_;
 };
 
-#endif    # NORMAL
+#endif // _NORMAL_SPIKEGEN_H_

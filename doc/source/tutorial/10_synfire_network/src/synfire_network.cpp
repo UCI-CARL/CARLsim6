@@ -2,13 +2,16 @@
 #include <vector>
 #include <cmath>
 #include <cstdlib>
+#include <spikegen_from_vector.h>
+#include <normal_spikegen.h>
+#include <iostream>
 
 int main(int argc, const char* argv[]) {
 	// ---------------- CONFIG STATE -------------------
 #ifdef __NO_CUDA__
-	CARLsim sim("synfire_network", CPU_MODE, USER);
+	CARLsim sim("synfire_network", CPU_MODE, DEVELOPER);
 #else
-	CARLsim sim("synfire_network", GPU_MODE, USER);
+	CARLsim sim("synfire_network", GPU_MODE, DEVELOPER);
 #endif
 	
 	int nGroups = 4;			// number of synfire chain groups
@@ -23,6 +26,12 @@ int main(int argc, const char* argv[]) {
 	std::vector<int> gExc(nGroups);
 	std::vector<int> gInh(nGroups);
 
+	//Different than normal exciatory
+	int spiking_group = sim.createSpikeGeneratorGroup("spike",nNeurExc,EXCITATORY_NEURON);
+
+	NormalSpikeGenerator spikegen =  NormalSpikeGenerator(10.0f, 2.4f, 400, false);
+
+
 	// Create Synfire Chain Groups
 	for (int i = 0; i < nGroups; i++) {
 		std::string gExcName = "exc" + std::to_string(i);
@@ -33,12 +42,17 @@ int main(int argc, const char* argv[]) {
 		gInh[i] = sim.createGroup(gInhName.c_str(),nNeurInh,INHIBITORY_NEURON);
 		sim.setNeuronParameters(gInh[i], 0.1f, 0.2f, -65.0f, 2.0f);
 	}
+	
 
 	// specify connectivity
-	float wtExc = 6.0f;                   // synaptic weight magnitude if pre is exc
-	float wtInh = 5.0f;                   // synaptic weight magnitude if pre is inh (no negative sign)
-	float wtMax = 10.0f;                  // maximum synaptic weight magnitude
+	float wtExc = 0.04f;                   // synaptic weight magnitude if pre is exc
+	float wtInh = 0.02f;                   // synaptic weight magnitude if pre is inh (no negative sign)
+	//float wtMax = 10.0f;                  // maximum synaptic weight magnitude
 
+	sim.setSpikeGenerator(spiking_group,&spikegen);
+
+	//Connect the spiking generator to the first group
+	sim.connect(spiking_group, gExc[0], "random", RangeWeight(wtExc), (float)nSynExc/nNeurExc, RangeDelay(10,10), RadiusRF(-1), SYN_FIXED);
 	// gExc receives input from nSynPerNeur neurons from both gExc and gInh
 	// every neuron in gExc should receive ~nSynPerNeur synapses
 	for (int i = 0; i < nGroups; i++){
@@ -49,9 +63,12 @@ int main(int argc, const char* argv[]) {
             sim.connect(gExc[i], gInh[i + 1], "random", RangeWeight(wtExc), (float)nSynExc/nNeurExc, RangeDelay(10,10), RadiusRF(-1), SYN_FIXED);		
 		}
 	}
-	//Connect the third group back to the first
+	//Connecting the last group back to the first
 	sim.connect(gExc[3], gExc[0], "random", RangeWeight(wtExc), (float)nSynExc/nNeurExc, RangeDelay(10,10), RadiusRF(-1), SYN_FIXED);
-	sim.connect(gExc[3], gInh[0], "random", RangeWeight(wtExc), (float)nSynExc/nNeurExc, RangeDelay(10,10), RadiusRF(-1), SYN_FIXED);	
+	sim.connect(gExc[3], gInh[0], "random", RangeWeight(wtExc), (float)nSynExc/nNeurExc, RangeDelay(10,10), RadiusRF(-1), SYN_FIXED);
+	//Connect the third group back to the first
+	//sim.connect(gExc[3], gExc[0], "random", RangeWeight(wtExc), (float)nSynExc/nNeurExc, RangeDelay(10,10), RadiusRF(-1), SYN_FIXED);
+	//sim.connect(gExc[3], gInh[0], "random", RangeWeight(wtExc), (float)nSynExc/nNeurExc, RangeDelay(10,10), RadiusRF(-1), SYN_FIXED);	
 	// gInh receives input from nSynPerNeur neurons from gExc, all delays are 1ms, no plasticity
 	// every neuron in gInh should receive ~nSynPerNeur synapses
 
@@ -62,8 +79,8 @@ int main(int argc, const char* argv[]) {
     //     sim.setSTP(gExc[i], true, 0.15f, 750.0f, 50.0f);
     // }
 
-	// run CUBA mode
-	sim.setConductances(false);
+	// run COBA mode
+	sim.setConductances(true);
 
 	// ---------------- SETUP STATE -------------------
 	sim.setupNetwork();
@@ -76,24 +93,29 @@ int main(int argc, const char* argv[]) {
         SMexc[i] = sim.setSpikeMonitor(gExc[i], "DEFAULT");
         //SMinh[i] = sim.setSpikeMonitor(gInh[i], "DEFAULT");
 		//CMei[i] = sim.setConnectionMonitor(gInh[i], gExc[i], "DEFAULT");
+		if (i < nGroups-1) {
+			//CMee[i] = sim.setConnectionMonitor(gExc[i], gExc[i+1], "DEFAULT");
+		}
     }
+	SpikeMonitor* SMinput = sim.setSpikeMonitor(spiking_group, "DEFAULT");
+	SMinput->print(true);
 
     // ---------------- RUN STATE -------------------
-
+	SMinput->startRecording();
 	for (int i = 0; i < nGroups; i++) {
         SMexc[i]->startRecording();
         //SMinh[i]->startRecording();
         //SMexc[i]->print(false);
         //SMinh[i]->print(false);
     }
-
 	//t in ms
-    for (int t = 0; t < 1000; t++) {
-        std::vector<float> thalamCurrExc(nNeurExc, 0.0f);
+    for (int t = 0; t < 5; t++) {
+		std::cout << "t: " << t << std::endl;
+        //std::vector<float> thalamCurrExc(nNeurExc, 0.0f);
         // Stimulate the first group
 
 		//Calculate the normal distribution value
-		double s = 1.6;
+		/*double s = 1.6;
 		double m  = 10;
 		const double pi = 3.141592653589793;
 		double coeff = 200.0 / (s * std::sqrt(2 * pi));
@@ -103,19 +125,19 @@ int main(int argc, const char* argv[]) {
 		for (int j = 0; j < norm; j++) {
 			thalamCurrExc[j] = 80.0f;
 		}
-        sim.setExternalCurrent(gExc[3], thalamCurrExc);
-
+        sim.setExternalCurrent(gExc[3], thalamCurrExc);*/
         // Run for 1 ms
-        sim.runNetwork(0, 1, true);
+        sim.runNetwork(0, 20, true);
     }
 
     // Stop Recording & Print Stats
+
+	SMinput->stopRecording();
     for (int i = 0; i < nGroups; i++) {
-        SMexc[i]->stopRecording();
+		SMexc[i]->stopRecording();
         //SMinh[i]->stopRecording();
         //SMexc[i]->print(false);
         //SMinh[i]->print(false);
     }
-
 	return 0;
 }

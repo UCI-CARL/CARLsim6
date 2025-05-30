@@ -8,7 +8,8 @@
                 periodic_spikegen.cpp
                 pre_post_group_spikegen.cpp
                 spikegen_from_file.cpp
-                spikegen_from_vector.cpp)
+                spikegen_from_vector.cpp
+                normal_spikegen.cpp)
 
     set(HDRS    interactive_spikegen.h
                 periodic_spikegen.h
