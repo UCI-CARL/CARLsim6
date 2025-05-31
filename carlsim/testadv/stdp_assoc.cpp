@@ -115,7 +115,7 @@ TEST(STDP, ESTDPassoc_Adv) {
 			//for (int offset = -30; offset <= 30; offset += 5) {
 				//if (offset == 0) continue; // skip offset == 0;
 				// create a network
-				CARLsim* sim = new CARLsim("STDP.ESTDPExpCurve", CPU_MODE, DEVELOPER, 1, 42);
+				CARLsim* sim = new CARLsim("STDP.ESTDPExpCurve", CPU_MODE, SHOWTIME, 1, 42); // DEVELOPER
 
 				g_tof = sim->createGroup("tof", 1, EXCITATORY_NEURON, 0);
 				g_vel = sim->createGroup("vel", 1, EXCITATORY_NEURON, 0);
@@ -188,6 +188,7 @@ TEST(STDP, ESTDPassoc_Adv) {
 				}
 
 
+
 			// training signal
 			// sensor feed
 			sim->setExternalCurrent(g_mot, 0);  // expect -> f rate in g_mot, with with -> 1:1 freq in vel
@@ -232,7 +233,7 @@ TEST(STDP, ESTDP_PulseCurve_assoc) {
 					//if (offset == 0) continue; // skip offset == 0;
 					// create a network
 
-	CARLsim* sim = new CARLsim("STDP_PulseCurve", CPU_MODE, DEVELOPER, 1, 42);
+	CARLsim* sim = new CARLsim("STDP_PulseCurve", CPU_MODE, SHOWTIME, 1, 42);  //  DEVELOPER
 
 	g_tof = sim->createGroup("tof", 1, EXCITATORY_NEURON, 0);
 	g_vel = sim->createGroup("vel", 1, EXCITATORY_NEURON, 0);
@@ -283,7 +284,7 @@ TEST(STDP, ESTDP_PulseCurve_assoc) {
 	//SMvel->startRecording();
 	//SMmot->startRecording();
 
-	printf("\n\n\n================ 1. learning association ===============\n\n");
+	printf("\n================ 1. learning association ===============\n");
 	for (int j = 0; j < 5; j++) {
 		sim->runNetwork(10, 0, true);
 
@@ -303,7 +304,7 @@ TEST(STDP, ESTDP_PulseCurve_assoc) {
 		//EXPECT_NEAR(maxInhWeight, weights[0][0], 0.5f);
 	}
 
-	printf("\n\n\n================ 2. test assocation ===============\n\n");
+	printf("\n================ 2. test assocation ===============\n\n");
 
 	// training signal
 	// sensor feed
@@ -314,7 +315,6 @@ TEST(STDP, ESTDP_PulseCurve_assoc) {
 	// Expected: new the same 
 	//
 
-
 	// unlearning 
 
 	// training signal
@@ -323,7 +323,7 @@ TEST(STDP, ESTDP_PulseCurve_assoc) {
 	// sensor feed
 	sim->setExternalCurrent(g_tof, I_TOF * 0.25);  // full, slow, non
 
-	printf("\n\n\n============== 3. unlearn assocation ===============\n\n");
+	printf("\n============== 3. unlearn assocation ===============\n");
 
 	for (int j = 0; j <5 ; j++) {
 		sim->runNetwork(10, 0, true);
@@ -367,7 +367,7 @@ TEST(STDP, ESTDP_TimingBasedCurve_assoc) {
 					//if (offset == 0) continue; // skip offset == 0;
 					// create a network
 
-	CARLsim* sim = new CARLsim("STDP_PulseCurve", CPU_MODE, DEVELOPER, 1, 42);
+	CARLsim* sim = new CARLsim("STDP_PulseCurve", CPU_MODE, SHOWTIME, 1, 42); //DEVELOPER
 
 	g_tof = sim->createGroup("tof", 1, EXCITATORY_NEURON, 0);
 	g_vel = sim->createGroup("vel", 1, EXCITATORY_NEURON, 0);
@@ -418,7 +418,7 @@ TEST(STDP, ESTDP_TimingBasedCurve_assoc) {
 	//SMvel->startRecording();
 	//SMmot->startRecording();
 
-	printf("\n\n\n================ 1. learning association ===============\n\n");
+	printf("\n================ 1. learning association ===============\n");
 	for (int j = 0; j < 11; j++) {
 		sim->runNetwork(5, 0, true);
 
@@ -438,7 +438,7 @@ TEST(STDP, ESTDP_TimingBasedCurve_assoc) {
 		//EXPECT_NEAR(maxInhWeight, weights[0][0], 0.5f);
 	}
 
-	printf("\n\n\n================ 2. test assocation ===============\n\n");
+	printf("\n================ 2. test assocation ===============\n\n");
 
 	// training signal
 	// sensor feed
@@ -459,7 +459,7 @@ TEST(STDP, ESTDP_TimingBasedCurve_assoc) {
 	// sensor feed
 	sim->setExternalCurrent(g_tof, I_TOF * 0.25);  // full, slow, non
 
-	printf("\n\n\n============== 3. unlearn assocation ===============\n\n");
+	printf("\n============== 3. unlearn assocation ===============\n");
 
 	for (int j = 0; j < 5; j++) {
 		sim->runNetwork(10, 0, true);
@@ -467,8 +467,6 @@ TEST(STDP, ESTDP_TimingBasedCurve_assoc) {
 
 		printf("w:%f\n", weights[0][0]);
 	}
-
-
 
 
 	delete sim;

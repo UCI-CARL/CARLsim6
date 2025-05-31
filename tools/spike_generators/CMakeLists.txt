@@ -8,13 +8,15 @@
                 periodic_spikegen.cpp
                 pre_post_group_spikegen.cpp
                 spikegen_from_file.cpp
-                spikegen_from_vector.cpp)
+                spikegen_from_vector.cpp
+				normal_spikegen.cpp)
 
     set(HDRS    interactive_spikegen.h
                 periodic_spikegen.h
                 pre_post_group_spikegen.h
                 spikegen_from_file.h
-                spikegen_from_vector.h )
+                spikegen_from_vector.h
+				normal_spikegen.h)
 
     target_sources(carlsim-spike-generators  PRIVATE ${SRCS} 
                                              ${HDRS})

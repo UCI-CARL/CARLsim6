@@ -1502,6 +1502,16 @@ __global__ 	void kernel_findFiring (int simTimeMs, int simTime) {
 					runtimeDataGPU.nVBuffer[idxBase + lNId - groupConfigsGPU[lGrpId].lStartN] = runtimeDataGPU.voltage[lNId];
 					runtimeDataGPU.nUBuffer[idxBase + lNId - groupConfigsGPU[lGrpId].lStartN] = runtimeDataGPU.recovery[lNId];
 				}
+
+				//// log coba values if any active coba monitor is present
+				//if (networkConfigGPU.sim_with_cm && lNId - groupConfigsGPU[lGrpId].lStartN < MAX_COBA_MON_GRP_SZIE) {
+				//	int idxBase = networkConfigGPU.numGroups * MAX_COBA_MON_GRP_SZIE * simTimeMs + lGrpId * MAX_COBA_MON_GRP_SZIE;
+				//	runtimeDataGPU.nAMPABuffer[idxBase + lNId - groupConfigsGPU[lGrpId].lStartN] = runtimeDataGPU.gAMPA[lNId];
+				//	runtimeDataGPU.nNMDABuffer[idxBase + lNId - groupConfigsGPU[lGrpId].lStartN] = runtimeDataGPU.gNMDA[lNId];
+				//	runtimeDataGPU.nGABAaBuffer[idxBase + lNId - groupConfigsGPU[lGrpId].lStartN] = runtimeDataGPU.gGABAa[lNId];
+				//	runtimeDataGPU.nGABAbBuffer[idxBase + lNId - groupConfigsGPU[lGrpId].lStartN] = runtimeDataGPU.gGABAb[lNId];
+				//}
+
 			}
 		}
 
@@ -1922,6 +1932,11 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 			I_sum *= mu;
 		}
 
+
+
+
+
+
 		totalCurrent += I_sum;
 		break;
 	case CUBA:
@@ -1963,6 +1978,14 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 	if (groupConfigsGPU[grpId].withCompartments) {
 		totalCurrent += getCompCurrent_GPU(grpId, nid);
 	}
+
+
+	// if status unchaned 3 times put neuron into sleep mode, only needs to be woken up if current > 0 this is 
+	// however this is class .. specific an only valid for a certain range 
+	// introduce plugin --> to provide custom neurons --> this is the product !!!
+//if (totalCurrent < 100.01f)   
+//		return;
+
 
 	//if(lastIteration)
 	//	printf("@ %4d ms:  totalCurrent(grpId=%d, nidId=%d) = %.2f\n", simTimeMs, grpId, nid, totalCurrent);  // debug STP GPU   (lastIter==%d)
@@ -2154,6 +2177,18 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 			int idxBase = networkConfigGPU.numGroups * MAX_NEURON_MON_GRP_SZIE * simTimeMs + grpId * MAX_NEURON_MON_GRP_SZIE;
 			runtimeDataGPU.nIBuffer[idxBase + nid - groupConfigsGPU[grpId].lStartN] = totalCurrent;
 		}
+
+		// log coba values if any active coba monitor is present
+		if (networkConfigGPU.sim_with_cm && nid - groupConfigsGPU[grpId].lStartN < MAX_COBA_MON_GRP_SZIE) {
+			int idxBase = networkConfigGPU.numGroups * MAX_COBA_MON_GRP_SZIE * simTimeMs + grpId * MAX_COBA_MON_GRP_SZIE;
+			runtimeDataGPU.nAMPABuffer[idxBase + nid - groupConfigsGPU[grpId].lStartN] = runtimeDataGPU.gAMPA[nid];
+			runtimeDataGPU.nNMDABuffer[idxBase + nid - groupConfigsGPU[grpId].lStartN] = runtimeDataGPU.gNMDA[nid];
+			runtimeDataGPU.nGABAaBuffer[idxBase + nid - groupConfigsGPU[grpId].lStartN] = runtimeDataGPU.gGABAa[nid];
+			runtimeDataGPU.nGABAbBuffer[idxBase + nid - groupConfigsGPU[grpId].lStartN] = runtimeDataGPU.gGABAb[nid];
+		}
+
+
+
 	}
 
 	runtimeDataGPU.nextVoltage[nid] = v_next;
@@ -2192,9 +2227,9 @@ __global__ void kernel_neuronStateUpdate(int simTimeMs, bool lastIteration) {
 				// update neuron state here....
 				updateNeuronState(nid, grpId, simTimeMs, lastIteration);
 
-// 				// P8
-// 				if (groupConfigsGPU[grpId].WithHomeostasis)
-// 					updateHomeoStaticState(nid, grpId);
+ 				//// P8
+ 				//if (groupConfigsGPU[grpId].WithHomeostasis)
+ 				//	updateHomeoStaticState(nid, grpId);
 			}
 		}
 	}
@@ -3577,6 +3612,9 @@ void SNN::copyNeuronState(int netId, int lGrpId, RuntimeData* dest, cudaMemcpyKi
 	if (networkConfigs[netId].sim_with_nm)
 		copyNeuronStateBuffer(netId, lGrpId, dest, &managerRuntimeData, cudaMemcpyHostToDevice, allocateMem);
 
+	if (networkConfigs[netId].sim_with_cm)
+		copyCobaBuffer(netId, lGrpId, dest, &managerRuntimeData, cudaMemcpyHostToDevice, allocateMem);
+
 	if (sim_with_homeostasis) {
 		//Included to enable homeostasis in GPU_MODE.
 		// Avg. Firing...
@@ -4371,6 +4409,13 @@ void SNN::deleteRuntimeData_GPU(int netId) {
 		CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].nIBuffer));
 	}
 
+	if (networkConfigs[netId].sim_with_cm) {
+		CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].nAMPABuffer));
+		CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].nNMDABuffer));
+		CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].nGABAaBuffer));
+		CUDA_CHECK_ERRORS(cudaFree(runtimeData[netId].nGABAbBuffer));
+	}
+
 	CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].grpIds) );
 
 	CUDA_CHECK_ERRORS( cudaFree(runtimeData[netId].Izh_a) );
@@ -4917,6 +4962,72 @@ void SNN::copyNeuronStateBuffer(int netId, int lGrpId, RuntimeData* dest, Runtim
 			CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nVBuffer[ptrPos], &src->nVBuffer[ptrPos], sizeof(float) * length, kind));
 			CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nUBuffer[ptrPos], &src->nUBuffer[ptrPos], sizeof(float) * length, kind));
 			CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nIBuffer[ptrPos], &src->nIBuffer[ptrPos], sizeof(float) * length, kind));
+		}
+	}
+}
+
+/*!
+* * \brief This function fetch COBA buffer in the local network specified by netId
+*
+* This function:
+* (allocate and) copy 
+*
+* This funcion is called by copyCobaBuffer()
+*
+* \param[in] netId the id of a local network, which is the same as the device (GPU) id
+* \param[in] lGrpId the local group id in a local network, which specifiy the group(s) to be copied
+* \param[in] dest pointer to runtime data desitnation
+* \param[in] src pointer to runtime data source
+* \param[in] kind the direction of copy
+* \param[in] allocateMem a flag indicates whether allocating memory space before copying
+*
+* \sa copyCobaBuffer
+* \since v6.1
+*/
+void SNN::copyCobaBuffer(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem) {
+	checkAndSetGPUDevice(netId);
+	checkDestSrcPtrs(dest, src, kind, allocateMem, lGrpId, 0); // check that the destination pointer is properly allocated..
+
+	int ptrPos, length;
+	int total_length = networkConfigs[netId].numGroups * MAX_NEURON_MON_GRP_SZIE * 1000;
+
+	assert(src->nAMPABuffer != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->nAMPABuffer, sizeof(float) * total_length));
+
+	assert(src->nNMDABuffer != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->nNMDABuffer, sizeof(float) * total_length));
+
+	assert(src->nGABAaBuffer != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->nGABAaBuffer, sizeof(float) * total_length));
+
+	assert(src->nGABAbBuffer != NULL);
+	if (allocateMem) CUDA_CHECK_ERRORS(cudaMalloc((void**)&dest->nGABAbBuffer, sizeof(float) * total_length));
+
+	if (lGrpId == ALL) {
+		ptrPos = 0;
+		length = networkConfigs[netId].numGroups * MAX_NEURON_MON_GRP_SZIE * 1000;
+
+		// TODO INV( lGrpId | lambda(ptrPos) )
+		// copy neuron information   
+		CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nAMPABuffer[ptrPos], &src->nAMPABuffer[ptrPos], sizeof(float) * length, kind));
+		CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nNMDABuffer[ptrPos], &src->nNMDABuffer[ptrPos], sizeof(float) * length, kind));
+		CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nGABAaBuffer[ptrPos], &src->nGABAaBuffer[ptrPos], sizeof(float) * length, kind));
+		CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nGABAbBuffer[ptrPos], &src->nGABAbBuffer[ptrPos], sizeof(float) * length, kind));
+
+	}
+	else {
+		for (int t = 0; t < 1000; t++) {
+			ptrPos = networkConfigs[netId].numGroups * MAX_NEURON_MON_GRP_SZIE * t + lGrpId * MAX_NEURON_MON_GRP_SZIE;
+			length = MAX_NEURON_MON_GRP_SZIE;
+
+			assert((ptrPos + length) <= networkConfigs[netId].numGroups * MAX_NEURON_MON_GRP_SZIE * 1000);
+			assert(length > 0);
+
+			// copy neuron information
+			CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nAMPABuffer[ptrPos], &src->nAMPABuffer[ptrPos], sizeof(float) * length, kind));
+			CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nNMDABuffer[ptrPos], &src->nNMDABuffer[ptrPos], sizeof(float) * length, kind));
+			CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nGABAaBuffer[ptrPos], &src->nGABAaBuffer[ptrPos], sizeof(float) * length, kind));
+			CUDA_CHECK_ERRORS(cudaMemcpy(&dest->nGABAbBuffer[ptrPos], &src->nGABAbBuffer[ptrPos], sizeof(float) * length, kind));
 		}
 	}
 }

@@ -10,6 +10,8 @@ set(scripts_OAT
   NetworkMonitor.m
   NeuronMonitor.m
   NeuronReader.m
+  CobaReader.m
+  PerformanceReader.m
   SimulationReader.m
   SpikeReader.m
   Utilities.m

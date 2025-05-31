@@ -489,7 +489,7 @@ typedef struct GroupConfigMD_s {
 						lGrpId(-1), lStartN(-1), lEndN(-1),
 					    netId(-1), maxOutgoingDelay(1), fixedInputWts(true), hasExternalConnect(false),
 						LtoGOffset(0), GtoLOffset(0), numPostSynapses(0), numPreSynapses(0), Noffset(0),
-						spikeMonitorId(-1), neuronMonitorId(-1), groupMonitorId(-1), currTimeSlice(1000), sliceUpdateTime(0), homeoId(-1), ratePtr(NULL)
+						spikeMonitorId(-1), neuronMonitorId(-1), cobaMonitorId(-1), groupMonitorId(-1), currTimeSlice(1000), sliceUpdateTime(0), homeoId(-1), ratePtr(NULL)
 	{}
 
 	int gGrpId;
@@ -508,6 +508,7 @@ typedef struct GroupConfigMD_s {
 	bool hasExternalConnect;
 	int spikeMonitorId;
 	int neuronMonitorId;
+	int cobaMonitorId;
 	int groupMonitorId;
 	float refractPeriod;
 	int currTimeSlice; //!< timeSlice is used by the Poisson generators in order to not generate too many or too few spikes within a window of time
@@ -795,6 +796,13 @@ typedef struct RuntimeData_s {
 	float* nUBuffer;
 	float* nIBuffer;
 
+	// coba monitor assistive buffers
+	float* nAMPABuffer;
+	float* nNMDABuffer;
+	float* nGABAaBuffer;
+	float* nGABAbBuffer;
+
+
 	unsigned int* spikeGenBits;
 #ifndef __NO_CUDA__
 	curandGenerator_t gpuRandGen;
@@ -883,6 +891,10 @@ typedef struct NetworkConfigRT_s  {
 	// for neuron monitor, the kernel allocates extra buffers to store v, u, i values of each monitored neuron
 	bool sim_with_nm; // simulation with neuron monitor
 
+	// for coba monitor, the kernel allocates extra buffers to store AMPA, NMDA, GABAa/b values of each monitored neuron
+	bool sim_with_cm; // simulation with coba monitor
+
+
 	// stdp, da-stdp configurations
 	float stdpScaleFactor;
 	float wtChangeDecay;   //!< the wtChange decay
@@ -941,6 +953,8 @@ typedef struct ThreadStruct_s {
 	int startIdx;
 	int endIdx;
 	int GtoLOffset;
+	int threadId; // 2025 void*  &threads[threadId]
+	void* thread;
 } ThreadStruct;
 
 #endif

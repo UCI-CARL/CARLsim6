@@ -63,13 +63,17 @@ int main() {
 	
 	// create a network on GPU
 	int randSeed = 42;
+	
+//#define __NO_CUDA__
+
+
 #ifdef __NO_CUDA__
 	int numGPUs = 1;
 	CARLsim sim("hello world", CPU_MODE, USER, numGPUs, randSeed);
 #else
 	//int numGPUs = 2;
 	int numGPUs = 1;  // Patch Killian
-	CARLsim sim("hello world", GPU_MODE, USER, numGPUs, randSeed);
+	CARLsim sim("hello world", GPU_MODE, USER, numGPUs, randSeed);  // USER  SHOWTIME
 #endif
 
 	// configure the network
@@ -87,16 +91,18 @@ int main() {
 #endif
 
 
-	sim.setNeuronParameters(gout, 0.02f, 0.2f, -65.0f, 8.0f);
-	sim.connect(gin, gout, "gaussian", RangeWeight(0.05), 1.0f, RangeDelay(1), RadiusRF(3,3,1));
-	sim.setConductances(true);
-	// sim.setIntegrationMethod(FORWARD_EULER, 2);
+		sim.setNeuronParameters(gout, 0.02f, 0.2f, -65.0f, 8.0f);
+		//sim.connect(gin, gout, "gaussian", RangeWeight(0.05), 1.0f, RangeDelay(1), RadiusRF(3,3,1));
+		sim.connect(gin, gout, "gaussian", RangeWeight(0.05), 1.0f, RangeDelay(2), RadiusRF(3, 3, 1));
+		sim.setConductances(true);
+		// sim.setIntegrationMethod(FORWARD_EULER, 2);
+		
+		// ---------------- SETUP STATE -------------------
+		// build the network
+		watch.lap("setupNetwork");
+		sim.setupNetwork();
 
-	// ---------------- SETUP STATE -------------------
-	// build the network
-	watch.lap("setupNetwork");
-	sim.setupNetwork();
-
+	
 	// set some monitors
 	sim.setSpikeMonitor(gin,"DEFAULT");
 	sim.setSpikeMonitor(gout,"DEFAULT");
@@ -113,7 +119,7 @@ int main() {
 
 	// run for a total of 10 seconds
 	// at the end of each runNetwork call, SpikeMonitor stats will be printed
-	for (int i=0; i<10; i++) {
+	for (int i=0; i<10000; i++) {
 		sim.runNetwork(1,0, true);
 	}
 

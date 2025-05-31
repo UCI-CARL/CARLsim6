@@ -1388,6 +1388,81 @@ public:
 		return snn_->setNeuronMonitor(grpId, fid);
 	}
 
+	// set neuron monitor for group and write neuron state values (AMPA, NMDA, GABAa, GABAb, and total EXC and INH values) to file
+	CobaMonitor* setCobaMonitor(int grpId, const std::string& fileName) {
+		std::string funcName = "setCobaMonitor(\"" + getGroupName(grpId) + "\",\"" + fileName + "\")";
+		UserErrors::assertTrue(grpId != ALL, UserErrors::ALL_NOT_ALLOWED, funcName, "grpId");		// grpId can't be ALL
+		UserErrors::assertTrue(grpId >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grpId"); // grpId can't be negative
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE,
+			UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
+
+		FILE* fid;
+		std::string fileNameLower = fileName;
+		std::transform(fileNameLower.begin(), fileNameLower.end(), fileNameLower.begin(), ::tolower);
+		if (fileNameLower == "null") {
+			// user does not want a binary file created
+			fid = NULL;
+		}
+		else {
+			// try to open spike file
+			if (fileNameLower == "default") {
+				std::string fileNameDefault = "results/c_" + snn_->getGroupName(grpId) + ".dat";
+				fid = fopen(fileNameDefault.c_str(), "wb");
+				if (fid == NULL) {
+					std::string fileError = " Make sure results/ exists.";
+					UserErrors::assertTrue(false, UserErrors::FILE_CANNOT_OPEN, funcName, fileNameDefault, fileError);
+				}
+			}
+			else {
+				fid = fopen(fileName.c_str(), "wb");
+				if (fid == NULL) {
+					std::string fileError = " Double-check file permissions and make sure directory exists.";
+					UserErrors::assertTrue(false, UserErrors::FILE_CANNOT_OPEN, funcName, fileName, fileError);
+				}
+			}
+		}
+		//printf("\n\n before snn_->setCobaMonitor \n \n");
+		// return CobaMonitor object
+		return snn_->setCobaMonitor(grpId, fid);
+	}
+	
+	PerformanceMonitor* setPerformanceMonitor(const std::string& fileName) {
+		std::string funcName = "setPerformanceMonitor(\"" + fileName + "\")";
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE,
+			UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
+
+		FILE* fid;
+		std::string fileNameLower = fileName;
+		std::transform(fileNameLower.begin(), fileNameLower.end(), fileNameLower.begin(), ::tolower);
+		if (fileNameLower == "null") {
+			// user does not want a binary file created
+			fid = NULL;
+		}
+		else {
+			// try to open spike file
+			if (fileNameLower == "default") {
+				std::string fileNameDefault = "results/p_CARLsim.dat";  // snn_->getNetName()
+				fid = fopen(fileNameDefault.c_str(), "wb");
+				if (fid == NULL) {
+					std::string fileError = " Make sure results/ exists.";
+					UserErrors::assertTrue(false, UserErrors::FILE_CANNOT_OPEN, funcName, fileNameDefault, fileError);
+				}
+			}
+			else {
+				fid = fopen(fileName.c_str(), "wb");
+				if (fid == NULL) {
+					std::string fileError = " Double-check file permissions and make sure directory exists.";
+					UserErrors::assertTrue(false, UserErrors::FILE_CANNOT_OPEN, funcName, fileName, fileError);
+				}
+			}
+		}
+		//printf("\n\n before snn_->setCobaMonitor \n \n");
+		// return CobaMonitor object
+		return snn_->setPerformanceMonitor(fid);
+	}
+	
+
+
 	// assign spike rate to poisson group
 	void setSpikeRate(int grpId, PoissonRate* spikeRate, int refPeriod) {
 		std::string funcName = "setSpikeRate()";
@@ -2087,6 +2162,7 @@ short int CARLsim::connect(int grpId1, int grpId2, const std::string& connType, 
 
 // connect with custom ConnectionGenerator (short)
 // TODO: don't need two versions of this... make it (grpId1, grpId2, conn, synWtType, mulSynFast, mulSynSlow)
+// WP: Target grp and network has no COBA
 short int CARLsim::connect(int grpId1, int grpId2, ConnectionGenerator* conn, bool synWtType) {
 	return _impl->connect(grpId1, grpId2, conn, synWtType);
 }
@@ -2405,6 +2481,17 @@ NeuronMonitor* CARLsim::setNeuronMonitor(int grpId, const std::string& fileName)
 	return _impl->setNeuronMonitor(grpId, fileName);
 }
 
+// Sets a Neuron Monitor for a groups, prints neuron state values (voltage, recovery, and total current values) to binary file
+CobaMonitor* CARLsim::setCobaMonitor(int grpId, const std::string& fileName) {
+	return _impl->setCobaMonitor(grpId, fileName);
+}
+
+// Sets a Neuron Monitor for a groups, prints neuron state values (voltage, recovery, and total current values) to binary file
+PerformanceMonitor* CARLsim::setPerformanceMonitor(const std::string& fileName) {
+	return _impl->setPerformanceMonitor(fileName);
+}
+
+
 // Sets a spike rate
 void CARLsim::setSpikeRate(int grpId, PoissonRate* spikeRate, int refPeriod) {
 	_impl->setSpikeRate(grpId, spikeRate, refPeriod);
@@ -2643,12 +2730,11 @@ int CARLsim::cudaDeviceCount() {
 	return SNN::cudaDeviceCount();
 }
 
-#ifndef __NO_CUDA__
 // LN Extension 20201017
 void CARLsim::cudaDeviceDescription(unsigned ithGPU, const char** desc) {
 	SNN::cudaDeviceDescription(ithGPU, desc);
 }
-#endif 
+
 
 #endif
 
