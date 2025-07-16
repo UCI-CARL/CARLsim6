@@ -1269,6 +1269,9 @@ private:
 	std::map<int, ConnectConfig> connectConfigMap; //!< the hash table storing connection configs created at CONFIG_STATE
 	std::map<int, compConnectConfig> compConnectConfigMap; //!< the hash table storing compConnection configs created at CONFIG_STATE
 
+	// map container with user connectivity data
+	std::map<std::string, std::map<std::string, std::map<int, std::vector<int>>>> userconn;
+	
 	// data structure assisting network partitioning
 	std::list<GroupConfigMD> groupPartitionLists[MAX_NET_PER_SNN];
 	std::list<ConnectConfig> localConnectLists[MAX_NET_PER_SNN];
