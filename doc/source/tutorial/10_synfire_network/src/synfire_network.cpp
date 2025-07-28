@@ -27,7 +27,7 @@ int main(int argc, const char* argv[]) {
 	std::vector<int> gInh(nGroups);
 
 	//Different than normal exciatory
-	int spiking_group = sim.createSpikeGeneratorGroup("spike",nNeurExc,EXCITATORY_NEURON);
+	int spiking_group = sim.createSpikeGeneratorGroup("spike",nNeurExc,EXCITATORY_NEURON,0);
 
 	NormalSpikeGenerator spikegen =  NormalSpikeGenerator(10.0f, 2.4f, 400, false);
 
@@ -36,17 +36,17 @@ int main(int argc, const char* argv[]) {
 	for (int i = 0; i < nGroups; i++) {
 		std::string gExcName = "exc" + std::to_string(i);
 		std::string gInhName = "inh" + std::to_string(i);
-		gExc[i] = sim.createGroup(gExcName.c_str(),nNeurExc,EXCITATORY_NEURON);
+		gExc[i] = sim.createGroup(gExcName.c_str(),nNeurExc,EXCITATORY_NEURON,i);
 		sim.setNeuronParameters(gExc[i], 0.02f, 0.2f, -65.0f, 8.0f);
 
-		gInh[i] = sim.createGroup(gInhName.c_str(),nNeurInh,INHIBITORY_NEURON);
+		gInh[i] = sim.createGroup(gInhName.c_str(),nNeurInh,INHIBITORY_NEURON,i);
 		sim.setNeuronParameters(gInh[i], 0.1f, 0.2f, -65.0f, 2.0f);
 	}
 	
 
 	// specify connectivity
-	float wtExc = 0.04f;                   // synaptic weight magnitude if pre is exc
-	float wtInh = 0.02f;                   // synaptic weight magnitude if pre is inh (no negative sign)
+	float wtExc = 0.019f;                   // synaptic weight magnitude if pre is exc
+	float wtInh = 0.076f;                   // synaptic weight magnitude if pre is inh (no negative sign)
 	//float wtMax = 10.0f;                  // maximum synaptic weight magnitude
 
 	sim.setSpikeGenerator(spiking_group,&spikegen);
@@ -98,7 +98,7 @@ int main(int argc, const char* argv[]) {
 		}
     }
 	SpikeMonitor* SMinput = sim.setSpikeMonitor(spiking_group, "DEFAULT");
-	SMinput->print(true);
+//	SMinput->print(true);
 
     // ---------------- RUN STATE -------------------
 	SMinput->startRecording();
