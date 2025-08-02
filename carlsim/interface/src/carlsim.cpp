@@ -1426,7 +1426,7 @@ public:
 		return snn_->setCobaMonitor(grpId, fid);
 	}
 	
-	PerformanceMonitor* setPerformanceMonitor(const std::string& fileName) {
+	PerformanceMonitor* setPerformanceMonitor(PerformanceMonitorBackend backend, const std::string& fileName) {
 		std::string funcName = "setPerformanceMonitor(\"" + fileName + "\")";
 		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE,
 			UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
@@ -1456,9 +1456,7 @@ public:
 				}
 			}
 		}
-		//printf("\n\n before snn_->setCobaMonitor \n \n");
-		// return CobaMonitor object
-		return snn_->setPerformanceMonitor(fid);
+		return snn_->setPerformanceMonitor(backend, fid);
 	}
 	
 
@@ -2486,9 +2484,9 @@ CobaMonitor* CARLsim::setCobaMonitor(int grpId, const std::string& fileName) {
 	return _impl->setCobaMonitor(grpId, fileName);
 }
 
-// Sets a Neuron Monitor for a groups, prints neuron state values (voltage, recovery, and total current values) to binary file
-PerformanceMonitor* CARLsim::setPerformanceMonitor(const std::string& fileName) {
-	return _impl->setPerformanceMonitor(fileName);
+// Sets a Performance Monitor for a type, writes util, ipc, freq, energy per core to a binary file
+PerformanceMonitor* CARLsim::setPerformanceMonitor(PerformanceMonitorBackend backend, const std::string& fileName) {
+	return _impl->setPerformanceMonitor(backend, fileName);
 }
 
 

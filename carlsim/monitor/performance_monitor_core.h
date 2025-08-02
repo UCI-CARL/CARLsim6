@@ -56,69 +56,50 @@
 #include <stdio.h>					// FILE
 #include <vector>					// std::vector
 
-// be specific here  
-#if defined(WIN32)   // also defined for WIN64
-#include <windows.h>
-#include <pdh.h>
-#include <pdhmsg.h>
-#endif
 
 class SNN; // forward declaration of SNN class
 
 class PerformanceMonitorCore {
 public:
-	//! constructor (called by CARLsim::setPerformanceMonitor)
-	PerformanceMonitorCore(SNN* snn, int monitorId);
+	//! factory 
+	static PerformanceMonitorCore* create(SNN* snn, int monitorId, PerformanceMonitorBackend backend = PMB_INTEL, int sampleRate = 1);
+
+	//! constructor (called by CARLsim::setPerformanceMonitor), sampleRate in ms, derived class defines the backend type
+	PerformanceMonitorCore(SNN* snn, int monitorId, int sampleRate);  
 
 	//! destructor, cleans up all the memory upon object deletion
-	~PerformanceMonitorCore();
-
-	// MS Performance Data Helper (PDH) library  
-	const std::vector<std::vector<float> > & getPdhCoreUtilization();
-
-	// Intel Performance Counter Measurement (PCM) library 
-	std::vector<std::vector<float>> getPcmCoreUtilization();   // core state active state residency, 0..1
-	std::vector<std::vector<float>> getPcmCoreInstructions();  // instructions per CPU cycle
-	std::vector<std::vector<float>> getPcmCoreFrequency();		// core frequency in Ghz
-	std::vector<std::vector<float>> getPcmCoreTemperatur();		// °C relative to the thermal headroom, 0 corresponds to the max temperature
-	std::vector<std::vector<float>> getPcmCoreEnergy();			// energy in Joules derived from the socket by the core activity
+	virtual ~PerformanceMonitorCore();
 
 
-    //! returns recording status
+	const int getCores() { return nCores_; }
+
+	// Performance Counter Measurement Implementation
+	const std::vector<std::vector<float>> &getUtilization();   // core state active state residency, 0..1
+	const std::vector<std::vector<float>> &getInstructions();  // instructions per CPU cycle
+	const std::vector<std::vector<float>> &getFrequency();		// core frequency in GHz
+	const std::vector<std::vector<float>> &getEnergy();			// energy in Joules derived from the socket by the core activity
+
+	//! returns recording status
 	bool isRecording() { return recordSet_; }
 
-    //! inserts a (time,neurId) tupel into the D CPU State vector
-	//! int coreId, float util, float ipc, float cfreq, float temp, float energy
-	//! 
-	//! 
+	//! default 1ms, set in the constructor as parameter
+	int getSampleRate() { return sampleRate_; }
 
-	void armMsPdh();
+	void setSampleRate(int ms) { sampleRate_ = ms; }
 
-	void pushMsPdh();  // int time
+	// --> 
+	void virtual pushPerformanceCounter() = 0; // {};  // NOP alternative   = 0 => abstract 
 
-
-	void pushIntelPcm();   // int time
-
-/*
-	void SpikeMonitorCore::pushAER(int time, int neurId) {
-		assert(isRecording());
-		assert(getMode() == AER);
-
-		spkVector_[neurId].push_back(time);
-}*/
-
-	//void pushGPU();
-
-    //! starts recording Neuron state
+	//! starts recording Neuron state
 	void startRecording();
 
 	//! stops recording Neuron state
 	void stopRecording();
 
-    //! deletes data from the neuron state vector
+	//! deletes data from the neuron state vector
 	void clear();
 
-    //! sets pointer to COBA file
+	//! sets pointer to COBA file
 	void setPerformanceFileId(FILE* performanceFileId);
 
 	//! returns a pointer to the performance file
@@ -136,34 +117,33 @@ public:
 	// }
 
 
-    //! returns timestamp of last PerformanceMonitor update
+	//! returns timestamp of last PerformanceMonitor update
 	long int getLastUpdated() { return performanceMonLastUpdated_; }
 
 	//! sets timestamp of last PerformanceMonitor update
 	void setLastUpdated(long int lastUpdate) { performanceMonLastUpdated_ = lastUpdate; }
 
 	//! returns true if state buffers are close to maxAllowedBufferSize
-    bool isBufferBig();
+	bool isBufferBig();
 
-    //! returns the approximate size of the state vectors in bytes
-    long int getBufferSize();
+	//! returns the approximate size of the state vectors in bytes
+	long int getBufferSize();
 
-    //! returns the total accumulated time
-    long int getAccumTime();
+	//! returns the total accumulated time
+	long int getAccumTime();
 
 	void writePerformanceFileHeader();
 
 	//! prints neuron states in human-readable format
 	void print(bool meanOnly);
 
- private:
-    //! initialization method
-	void init();
-	void initMsPdh();  
-	void initIntelPcm();
+protected:
+	//! initialization method
+	virtual void pre_init() {};
+	virtual void init();
+	virtual void post_init() {};
 
-	void releaseMsPdh();
-
+	virtual void release() {};
 
 
     //! whether we have to write header section of neuron file
@@ -173,16 +153,11 @@ public:
 	int monitorId_;	//!< current PerformanceMonitor ID
 	int sockets_;	//!< current group ID
 	int nCores_;	//!< total number of cores in the performance
-		// indexed by sockets_ e.g. 32 core Xeon, 2 sockets, 
+		// V2: indexed by sockets_ e.g. 32 core Xeon, 2 sockets, 
 		// core_i = 20 = socket[1].core[3]
 
-
-#if defined(WIN32) 
-	PDH_HQUERY pdhQuery_;
-	//std::vector<PDH_HCOUNTER> pdhCounter_;
-	PDH_HCOUNTER pdhCounter_[12];
-#endif
-
+	//! in ms, default 1ms, valid values are 1ms to 100ms 
+	int sampleRate_;
 
 	FILE* performanceFileId_;	//!< file pointer to the performance state file or NULL
 	int performanceFileSignature_; //!< int signature of performance file
@@ -190,16 +165,11 @@ public:
 
 	std::vector <unsigned long long> time; // ms
 
+	std::vector<std::vector<float> > vectorUtilization_;	// core state active state residency, 0..1
+	std::vector<std::vector<float> > vectorInstructions_;	// instructions per CPU cycle
+	std::vector<std::vector<float> > vectorFrequency_;	// core frequency in Ghz
+	std::vector<std::vector<float> > vectorEnergy_;		// energy in Joules derived from the socket by the core activity
 
-	//! Value holder for one time slice (1000ms)
-
-	std::vector<std::vector<float> > vectorPdhCoreUtilization_;	
-
-	std::vector<std::vector<float> > vectorPcmCoreUtilization_;	// core state active state residency, 0..1
-	std::vector<std::vector<float> > vectorPcmCoreInstructions_;	// instructions per CPU cycle
-	std::vector<std::vector<float> > vectorPcmCoreFrequency_;	// core frequency in Ghz
-	std::vector<std::vector<float> > vectorPcmCoreTemperatur_;	// °C relative to the thermal headroom, 0 corresponds to the max temperature
-	std::vector<std::vector<float> > vectorPcmCoreEnergy_;		// energy in Joules derived from the socket by the core activity
 
 	bool recordSet_;			//!< flag that indicates whether we're currently recording
 	long int startTime_;	 	//!< time (ms) of first call to startRecording

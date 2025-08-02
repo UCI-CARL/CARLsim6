@@ -51,6 +51,7 @@
 #include <performance_monitor.h>
 
 #include <performance_monitor_core.h>	// PerformanceMonitor private implementation
+
 #include <user_errors.h>		// fancy user error messages
 
 #include <sstream>				// std::stringstream
@@ -142,46 +143,42 @@ int PerformanceMonitor::getLastUpdated() {
 	return performanceMonitorCorePtr_->getLastUpdated();
 }
 
-const std::vector<std::vector<float> > & PerformanceMonitor::getPdhCoreUtilization() {
-	std::string funcName = "getPdhCoreUtilization()";
-	//UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
 
-	return performanceMonitorCorePtr_->getPdhCoreUtilization();
+const int PerformanceMonitor::getCores() {	
+	return performanceMonitorCorePtr_->getCores();
 }
 
 
-std::vector<std::vector<float> > PerformanceMonitor::getPcmCoreUtilization(){
-	std::string funcName = "getPcmCoreUtilization()";
-	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
-
-	return performanceMonitorCorePtr_->getPcmCoreUtilization();
+void PerformanceMonitor::setSampleRate(int ms) {
+	performanceMonitorCorePtr_->setSampleRate(ms);
 }
 
-std::vector<std::vector<float> > PerformanceMonitor::getPcmCoreInstructions() {
-	std::string funcName = "getPcmCoreInstructions()";
+
+const std::vector<std::vector<float>> &PerformanceMonitor::getUtilization(){
+	std::string funcName = "getUtilization()";
 	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
 
-	return performanceMonitorCorePtr_->getPcmCoreInstructions();
+	return performanceMonitorCorePtr_->getUtilization();
 }
 
-std::vector<std::vector<float> > PerformanceMonitor::getPcmCoreFrequency() {
-	std::string funcName = "getPcmCoreFrequency()";
+const std::vector<std::vector<float>> &PerformanceMonitor::getInstructions() {
+	std::string funcName = "getInstructions()";
 	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
 
-	return performanceMonitorCorePtr_->getPcmCoreFrequency();
+	return performanceMonitorCorePtr_->getInstructions();
 }
 
-std::vector<std::vector<float> > PerformanceMonitor::getPcmCoreTemperatur() {
-	std::string funcName = "getPcmCoreTemperatur()";
+const std::vector<std::vector<float>> &PerformanceMonitor::getFrequency() {
+	std::string funcName = "getFrequency()";
 	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
 
-	return performanceMonitorCorePtr_->getPcmCoreTemperatur();
+	return performanceMonitorCorePtr_->getFrequency();
 }
 
-std::vector<std::vector<float> > PerformanceMonitor::getPcmCoreEnergy() {
-	std::string funcName = "getPcmCoreEnergy()";
+const std::vector<std::vector<float>> &PerformanceMonitor::getEnergy() {
+	std::string funcName = "getEnergy()";
 	UserErrors::assertTrue(!isRecording(), UserErrors::CANNOT_BE_ON, funcName, "Recording");
 
-	return performanceMonitorCorePtr_->getPcmCoreEnergy();
+	return performanceMonitorCorePtr_->getEnergy();
 }
 

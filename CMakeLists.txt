@@ -187,6 +187,8 @@ set(monitor_SRCS
 	carlsim/monitor/neuron_monitor_core.cpp
 	carlsim/monitor/neuron_monitor.cpp
 	carlsim/monitor/performance_monitor_core.cpp
+	carlsim/monitor/performance_monitor_intel.cpp 
+	carlsim/monitor/performance_monitor_ms.cpp 
 	carlsim/monitor/performance_monitor.cpp
 	carlsim/monitor/spike_monitor_core.cpp
 	carlsim/monitor/spike_monitor.cpp        
@@ -201,10 +203,14 @@ set(monitor_HDRS
 	carlsim/monitor/neuron_monitor_core.h
 	carlsim/monitor/neuron_monitor.h
 	carlsim/monitor/performance_monitor_core.h
+	carlsim/monitor/performance_monitor_intel.h
+	carlsim/monitor/performance_monitor_ms.h
 	carlsim/monitor/performance_monitor.h
 	carlsim/monitor/spike_monitor_core.h
 	carlsim/monitor/spike_monitor.h
 )
+
+
 
 source_group("Header Files\\Interface" FILES ${interface_HDRS})
 source_group("Header Files\\Kernel" FILES ${kernel_HDRS})    
@@ -408,6 +414,12 @@ target_include_directories(carlsim
 		#C:/Test/sourceforge/PTHREADS-BUILT/include
 )
 
+#if Intel PCM
+target_include_directories(carlsim
+	PUBLIC
+	"C:/Program Files/PCM/include/windows"
+)
+
 if(NOT CARLSIM_NO_CUDA)
   if(NOT DEFINED CARLSIM_CUDA_SAMPLES_INCLUDE_DIR)
     if(DEFINED ENV{CARLSIM_CUDA_SAMPLES_INCLUDE_DIR})
@@ -432,6 +444,8 @@ if(NOT CARLSIM_NO_CUDA)
 			${CARLSIM_CUDA_SAMPLES_INCLUDE_DIR}
 	  )	  
 endif()
+
+
 
 ### Linking ###
 
@@ -464,10 +478,25 @@ if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
 	# STDLIB
 endif()
 
+#if MS PDH (SDK)
 # additive
 if(WIN32)  
 	target_link_libraries(carlsim PRIVATE pdh.lib)
 endif()
+
+#if Intel PCM
+# additive
+if(WIN32)  
+	# unresolved external symbol "public: static class pcm::PCM * __cdecl pcm::PCM::getInstance(void)" (?getInstance@PCM@pcm@@SAPEAV12@XZ) referenced in function "private: virtual void __cdecl PerfMon_pcmInit_Test::TestBody(void)" (?TestBody@PerfMon_pcmInit_Test@@EEAAXXZ)
+#	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
+
+	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
+	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/debug/lib/pcm-lib.lib")
+
+	# mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MD_DynamicRelease' in carlsim.obj
+	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/PCM_STATIC.lib")
+endif()
+
 
 ### Installation ###
 #install(TARGETS carlsim DESTINATION bin)

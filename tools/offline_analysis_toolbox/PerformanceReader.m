@@ -167,23 +167,37 @@ classdef PerformanceReader < handle
             % extract stimulus length
             obj.stimLengthMs = obj.getSimDurMs();
 
+
             % rewind file pointer, skip header
             fseek(obj.fileId, obj.fileSizeByteHeader, 'bof');
             
-            data = fread(obj.fileId,[12 Inf],'uint8=>uint8');
+            %data = fread(obj.fileId,[12 Inf],'uint8=>uint8');  % 1 counter 
+            data = fread(obj.fileId,[24 Inf],'uint8=>uint8');   % 4 counter
             
             t = typecast(reshape(data(1:4,:),[],1),'uint32');
             core = typecast(reshape(data(5:8,:),[],1),'uint32');
             pdh_util = typecast(reshape(data(9:12,:),[],1),'single'); 
-            %pdc_... = ...
-     
-%TODO            
-            %patch for patched header writing
-            obj.max_performance_mon_size = 1;
-%TODO
-            %dataSize = [min(obj.max_performance_mon_size, prod(obj.grid3D)), (obj.stimLengthMs+1)];
-            dataSize = [12,  (obj.stimLengthMs+1)];
+            pdh_ipc = typecast(reshape(data(13:16,:),[],1),'single'); 
+            pdh_freq = typecast(reshape(data(17:20,:),[],1),'single'); 
+            pdh_engy = typecast(reshape(data(21:24,:),[],1),'single'); 
+
+
+			nCores = obj.grid3D(1);			
+			dataSize = [nCores,  size(t,1)/nCores];
+
+			% performance counter
             nValues.pdh_util = reshape(pdh_util, dataSize);
+            nValues.pdh_ipc = reshape(pdh_ipc, dataSize);
+            nValues.pdh_freq = reshape(pdh_freq, dataSize);
+            nValues.pdh_engy = reshape(pdh_engy, dataSize); 
+
+			% t and core as 1-dim vectors 
+			nValues.t = reshape(t, dataSize)(1,:);   
+			nValues.core = reshape(core, dataSize)(:,1);  
+
+			nValues.nCores = nCores;
+			nValues.ms = obj.stimLengthMs;
+			
         
             % store neuron data
             if obj.storeValues

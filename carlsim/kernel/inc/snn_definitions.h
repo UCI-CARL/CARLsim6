@@ -263,7 +263,8 @@ Overall Spike Count:    2+ms delay = 137984
 
 #define MAX_PERF_MON_BUFFER_SIZE 5242880 // about 5 MB. size is in bytes. for all performance counter
 #define LONG_PERF_MON_DURATION 100000       // about 100 seconds
-#define MAX_PERF_MON_CTR_SIZE 1		// 1x MS_PDH (+ 4x INTEL_PCM)
+//#define MAX_PERF_MON_CTR_SIZE 1		// 1x MS_PDH (+ 4x INTEL_PCM)
+#define MAX_PERF_MON_CTR_SIZE 4		// UTIL, IPC, FREQ, ENGY
 
 // This flag is used when having a common poisson generator for both CPU and GPU simulation
 // We basically use the CPU poisson generator. Evaluate if there is any firing due to the

@@ -89,8 +89,8 @@ TEST(PerfMon, threads) {
 
 	//const int AFFINITY = 4;
 
-	CARLsim* sim = new CARLsim("PerfMon.threads", CPU_MODE, USER, 0, 42);  // DEVELOPER --> USER --> SILENT --> SHOWTIME
-	//CARLsim* sim = new CARLsim("CbMon.pthreads", GPU_MODE, SILENT, 0, 42);
+	//CARLsim* sim = new CARLsim("PerfMon.threads", CPU_MODE, USER, 0, 42);  // DEVELOPER --> USER --> SILENT --> SHOWTIME
+	CARLsim* sim = new CARLsim("CbMon.pthreads", GPU_MODE, SILENT, 0, 42);
 
 
 	sim->setConductances(true);
@@ -134,7 +134,8 @@ TEST(PerfMon, threads) {
 
 	}
 
-	PerformanceMonitor* perfMon = sim->setPerformanceMonitor("DEFAULT");
+	PerformanceMonitor* perfMon = sim->setPerformanceMonitor(PMB_MS, "DEFAULT");
+	perfMon->setSampleRate(10);
 
 
 	sim->setupNetwork();
@@ -148,9 +149,9 @@ TEST(PerfMon, threads) {
 	// GPU 100,200,400,800 
 	const int slice = 100;
 	//const int T = 500;
-	//const int T = 3500;
+	const int T = 3500;
 	//const int T = 14000;
-	const int T = 35000;
+	//const int T = 35000;
 	for (int t = 0; t < T; t += slice) {
 
 		if (bPerfMon) perfMon->startRecording();
@@ -161,8 +162,8 @@ TEST(PerfMon, threads) {
 			auto lastUpdated = perfMon->getLastUpdated();
 			EXPECT_EQ(lastUpdated, t + slice);
 
-			auto pdhUtil = perfMon->getPdhCoreUtilization();
-			EXPECT_EQ(pdhUtil[0].size(), slice);
+			auto pdhUtil = perfMon->getUtilization();
+			EXPECT_EQ(pdhUtil[0].size(), slice / 10);  // 10ms time step
 
 			for (int coreIndex = 0; coreIndex < nCores; coreIndex++) {
 				// EXPECT_GE(..)

@@ -1274,11 +1274,13 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 
 		fetchNeuronSpikeCount(ALL);
 
-		// 10ms sample intervall
-		//if (numPerformanceMonitor && (simTime % 10 == 0))   
-
-		if (numPerformanceMonitor) 
+		if (numPerformanceMonitor)
 			updatePerformanceMonitor();   // end event for performance counter
+
+		//// 10ms sample intervall  --> handled internally in the update
+		//if (numPerformanceMonitor && (simTime % 10 == 0))   
+		//	updatePerformanceMonitor();
+
 	}
 
 	//KERNEL_INFO("Updated monitors!");
@@ -1773,7 +1775,8 @@ CobaMonitor* SNN::setCobaMonitor(int gGrpId, FILE* fid) {
 }
 
 // record performance counter 
-PerformanceMonitor * SNN::setPerformanceMonitor(FILE * fid) {   // maybe int netId, 
+PerformanceMonitor * SNN::setPerformanceMonitor(PerformanceMonitorBackend backend, FILE * fid) {   // maybe int netId, 
+											// int type, MS, INTEL, ARM, AMD, LNX; 
 
 	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
 
@@ -1795,7 +1798,7 @@ PerformanceMonitor * SNN::setPerformanceMonitor(FILE * fid) {   // maybe int net
 		
 		// create new PerformanceMonitorCore object in any case and initialize analysis components
 		// nrnMonObj destructor (see below) will deallocate it
-		PerformanceMonitorCore* perfMonCoreObj = new PerformanceMonitorCore(this, numPerformanceMonitor);
+		PerformanceMonitorCore* perfMonCoreObj = PerformanceMonitorCore::create(this, numPerformanceMonitor, backend); // factory method
 		performanceMonCoreList[numPerformanceMonitor] = perfMonCoreObj;
 
 		// assign neuron state file ID if we selected to write to a file, else it's NULL
@@ -3393,6 +3396,7 @@ void SNN::generateArgs(const char* name, std::vector<ThreadStruct> &argsThreadRo
 	// get CPU CORES from global SNN run configuration !!! TODO   YAML, ... 
 	cores = 4;
 	offset = 4; 
+	int logical = 2;  // logical cores 
 
 	// Count partitions of the networks
 	int partitions = 0;
@@ -7916,6 +7920,22 @@ void SNN::resetMonitors(bool deallocate) {
 		if (connMonList[i]!=NULL && deallocate) delete connMonList[i];
 		connMonList[i]=NULL;
 	}
+
+	// delete all CobaMonitor objects
+	// don't kill CobaMonitorCore objects, they will get killed automatically
+	for (int i = 0; i < numCobaMonitor; i++) {
+		if (cobaMonList[i] != NULL && deallocate) delete cobaMonList[i];
+		cobaMonList[i] = NULL;
+	}
+
+	// delete all PerformanceMonitor objects
+	// don't kill PerformanceMonitorCore objects, they will get killed automatically
+	for (int i = 0; i < numPerformanceMonitor; i++) {
+		if (performanceMonList[i] != NULL && deallocate) delete performanceMonList[i];
+		performanceMonList[i] = NULL;
+	}
+
+
 }
 
 void SNN::resetGroupConfigs(bool deallocate) {
@@ -9395,28 +9415,10 @@ void SNN::updatePerformanceMonitor() {
 	// find last update time
 	PerformanceMonitorCore* perfMonObj = performanceMonCoreList[monitorId];
 	long int lastUpdate = perfMonObj->getLastUpdated();
-
-	// don't continue if time interval is zero (nothing to update)
-	if (((long int)getSimTime()) - lastUpdate <= 0)
-		return;
-
-	if (((long int)getSimTime()) - lastUpdate > 1000)
-		KERNEL_ERROR("updatePerformanceMonitor() must be called at least once every second");
-
-
-	perfMonObj->pushMsPdh();  // always writePerformanceToArray
-	const auto& pdhCoreUtil = perfMonObj->getPdhCoreUtilization();
-				
-	// find the time interval in which to update neuron state info
-			// usually, we call updateNeuronMonitor once every second, so the time interval is [0,1000)
-			// however, updateNeuronMonitor can be called at any time t \in [0,1000)... so we can have the cases
-			// [0,t), [t,1000), and even [t1, t2)
-	int numMsMin = lastUpdate % 1000; // lower bound is given by last time we called update
+	long int simTime = (long int)getSimTime(); 
 	int numMsMax = getSimTimeMs(); // upper bound is given by current time
 	if (numMsMax == 0)
 		numMsMax = 1000; // special case: full second
-	assert(numMsMin < numMsMax);
-	//KERNEL_INFO("lastUpdate: %d -- numMsMin: %d -- numMsMax: %d", lastUpdate, numMsMin, numMsMax);
 
 	// current time is last completed second in milliseconds (plus t to be added below)
 	// special case is after each completed second where !getSimTimeMs(): here we look 1s back
@@ -9424,41 +9426,72 @@ void SNN::updatePerformanceMonitor() {
 	if (!getSimTimeMs())
 		currentTimeSec--;
 
+	// don't continue if time interval is zero (nothing to update)
+	if (simTime - lastUpdate <= 0)
+		return;
+
+	// 10ms is the minimal measure interval
+	int sampleRate = perfMonObj->getSampleRate();
+	if (sampleRate > 1) {
+		if (simTimeMs % sampleRate != 0)
+			return;
+	}
+
+	if (simTime - lastUpdate > 1000)
+		KERNEL_ERROR("updatePerformanceMonitor() must be called at least once every second");
+		
+	perfMonObj->pushPerformanceCounter();  // always writePerformanceToArray
+	const auto& coreUtil = perfMonObj->getUtilization();
+	const auto& coreIpc =  perfMonObj->getInstructions();
+	const auto& coreFreq = perfMonObj->getFrequency();
+	const auto& coreEngy = perfMonObj->getEnergy();
+
+	// find the time interval in which to update neuron state info
+			// usually, we call updateNeuronMonitor once every second, so the time interval is [0,1000)
+			// however, updateNeuronMonitor can be called at any time t \in [0,1000)... so we can have the cases
+			// [0,t), [t,1000), and even [t1, t2)
+	int numMsMin = lastUpdate % 1000; // lower bound is given by last time we called update
+	assert(numMsMin < numMsMax);
+	//KERNEL_INFO("lastUpdate: %d -- numMsMin: %d -- numMsMax: %d", lastUpdate, numMsMin, numMsMax);
+
+
 	// save current time as last update time
-	perfMonObj->setLastUpdated((long int)getSimTime());
+	perfMonObj->setLastUpdated(simTime);
 
 	// prepare fast access
 	FILE* perfFileId = performanceMonCoreList[monitorId]->getPerformanceFileId();
 	bool writePerformanceToFile = perfFileId != NULL;
 	bool writePerformanceToArray = perfMonObj->isRecording();
 
-	
+	int nCores = perfMonObj->getCores();
+	for (int coreIndex = 0; coreIndex < nCores; coreIndex++) {   
 
-	for (int t = numMsMin; t < numMsMax; t++) {   // TODO ISSUE numMsMax -> +1 buffer
+		//float util = pdhCoreUtil[coreIndex].back();
+		float util = coreUtil[coreIndex].empty() ? .0f : coreUtil[coreIndex].back();
+		float ipc = coreIpc[coreIndex].empty() ? .0f : coreIpc[coreIndex].back();	// support backends not provinding this data
+		float freq = coreFreq[coreIndex].empty() ? .0f : coreFreq[coreIndex].back();
+		float engy = coreEngy[coreIndex].empty() ? .0f : coreEngy[coreIndex].back();
 
-		for (int coreIndex = 0; coreIndex < 12; coreIndex++) {   // TODO nCores_
+		// current time is last completed second plus whatever is leftover in t
+		int time = currentTimeSec * 1000 + numMsMax;
 
-			float util = pdhCoreUtil[coreIndex].back();
-
-			// current time is last completed second plus whatever is leftover in t
-			int time = currentTimeSec * 1000 + t;
-
-			if(writePerformanceToFile) {
-				//KERNEL_INFO("Save to file");
-				int cnt;
-				cnt = fwrite(&time, sizeof(int), 1, perfFileId); assert(cnt == 1);
-				cnt = fwrite(&coreIndex, sizeof(int), 1, perfFileId); assert(cnt == 1);
-				cnt = fwrite(&util, sizeof(float), 1, perfFileId); assert(cnt == 1);
-				//...
-				KERNEL_DEBUG("t: %d  -- time: %d ms  -- core: %d phd.util: %f", t, time, coreIndex, util);
-			}
+		if(writePerformanceToFile) {
+			//KERNEL_INFO("Save to file");
+			int cnt;
+			cnt = fwrite(&time, sizeof(int), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&coreIndex, sizeof(int), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&util, sizeof(float), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&ipc, sizeof(float), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&freq, sizeof(float), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&engy, sizeof(float), 1, perfFileId); assert(cnt == 1);
+			//KERNEL_DEBUG("t: %d  -- time: %d ms  -- core: %d phd.util: %f", t, time, coreIndex, util);
 		}
+	}
 
-		if (writePerformanceToArray) {
-			// always
-			//KERNEL_INFO("Save to array");
-			//cbMonObj->pushCoba(nId, ampa, nmda, gaba_a, gaba_b);
-		}
+	if (writePerformanceToArray) {
+		// always
+		//KERNEL_INFO("Save to array");
+		//cbMonObj->pushCoba(nId, ampa, nmda, gaba_a, gaba_b);
 	}
 
 	if (perfFileId != NULL) // flush neuron state file

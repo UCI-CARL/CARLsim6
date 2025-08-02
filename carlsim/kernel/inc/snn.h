@@ -553,7 +553,7 @@ public:
 
 	CobaMonitor* setCobaMonitor(int gid, FILE* fid);
 
-	PerformanceMonitor* setPerformanceMonitor(FILE* fid);
+	PerformanceMonitor* setPerformanceMonitor(PerformanceMonitorBackend backend, FILE* fid);
 
 
 	//!Sets the Poisson spike rate for a group. For information on how to set up spikeRate, see Section Poisson spike generators in the Tutorial.
@@ -753,8 +753,11 @@ public:
 	CobaMonitorCore* getCobaMonitorCore(int grpId);
 
 
+	//! Returns pointer to existing PerformanceMonitor object, NULL else
 	PerformanceMonitor* getPerformanceMonitor();
 
+	//! Returns pointer to existing PerformanceMonitorCore object, NULL else.
+	//! Should not be exposed to user interface
 	PerformanceMonitorCore* getPerformanceMonitorCore();
 
 

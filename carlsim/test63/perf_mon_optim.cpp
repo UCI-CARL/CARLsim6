@@ -209,7 +209,7 @@ TEST(PerfMon, pdh) {
 	init_counter();
 	
 	for (int i = 0; i < N_iter; i++) {
-		do_calculations(N_calc);
+		//do_calculations(N_calc);
 		get_cpu_core_utilization();
 		Sleep(N_sleep);
 	}

@@ -115,22 +115,16 @@ class CARLSIM_API PerformanceMonitor {
 	*/
 	int getLastUpdated();
 
-	//! returns the Neuron state vectors
+	//! returns the cores detected by the Performance Counter backend
+	const int getCores();
 
-	// MS Performance Data Helper (PDH) library 
-	const std::vector<std::vector<float> > &getPdhCoreUtilization();
-	
-	// Intel Performance Counter Measurement (PCM) library 
-	std::vector<std::vector<float> > getPcmCoreUtilization();   // core state active state residency, 0..1
-	std::vector<std::vector<float> > getPcmCoreInstructions();  // instructions per CPU cycle
-	std::vector<std::vector<float> > getPcmCoreFrequency();		// core frequency in Ghz
-	std::vector<std::vector<float> > getPcmCoreTemperatur();	// °C relative to the thermal headroom, 0 corresponds to the max temperature
-	std::vector<std::vector<float> > getPcmCoreEnergy();		// energy in Joules derived from the socket by the core activity
+	void setSampleRate(int ms);
 
-	// NVIDIA GPU (NVML)
-	// Cycle, Temp, 
-	
-	//}
+	//! returns the performance counter per for each core
+	const std::vector<std::vector<float>> &getUtilization();	// core state active state residency, 0..1
+	const std::vector<std::vector<float>> &getInstructions();	// instructions per CPU cycle
+	const std::vector<std::vector<float>> &getFrequency();		// core frequency in Ghz
+	const std::vector<std::vector<float>> &getEnergy();			// energy in Joules derived from the socket by the core activity
 
  private:
   //! This is a pointer to the actual implementation of the class. The user should never directly instantiate it.

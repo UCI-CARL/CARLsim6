@@ -1402,7 +1402,7 @@ public:
 	CobaMonitor* setCobaMonitor(int grpId, const std::string& fileName);
 
 
-	PerformanceMonitor* setPerformanceMonitor(const std::string& fileName);
+	PerformanceMonitor* setPerformanceMonitor(PerformanceMonitorBackend backend, const std::string& fileName);
 
 
 	/*!

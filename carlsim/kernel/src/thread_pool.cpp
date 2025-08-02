@@ -111,7 +111,8 @@ ThreadPool::ThreadPool(std::function<void(SNN*, int netId)> snn_method,
 		Worker* worker = new Worker;
 		worker->snn_method = snn_method;
 		worker->args = partitions_[p];
-		worker->core_id = p % cores_ + offset_;
+		//worker->core_id = p % cores_ + offset_;
+		worker->core_id = p % cores_ * 2 + offset_;  // each physical partition has two logical
 		worker->pool = this;
 		worker->thread = new std::thread(&Worker::worker_thread, worker);
 #ifdef WIN32

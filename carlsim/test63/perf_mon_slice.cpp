@@ -84,7 +84,8 @@ TEST(PerfMon, slice) {
 
 	//NeuronMonitor* nrnMon = sim->setNeuronMonitor(g1, "DEFAULT");
 
-	PerformanceMonitor* perfMon = sim->setPerformanceMonitor("DEFAULT");
+	PerformanceMonitor* perfMon = sim->setPerformanceMonitor(PMB_MS, "DEFAULT");  
+	perfMon->setSampleRate(10);
 
 	// synfire FFI 
 	sim->connect(g0, g1, "one-to-one", RangeWeight(4.0), 0.5f);
@@ -119,7 +120,7 @@ TEST(PerfMon, slice) {
 			auto lastUpdated = perfMon->getLastUpdated();
 			EXPECT_EQ(lastUpdated, t + slice);
 
-			auto pdhUtil = perfMon->getPdhCoreUtilization();
+			auto pdhUtil = perfMon->getUtilization();
 			EXPECT_EQ(pdhUtil[0].size(), slice);
 
 			for (int coreIndex = 0; coreIndex < nCores; coreIndex++) {
