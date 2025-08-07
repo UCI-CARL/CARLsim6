@@ -490,8 +490,8 @@ if(WIN32)
 	# unresolved external symbol "public: static class pcm::PCM * __cdecl pcm::PCM::getInstance(void)" (?getInstance@PCM@pcm@@SAPEAV12@XZ) referenced in function "private: virtual void __cdecl PerfMon_pcmInit_Test::TestBody(void)" (?TestBody@PerfMon_pcmInit_Test@@EEAAXXZ)
 #	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
 
-	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
-	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/debug/lib/pcm-lib.lib")
+	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
+	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/debug/lib/pcm-lib.lib")
 
 	# mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MD_DynamicRelease' in carlsim.obj
 	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/PCM_STATIC.lib")
