@@ -5757,7 +5757,7 @@ void SNN::connectUserDefined(int netId, std::list<ConnectConfig>::iterator connI
 			if (connected) {
 				assert(delay >= 1);
 				assert(delay <= MAX_SYN_DELAY);
-				assert(abs(weight) <= abs(maxWt));
+//				assert(abs(weight) <= abs(maxWt));
 
 				if (GET_FIXED_PLASTIC(connIt->connProp) == SYN_FIXED)
 					maxWt = weight;

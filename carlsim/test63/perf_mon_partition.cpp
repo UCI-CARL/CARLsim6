@@ -57,23 +57,96 @@
 #include <cmath>
 #include <vector>
 
+typedef std::map<std::tuple<int, int>, uint8_t> delay_map_t;
+
+
+
+class PartitionConnGen : public ConnectionGenerator
+{
+public:
+	delay_map_t map;
+	float w; 
+
+	virtual void connect(CARLsim* s,
+		int srcGrpId, int i,	// pre
+		int destGrpId, int j,	// post
+		float& weight,
+		float& maxWt,
+		float& delay,
+		bool& connected) {
+
+		try {
+			delay = map.at(std::tuple<int, int>(i, j));
+			weight = w;
+			maxWt = 0.4f;
+			connected = true;
+		}
+		catch (std::out_of_range) {
+			delay = 0.f;
+			connected = false;
+		}
+	}
+};
+
+
+class FanInConnGen : public PartitionConnGen
+{
+public:
+	FanInConnGen(int N, int columns, int rows, int d = 20) {
+		for (int post = 0; post < N; post++)
+			if (post % columns == 0)    // first neuron of each chain (start)
+				map.emplace(std::tuple<int, int>(0, post), d);
+	}
+};
+
+class FanOutConnGen : public PartitionConnGen
+{
+public:
+	FanOutConnGen(int N, int columns, int rows, int d = 20) {
+		for (int pre = 0; pre < N; pre++)
+			if (pre % columns == columns - 1)   // first neuron of each chain (start)
+				map.emplace(std::tuple<int, int>(pre, 0), d);
+	}
+};
+
+class ChainConnGen : public PartitionConnGen
+{
+public:
+	ChainConnGen(int N, int columns, int rows, int d ) {
+		for (int pre = 0; pre < N; pre++)
+			for (int post = 0; post < N; post++)
+			{
+				int pre_r = pre / columns;
+				int pre_c = pre % columns;
+				int post_r = post / columns;
+				int post_c = post % columns;
+
+				// is chain element, order, length
+				if (pre_r == post_r && post_c == pre_c + 1 && post_c < columns) {					
+					map.emplace(std::tuple<int, int>(pre, post), d);
+					//printf("pre: %2d  r: %2d c: %2d  -->  post: %2d r:%2d  c:%2d\n",
+					//	pre, pre_r, pre_c, post, post_r, post_c);
+				}
+			}
+	}
+};
 
 
 // compare monitor to deprecated method
 // CARLsimGUI see EXPERIMENTAL_COBA_MON
 TEST(PerfMon, partition) {
 
-	double rate = rand() % 20 + 2.0;  // some random mean firing rate
-	int isi = 1000 / rate; // inter-spike interval
+	double rate = 1; // Hz
+	int isi = 1000 / rate; // inter-spike interval, e.g. 500ms at 2 Hz
 
 	const int GroupSizes[] = { 100, 400, 1000, 4000, 10000, 40000, 100000 };
 
 
 	int Delays[] = { 1,2,5,10,20 };
-	int Neurons[] = { 100, 400, 1000, 4000, 10000, 40000, 100000 };
+	int Neurons[] = { 100, 400, 1000, 2000, 4000, 10000, 20000 };
 
 	int d_i = 2;  // 5 ms ENUM  d5, d20
-	int N_i = 5;  // 100 ms   ENUM  N100, N400, 
+	int N_i = 2;  // 100 ms   ENUM  N100, N400, 
 
 
 	// chain
@@ -90,9 +163,17 @@ TEST(PerfMon, partition) {
 
 	sim->setConductances(true);
 
+	//sim->setIntegrationMethod(FORWARD_EULER, 10);
+ 	//sim->setIntegrationMethod(FORWARD_EULER, 20);   // same results
+
+	sim->setIntegrationMethod(RUNGE_KUTTA4, 10);
+	//sim->setIntegrationMethod(RUNGE_KUTTA4, 20);  // OK
+	//sim->setIntegrationMethod(RUNGE_KUTTA4, 50);
+	//sim->setIntegrationMethod(RUNGE_KUTTA4, 100);
 
 
 	const int N_exc = 4;
+	//const int N_exc = 1;
 	int g_exc[N_exc];
 	//int conn_exc[N_exc];
 	int g_inter[N_exc+1];   
@@ -104,7 +185,7 @@ TEST(PerfMon, partition) {
 	char name[length];
 	for (int i = 0; i < N_exc; i++) {
 		sprintf_s<length>(name, "g_exc%i", i);
-		g_exc[i] = sim->createGroup(name, N, EXCITATORY_NEURON, i+1);  // core 1..n for exc cluster
+		g_exc[i] = sim->createGroup(name, N, EXCITATORY_NEURON, i);  // core 1..n for exc cluster
 		sim->setNeuronParameters(g_exc[i], 0.02f, 0.2f, -65.0f, 8.0f);
 	}
 
@@ -116,24 +197,41 @@ TEST(PerfMon, partition) {
 
 	g_stim = sim->createSpikeGeneratorGroup("g_stim", 1, EXCITATORY_NEURON, 0);
 
-	// TODO use Gene's stuff !!!
-	
-	// workaround with random
+	// stim
+	sim->connect(g_stim, g_inter[0], "one-to-one", RangeWeight(0.3), 1.0f);
+
+	// Offer as TestCase to Gene
+	FanInConnGen in(N, columns, rows, 20);			in.w	= 0.3;
+	ChainConnGen chain(N, columns, rows, d);	chain.w = 0.325;
+	FanOutConnGen out(N, columns, rows, 20);  		out.w = 0.3 / rows;
+	//ChainConnGen chain(N, columns, rows, d);	chain.w = 0.375;
+
 	for (int i = 0; i < N_exc; i++) {
-		// c_d5
-		//double p = (100 / columns) / (N * N); 
-		float p = N / (N * N);    // 1/N -> each neuron is linear connected, however, it might not transport the spike 
-		sim->connect(g_exc[i], g_exc[i], "random", RangeWeight(4.0), 0.01, d );   // 
-		// pre
-		p = rows / N; 
-		sim->connect(g_inter[i], g_exc[i], "random", RangeWeight(4.0), 0.1 );
-		sim->connect(g_exc[i], g_inter[i+1], "random", RangeWeight(4.0), 0.1);
+		sim->connect(g_inter[i], g_exc[i], &in, SYN_FIXED);
+		sim->connect(g_exc[i], g_exc[i], &chain, SYN_FIXED);
+		sim->connect(g_exc[i], g_inter[i + 1], &out, SYN_FIXED);
 	}
 
-	// stim
-	sim->connect(g_stim, g_inter[0], "one-to-one", RangeWeight(4.0), 1.0f);
+	//// random connection
+	//for (int i = 0; i < N_exc; i++) {
+	//	// c_d5
+	//	//double p = (100 / columns) / (N * N); 
+	//	float p = N / (N * N);    // 1/N -> each neuron is linear connected, however, it might not transport the spike 
+	//	sim->connect(g_exc[i], g_exc[i], "random", RangeWeight(4.0), 0.01, d );   // 
+	//	// pre
+	//	p = rows / N; 
+	//	sim->connect(g_inter[i], g_exc[i], "random", RangeWeight(4.0), 0.1 );
+	//	sim->connect(g_exc[i], g_inter[i+1], "random", RangeWeight(4.0), 0.1);
+	//}
+
 
 	// Spike monitors to validate the SNN neural activity
+	std::vector<SpikeMonitor*> excSpikeMon(N_exc);
+	for (int i = 0; i < N_exc; i++) 
+		excSpikeMon[i] = sim->setSpikeMonitor(g_exc[i], "DEFAULT");
+	std::vector<SpikeMonitor*> interSpikeMon(N_exc);
+	for (int i = 0; i < N_exc+1; i++)
+		interSpikeMon[i] = sim->setSpikeMonitor(g_inter[i], "DEFAULT");
 
 	// Performance monitors 
 	PerformanceMonitor* perfMon = sim->setPerformanceMonitor(PMB_INTEL, "DEFAULT");
@@ -142,7 +240,7 @@ TEST(PerfMon, partition) {
 
 
 	// use periodic spike generator to know the exact spike times
-	PeriodicSpikeGenerator spkGen(rate);
+	PeriodicSpikeGenerator spkGen(rate, true);  // 2 Hz => ISI 500 ms
 	sim->setSpikeGenerator(g_stim, &spkGen);
 
 	//
@@ -153,16 +251,32 @@ TEST(PerfMon, partition) {
 
 	int nCores = 16;
 	bool bPerfMon = true; 
+	bool bSpikeMon = true;
 
 	// CPU 3.5 s  3500
 	// GPU 100,200,400,800 
 	//const int slice = 100;
 	const int slice = ms;  // ms
-	for (int t = 0; t < 100; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
+	for (int t = 0; t < 500*2; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
  
 		if(bPerfMon) perfMon->startRecording();
+		if (bSpikeMon) {
+			for (int i = 0; i < N_exc; i++)
+				excSpikeMon[i]->startRecording();
+			for (int i = 0; i < N_exc+1; i++)
+				interSpikeMon[i]->startRecording();
+		}
+
 		sim->runNetwork(0, slice, true);
-		if (bPerfMon) perfMon->stopRecording();
+
+		if(bPerfMon) perfMon->stopRecording();
+		if (bSpikeMon) {
+			for (int i = 0; i < N_exc; i++)
+				excSpikeMon[i]->stopRecording();
+			for (int i = 0; i < N_exc+1; i++)
+				interSpikeMon[i]->stopRecording();
+		}
+
 
 		if (bPerfMon) {
 			auto lastUpdated = perfMon->getLastUpdated();
