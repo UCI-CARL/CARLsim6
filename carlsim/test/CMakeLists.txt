@@ -1,7 +1,7 @@
 # Dependencies
 
 find_package(GTest)
-
+find_package(Threads REQUIRED)
 if(NOT GTest_FOUND)
     include(FetchContent)
     FetchContent_Declare(
@@ -23,7 +23,7 @@ endif()
         conn_mon.cpp
         core.cpp
         cuba.cpp
-	exec_stopwatch.cpp
+	    exec_stopwatch.cpp
         group_mon.cpp
         interface.cpp
         main.cpp
@@ -56,6 +56,7 @@ endif()
         PRIVATE
             carlsim-spike-generators
             ${GTEST_LIBRARIES}
+	    Threads::Threads
             #if(CARLSIM_GH_ACTIONS)
 			#GTest::gtest
 			#gcov
@@ -67,6 +68,7 @@ endif()
        PRIVATE
             GTest::gtest
             gcov
+	    Threads::Threads
     )
     endif()
 

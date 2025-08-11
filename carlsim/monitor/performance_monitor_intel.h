@@ -1,4 +1,4 @@
-/* * Copyright (c) 2016 Regents of the University of California. All rights reserved.
+/** Copyright (c) 2016 Regents of the University of California. All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions
@@ -42,41 +42,54 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
-* Ver 12/31/2016
+* Ver 05/24/2017
 */
 
-#ifndef _CUDA_VERSION_CONTROL_H_
-#define _CUDA_VERSION_CONTROL_H_
+#ifndef _PERFORMANCE_MON_INTEL_H_
+#define _PERFORMANCE_MON_INTEL_H_
+
+#include <carlsim_datastructures.h>	// NeuronMonMode
+#include <stdio.h>					// FILE
+#include <vector>					// std::vector
+
+#include <performance_monitor_core.h>
+
+// #ifdef INTEL_PCM
+#include <pcm-lib.h>
+//using namespace pcm;
+
+class SNN; // forward declaration of SNN class
+class PerformanceMonitorIntel : public PerformanceMonitorCore {
+public:
+	//! constructor (called by CARLsim::setPerformanceMonitor)
+	PerformanceMonitorIntel(SNN* snn, int monitorId, int sampleRate);
+
+	//! destructor, cleans up all the memory upon object deletion
+	virtual ~PerformanceMonitorIntel();
 
 
-#ifndef __NO_CUDA__
-	#include <cuda.h>
-	#include <cuda_runtime.h>
+	void virtual pushPerformanceCounter(); 
 
-	// we no longer support CUDA3 and CUDA4, but keep cuda_version_control.h for
-	// handling future CUDA toolkit API differences
-	#if defined(__CUDA5__) || defined(__CUDA6__) || defined(__CUDA7__) || defined(__CUDA8__) || defined(__CUDA91__) || defined(__CUDA10__) || defined(__CUDA11__) || defined(__CUDA12__)
+ private:
 
-		#include <helper_cuda.h>
-		#include <helper_functions.h>
-		#include <helper_timer.h>
-		//#include <helper_math.h>
+	 //! initialization method
+	virtual void pre_init();
+	virtual void init();
 
-		#define CUDA_CREATE_TIMER(x) sdkCreateTimer(&(x))
-		#define CUDA_DELETE_TIMER(x) sdkDeleteTimer(&(x))
-		#define CUDA_RESET_TIMER(x) sdkResetTimer(&(x))
-		#define CUDA_START_TIMER(x) sdkStartTimer(&(x))
-		#define CUDA_STOP_TIMER(x) sdkStopTimer(&(x))
-		#define CUDA_GET_TIMER_VALUE(x) sdkGetTimerValue(&(x))
+	virtual void release(); 
 
-		#define CUDA_CHECK_ERRORS(x) checkCudaErrors(x)
-		#define CUDA_GET_LAST_ERROR(x) getLastCudaError(x)
 
-		#define CUDA_GET_MAXGFLOP_DEVICE_ID gpuGetMaxGflopsDeviceId
-		#define CUDA_DEVICE_RESET cudaDeviceReset
-	#endif
+//#if defined(INTEL_PCM)
+	pcm::PCM* pcm_;
+	std::vector<pcm::SystemCounterState> pcmSystemStateBefore_;
+	std::vector<pcm::SystemCounterState> pcmSystemStateAfter_;
+	std::vector<pcm::CoreCounterState> pcmCoreStateBefore_;
+	std::vector<pcm::CoreCounterState> pcmCoreStateAfter_;
+//#endif
+
+
+};
 #endif
-
-#endif /* _CUDA_VERSION_CONTROL_H_ */

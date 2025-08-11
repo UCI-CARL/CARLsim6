@@ -351,6 +351,40 @@ static const char* neuromodulator_string[] = {
 	"Unknown neuromodulator"  
 };
 
+
+
+/*!
+ * \brief PerformanceMonitor Backend
+ *
+ * To monitor the performance counter at core level,
+ * the following backends can be assigned:
+ *
+ *   PMB_MS		Microft PDH
+ *   PMB_INTEL  Intel PCM
+ *   PMB_AMD	(reserved)
+ *   PMB_ARM	(reserved)
+ *   PMB_LNX	(reserved)
+ *
+ */
+enum PerformanceMonitorBackend {
+	PMB_MS,			//!< Microft PDH
+	PMB_INTEL,		//!< Intel PCM
+	PMB_AMD,		//!< (reserved)
+	PMB_ARM,		//!< (reserved)
+	PMB_LNX,		//!< (reserved)
+	PMB_UNDEF
+};
+static const char* PerformanceMonitorBackend_string[] = {
+	"MS",
+	"INTEL",
+	"AMD",
+	"ARM",
+	"LNX",
+	"UNDEF"
+};
+
+
+
 /*!
  * \brief Update frequency for weights
  *

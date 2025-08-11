@@ -300,4 +300,68 @@ TEST(NrnMon, VUI) {
 		delete sim;
 	}
 
+
+}
+
+TEST(NrnMon, file) {
+
+	CARLsim* sim = new CARLsim("NrnMon.file", CPU_MODE, SILENT, 1, 42);
+
+	int g1 = sim->createGroup("g1", 1, EXCITATORY_NEURON);
+	sim->setNeuronParameters(g1, 0.02f, 0.2f, -65.0f, 8.0f);
+	NeuronMonitor* nrnMon = sim->setNeuronMonitor(g1, "DEFAULT");
+
+	int g0 = sim->createSpikeGeneratorGroup("Input", 5, EXCITATORY_NEURON);
+
+	sim->setConductances(true);
+
+	sim->connect(g0, g1, "random", RangeWeight(0.01), 0.5f);
+
+	sim->setupNetwork();
+
+	EXPECT_FALSE(nrnMon->getPersistentData());
+
+	nrnMon->startRecording();
+	sim->runNetwork(0, 10, true);
+	nrnMon->stopRecording();
+
+	auto lastUpdated = nrnMon->getLastUpdated();
+	auto vectorV = nrnMon->getVectorV();
+	EXPECT_EQ(lastUpdated, 10);
+	EXPECT_EQ(vectorV[0].size(), 10);
+
+	nrnMon->startRecording();
+	sim->runNetwork(0, 10, true);
+	nrnMon->stopRecording();
+
+	lastUpdated = nrnMon->getLastUpdated();
+	vectorV = nrnMon->getVectorV();
+	EXPECT_EQ(lastUpdated, 20);
+	EXPECT_EQ(vectorV[0].size(), 10);
+
+
+	// now switch persistent mode on, buffer is extended
+	nrnMon->setPersistentData(true);
+
+	EXPECT_TRUE(nrnMon->getPersistentData());
+
+	nrnMon->startRecording();
+	sim->runNetwork(0, 10, true);
+	nrnMon->stopRecording();
+
+	lastUpdated = nrnMon->getLastUpdated();
+	vectorV = nrnMon->getVectorV();
+	EXPECT_EQ(lastUpdated, 30);
+	EXPECT_EQ(vectorV[0].size(), 20);
+
+	nrnMon->startRecording();
+	sim->runNetwork(0, 10, true);
+	nrnMon->stopRecording();
+
+	lastUpdated = nrnMon->getLastUpdated();
+	vectorV = nrnMon->getVectorV();
+	EXPECT_EQ(lastUpdated, 40);
+	EXPECT_EQ(vectorV[0].size(), 30);
+
+	delete sim;
 }

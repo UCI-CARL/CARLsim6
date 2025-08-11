@@ -175,6 +175,8 @@
 //KERNEL_ERROR("IcalcType is unknwon in group [%d] ", gGrpId);
 #define KERNEL_ERROR_UNKNOWN_ICALC				0xFF024
 
+//KERNEL_ERROR("Hybrid GPU/CPU SNNs are not supported with STL Concurrency."));
+#define KERNEL_ERROR_CPPTHREADS_NO_HYBRIDS		0xFF0025
 
 // 1 ERRORS
 

@@ -104,6 +104,9 @@
 #include <cstdio>
 #include <climits>
 
+#include <string>
+#include <vector>
+
 // experimental
 #include <mutex>
 
@@ -121,11 +124,18 @@ class SpikeMonitor;
 class SpikeMonitorCore;
 class NeuronMonitor;
 class NeuronMonitorCore;
+class CobaMonitor;
+class CobaMonitorCore;
+class PerformanceMonitor;
+class PerformanceMonitorCore;
 class ConnectionMonitorCore;
 class ConnectionMonitor;
 
 class SpikeBuffer;
 
+#ifndef __NO_CPPTHREADS__
+class ThreadPool; 
+#endif 
 
 /// **************************************************************************************************************** ///
 /// CPUSNN CORE CLASS
@@ -137,6 +147,11 @@ class SpikeBuffer;
  * This is a more elaborate description of our main class.
  */
 class SNN {
+
+
+#ifndef __NO_CPPTHREADS__
+	friend ThreadPool;
+#endif
 
 	/// **************************************************************************************************************** ///
 	/// PUBLIC METHODS
@@ -306,7 +321,7 @@ public:
 	 * \param[in] vReset Membrane potential resets to this value immediately after spike
 	 * \param[in] minRmem minimum membrane resistance
 	 * \param[in] maxRmem maximum membrane resistance
-	 * 
+	 *
 	 */
 	void setNeuronParametersLIF(int grpId, int tau_m, int tau_ref, float vTh, float vReset, double minRmem, double maxRmem);
 
@@ -380,7 +395,7 @@ public:
 #ifdef LN_I_CALC_TYPES
 	//! Set the spike-timing-dependent plasticity (STDP) for a connection group
 	/*
-	 * \brief STDP 
+	 * \brief STDP
 	 * \param[in] ...
 	 */
 	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float alphaPlus, float tauPlus, float alphaMinus, float tauMinus, int nm_pka, float w_pka, int nm_plc, float w_plc);
@@ -401,6 +416,24 @@ public:
 	 * \param[in] tau2, the interval for LTD
 	 */
 	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2);
+
+
+	//! Set the excitatory spike-timing-dependent plasticity (STDP) with associative curve for a neuron group
+	/*
+	* \brief STDP must be defined post-synaptically; that is, if STP should be implemented on the connections from group 0 to group 1,
+	* call setSTP on group 1.
+	* \param[in] grpId ID of the neuron group
+	* \param[in] isSet_enable set to true to enable STDP for this group
+	* \param[in] type STDP type (STANDARD, DA_MOD)
+	* \param[in] curve STDP curve
+	* \param[in] ab1 magnitude for LTP change
+	* \param[in] ab2 magnitude for LTD change (leave positive)
+	* \param[in] tau1, the interval for LTP
+	* \param[in] tau2, the interval for LTD
+	*/
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2);
+
+
 
 	/*!
 	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
@@ -518,6 +551,11 @@ public:
 	*/
 	NeuronMonitor* setNeuronMonitor(int gid, FILE* fid);
 
+	CobaMonitor* setCobaMonitor(int gid, FILE* fid);
+
+	PerformanceMonitor* setPerformanceMonitor(PerformanceMonitorBackend backend, FILE* fid);
+
+
 	//!Sets the Poisson spike rate for a group. For information on how to set up spikeRate, see Section Poisson spike generators in the Tutorial.
 	/*!Input arguments:
 	 * \param grpId ID of the neuron group
@@ -541,7 +579,7 @@ public:
 	//! access group status (currently the concentration of neuromodulator)
 	void updateGroupMonitor(int grpId = ALL);
 
-	
+
 #ifdef LN_UPDATE_CURSPIKES
 	//! LN20201101 test stub to develop featSpikes  
 	void updateCurSpike(std::vector<bool>& firings, int netId);
@@ -580,6 +618,30 @@ public:
 	* determine the last time it was called, and update SpikeMonitor information only if necessary.
 	*/
 	void updateNeuronMonitor(int grpId = ALL);
+
+	/*!
+	* \brief copy COBA values from buffer to buffer
+	*
+	* This function is public in SNN, but it should probably not be a public user function in CARLsim.
+	*/
+	void updateCobaMonitor(int grpId = ALL);
+
+
+	/*!
+	* \brief start event of performance counter 
+	*
+	* 
+	*/
+	void armPerformanceMonitor();  // no parameter as it is system wide
+
+	/*!
+	* \brief copy performance counter values from buffer to buffer
+	*
+	* This function is public in SNN, but it should probably not be a public user function in CARLsim.
+	*/
+	void updatePerformanceMonitor();  // no parameter as it is system wide
+
+
 
 	//! stores the pre and post synaptic neuron ids with the weight and delay
 	/*
@@ -683,6 +745,24 @@ public:
 	//! Should not be exposed to user interface
 	NeuronMonitorCore* getNeuronMonitorCore(int grpId);
 
+	//! Returns pointer to existing CobaMonitor object, NULL else
+	CobaMonitor* getCobaMonitor(int grpId);
+
+	//! Returns pointer to existing CobaMonitorCore object, NULL else.
+	//! Should not be exposed to user interface
+	CobaMonitorCore* getCobaMonitorCore(int grpId);
+
+
+	//! Returns pointer to existing PerformanceMonitor object, NULL else
+	PerformanceMonitor* getPerformanceMonitor();
+
+	//! Returns pointer to existing PerformanceMonitorCore object, NULL else.
+	//! Should not be exposed to user interface
+	PerformanceMonitorCore* getPerformanceMonitorCore();
+
+
+
+
 	//! temporary getter to return pointer to current[] \TODO replace with NeuronMonitor
 	float* getCurrent() { return managerRuntimeData.current; }
 
@@ -715,7 +795,7 @@ public:
 	bool isGroupWithHomeostasis(int grpId);
 
 #ifdef LN_I_CALC_TYPES
-    //! \todo LN2021
+	//! \todo LN2021
 	bool isGroupWith(int grpId, IcalcType icalcType) { return groupConfigMap[grpId].icalcType == icalcType; };
 	bool isGroupWithCOBA(int grpId) { return isGroupWith(grpId, COBA); };
 	bool isGroupWithCUBA(int grpId) { return isGroupWith(grpId, CUBA); };
@@ -723,9 +803,9 @@ public:
 	bool isGroupWithGABAbRise(int grpId) { return false; };
 
 	IcalcType getIcalcType(int grpId) { return groupConfigMap[grpId].icalcType; };
-  
+
 	// factors
-	void getConductanceConfig(int grpId, float &dAMPA, float &rNMDA, float &dNMDA, float &dGABAa, float &rGABAb, float &dGABAb) {
+	void getConductanceConfig(int grpId, float& dAMPA, float& rNMDA, float& dNMDA, float& dGABAa, float& rGABAb, float& dGABAb) {
 		auto config = groupConfigMap[grpId].conductanceConfig;
 		dAMPA = config.dAMPA;
 		rNMDA = config.rNMDA;
@@ -734,7 +814,7 @@ public:
 		rGABAb = config.rGABAb;
 		dGABAb = config.dGABAb;
 	};
-	
+
 	// times 
 	void getConductanceConfig(int grpId, int& tdAMPA, int& trNMDA, int& tdNMDA, int& tdGABAa, int& trGABAb, int& tdGABAb) {
 
@@ -746,7 +826,7 @@ public:
 		// \todo LN ensure at set that float does not goes below min precision
 
 		auto config = groupConfigMap[grpId].conductanceConfig;
-		tdAMPA = round(1.0f / (1.0f - config.dAMPA));   
+		tdAMPA = round(1.0f / (1.0f - config.dAMPA));
 		trNMDA = abs(config.rNMDA) < 0.000001f ? 0 : round(1.0f / (1.0f - config.rNMDA));
 		tdNMDA = round(1.0f / (1.0f - config.dNMDA));
 		tdGABAa = round(1.0f / (1.0f - config.dGABAa));
@@ -759,7 +839,7 @@ public:
 	double getRFDist3D(const RadiusRF& radius, const Point3D& pre, const Point3D& post);
 	bool isPoint3DinRF(const RadiusRF& radius, const Point3D& pre, const Point3D& post);
 
-    bool isSimulationWithCompartments() { return sim_with_compartments; }
+	bool isSimulationWithCompartments() { return sim_with_compartments; }
 #define LN_I_CALC_TYPES__REQUIRED_FOR_NETWORK_LEVEL
 	bool isSimulationWithCOBA() { return sim_with_conductances; }
 	bool isSimulationWithCUBA() { return !sim_with_conductances; }
@@ -776,10 +856,10 @@ public:
 #ifndef __NO_CUDA__
 	// GPU backend: utility function
 	static int cudaDeviceCount();
-	static void cudaDeviceDescription(unsigned ithGPU, const char **desc);
+	static void cudaDeviceDescription(unsigned ithGPU, const char** desc);
 #else
 	static int cudaDeviceCount() { return 0; }
-	static void cuda_device_description(unsigned , const char **) {};
+	static void cudaDeviceDescription(unsigned, const char** desc) { *desc = ""; }
 #endif
 
 
@@ -787,6 +867,7 @@ public:
 	// **************************************************************************************************************** //
 	// PRIVATE METHODS
 	// **************************************************************************************************************** //
+
 
 private:
 	//! all unsafe operations of constructor
@@ -908,6 +989,7 @@ private:
 	void printStatusConnectionMonitor(int connId = ALL);
 	void printStatusGroupMonitor(int gGrpId = ALL);
 	void printStatusSpikeMonitor(int gGrpId = ALL);
+	void printStatusPerformanceMonitor();
 	void printSikeRoutingInfo();
 
 	int loadSimulation_internal(bool onlyPlastic);
@@ -951,7 +1033,13 @@ private:
 	void clearExtFiringTable();
 	void convertExtSpikesD1(int netId, int startIdx, int endIdx, int GtoLOffset);
 	void convertExtSpikesD2(int netId, int startIdx, int endIdx, int GtoLOffset);
+#ifndef __NO_CPPTHREADS__
+	void doCurrentUpdateD1();
+	void doCurrentUpdateD2();
+#else
 	void doCurrentUpdate();
+#endif
+
 	void doSTPUpdateAndDecayCond();
 	void deleteRuntimeData();
 	void findFiring();
@@ -962,6 +1050,10 @@ private:
 	void updateTimingTable();
 	void updateWeights();
 	void updateNetworkConfig(int netId);
+
+#ifndef __NO_CPPTHREADS__
+	void generateArgs(const char* name, std::vector<ThreadStruct> &argsThreadRoutine, int &cores, int &offset);
+#endif
 
 	// Abstract layer for trasferring data (local-to-global copy)
 	void fetchConductanceAMPA(int gGrpId);
@@ -975,6 +1067,7 @@ private:
 	// Abstract layer for trasferring data (local-to-local copy)
 	void fetchSpikeTables(int netId);
 	void fetchNeuronStateBuffer(int netId, int lGrpId);
+	void fetchCobaBuffer(int netId, int lGrpId);
 	void fetchGroupState(int netId, int lGrpId);
 	void fetchWeightState(int netId, int lGrpId);
 	void fetchGrpIdsLookupArray(int netId);
@@ -1060,6 +1153,7 @@ private:
 	void copyGroupState(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem);
 	void copyNeuronState(int netId, int lGrpId, RuntimeData* dest, cudaMemcpyKind kind, bool allocateMem);
 	void copyNeuronStateBuffer(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem);
+	void copyCobaBuffer(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem);
 	void copyNeuronSpikeCount(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem, int destOffset);
 	void copySynapseState(int netId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem);
 	void copySTPState(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem);
@@ -1100,6 +1194,7 @@ private:
 	void copyGroupState(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem) { assert(false); }
 	void copyNeuronState(int netId, int lGrpId, RuntimeData* dest, cudaMemcpyKind kind, bool allocateMem) { assert(false); }
 	void copyNeuronStateBuffer(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem) { assert(false); }
+	void copyCobaBuffer(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem) { assert(false); }
 	void copyNeuronSpikeCount(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem, int destOffset) { assert(false); }
 	void copySynapseState(int netId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem) { assert(false); }
 	void copySTPState(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, cudaMemcpyKind kind, bool allocateMem) { assert(false); }
@@ -1137,7 +1232,9 @@ private:
 	void doSTPUpdateAndDecayCond_CPU(int netId);
 	void deleteRuntimeData_CPU(int netId);
 	void findFiring_CPU(int netId);
+//#ifndef __SELECTED_PTHREADS__
 	void globalStateUpdate_CPU(int netId);
+//#endif
 	void resetSpikeCnt_CPU(int netId, int lGrpId); //!< Resets the spike count for a particular group.
 	void shiftSpikeTables_CPU(int netId);
 	void spikeGeneratorUpdate_CPU(int netId);
@@ -1178,6 +1275,18 @@ private:
 	static void* helperUpdateWeights_CPU(void*);
 #endif
 
+#ifdef __SELECTED_PTHREADS__
+	void* globalStateUpdate_CPU(int netId);
+
+	static void* helperGlobalStateUpdate_CPU(void*);
+
+	static void* helperGlobalStateUpdate_CPU_MOCK(void* voidPtr) {
+		return voidPtr;
+	};
+
+#endif
+
+
 	// CPU computing backend: data transfer function
 	void copyAuxiliaryData(int netId, int lGrpId, RuntimeData* dest, bool allocateMem);
 	void copyConductanceAMPA(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, bool allocateMem, int destOffset);
@@ -1191,6 +1300,7 @@ private:
 	void copyGroupState(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, bool allocateMem);
 	void copyNeuronStateBuffer(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, bool allocateMem);
 	void copyNeuronState(int netId, int lGrpId, RuntimeData* dest, bool allocateMem);	
+	void copyCobaBuffer(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, bool allocateMem);
 	void copyNeuronSpikeCount(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, bool allocateMem, int destOffset);	
 	void copySynapseState(int netId, RuntimeData* dest, RuntimeData* src, bool allocateMem);	
 	void copySTPState(int netId, int lGrpId, RuntimeData* dest, RuntimeData* src, bool allocateMem);	
@@ -1341,6 +1451,17 @@ private:
 	NeuronMonitor*     neuronMonList[MAX_GRP_PER_SNN];
 	NeuronMonitorCore* neuronMonCoreList[MAX_GRP_PER_SNN];
 
+	// COBA monitor variables
+	int numCobaMonitor;
+	CobaMonitor* cobaMonList[MAX_GRP_PER_SNN];
+	CobaMonitorCore* cobaMonCoreList[MAX_GRP_PER_SNN];
+
+	// Performance monitor variables
+	int numPerformanceMonitor;
+	PerformanceMonitor* performanceMonList[1];
+	PerformanceMonitorCore* performanceMonCoreList[1];
+	int performanceMonitorId;
+	
 	// \FIXME \DEPRECATED this one moved to group-based
 	long int    simTimeLastUpdSpkMon_; //!< last time we ran updateSpikeMonitor
 

@@ -60,9 +60,26 @@
 #include <group_monitor_core.h>
 #include <neuron_monitor.h>
 #include <neuron_monitor_core.h>
+#include <coba_monitor.h>
+#include <coba_monitor_core.h>
+#include <performance_monitor.h>
+#include <performance_monitor_core.h>
 
 #include <spike_buffer.h>
 #include <error_code.h>
+
+
+
+#ifdef __SELECTED_PTHREADS__
+#include <pthread.h>
+#include <sched.h>
+#include <semaphore.h>
+#endif
+
+#ifndef __NO_CPPTHREADS__
+#include "thread_pool.h"
+#endif
+
 
 // \FIXME what are the following for? why were they all the way at the bottom of this file?
 
@@ -548,6 +565,7 @@ void SNN::setConductances(int gGrpId, bool isSet, int tdAMPA, int trNMDA, int td
 	if (isSet) {
 		KERNEL_INFO("Running group (G:%d) COBA mode:", gGrpId);
 		KERNEL_INFO("  - AMPA decay time            = %5d ms", tdAMPA);
+		KERNEL_INFO("  - NMDA decay time            = %5d ms", tdNMDA);
 		KERNEL_INFO("  - NMDA rise time %s  = %5d ms", (trNMDA > 0) ? "          " : "(disabled)", trNMDA);
 		KERNEL_INFO("  - GABAa decay time           = %5d ms", tdGABAa);
 		KERNEL_INFO("  - GABAb rise time %s = %5d ms", (trGABAb > 0) ? "          " : "(disabled)", trGABAb);
@@ -942,6 +960,67 @@ void SNN::setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPC
 																				groupConfigMap[postGrpId].grpName.c_str(), postGrpId);
 }
 
+
+
+
+// set ESTDP params
+void SNN::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, STDPCurve curve, float ab1, float ab2, float tau1, float tau2) {
+	assert(preGrpId >= -1);
+	assert(postGrpId >= -1);
+	assert(IS_EXCITATORY_TYPE(groupConfigMap[preGrpId].type) == true);
+
+	if (isSet) {
+		assert(type != UNKNOWN_STDP);
+		assert(tau1 > 0); assert(tau2 > 0);
+	}
+
+	short int connId = getConnectId(preGrpId, postGrpId);
+	if (connId < 0) {
+		KERNEL_ERROR("No connection found from group %d(%s) to group %d(%s)", preGrpId, getGroupName(preGrpId).c_str(),
+			postGrpId, getGroupName(postGrpId).c_str());
+		exitSimulation(KERNEL_ERROR_CONN_MISSING3);
+	}
+
+	// set STDP for a given connection
+	// set params for STDP curve
+	if (curve == EXP_CURVE) {
+		connectConfigMap[connId].stdpConfig.ALPHA_PLUS_INB = ab1;
+		connectConfigMap[connId].stdpConfig.ALPHA_MINUS_INB = ab2;
+		connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB = 1.0f / tau1;
+		connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_INB = 1.0f / tau2;
+		connectConfigMap[connId].stdpConfig.BETA_LTP = 0.0f;
+		connectConfigMap[connId].stdpConfig.BETA_LTD = 0.0f;
+		connectConfigMap[connId].stdpConfig.LAMBDA = 1.0f;
+		connectConfigMap[connId].stdpConfig.DELTA = 1.0f;
+	}
+	else {
+		connectConfigMap[connId].stdpConfig.ALPHA_PLUS_INB = 0.0f;
+		connectConfigMap[connId].stdpConfig.ALPHA_MINUS_INB = 0.0f;
+		connectConfigMap[connId].stdpConfig.TAU_PLUS_INV_INB = 1.0f;
+		connectConfigMap[connId].stdpConfig.TAU_MINUS_INV_INB = 1.0f;
+		connectConfigMap[connId].stdpConfig.BETA_LTP = ab1;
+		connectConfigMap[connId].stdpConfig.BETA_LTD = ab2;
+		connectConfigMap[connId].stdpConfig.LAMBDA = tau1;
+		connectConfigMap[connId].stdpConfig.DELTA = tau2;
+	}
+	// set flags for STDP function
+	//FIXME: separate STDPType to ESTDPType and ISTDPType
+	connectConfigMap[connId].stdpConfig.WithESTDPtype = type;
+	connectConfigMap[connId].stdpConfig.WithESTDPcurve = curve;
+	connectConfigMap[connId].stdpConfig.WithESTDP = isSet;
+	connectConfigMap[connId].stdpConfig.WithSTDP |= connectConfigMap[connId].stdpConfig.WithESTDP;
+	sim_with_stdp |= connectConfigMap[connId].stdpConfig.WithSTDP;
+
+	groupConfigMap[postGrpId].WithSTDP |= connectConfigMap[connId].stdpConfig.WithSTDP;
+	groupConfigMap[postGrpId].WithDA_MOD |= (type == DA_MOD);
+#ifdef LN_I_CALC_TYPES
+	groupConfigMap[postGrpId].WithPKA_PLC_MOD |= (type == PKA_PLC_MOD);
+#endif
+	KERNEL_INFO("E-STDP %s for %s(%d) to %s(%d)", isSet ? "enabled" : "disabled", groupConfigMap[preGrpId].grpName.c_str(), preGrpId,
+		groupConfigMap[postGrpId].grpName.c_str(), postGrpId);
+}
+
+
 // set STP params
 void SNN::setSTP(int gGrpId, bool isSet, float STP_U, float STP_tau_u, float STP_tau_x) {
 	assert(gGrpId >= -1);
@@ -1154,8 +1233,13 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	// if nsec=0, simTimeMs=10, we need to run the simulator for 10 timeStep;
 	// if nsec=1, simTimeMs=10, we need to run the simulator for 1*1000+10, time Step;
 	for(int i = 0; i < runDurationMs; i++) {
+
+		if(numPerformanceMonitor)
+			armPerformanceMonitor();  // begin event for performance counter
+
 		advSimStep();
 		//KERNEL_INFO("Executed an advSimStep!");
+
 
 		// update weight every updateInterval ms if plastic synapses present
 		if (!sim_with_fixedwts && wtANDwtChangeUpdateInterval_ == ++wtANDwtChangeUpdateIntervalCnt_) {
@@ -1181,11 +1265,22 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 			if (numNeuronMonitor) {
 				updateNeuronMonitor();
 			}
+			if (numCobaMonitor) {
+				updateCobaMonitor();
+			}
 
 			shiftSpikeTables();
 		}
 
 		fetchNeuronSpikeCount(ALL);
+
+		if (numPerformanceMonitor)
+			updatePerformanceMonitor();   // end event for performance counter
+
+		//// 10ms sample intervall  --> handled internally in the update
+		//if (numPerformanceMonitor && (simTime % 10 == 0))   
+		//	updatePerformanceMonitor();
+
 	}
 
 	//KERNEL_INFO("Updated monitors!");
@@ -1203,6 +1298,9 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 		if (numGroupMonitor) {
 			printStatusGroupMonitor(ALL);
 		}
+		if (numPerformanceMonitor) {
+			printStatusPerformanceMonitor();
+		}
 
 		// record time of run summary print
 		simTimeLastRunSummary = simTime;
@@ -1211,6 +1309,7 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	// call updateSpike(Group)Monitor again to fetch all the left-over spikes and group status (neuromodulator)
 	updateSpikeMonitor();
 	updateGroupMonitor();
+
 
 	// keep track of simulation time...
 #ifndef __NO_CUDA__
@@ -1617,6 +1716,114 @@ NeuronMonitor* SNN::setNeuronMonitor(int gGrpId, FILE* fid) {
 	}
 }
 
+
+// record neuron state information, return a NeuronInfo object
+CobaMonitor* SNN::setCobaMonitor(int gGrpId, FILE* fid) {
+
+	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+	
+	int lGrpId = groupConfigMDMap[gGrpId].lGrpId;
+	int netId = groupConfigMDMap[gGrpId].netId;
+	
+	if (getGroupNumNeurons(gGrpId) > 128) {   // COBA NUMM ..--> .h
+		KERNEL_WARN("Due to limited memory space, only the first 128 neurons can be monitored by NeuronMonitor");
+	}
+	
+
+	// check whether group already has a NeuronMonitor
+	if (groupConfigMDMap[gGrpId].cobaMonitorId >= 0) {
+		//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+		// in this case, return the current object and update fid
+		CobaMonitor* cbMonObj = getCobaMonitor(gGrpId);
+
+		// update neuron file ID
+		CobaMonitorCore* cbMonCoreObj = getCobaMonitorCore(gGrpId);
+		cbMonCoreObj->setCobaFileId(fid);
+
+		KERNEL_INFO("CobaMonitor updated for group %d (%s)", gGrpId, groupConfigMap[gGrpId].grpName.c_str());
+		return cbMonObj;
+	}
+	else {
+		//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+		// create new CobaMonitorCore object in any case and initialize analysis components
+		// nrnMonObj destructor (see below) will deallocate it
+		CobaMonitorCore* cbMonCoreObj = new CobaMonitorCore(this, numCobaMonitor, gGrpId);
+		cobaMonCoreList[numCobaMonitor] = cbMonCoreObj;
+		
+
+		// assign neuron state file ID if we selected to write to a file, else it's NULL
+		// if file pointer exists, it has already been fopened
+		// this will also write the header section of the spike file
+		// spkMonCoreObj destructor will fclose it
+		cbMonCoreObj->setCobaFileId(fid);
+		
+
+		// create a new CobaMonitor object for the user-interface
+		// SNN::deleteObjects will deallocate it
+		CobaMonitor* cbMonObj = new CobaMonitor(cbMonCoreObj);
+		cobaMonList[numCobaMonitor] = cbMonObj;
+		
+		// also inform the grp that it is being monitored...
+		groupConfigMDMap[gGrpId].cobaMonitorId = numCobaMonitor;
+
+		numCobaMonitor++;
+		KERNEL_INFO("CobaMonitor set for group %d (%s)", gGrpId, groupConfigMap[gGrpId].grpName.c_str());
+		return cbMonObj;
+	}
+}
+
+// record performance counter 
+PerformanceMonitor * SNN::setPerformanceMonitor(PerformanceMonitorBackend backend, FILE * fid) {   // maybe int netId, 
+											// int type, MS, INTEL, ARM, AMD, LNX; 
+
+	//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+	// check whether network already has a PerformanceMonitor
+	if (numPerformanceMonitor > 0) {
+		//printf("%s  #%d  (%s)\n", __FUNCTION__, __LINE__, __FILE__);
+
+		// in this case, return the current object and update fid
+		PerformanceMonitor* perfMonObj = getPerformanceMonitor();
+
+		// update neuron file ID
+		PerformanceMonitorCore* perfMonCoreObj = getPerformanceMonitorCore();
+		perfMonCoreObj->setPerformanceFileId(fid);
+
+		KERNEL_INFO("Performance Monitor updated");
+		return perfMonObj;
+	}
+	else {
+		
+		// create new PerformanceMonitorCore object in any case and initialize analysis components
+		// nrnMonObj destructor (see below) will deallocate it
+		PerformanceMonitorCore* perfMonCoreObj = PerformanceMonitorCore::create(this, numPerformanceMonitor, backend); // factory method
+		performanceMonCoreList[numPerformanceMonitor] = perfMonCoreObj;
+
+		// assign neuron state file ID if we selected to write to a file, else it's NULL
+		// if file pointer exists, it has already been fopened
+		// this will also write the header section of the spike file
+		// spkMonCoreObj destructor will fclose it
+		perfMonCoreObj->setPerformanceFileId(fid);
+
+		// create a new CobaMonitor object for the user-interface
+		// SNN::deleteObjects will deallocate it
+		PerformanceMonitor* perfMonObj = new PerformanceMonitor(perfMonCoreObj);
+		performanceMonList[numPerformanceMonitor] = perfMonObj;
+
+		// also inform the grp that it is being monitored...
+		performanceMonitorId = numPerformanceMonitor;
+
+		numPerformanceMonitor++;
+		KERNEL_INFO("PerformanceMonitor set");
+		return perfMonObj;
+	}
+
+}
+
+
+
 // FIXME: distinguish the function call at CONFIG_STATE and RUN_STATE, where groupConfigs[0][] might not be available
 // or groupConfigMap is not sync with groupConfigs[0][]
 // assigns spike rate to group
@@ -1756,6 +1963,7 @@ void SNN::setExternalCurrent(int grpId, const std::vector<float>& current) {
 		copyExternalCurrent(netId, lGrpId, &runtimeData[netId], false);
 	}
 }
+
 
 // writes network state to file
 // handling of file pointer should be handled externally: as far as this function is concerned, it is simply
@@ -2119,7 +2327,11 @@ std::vector<float> SNN::getConductanceNMDA(int gGrpId) {
 }
 
 std::vector<float> SNN::getConductanceGABAa(int gGrpId) {
+#ifdef LN_I_CALC_TYPES
+	assert(groupConfigMap[gGrpId].icalcType == COBA);
+#else
 	assert(isSimulationWithCOBA());
+#endif
 
 	// copy data to the manager runtime
 	fetchConductanceGABAa(gGrpId);
@@ -2424,6 +2636,56 @@ NeuronMonitorCore* SNN::getNeuronMonitorCore(int gGrpId) {
 	}
 }
 
+
+
+// returns pointer to existing NeuronMonitor object, NULL else
+CobaMonitor* SNN::getCobaMonitor(int gGrpId) {
+	assert(gGrpId >= 0 && gGrpId < getNumGroups());
+
+	if (groupConfigMDMap[gGrpId].cobaMonitorId >= 0) {
+		return cobaMonList[(groupConfigMDMap[gGrpId].cobaMonitorId)];
+	}
+	else {
+		return NULL;
+	}
+}
+
+CobaMonitorCore* SNN::getCobaMonitorCore(int gGrpId) {
+	assert(gGrpId >= 0 && gGrpId < getNumGroups());
+
+	if (groupConfigMDMap[gGrpId].cobaMonitorId >= 0) {
+		return cobaMonCoreList[(groupConfigMDMap[gGrpId].cobaMonitorId)];
+	}
+	else {
+		return NULL;
+	}
+}
+
+
+// returns pointer to existing NeuronMonitor object, NULL else
+PerformanceMonitor* SNN::getPerformanceMonitor() {
+
+	if (numPerformanceMonitor && performanceMonitorId >= 0) {
+		return performanceMonList[performanceMonitorId];
+	}
+	else {
+		return NULL;
+	}
+}
+
+PerformanceMonitorCore* SNN::getPerformanceMonitorCore() {
+
+	if (numPerformanceMonitor && performanceMonitorId >= 0) {
+		return performanceMonCoreList[performanceMonitorId];
+	}
+	else {
+		return NULL;
+	}
+}
+
+
+
+
 RangeWeight SNN::getWeightRange(short int connId) {
 	assert(connId>=0 && connId<numConnections);
 
@@ -2557,6 +2819,8 @@ void SNN::SNNinit() {
 	spikeRateUpdated = false;
 	numSpikeMonitor = 0;
 	numNeuronMonitor = 0;
+	numCobaMonitor = 0;
+	numPerformanceMonitor = 0;
 	numGroupMonitor = 0;
 	numConnectionMonitor = 0;
 
@@ -2648,7 +2912,12 @@ void SNN::advSimStep() {
 
 	routeSpikes();
 
+#ifndef __NO_CPPTHREADS__ 
+	doCurrentUpdateD2();
+	doCurrentUpdateD1();
+#else
 	doCurrentUpdate();
+#endif
 
 	//KERNEL_INFO("doCurrentUpdate!");
 
@@ -2659,13 +2928,36 @@ void SNN::advSimStep() {
 	clearExtFiringTable();
 }
 
+#ifndef __NO_CPPTHREADS__
+ThreadPool* doSTPUpdateAndDecayCond_TP = nullptr;
+#endif
+
 void SNN::doSTPUpdateAndDecayCond() {
-	#ifndef __NO_PTHREADS__ // POSIX
-		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-		cpu_set_t cpus;
-		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
-		int threadCount = 0;
-	#endif
+#ifndef __NO_CPPTHREADS__
+	if (doSTPUpdateAndDecayCond_TP == nullptr) {
+		// Create thread pool on demand
+		std::vector<ThreadStruct> argsThreadRoutine;
+		int cores, offset;
+		this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+		doSTPUpdateAndDecayCond_TP = new ThreadPool(
+			[](SNN* snn_pointer, int netId) { snn_pointer->doSTPUpdateAndDecayCond_CPU(netId); },
+			argsThreadRoutine, cores, offset
+		);
+	}
+	else
+		doSTPUpdateAndDecayCond_TP->next();
+#else
+#ifndef __NO_PTHREADS__ // POSIX
+		#ifdef UNIX
+			pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+			ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+		#else
+			std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+			std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+		#endif
+			cpu_set_t cpus;
+			int threadCount = 0;
+		#endif
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -2688,6 +2980,7 @@ void SNN::doSTPUpdateAndDecayCond() {
 					argsThreadRoutine[threadCount].startIdx = 0;
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
+					argsThreadRoutine[threadCount].threadId = threadCount;
 
 					pthread_create(&threads[threadCount], &attr, &SNN::helperDoSTPUpdateAndDecayCond_CPU, (void*)&argsThreadRoutine[threadCount]);
 					pthread_attr_destroy(&attr);
@@ -2703,17 +2996,62 @@ void SNN::doSTPUpdateAndDecayCond() {
 			pthread_join(threads[i], NULL);
 		}
 	#endif
+#endif
 }
+
+/* Same issue, SpikeGenerator / Poisson Generator should be made threadsafe if shared
+
+Overall Spike Count Transferred:
+						2+ms delay = 108000
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 1584000
+						1ms delay = 864000
+						Total = 2448000   <-- too low
+						
+Overall Spike Count Transferred:
+						2+ms delay = 108000
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 1590000
+						1ms delay = 867600
+						Total = 2457600   <-- Single thread reference value
+*/
+#define __NO_CPPTHREADS__spikeGeneratorUpdate
+
+#ifndef __NO_CPPTHREADS__
+ThreadPool* assignPoissonFiringRate_TP = nullptr;
+ThreadPool* spikeGeneratorUpdate_TP = nullptr;
+#endif
 
 void SNN::spikeGeneratorUpdate() {
 	// If poisson rate has been updated, assign new poisson rate
 	if (spikeRateUpdated) {
-		#ifndef __NO_PTHREADS__ // POSIX
+#ifndef __NO_CPPTHREADS__
+		if (assignPoissonFiringRate_TP == nullptr) {
+			// Create thread pool on demand
+			std::vector<ThreadStruct> argsThreadRoutine;
+			int cores, offset;
+			this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+			assignPoissonFiringRate_TP = new ThreadPool(
+				[](SNN* snn_pointer, int netId) { snn_pointer->assignPoissonFiringRate_CPU(netId); },
+				argsThreadRoutine, cores, offset
+			);
+		} else {
+			assignPoissonFiringRate_TP->next();
+		}
+#else
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
 			pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
 			cpu_set_t cpus;
 			ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
 			int threadCount = 0;
-		#endif
+#else
+			std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+			cpu_set_t cpus;
+			std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+			int threadCount = 0;
+#endif
+#endif
 
 		for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 			if (!groupPartitionLists[netId].empty()) {
@@ -2750,18 +3088,39 @@ void SNN::spikeGeneratorUpdate() {
 				pthread_join(threads[i], NULL);
 			}
 		#endif
-
-		spikeRateUpdated = false;
+#endif
+			spikeRateUpdated = false;
 	}
 
 	// If time slice has expired, check if new spikes needs to be generated by user-defined spike generators
 	generateUserDefinedSpikes();
 
+	#ifndef __NO_CPPTHREADS__spikeGeneratorUpdate
+		if (spikeGeneratorUpdate_TP == nullptr) {
+			// Create thread pool on demand
+			std::vector<ThreadStruct> argsThreadRoutine;
+			int cores, offset;
+			this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+			spikeGeneratorUpdate_TP = new ThreadPool(
+				[](SNN* snn_pointer, int netId) { snn_pointer->spikeGeneratorUpdate_CPU(netId); },
+				argsThreadRoutine, cores, offset
+			);
+		} else {
+			spikeGeneratorUpdate_TP->next();
+		}
+	#else
 	#ifndef __NO_PTHREADS__ // POSIX
+	#ifdef UNIX
 		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
 		cpu_set_t cpus;
 		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
 		int threadCount = 0;
+	#else
+		std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+		cpu_set_t cpus;
+		std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+		int threadCount = 0;
+	#endif
 	#endif
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
@@ -2790,7 +3149,7 @@ void SNN::spikeGeneratorUpdate() {
 					threadCount++;
 				#endif
 			}
-		}
+		} 
 	}
 
 	#ifndef __NO_PTHREADS__ // POSIX
@@ -2799,18 +3158,61 @@ void SNN::spikeGeneratorUpdate() {
 			pthread_join(threads[i], NULL);
 		}
 	#endif
+	#endif
 
 	// tell the spike buffer to advance to the next time step
 	spikeBuf->step();
 }
 
+#ifndef __NO_CPPTHREADS__
+ThreadPool* findFiring_TP = nullptr;
+#endif
+
+#define __NO_CPPTHREADS__findFiring
+/*
+ORIGINAL
+verall Spike Count Transferred:
+						2+ms delay = 108000
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 1590000
+						1ms delay = 867600
+						Total = 2457600
+CPPTHREADS
+Overall Spike Count Transferred:
+						2+ms delay = 108000
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 1584000
+						1ms delay = 864000
+						Total = 2448000
+*/
 void SNN::findFiring() {
-	#ifndef __NO_PTHREADS__ // POSIX
-		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-		cpu_set_t cpus;
-		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
-		int threadCount = 0;
-	#endif
+#ifndef __NO_CPPTHREADS__findFiring
+	if (findFiring_TP == nullptr) {
+		// Create thread pool on demand
+		std::vector<ThreadStruct> argsThreadRoutine;
+		int cores, offset;
+		this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+		findFiring_TP = new ThreadPool(
+			[](SNN* snn_pointer, int netId) { snn_pointer->findFiring_CPU(netId); },
+			argsThreadRoutine, cores, offset
+		);
+	}
+	else
+		findFiring_TP->next();
+#else
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
+	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+	int threadCount = 0;
+#else
+	std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+	int threadCount = 0;
+#endif
+#endif
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -2847,16 +3249,53 @@ void SNN::findFiring() {
 			pthread_join(threads[i], NULL);
 		}
 	#endif
+#endif
 }
 
-void SNN::doCurrentUpdate() {
-	#ifndef __NO_PTHREADS__ // POSIX
-		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-		cpu_set_t cpus;
-		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
-		int threadCount = 0;
-	#endif
 
+
+#ifndef __NO_CPPTHREADS__
+ThreadPool* doCurrentUpdateD2_TP = nullptr;
+void SNN::doCurrentUpdateD2() {
+	if (doCurrentUpdateD2_TP == nullptr) {
+		// Create thread pool on demand
+		std::vector<ThreadStruct> argsThreadRoutine;
+		int cores, offset;
+		this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+		doCurrentUpdateD2_TP = new ThreadPool(
+			[](SNN* snn_pointer, int netId) { snn_pointer->doCurrentUpdateD2_CPU(netId); },
+			argsThreadRoutine, cores, offset );
+	} else
+		doCurrentUpdateD2_TP->next();
+}
+ThreadPool* doCurrentUpdateD1_TP = nullptr;
+void SNN::doCurrentUpdateD1() {
+	if (doCurrentUpdateD1_TP == nullptr) {
+		// Create thread pool on demand
+		std::vector<ThreadStruct> argsThreadRoutine;
+		int cores, offset;
+		this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+		doCurrentUpdateD1_TP = new ThreadPool(
+			[](SNN* snn_pointer, int netId) { snn_pointer->doCurrentUpdateD1_CPU(netId); },
+			argsThreadRoutine, cores, offset );
+	} else
+		doCurrentUpdateD1_TP->next();
+}
+#else 
+void SNN::doCurrentUpdate() {
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
+	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+	int threadCount = 0;
+#else
+	std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+	int threadCount = 0;
+#endif
+#endif
 	// This loop updates and generates spikes on connections with a delay of >1ms
 	//     (by calling doCurrentUpdateD2_GPU() and helperDoCurrentUpdateD2_CPU())
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
@@ -2936,14 +3375,87 @@ void SNN::doCurrentUpdate() {
 		}
 	#endif
 }
+#endif
 
+/*
+* 
+!!! always assert assumptions !!!  
+
+#ifdef __NO_CUDA__
+	#define CPU_RUNTIME_BASE 0
+#else
+	#define CPU_RUNTIME_BASE 8
+#endif
+
+*/
+
+#ifndef __NO_CPPTHREADS__
+void SNN::generateArgs(const char* name, std::vector<ThreadStruct> &argsThreadRoutine, int &cores, int &offset) {
+
+	//std::vector<ThreadStruct> argsThreadRoutine,
+	// get CPU CORES from global SNN run configuration !!! TODO   YAML, ... 
+	cores = 4;
+	offset = 4; 
+	int logical = 2;  // logical cores 
+
+	// Count partitions of the networks
+	int partitions = 0;
+	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+		if (!groupPartitionLists[netId].empty()) {
+			if (netId < CPU_RUNTIME_BASE) {
+				// GPU runtime detected
+				KERNEL_ERROR("Hybrid GPU/CPU SNNs are not supported with STL Concurrency.");
+				exitSimulation(KERNEL_ERROR_CPPTHREADS_NO_HYBRIDS);
+			}
+			else {
+				ThreadStruct_s arg;  // TODO constructor snn_pointer, netId !!!  ??? Struct
+				arg.snn_pointer = this;
+				arg.netId = netId;
+				arg.lGrpId = 0;
+				arg.startIdx = 0;
+				arg.endIdx = 0;
+				arg.GtoLOffset = 0;
+				argsThreadRoutine.emplace_back(arg);
+				assert(partitions == netId - CPU_RUNTIME_BASE);
+				partitions++;
+			}
+		}
+	}
+
+	KERNEL_INFO("Create pool of %d threads with affinity to core[%0d],.. for %s", cores, offset, name);
+}
+#endif
+
+#ifndef __NO_CPPTHREADS__
+ThreadPool* updateTimingTable_TP = nullptr;
+#endif
 void SNN::updateTimingTable() {
-	#ifndef __NO_PTHREADS__ // POSIX
-		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-		cpu_set_t cpus;
-		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
-		int threadCount = 0;
-	#endif
+#ifndef __NO_CPPTHREADS__
+	if (updateTimingTable_TP == nullptr) {
+		// Create thread pool on demand
+		std::vector<ThreadStruct> argsThreadRoutine;
+		int cores, offset;
+		this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);		
+		updateTimingTable_TP = new ThreadPool (
+			[](SNN* snn_pointer, int netId) { snn_pointer->updateTimingTable_CPU(netId); },
+			argsThreadRoutine, cores, offset
+		);
+	} else
+		updateTimingTable_TP->next();
+#else
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
+	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+	int threadCount = 0;
+#else
+	std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+	int threadCount = 0;
+#endif
+#endif
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -2979,15 +3491,116 @@ void SNN::updateTimingTable() {
 			pthread_join(threads[i], NULL);
 		}
 	#endif
+
+#endif
 }
 
+
+
+
+// experimential WIN32 support 
+//#ifdef __SELECTED_PTHREADS__
+//#undef __NO_PTHREADS__
+//
+//static int washere = 0;
+//
+//void* func(void* arg)
+//{
+//	washere = 1;
+//	return 0;
+//}
+//
+//static pthread_t threads[12 + 1];
+//
+//#endif 
+
+
+#ifndef __NO_CPPTHREADS__
+ThreadPool* globalStateUpdate_TP = nullptr;
+#endif
+
 void SNN::globalStateUpdate() {
-	#ifndef __NO_PTHREADS__ // POSIX
-		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-		cpu_set_t cpus;
-		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
-		int threadCount = 0;
-	#endif
+
+// INLINE 
+//
+//#if !defined(__NO_CPPTHREADS__)
+//
+//	// Create thread pool on demand
+//	if (globalStateUpdateTP == nullptr) {
+//		printf("Create thread pool on demand\n");
+//		std::vector<ThreadStruct> argsThreadRoutine;
+//		// Count partitions of the networks
+//		int partitions = 0; 
+//		for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+//			if (!groupPartitionLists[netId].empty()) {
+//				if (netId < CPU_RUNTIME_BASE) // GPU runtime
+//					exit(0);  // self fatal error - hybrid not supported  // TODO KERNEL_ERROR FATAL ... 
+//				else {
+//					ThreadStruct_s arg;  // TODO constructor snn_pointer, netId !!!  ??? Struct
+//					arg.snn_pointer = this;
+//					arg.netId = netId;
+//					arg.lGrpId = 0;
+//					arg.startIdx = 0;
+//					arg.endIdx = 0;
+//					arg.GtoLOffset = 0;
+//					argsThreadRoutine.emplace_back(arg);
+//					assert(partitions == netId);
+//					partitions++;
+//				}
+//			}
+//		}
+//
+//		// Create thread pool 
+//		// get CPU CORES from global SNN run configuration !!! TODO   YAML, ... 
+//		int cores = 4; 
+//		int offset = 4;
+//
+//		// In contrast to the helper construct of the PThreads 
+//		// we use objects and Lambdas for C++ Threads.
+//
+//		// Create global thread pool Destructor is called on progam exit     // TODO verify in debugger
+//		globalStateUpdateTP = new ThreadPool(
+//			[](SNN* snn_pointer, int netId) { snn_pointer->globalStateUpdate_CPU(netId); },
+//			argsThreadRoutine,
+//			cores, 
+//			offset);		
+//	}
+//	else {
+//		globalStateUpdateTP->next();
+//	}
+// 
+// #elif  __NO_PTHREADS__ // POSIX
+
+#ifndef __NO_CPPTHREADS__
+	if (globalStateUpdate_TP == nullptr) {
+		// Create thread pool on demand
+		std::vector<ThreadStruct> argsThreadRoutine;
+		int cores, offset;
+		this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+		globalStateUpdate_TP = new ThreadPool(
+			[](SNN* snn_pointer, int netId) { snn_pointer->globalStateUpdate_CPU(netId); },
+			argsThreadRoutine, cores, offset
+		);
+	} else
+		globalStateUpdate_TP->next();
+#else
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
+	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+	int threadCount = 0;
+#else // Experimental WIN32 support
+//	std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+//	//pthread_t threads[NUM_CPU_CORES + 1];
+//	cpu_set_t cpus;
+//	std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+//	//ThreadStruct argsThreadRoutine[NUM_CPU_CORES + 1];
+//	int threadCount = 0;
+#endif
+
+#endif
+
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -3010,8 +3623,33 @@ void SNN::globalStateUpdate() {
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					pthread_create(&threads[threadCount], &attr, &SNN::helperGlobalStateUpdate_CPU, (void*)&argsThreadRoutine[threadCount]);
+					////pthread_create(&threads[threadCount], &attr, &SNN::helperGlobalStateUpdate_CPU, (void*)&argsThreadRoutine[threadCount]);
+
+					//// TIME OVERHEAD ~100 ms   3500 / 500 = 7 
+					//pthread_create(&threads[threadCount], &attr, &SNN::helperGlobalStateUpdate_CPU_MOCK, (void*)&argsThreadRoutine[threadCount]);
+					// TIME OVERHEAD ~100 ms   3500 / 500 = 7 
+
+					//pthread_create(&threads[threadCount], &attr, func, (void*)&argsThreadRoutine[threadCount]);
+
+					//pthread_t t;
+					//pthread_create(&t, NULL, func, NULL);
+
+					int rc = pthread_create(&threads[threadCount], NULL, func, NULL);  // 7.33s !!!
+					printf("tid: %llu  x: %llu  rc: %d\n", threads[threadCount].p, threads[threadCount].x, rc);
+
+					
+///*
+///*
+// * PThread Functions
+// */
+//	__PTW32_DLLPORT int  __PTW32_CDECL pthread_create(pthread_t * tid,
+//		const pthread_attr_t * attr,
+//		void* (__PTW32_CDECL * start) (void*),
+//		void* arg);
+//*/
+				
 					pthread_attr_destroy(&attr);
+
 					threadCount++;
 				#endif
 			}
@@ -3024,6 +3662,7 @@ void SNN::globalStateUpdate() {
 			pthread_join(threads[i], NULL);
 		}
 	#endif
+#endif
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -3038,15 +3677,46 @@ void SNN::globalStateUpdate() {
 				globalStateUpdate_G_GPU(netId);
 		}
 	}
+
 }
 
+//#ifdef __SELECTED_PTHREADS__
+//#define __NO_PTHREADS__
+//#endif 
+//#endif // __NO_CPP_THREADS__
+
+#ifndef __NO_CPPTHREADS__
+ThreadPool* clearExtFiringTable_TP = nullptr;
+#endif
+
 void SNN::clearExtFiringTable() {
-	#ifndef __NO_PTHREADS__ // POSIX
-		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-		cpu_set_t cpus;
-		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
-		int threadCount = 0;
-	#endif
+#ifndef __NO_CPPTHREADS__
+	if (clearExtFiringTable_TP == nullptr) {
+		// Create thread pool on demand
+		std::vector<ThreadStruct> argsThreadRoutine;
+		int cores, offset;
+		this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+		clearExtFiringTable_TP = new ThreadPool(
+			[](SNN* snn_pointer, int netId) { snn_pointer->clearExtFiringTable_CPU(netId); },
+			argsThreadRoutine, cores, offset
+		);
+	}
+	else
+		clearExtFiringTable_TP->next();
+#else
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
+	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+	int threadCount = 0;
+#else
+	std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+	int threadCount = 0;
+#endif
+#endif
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -3083,15 +3753,41 @@ void SNN::clearExtFiringTable() {
 			pthread_join(threads[i], NULL);
 		}
 	#endif
+#endif
 }
 
+#ifndef __NO_CPPTHREADS__
+ThreadPool* updateWeights_TP = nullptr;
+#endif
+
 void SNN::updateWeights() {
-	#ifndef __NO_PTHREADS__ // POSIX
-		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-		cpu_set_t cpus;
-		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
-		int threadCount = 0;
-	#endif
+#ifndef __NO_CPPTHREADS__
+	if (updateWeights_TP == nullptr) {
+		// Create thread pool on demand
+		std::vector<ThreadStruct> argsThreadRoutine;
+		int cores, offset;
+		this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+		updateWeights_TP = new ThreadPool(
+			[](SNN* snn_pointer, int netId) { snn_pointer->updateWeights_CPU(netId); },
+			argsThreadRoutine, cores, offset
+		);
+	}
+	else
+		updateWeights_TP->next();
+#else
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
+	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+	int threadCount = 0;
+#else
+	std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+	int threadCount = 0;
+#endif
+#endif
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -3127,7 +3823,7 @@ void SNN::updateWeights() {
 			pthread_join(threads[i], NULL);
 		}
 	#endif
-
+#endif
 }
 
 void SNN::updateNetworkConfig(int netId) {
@@ -3139,13 +3835,54 @@ void SNN::updateNetworkConfig(int netId) {
 		copyNetworkConfig(netId); // CPU runtime
 }
 
+#ifndef __NO_CPPTHREADS__
+ThreadPool* shiftSpikeTables_TP = nullptr;
+#endif
+
+#define __NO_CPPTHREADS__shiftSpikeTables
+/* 
+Overall Spike Count Transferred:
+						2+ms delay = 108000
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 1608600
+						1ms delay = 877200
+						Total = 2485800   <-- too high
+
+Overall Spike Count Transferred:
+						2+ms delay = 108000
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 1590000
+						1ms delay = 867600
+						Total = 2457600  <-- reference value (single thread)
+*/
 void SNN::shiftSpikeTables() {
-	#ifndef __NO_PTHREADS__ // POSIX
-		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-		cpu_set_t cpus;
-		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
-		int threadCount = 0;
-	#endif
+#ifndef __NO_CPPTHREADS__shiftSpikeTables
+	if (shiftSpikeTables_TP == nullptr) {
+		// Create thread pool on demand
+		std::vector<ThreadStruct> argsThreadRoutine;
+		int cores, offset;
+		this->generateArgs(__FUNCTION__, argsThreadRoutine, cores, offset);
+		shiftSpikeTables_TP = new ThreadPool(
+			[](SNN* snn_pointer, int netId) { snn_pointer->shiftSpikeTables_CPU(netId); },
+			argsThreadRoutine, cores, offset
+		);
+	}
+	else
+		shiftSpikeTables_TP->next();
+#else
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
+	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+	int threadCount = 0;
+#else
+	std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+	int threadCount = 0;
+#endif
+#endif
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -3182,7 +3919,7 @@ void SNN::shiftSpikeTables() {
 			pthread_join(threads[i], NULL);
 		}
 	#endif
-
+#endif
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
 			if (netId < CPU_RUNTIME_BASE) // GPU runtime
@@ -3266,6 +4003,17 @@ void SNN::allocateManagerRuntimeData() {
 	memset(managerRuntimeData.nVBuffer, 0, sizeof(float) * MAX_NEURON_MON_GRP_SZIE * 1000 * managerRTDSize.maxNumGroups);
 	memset(managerRuntimeData.nUBuffer, 0, sizeof(float) * MAX_NEURON_MON_GRP_SZIE * 1000 * managerRTDSize.maxNumGroups);
 	memset(managerRuntimeData.nIBuffer, 0, sizeof(float) * MAX_NEURON_MON_GRP_SZIE * 1000 * managerRTDSize.maxNumGroups);
+
+
+	managerRuntimeData.nAMPABuffer = new float[MAX_COBA_MON_GRP_SIZE * 1000 * managerRTDSize.maxNumGroups]; // 1 second v buffer
+	managerRuntimeData.nNMDABuffer = new float[MAX_COBA_MON_GRP_SIZE * 1000 * managerRTDSize.maxNumGroups];
+	managerRuntimeData.nGABAaBuffer = new float[MAX_COBA_MON_GRP_SIZE * 1000 * managerRTDSize.maxNumGroups];
+	managerRuntimeData.nGABAbBuffer = new float[MAX_COBA_MON_GRP_SIZE * 1000 * managerRTDSize.maxNumGroups];
+	memset(managerRuntimeData.nAMPABuffer, 0, sizeof(float) * MAX_COBA_MON_GRP_SIZE * 1000 * managerRTDSize.maxNumGroups);
+	memset(managerRuntimeData.nNMDABuffer, 0, sizeof(float) * MAX_COBA_MON_GRP_SIZE * 1000 * managerRTDSize.maxNumGroups);
+	memset(managerRuntimeData.nGABAaBuffer, 0, sizeof(float) * MAX_COBA_MON_GRP_SIZE * 1000 * managerRTDSize.maxNumGroups);
+	memset(managerRuntimeData.nGABAbBuffer, 0, sizeof(float) * MAX_COBA_MON_GRP_SIZE * 1000 * managerRTDSize.maxNumGroups);
+
 
 	managerRuntimeData.gAMPA  = new float[managerRTDSize.glbNumNReg]; // sufficient to hold all regular neurons in the global network
 	managerRuntimeData.gNMDA_r = new float[managerRTDSize.glbNumNReg]; // sufficient to hold all regular neurons in the global network
@@ -3691,6 +4439,13 @@ void SNN::generateRuntimeNetworkConfigs() {
 			for (std::list<GroupConfigMD>::iterator grpIt = groupPartitionLists[netId].begin(); grpIt != groupPartitionLists[netId].end(); grpIt++) {
 				if (grpIt->netId == netId && grpIt->neuronMonitorId >= 0)
 					networkConfigs[netId].sim_with_nm = true;
+			}
+
+			// search for active coba monitor
+			networkConfigs[netId].sim_with_cm = false;
+			for (std::list<GroupConfigMD>::iterator grpIt = groupPartitionLists[netId].begin(); grpIt != groupPartitionLists[netId].end(); grpIt++) {
+				if (grpIt->netId == netId && grpIt->cobaMonitorId >= 0)
+					networkConfigs[netId].sim_with_cm = true;
 			}
 
 			// stdp, da-stdp configurations
@@ -5002,7 +5757,7 @@ void SNN::connectUserDefined(int netId, std::list<ConnectConfig>::iterator connI
 			if (connected) {
 				assert(delay >= 1);
 				assert(delay <= MAX_SYN_DELAY);
-				assert(abs(weight) <= abs(maxWt));
+//				assert(abs(weight) <= abs(maxWt));
 
 				if (GET_FIXED_PLASTIC(connIt->connProp) == SYN_FIXED)
 					maxWt = weight;
@@ -5226,12 +5981,19 @@ void SNN::deleteRuntimeData() {
 	CUDA_CHECK_ERRORS(cudaThreadSynchronize());
 #endif
 
-	#ifndef __NO_PTHREADS__ // POSIX
-		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-		cpu_set_t cpus;
-		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
-		int threadCount = 0;
-	#endif
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
+	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+	int threadCount = 0;
+#else
+	std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+	cpu_set_t cpus;
+	std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+	int threadCount = 0;
+#endif
+#endif
 
 	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
@@ -5308,6 +6070,36 @@ void SNN::deleteObjects() {
 		if (fpLog_ != NULL && fpLog_ != stdout && fpLog_ != stderr)
 			fclose(fpLog_);
 	}
+//
+//#ifndef __NO_CPPTHREADS__
+//	if (doSTPUpdateAndDecayCond_TP != nullptr)	delete doSTPUpdateAndDecayCond_TP;
+//	if (assignPoissonFiringRate_TP != nullptr)	delete assignPoissonFiringRate_TP;
+//	if (spikeGeneratorUpdate_TP != nullptr)	delete spikeGeneratorUpdate_TP;
+//	if (findFiring_TP != nullptr)	delete findFiring_TP;
+//	if (doCurrentUpdateD2_TP != nullptr)	delete doCurrentUpdateD2_TP;
+//	if (doCurrentUpdateD1_TP != nullptr)	delete doCurrentUpdateD1_TP;
+//	if (updateTimingTable_TP != nullptr)	delete updateTimingTable_TP;
+//	if (globalStateUpdate_TP != nullptr)	delete globalStateUpdate_TP;
+//	if (clearExtFiringTable_TP != nullptr)	delete clearExtFiringTable_TP;
+//	if (clearExtFiringTable_TP != nullptr)	delete clearExtFiringTable_TP;
+//	if (updateWeights_TP != nullptr)	delete updateWeights_TP;
+//	if (shiftSpikeTables_TP != nullptr)	delete shiftSpikeTables_TP;
+//
+//	doSTPUpdateAndDecayCond_TP = nullptr;
+//	assignPoissonFiringRate_TP = nullptr;
+//	spikeGeneratorUpdate_TP = nullptr;
+//	findFiring_TP = nullptr;
+//	doCurrentUpdateD2_TP = nullptr;
+//	doCurrentUpdateD1_TP = nullptr;
+//	updateTimingTable_TP = nullptr;
+//	globalStateUpdate_TP = nullptr;
+//	clearExtFiringTable_TP = nullptr;
+//	updateWeights_TP = nullptr;
+//	shiftSpikeTables_TP = nullptr;
+//#endif
+//
+
+
 
 	simulatorDeleted = true;
 }
@@ -5709,6 +6501,15 @@ void SNN::fetchNeuronStateBuffer(int netId, int lGrpId) {
 		copyNeuronStateBuffer(netId, lGrpId, &managerRuntimeData, &runtimeData[netId], false);
 }
 
+void SNN::fetchCobaBuffer(int netId, int lGrpId) {
+	if (netId < CPU_RUNTIME_BASE)
+		copyCobaBuffer(netId, lGrpId, &managerRuntimeData, &runtimeData[netId], cudaMemcpyDeviceToHost, false);
+	else
+		copyCobaBuffer(netId, lGrpId, &managerRuntimeData, &runtimeData[netId], false);
+}
+
+
+
 void SNN::fetchExtFiringTable(int netId) {
 	assert(netId < MAX_NET_PER_SNN);
 
@@ -5789,12 +6590,19 @@ void SNN::routeSpikes() {
 		//KERNEL_DEBUG("GPU1 D1:%d/D2:%d", firingTableIdxD1, firingTableIdxD2);
 		//printf("srcNetId %d,destNetId %d, D1:%d/D2:%d\n", srcNetId, destNetId, firingTableIdxD1, firingTableIdxD2);
 
-		#ifndef __NO_PTHREADS__ // POSIX
-			pthread_t threads[(2 * networkConfigs[srcNetId].numGroups) + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
-			cpu_set_t cpus;
-			ThreadStruct argsThreadRoutine[(2 * networkConfigs[srcNetId].numGroups) + 1]; // same as above, +1 array size
-			int threadCount = 0;
-		#endif
+#ifndef __NO_PTHREADS__ // POSIX
+#ifdef UNIX
+		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
+		cpu_set_t cpus;
+		ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
+		int threadCount = 0;
+#else
+		std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+		cpu_set_t cpus;
+		std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+		int threadCount = 0;
+#endif
+#endif
 
 		for (int lGrpId = 0; lGrpId < networkConfigs[srcNetId].numGroups; lGrpId++) {
 			if (groupConfigs[srcNetId][lGrpId].hasExternalConnect && managerRuntimeData.extFiringTableEndIdxD2[lGrpId] > 0) {
@@ -6934,6 +7742,8 @@ void SNN::generateRuntimeSNN() {
 		if (netId >= CPU_RUNTIME_BASE && runtimeData[netId].allocated)
 			numCores++;
 	}
+	
+	KERNEL_DEBUG("numGPUs: %d  numCores: %d", numGPUs, numCores);
 
 	// 5. declare the spiking neural network is excutable
 	snnState = EXECUTABLE_SNN;
@@ -7110,6 +7920,22 @@ void SNN::resetMonitors(bool deallocate) {
 		if (connMonList[i]!=NULL && deallocate) delete connMonList[i];
 		connMonList[i]=NULL;
 	}
+
+	// delete all CobaMonitor objects
+	// don't kill CobaMonitorCore objects, they will get killed automatically
+	for (int i = 0; i < numCobaMonitor; i++) {
+		if (cobaMonList[i] != NULL && deallocate) delete cobaMonList[i];
+		cobaMonList[i] = NULL;
+	}
+
+	// delete all PerformanceMonitor objects
+	// don't kill PerformanceMonitorCore objects, they will get killed automatically
+	for (int i = 0; i < numPerformanceMonitor; i++) {
+		if (performanceMonList[i] != NULL && deallocate) delete performanceMonList[i];
+		performanceMonList[i] = NULL;
+	}
+
+
 }
 
 void SNN::resetGroupConfigs(bool deallocate) {
@@ -7167,9 +7993,17 @@ void SNN::deleteManagerRuntimeData() {
 	if (managerRuntimeData.nVBuffer != NULL) delete[] managerRuntimeData.nVBuffer;
 	if (managerRuntimeData.nUBuffer != NULL) delete[] managerRuntimeData.nUBuffer;
 	if (managerRuntimeData.nIBuffer != NULL) delete[] managerRuntimeData.nIBuffer;
+	if (managerRuntimeData.nAMPABuffer != NULL) delete[] managerRuntimeData.nAMPABuffer;
+	if (managerRuntimeData.nNMDABuffer != NULL) delete[] managerRuntimeData.nNMDABuffer;
+	if (managerRuntimeData.nGABAaBuffer != NULL) delete[] managerRuntimeData.nGABAaBuffer;
+	if (managerRuntimeData.nGABAbBuffer != NULL) delete[] managerRuntimeData.nGABAbBuffer;
 	managerRuntimeData.voltage=NULL; managerRuntimeData.recovery=NULL; managerRuntimeData.current=NULL; managerRuntimeData.extCurrent=NULL;
 	managerRuntimeData.nextVoltage = NULL; managerRuntimeData.totalCurrent = NULL; managerRuntimeData.curSpike = NULL;
 	managerRuntimeData.nVBuffer = NULL; managerRuntimeData.nUBuffer = NULL; managerRuntimeData.nIBuffer = NULL;
+	managerRuntimeData.nAMPABuffer = NULL; managerRuntimeData.nNMDABuffer = NULL; managerRuntimeData.nGABAaBuffer = NULL; managerRuntimeData.nGABAbBuffer = NULL;
+
+
+
 
 	if (managerRuntimeData.Izh_a!=NULL) delete[] managerRuntimeData.Izh_a;
 	if (managerRuntimeData.Izh_b!=NULL) delete[] managerRuntimeData.Izh_b;
@@ -7330,10 +8164,17 @@ void SNN::resetSpikeCnt(int gGrpId) {
 
 	if (gGrpId == ALL) {
 		#ifndef __NO_PTHREADS__ // POSIX
+		#ifdef UNIX
 			pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
 			cpu_set_t cpus;
 			ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
 			int threadCount = 0;
+		#else
+			std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
+			cpu_set_t cpus;
+			std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
+			int threadCount = 0;
+		#endif
 		#endif
 
 		for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
@@ -7695,7 +8536,11 @@ void SNN::userDefinedSpikeGenerator(int gGrpId) {
 			//    - but careful: we would drop spikes at t=0, because we cannot initialize nextTime to -1...
 			// - it is within the scheduling time slice (nextSchedTime < endOfTimeWindow)
 			// - it is not in the past (nextSchedTime >= currTime)
-			if ((nextSchedTime==0 || nextSchedTime>nextTime) && nextSchedTime<endOfTimeWindow && nextSchedTime>=currTime) {
+//
+//			if ((nextSchedTime == 0 || nextSchedTime > nextTime) && nextSchedTime < endOfTimeWindow && nextSchedTime >= currTime) {
+// Hotfix for CARLsimGUI, 1ms timesteps - ON HOLD, see criteria .. it is within the scheduling time slice
+			if ((nextSchedTime==0 || nextSchedTime>nextTime) && nextSchedTime<=endOfTimeWindow && nextSchedTime>=currTime) {
+
 //				fprintf(stderr,"%u: spike scheduled for %d at %u\n",currTime, i-groupConfigs[0][grpId].StartN,nextSchedTime);
 				// scheduled spike...
 				// \TODO CPU mode does not check whether the same AER event has been scheduled before (bug #212)
@@ -8316,6 +9161,10 @@ void SNN::updateNeuronMonitor(int gGrpId) {
 		// copy the neuron information to manager runtime
 		fetchNeuronStateBuffer(netId, lGrpId);
 
+// 2025-05-25 deactivated, might be used for deprecated methods in carlsim.h
+//		// copy the coba information to manager runtime
+//		fetchCobaBuffer(netId, lGrpId);
+
 		// find the time interval in which to update neuron state info
 		// usually, we call updateNeuronMonitor once every second, so the time interval is [0,1000)
 		// however, updateNeuronMonitor can be called at any time t \in [0,1000)... so we can have the cases
@@ -8402,6 +9251,257 @@ void SNN::updateNeuronMonitor(int gGrpId) {
 			fflush(nrnFileId);
 	}
 }
+
+
+
+// FIXME: modify this for multi-GPUs
+void SNN::updateCobaMonitor(int gGrpId) {
+	// don't continue if no neuron monitors in the network
+	if (!numCobaMonitor)
+		return;
+
+	//printf("The global group id is: %i\n", gGrpId);
+
+	if (gGrpId == ALL) {
+		for (int gGrpId = 0; gGrpId < numGroups; gGrpId++)
+			updateCobaMonitor(gGrpId);
+	}
+	else {
+		//printf("UpdateCobaMonitor is being executed!\n");
+		int netId = groupConfigMDMap[gGrpId].netId;
+		int lGrpId = groupConfigMDMap[gGrpId].lGrpId;
+		// update neuron monitor of a specific group
+		// find index in neuron monitor arrays
+		int monitorId = groupConfigMDMap[gGrpId].cobaMonitorId;
+
+		// don't continue if no spike monitor enabled for this group
+		if (monitorId < 0) return;
+
+		// find last update time for this group
+		CobaMonitorCore* cbMonObj = cobaMonCoreList[monitorId];
+		long int lastUpdate = cbMonObj->getLastUpdated();
+
+		// don't continue if time interval is zero (nothing to update)
+		if (((long int)getSimTime()) - lastUpdate <= 0)
+			return;
+
+		if (((long int)getSimTime()) - lastUpdate > 1000)
+			KERNEL_ERROR("updateCobaMonitor(grpId=%d) must be called at least once every second", gGrpId);
+
+		// AER buffer max size warning here.
+		// Because of C++ short-circuit evaluation, the last condition should not be evaluated
+		// if the previous conditions are false.
+
+		/*if (nrnMonObj->getAccumTime() > LONG_NEURON_MON_DURATION \
+			&& this->getGroupNumNeurons(gGrpId) > LARGE_NEURON_MON_GRP_SIZE \
+			&& nrnMonObj->isBufferBig()) {
+			// change this warning message to correct message
+			KERNEL_WARN("updateNeuronMonitor(grpId=%d) is becoming very large. (>%lu MB)", gGrpId, (long int)MAX_NEURON_MON_BUFFER_SIZE / 1024);// make this better
+			KERNEL_WARN("Reduce the cumulative recording time (currently %lu minutes) or the group size (currently %d) to avoid this.", nrnMonObj->getAccumTime() / (1000 * 60), this->getGroupNumNeurons(gGrpId));
+		}*/
+
+		//// copy the neuron information to manager runtime
+		//fetchNeuronStateBuffer(netId, lGrpId);
+
+		// copy the coba information to manager runtime
+		fetchCobaBuffer(netId, lGrpId);
+
+		// find the time interval in which to update neuron state info
+		// usually, we call updateNeuronMonitor once every second, so the time interval is [0,1000)
+		// however, updateNeuronMonitor can be called at any time t \in [0,1000)... so we can have the cases
+		// [0,t), [t,1000), and even [t1, t2)
+		int numMsMin = lastUpdate % 1000; // lower bound is given by last time we called update
+		int numMsMax = getSimTimeMs(); // upper bound is given by current time
+		if (numMsMax == 0)
+			numMsMax = 1000; // special case: full second
+		assert(numMsMin < numMsMax);
+		//KERNEL_INFO("lastUpdate: %d -- numMsMin: %d -- numMsMax: %d", lastUpdate, numMsMin, numMsMax);
+
+		// current time is last completed second in milliseconds (plus t to be added below)
+		// special case is after each completed second where !getSimTimeMs(): here we look 1s back
+		int currentTimeSec = getSimTimeSec();
+		if (!getSimTimeMs())
+			currentTimeSec--;
+
+		// save current time as last update time
+		cbMonObj->setLastUpdated((long int)getSimTime());
+
+		// prepare fast access
+		FILE* cbFileId = cobaMonCoreList[monitorId]->getCobaFileId();
+		bool writeCobaToFile = cbFileId != NULL;
+		bool writeCobaToArray = cbMonObj->isRecording();
+
+		// Read one neuron state value at a time from the buffer and put the neuron state values to an appopriate monitor buffer.
+		// Later the user may need need to dump these neuron state values to an output file
+		//printf("The numMsMin is: %i; and numMsMax is: %i\n", numMsMin, numMsMax);
+		for (int t = numMsMin; t < numMsMax; t++) {
+			int grpNumNeurons = groupConfigs[netId][lGrpId].lEndN - groupConfigs[netId][lGrpId].lStartN + 1;
+			//printf("The lStartN is: %i; and lEndN is: %i\n", groupConfigs[netId][lGrpId].lStartN, groupConfigs[netId][lGrpId].lEndN);
+			// for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
+
+#if defined(WIN32) && defined(__NO_CUDA__)
+			for (int tmpNId = 0; tmpNId < std::min<int>(MAX_COBA_MON_GRP_SIZE, grpNumNeurons); tmpNId++) {
+#else
+			for (int tmpNId = 0; tmpNId < std::min(MAX_COBA_MON_GRP_SIZE, grpNumNeurons); tmpNId++) {
+#endif
+				int lNId = groupConfigs[netId][lGrpId].lStartN + tmpNId;
+				float ampa, nmda, gaba_a, gaba_b;
+
+				// make sure neuron belongs to currently relevant group
+				int this_grpId = managerRuntimeData.grpIds[lNId];
+				if (this_grpId != lGrpId)
+					continue;
+
+				// adjust nid to be 0-indexed for each group
+				// this way, if a group has 10 neurons, their IDs in the spike file and spike monitor will be
+				// indexed from 0..9, no matter what their real nid is
+				int nId = lNId - groupConfigs[netId][lGrpId].lStartN;
+				assert(nId >= 0);
+
+				int idxBase = networkConfigs[netId].numGroups * MAX_COBA_MON_GRP_SIZE * t + lGrpId * MAX_COBA_MON_GRP_SIZE;
+				ampa = managerRuntimeData.nAMPABuffer[idxBase + nId];
+				nmda = managerRuntimeData.nNMDABuffer[idxBase + nId];
+				gaba_a = managerRuntimeData.nGABAaBuffer[idxBase + nId];
+				gaba_b = managerRuntimeData.nGABAbBuffer[idxBase + nId];
+
+				//printf("Voltage recorded is: %f\n", v);
+
+				// current time is last completed second plus whatever is leftover in t
+				int time = currentTimeSec * 1000 + t;
+
+				//KERNEL_INFO("t: %d -- time: %d --base: %d -- nId: %d -- v: %f -- u: %f, --I: %f", t, time, idxBase + nId, nId, v, u, I);
+
+				// WRITE TO A TEXT FILE INSTEAD OF BINARY
+				if (writeCobaToFile) {
+					//KERNEL_INFO("Save to file");
+					int cnt;
+					cnt = fwrite(&time, sizeof(int), 1, cbFileId); assert(cnt == 1);
+					cnt = fwrite(&nId, sizeof(int), 1, cbFileId); assert(cnt == 1);
+					cnt = fwrite(&ampa, sizeof(float), 1, cbFileId); assert(cnt == 1);
+					cnt = fwrite(&nmda, sizeof(float), 1, cbFileId); assert(cnt == 1);
+					cnt = fwrite(&gaba_a, sizeof(float), 1, cbFileId); assert(cnt == 1);
+					cnt = fwrite(&gaba_b, sizeof(float), 1, cbFileId); assert(cnt == 1);
+				}
+
+				if (writeCobaToArray) {
+					//KERNEL_INFO("Save to array");
+					cbMonObj->pushCoba(nId, ampa, nmda, gaba_a, gaba_b);
+				}
+			}
+			}
+
+		if (cbFileId != NULL) // flush neuron state file
+			fflush(cbFileId);
+	}
+}
+
+
+
+
+void SNN::armPerformanceMonitor() {
+	//int monitorId = performanceMonitorId; 
+	//if (monitorId == -1)
+	//	return; 
+
+	//PerformanceMonitorCore* perfMonObj = performanceMonCoreList[monitorId];
+	//perfMonObj->armMsPdh();  // Query, Baseline
+}
+
+void SNN::updatePerformanceMonitor() {
+	int monitorId = performanceMonitorId;
+	if (monitorId == -1)
+		return;
+
+	// find last update time
+	PerformanceMonitorCore* perfMonObj = performanceMonCoreList[monitorId];
+	long int lastUpdate = perfMonObj->getLastUpdated();
+	long int simTime = (long int)getSimTime(); 
+	int numMsMax = getSimTimeMs(); // upper bound is given by current time
+	if (numMsMax == 0)
+		numMsMax = 1000; // special case: full second
+
+	// current time is last completed second in milliseconds (plus t to be added below)
+	// special case is after each completed second where !getSimTimeMs(): here we look 1s back
+	int currentTimeSec = getSimTimeSec();
+	if (!getSimTimeMs())
+		currentTimeSec--;
+
+	// don't continue if time interval is zero (nothing to update)
+	if (simTime - lastUpdate <= 0)
+		return;
+
+	// 10ms is the minimal measure interval
+	int sampleRate = perfMonObj->getSampleRate();
+	if (sampleRate > 1) {
+		if (simTimeMs % sampleRate != 0)
+			return;
+	}
+
+	if (simTime - lastUpdate > 1000)
+		KERNEL_ERROR("updatePerformanceMonitor() must be called at least once every second");
+		
+	perfMonObj->pushPerformanceCounter();  // always writePerformanceToArray
+	const auto& coreUtil = perfMonObj->getUtilization();
+	const auto& coreIpc =  perfMonObj->getInstructions();
+	const auto& coreFreq = perfMonObj->getFrequency();
+	const auto& coreEngy = perfMonObj->getEnergy();
+
+	// find the time interval in which to update neuron state info
+			// usually, we call updateNeuronMonitor once every second, so the time interval is [0,1000)
+			// however, updateNeuronMonitor can be called at any time t \in [0,1000)... so we can have the cases
+			// [0,t), [t,1000), and even [t1, t2)
+	int numMsMin = lastUpdate % 1000; // lower bound is given by last time we called update
+	assert(numMsMin < numMsMax);
+	//KERNEL_INFO("lastUpdate: %d -- numMsMin: %d -- numMsMax: %d", lastUpdate, numMsMin, numMsMax);
+
+
+	// save current time as last update time
+	perfMonObj->setLastUpdated(simTime);
+
+	// prepare fast access
+	FILE* perfFileId = performanceMonCoreList[monitorId]->getPerformanceFileId();
+	bool writePerformanceToFile = perfFileId != NULL;
+	bool writePerformanceToArray = perfMonObj->isRecording();
+
+	int nCores = perfMonObj->getCores();
+	for (int coreIndex = 0; coreIndex < nCores; coreIndex++) {   
+
+		//float util = pdhCoreUtil[coreIndex].back();
+		float util = coreUtil[coreIndex].empty() ? .0f : coreUtil[coreIndex].back();
+		float ipc = coreIpc[coreIndex].empty() ? .0f : coreIpc[coreIndex].back();	// support backends not provinding this data
+		float freq = coreFreq[coreIndex].empty() ? .0f : coreFreq[coreIndex].back();
+		float engy = coreEngy[coreIndex].empty() ? .0f : coreEngy[coreIndex].back();
+
+		// current time is last completed second plus whatever is leftover in t
+		int time = currentTimeSec * 1000 + numMsMax;
+
+		if(writePerformanceToFile) {
+			//KERNEL_INFO("Save to file");
+			int cnt;
+			cnt = fwrite(&time, sizeof(int), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&coreIndex, sizeof(int), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&util, sizeof(float), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&ipc, sizeof(float), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&freq, sizeof(float), 1, perfFileId); assert(cnt == 1);
+			cnt = fwrite(&engy, sizeof(float), 1, perfFileId); assert(cnt == 1);
+			//KERNEL_DEBUG("t: %d  -- time: %d ms  -- core: %d phd.util: %f", t, time, coreIndex, util);
+		}
+	}
+
+	if (writePerformanceToArray) {
+		// always
+		//KERNEL_INFO("Save to array");
+		//cbMonObj->pushCoba(nId, ampa, nmda, gaba_a, gaba_b);
+	}
+
+	if (perfFileId != NULL) // flush neuron state file
+		fflush(perfFileId);
+
+}
+
+
+
+
 
 // FIXME: update summary format for multiGPUs
 void SNN::printSimSummary() {

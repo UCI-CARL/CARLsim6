@@ -65,6 +65,8 @@
 #include <poisson_rate.h>
 #include <spike_monitor.h>
 #include <neuron_monitor.h>
+#include <coba_monitor.h>
+#include <performance_monitor.h>
 #include <connection_monitor.h>
 #include <group_monitor.h>
 #include <linear_algebra.h>
@@ -110,11 +112,14 @@ https://en.cppreference.com/w/cpp/numeric/random/rand
 
 #else
 
-#include <pthread.h> // pthread
 #include <sys/stat.h> // mkdir
 #include <unistd.h> //unix thread affinity macros
 
 #endif
+
+//#ifndef __NO_PTHREADS__
+//	#include <pthread.h> // pthread
+//#endif
 
 //set by cMake option CARLSIM_LN_FIRING
 //{ LN feat for CARLsim6
@@ -840,6 +845,23 @@ public:
 	 */
 	void setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve);
 
+
+	/*!
+ * \brief Sets E-STDP with the pulse curve
+ *
+ * \param[in] grpId the group ID of group for which these settings are applied
+ * \param[in] isSet the flag indicating if E-STDP is enabled
+ * \param[in] type the flag indicating if E-STDP is modulated by dopamine (i.e., DA-STDP)
+ * \param[in] curve the struct defining the pulse curve
+ *
+ * \STATE ::CONFIG_STATE
+ * \sa STDPType
+ * \sa PulseCurve
+ * \since v6.2
+ */
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve);
+
+
 	/*!
 	 * \brief Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
 	 *
@@ -1375,6 +1397,13 @@ public:
 	* \see ch9s1_matlab_oat
 	*/
 	NeuronMonitor* setNeuronMonitor(int grpId, const std::string& fileName);
+
+
+	CobaMonitor* setCobaMonitor(int grpId, const std::string& fileName);
+
+
+	PerformanceMonitor* setPerformanceMonitor(PerformanceMonitorBackend backend, const std::string& fileName);
+
 
 	/*!
 	 * \brief Sets a spike rate

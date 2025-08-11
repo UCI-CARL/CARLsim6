@@ -152,7 +152,82 @@
 	#define CPU_RUNTIME_BASE 8
 #endif
 
-#define NUM_CPU_CORES sysconf(_SC_NPROCESSORS_ONLN)
+//#define __SELECTED_PTHREADS__
+#ifdef __SELECTED_PTHREADS__
+	// TODO PTHREAD patches
+	//#define NUM_CPU_CORES sysconf(_SC_NPROCESSORS_ONLN)
+	#define sched_getcpu() 0
+	#define NUM_CPU_CORES 4 
+#endif
+
+
+
+/*
+Network Parameters:     numNeurons = 1152 (numNExcReg:numNInhReg = 44.4:44.4)
+						numSynapses = 1536
+						maxDelay = 5
+Simulation Mode:        COBA
+Random Seed:            42
+Timing:                 Model Simulation Time = 3 sec
+						Actual Execution Time = 0.07 sec
+						Speed Factor (Model/Real) = 41 x
+Average Firing Rate:    2+ms delay = 24.400 Hz
+						1ms delay = 18.667 Hz
+						Overall = 21.852 Hz
+Overall Spike Count Transferred:
+						2+ms delay = 3840
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 46848
+						1ms delay = 28672
+						Total = 75520
+*/
+
+
+//#define NUM_CPU_CORES 8    // Total = 75520
+/*
+********************    Simulation Summary      ***************************
+Network Parameters:     numNeurons = 2176 (numNExcReg:numNInhReg = 47.1:47.1)
+						numSynapses = 3072
+						maxDelay = 5
+Simulation Mode:        COBA
+Random Seed:            42
+Timing:                 Model Simulation Time = 3 sec
+						Actual Execution Time = 0.15 sec
+						Speed Factor (Model/Real) = 21 x
+Average Firing Rate:    2+ms delay = 26.741 Hz
+						1ms delay = 18.667 Hz
+						Overall = 22.941 Hz
+Overall Spike Count Transferred:
+						2+ms delay = 8960
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 92416
+						1ms delay = 57344
+						Total = 149760
+*********************************************************************************
+*/
+
+//#define NUM_CPU_CORES 12    // Total = 75520
+/*
+********************    Simulation Summary      ***************************
+Network Parameters:     numNeurons = 3200 (numNExcReg:numNInhReg = 48.0:48.0)
+						numSynapses = 4608
+						maxDelay = 5
+Simulation Mode:        COBA
+Random Seed:            42
+Timing:                 Model Simulation Time = 3 sec
+						Actual Execution Time = 0.23 sec
+						Speed Factor (Model/Real) = 13 x
+Average Firing Rate:    2+ms delay = 27.641 Hz
+						1ms delay = 18.667 Hz
+						Overall = 23.333 Hz
+Overall Spike Count Transferred:
+						2+ms delay = 14080
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 137984
+						1ms delay = 86016
+						Total = 224000
+*********************************************************************************
+*/
 
 #define GPU_RUNTIME_BASE 0
 
@@ -181,6 +256,15 @@
 #define MAX_NEURON_MON_BUFFER_SIZE 524288000 // about 500 MB. size is in bytes. (???)
 #define LONG_NEURON_MON_DURATION 100000       // about 100 seconds
 #define MAX_NEURON_MON_GRP_SZIE 128
+
+#define MAX_COBA_MON_BUFFER_SIZE 524288000 // about 500 MB. size is in bytes. (???)
+#define LONG_COBA_MON_DURATION 100000       // about 100 seconds
+#define MAX_COBA_MON_GRP_SIZE 128
+
+#define MAX_PERF_MON_BUFFER_SIZE 5242880 // about 5 MB. size is in bytes. for all performance counter
+#define LONG_PERF_MON_DURATION 100000       // about 100 seconds
+//#define MAX_PERF_MON_CTR_SIZE 1		// 1x MS_PDH (+ 4x INTEL_PCM)
+#define MAX_PERF_MON_CTR_SIZE 4		// UTIL, IPC, FREQ, ENGY
 
 // This flag is used when having a common poisson generator for both CPU and GPU simulation
 // We basically use the CPU poisson generator. Evaluate if there is any firing due to the

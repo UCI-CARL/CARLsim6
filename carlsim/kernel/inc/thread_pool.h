@@ -42,41 +42,48 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW 
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
 */
 
-#ifndef _CUDA_VERSION_CONTROL_H_
-#define _CUDA_VERSION_CONTROL_H_
+#ifndef _THREAD_POOL_H_
+#define _THREAD_POOL_H_
 
+#include <condition_variable>
+#include <functional>
+#include <mutex>
+#include <vector>
 
-#ifndef __NO_CUDA__
-	#include <cuda.h>
-	#include <cuda_runtime.h>
+//#include <snn.h>
+//#include <snn_definitions.h>
 
-	// we no longer support CUDA3 and CUDA4, but keep cuda_version_control.h for
-	// handling future CUDA toolkit API differences
-	#if defined(__CUDA5__) || defined(__CUDA6__) || defined(__CUDA7__) || defined(__CUDA8__) || defined(__CUDA91__) || defined(__CUDA10__) || defined(__CUDA11__) || defined(__CUDA12__)
+class ThreadPool {
+public:
 
-		#include <helper_cuda.h>
-		#include <helper_functions.h>
-		#include <helper_timer.h>
-		//#include <helper_math.h>
+	class Worker;
+	
+	//ThreadPool(int partitions, int cores = 4, int offset = 0);
+	ThreadPool(	std::function<void(SNN*, int netId)> snn_method, 
+				std::vector<ThreadStruct> partitions, 
+				int cores = 4, int offset = 0);
+	~ThreadPool();
 
-		#define CUDA_CREATE_TIMER(x) sdkCreateTimer(&(x))
-		#define CUDA_DELETE_TIMER(x) sdkDeleteTimer(&(x))
-		#define CUDA_RESET_TIMER(x) sdkResetTimer(&(x))
-		#define CUDA_START_TIMER(x) sdkStartTimer(&(x))
-		#define CUDA_STOP_TIMER(x) sdkStopTimer(&(x))
-		#define CUDA_GET_TIMER_VALUE(x) sdkGetTimerValue(&(x))
+	void next();
 
-		#define CUDA_CHECK_ERRORS(x) checkCudaErrors(x)
-		#define CUDA_GET_LAST_ERROR(x) getLastCudaError(x)
+	void stop();
 
-		#define CUDA_GET_MAXGFLOP_DEVICE_ID gpuGetMaxGflopsDeviceId
-		#define CUDA_DEVICE_RESET cudaDeviceReset
-	#endif
+	int cores() const;
+
+private:
+	std::vector<Worker*> workers_;
+	//int partitions_;
+	std::vector<ThreadStruct> partitions_;
+	int cores_;
+	int offset_;
+	std::mutex mtx_;
+	std::condition_variable cv_;
+};
+
 #endif
-
-#endif /* _CUDA_VERSION_CONTROL_H_ */

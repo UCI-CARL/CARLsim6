@@ -157,6 +157,40 @@ void SNN::printStatusGroupMonitor(int gGrpId) {
 	}
 }
 
+
+void SNN::printStatusPerformanceMonitor() {
+
+	int monitorId = performanceMonitorId;
+
+	if (monitorId == -1) return;
+
+	int nCores = 4;
+//
+//for(each core print f .. )
+//		// infer run duration by measuring how much time has passed since the last run summary was printed
+//		int runDurationMs = simTime - simTimeLastRunSummary;
+//
+//		if (simTime <= simTimeLastRunSummary) {
+//			KERNEL_INFO("(t=%.3fs) GroupMonitor for group %s(%d) has %d peak(s) in %dms",
+//				simTime / 1000.0f,
+//				groupConfigMap[gGrpId].grpName.c_str(),
+//				gGrpId,
+//				0,
+//				0);
+//		}
+//		else {
+//			// if some time has passed since last print
+//			KERNEL_INFO("(t=%.3fs) GroupMonitor for group %s(%d) has %d peak(s) in %ums",
+//				simTime / 1000.0f,
+//				groupConfigMap[gGrpId].grpName.c_str(),
+//				gGrpId,
+//				numPeaks,
+//				runDurationMs);
+//		}
+//	}
+
+}
+
 // new print connection info, akin to printGroupInfo
 void SNN::printConnectionInfo(short int connId) {
 	ConnectConfig connConfig = connectConfigMap[connId];

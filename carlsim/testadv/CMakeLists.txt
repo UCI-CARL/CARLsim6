@@ -23,6 +23,7 @@ find_package(GTest REQUIRED)
         stdp_adv.cpp
         axonplast2.cpp
 		nrngrps_limit.cpp
+        stdp_assoc.cpp 
     )
 
     #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     

@@ -29,6 +29,7 @@ endif()
     option(CARLSIM_GH_ACTIONS "Configure CMake for GitHub Actions" OFF)         # Set this when called by GitHub WFs
     option(CARLSIM_NO_CUDA "Turn off CUDA support" OFF)         # more for boot straping and quality ensurance
     option(CARLSIM_NO_PTHREADS "Turn off PTHREADS" ON)          # since CARLsim5, Linux Release builds throw segmentation violation 
+    option(CARLSIM_NO_CPPTHREADS "Turn off C++ Threads" ON)          # turn off C++ built-in concurrency support library
     option(CARLSIM_SHARED "Build CARLSIM as shared library" ON)     # this is the primary supported way
     # For trouble shooting and special requirements (e.g. single image appliances). CUDA is always shared.
     option(CARLSIM_STATIC "Build CARLSIM as static libray" OFF)     
@@ -36,6 +37,7 @@ endif()
     option(CARLSIM_SAMPLES "Build CARLSIM samples" ON)          # not for minimal version
     option(CARLSIM_TUTORIALS "Build CARLSIM tutorials" OFF)      # not for minimal version and production     
     option(CARLSIM_PYCARL "Build CARLSIM PyCARL" OFF)            # not for CR but SNN
+    option(CARLSIM_PY "Build carlsim6py" OFF)            # Python extension module for CARLsim6 
     option(CARLSIM_TOOLS "Build CARLSIM Tools" ON)              # check for dependecies
     option(CARLSIM_TEST "Build CARLSIM Tests" ON)               # mandadory for development
     
@@ -74,6 +76,14 @@ if(CARLSIM_GH_ACTIONS AND NOT CARLSIM_TEST)
     message(FATAL_ERROR "CARLSIM_GH_ACTIONS requires CARLSIM_TEST also be True.")
 endif()
 
+if(NOT CARLSIM_NO_PTHREADS AND NOT CARLSIM_NO_CPPTHREADS)
+    message(FATAL_ERROR "Thread libraries are mutual exclusive.")
+endif()
+
+if(NOT CARLSIM_NO_CUDA AND NOT CARLSIM_NO_CPPTHREADS)
+    message(WARNING "C++ Threads and CUDA are mutual exclusive.")
+endif()
+
 # Dependencies
 
     if(NOT CARLSIM_NO_CUDA)
@@ -88,6 +98,16 @@ endif()
 	if(UNIX AND NOT CARLSIM_NO_PTHREADS)
   		set(THREADS_PREFER_PTHREAD_FLAG ON)
 		find_package(Threads REQUIRED)
+	endif()
+
+	if(WIN32 AND CARLSIM_NO_PTHREADS)
+  		set(THREADS_PREFER_PTHREAD_FLAG ON)
+		find_package(Threads REQUIRED)
+	endif()
+
+	if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
+  		set(THREADS_PREFER_CPPTHREAD_FLAG ON)
+		# The concurrency support by the C++ standard library is configured by the CMAKE_CXX_STANDARD. 
 	endif()
 
 # Targets
@@ -131,6 +151,14 @@ set(kernel_SRCS
 	carlsim/kernel/src/snn_manager.cpp
 	carlsim/kernel/src/spike_buffer.cpp
 )    
+
+if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
+set(kernel_SRCS
+	${kernel_SRCS}
+	carlsim/kernel/src/thread_pool.cpp
+)
+endif()
+
 set(kernel_HDRS
 	carlsim/kernel/inc/cuda_version_control.h
 	carlsim/kernel/inc/error_code.h
@@ -139,26 +167,50 @@ set(kernel_HDRS
 	carlsim/kernel/inc/snn.h
 	carlsim/kernel/inc/spike_buffer.h
 )
+
+#append 
+if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
+set(kernel_HDRS
+	${kernel_HDRS}
+	carlsim/kernel/inc/thread_pool.h
+)
+endif()
+
+
 set(monitor_SRCS      
+	carlsim/monitor/coba_monitor_core.cpp
+	carlsim/monitor/coba_monitor.cpp
 	carlsim/monitor/connection_monitor_core.cpp
 	carlsim/monitor/connection_monitor.cpp
 	carlsim/monitor/group_monitor_core.cpp
 	carlsim/monitor/group_monitor.cpp
 	carlsim/monitor/neuron_monitor_core.cpp
 	carlsim/monitor/neuron_monitor.cpp
+	carlsim/monitor/performance_monitor_core.cpp
+	carlsim/monitor/performance_monitor_intel.cpp 
+	carlsim/monitor/performance_monitor_ms.cpp 
+	carlsim/monitor/performance_monitor.cpp
 	carlsim/monitor/spike_monitor_core.cpp
 	carlsim/monitor/spike_monitor.cpp        
 )
 set(monitor_HDRS
+	carlsim/monitor/coba_monitor_core.h
+	carlsim/monitor/coba_monitor.h
 	carlsim/monitor/connection_monitor_core.h
 	carlsim/monitor/connection_monitor.h
 	carlsim/monitor/group_monitor_core.h
 	carlsim/monitor/group_monitor.h
 	carlsim/monitor/neuron_monitor_core.h
 	carlsim/monitor/neuron_monitor.h
+	carlsim/monitor/performance_monitor_core.h
+	carlsim/monitor/performance_monitor_intel.h
+	carlsim/monitor/performance_monitor_ms.h
+	carlsim/monitor/performance_monitor.h
 	carlsim/monitor/spike_monitor_core.h
 	carlsim/monitor/spike_monitor.h
 )
+
+
 
 source_group("Header Files\\Interface" FILES ${interface_HDRS})
 source_group("Header Files\\Kernel" FILES ${kernel_HDRS})    
@@ -198,6 +250,7 @@ if(NOT CARLSIM_NO_CUDA)
 			carlsim/kernel/src/gpu_module/snn_gpu_module.cu
 			OPTIONS
 				${CARLSIM_CUDA_GENCODE}
+				-Wno-deprecated-gpu-targets
 		)
 	endif()
 
@@ -248,6 +301,12 @@ endif()
 if(CARLSIM_NO_PTHREADS)
 	target_compile_definitions(carlsim PUBLIC __NO_PTHREADS__)         
 endif()
+
+if(CARLSIM_NO_CPPTHREADS)
+	target_compile_definitions(carlsim PUBLIC __NO_CPPTHREADS__)         
+endif()
+
+
 
 # Template 
 if(CARLSIM_LN_XYZ)
@@ -352,6 +411,13 @@ target_include_directories(carlsim
 		carlsim/interface/inc
 		carlsim/kernel/inc
 		carlsim/monitor
+		#C:/Test/sourceforge/PTHREADS-BUILT/include
+)
+
+#if Intel PCM
+target_include_directories(carlsim
+	PUBLIC
+	"C:/Program Files/PCM/include/windows"
 )
 
 if(NOT CARLSIM_NO_CUDA)
@@ -379,6 +445,8 @@ if(NOT CARLSIM_NO_CUDA)
 	  )	  
 endif()
 
+
+
 ### Linking ###
 
 if(CARLSIM_GH_ACTIONS AND CARLSIM_TEST)
@@ -399,6 +467,36 @@ endif()
 if(UNIX AND NOT CARLSIM_NO_PTHREADS)
 	target_link_libraries(carlsim PRIVATE Threads::Threads)
 endif()
+
+if(WIN32 AND NOT CARLSIM_NO_PTHREADS)
+	target_link_libraries(carlsim PRIVATE C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVCE3.lib)
+	#target_link_libraries(carlsim PRIVATE C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVSE3.lib)
+	#target_link_libraries(carlsim PRIVATE C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVC3.lib)
+endif()
+
+if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
+	# STDLIB
+endif()
+
+#if MS PDH (SDK)
+# additive
+if(WIN32)  
+	target_link_libraries(carlsim PRIVATE pdh.lib)
+endif()
+
+#if Intel PCM
+# additive
+if(WIN32)  
+	# unresolved external symbol "public: static class pcm::PCM * __cdecl pcm::PCM::getInstance(void)" (?getInstance@PCM@pcm@@SAPEAV12@XZ) referenced in function "private: virtual void __cdecl PerfMon_pcmInit_Test::TestBody(void)" (?TestBody@PerfMon_pcmInit_Test@@EEAAXXZ)
+#	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
+
+	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
+	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/debug/lib/pcm-lib.lib")
+
+	# mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MD_DynamicRelease' in carlsim.obj
+	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/PCM_STATIC.lib")
+endif()
+
 
 ### Installation ###
 #install(TARGETS carlsim DESTINATION bin)
@@ -445,6 +543,11 @@ install(TARGETS carlsim
   if(CARLSIM_PYCARL)
     add_subdirectory(pyCARL)   
   endif()  
+
+  if(CARLSIM_PY)
+    add_subdirectory(carlsim6py)   
+  endif()  
+
 
 if(CARLSIM_TUTORIALS)  
   add_subdirectory(doc)

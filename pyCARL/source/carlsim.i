@@ -7,7 +7,7 @@
 %include <std_shared_ptr.i>
 %include <std_array.i>
 %include <file.i>
-%include <std_carray.i>
+//%include <std_carray.i>
 %include <std_alloc.i>
 %include <std_container.i>
 %include <std_list.i>

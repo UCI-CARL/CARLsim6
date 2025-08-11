@@ -42,41 +42,66 @@
 * CARLsim3: MB, KDC, TSC
 * CARLsim4: TSC, HK
 * CARLsim5: HK, JX, KC
+* CARLsim6: LN, JX, KC, KW
 *
 * CARLsim available from http://socsci.uci.edu/~jkrichma/CARLsim/
 * Ver 12/31/2016
 */
+#include <carlsim.h>
 
-#ifndef _CUDA_VERSION_CONTROL_H_
-#define _CUDA_VERSION_CONTROL_H_
-
-
-#ifndef __NO_CUDA__
-	#include <cuda.h>
-	#include <cuda_runtime.h>
-
-	// we no longer support CUDA3 and CUDA4, but keep cuda_version_control.h for
-	// handling future CUDA toolkit API differences
-	#if defined(__CUDA5__) || defined(__CUDA6__) || defined(__CUDA7__) || defined(__CUDA8__) || defined(__CUDA91__) || defined(__CUDA10__) || defined(__CUDA11__) || defined(__CUDA12__)
-
-		#include <helper_cuda.h>
-		#include <helper_functions.h>
-		#include <helper_timer.h>
-		//#include <helper_math.h>
-
-		#define CUDA_CREATE_TIMER(x) sdkCreateTimer(&(x))
-		#define CUDA_DELETE_TIMER(x) sdkDeleteTimer(&(x))
-		#define CUDA_RESET_TIMER(x) sdkResetTimer(&(x))
-		#define CUDA_START_TIMER(x) sdkStartTimer(&(x))
-		#define CUDA_STOP_TIMER(x) sdkStopTimer(&(x))
-		#define CUDA_GET_TIMER_VALUE(x) sdkGetTimerValue(&(x))
-
-		#define CUDA_CHECK_ERRORS(x) checkCudaErrors(x)
-		#define CUDA_GET_LAST_ERROR(x) getLastCudaError(x)
-
-		#define CUDA_GET_MAXGFLOP_DEVICE_ID gpuGetMaxGflopsDeviceId
-		#define CUDA_DEVICE_RESET cudaDeviceReset
-	#endif
+int main(int argc, const char* argv[]) {
+	// ---------------- CONFIG STATE -------------------
+#ifdef __NO_CUDA__
+	CARLsim sim("basics", CPU_MODE, USER);
+#else
+	CARLsim sim("basics", GPU_MODE, USER);
 #endif
+	int nNeur = 150; 				// number of neurons in each group
+	PoissonRate in(nNeur);		// PoissonRate containter for SpikeGenerator group
 
-#endif /* _CUDA_VERSION_CONTROL_H_ */
+	// create groups
+	int gIn = sim.createSpikeGeneratorGroup("input", nNeur, EXCITATORY_NEURON);
+	int gOut = sim.createGroup("output", nNeur, EXCITATORY_NEURON);
+	sim.setNeuronParameters(gOut, 0.02f, 0.2f, -65.0f, 8.0f); // RS
+
+	// connect input to output group
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(0.1f), 1.0f);
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(4.0f), 1.0f);
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(1.0f), 1.0f);
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(1.25f), 1.0f);
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(2.0f), 1.0f);
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(0.4f), 1.0f);
+   	sim.connect(gIn, gOut, "one-to-one", RangeWeight(0.5f), 1.0f);   // linear 500 Hz in -> 250 Hz out
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(0.8f), 1.0f);
+
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(400.0f), 1.0f);
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(40.0f), 1.0f);
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(100.0f), 1.0f);
+//	sim.connect(gIn, gOut, "one-to-one", RangeWeight(200.0f), 1.0f);
+
+	// enable COBA mode
+	sim.setConductances(true);
+//	sim.setConductances(false);
+
+	// ---------------- SETUP STATE -------------------
+	sim.setupNetwork();
+	sim.setSpikeMonitor(gOut, "DEFAULT");
+
+	// associate PoissonRate container with gIn
+	sim.setSpikeRate(gIn, &in);
+
+	// ---------------- RUN STATE -------------------
+	// run the network repeatedly for 1 second (1*1000 + 0 ms)
+	// with different Poisson input
+	for (int i = 1; i <= 50; i++) {
+		// update Poisson mean firing rate
+		float inputRateHz = i*10.0f;
+		in.setRates(inputRateHz);
+		sim.setSpikeRate(gIn, &in);
+
+		// run for 1 second
+		sim.runNetwork(0,500);
+	}
+	return 0;
+}
+
