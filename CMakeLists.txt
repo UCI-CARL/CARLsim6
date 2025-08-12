@@ -417,7 +417,7 @@ target_include_directories(carlsim
 #if Intel PCM
 target_include_directories(carlsim
 	PUBLIC
-	"C:/Program Files/PCM/include/windows"
+	"/home/vyomshah/pcm/src"
 )
 
 if(NOT CARLSIM_NO_CUDA)
@@ -495,6 +495,8 @@ if(WIN32)
 
 	# mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MD_DynamicRelease' in carlsim.obj
 	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/PCM_STATIC.lib")
+else()
+	target_link_libraries(carlsim PRIVATE "/home/vyomshah/pcm/build/lib/libpcm.so")
 endif()
 
 
