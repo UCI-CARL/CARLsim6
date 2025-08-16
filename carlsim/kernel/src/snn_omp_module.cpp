@@ -2130,183 +2130,278 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 #undef __NO_PTHREADS__
 #endif 
 
-#ifdef __NO_OPENMP__
+#ifndef __NO_OPENMP__
 
-#ifdef __NO_PTHREADS__
-	void  SNN::globalStateUpdate_CPU(int netId) {
-#else // POSIX
-	void*  SNN::globalStateUpdate_CPU(int netId) {
-#endif
-	assert(runtimeData[netId].memType == CPU_MEM);
+#include <omp.h>
+
+/*
+
+	// reference single thread 8.76s (1.1x), 6044 Spikes  (10s)
+	// CPP_THREADS::  14.02 (71%) -> 6044 !!! = correct
+
+	// loop that allows smaller integration time step for v's and u's
+
+	//#pragma omp parallel for       // => 6.76s 1.5x  23
+	// https://learn.microsoft.com/en-us/cpp/build/reference/openmp-enable-openmp-2-0-support?view=msvc-170
+	// https://learn.microsoft.com/en-us/cpp/parallel/openmp/openmp-simd?view=msvc-170
+	// https://www.ibm.com/docs/zh/xl-c-and-cpp-linux/16.1.0?topic=pdop-pragma-omp-simd
+
+	// correct: 6044 !, 11.79s (84.8%)
+	//#pragma omp simd
+
+	// coalescing loop nest
+	// 8.0 (1.2x)
+	//#pragma omp simd collapse(1)
+
+	// 7.87, 7.78,  (1.3x)
+	// 100s: 79.14 (1.3x)  65264
+	//#pragma omp simd collapse(2)
+
+	// 7.92, 7.93  1.3x
+	//#pragma omp simd collapse(3)
+
+
+		// this must be done squencially
+		// rewrite in OMP: parallel order and lastprivate  j see example
+		// https://learn.microsoft.com/en-us/cpp/parallel/openmp/a-examples?view=msvc-170
+
+		// NOT WORKING
+			//#pragma omp simd simdlen(8)     •	If you omit simdlen, the compiler will choose the best value.
+			//#pragma omp parallel for private(j) shared(_simNumStepsPerMs)
+
+		// CONCEPTS to be challanged
+		// reduction, section https://learn.microsoft.com/en-us/cpp/parallel/openmp/reference/openmp-clauses?view=msvc-170#num-threads
+
+
+		// NOT CORRECT FOR EULER 4 but
+		// Race condition ->
+		// ISSUE atomic ops , critical sections, ...
+		//#pragma omp simd    // 1.4 !!!!  is faster then ST !!! congrats
+
+
+					//#pragma omp parallel for private(j)  // 15.59s (64.1%), 6044
+
+			//#pragma omp parallel for private(lGrpId, lNId) shared(netId, j, lastIter)
+
+			// this groups might be in parallel, but this is not the key
+			// maybe hier with smi.. sss  the neuro are in the groups, this is the cartesian product
+			// maybe limit the threads her to reasonable values like 16  or 32 .
+			// otherwise the could be created n neurons threads ???  this would explain the overhead !!!
+			// maybe private(lGrpId, lNId)
+			// shared(netId, j, lastIter)
+			// #pragma omp for private(lGrpId, lNId) shared(netId, j, lastIter)
+			//#pragma omp simd  private(lGrpId, lNId)
+
+*/
+void  SNN::globalStateUpdate_CPU(int netId) {
+
+	auto& _runtimeData = runtimeData[netId];
+
+	assert(_runtimeData.memType == CPU_MEM);
 
 	float timeStep = networkConfigs[netId].timeStep;
 
-	// loop that allows smaller integration time step for v's and u's
-	for (int j = 1; j <= networkConfigs[netId].simNumStepsPerMs; j++) {
-		bool lastIter = (j == networkConfigs[netId].simNumStepsPerMs);
-		for (int lGrpId = 0; lGrpId < networkConfigs[netId].numGroups; lGrpId++) {
+	// omp 
+	int j;
+	bool lastIter;
+	int lGrpId;
+	int lNId;
+
+	omp_set_dynamic(0);  // 1 20s
+	//omp_set_num_threads(1);  // 1 working for omp parallel for  -> this produces the .. fixed load on n cores 
+	//omp_set_num_threads(2);  // best results for   1: 1.1x   2: 1.3x  3:1.0x   4: 1.0x   => ST reached!!!   7.95s
+	omp_set_num_threads(4);   // ThreadPool 1.1  fairly the same as 1.2x ST
+	//omp_set_num_threads(8);   // overhead
+	//omp_set_num_threads(16);  // blocking 50% system
+	//omp_set_num_threads(32);  // blocking 100% system
+
+	auto _simNumStepsPerMs = networkConfigs[netId].simNumStepsPerMs;
+	auto _simIntegrationMethod = networkConfigs[netId].simIntegrationMethod;
+
+	for (j = 1; j <= _simNumStepsPerMs; j++) {
+		lastIter = (j == networkConfigs[netId].simNumStepsPerMs);  // CAUTION this is different when moving to innner !!!
+
+		for (lGrpId = 0; lGrpId < networkConfigs[netId].numGroups; lGrpId++) {
+
 			if (groupConfigs[netId][lGrpId].Type & POISSON_NEURON) {
 				if (groupConfigs[netId][lGrpId].WithHomeostasis & (lastIter)) {
 					for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++)
-						runtimeData[netId].avgFiring[lNId] *= groupConfigs[netId][lGrpId].avgTimeScale_decay;
+						_runtimeData.avgFiring[lNId] *= groupConfigs[netId][lGrpId].avgTimeScale_decay;
 				}
 				continue;
 			}
-			for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
-				assert(lNId < networkConfigs[netId].numNReg);
+
+			// references
+			auto& config = groupConfigs[netId][lGrpId];
+
+			// shared read
+			auto _numReg = networkConfigs[netId].numNReg;
+			auto _icalcType = config.icalcType;
+			auto _with_NMDA_rise = config.with_NMDA_rise;
+			auto _with_GABAb_rise = config.with_GABAb_rise;
+			auto _isLIF = groupConfigs[netId][lGrpId].isLIF;
+			auto _withParamModel_9 = groupConfigs[netId][lGrpId].withParamModel_9;
+
+			auto _withCompartments = groupConfigs[netId][lGrpId].withCompartments;
+			auto _WithHomeostasis = groupConfigs[netId][lGrpId].WithHomeostasis;
+
+			// shared write
+			float I_sum = 0;
+			float nm = .0f;
+			nm += _runtimeData.grpDA[lGrpId] * config.nm4w[NM_DA];
+			nm += _runtimeData.grp5HT[lGrpId] * config.nm4w[NM_5HT];
+			nm += _runtimeData.grpACh[lGrpId] * config.nm4w[NM_ACh];
+			nm += _runtimeData.grpNE[lGrpId] * config.nm4w[NM_NE];
+			nm *= config.nm4w[NM_UNKNOWN]; // normalize/boost
+			nm += config.nm4w[NM_UNKNOWN + 1]; // nm base
+
+
+//#pragma omp parallel for private(lNId) shared(_numReg, _icalcType, _with_NMDA_rise, _with_GABAb_rise, _isLIF, _withParamModel_9, _withCompartments, _WithHomeostasis, I_sum, nm)
+			for (lNId = config.lStartN; lNId <= config.lEndN; lNId++) {
+				assert(lNId < _numReg);
 
 				// P7
 				// update conductances
-				float v = runtimeData[netId].voltage[lNId];
-				float v_next = runtimeData[netId].nextVoltage[lNId];
-				float u = runtimeData[netId].recovery[lNId];
-				float I_sum, NMDAtmp;
+				float v = _runtimeData.voltage[lNId];
+				float v_next = _runtimeData.nextVoltage[lNId];
+				float u = _runtimeData.recovery[lNId];
+				float NMDAtmp;
 				float gNMDA, gGABAb;
 				float gAMPA, gGABAa;
 
 				// pre-load izhikevich variables to avoid unnecessary memory accesses & unclutter the code.
-				float k = runtimeData[netId].Izh_k[lNId];
-				float vr = runtimeData[netId].Izh_vr[lNId];
-				float vt = runtimeData[netId].Izh_vt[lNId];
-				float inverse_C = 1.0f / runtimeData[netId].Izh_C[lNId];
-				float vpeak = runtimeData[netId].Izh_vpeak[lNId];
-				float a = runtimeData[netId].Izh_a[lNId];
-				float b = runtimeData[netId].Izh_b[lNId];
+				float k = _runtimeData.Izh_k[lNId];
+				float vr = _runtimeData.Izh_vr[lNId];
+				float vt = _runtimeData.Izh_vt[lNId];
+				float inverse_C = 1.0f / _runtimeData.Izh_C[lNId];
+				float vpeak = _runtimeData.Izh_vpeak[lNId];
+				float a = _runtimeData.Izh_a[lNId];
+				float b = _runtimeData.Izh_b[lNId];
 
 				// pre-load LIF parameters
-				int lif_tau_m = runtimeData[netId].lif_tau_m[lNId];
-				int lif_tau_ref = runtimeData[netId].lif_tau_ref[lNId];
-				int lif_tau_ref_c = runtimeData[netId].lif_tau_ref_c[lNId];
-				float lif_vTh = runtimeData[netId].lif_vTh[lNId];
-				float lif_vReset = runtimeData[netId].lif_vReset[lNId];
-				float lif_gain = runtimeData[netId].lif_gain[lNId];
-				float lif_bias = runtimeData[netId].lif_bias[lNId];
+				int lif_tau_m = _runtimeData.lif_tau_m[lNId];
+				int lif_tau_ref = _runtimeData.lif_tau_ref[lNId];
+				int lif_tau_ref_c = _runtimeData.lif_tau_ref_c[lNId];
+				float lif_vTh = _runtimeData.lif_vTh[lNId];
+				float lif_vReset = _runtimeData.lif_vReset[lNId];
+				float lif_gain = _runtimeData.lif_gain[lNId];
+				float lif_bias = _runtimeData.lif_bias[lNId];
 
-				float totalCurrent = runtimeData[netId].extCurrent[lNId];
+				// pre-load cache 
+				float totalCurrent = _runtimeData.extCurrent[lNId];
 
-#ifdef LN_I_CALC_TYPES
-				auto& config = groupConfigs[netId][lGrpId];
-				switch(config.icalcType) {
-					case COBA:
-					case alpha1_ADK13:
-						NMDAtmp = (v + 80.0f) * (v + 80.0f) / 60.0f / 60.0f;
-						gNMDA = (config.with_NMDA_rise) ? (runtimeData[netId].gNMDA_d[lNId] - runtimeData[netId].gNMDA_r[lNId]) : runtimeData[netId].gNMDA[lNId];
-						gGABAb = (config.with_GABAb_rise) ? (runtimeData[netId].gGABAb_d[lNId] - runtimeData[netId].gGABAb_r[lNId]) : runtimeData[netId].gGABAb[lNId];
-						gAMPA = runtimeData[netId].gAMPA[lNId];
-						gGABAa = runtimeData[netId].gGABAa[lNId];
-						I_sum = -(gAMPA * (v - 0.0f)
-							+ gNMDA * NMDAtmp / (1.0f + NMDAtmp) * (v - 0.0f)
-							+ gGABAa * (v + 70.0f)
-							+ gGABAb * (v + 90.0f));
-						if (config.icalcType == alpha1_ADK13) {
-							float ne = runtimeData[netId].grpNE[lGrpId] * config.nm4w[NM_DA] / config.nm4w[NM_UNKNOWN]; // normalize
-							float da = runtimeData[netId].grpDA[lGrpId] * config.nm4w[NM_NE] / config.nm4w[NM_UNKNOWN]; // normalize
-							float lambda = config.nm4w[NM_UNKNOWN + 1];  // nm base = lambda
-							assert(lambda > 0.0f);
-							float mu = 1.0f - 0.5f * (exp((ne - 1.0f) / lambda) + exp((da - 1.0f) / lambda));
-							//if(I_sum > 0.0f)
-							//  printf("alpha1 mu=%f Isum=%f totalCurrent=%f (lGrpId=%d)\n", mu, I_sum, totalCurrent, lGrpId);
-							I_sum *= mu;
-						}
-						totalCurrent += I_sum;
-						break;
-					case CUBA:
-						totalCurrent += runtimeData[netId].current[lNId];
-						break;
-					case NM4W_LN21: 					
-						totalCurrent += runtimeData[netId].current[lNId];
-						{
-							float nm = .0f;
-							nm += runtimeData[netId].grpDA[lGrpId] * config.nm4w[NM_DA];
-							nm += runtimeData[netId].grp5HT[lGrpId] * config.nm4w[NM_5HT];
-							nm += runtimeData[netId].grpACh[lGrpId] * config.nm4w[NM_ACh];
-							nm += runtimeData[netId].grpNE[lGrpId] * config.nm4w[NM_NE];
-							nm *= config.nm4w[NM_UNKNOWN]; // normalize/boost
-							nm += config.nm4w[NM_UNKNOWN + 1]; // nm base
-							totalCurrent *= nm;
-						}
-						break;
-					default:
-						; // do nothing
-				}
-#else
-				if (networkConfigs[netId].sim_with_conductances) {
+				// preload read only
+				auto current = _runtimeData.current[lNId];
+
+				// local references
+				
+				auto& _curSpike = _runtimeData.curSpike[lNId];
+
+				switch (_icalcType) {
+				case COBA:
+				case alpha1_ADK13:
 					NMDAtmp = (v + 80.0f) * (v + 80.0f) / 60.0f / 60.0f;
-					gNMDA = (networkConfigs[netId].sim_with_NMDA_rise) ? (runtimeData[netId].gNMDA_d[lNId] - runtimeData[netId].gNMDA_r[lNId]) : runtimeData[netId].gNMDA[lNId];
-					gGABAb = (networkConfigs[netId].sim_with_GABAb_rise) ? (runtimeData[netId].gGABAb_d[lNId] - runtimeData[netId].gGABAb_r[lNId]) : runtimeData[netId].gGABAb[lNId];
+					gNMDA = _with_NMDA_rise ? (_runtimeData.gNMDA_d[lNId] - _runtimeData.gNMDA_r[lNId]) : _runtimeData.gNMDA[lNId];
+					gGABAb = _with_GABAb_rise ? (_runtimeData.gGABAb_d[lNId] - _runtimeData.gGABAb_r[lNId]) : _runtimeData.gGABAb[lNId];
+					gAMPA = _runtimeData.gAMPA[lNId];
+					gGABAa = _runtimeData.gGABAa[lNId];
 
-					I_sum = -(runtimeData[netId].gAMPA[lNId] * (v - 0.0f)
+//#pragma omp critical
+					I_sum = -(gAMPA * (v - 0.0f)
 						+ gNMDA * NMDAtmp / (1.0f + NMDAtmp) * (v - 0.0f)
-						+ runtimeData[netId].gGABAa[lNId] * (v + 70.0f)
+						+ gGABAa * (v + 70.0f)
 						+ gGABAb * (v + 90.0f));
 
+					if (_icalcType == alpha1_ADK13) {
+						float ne = _runtimeData.grpNE[lGrpId] * config.nm4w[NM_DA] / config.nm4w[NM_UNKNOWN]; // normalize
+						float da = _runtimeData.grpDA[lGrpId] * config.nm4w[NM_NE] / config.nm4w[NM_UNKNOWN]; // normalize
+						float lambda = config.nm4w[NM_UNKNOWN + 1];  // nm base = lambda
+						assert(lambda > 0.0f);
+						float mu = 1.0f - 0.5f * (exp((ne - 1.0f) / lambda) + exp((da - 1.0f) / lambda));
+						//if(I_sum > 0.0f)
+						//  printf("alpha1 mu=%f Isum=%f totalCurrent=%f (lGrpId=%d)\n", mu, I_sum, totalCurrent, lGrpId);
+//#pragma omp atomic
+						I_sum *= mu;
+					}
+//#pragma omp atomic
 					totalCurrent += I_sum;
+					break;
+				case CUBA:
+//#pragma omp atomic
+					totalCurrent += current;
+					break;
+				case NM4W_LN21:
+//#pragma omp atomic
+					totalCurrent += current;
+//#pragma omp atomic
+					totalCurrent *= nm;
+					break;
+				default:
+					; // do nothing
 				}
-				else {
-					totalCurrent += runtimeData[netId].current[lNId];
-				}
-#endif
-				if (groupConfigs[netId][lGrpId].withCompartments) {
+
+				if (_withCompartments) {
+//#pragma omp atomic
 					totalCurrent += getCompCurrent(netId, lGrpId, lNId);
 				}
 
-				switch (networkConfigs[netId].simIntegrationMethod) {
+				switch (_simIntegrationMethod) {
 				case FORWARD_EULER:
-					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF)
+					if (!_withParamModel_9 && !_isLIF)
 					{
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich4(v, u, totalCurrent, timeStep);
 						if (v_next > 30.0f) {
 							v_next = 30.0f; // break the loop but evaluate u[i]
-							runtimeData[netId].curSpike[lNId] = true;
-							v_next = runtimeData[netId].Izh_c[lNId];
-							u += runtimeData[netId].Izh_d[lNId];
+							_curSpike = true;
+							v_next = _runtimeData.Izh_c[lNId];
+							u += _runtimeData.Izh_d[lNId];
 						}
 					}
-					else if (!groupConfigs[netId][lGrpId].isLIF)
+					else if (!_isLIF)
 					{
 						// update vpos and upos for the current neuron
 						v_next = v + dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent, timeStep);
 						if (v_next > vpeak) {
 							v_next = vpeak; // break the loop but evaluate u[i]
-							runtimeData[netId].curSpike[lNId] = true;
-							v_next = runtimeData[netId].Izh_c[lNId];
-							u += runtimeData[netId].Izh_d[lNId];
+							_curSpike = true;
+							v_next = _runtimeData.Izh_c[lNId];
+							u += _runtimeData.Izh_d[lNId];
 						}
 					}
 
-					else{
-						if (lif_tau_ref_c > 0){
-							if(lastIter){
-								runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
+					else {
+						if (lif_tau_ref_c > 0) {
+							if (lastIter) {
+								_runtimeData.lif_tau_ref_c[lNId] -= 1;
 								v_next = lif_vReset;
 							}
 						}
-						else{
+						else {
 							if (v_next > lif_vTh) {
-								runtimeData[netId].curSpike[lNId] = true;
+								_curSpike = true;
 								v_next = lif_vReset;
 
-								if(lastIter){
-                                        				runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
+								if (lastIter) {
+									_runtimeData.lif_tau_ref_c[lNId] = lif_tau_ref;
 								}
-								else{
-									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref + 1;
+								else {
+									_runtimeData.lif_tau_ref_c[lNId] = lif_tau_ref + 1;
 								}
 							}
-							else{
+							else {
 								v_next = v + dvdtLIF(v, lif_vReset, lif_gain, lif_bias, lif_tau_m, totalCurrent, timeStep);
 							}
 						}
 					}
 
-					if (groupConfigs[netId][lGrpId].isLIF){
+					if (_isLIF) {
 						if (v_next < lif_vReset) v_next = lif_vReset;
 					}
-					else{
+					else {
 						if (v_next < -90.0f) v_next = -90.0f;
 
-						if (!groupConfigs[netId][lGrpId].withParamModel_9)
+						if (!_withParamModel_9)
 						{
 							u += dudtIzhikevich4(v_next, u, a, b, timeStep);
 						}
@@ -2319,7 +2414,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 
 				case RUNGE_KUTTA4:
 
-					if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF) {
+					if (!_withParamModel_9 && !_isLIF) {
 						// 4-param Izhikevich
 						float k1 = dvdtIzhikevich4(v, u, totalCurrent, timeStep);
 						float l1 = dudtIzhikevich4(v, u, a, b, timeStep);
@@ -2337,15 +2432,15 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 						v_next = v + (1.0f / 6.0f) * (k1 + 2.0f * k2 + 2.0f * k3 + k4);
 						if (v_next > 30.0f) {
 							v_next = 30.0f;
-							runtimeData[netId].curSpike[lNId] = true;
-							v_next = runtimeData[netId].Izh_c[lNId];
-							u += runtimeData[netId].Izh_d[lNId];
+							_curSpike = true;
+							v_next = _runtimeData.Izh_c[lNId];
+							u += _runtimeData.Izh_d[lNId];
 						}
 						if (v_next < -90.0f) v_next = -90.0f;
 
 						u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
 					}
-					else if(!groupConfigs[netId][lGrpId].isLIF){
+					else if (!_isLIF) {
 						// 9-param Izhikevich
 						float k1 = dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent,
 							timeStep);
@@ -2367,36 +2462,36 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 
 						if (v_next > vpeak) {
 							v_next = vpeak; // break the loop but evaluate u[i]
-							runtimeData[netId].curSpike[lNId] = true;
-							v_next = runtimeData[netId].Izh_c[lNId];
-							u += runtimeData[netId].Izh_d[lNId];
+							_curSpike = true;
+							v_next = _runtimeData.Izh_c[lNId];
+							u += _runtimeData.Izh_d[lNId];
 						}
 
 						if (v_next < -90.0f) v_next = -90.0f;
 
 						u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
 					}
-					else{
+					else {
 						//LIF integration is always FORWARD_EULER
-						if (lif_tau_ref_c > 0){
-							if(lastIter){
-								runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
+						if (lif_tau_ref_c > 0) {
+							if (lastIter) {
+								_runtimeData.lif_tau_ref_c[lNId] -= 1;
 								v_next = lif_vReset;
 							}
 						}
-						else{
+						else {
 							if (v_next > lif_vTh) {
-								runtimeData[netId].curSpike[lNId] = true;
+								_curSpike = true;
 								v_next = lif_vReset;
 
-								if(lastIter){
-                                        				runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
+								if (lastIter) {
+									_runtimeData.lif_tau_ref_c[lNId] = lif_tau_ref;
 								}
-								else{
-									runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref + 1;
+								else {
+									_runtimeData.lif_tau_ref_c[lNId] = lif_tau_ref + 1;
 								}
 							}
-							else{
+							else {
 								v_next = v + dvdtLIF(v, lif_vReset, lif_gain, lif_bias, lif_tau_m, totalCurrent, timeStep);
 							}
 						}
@@ -2408,642 +2503,120 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 					exitSimulation(KERNEL_ERROR_UNKNOWN_INTEG);
 				}
 
-				runtimeData[netId].nextVoltage[lNId] = v_next;
-				runtimeData[netId].recovery[lNId] = u;
+				_runtimeData.nextVoltage[lNId] = v_next;
+				_runtimeData.recovery[lNId] = u;
 
 				// update current & average firing rate for homeostasis once per globalStateUpdate_CPU call
+//#pragma omp critical 
 				if (lastIter)
 				{
-#ifdef LN_I_CALC_TYPES
-					switch (groupConfigs[netId][lGrpId].icalcType) {
-						case COBA:
-						case alpha1_ADK13:
-							runtimeData[netId].current[lNId] = I_sum;
-							break;
-						case CUBA:
-						case NM4W_LN21:
-							// current must be reset here for CUBA and not STPUpdateAndDecayConductances
-							runtimeData[netId].current[lNId] = 0.0f;
-							break;
-						default:
-							; // do nothing
-					}
-#else
-					if (networkConfigs[netId].sim_with_conductances) {
-						runtimeData[netId].current[lNId] = I_sum;
-					}
-					else {
-						// current must be reset here for CUBA and not STPUpdateAndDecayConductances
-						runtimeData[netId].current[lNId] = 0.0f;
-					}
-#endif
-					// P8
-					// update average firing rate for homeostasis
-					if (groupConfigs[netId][lGrpId].WithHomeostasis)
-						runtimeData[netId].avgFiring[lNId] *= groupConfigs[netId][lGrpId].avgTimeScale_decay;
 
-					// log i value if any active neuron monitor is presented
-					if (networkConfigs[netId].sim_with_nm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_NEURON_MON_GRP_SZIE) {
-						int idxBase = networkConfigs[netId].numGroups * MAX_NEURON_MON_GRP_SZIE * simTimeMs + lGrpId * MAX_NEURON_MON_GRP_SZIE;
-						runtimeData[netId].nIBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = totalCurrent;
-					}
-					if (networkConfigs[netId].sim_with_cm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_COBA_MON_GRP_SIZE) {
-						int idxBase = networkConfigs[netId].numGroups * MAX_COBA_MON_GRP_SIZE   * simTimeMs + lGrpId * MAX_COBA_MON_GRP_SIZE;
-						runtimeData[netId].nAMPABuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = runtimeData[netId].gAMPA[lNId];
-						runtimeData[netId].nNMDABuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = runtimeData[netId].gNMDA[lNId];
-						runtimeData[netId].nGABAaBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = runtimeData[netId].gGABAa[lNId];
-						runtimeData[netId].nGABAbBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = runtimeData[netId].gGABAb[lNId];
-					}
-				}
-			} // end StartN...EndN
-
-			  // decay dopamine concentration once per globalStateUpdate_CPU call
-			if (lastIter)
-			{
-				// P9
-				// decay dopamine concentration
-#ifndef LN_FIX_ALL_DECAY_CPU
-#ifndef LN_FIX_DA_DECAY_CPU
-				if ((groupConfigs[netId][lGrpId].WithESTDPtype == DA_MOD || groupConfigs[netId][lGrpId].WithISTDP == DA_MOD) && runtimeData[netId].grpDA[lGrpId] > groupConfigs[netId][lGrpId].baseDP) {
-					runtimeData[netId].grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
-				}
-#else
-				if (groupConfigs[netId][lGrpId].WithESTDPtype == DA_MOD || groupConfigs[netId][lGrpId].WithISTDP == DA_MOD) {
-					float baseDP_ = groupConfigs[netId][lGrpId].baseDP;
-					if(runtimeData[netId].grpDA[lGrpId] > baseDP_) {
-						runtimeData[netId].grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
-						if(runtimeData[netId].grpDA[lGrpId] < baseDP_)
-							runtimeData[netId].grpDA[lGrpId] = baseDP_;
-					}
-				}
-
-				runtimeData[netId].grpDABuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpDA[lGrpId];
-
-				// LN2021
-
-				if (groupConfigs[netId][lGrpId].WithESTDPtype == MOD_NE_A1 || groupConfigs[netId][lGrpId].WithISTDP == MOD_NE_A1) {
-					float baseNE_ = groupConfigs[netId][lGrpId].baseNE;
-					if (runtimeData[netId].grpNE[lGrpId] > baseNE_) {
-						runtimeData[netId].grpNE[lGrpId] *= groupConfigs[netId][lGrpId].decayNE;
-						if (runtimeData[netId].grpNE[lGrpId] < baseNE_)
-							runtimeData[netId].grpNE[lGrpId] = baseNE_;
-					}
-				}
-#endif
-#else
-
-				// LN2021 \todo refactor if design holds
-
-				if (groupConfigs[netId][lGrpId].activeDP) {
-					float baseDP_ = groupConfigs[netId][lGrpId].baseDP;
-					if (runtimeData[netId].grpDA[lGrpId] > baseDP_) {
-						runtimeData[netId].grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
-						if (runtimeData[netId].grpDA[lGrpId] < baseDP_)
-							runtimeData[netId].grpDA[lGrpId] = baseDP_;
-					}
-					runtimeData[netId].grpDABuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpDA[lGrpId];
-				}
-
-				if (groupConfigs[netId][lGrpId].active5HT) {
-					float base5HT_ = groupConfigs[netId][lGrpId].base5HT;
-					if (runtimeData[netId].grp5HT[lGrpId] > base5HT_) {
-						runtimeData[netId].grp5HT[lGrpId] *= groupConfigs[netId][lGrpId].decay5HT;
-						if (runtimeData[netId].grp5HT[lGrpId] < base5HT_)
-							runtimeData[netId].grp5HT[lGrpId] = base5HT_;
-					}
-					runtimeData[netId].grp5HTBuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grp5HT[lGrpId];
-				}
-
-				if (groupConfigs[netId][lGrpId].activeACh) {
-					float baseACh_ = groupConfigs[netId][lGrpId].baseACh;
-					if (runtimeData[netId].grpACh[lGrpId] > baseACh_) {
-						runtimeData[netId].grpACh[lGrpId] *= groupConfigs[netId][lGrpId].decayACh;
-						if (runtimeData[netId].grpACh[lGrpId] < baseACh_)
-							runtimeData[netId].grpACh[lGrpId] = baseACh_;
-					}
-					runtimeData[netId].grpAChBuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpACh[lGrpId];
-				}
-
-				if (groupConfigs[netId][lGrpId].activeNE) {
-					float baseNE_ = groupConfigs[netId][lGrpId].baseNE;
-					if (runtimeData[netId].grpNE[lGrpId] > baseNE_) {
-						runtimeData[netId].grpNE[lGrpId] *= groupConfigs[netId][lGrpId].decayNE;
-						if (runtimeData[netId].grpNE[lGrpId] < baseNE_)
-							runtimeData[netId].grpNE[lGrpId] = baseNE_;
-					}
-					runtimeData[netId].grpNEBuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpNE[lGrpId];
-				}
-
-#endif
-#ifdef LN_FIX_ALL_DECAY_CPU
-#endif
-			}
-		} // end numGroups
-
-		  // Only after we are done computing nextVoltage for all neurons do we copy the new values to the voltage array.
-		  // This is crucial for GPU (asynchronous kernel launch) and in the future for a multi-threaded CARLsim version.
-
-		memcpy(runtimeData[netId].voltage, runtimeData[netId].nextVoltage, sizeof(float)*networkConfigs[netId].numNReg);
-
-	} // end simNumStepsPerMs loop
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
-}
-
-#ifndef __NO_PTHREADS__ // POSIX
-	// Static multithreading subroutine method - helper for the above method
-	void* SNN::helperGlobalStateUpdate_CPU(void* arguments) {
-		ThreadStruct* args = (ThreadStruct*) arguments;
-		////printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
-		((SNN *)args->snn_pointer) -> globalStateUpdate_CPU(args->netId);
-#ifdef UNIX
-		pthread_exit(0);
-#else
-		pthread_exit((void*) 0); // no dependends
-		return NULL; // never reached
-#endif
-	}
-#endif
-
-#ifdef __SELECTED_PTHREADS__
-#define __NO_PTHREADS__
-#endif 
-
-
-#else  // #ifdef __NO_OPENMP__
-
-//#include <omp.h>
-void  SNN::globalStateUpdate_CPU(int netId) {
-
-	assert(runtimeData[netId].memType == CPU_MEM);
-
-	float timeStep = networkConfigs[netId].timeStep;
-
-	// reference single thread 8.76s (1.1x), 6044 Spikes  (10s)
-	// CPP_THREADS::  14.02 (71%) -> 6044 !!! = correct
-
-	// loop that allows smaller integration time step for v's and u's
-
-	//#pragma omp parallel for       // => 6.76s 1.5x  23
-	// https://learn.microsoft.com/en-us/cpp/build/reference/openmp-enable-openmp-2-0-support?view=msvc-170
-	// https://learn.microsoft.com/en-us/cpp/parallel/openmp/openmp-simd?view=msvc-170
-	// https://www.ibm.com/docs/zh/xl-c-and-cpp-linux/16.1.0?topic=pdop-pragma-omp-simd
-
-	// correct: 6044 !, 11.79s (84.8%)
-	//#pragma omp simd   		
-
-	// coalescing loop nest
-	// 8.0 (1.2x)
-	//#pragma omp simd collapse(1)				
-
-	// 7.87, 7.78,  (1.3x)
-	// 100s: 79.14 (1.3x)  65264
-	//#pragma omp simd collapse(2)		
-
-	// 7.92, 7.93  1.3x
-	//#pragma omp simd collapse(3) 
-
-	// omp 
-	int j;
-	bool lastIter;
-	int lGrpId;
-	int lNId;
-
-	//omp_set_dynamic(0);  // 1 20s
-	//omp_set_num_threads(1);  // 1 working for omp parallel for  -> this produces the .. fixed load on n cores 
-	//omp_set_num_threads(2);  // best results for   1: 1.1x   2: 1.3x  3:1.0x   4: 1.0x   => ST reached!!!   7.95s
-	//omp_set_num_threads(4);   // ThreadPool 1.1  fairly the same as 1.2x ST
-	//omp_set_num_threads(8);   // overhead
-	//omp_set_num_threads(16);  // blocking 50% system
-	//omp_set_num_threads(32);  // blocking 100% system
-
-	auto& _simNumStepsPerMs = networkConfigs[netId].simNumStepsPerMs;
-		// this must be done squencially 
-		// rewrite in OMP: parallel order and lastprivate  j see example
-		// https://learn.microsoft.com/en-us/cpp/parallel/openmp/a-examples?view=msvc-170
-	
-		// NOT WORKING
-			//#pragma omp simd simdlen(8)     •	If you omit simdlen, the compiler will choose the best value.
-			//#pragma omp parallel for private(j) shared(_simNumStepsPerMs)
-
-		// CONCEPTS to be challanged
-		// reduction, section https://learn.microsoft.com/en-us/cpp/parallel/openmp/reference/openmp-clauses?view=msvc-170#num-threads
-
-
-		// NOT CORRECT FOR EULER 4 but 
-		// Race condition -> 
-		// ISSUE atomic ops , critical sections, ...
-		//#pragma omp simd    // 1.4 !!!!  is faster then ST !!! congrats 
-	for (j = 1; j <= _simNumStepsPerMs; j++)
-		{
-			lastIter = (j == networkConfigs[netId].simNumStepsPerMs);
-
-			//#pragma omp parallel for private(j)  // 15.59s (64.1%), 6044
-
-			//#pragma omp parallel for private(lGrpId, lNId) shared(netId, j, lastIter)
-			
-			// this groups might be in parallel, but this is not the key
-			// maybe hier with smi.. sss  the neuro are in the groups, this is the cartesian product 
-			// maybe limit the threads her to reasonable values like 16  or 32 .
-			// otherwise the could be created n neurons threads ???  this would explain the overhead !!!
-			// maybe private(lGrpId, lNId)
-			// shared(netId, j, lastIter)
-			// #pragma omp for private(lGrpId, lNId) shared(netId, j, lastIter)
-			//#pragma omp simd  private(lGrpId, lNId) 
-			//#pragma omp parallel for private(lGrpId, lNId) shared(netId, j, lastIter)
-			for (lGrpId = 0; lGrpId < networkConfigs[netId].numGroups; lGrpId++) {
-
-				if (groupConfigs[netId][lGrpId].Type & POISSON_NEURON) {
-					if (groupConfigs[netId][lGrpId].WithHomeostasis & (lastIter)) {
-						for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++)
-							runtimeData[netId].avgFiring[lNId] *= groupConfigs[netId][lGrpId].avgTimeScale_decay;
-					}
-					continue;
-				}
-
-				//#pragma omp parallel for private(lNId) 12.64s 79.1%  6044
-
-				//#pragma omp parallel for private(lNId)
-
-				//#pragma omp parallel for private(lNId) shared(netId, j, lastIter, lGrpId)	 // !!!
-				for (lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++) {
-
-					assert(lNId < networkConfigs[netId].numNReg);
-
-					// P7
-					// update conductances
-					float v = runtimeData[netId].voltage[lNId];
-					float v_next = runtimeData[netId].nextVoltage[lNId];
-					float u = runtimeData[netId].recovery[lNId];
-					float I_sum, NMDAtmp;
-					float gNMDA, gGABAb;
-					float gAMPA, gGABAa;
-
-					// pre-load izhikevich variables to avoid unnecessary memory accesses & unclutter the code.
-					float k = runtimeData[netId].Izh_k[lNId];
-					float vr = runtimeData[netId].Izh_vr[lNId];
-					float vt = runtimeData[netId].Izh_vt[lNId];
-					float inverse_C = 1.0f / runtimeData[netId].Izh_C[lNId];
-					float vpeak = runtimeData[netId].Izh_vpeak[lNId];
-					float a = runtimeData[netId].Izh_a[lNId];
-					float b = runtimeData[netId].Izh_b[lNId];
-
-					// pre-load LIF parameters
-					int lif_tau_m = runtimeData[netId].lif_tau_m[lNId];
-					int lif_tau_ref = runtimeData[netId].lif_tau_ref[lNId];
-					int lif_tau_ref_c = runtimeData[netId].lif_tau_ref_c[lNId];
-					float lif_vTh = runtimeData[netId].lif_vTh[lNId];
-					float lif_vReset = runtimeData[netId].lif_vReset[lNId];
-					float lif_gain = runtimeData[netId].lif_gain[lNId];
-					float lif_bias = runtimeData[netId].lif_bias[lNId];
-
-					float totalCurrent = runtimeData[netId].extCurrent[lNId];
-
-					auto& config = groupConfigs[netId][lGrpId];
-					switch (config.icalcType) {
+					switch (_icalcType) {
 					case COBA:
 					case alpha1_ADK13:
-						NMDAtmp = (v + 80.0f) * (v + 80.0f) / 60.0f / 60.0f;
-						gNMDA = (config.with_NMDA_rise) ? (runtimeData[netId].gNMDA_d[lNId] - runtimeData[netId].gNMDA_r[lNId]) : runtimeData[netId].gNMDA[lNId];
-						gGABAb = (config.with_GABAb_rise) ? (runtimeData[netId].gGABAb_d[lNId] - runtimeData[netId].gGABAb_r[lNId]) : runtimeData[netId].gGABAb[lNId];
-						gAMPA = runtimeData[netId].gAMPA[lNId];
-						gGABAa = runtimeData[netId].gGABAa[lNId];
-						I_sum = -(gAMPA * (v - 0.0f)
-							+ gNMDA * NMDAtmp / (1.0f + NMDAtmp) * (v - 0.0f)
-							+ gGABAa * (v + 70.0f)
-							+ gGABAb * (v + 90.0f));
-						if (config.icalcType == alpha1_ADK13) {
-							float ne = runtimeData[netId].grpNE[lGrpId] * config.nm4w[NM_DA] / config.nm4w[NM_UNKNOWN]; // normalize
-							float da = runtimeData[netId].grpDA[lGrpId] * config.nm4w[NM_NE] / config.nm4w[NM_UNKNOWN]; // normalize
-							float lambda = config.nm4w[NM_UNKNOWN + 1];  // nm base = lambda
-							assert(lambda > 0.0f);
-							float mu = 1.0f - 0.5f * (exp((ne - 1.0f) / lambda) + exp((da - 1.0f) / lambda));
-							//if(I_sum > 0.0f)
-							//  printf("alpha1 mu=%f Isum=%f totalCurrent=%f (lGrpId=%d)\n", mu, I_sum, totalCurrent, lGrpId);
-							I_sum *= mu;
-						}
-						totalCurrent += I_sum;
+						_runtimeData.current[lNId] = I_sum;
 						break;
 					case CUBA:
-						totalCurrent += runtimeData[netId].current[lNId];
-						break;
 					case NM4W_LN21:
-						totalCurrent += runtimeData[netId].current[lNId];
-						{
-							float nm = .0f;
-							nm += runtimeData[netId].grpDA[lGrpId] * config.nm4w[NM_DA];
-							nm += runtimeData[netId].grp5HT[lGrpId] * config.nm4w[NM_5HT];
-							nm += runtimeData[netId].grpACh[lGrpId] * config.nm4w[NM_ACh];
-							nm += runtimeData[netId].grpNE[lGrpId] * config.nm4w[NM_NE];
-							nm *= config.nm4w[NM_UNKNOWN]; // normalize/boost
-							nm += config.nm4w[NM_UNKNOWN + 1]; // nm base
-							totalCurrent *= nm;
-						}
+						// current must be reset here for CUBA and not STPUpdateAndDecayConductances
+						_runtimeData.current[lNId] = 0.0f;
 						break;
 					default:
 						; // do nothing
 					}
 
-					if (groupConfigs[netId][lGrpId].withCompartments) {
-						totalCurrent += getCompCurrent(netId, lGrpId, lNId);
+					// P8
+					// update average firing rate for homeostasis
+					if (_WithHomeostasis)
+						_runtimeData.avgFiring[lNId] *= groupConfigs[netId][lGrpId].avgTimeScale_decay;
+
+					// log i value if any active neuron monitor is presented
+					if (networkConfigs[netId].sim_with_nm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_NEURON_MON_GRP_SZIE) {
+						int idxBase = networkConfigs[netId].numGroups * MAX_NEURON_MON_GRP_SZIE * simTimeMs + lGrpId * MAX_NEURON_MON_GRP_SZIE;
+						_runtimeData.nIBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = totalCurrent;
 					}
-
-					switch (networkConfigs[netId].simIntegrationMethod) {
-					case FORWARD_EULER:
-						if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF)
-						{
-							// update vpos and upos for the current neuron
-							v_next = v + dvdtIzhikevich4(v, u, totalCurrent, timeStep);
-							if (v_next > 30.0f) {
-								v_next = 30.0f; // break the loop but evaluate u[i]
-								runtimeData[netId].curSpike[lNId] = true;
-								v_next = runtimeData[netId].Izh_c[lNId];
-								u += runtimeData[netId].Izh_d[lNId];
-							}
-						}
-						else if (!groupConfigs[netId][lGrpId].isLIF)
-						{
-							// update vpos and upos for the current neuron
-							v_next = v + dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent, timeStep);
-							if (v_next > vpeak) {
-								v_next = vpeak; // break the loop but evaluate u[i]
-								runtimeData[netId].curSpike[lNId] = true;
-								v_next = runtimeData[netId].Izh_c[lNId];
-								u += runtimeData[netId].Izh_d[lNId];
-							}
-						}
-
-						else {
-							if (lif_tau_ref_c > 0) {
-								if (lastIter) {
-									runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
-									v_next = lif_vReset;
-								}
-							}
-							else {
-								if (v_next > lif_vTh) {
-									runtimeData[netId].curSpike[lNId] = true;
-									v_next = lif_vReset;
-
-									if (lastIter) {
-										runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
-									}
-									else {
-										runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref + 1;
-									}
-								}
-								else {
-									v_next = v + dvdtLIF(v, lif_vReset, lif_gain, lif_bias, lif_tau_m, totalCurrent, timeStep);
-								}
-							}
-						}
-
-						if (groupConfigs[netId][lGrpId].isLIF) {
-							if (v_next < lif_vReset) v_next = lif_vReset;
-						}
-						else {
-							if (v_next < -90.0f) v_next = -90.0f;
-
-							if (!groupConfigs[netId][lGrpId].withParamModel_9)
-							{
-								u += dudtIzhikevich4(v_next, u, a, b, timeStep);
-							}
-							else
-							{
-								u += dudtIzhikevich9(v_next, u, vr, a, b, timeStep);
-							}
-						}
-						break;
-
-					case RUNGE_KUTTA4:
-
-						if (!groupConfigs[netId][lGrpId].withParamModel_9 && !groupConfigs[netId][lGrpId].isLIF) {
-							// 4-param Izhikevich
-							float k1 = dvdtIzhikevich4(v, u, totalCurrent, timeStep);
-							float l1 = dudtIzhikevich4(v, u, a, b, timeStep);
-
-							float k2 = dvdtIzhikevich4(v + k1 / 2.0f, u + l1 / 2.0f, totalCurrent,
-								timeStep);
-							float l2 = dudtIzhikevich4(v + k1 / 2.0f, u + l1 / 2.0f, a, b, timeStep);
-
-							float k3 = dvdtIzhikevich4(v + k2 / 2.0f, u + l2 / 2.0f, totalCurrent,
-								timeStep);
-							float l3 = dudtIzhikevich4(v + k2 / 2.0f, u + l2 / 2.0f, a, b, timeStep);
-
-							float k4 = dvdtIzhikevich4(v + k3, u + l3, totalCurrent, timeStep);
-							float l4 = dudtIzhikevich4(v + k3, u + l3, a, b, timeStep);
-							v_next = v + (1.0f / 6.0f) * (k1 + 2.0f * k2 + 2.0f * k3 + k4);
-							if (v_next > 30.0f) {
-								v_next = 30.0f;
-								runtimeData[netId].curSpike[lNId] = true;
-								v_next = runtimeData[netId].Izh_c[lNId];
-								u += runtimeData[netId].Izh_d[lNId];
-							}
-							if (v_next < -90.0f) v_next = -90.0f;
-
-							u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
-						}
-						else if (!groupConfigs[netId][lGrpId].isLIF) {
-							// 9-param Izhikevich
-							float k1 = dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent,
-								timeStep);
-							float l1 = dudtIzhikevich9(v, u, vr, a, b, timeStep);
-
-							float k2 = dvdtIzhikevich9(v + k1 / 2.0f, u + l1 / 2.0f, inverse_C, k, vr, vt,
-								totalCurrent, timeStep);
-							float l2 = dudtIzhikevich9(v + k1 / 2.0f, u + l1 / 2.0f, vr, a, b, timeStep);
-
-							float k3 = dvdtIzhikevich9(v + k2 / 2.0f, u + l2 / 2.0f, inverse_C, k, vr, vt,
-								totalCurrent, timeStep);
-							float l3 = dudtIzhikevich9(v + k2 / 2.0f, u + l2 / 2.0f, vr, a, b, timeStep);
-
-							float k4 = dvdtIzhikevich9(v + k3, u + l3, inverse_C, k, vr, vt,
-								totalCurrent, timeStep);
-							float l4 = dudtIzhikevich9(v + k3, u + l3, vr, a, b, timeStep);
-
-							v_next = v + (1.0f / 6.0f) * (k1 + 2.0f * k2 + 2.0f * k3 + k4);
-
-							if (v_next > vpeak) {
-								v_next = vpeak; // break the loop but evaluate u[i]
-								runtimeData[netId].curSpike[lNId] = true;
-								v_next = runtimeData[netId].Izh_c[lNId];
-								u += runtimeData[netId].Izh_d[lNId];
-							}
-
-							if (v_next < -90.0f) v_next = -90.0f;
-
-							u += (1.0f / 6.0f) * (l1 + 2.0f * l2 + 2.0f * l3 + l4);
-						}
-						else {
-							//LIF integration is always FORWARD_EULER
-							if (lif_tau_ref_c > 0) {
-								if (lastIter) {
-									runtimeData[netId].lif_tau_ref_c[lNId] -= 1;
-									v_next = lif_vReset;
-								}
-							}
-							else {
-								if (v_next > lif_vTh) {
-									runtimeData[netId].curSpike[lNId] = true;
-									v_next = lif_vReset;
-
-									if (lastIter) {
-										runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref;
-									}
-									else {
-										runtimeData[netId].lif_tau_ref_c[lNId] = lif_tau_ref + 1;
-									}
-								}
-								else {
-									v_next = v + dvdtLIF(v, lif_vReset, lif_gain, lif_bias, lif_tau_m, totalCurrent, timeStep);
-								}
-							}
-							if (v_next < lif_vReset) v_next = lif_vReset;
-						}
-						break;
-					case UNKNOWN_INTEGRATION:
-					default:
-						exitSimulation(KERNEL_ERROR_UNKNOWN_INTEG);
+					if (networkConfigs[netId].sim_with_cm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_COBA_MON_GRP_SIZE) {
+						int idxBase = networkConfigs[netId].numGroups * MAX_COBA_MON_GRP_SIZE * simTimeMs + lGrpId * MAX_COBA_MON_GRP_SIZE;
+						_runtimeData.nAMPABuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = _runtimeData.gAMPA[lNId];
+						_runtimeData.nNMDABuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = _runtimeData.gNMDA[lNId];
+						_runtimeData.nGABAaBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = _runtimeData.gGABAa[lNId];
+						_runtimeData.nGABAbBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = _runtimeData.gGABAb[lNId];
 					}
+				}
+			} // end StartN...EndN			
 
-					runtimeData[netId].nextVoltage[lNId] = v_next;
-					runtimeData[netId].recovery[lNId] = u;
 
-					// update current & average firing rate for homeostasis once per globalStateUpdate_CPU call
-					#pragma omp critical 
-					if (lastIter)
-					{
 
-						switch (groupConfigs[netId][lGrpId].icalcType) {
-						case COBA:
-						case alpha1_ADK13:
-							runtimeData[netId].current[lNId] = I_sum;
-							break;
-						case CUBA:
-						case NM4W_LN21:
-							// current must be reset here for CUBA and not STPUpdateAndDecayConductances
-							runtimeData[netId].current[lNId] = 0.0f;
-							break;
-						default:
-							; // do nothing
-						}
-
-						// P8
-						// update average firing rate for homeostasis
-						if (groupConfigs[netId][lGrpId].WithHomeostasis)
-							runtimeData[netId].avgFiring[lNId] *= groupConfigs[netId][lGrpId].avgTimeScale_decay;
-
-						// log i value if any active neuron monitor is presented
-						if (networkConfigs[netId].sim_with_nm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_NEURON_MON_GRP_SZIE) {
-							int idxBase = networkConfigs[netId].numGroups * MAX_NEURON_MON_GRP_SZIE * simTimeMs + lGrpId * MAX_NEURON_MON_GRP_SZIE;
-							runtimeData[netId].nIBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = totalCurrent;
-						}
-						if (networkConfigs[netId].sim_with_cm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_COBA_MON_GRP_SIZE) {
-							int idxBase = networkConfigs[netId].numGroups * MAX_COBA_MON_GRP_SIZE * simTimeMs + lGrpId * MAX_COBA_MON_GRP_SIZE;
-							runtimeData[netId].nAMPABuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = runtimeData[netId].gAMPA[lNId];
-							runtimeData[netId].nNMDABuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = runtimeData[netId].gNMDA[lNId];
-							runtimeData[netId].nGABAaBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = runtimeData[netId].gGABAa[lNId];
-							runtimeData[netId].nGABAbBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = runtimeData[netId].gGABAb[lNId];
-						}
-					}
-				} // end StartN...EndN
-
-				  // decay dopamine concentration once per globalStateUpdate_CPU call
+				// decay dopamine concentration once per globalStateUpdate_CPU call
 				//#pragma omp critical 
-				if (lastIter)
-				{
-					// P9
-					// decay dopamine concentration
-#ifndef LN_FIX_ALL_DECAY_CPU
-#ifndef LN_FIX_DA_DECAY_CPU
-					if ((groupConfigs[netId][lGrpId].WithESTDPtype == DA_MOD || groupConfigs[netId][lGrpId].WithISTDP == DA_MOD) && runtimeData[netId].grpDA[lGrpId] > groupConfigs[netId][lGrpId].baseDP) {
-						runtimeData[netId].grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
-					}
-#else
-					if (groupConfigs[netId][lGrpId].WithESTDPtype == DA_MOD || groupConfigs[netId][lGrpId].WithISTDP == DA_MOD) {
-						float baseDP_ = groupConfigs[netId][lGrpId].baseDP;
-						if (runtimeData[netId].grpDA[lGrpId] > baseDP_) {
-							runtimeData[netId].grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
-							if (runtimeData[netId].grpDA[lGrpId] < baseDP_)
-								runtimeData[netId].grpDA[lGrpId] = baseDP_;
-						}
-					}
-
-					runtimeData[netId].grpDABuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpDA[lGrpId];
-
-					// LN2021
-
-					if (groupConfigs[netId][lGrpId].WithESTDPtype == MOD_NE_A1 || groupConfigs[netId][lGrpId].WithISTDP == MOD_NE_A1) {
-						float baseNE_ = groupConfigs[netId][lGrpId].baseNE;
-						if (runtimeData[netId].grpNE[lGrpId] > baseNE_) {
-							runtimeData[netId].grpNE[lGrpId] *= groupConfigs[netId][lGrpId].decayNE;
-							if (runtimeData[netId].grpNE[lGrpId] < baseNE_)
-								runtimeData[netId].grpNE[lGrpId] = baseNE_;
-						}
-					}
-#endif
-#else
+			if (lastIter)
+			{
+				// P9
+				// decay dopamine concentration
+	#ifndef LN_FIX_ALL_DECAY_CPU
+	#ifndef LN_FIX_DA_DECAY_CPU
+	#else
+	#endif
+	#else
 
 				// LN2021 \todo refactor if design holds
 
-					if (groupConfigs[netId][lGrpId].activeDP) {
-						float baseDP_ = groupConfigs[netId][lGrpId].baseDP;
-						if (runtimeData[netId].grpDA[lGrpId] > baseDP_) {
-							runtimeData[netId].grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
-							if (runtimeData[netId].grpDA[lGrpId] < baseDP_)
-								runtimeData[netId].grpDA[lGrpId] = baseDP_;
-						}
-						runtimeData[netId].grpDABuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpDA[lGrpId];
+				if (groupConfigs[netId][lGrpId].activeDP) {
+					float baseDP_ = groupConfigs[netId][lGrpId].baseDP;
+					if (_runtimeData.grpDA[lGrpId] > baseDP_) {
+						_runtimeData.grpDA[lGrpId] *= groupConfigs[netId][lGrpId].decayDP;
+						if (_runtimeData.grpDA[lGrpId] < baseDP_)
+							_runtimeData.grpDA[lGrpId] = baseDP_;
 					}
-
-					if (groupConfigs[netId][lGrpId].active5HT) {
-						float base5HT_ = groupConfigs[netId][lGrpId].base5HT;
-						if (runtimeData[netId].grp5HT[lGrpId] > base5HT_) {
-							runtimeData[netId].grp5HT[lGrpId] *= groupConfigs[netId][lGrpId].decay5HT;
-							if (runtimeData[netId].grp5HT[lGrpId] < base5HT_)
-								runtimeData[netId].grp5HT[lGrpId] = base5HT_;
-						}
-						runtimeData[netId].grp5HTBuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grp5HT[lGrpId];
-					}
-
-					if (groupConfigs[netId][lGrpId].activeACh) {
-						float baseACh_ = groupConfigs[netId][lGrpId].baseACh;
-						if (runtimeData[netId].grpACh[lGrpId] > baseACh_) {
-							runtimeData[netId].grpACh[lGrpId] *= groupConfigs[netId][lGrpId].decayACh;
-							if (runtimeData[netId].grpACh[lGrpId] < baseACh_)
-								runtimeData[netId].grpACh[lGrpId] = baseACh_;
-						}
-						runtimeData[netId].grpAChBuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpACh[lGrpId];
-					}
-
-					if (groupConfigs[netId][lGrpId].activeNE) {
-						float baseNE_ = groupConfigs[netId][lGrpId].baseNE;
-						if (runtimeData[netId].grpNE[lGrpId] > baseNE_) {
-							runtimeData[netId].grpNE[lGrpId] *= groupConfigs[netId][lGrpId].decayNE;
-							if (runtimeData[netId].grpNE[lGrpId] < baseNE_)
-								runtimeData[netId].grpNE[lGrpId] = baseNE_;
-						}
-						runtimeData[netId].grpNEBuffer[lGrpId * 1000 + simTimeMs] = runtimeData[netId].grpNE[lGrpId];
-					}
-
-#endif
-#ifdef LN_FIX_ALL_DECAY_CPU
-#endif
+					_runtimeData.grpDABuffer[lGrpId * 1000 + simTimeMs] = _runtimeData.grpDA[lGrpId];
 				}
-			} // end numGroups
 
-			  // Only after we are done computing nextVoltage for all neurons do we copy the new values to the voltage array.
-			  // This is crucial for GPU (asynchronous kernel launch) and in the future for a multi-threaded CARLsim version.
+				if (groupConfigs[netId][lGrpId].active5HT) {
+					float base5HT_ = groupConfigs[netId][lGrpId].base5HT;
+					if (_runtimeData.grp5HT[lGrpId] > base5HT_) {
+						_runtimeData.grp5HT[lGrpId] *= groupConfigs[netId][lGrpId].decay5HT;
+						if (_runtimeData.grp5HT[lGrpId] < base5HT_)
+							_runtimeData.grp5HT[lGrpId] = base5HT_;
+					}
+					_runtimeData.grp5HTBuffer[lGrpId * 1000 + simTimeMs] = _runtimeData.grp5HT[lGrpId];
+				}
 
-			memcpy(runtimeData[netId].voltage, runtimeData[netId].nextVoltage, sizeof(float) * networkConfigs[netId].numNReg);
+				if (groupConfigs[netId][lGrpId].activeACh) {
+					float baseACh_ = groupConfigs[netId][lGrpId].baseACh;
+					if (_runtimeData.grpACh[lGrpId] > baseACh_) {
+						_runtimeData.grpACh[lGrpId] *= groupConfigs[netId][lGrpId].decayACh;
+						if (_runtimeData.grpACh[lGrpId] < baseACh_)
+							_runtimeData.grpACh[lGrpId] = baseACh_;
+					}
+					_runtimeData.grpAChBuffer[lGrpId * 1000 + simTimeMs] = _runtimeData.grpACh[lGrpId];
+				}
 
-		} // end simNumStepsPerMs loop
+				if (groupConfigs[netId][lGrpId].activeNE) {
+					float baseNE_ = groupConfigs[netId][lGrpId].baseNE;
+					if (_runtimeData.grpNE[lGrpId] > baseNE_) {
+						_runtimeData.grpNE[lGrpId] *= groupConfigs[netId][lGrpId].decayNE;
+						if (_runtimeData.grpNE[lGrpId] < baseNE_)
+							_runtimeData.grpNE[lGrpId] = baseNE_;
+					}
+					_runtimeData.grpNEBuffer[lGrpId * 1000 + simTimeMs] = _runtimeData.grpNE[lGrpId];
+				}
 
-	
+	#endif
+	#ifdef LN_FIX_ALL_DECAY_CPU
+	#endif
+			}
+		} // end numGroups
+		// Only after we are done computing nextVoltage for all neurons do we copy the new values to the voltage array.
+		// This is crucial for GPU (asynchronous kernel launch) and in the future for a multi-threaded CARLsim version.
+
+		memcpy(_runtimeData.voltage, _runtimeData.nextVoltage, sizeof(float) * networkConfigs[netId].numNReg);
+
+	} // end simNumStepsPerMs loop
+
 }
 
 #endif  // #ifdef __NO_OPENMP__
+
 
 
 
