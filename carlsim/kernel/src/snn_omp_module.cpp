@@ -2213,8 +2213,8 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 	omp_set_dynamic(0);  // 1 20s
 	//omp_set_num_threads(1);  // 1 working for omp parallel for  -> this produces the .. fixed load on n cores 
 	//omp_set_num_threads(2);  // best results for   1: 1.1x   2: 1.3x  3:1.0x   4: 1.0x   => ST reached!!!   7.95s
-	omp_set_num_threads(4);   // ThreadPool 1.1  fairly the same as 1.2x ST
-	//omp_set_num_threads(8);   // overhead
+	//omp_set_num_threads(4);   // ThreadPool 1.1  fairly the same as 1.2x ST
+	omp_set_num_threads(8);   // overhead
 	//omp_set_num_threads(16);  // blocking 50% system
 	//omp_set_num_threads(32);  // blocking 100% system
 
@@ -2246,7 +2246,6 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 			auto _with_GABAb_rise = config.with_GABAb_rise;
 			auto _isLIF = groupConfigs[netId][lGrpId].isLIF;
 			auto _withParamModel_9 = groupConfigs[netId][lGrpId].withParamModel_9;
-
 			auto _withCompartments = groupConfigs[netId][lGrpId].withCompartments;
 			auto _WithHomeostasis = groupConfigs[netId][lGrpId].WithHomeostasis;
 
@@ -2261,7 +2260,7 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 			nm += config.nm4w[NM_UNKNOWN + 1]; // nm base
 
 
-//#pragma omp parallel for private(lNId) shared(_numReg, _icalcType, _with_NMDA_rise, _with_GABAb_rise, _isLIF, _withParamModel_9, _withCompartments, _WithHomeostasis, I_sum, nm)
+#pragma omp parallel for private(lNId) shared(_numReg, _icalcType, _with_NMDA_rise, _with_GABAb_rise, _isLIF, _withParamModel_9, _withCompartments, _WithHomeostasis, I_sum, nm)
 			for (lNId = config.lStartN; lNId <= config.lEndN; lNId++) {
 				assert(lNId < _numReg);
 				processedNReg++;
