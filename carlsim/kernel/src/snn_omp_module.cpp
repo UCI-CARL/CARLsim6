@@ -2238,8 +2238,9 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 			}
 
 
-
 			// shared read
+			auto _lStartN = config.lStartN; 
+			auto _lEndN = config.lEndN; 
 			auto _numReg = netConfig.numNReg;
 			auto _icalcType = config.icalcType;
 			auto _with_NMDA_rise = config.with_NMDA_rise;
@@ -2250,7 +2251,7 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 			auto _WithHomeostasis = groupConfigs[netId][lGrpId].WithHomeostasis;
 
 			// shared write
-			float I_sum = 0;
+			float I_sum = .0f;
 			float nm = .0f;
 			nm += _runtimeData.grpDA[lGrpId] * config.nm4w[NM_DA];
 			nm += _runtimeData.grp5HT[lGrpId] * config.nm4w[NM_5HT];
@@ -2260,8 +2261,8 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 			nm += config.nm4w[NM_UNKNOWN + 1]; // nm base
 
 
-#pragma omp parallel for private(lNId) shared(_numReg, _icalcType, _with_NMDA_rise, _with_GABAb_rise, _isLIF, _withParamModel_9, _withCompartments, _WithHomeostasis, I_sum, nm)
-			for (lNId = config.lStartN; lNId <= config.lEndN; lNId++) {
+//#pragma omp parallel for private(lNId) shared(_lStartN, _lEndN, _numReg, _icalcType, _with_NMDA_rise, _with_GABAb_rise, _isLIF, _withParamModel_9, _withCompartments, _WithHomeostasis, I_sum, nm)
+			for (lNId = _lStartN; lNId <= _lEndN; lNId++) {
 				assert(lNId < _numReg);
 				processedNReg++;
 				assert(!lastIter); // only for the last run, see also POISSON_NEURON obove
@@ -2317,11 +2318,15 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 					gAMPA = _runtimeData.gAMPA[lNId];
 					gGABAa = _runtimeData.gGABAa[lNId];
 
-//#pragma omp critical
+// this RUINS the performance
+//#pragma omp critical   
+		
+//#pragma omp atomic
 					I_sum = -(gAMPA * (v - 0.0f)
-						+ gNMDA * NMDAtmp / (1.0f + NMDAtmp) * (v - 0.0f)
-						+ gGABAa * (v + 70.0f)
-						+ gGABAb * (v + 90.0f));
+							+ gNMDA * NMDAtmp / (1.0f + NMDAtmp) * (v - 0.0f)
+							+ gGABAa * (v + 70.0f)
+							+ gGABAb * (v + 90.0f));
+
 
 					if (_icalcType == alpha1_ADK13) {
 						float ne = _runtimeData.grpNE[lGrpId] * config.nm4w[NM_DA] / config.nm4w[NM_UNKNOWN]; // normalize
@@ -2364,6 +2369,7 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 						v_next = v + dvdtIzhikevich4(v, u, totalCurrent, timeStep);
 						if (v_next > 30.0f) {
 							v_next = 30.0f; // break the loop but evaluate u[i]
+//#pragma omp atomic
 							_curSpike = true;
 							v_next = _runtimeData.Izh_c[lNId];
 							u += _runtimeData.Izh_d[lNId];
@@ -2375,6 +2381,7 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 						v_next = v + dvdtIzhikevich9(v, u, inverse_C, k, vr, vt, totalCurrent, timeStep);
 						if (v_next > vpeak) {
 							v_next = vpeak; // break the loop but evaluate u[i]
+//#pragma omp atomic
 							_curSpike = true;
 							v_next = _runtimeData.Izh_c[lNId];
 							u += _runtimeData.Izh_d[lNId];
@@ -2390,6 +2397,7 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 						}
 						else {
 							if (v_next > lif_vTh) {
+//#pragma omp atomic
 								_curSpike = true;
 								v_next = lif_vReset;
 
@@ -2517,8 +2525,7 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 				_runtimeData.nextVoltage[lNId] = v_next;
 				_runtimeData.recovery[lNId] = u;
 
-				// update current & average firing rate for homeostasis once per globalStateUpdate_CPU call
-//#pragma omp critical 
+				// update current & average firing rate for homeostasis once per globalStateUpdate_CPU call 
 				if (lastIter)
 				{
 
