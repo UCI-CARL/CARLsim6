@@ -2201,9 +2201,12 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 
 	float timeStep = networkConfigs[netId].timeStep;
 
+	int processedNReg = 0; //
+
+
 	// omp 
 	int j;
-	bool lastIter;
+	bool lastIter = false;
 	int lGrpId;
 	int lNId;
 
@@ -2215,27 +2218,29 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 	//omp_set_num_threads(16);  // blocking 50% system
 	//omp_set_num_threads(32);  // blocking 100% system
 
-	auto _simNumStepsPerMs = networkConfigs[netId].simNumStepsPerMs;
-	auto _simIntegrationMethod = networkConfigs[netId].simIntegrationMethod;
+	auto& netConfig = networkConfigs[netId];
+	auto _simNumStepsPerMs = netConfig.simNumStepsPerMs;
+	auto _simIntegrationMethod = netConfig.simIntegrationMethod;
 
-	for (j = 1; j <= _simNumStepsPerMs; j++) {
-		lastIter = (j == networkConfigs[netId].simNumStepsPerMs);  // CAUTION this is different when moving to innner !!!
 
-		for (lGrpId = 0; lGrpId < networkConfigs[netId].numGroups; lGrpId++) {
-
-			if (groupConfigs[netId][lGrpId].Type & POISSON_NEURON) {
-				if (groupConfigs[netId][lGrpId].WithHomeostasis & (lastIter)) {
-					for (int lNId = groupConfigs[netId][lGrpId].lStartN; lNId <= groupConfigs[netId][lGrpId].lEndN; lNId++)
-						_runtimeData.avgFiring[lNId] *= groupConfigs[netId][lGrpId].avgTimeScale_decay;
-				}
-				continue;
-			}
+		for (lGrpId = 0; lGrpId < netConfig.numGroups; lGrpId++) {
 
 			// references
 			auto& config = groupConfigs[netId][lGrpId];
 
+				
+			if (config.Type & POISSON_NEURON) {
+				if (config.WithHomeostasis & (lastIter)) {
+					for (int lNId = config.lStartN; lNId <= config.lEndN; lNId++)
+						_runtimeData.avgFiring[lNId] *= config.avgTimeScale_decay;
+				}
+				continue;
+			}
+
+
+
 			// shared read
-			auto _numReg = networkConfigs[netId].numNReg;
+			auto _numReg = netConfig.numNReg;
 			auto _icalcType = config.icalcType;
 			auto _with_NMDA_rise = config.with_NMDA_rise;
 			auto _with_GABAb_rise = config.with_GABAb_rise;
@@ -2259,6 +2264,13 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 //#pragma omp parallel for private(lNId) shared(_numReg, _icalcType, _with_NMDA_rise, _with_GABAb_rise, _isLIF, _withParamModel_9, _withCompartments, _WithHomeostasis, I_sum, nm)
 			for (lNId = config.lStartN; lNId <= config.lEndN; lNId++) {
 				assert(lNId < _numReg);
+				processedNReg++;
+				assert(!lastIter); // only for the last run, see also POISSON_NEURON obove
+				lastIter = processedNReg == netConfig.numNReg; 
+
+			for (j = 1; j <= _simNumStepsPerMs; j++) {
+				//lastIter = (j == netConfig.simNumStepsPerMs);  // CAUTION this is different when moving to innner !!!
+
 
 				// P7
 				// update conductances
@@ -2531,18 +2543,21 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 						_runtimeData.avgFiring[lNId] *= groupConfigs[netId][lGrpId].avgTimeScale_decay;
 
 					// log i value if any active neuron monitor is presented
-					if (networkConfigs[netId].sim_with_nm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_NEURON_MON_GRP_SZIE) {
-						int idxBase = networkConfigs[netId].numGroups * MAX_NEURON_MON_GRP_SZIE * simTimeMs + lGrpId * MAX_NEURON_MON_GRP_SZIE;
+					if (netConfig.sim_with_nm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_NEURON_MON_GRP_SZIE) {
+						int idxBase = netConfig.numGroups * MAX_NEURON_MON_GRP_SZIE * simTimeMs + lGrpId * MAX_NEURON_MON_GRP_SZIE;
 						_runtimeData.nIBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = totalCurrent;
 					}
-					if (networkConfigs[netId].sim_with_cm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_COBA_MON_GRP_SIZE) {
-						int idxBase = networkConfigs[netId].numGroups * MAX_COBA_MON_GRP_SIZE * simTimeMs + lGrpId * MAX_COBA_MON_GRP_SIZE;
+					if (netConfig.sim_with_cm && lNId - groupConfigs[netId][lGrpId].lStartN < MAX_COBA_MON_GRP_SIZE) {
+						int idxBase = netConfig.numGroups * MAX_COBA_MON_GRP_SIZE * simTimeMs + lGrpId * MAX_COBA_MON_GRP_SIZE;
 						_runtimeData.nAMPABuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = _runtimeData.gAMPA[lNId];
 						_runtimeData.nNMDABuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = _runtimeData.gNMDA[lNId];
 						_runtimeData.nGABAaBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = _runtimeData.gGABAa[lNId];
 						_runtimeData.nGABAbBuffer[idxBase + lNId - groupConfigs[netId][lGrpId].lStartN] = _runtimeData.gGABAb[lNId];
 					}
 				}
+
+
+			} // end simNumStepsPerMs loop
 			} // end StartN...EndN			
 
 
@@ -2609,9 +2624,9 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 		// Only after we are done computing nextVoltage for all neurons do we copy the new values to the voltage array.
 		// This is crucial for GPU (asynchronous kernel launch) and in the future for a multi-threaded CARLsim version.
 
-		memcpy(_runtimeData.voltage, _runtimeData.nextVoltage, sizeof(float) * networkConfigs[netId].numNReg);
+		memcpy(_runtimeData.voltage, _runtimeData.nextVoltage, sizeof(float) * netConfig.numNReg);
 
-	} // end simNumStepsPerMs loop
+	
 
 }
 
