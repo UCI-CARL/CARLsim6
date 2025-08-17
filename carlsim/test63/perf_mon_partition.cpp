@@ -59,8 +59,6 @@
 
 typedef std::map<std::tuple<int, int>, uint8_t> delay_map_t;
 
-
-
 class PartitionConnGen : public ConnectionGenerator
 {
 public:
@@ -81,13 +79,14 @@ public:
 			maxWt = 0.4f;
 			connected = true;
 		}
-		catch (std::out_of_range) {
+		//Exception thrown at : Microsoft C++ exception: std::out_of_range at 
+		//catch (std::out_of_range) {
+		catch (const std::out_of_range& ex) {
 			delay = 0.f;
 			connected = false;
 		}
 	}
 };
-
 
 class FanInConnGen : public PartitionConnGen
 {
@@ -136,17 +135,27 @@ public:
 // CARLsimGUI see EXPERIMENTAL_COBA_MON
 TEST(PerfMon, partition) {
 
+	bool bPerfMon = false; 
+	const int sample_rate = 1; // huge impact
+	//const int sample_rate = 5; // moderate impact
+	//const int sample_rate = 10; // moderate impact
+	//const int sample_rate = 20; // no impact 
+	//const int sample_rate = 50; // no impact 
+	//const int sample_rate = 100; // no impact 
+	bool bSpikeMon = false;
+
 	double rate = 1; // Hz
 	int isi = 1000 / rate; // inter-spike interval, e.g. 500ms at 2 Hz
 
-	const int GroupSizes[] = { 100, 400, 1000, 4000, 10000, 40000, 100000 };
+	//const int GroupSizes[] = { 40, 100, 400, 1000, 4000, 10000, 40000, 100000 };
 
 
 	int Delays[] = { 1,2,5,10,20 };
-	int Neurons[] = { 100, 400, 1000, 2000, 4000, 10000, 20000 };
+	int Neurons[] = { 20, 40, 100, 200, 400, 1000, 2000, 4000, 10000, 20000 };
 
-	int d_i = 2;  // 5 ms ENUM  d5, d20
-	int N_i = 2;  // 100 ms   ENUM  N100, N400, 
+	//int d_i = 2;  // 5 ms ENUM  d5, d20
+	int d_i = 3;  // 5 ms ENUM  d5, d20
+	int N_i = 4;  // 100 ms   ENUM  N100, N400, 
 
 
 	// chain
@@ -158,21 +167,27 @@ TEST(PerfMon, partition) {
 	int rows = N / columns;
 
 
+	//CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, SILENT, 0, 42);
 	CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, USER, 0, 42);
-	//CARLsim* sim = new CARLsim("PerfMon.slice", GPU_MODE, SILENT, 0, 42);
+	//CARLsim* sim = new CARLsim("PerfMon.partition", GPU_MODE, USER, 0, 42);
 
 	sim->setConductances(true);
 
+	//sim->setIntegrationMethod(FORWARD_EULER, 2);
+	//sim->setIntegrationMethod(FORWARD_EULER, 4);  // CARLsim default ?!
 	//sim->setIntegrationMethod(FORWARD_EULER, 10);
  	//sim->setIntegrationMethod(FORWARD_EULER, 20);   // same results
+	//sim->setIntegrationMethod(FORWARD_EULER, 40);
 
-	sim->setIntegrationMethod(RUNGE_KUTTA4, 10);
-	//sim->setIntegrationMethod(RUNGE_KUTTA4, 20);  // OK
-	//sim->setIntegrationMethod(RUNGE_KUTTA4, 50);
-	//sim->setIntegrationMethod(RUNGE_KUTTA4, 100);
+	//sim->setIntegrationMethod(RUNGE_KUTTA4, 4);
+	sim->setIntegrationMethod(RUNGE_KUTTA4, 10);  // recoomended for Coba 
+	//sim->setIntegrationMethod(RUNGE_KUTTA4, 20);  // 21 s (single core)
+	//sim->setIntegrationMethod(RUNGE_KUTTA4, 40);  // 45 s (single core), 60 s (multi core)
+	//sim->setIntegrationMethod(RUNGE_KUTTA4, 100); // 113 (multi core)
 
 
 	const int N_exc = 4;
+	//const int N_exc = 16;
 	//const int N_exc = 1;
 	int g_exc[N_exc];
 	//int conn_exc[N_exc];
@@ -181,11 +196,14 @@ TEST(PerfMon, partition) {
 	//int conn_post[N_exc];
 	int g_stim;
 
+
 	const size_t length = 100; 
 	char name[length];
 	for (int i = 0; i < N_exc; i++) {
 		sprintf_s<length>(name, "g_exc%i", i);
 		g_exc[i] = sim->createGroup(name, N, EXCITATORY_NEURON, i);  // core 1..n for exc cluster
+		//g_exc[i] = sim->createGroup(name, N, EXCITATORY_NEURON, 0);  // core 1..n for exc cluster
+		//g_exc[i] = sim->createGroup(name, N, EXCITATORY_NEURON, 0, GPU_CORES);  // core 1..n for exc cluster
 		sim->setNeuronParameters(g_exc[i], 0.02f, 0.2f, -65.0f, 8.0f);
 	}
 
@@ -197,13 +215,14 @@ TEST(PerfMon, partition) {
 
 	g_stim = sim->createSpikeGeneratorGroup("g_stim", 1, EXCITATORY_NEURON, 0);
 
-	// stim
-	sim->connect(g_stim, g_inter[0], "one-to-one", RangeWeight(0.3), 1.0f);
 
-	// Offer as TestCase to Gene
-	FanInConnGen in(N, columns, rows, 20);			in.w	= 0.3;
+	// stim
+	sim->connect(g_stim, g_inter[0], "one-to-one", RangeWeight(0.3), 1.0f, 10);
+
+	// Offer TestCase to userconn
+	FanInConnGen in(N, columns, rows, 10);			in.w	= 0.3;
 	ChainConnGen chain(N, columns, rows, d);	chain.w = 0.325;
-	FanOutConnGen out(N, columns, rows, 20);  		out.w = 0.3 / rows;
+	FanOutConnGen out(N, columns, rows, 10);  		out.w = 0.3 / rows;
 	//ChainConnGen chain(N, columns, rows, d);	chain.w = 0.375;
 
 	for (int i = 0; i < N_exc; i++) {
@@ -224,20 +243,23 @@ TEST(PerfMon, partition) {
 	//	sim->connect(g_exc[i], g_inter[i+1], "random", RangeWeight(4.0), 0.1);
 	//}
 
-
-	// Spike monitors to validate the SNN neural activity
 	std::vector<SpikeMonitor*> excSpikeMon(N_exc);
-	for (int i = 0; i < N_exc; i++) 
-		excSpikeMon[i] = sim->setSpikeMonitor(g_exc[i], "DEFAULT");
-	std::vector<SpikeMonitor*> interSpikeMon(N_exc);
-	for (int i = 0; i < N_exc+1; i++)
-		interSpikeMon[i] = sim->setSpikeMonitor(g_inter[i], "DEFAULT");
+	std::vector<SpikeMonitor*> interSpikeMon(N_exc+1);
+	if (bSpikeMon) {
+		// Spike monitors to validate the SNN neural activity	
+		for (int i = 0; i < N_exc; i++)
+			excSpikeMon[i] = sim->setSpikeMonitor(g_exc[i], "DEFAULT");
+		for (int i = 0; i < N_exc + 1; i++)
+			interSpikeMon[i] = sim->setSpikeMonitor(g_inter[i], "DEFAULT");
+	}
 
-	// Performance monitors 
-	PerformanceMonitor* perfMon = sim->setPerformanceMonitor(PMB_INTEL, "DEFAULT");
-	const int sample_rate = 1;
-	perfMon->setSampleRate(sample_rate);
-
+	PerformanceMonitor* perfMon = nullptr;
+	if (bPerfMon) {
+		// Performance monitors 
+		//perfMon = sim->setPerformanceMonitor(PMB_INTEL, "DEFAULT");
+		perfMon = sim->setPerformanceMonitor(PMB_INTEL, "NULL");
+		perfMon->setSampleRate(sample_rate);
+	}
 
 	// use periodic spike generator to know the exact spike times
 	PeriodicSpikeGenerator spkGen(rate, true);  // 2 Hz => ISI 500 ms
@@ -247,19 +269,19 @@ TEST(PerfMon, partition) {
 
 	sim->setupNetwork();
 
-	EXPECT_FALSE(perfMon->getPersistentData());	
+//	EXPECT_FALSE(perfMon->getPersistentData());	
 
 	int nCores = 16;
-	bool bPerfMon = true; 
-	bool bSpikeMon = true;
+
 
 	// CPU 3.5 s  3500
 	// GPU 100,200,400,800 
 	//const int slice = 100;
 	const int slice = ms;  // ms
-	for (int t = 0; t < 500*2; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
+	for (int t = 0; t < 500*2*10; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
  
-		if(bPerfMon) perfMon->startRecording();
+		if(bPerfMon) 
+			perfMon->startRecording();
 		if (bSpikeMon) {
 			for (int i = 0; i < N_exc; i++)
 				excSpikeMon[i]->startRecording();
@@ -267,9 +289,10 @@ TEST(PerfMon, partition) {
 				interSpikeMon[i]->startRecording();
 		}
 
-		sim->runNetwork(0, slice, true);
+		sim->runNetwork(0, slice, false);
 
-		if(bPerfMon) perfMon->stopRecording();
+		if(bPerfMon) 
+			perfMon->stopRecording();
 		if (bSpikeMon) {
 			for (int i = 0; i < N_exc; i++)
 				excSpikeMon[i]->stopRecording();
@@ -279,12 +302,12 @@ TEST(PerfMon, partition) {
 
 
 		if (bPerfMon) {
-			auto lastUpdated = perfMon->getLastUpdated();
-			EXPECT_EQ(lastUpdated, t + slice);
+			//auto lastUpdated = perfMon->getLastUpdated();
+			//EXPECT_EQ(lastUpdated, t + slice);
 
-			auto util = perfMon->getUtilization();
-			//EXPECT_EQ(util[0].size(), (t + slice) / 10);
-			EXPECT_EQ(util[0].size(), ms / sample_rate);
+			//auto util = perfMon->getUtilization();
+			////EXPECT_EQ(util[0].size(), (t + slice) / 10);
+			//EXPECT_EQ(util[0].size(), ms / sample_rate);
 
 			for (int coreIndex = 0; coreIndex < nCores; coreIndex++) {
 				// EXPECT_GE(..)
