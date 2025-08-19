@@ -2179,8 +2179,8 @@ __device__ void updateNeuronState(int nid, int grpId, int simTimeMs, bool lastIt
 		}
 
 		// log coba values if any active coba monitor is present
-		if (networkConfigGPU.sim_with_cm && nid - groupConfigsGPU[grpId].lStartN < MAX_COBA_MON_GRP_SZIE) {
-			int idxBase = networkConfigGPU.numGroups * MAX_COBA_MON_GRP_SZIE * simTimeMs + grpId * MAX_COBA_MON_GRP_SZIE;
+		if (networkConfigGPU.sim_with_cm && nid - groupConfigsGPU[grpId].lStartN < MAX_COBA_MON_GRP_SIZE) {
+			int idxBase = networkConfigGPU.numGroups * MAX_COBA_MON_GRP_SIZE * simTimeMs + grpId * MAX_COBA_MON_GRP_SIZE;
 			runtimeDataGPU.nAMPABuffer[idxBase + nid - groupConfigsGPU[grpId].lStartN] = runtimeDataGPU.gAMPA[nid];
 			runtimeDataGPU.nNMDABuffer[idxBase + nid - groupConfigsGPU[grpId].lStartN] = runtimeDataGPU.gNMDA[nid];
 			runtimeDataGPU.nGABAaBuffer[idxBase + nid - groupConfigsGPU[grpId].lStartN] = runtimeDataGPU.gGABAa[nid];

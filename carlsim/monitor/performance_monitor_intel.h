@@ -57,6 +57,9 @@
 
 #include <performance_monitor_core.h>
 
+//#define __MOCKING_MODE__ 
+//#define __REDESIGN__
+
 // #ifdef INTEL_PCM
 #include <pcm-lib.h>
 //using namespace pcm;
@@ -83,12 +86,19 @@ public:
 
 
 //#if defined(INTEL_PCM)
+#ifndef __MOCKING_MODE__
 	pcm::PCM* pcm_;
 	std::vector<pcm::SystemCounterState> pcmSystemStateBefore_;
 	std::vector<pcm::SystemCounterState> pcmSystemStateAfter_;
 	std::vector<pcm::CoreCounterState> pcmCoreStateBefore_;
 	std::vector<pcm::CoreCounterState> pcmCoreStateAfter_;
-//#endif
+#else
+	pcm::PCM* pcm_;
+	std::vector<pcm::SystemCounterState*> pcmSystemStateBefore_;
+	std::vector<pcm::SystemCounterState*> pcmSystemStateAfter_;
+	std::vector<pcm::CoreCounterState*> pcmCoreStateBefore_;
+	std::vector<pcm::CoreCounterState*> pcmCoreStateAfter_;
+#endif
 
 
 };

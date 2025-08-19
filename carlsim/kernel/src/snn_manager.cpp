@@ -52,6 +52,13 @@
 #include <sstream>
 #include <algorithm>
 
+#define LN_RT_SYNC
+
+#ifdef LN_RT_SYNC
+#include <chrono>
+#include <thread>
+#endif
+
 #include <connection_monitor.h>
 #include <connection_monitor_core.h>
 #include <spike_monitor.h>
@@ -69,7 +76,6 @@
 #include <error_code.h>
 
 
-
 #ifdef __SELECTED_PTHREADS__
 #include <pthread.h>
 #include <sched.h>
@@ -79,6 +85,9 @@
 #ifndef __NO_CPPTHREADS__
 #include "thread_pool.h"
 #endif
+
+#include <omp.h>
+
 
 
 // \FIXME what are the following for? why were they all the way at the bottom of this file?
@@ -1214,6 +1223,8 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 		updateConnectionMonitor();
 	}
 
+
+
 	// set the Poisson generation time slice to be at the run duration up to MAX_TIME_SLICE	
 #if defined(WIN32) && defined(__NO_CUDA__) // LN2021 fix gcc
 	setGrpTimeSlice(ALL, std::max<int>(1, std::min<int>(runDurationMs, MAX_TIME_SLICE)));  // LN2021 Fix Issue illegal token, unknown-type c++17 
@@ -1228,11 +1239,56 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	timer->start();
 #endif
 
+
+
+#ifdef LN_RT_SYNC
+	using namespace std::chrono_literals;
+	//double modelSpeed = 0.1;  // model time in respected to real time, e.g. the spike time of 1 ms in the SNN model 
+	double modelSpeed = 10;  // model time in respected to real time, e.g. the spike time of 1 ms in the SNN model 
+	// with modelSpeed of 2.0 means, that must only take 500 us realtime, 
+		// or in other words the model runs 2x faster (than realtime).
+		// A modelSpeed of 10% means, that the spike time of 1 ms takes 1/100 s, 
+		// or in other words, the model runs in slow motion.
+	double modelStepMs = 1.0; // default 1ms model corresponds to SNN 1ms. however, 
+		// if the environment is slower then the cortex, e.g. x10, then 10ms maps to 1 ms SNN. 
+		// if the environment is faster, e.g. x2, then 0.5 ms maps to 1ms in the SNN.
+	//unsigned long long realStepNs = (modelStepMs * 1000.0 * 1000.0) / modelSpeed; // runDurationMs is SNN model time
+	//unsigned long long rtNs = 0;	// total realtime in ns 
+	unsigned long long realStepUs = (modelStepMs * 1000.0 ) / modelSpeed; // runDurationMs is SNN model time
+	unsigned long long rtUs = 0;	// total realtime in us 
+
+	// Initialize stopwatch at nanosecond precision
+	//auto start = std::chrono::high_resolution_clock::now();  // 
+	auto start = std::chrono::steady_clock::now();
+	//long long elapsedNs = 0; // can be negative
+	long long elapsedUs = 0; // can be negative
+	//long long prevNs = 0;	 // dito
+	//unsigned long long sleepUs = 0;  // sleep time in us
+
+	//unsigned long long modelTimeMs;
+	//double modelSpeed;
+	//unsigned modelStepMs;
+	//ModelAutosync modelAutosync;
+	//ModelStart modelStart;
+	//int modelLagMs;
+
+	//QDateTime realTime0;
+	//quint64 realTimeUs;
+
+	//unsigned long long snnTimeMs;
+
+#endif
+
 	//KERNEL_INFO("Reached the advSimStep loop!");
 
 	// if nsec=0, simTimeMs=10, we need to run the simulator for 10 timeStep;
 	// if nsec=1, simTimeMs=10, we need to run the simulator for 1*1000+10, time Step;
 	for(int i = 0; i < runDurationMs; i++) {
+
+#ifdef LN_RT_SYNC
+//		rtNs += realStepNs;  // expected total realtime in ns
+		rtUs += realStepUs;  // expected total realtime in us
+#endif 
 
 		if(numPerformanceMonitor)
 			armPerformanceMonitor();  // begin event for performance counter
@@ -1281,7 +1337,41 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 		//if (numPerformanceMonitor && (simTime % 10 == 0))   
 		//	updatePerformanceMonitor();
 
+#ifdef LN_RT_SYNC
+		//prevNs = elapsedNs; 
+		// Calculate the difference in nanoseconds
+		//auto current = std::chrono::high_resolution_clock::now();
+		auto current = std::chrono::steady_clock::now();
+		//auto elapsed = start.time_since_epoch(); 
+		//auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(current - start);
+		auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(current - start);
+		//elapsedNs = elapsed.count();
+		elapsedUs = elapsed.count();
+		//const std::chrono::duration<unsigned long long, std::nano> elapsedNs = current - start;
+		
+		// Sleep for remaining time in ns precision
+		//long long sleepNs = rtNs - elapsedNs;
+		long long sleepUs = rtUs - elapsedUs;
+		//printf("sleep %lld\n", sleepUs);
+		if (sleepUs > 0) {
+			// convert into duration with ns resolution
+			// The standard recommends that a steady clock is used to measure the duration. 
+			// If an implementation uses a system clock instead, the wait time may also be sensitive to clock adjustments.
+			//const std::chrono::duration<long long, std::nano>sleep(sleepUs);
+			//printf("sleep %lld\n", sleepUs);
+			const std::chrono::duration<long long, std::micro>sleep(sleepUs);
+			//const std::chrono::duration<long long, std::micro>sleep(sleepUs);
+
+	//		std::this_thread::sleep_for(sleep);
+			 
+			//std::this_thread::sleep_for(duration);
+			//std::this_thread::sleep_for(10ms);
+			//std::this_thread::sleep_for(1ns);
+		}
+#endif
+
 	}
+
 
 	//KERNEL_INFO("Updated monitors!");
 
@@ -2895,6 +2985,8 @@ void SNN::SNNinit() {
 #endif
 }
 
+#define __NO_CPPTHREADS__doCurrentUpdate
+
 void SNN::advSimStep() {
 	doSTPUpdateAndDecayCond();
 
@@ -2912,7 +3004,7 @@ void SNN::advSimStep() {
 
 	routeSpikes();
 
-#ifndef __NO_CPPTHREADS__ 
+#ifndef __NO_CPPTHREADS__doCurrentUpdate 
 	doCurrentUpdateD2();
 	doCurrentUpdateD1();
 #else
@@ -2928,12 +3020,14 @@ void SNN::advSimStep() {
 	clearExtFiringTable();
 }
 
+#define __NO_CPPTHREADS__doSTPUpdateAndDecayCond
+
 #ifndef __NO_CPPTHREADS__
 ThreadPool* doSTPUpdateAndDecayCond_TP = nullptr;
 #endif
 
 void SNN::doSTPUpdateAndDecayCond() {
-#ifndef __NO_CPPTHREADS__
+#ifndef __NO_CPPTHREADS__doSTPUpdateAndDecayCond
 	if (doSTPUpdateAndDecayCond_TP == nullptr) {
 		// Create thread pool on demand
 		std::vector<ThreadStruct> argsThreadRoutine;
@@ -2944,7 +3038,7 @@ void SNN::doSTPUpdateAndDecayCond() {
 			argsThreadRoutine, cores, offset
 		);
 	}
-	else
+	//else
 		doSTPUpdateAndDecayCond_TP->next();
 #else
 #ifndef __NO_PTHREADS__ // POSIX
@@ -3025,7 +3119,7 @@ ThreadPool* spikeGeneratorUpdate_TP = nullptr;
 void SNN::spikeGeneratorUpdate() {
 	// If poisson rate has been updated, assign new poisson rate
 	if (spikeRateUpdated) {
-#ifndef __NO_CPPTHREADS__
+#ifndef __NO_CPPTHREADS__spikeGeneratorUpdate
 		if (assignPoissonFiringRate_TP == nullptr) {
 			// Create thread pool on demand
 			std::vector<ThreadStruct> argsThreadRoutine;
@@ -3035,9 +3129,9 @@ void SNN::spikeGeneratorUpdate() {
 				[](SNN* snn_pointer, int netId) { snn_pointer->assignPoissonFiringRate_CPU(netId); },
 				argsThreadRoutine, cores, offset
 			);
-		} else {
+		} //else {
 			assignPoissonFiringRate_TP->next();
-		}
+		//}
 #else
 #ifndef __NO_PTHREADS__ // POSIX
 #ifdef UNIX
@@ -3105,9 +3199,9 @@ void SNN::spikeGeneratorUpdate() {
 				[](SNN* snn_pointer, int netId) { snn_pointer->spikeGeneratorUpdate_CPU(netId); },
 				argsThreadRoutine, cores, offset
 			);
-		} else {
+		} //else {
 			spikeGeneratorUpdate_TP->next();
-		}
+		//}
 	#else
 	#ifndef __NO_PTHREADS__ // POSIX
 	#ifdef UNIX
@@ -3197,7 +3291,7 @@ void SNN::findFiring() {
 			argsThreadRoutine, cores, offset
 		);
 	}
-	else
+	//else
 		findFiring_TP->next();
 #else
 #ifndef __NO_PTHREADS__ // POSIX
@@ -3253,8 +3347,7 @@ void SNN::findFiring() {
 }
 
 
-
-#ifndef __NO_CPPTHREADS__
+#ifndef __NO_CPPTHREADS__doCurrentUpdate
 ThreadPool* doCurrentUpdateD2_TP = nullptr;
 void SNN::doCurrentUpdateD2() {
 	if (doCurrentUpdateD2_TP == nullptr) {
@@ -3265,7 +3358,7 @@ void SNN::doCurrentUpdateD2() {
 		doCurrentUpdateD2_TP = new ThreadPool(
 			[](SNN* snn_pointer, int netId) { snn_pointer->doCurrentUpdateD2_CPU(netId); },
 			argsThreadRoutine, cores, offset );
-	} else
+	} //else
 		doCurrentUpdateD2_TP->next();
 }
 ThreadPool* doCurrentUpdateD1_TP = nullptr;
@@ -3278,12 +3371,12 @@ void SNN::doCurrentUpdateD1() {
 		doCurrentUpdateD1_TP = new ThreadPool(
 			[](SNN* snn_pointer, int netId) { snn_pointer->doCurrentUpdateD1_CPU(netId); },
 			argsThreadRoutine, cores, offset );
-	} else
+	} //else
 		doCurrentUpdateD1_TP->next();
 }
 #else 
 void SNN::doCurrentUpdate() {
-#ifndef __NO_PTHREADS__ // POSIX
+#ifndef __NO_CPPTHREADS__doCurrentUpdate // POSIX
 #ifdef UNIX
 	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
 	cpu_set_t cpus;
@@ -3394,9 +3487,13 @@ void SNN::generateArgs(const char* name, std::vector<ThreadStruct> &argsThreadRo
 
 	//std::vector<ThreadStruct> argsThreadRoutine,
 	// get CPU CORES from global SNN run configuration !!! TODO   YAML, ... 
-	cores = 4;
-	offset = 4; 
-	int logical = 2;  // logical cores 
+	cores = 16;  // use to mask the partitions to the available cores
+	offset = 0;
+
+	//cores = 4;
+	//offset = 4; 
+	//int logical = 2;  // logical cores 
+
 
 	// Count partitions of the networks
 	int partitions = 0;
@@ -3426,11 +3523,13 @@ void SNN::generateArgs(const char* name, std::vector<ThreadStruct> &argsThreadRo
 }
 #endif
 
+#define __NO_CPPTHREADS__updateTimingTable
+
 #ifndef __NO_CPPTHREADS__
 ThreadPool* updateTimingTable_TP = nullptr;
 #endif
 void SNN::updateTimingTable() {
-#ifndef __NO_CPPTHREADS__
+#ifndef __NO_CPPTHREADS__updateTimingTable
 	if (updateTimingTable_TP == nullptr) {
 		// Create thread pool on demand
 		std::vector<ThreadStruct> argsThreadRoutine;
@@ -3440,8 +3539,10 @@ void SNN::updateTimingTable() {
 			[](SNN* snn_pointer, int netId) { snn_pointer->updateTimingTable_CPU(netId); },
 			argsThreadRoutine, cores, offset
 		);
-	} else
+	}
+	//else
 		updateTimingTable_TP->next();
+
 #else
 #ifndef __NO_PTHREADS__ // POSIX
 #ifdef UNIX
@@ -3571,6 +3672,16 @@ void SNN::globalStateUpdate() {
 // 
 // #elif  __NO_PTHREADS__ // POSIX
 
+
+#include <omp.h>
+
+//omp_set_num_threads(1);  // 1 working for omp parallel for  -> this produces the .. fixed load on n cores 
+//omp_set_num_threads(2);  // best results for   1: 1.1x   2: 1.3x  3:1.0x   4: 1.0x   => ST reached!!!   7.95s
+//omp_set_num_threads(4);   // ThreadPool 1.1  fairly the same as 1.2x ST
+//omp_set_num_threads(8);   // overhead
+//omp_set_num_threads(16);  // blocking 50% system
+//omp_set_num_threads(32);  // blocking 100% system
+
 #ifndef __NO_CPPTHREADS__
 	if (globalStateUpdate_TP == nullptr) {
 		// Create thread pool on demand
@@ -3581,7 +3692,7 @@ void SNN::globalStateUpdate() {
 			[](SNN* snn_pointer, int netId) { snn_pointer->globalStateUpdate_CPU(netId); },
 			argsThreadRoutine, cores, offset
 		);
-	} else
+	} // else  -> Bug always update
 		globalStateUpdate_TP->next();
 #else
 #ifndef __NO_PTHREADS__ // POSIX
@@ -3600,9 +3711,81 @@ void SNN::globalStateUpdate() {
 #endif
 
 #endif
+	int netId;
+/*
+EULER 4
+************************************************************
+#pragma omp parallel for private(netId)
+Timing:                 Actual Execution Time = 21.44 sec
+						Speed Factor (Model/Real) = 46.6 % (Debug)
 
+************************************************************
+vs ST reference:
+Timing:                 Actual Execution Time = 5.92 sec
+						Speed Factor (Model/Real) = 1.7 x (Debug)
 
-	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+********************    Simulation Summary      ***************************
+Network Parameters:     numNeurons = 1618 (numNExcReg:numNInhReg = 99.9:0.0)
+						numSynapses = 1921
+						maxDelay = 20
+Simulation Mode:        COBA
+Timing:                 Model Simulation Time = 10 sec
+Overall Spike Count:    Total = 15452
+*********************************************************************************
+
+EULER 40
+
+omp_set_dynamic(0);
+omp_set_num_threads(2);
+#pragma omp parallel for private(netId)
+********************    Simulation Summary      ***************************
+Network Parameters:     numNeurons = 1618 (numNExcReg:numNInhReg = 99.9:0.0)
+						numSynapses = 1921
+						maxDelay = 20
+Simulation Mode:        COBA
+Random Seed:            42
+Timing:                 Model Simulation Time = 10 sec
+						Actual Execution Time = 38.64 sec
+						Speed Factor (Model/Real) = 25.9 % (Debug)
+Average Firing Rate:    2+ms delay = 0.955 Hz
+						1ms delay = 0.900 Hz
+						Overall = 0.955 Hz
+Overall Spike Count Transferred:
+						2+ms delay = 14556
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 15443
+						1ms delay = 9
+						Total = 15452
+*********************************************************************************
+
+ST (reference)
+********************    Simulation Summary      ***************************
+Network Parameters:     numNeurons = 1618 (numNExcReg:numNInhReg = 99.9:0.0)
+						numSynapses = 1921
+						maxDelay = 20
+Simulation Mode:        COBA
+Random Seed:            42
+Timing:                 Model Simulation Time = 10 sec
+						Actual Execution Time = 38.05 sec
+						Speed Factor (Model/Real) = 26.3 % (Debug)
+Average Firing Rate:    2+ms delay = 0.955 Hz
+						1ms delay = 0.900 Hz
+						Overall = 0.955 Hz
+Overall Spike Count Transferred:
+						2+ms delay = 14556
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 15443
+						1ms delay = 9
+						Total = 15452
+*********************************************************************************
+*/
+	//omp_set_dynamic(0);  // 1 20s
+	//omp_set_num_threads(4);
+	//#pragma omp simd collapse(2)  // CAUTION: vectorise, not parallel threads !!!
+	//#pragma omp parallel for private(netId)
+	//#pragma omp parallel for num_threads(8) schedule(dynamic)
+	//#pragma omp parallel for schedule(dynamic,64) private(netId)
+	for (netId = 0; netId < MAX_NET_PER_SNN; netId++) {
 		if (!groupPartitionLists[netId].empty()) {
 			if (netId < CPU_RUNTIME_BASE) // GPU runtime
 				globalStateUpdate_C_GPU(netId);
@@ -3685,12 +3868,14 @@ void SNN::globalStateUpdate() {
 //#endif 
 //#endif // __NO_CPP_THREADS__
 
+#define __NO_CPPTHREADS__clearExtFiringTable
+
 #ifndef __NO_CPPTHREADS__
 ThreadPool* clearExtFiringTable_TP = nullptr;
 #endif
 
 void SNN::clearExtFiringTable() {
-#ifndef __NO_CPPTHREADS__
+#ifndef __NO_CPPTHREADS__clearExtFiringTable
 	if (clearExtFiringTable_TP == nullptr) {
 		// Create thread pool on demand
 		std::vector<ThreadStruct> argsThreadRoutine;
@@ -3701,7 +3886,7 @@ void SNN::clearExtFiringTable() {
 			argsThreadRoutine, cores, offset
 		);
 	}
-	else
+	//else
 		clearExtFiringTable_TP->next();
 #else
 #ifndef __NO_PTHREADS__ // POSIX
@@ -3756,12 +3941,14 @@ void SNN::clearExtFiringTable() {
 #endif
 }
 
+#define __NO_CPPTHREADS__updateWeights
+
 #ifndef __NO_CPPTHREADS__
 ThreadPool* updateWeights_TP = nullptr;
 #endif
 
 void SNN::updateWeights() {
-#ifndef __NO_CPPTHREADS__
+#ifndef __NO_CPPTHREADS__updateWeights
 	if (updateWeights_TP == nullptr) {
 		// Create thread pool on demand
 		std::vector<ThreadStruct> argsThreadRoutine;
@@ -3772,7 +3959,7 @@ void SNN::updateWeights() {
 			argsThreadRoutine, cores, offset
 		);
 	}
-	else
+	//else
 		updateWeights_TP->next();
 #else
 #ifndef __NO_PTHREADS__ // POSIX
@@ -3835,6 +4022,8 @@ void SNN::updateNetworkConfig(int netId) {
 		copyNetworkConfig(netId); // CPU runtime
 }
 
+#define __NO_CPPTHREADS__shiftSpikeTables
+
 #ifndef __NO_CPPTHREADS__
 ThreadPool* shiftSpikeTables_TP = nullptr;
 #endif
@@ -3867,7 +4056,7 @@ void SNN::shiftSpikeTables() {
 			argsThreadRoutine, cores, offset
 		);
 	}
-	else
+	//else
 		shiftSpikeTables_TP->next();
 #else
 #ifndef __NO_PTHREADS__ // POSIX

@@ -2208,6 +2208,10 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 	int lNId;
 
 	omp_set_dynamic(0);  // 1 20s
+
+// TODO Implement LoadBalancing based on Networsize, Processor Util (PCM/PIM/PDH), .. see Update Meeting Mo. 17.08.2025
+// provide a test case with different load scenarios, such as PoisonGenerator with variating frequencies, or network paths
+//
 	//omp_set_num_threads(1);  // 1 working for omp parallel for  -> this produces the .. fixed load on n cores 
 	//omp_set_num_threads(2);  // best results for   1: 1.1x   2: 1.3x  3:1.0x   4: 1.0x   => ST reached!!!   7.95s
 	//omp_set_num_threads(4);   // ThreadPool 1.1  fairly the same as 1.2x ST
@@ -2255,7 +2259,7 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 			nm += config.nm4w[NM_UNKNOWN + 1]; // nm base
 
 
-//#pragma omp parallel for private(lNId) shared(_numReg, _icalcType, _with_NMDA_rise, _with_GABAb_rise, _isLIF, _withParamModel_9, _withCompartments, _WithHomeostasis, nm)
+#pragma omp parallel for private(lNId) shared(_numReg, _icalcType, _with_NMDA_rise, _with_GABAb_rise, _isLIF, _withParamModel_9, _withCompartments, _WithHomeostasis, nm)
 			for (lNId = config.lStartN; lNId <= config.lEndN; lNId++) {
 				assert(lNId < _numReg);
 

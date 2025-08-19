@@ -22,6 +22,26 @@ if(MSVC)
   endif()
 endif()
 
+
+FIND_PACKAGE(OpenMP)
+
+IF(OPENMP_FOUND)
+	# User may still choose to build without OpenMP support, for whatever reason.
+	# On MSVC OpenMP introduces additional dynamic library requirements.
+	OPTION(CARLSIM_NO_OPENMP "Turn off OpenMP for multi threading" OFF)
+ELSE()
+	MESSAGE(WARNING "OpenMP was not found.")
+ENDIF()
+
+IF(OPENMP_FOUND AND NOT CARLSIM_NO_OPENMP )
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+	#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+	#https://learn.microsoft.com/en-us/cpp/build/reference/openmp-enable-openmp-2-0-support?view=msvc-170
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /openmp:experimental")	
+ENDIF()
+
+
+
 # Options
 
     # all options have to be captured in the carlsim_conf.h.in, see below
@@ -84,6 +104,10 @@ if(NOT CARLSIM_NO_CUDA AND NOT CARLSIM_NO_CPPTHREADS)
     message(WARNING "C++ Threads and CUDA are mutual exclusive.")
 endif()
 
+if(NOT CARLSIM_NO_OPENMP AND (NOT CARLSIM_NO_CUDA OR NOT CARLSIM_NO_CPPTHREADS OR NOT CARLSIM_NO_PTHREADS ))
+    message(WARNING "OpenMP cannot combined with C++ Threads, PThreads, or CUDA.")
+endif()
+
 # Dependencies
 
     if(NOT CARLSIM_NO_CUDA)
@@ -123,6 +147,8 @@ if(CARLSIM_GH_ACTIONS AND CARLSIM_TEST)
         target_compile_options(carlsim PRIVATE -g -O0 -fprofile-arcs -ftest-coverage)
 endif()
 
+
+
 set(interface_SRCS     
 	carlsim/interface/src/callback_core.cpp
 	carlsim/interface/src/carlsim.cpp
@@ -147,10 +173,19 @@ set(interface_HDRS
 )
 set(kernel_SRCS      
 	carlsim/kernel/src/print_snn_info.cpp
-	carlsim/kernel/src/snn_cpu_module.cpp
 	carlsim/kernel/src/snn_manager.cpp
 	carlsim/kernel/src/spike_buffer.cpp
 )    
+
+if(WIN32 AND NOT CARLSIM_NO_OPENMP)
+set(kernel_SRCS
+	${kernel_SRCS}
+	carlsim/kernel/src/snn_omp_module.cpp)
+else()
+set(kernel_SRCS
+	${kernel_SRCS}
+	carlsim/kernel/src/snn_cpu_module.cpp)
+endif()
 
 if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
 set(kernel_SRCS
@@ -306,6 +341,9 @@ if(CARLSIM_NO_CPPTHREADS)
 	target_compile_definitions(carlsim PUBLIC __NO_CPPTHREADS__)         
 endif()
 
+if(CARLSIM_NO_OPENMP)
+	target_compile_definitions(carlsim PUBLIC __NO_OPENMP__)         
+endif()
 
 
 # Template 
@@ -419,6 +457,8 @@ target_include_directories(carlsim
 	PUBLIC
 	"C:/Program Files/PCM/include/windows"
 )
+#SET_TARGET_PROPERTIES(carlsim PROPERTIES LINK_FLAGS "/PROFILE")
+
 
 if(NOT CARLSIM_NO_CUDA)
   if(NOT DEFINED CARLSIM_CUDA_SAMPLES_INCLUDE_DIR)
@@ -490,8 +530,8 @@ if(WIN32)
 	# unresolved external symbol "public: static class pcm::PCM * __cdecl pcm::PCM::getInstance(void)" (?getInstance@PCM@pcm@@SAPEAV12@XZ) referenced in function "private: virtual void __cdecl PerfMon_pcmInit_Test::TestBody(void)" (?TestBody@PerfMon_pcmInit_Test@@EEAAXXZ)
 #	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
 
-	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
-	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/debug/lib/pcm-lib.lib")
+	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
+	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/debug/lib/pcm-lib.lib")
 
 	# mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MD_DynamicRelease' in carlsim.obj
 	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/PCM_STATIC.lib")

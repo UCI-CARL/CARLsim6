@@ -1033,7 +1033,8 @@ private:
 	void clearExtFiringTable();
 	void convertExtSpikesD1(int netId, int startIdx, int endIdx, int GtoLOffset);
 	void convertExtSpikesD2(int netId, int startIdx, int endIdx, int GtoLOffset);
-#ifndef __NO_CPPTHREADS__
+#define __NO_CPPTHREADS__doCurrentUpdate
+#ifndef __NO_CPPTHREADS__doCurrentUpdate
 	void doCurrentUpdateD1();
 	void doCurrentUpdateD2();
 #else
@@ -1275,16 +1276,16 @@ private:
 	static void* helperUpdateWeights_CPU(void*);
 #endif
 
-#ifdef __SELECTED_PTHREADS__
-	void* globalStateUpdate_CPU(int netId);
-
-	static void* helperGlobalStateUpdate_CPU(void*);
-
-	static void* helperGlobalStateUpdate_CPU_MOCK(void* voidPtr) {
-		return voidPtr;
-	};
-
-#endif
+//#ifdef __SELECTED_PTHREADS__
+//	void* globalStateUpdate_CPU(int netId);
+//
+//	static void* helperGlobalStateUpdate_CPU(void*);
+//
+//	static void* helperGlobalStateUpdate_CPU_MOCK(void* voidPtr) {
+//		return voidPtr;
+//	};
+//
+//#endif
 
 
 	// CPU computing backend: data transfer function

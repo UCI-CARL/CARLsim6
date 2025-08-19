@@ -41,14 +41,30 @@ struct ThreadPool::Worker {
 };
 
 
+#include <chrono>
+
+//#include <thread>
+//std::this_thread::sleep_for(10ms);
 
 void ThreadPool::Worker::worker_thread() {
 	int count = 0;
 	while (true) {
+
+		//const std::chrono::duration<int, std::micro> d(1);
+		//std::this_thread::sleep_for(d);
+
 		std::unique_lock<std::mutex> lock(pool->mtx_);
-		pool->cv_.wait(lock, [&] { return ready || done; });
+		pool->cv_.wait(lock, [&] { return ready || done; });  // 47%, required for working properly  see what happens if KUTT-> 2x
+		
+		//pool->cv_.wait(lock, [&] { return ready; });  // 46% 
+		//pool->cv_.wait(lock, [&] { return done; });  // 1% dont finish
+		//const std::chrono::duration<int, std::nano> d(100);
+		//std::this_thread::sleep_for(d);
+
+
 
 		if (done) break;
+
 
 		//do_calculation2(count);  // here the helper comes in 
 		//do_calculation2(args.netId);
@@ -83,6 +99,7 @@ void ThreadPool::Worker::worker_thread() {
 		++count;
 
 		pool->cv_.notify_all();
+
 	}
 } 
 
@@ -112,7 +129,7 @@ ThreadPool::ThreadPool(std::function<void(SNN*, int netId)> snn_method,
 		worker->snn_method = snn_method;
 		worker->args = partitions_[p];
 		//worker->core_id = p % cores_ + offset_;
-		worker->core_id = p % cores_ * 2 + offset_;  // each physical partition has two logical
+		//worker->core_id = p % cores_ * 2 + offset_;  // each physical partition has two logical
 		worker->pool = this;
 		worker->thread = new std::thread(&Worker::worker_thread, worker);
 #ifdef WIN32
@@ -131,6 +148,7 @@ ThreadPool::~ThreadPool() {
 	}
 }
 
+//#include <chrono>
 void ThreadPool::next() {
 	// 1. Set all workers ready and notify all
 	{
@@ -143,6 +161,8 @@ void ThreadPool::next() {
 
 	// 2. Wait for all workers to finish
 	std::unique_lock<std::mutex> lock(mtx_);
+	//const std::chrono::duration<int, std::nano> d(1000);
+	//cv_.wait_for(lock, d, [&] {
 	cv_.wait(lock, [&] {
 		for (auto w : workers_)
 			if (w->ready) return false;

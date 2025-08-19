@@ -59,6 +59,8 @@
 using namespace pcm;
 
 
+
+
 PerformanceMonitorIntel::PerformanceMonitorIntel(SNN* snn, int monitorId, int sampleRate):
 	PerformanceMonitorCore(snn, monitorId, sampleRate)
 {
@@ -83,6 +85,7 @@ void PerformanceMonitorIntel::pre_init() {
 
 	//#if defined(WIN32) && (__INTEL_PCM__)
 
+#ifndef __MOCKING_MODE__
 	pcm_ = PCM::getInstance();
 
 	PCM::ErrorCode status = pcm_->program();
@@ -104,6 +107,11 @@ void PerformanceMonitorIntel::pre_init() {
 
 	// overwrite
 	nCores_ = pcm_->getNumCores();
+#else
+	pcm_ = nullptr;
+	nCores_ = 16;
+#endif
+
 }
 
 // Intel PCM
@@ -112,7 +120,7 @@ void PerformanceMonitorIntel::init() {
 	PerformanceMonitorCore::init();  	
 	assert(vectorUtilization_.size() == nCores_);
 
-
+#ifndef __MOCKING_MODE__
 	// Take first snapshot
 	pcmSystemStateBefore_.push_back(getSystemCounterState());
 	for (int i = 0; i < nCores_; ++i)
@@ -125,13 +133,15 @@ void PerformanceMonitorIntel::init() {
 	pcmSystemStateAfter_.push_back(getSystemCounterState());
 	for (int i = 0; i < nCores_; ++i)
 		pcmCoreStateAfter_.push_back(getCoreCounterState(i));
-
+#endif
 }
 
 
 void PerformanceMonitorIntel::release() {
 #ifdef WIN32
+#ifndef __MOCKING_MODE__
 	pcm_->cleanup();
+#endif
 #endif
 }
 
@@ -143,26 +153,60 @@ void PerformanceMonitorIntel::pushPerformanceCounter() {  // int time
 	const bool debug_ = false;
 
 	// Move second snapshots to first
+//#ifndef __MOCKING_MODE__
 	pcmSystemStateBefore_.swap(pcmSystemStateAfter_);
 	pcmCoreStateBefore_.swap(pcmCoreStateAfter_);
-	
+//#else
+//#endif
+
+
 	// Take second snapshot
+#ifndef __MOCKING_MODE__
+#ifndef  __REDESIGN__
 	pcmSystemStateAfter_.clear();
 	pcmSystemStateAfter_.push_back(getSystemCounterState());
 	pcmCoreStateAfter_.clear();
 	for (int i = 0; i < nCores_; ++i)
 		pcmCoreStateAfter_.push_back(getCoreCounterState(i));
+#else
+	pcmSystemStateAfter_[0] = pcm_->getSystemCounterState();   // alt.: aggreage, .. 
+	for (int i = 0; i < nCores_; ++i) {		
+		/*  CoreCounterState getCoreCounterState(uint32 core);
+			Reads the counter state of a (logical) core
+			Be aware that during the measurement other threads may be scheduled on the same core by the operating system (this is called context-switching). The performance events caused by these threads will be counted as well.
+		*/
+		pcmCoreStateAfter_[i] = pcm_->getCoreCounterState(i);
+	}
+#endif
+#else
+	pcmSystemStateAfter_.clear();
+	pcmSystemStateAfter_.push_back(nullptr);
+	pcmCoreStateAfter_.clear();
+	for (int i = 0; i < nCores_; ++i)
+		pcmCoreStateAfter_.push_back(nullptr);
+#endif
 
+#ifndef __MOCKING_MODE__
 	double s0engy = getConsumedJoules(pcmSystemStateBefore_.front(), pcmSystemStateAfter_.front()); // first socket
+#else
+	double s0engy = 1.0;
+#endif
 
 	debug_?printf("Core    UTIL    IPC    FREQ(GHz)  ENGY(J) %1.2f\n", s0engy):0;
 
 	double utilTotal = .0;
 	for (int i = 0; i < nCores_; ++i) {
+#ifndef __MOCKING_MODE__
 		double util = getCoreCStateResidency(0, pcmCoreStateBefore_[i], pcmCoreStateAfter_[i]); // UTIL  : utlization (same as core C0 state active state residency, the value is in 0..1)				
 		utilTotal += util;
 		double ipc = getIPC(pcmCoreStateBefore_[i], pcmCoreStateAfter_[i]); // instructions per CPU cycle
 		double freq = getAverageFrequency(pcmCoreStateBefore_[i], pcmCoreStateAfter_[i]) / 1000000000.; // GHz
+#else
+		double util = 0.5;
+		utilTotal += util;
+		double ipc = 0.5;
+		double freq = 0.f;
+#endif
 
 		vectorUtilization_[i].push_back((float)util);
 		vectorInstructions_[i].push_back((float)ipc);

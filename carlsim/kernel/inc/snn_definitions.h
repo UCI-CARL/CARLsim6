@@ -157,7 +157,7 @@
 	// TODO PTHREAD patches
 	//#define NUM_CPU_CORES sysconf(_SC_NPROCESSORS_ONLN)
 	#define sched_getcpu() 0
-	#define NUM_CPU_CORES 4 
+	#define NUM_CPU_CORES 4
 #endif
 
 

@@ -153,9 +153,15 @@ TEST(PerfMon, partition) {
 	int Delays[] = { 1,2,5,10,20 };
 	int Neurons[] = { 20, 40, 100, 200, 400, 1000, 2000, 4000, 10000, 20000 };
 
-	//int d_i = 2;  // 5 ms ENUM  d5, d20
-	int d_i = 3;  // 5 ms ENUM  d5, d20
-	int N_i = 4;  // 100 ms   ENUM  N100, N400, 
+	// alles mit Debug version ->  Argumentation:  need sufficient load, determined,  w/o compiler optimizations
+	// if released, the cores can be reduced e.g. to 2 in the example above   then speed factor 4.2  (vs. )
+	// = core / but this is due to small workload on an i9
+
+	int d_i = 2;  // 5 ms ENUM  d5, d20   // -->  2.9 !!!  => rule of thumb x 2 partitions & <= max(phys. cores)  !!! ++ affinity to avoid context switching, _ cache line invalidated _
+	//int d_i = 3;  // 10 ms ENUM  d5, d20
+	//int N_i = 4;  // 100 ms   ENUM  N100, N400,     AB 5 kommt neues Bottle-Neck hinzu!!! => Workload zu klein, Parall. nicht mehr mgl
+	int N_i = 5;  // 100 ms   ENUM  N100, N400,     AB 5 kommt neues Bottle-Neck hinzu!!! => Workload zu klein, Parall. nicht mehr mgl
+
 
 
 	// chain
@@ -180,13 +186,67 @@ TEST(PerfMon, partition) {
 	//sim->setIntegrationMethod(FORWARD_EULER, 40);
 
 	//sim->setIntegrationMethod(RUNGE_KUTTA4, 4);
-	sim->setIntegrationMethod(RUNGE_KUTTA4, 10);  // recoomended for Coba 
+	sim->setIntegrationMethod(RUNGE_KUTTA4, 10);  // recomended for Izh9 or Compartment   => !!! Here the small network of 1000 neurons does not run at realtime despite the availabi cores !!!! --->  this is the very ARGUMENT for edge, smart phone 
 	//sim->setIntegrationMethod(RUNGE_KUTTA4, 20);  // 21 s (single core)
 	//sim->setIntegrationMethod(RUNGE_KUTTA4, 40);  // 45 s (single core), 60 s (multi core)
 	//sim->setIntegrationMethod(RUNGE_KUTTA4, 100); // 113 (multi core)
 
 
-	const int N_exc = 4;
+	//int nCores = 16;   // 80% --> 2.4x
+	//int nCores = 8;    // 83.2% -> 2.9x     !!! 16 -> 2.4x   !!! 32 --> 96%  AND >95% BLOCKING    4 -> 2.3 (prob. most power eff) / partitions / 2  --> 1.4
+
+	const int N_exc = 2;   // Release    4.5
+
+	/*
+	ST
+	********************Simulation Summary***************************
+		Network Parameters : numNeurons = 2004 (numNExcReg : numNInhReg = 100.0 : 0.0)
+		numSynapses = 2101
+		maxDelay = 20
+		Simulation Mode : COBA
+		Random Seed : 42
+		Timing : Model Simulation Time = 10 sec
+		Actual Execution Time = 8.84 sec
+		Speed Factor(Model / Real) = 1.1 x		           => barely made it
+		Average Firing Rate : 2 + ms delay = 1.000 Hz
+		1ms delay = 1.000 Hz
+		Overall = 1.000 Hz
+		Overall Spike Count Transferred :
+	2 + ms delay = 10010
+		1ms delay = 0
+		Overall Spike Count : 2 + ms delay = 20030
+		1ms delay = 10
+		Total = 20040
+
+vs. safely done
+	omp_set_dynamic(0);  // 1 20s
+	//omp_set_num_threads(1);  // 1 working for omp parallel for  -> this produces the .. fixed load on n cores
+	omp_set_num_threads(2);
+
+Timing:                 Model Simulation Time = 10 sec
+						Actual Execution Time = 5.10 sec
+						Speed Factor (Model/Real) = 2.0 x
+Average Firing Rate:    2+ms delay = 1.000 Hz
+						1ms delay = 1.000 Hz
+						Overall = 1.000 Hz
+Overall Spike Count Transferred:
+						2+ms delay = 10010
+						1ms delay = 0
+Overall Spike Count:    2+ms delay = 20030
+						1ms delay = 10
+						Total = 20040
+
+
+with 4 --> 3.3x !!!
+with 8 --> 4.5x 
+with 16 --> 4.0x  --> spin !!!  (kernel)
+
+d.h. 2000 neurons = x2 sicherheit
+x4.5 sicherheit ggü. RT --> learning or sparse processing --> see slow down
+		*/
+
+	//const int N_exc = 4;  // Debug
+	//const int N_exc = 8;
 	//const int N_exc = 16;
 	//const int N_exc = 1;
 	int g_exc[N_exc];
@@ -271,14 +331,12 @@ TEST(PerfMon, partition) {
 
 //	EXPECT_FALSE(perfMon->getPersistentData());	
 
-	int nCores = 16;
-
 
 	// CPU 3.5 s  3500
 	// GPU 100,200,400,800 
 	//const int slice = 100;
 	const int slice = ms;  // ms
-	for (int t = 0; t < 500*2*10; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
+	for (int t = 0; t < 500*2*100; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
  
 		if(bPerfMon) 
 			perfMon->startRecording();
@@ -309,10 +367,10 @@ TEST(PerfMon, partition) {
 			////EXPECT_EQ(util[0].size(), (t + slice) / 10);
 			//EXPECT_EQ(util[0].size(), ms / sample_rate);
 
-			for (int coreIndex = 0; coreIndex < nCores; coreIndex++) {
-				// EXPECT_GE(..)
-				//	EXPECT_NEAR(util[0][slice - 1], util[nId], 0.001);
-			}
+			//for (int coreIndex = 0; coreIndex < nCores; coreIndex++) {
+			//	// EXPECT_GE(..)
+			//	//	EXPECT_NEAR(util[0][slice - 1], util[nId], 0.001);
+			//}
 		}
 
 	}
