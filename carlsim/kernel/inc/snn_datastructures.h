@@ -953,8 +953,6 @@ typedef struct ThreadStruct_s {
 	int startIdx;
 	int endIdx;
 	int GtoLOffset;
-	int threadId; // 2025 void*  &threads[threadId]
-	void* thread;
 } ThreadStruct;
 
 #endif

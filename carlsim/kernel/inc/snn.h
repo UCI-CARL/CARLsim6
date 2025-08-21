@@ -133,9 +133,6 @@ class ConnectionMonitor;
 
 class SpikeBuffer;
 
-#ifndef __NO_CPPTHREADS__
-class ThreadPool; 
-#endif 
 
 /// **************************************************************************************************************** ///
 /// CPUSNN CORE CLASS
@@ -149,9 +146,6 @@ class ThreadPool;
 class SNN {
 
 
-#ifndef __NO_CPPTHREADS__
-	friend ThreadPool;
-#endif
 
 	/// **************************************************************************************************************** ///
 	/// PUBLIC METHODS
@@ -1033,12 +1027,8 @@ private:
 	void clearExtFiringTable();
 	void convertExtSpikesD1(int netId, int startIdx, int endIdx, int GtoLOffset);
 	void convertExtSpikesD2(int netId, int startIdx, int endIdx, int GtoLOffset);
-#ifndef __NO_CPPTHREADS__
-	void doCurrentUpdateD1();
-	void doCurrentUpdateD2();
-#else
+
 	void doCurrentUpdate();
-#endif
 
 	void doSTPUpdateAndDecayCond();
 	void deleteRuntimeData();
@@ -1051,9 +1041,7 @@ private:
 	void updateWeights();
 	void updateNetworkConfig(int netId);
 
-#ifndef __NO_CPPTHREADS__
-	void generateArgs(const char* name, std::vector<ThreadStruct> &argsThreadRoutine, int &cores, int &offset);
-#endif
+
 
 	// Abstract layer for trasferring data (local-to-global copy)
 	void fetchConductanceAMPA(int gGrpId);
@@ -1232,9 +1220,6 @@ private:
 	void doSTPUpdateAndDecayCond_CPU(int netId);
 	void deleteRuntimeData_CPU(int netId);
 	void findFiring_CPU(int netId);
-//#ifndef __SELECTED_PTHREADS__
-	void globalStateUpdate_CPU(int netId);
-//#endif
 	void resetSpikeCnt_CPU(int netId, int lGrpId); //!< Resets the spike count for a particular group.
 	void shiftSpikeTables_CPU(int netId);
 	void spikeGeneratorUpdate_CPU(int netId);

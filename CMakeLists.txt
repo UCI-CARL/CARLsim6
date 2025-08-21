@@ -29,7 +29,7 @@ endif()
     option(CARLSIM_GH_ACTIONS "Configure CMake for GitHub Actions" OFF)         # Set this when called by GitHub WFs
     option(CARLSIM_NO_CUDA "Turn off CUDA support" OFF)         # more for boot straping and quality ensurance
     option(CARLSIM_NO_PTHREADS "Turn off PTHREADS" ON)          # since CARLsim5, Linux Release builds throw segmentation violation 
-    option(CARLSIM_NO_CPPTHREADS "Turn off C++ Threads" ON)          # turn off C++ built-in concurrency support library
+#    option(CARLSIM_NO_CPPTHREADS "Turn off C++ Threads" ON)          # turn off C++ built-in concurrency support library
     option(CARLSIM_SHARED "Build CARLSIM as shared library" ON)     # this is the primary supported way
     # For trouble shooting and special requirements (e.g. single image appliances). CUDA is always shared.
     option(CARLSIM_STATIC "Build CARLSIM as static libray" OFF)     
@@ -37,7 +37,7 @@ endif()
     option(CARLSIM_SAMPLES "Build CARLSIM samples" ON)          # not for minimal version
     option(CARLSIM_TUTORIALS "Build CARLSIM tutorials" OFF)      # not for minimal version and production     
     option(CARLSIM_PYCARL "Build CARLSIM PyCARL" OFF)            # not for CR but SNN
-    option(CARLSIM_PY "Build carlsim6py" OFF)            # Python extension module for CARLsim6 
+#    option(CARLSIM_PY "Build carlsim6py" OFF)            # Python extension module for CARLsim6 
     option(CARLSIM_TOOLS "Build CARLSIM Tools" ON)              # check for dependecies
     option(CARLSIM_TEST "Build CARLSIM Tests" ON)               # mandadory for development
     
@@ -76,13 +76,13 @@ if(CARLSIM_GH_ACTIONS AND NOT CARLSIM_TEST)
     message(FATAL_ERROR "CARLSIM_GH_ACTIONS requires CARLSIM_TEST also be True.")
 endif()
 
-if(NOT CARLSIM_NO_PTHREADS AND NOT CARLSIM_NO_CPPTHREADS)
-    message(FATAL_ERROR "Thread libraries are mutual exclusive.")
-endif()
+#if(NOT CARLSIM_NO_PTHREADS AND NOT CARLSIM_NO_CPPTHREADS)
+#    message(FATAL_ERROR "Thread libraries are mutual exclusive.")
+#endif()
 
-if(NOT CARLSIM_NO_CUDA AND NOT CARLSIM_NO_CPPTHREADS)
-    message(WARNING "C++ Threads and CUDA are mutual exclusive.")
-endif()
+#if(NOT CARLSIM_NO_CUDA AND NOT CARLSIM_NO_CPPTHREADS)
+#    message(WARNING "C++ Threads and CUDA are mutual exclusive.")
+#endif()
 
 # Dependencies
 
@@ -100,15 +100,15 @@ endif()
 		find_package(Threads REQUIRED)
 	endif()
 
-	if(WIN32 AND CARLSIM_NO_PTHREADS)
-  		set(THREADS_PREFER_PTHREAD_FLAG ON)
-		find_package(Threads REQUIRED)
-	endif()
+#	if(WIN32 AND CARLSIM_NO_PTHREADS)
+#  		set(THREADS_PREFER_PTHREAD_FLAG ON)
+#		find_package(Threads REQUIRED)
+#	endif()
 
-	if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
-  		set(THREADS_PREFER_CPPTHREAD_FLAG ON)
+#	if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
+#  		set(THREADS_PREFER_CPPTHREAD_FLAG ON)
 		# The concurrency support by the C++ standard library is configured by the CMAKE_CXX_STANDARD. 
-	endif()
+#	endif()
 
 # Targets
 
@@ -152,12 +152,12 @@ set(kernel_SRCS
 	carlsim/kernel/src/spike_buffer.cpp
 )    
 
-if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
-set(kernel_SRCS
-	${kernel_SRCS}
-	carlsim/kernel/src/thread_pool.cpp
-)
-endif()
+#if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
+#set(kernel_SRCS
+#	${kernel_SRCS}
+#	carlsim/kernel/src/thread_pool.cpp
+#)
+#endif()
 
 set(kernel_HDRS
 	carlsim/kernel/inc/cuda_version_control.h
@@ -169,12 +169,12 @@ set(kernel_HDRS
 )
 
 #append 
-if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
-set(kernel_HDRS
-	${kernel_HDRS}
-	carlsim/kernel/inc/thread_pool.h
-)
-endif()
+#if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
+#set(kernel_HDRS
+#	${kernel_HDRS}
+#	carlsim/kernel/inc/thread_pool.h
+#)
+#endif()
 
 
 set(monitor_SRCS      
@@ -302,9 +302,9 @@ if(CARLSIM_NO_PTHREADS)
 	target_compile_definitions(carlsim PUBLIC __NO_PTHREADS__)         
 endif()
 
-if(CARLSIM_NO_CPPTHREADS)
-	target_compile_definitions(carlsim PUBLIC __NO_CPPTHREADS__)         
-endif()
+#if(CARLSIM_NO_CPPTHREADS)
+#	target_compile_definitions(carlsim PUBLIC __NO_CPPTHREADS__)         
+#endif()
 
 
 
@@ -468,7 +468,7 @@ if(UNIX AND NOT CARLSIM_NO_PTHREADS)
 	target_link_libraries(carlsim PRIVATE Threads::Threads)
 endif()
 
-if(WIN32 AND NOT CARLSIM_NO_PTHREADS)
+#[=[if(WIN32 AND NOT CARLSIM_NO_PTHREADS)
 	target_link_libraries(carlsim PRIVATE C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVCE3.lib)
 	#target_link_libraries(carlsim PRIVATE C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVSE3.lib)
 	#target_link_libraries(carlsim PRIVATE C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVC3.lib)
@@ -478,6 +478,7 @@ if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
 	# STDLIB
 endif()
 
+]=]
 #if MS PDH (SDK)
 # additive
 if(WIN32)  
@@ -498,7 +499,6 @@ if(WIN32)
 else()
 	target_link_libraries(carlsim PRIVATE "/home/vyomshah/pcm/build/lib/libpcm.so")
 endif()
-
 
 ### Installation ###
 #install(TARGETS carlsim DESTINATION bin)

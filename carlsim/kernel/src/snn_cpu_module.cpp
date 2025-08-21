@@ -54,10 +54,6 @@
 
 #include <spike_buffer.h>
 
-#ifdef __SELECTED_PTHREADS__
-#include <pthread.h>
-#endif
-
 // spikeGeneratorUpdate_CPU on CPUs
 #ifdef __NO_PTHREADS__
 	void SNN::spikeGeneratorUpdate_CPU(int netId) {
@@ -87,9 +83,6 @@
 		// copy the spikeGenBits from the manager to the CPU runtime
 		memcpy(runtimeData[netId].spikeGenBits, managerRuntimeData.spikeGenBits, sizeof(int) * (networkConfigs[netId].numNSpikeGen / 32 + 1));
 	}
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -98,12 +91,7 @@
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> spikeGeneratorUpdate_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void*)args->thread;  // does not make sense
-#endif
 	}
 #endif
 
@@ -115,9 +103,6 @@
 	assert(runtimeData[netId].memType == CPU_MEM);
 	runtimeData[netId].timeTableD2[simTimeMs + networkConfigs[netId].maxDelay + 1] = runtimeData[netId].spikeCountD2Sec + runtimeData[netId].spikeCountLastSecLeftD2;
 	runtimeData[netId].timeTableD1[simTimeMs + networkConfigs[netId].maxDelay + 1] = runtimeData[netId].spikeCountD1Sec;
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -126,12 +111,8 @@
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> updateTimingTable_CPU(args->netId);
-#ifdef UNIX
+
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void *) args->thread;  // does not make sense
-#endif
 	}
 #endif
 
@@ -265,9 +246,6 @@ void SNN::convertExtSpikesD2_CPU(int netId, int startIdx, int endIdx, int GtoLOf
 	//if (firingTableIdx < endIdx)
 	for (int extIdx = startIdx; extIdx < endIdx; extIdx++)
 		runtimeData[netId].firingTableD2[extIdx] += GtoLOffset;
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -276,12 +254,7 @@ void SNN::convertExtSpikesD2_CPU(int netId, int startIdx, int endIdx, int GtoLOf
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> convertExtSpikesD2_CPU(args->netId, args->startIdx, args->endIdx, args->GtoLOffset);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void*)args->thread;  // does not make sense
-#endif
 	}
 #endif
 
@@ -299,9 +272,6 @@ void SNN::convertExtSpikesD2_CPU(int netId, int startIdx, int endIdx, int GtoLOf
 	// FIXME: if endIdx - startIdx > 64 * 128
 	for (int extIdx = startIdx; extIdx < endIdx; extIdx++)
 		runtimeData[netId].firingTableD1[extIdx] += GtoLOffset;
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -310,12 +280,7 @@ void SNN::convertExtSpikesD2_CPU(int netId, int startIdx, int endIdx, int GtoLOf
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> convertExtSpikesD1_CPU(args->netId, args->startIdx, args->endIdx, args->GtoLOffset);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void*)args->thread;  // does not make sense
-#endif
 	}
 #endif
 
@@ -328,9 +293,6 @@ void SNN::convertExtSpikesD2_CPU(int netId, int startIdx, int endIdx, int GtoLOf
 
 	memset(runtimeData[netId].extFiringTableEndIdxD1, 0, sizeof(int) * networkConfigs[netId].numGroups);
 	memset(runtimeData[netId].extFiringTableEndIdxD2, 0, sizeof(int) * networkConfigs[netId].numGroups);
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -339,12 +301,7 @@ void SNN::convertExtSpikesD2_CPU(int netId, int startIdx, int endIdx, int GtoLOf
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> clearExtFiringTable_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void*)args->thread;  // does not make sense
-#endif
 	}
 #endif
 
@@ -388,9 +345,6 @@ void SNN::copyExtFiringTable(int netId) {
 		int numN = groupConfigs[netId][lGrpId].numN;
 		memset(runtimeData[netId].nSpikeCnt + lStartN, 0, sizeof(int) * numN);
 	}
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -399,12 +353,7 @@ void SNN::copyExtFiringTable(int netId) {
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> resetSpikeCnt_CPU(args->netId, args->lGrpId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void*)args->thread;  // does not make sense
-#endif
 	}
 #endif
 
@@ -444,9 +393,6 @@ void SNN::copyExtFiringTable(int netId) {
 
 		k = k - 1;
 	}
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -455,12 +401,7 @@ void SNN::copyExtFiringTable(int netId) {
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> doCurrentUpdateD1_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void*)args->thread;  // does not make sense
-#endif
 	}
 #endif
 
@@ -517,9 +458,7 @@ void SNN::copyExtFiringTable(int netId) {
 			k = k - 1;
 		}
 	}
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
+
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -528,12 +467,7 @@ void SNN::copyExtFiringTable(int netId) {
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> doCurrentUpdateD2_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void*)args->thread;  // does not make sense
-#endif
 	}
 #endif
 
@@ -711,12 +645,7 @@ void SNN::copyExtFiringTable(int netId) {
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		////printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> doSTPUpdateAndDecayCond_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(arguments);
-		return arguments;
-#endif
 	}
 #endif
 
@@ -829,9 +758,7 @@ void SNN::copyExtFiringTable(int netId) {
 			}
 		}
 	}
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
+
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -840,12 +767,7 @@ void SNN::copyExtFiringTable(int netId) {
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> findFiring_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void*)args->thread;  // does not make sense
-#endif
 	}
 #endif
 
@@ -2124,10 +2046,6 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 	return compCurrent;
 }
 
-#ifdef __SELECTED_PTHREADS__
-#undef __NO_PTHREADS__
-#endif 
-
 #ifdef __NO_PTHREADS__
 	void  SNN::globalStateUpdate_CPU(int netId) {
 #else // POSIX
@@ -2543,9 +2461,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 		memcpy(runtimeData[netId].voltage, runtimeData[netId].nextVoltage, sizeof(float)*networkConfigs[netId].numNReg);
 
 	} // end simNumStepsPerMs loop
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
+
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -2554,20 +2470,9 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		////printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> globalStateUpdate_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit((void*) 0); // no dependends
-		return NULL; // never reached
-#endif
 	}
 #endif
-
-#ifdef __SELECTED_PTHREADS__
-#define __NO_PTHREADS__
-#endif 
-
-
 
 // This function updates the synaptic weights from its derivatives..
 #ifdef __NO_PTHREADS__
@@ -2702,12 +2607,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		////printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> updateWeights_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(arguments);
-		return arguments;
-#endif
 	}
 #endif
 
@@ -2730,9 +2630,6 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 		runtimeData[netId].firingTableD2[k] = runtimeData[netId].firingTableD2[p];
 #ifdef LN_AXON_PLAST
 		runtimeData[netId].firingTimesD2[k] = runtimeData[netId].firingTimesD2[p];
-#endif
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-		return nullptr;
 #endif
 	}
 
@@ -2760,12 +2657,7 @@ float SNN::getCompCurrent(int netid, int lGrpId, int lneurId, float const0, floa
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		////printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> shiftSpikeTables_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(arguments);
-		return arguments;
-#endif
 	}
 #endif
 
@@ -4009,12 +3901,7 @@ void SNN::copyNeuronSpikeCount(int netId, int lGrpId, RuntimeData* dest, Runtime
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		////printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> assignPoissonFiringRate_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(arguments);
-		return arguments;
-#endif
 	}
 #endif
 
@@ -4356,9 +4243,7 @@ void SNN::copySpikeTables(int netId) {
 	//if(runtimeData[netId].!= NULL)
 	// \todo LN2021
 #endif
-#if !defined(__NO_PTHREADS__) && !defined(UNIX)
-	return nullptr;
-#endif
+
 }
 
 #ifndef __NO_PTHREADS__ // POSIX
@@ -4367,11 +4252,6 @@ void SNN::copySpikeTables(int netId) {
 		ThreadStruct* args = (ThreadStruct*) arguments;
 		//printf("\nThread ID: %lu and CPU: %d\n",pthread_self(), sched_getcpu());
 		((SNN *)args->snn_pointer) -> deleteRuntimeData_CPU(args->netId);
-#ifdef UNIX
 		pthread_exit(0);
-#else
-		pthread_exit(args);
-		return (void*)args->thread;  // does not make sense
-#endif
 	}
 #endif

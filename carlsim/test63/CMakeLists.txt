@@ -23,10 +23,10 @@ add_executable(carlsim-tests63
 	#perf_mon.cpp
 	perf_mon_optim.cpp
 	perf_mon_slice.cpp
-	#perf_mon_slice_pcm.cpp
+	perf_mon_slice_pcm.cpp
 	perf_mon_threads.cpp
-	perf_mon_integ.cpp
-	perf_mon_ms_pdh.cpp
+	#perf_mon_integ.cpp
+	#perf_mon_ms_pdh.cpp
 	perf_mon_intel_pcm.cpp
 	perf_mon_partition.cpp
 	#perf_mon_intel_msr.cpp

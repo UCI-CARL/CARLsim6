@@ -112,6 +112,7 @@ https://en.cppreference.com/w/cpp/numeric/random/rand
 
 #else
 
+#include <pthread.h> // pthread
 #include <sys/stat.h> // mkdir
 #include <unistd.h> //unix thread affinity macros
 
