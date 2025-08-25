@@ -164,7 +164,13 @@ public:
 	 * \param loggerMode log mode
 	 * \param randSeed randomize seed of the random number generator
 	 */
-	SNN(const std::string& name, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed);
+	SNN(const std::string& name, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed
+#ifdef CARLSIM_FEAT_SYSPARAMS	
+		,int custom1
+		,int custom2
+		,int custom3
+#endif	
+	);
 
 	//! SNN Destructor
 	/*!
@@ -177,7 +183,9 @@ public:
 	const static unsigned int MAJOR_VERSION = 6; //!< major release version, as in CARLsim X
 	const static unsigned int MINOR_VERSION = 0; //!< minor release version, as in CARLsim 2.X
 
-
+#ifdef CARLSIM_FEAT_SYSPARAMS
+	static std::array<int, CARLSIM_PARAMS> Params;
+#endif
 
 	// +++++ PUBLIC METHODS: SETTING UP A SIMULATION ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
@@ -863,6 +871,13 @@ public:
 #endif
 
 
+#ifdef CARLSIM_FEAT_SYSPARAMS
+	// read command line parameter, polymorphy by arguments
+	static void SNN::InitParams(int argc, char* argv[]);
+	static void SNN::InitParams();
+	static void SNN::InitParams(const char* path);
+	static void SNN::InitParams(int argc, char* argv[], const char* defaultConfPath);
+#endif
 
 	// **************************************************************************************************************** //
 	// PRIVATE METHODS
@@ -1353,6 +1368,12 @@ private:
 	const LoggerMode loggerMode_;	//!< current logger mode (USER, DEVELOPER, SILENT, CUSTOM)
 	const SimMode preferredSimMode_;//!< preferred simulation mode
 	const int randSeed_;			//!< random number seed to use
+
+#ifdef CARLSIM_FEAT_SYSPARAMS
+	int custom1_;
+	int custom2_;
+	int custom3_;
+#endif
 
 	int numGPUs;    //!< number of GPU(s) is used in the simulation
 	int numCores;   //!< number of CPU Core(s) is used in the simulation

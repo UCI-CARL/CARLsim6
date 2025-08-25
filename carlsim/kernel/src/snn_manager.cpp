@@ -89,6 +89,181 @@
 #include <omp.h>
 
 
+#ifdef CARLSIM_FEAT_SYSPARAMS
+#include <regex>
+#include <array>
+
+#include <cstdlib>
+#include <fstream>
+#endif
+
+
+#ifdef CARLSIM_FEAT_SYSPARAMS
+
+std::array<int, CARLSIM_PARAMS> SNN::Params = { -1, -1, -1, -1, -1, -1, -1 };
+
+static bool DebugParams = false;
+
+void SNN::InitParams(int argc, char* argv[], const char* defaultConfPath) {
+
+	// Activate print the setting the environment variable CARLSIM_LOG_PARAMS to any value. 
+	// More finer printing can be achieved by utilizing CARLsim logger level (INFO, DEBUG, DEV). 
+	// HINT: KERNEL_INFO cannot be used as it requires the SNN object. 
+	DebugParams = std::getenv("CARLSIM_LOG_PARAMS");
+
+	std::string prg_path = argv[0];
+// if windows
+	std::regex pattern("^(.*).exe$");
+	std::smatch match;
+	std::regex_match(prg_path, match, pattern);
+	std::string conf_path = match[1];
+// else
+//  conf_apth = prg_path;
+	conf_path.append(".conf");
+
+	std::ifstream infile(conf_path);
+	auto path = infile.good() ? conf_path.c_str() : defaultConfPath;
+	infile.close();
+
+	// Set the CARLsim parameters by precedence CLI, environment variable, and config file:
+	DebugParams ? printf("CARLsim parameters set from paramter file:\n(%s)\n", path) : 0;
+	InitParams(path);
+	DebugParams ? printf("CARLsim parameters set by environment variables:\n") : 0;
+	InitParams();
+	DebugParams ? printf("CARLsim parameter set with CLI:\n") : 0;
+	InitParams(argc, argv);
+}
+
+void SNN::InitParams(int argc, char* argv[]) {
+
+	std::vector<std::string> args(argv + 1, argv + argc);
+
+	// define regexp to carlsim parameters which are defined by the prefix "--carlsim"
+	std::regex prefix("^--carlsim.*$"); 
+	std::regex keyvalue("^--(carlsim_[a-z0-9_]+)=([0-9]+)$"); // matches carlsim parameter value pairs 
+	//std::regex keyvalue("^--(carlsim_[a-z\\d_]+)=(\\d+)$"); // variant utilizing regexp digits \d
+
+	for (const auto& arg : args) {
+
+		// transform argument to upper and upper case
+		std::string lc_arg = arg; // lower case arg
+		std::transform(lc_arg.begin(), lc_arg.end(), lc_arg.begin(),
+			[](unsigned char c) { return std::tolower(c); });
+
+		// handle CARLsim arguments and ignore others
+		if (std::regex_match(lc_arg, prefix)) {
+			std::smatch match;
+			std::regex_match(lc_arg, match, keyvalue);
+			std::string param = match[1];
+			std::string value = match[2];
+			// index of parameter, uppercase
+			std::string uc_param = param;  // arg as upper case
+			std::transform(uc_param.begin(), uc_param.end(), uc_param.begin(),
+				[](unsigned char c) { return std::toupper(c); });
+            
+			// transform the const char* definitions to an std::array
+            std::array<std::string, CARLSIM_PARAMS> params;
+            std::copy_n(CarlsimParameter_string, CARLSIM_PARAMS, params.begin());			
+
+			// find corresponding parameter 
+			auto it = params.begin(); 
+			it = std::find(params.begin(), params.end(), uc_param);
+			UserErrors::assertTrue(it != params.end(), UserErrors::UNKNOWN_PARAMETER, "SNN::initParams()", lc_arg.c_str());
+			
+			// convert its value to int
+			auto ivalue = std::stoi(value);
+
+			// transform the iterator to an index for the enum
+			int index = std::distance(params.begin(), it);
+
+			// finally set the parameter
+			Params[(CarlsimParam)index] = ivalue;
+
+			DebugParams ? printf("%s = %d\n", uc_param.c_str(), ivalue) : 0;
+		}
+	}
+}
+
+
+void SNN::InitParams() {
+	// transform the const char* definitions to an std::array
+	std::array<std::string, CARLSIM_PARAMS> params;
+	std::copy_n(CarlsimParameter_string, CARLSIM_PARAMS, params.begin());
+
+	//for (const auto &param : params) {
+	for(auto it=params.begin(); it < params.end(); it++) {
+
+		const auto &param = (*it).c_str();
+		auto envvar = std::getenv(param);
+		if(envvar != nullptr) {	
+
+			// convert its value to int
+			//auto ivalue = std::stoi(env_var);
+			auto ivalue = std::stoi(envvar);
+
+			int index = std::distance(params.begin(), it);
+
+			// finally set the parameter
+			Params[(CarlsimParam)index] = ivalue;
+
+			//KERNEL_INFO("ENV %s = %s", param, envvar);  // cannot be used as it requires the SNN object
+			DebugParams ? printf("%s = %d\n", param, ivalue) : 0;
+		}
+	}
+}
+
+
+void SNN::InitParams(const char* path) {
+
+	//std::regex keyvalue("^--(carlsim_[a-z0-9_]+)=([0-9]+)$"); // matches carlsim parameter value pairs 
+	//std::regex keyvalue("^(carlsim_[a-z0-9_]+)=([0-9]+)$");
+	std::regex keyvalue("^(carlsim_[a-z0-9_]+)\\s*=\\s*([0-9]+)$");
+	
+	std::ifstream infile(path);
+	std::string line;
+	while (std::getline(infile, line)) {
+
+		std::smatch match;
+		if (std::regex_match(line, match, keyvalue)) {
+
+			std::string param = match[1];
+			std::string value = match[2];
+
+			// index of parameter, uppercase
+			std::string uc_param = param;  // arg as upper case
+			std::transform(uc_param.begin(), uc_param.end(), uc_param.begin(),
+				[](unsigned char c) { return std::toupper(c); });
+
+			// transform the const char* definitions to an std::array
+			std::array<std::string, CARLSIM_PARAMS> params;
+			std::copy_n(CarlsimParameter_string, CARLSIM_PARAMS, params.begin());
+
+			// find corresponding parameter 
+			auto it = params.begin();
+			it = std::find(params.begin(), params.end(), uc_param);
+			UserErrors::assertTrue(it != params.end(), UserErrors::UNKNOWN_PARAMETER, "SNN::initParams()", line.c_str());
+
+			// convert its value to int
+			auto ivalue = std::stoi(value);
+
+			// transform the iterator to an index for the enum
+			int index = std::distance(params.begin(), it);
+
+			// finally set the parameter
+			Params[(CarlsimParam)index] = ivalue;
+
+			DebugParams ? printf("%s = %d\n", uc_param.c_str(), ivalue) : 0;
+
+		}
+
+	}
+
+	infile.close(); 
+}
+
+
+#endif
+
 
 // \FIXME what are the following for? why were they all the way at the bottom of this file?
 
@@ -101,13 +276,25 @@
 
 
 // TODO: consider moving unsafe computations out of constructor
-SNN::SNN(const std::string& name, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed)
-					: networkName_(name), preferredSimMode_(preferredSimMode), loggerMode_(loggerMode),
-					  randSeed_(SNN::setRandSeed(randSeed)) // all of these are const
+SNN::SNN(const std::string& name, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed
+#ifdef CARLSIM_FEAT_SYSPARAMS
+	, int custom1, int custom2, int custom3
+#endif
+            ): networkName_(name), preferredSimMode_(preferredSimMode), loggerMode_(loggerMode),
+					  randSeed_(SNN::setRandSeed(randSeed))  // all of these are const
+#ifdef CARLSIM_FEAT_SYSPARAMS
+	, custom1_(custom1)
+	, custom2_(custom2)
+	, custom3_(custom3)
+#endif
 {
 	// move all unsafe operations out of constructor
 	SNNinit();
 }
+
+
+
+
 
 // destructor
 SNN::~SNN() {

@@ -56,6 +56,7 @@
 
 #include <cmath>
 #include <vector>
+#include <array>
 
 typedef std::map<std::tuple<int, int>, uint8_t> delay_map_t;
 
@@ -173,8 +174,24 @@ TEST(PerfMon, partition) {
 	int rows = N / columns;
 
 
-	//CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, SILENT, 0, 42);
-	CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, USER, 0, 42);
+	// see main.cpp
+	//CARLsim::InitParams("carlsim.conf");
+	//CARLsim::InitParams(); // Env.
+	//xx
+
+	// Overwrites
+	CARLsim::Params()[LOGGER_MODE_PARAM] = USER;
+
+	CARLsim::Params()[RAND_SEED_PARAM] = 40;  // trigger exception
+
+	//CARLsim::Params()[CARLSIM_LOGGER_MODE] = USER;
+
+	//CARLsim::NParams = 4;
+	//auto devices = CARLsim::cudaDeviceCount();
+
+
+	CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, SILENT, 0, 42);
+	//CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, USER, 0, 42);
 	//CARLsim* sim = new CARLsim("PerfMon.partition", GPU_MODE, USER, 0, 42);
 
 	sim->setConductances(true);
@@ -336,7 +353,15 @@ x4.5 sicherheit ggü. RT --> learning or sparse processing --> see slow down
 	// GPU 100,200,400,800 
 	//const int slice = 100;
 	const int slice = ms;  // ms
-	for (int t = 0; t < 500*2*100; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
+
+	// does the param work together with gtest ?see main...
+	// do implement as CARLsim::static
+	// carlsimParam,  carlsimCmd, carlsimConfFile, carlsimEnvVars
+	int t_model = CARLsim::Params()[CUSTOM_1_PARAM]; // CARLSIM_CUSTOM_1 = 10000
+	if (t_model == -1)
+		t_model = 100; // ms
+
+	for (int t = 0; t < 500 * 2 * t_model; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
  
 		if(bPerfMon) 
 			perfMon->startRecording();

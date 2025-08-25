@@ -157,6 +157,58 @@ static const char* ComputingBackend_string[] = {
 };
 
 
+#define CARLSIM_FEAT_SYSPARAMS
+
+#ifdef CARLSIM_FEAT_SYSPARAMS
+/*! 
+ * \brief System prameters for CARLsim
+ * 
+ * Parameter to configure CARLsim by command line argument, parameter file, and environment variables.
+ *
+ */
+// naming with prefix
+//enum CarlsimParam {
+//	CARLSIM_SIM_MODE,
+//	CARLSIM_LOGGER_MODE,
+//	CARLSIM_ITH_GPU,
+//	CARLSIM_RAND_SEED,
+//	CARLSIM_PARAMS_SIZE
+//};
+// naming to CARLsim style. the usage is context in CARLsim 
+// e.g. CARLsim::Params()[LOGGER_MODE_PARAM] = USER;
+enum CarlsimParam {
+	SIM_MODE_PARAM,
+	LOGGER_MODE_PARAM,
+	ITH_GPU_PARAM,
+	RAND_SEED_PARAM,
+	CUSTOM_1_PARAM,
+	CUSTOM_2_PARAM,
+	CUSTOM_3_PARAM,
+	CARLSIM_PARAMS
+};
+
+// names as to be used in parameter files, environment variables, and as command line parameter
+// here the prefix is mandatory as the context is not CARLsim
+static const char* CarlsimParameter_string[] = {
+	"CARLSIM_SIM_MODE",
+	"CARLSIM_LOGGER_MODE",
+	"CARLSIM_ITH_GPU",
+	"CARLSIM_RAND_SEED",
+	"CARLSIM_CUSTOM_1",
+	"CARLSIM_CUSTOM_2",
+	"CARLSIM_CUSTOM_3",
+	""
+};
+
+#endif
+
+
+
+
+
+
+
+
 // \TODO: extend documentation, add relevant references
 /*!
  * \brief STDP flavors

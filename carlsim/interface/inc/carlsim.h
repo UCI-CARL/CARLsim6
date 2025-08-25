@@ -54,6 +54,7 @@
 #include <string>		// std::string
 #include <vector>		// std::vector
 #include <algorithm>
+#include <array>
 
 #include <carlsim_definitions.h>
 #include <carlsim_datastructures.h>
@@ -128,6 +129,7 @@ https://en.cppreference.com/w/cpp/numeric/random/rand
 //}
 
 
+
 /*!
  * \brief CARLsim User Interface
  * This class provides a user interface to the public sections of CARLsimCore source code. Example networks that use
@@ -155,6 +157,7 @@ https://en.cppreference.com/w/cpp/numeric/random/rand
  *
  */
 class CARLSIM_API CARLsim {
+
 public:
 	// +++++ PUBLIC METHODS: CONSTRUCTOR / DESTRUCTOR +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
@@ -191,7 +194,13 @@ public:
 	 * \see setLogFile
 	 * \see setLogsFpCustom
 	 */
-	CARLsim(const std::string& netName = "SNN", SimMode preferredSimMode = CPU_MODE, LoggerMode loggerMode = USER, int ithGPUs = 0, int randSeed = -1);
+	CARLsim(const std::string& netName = "SNN", SimMode preferredSimMode = CPU_MODE, LoggerMode loggerMode = USER, int ithGPUs = 0, int randSeed = -1
+#ifdef CARLSIM_FEAT_SYSPARAMS
+		,int custom1 = -1
+		,int custom2 = -1
+		,int custom3 = -1
+#endif
+		);
 	~CARLsim();
 
 
@@ -2153,6 +2162,25 @@ public:
 	 */
 	static void cudaDeviceDescription(unsigned ithGPU, const char **desc);
 		
+
+#ifdef CARLSIM_FEAT_SYSPARAMS
+
+	// delegate external to Impl
+	static std::array<int, CARLSIM_PARAMS>& Params();
+
+	/*! 
+	 * \brief read the parameters from command line
+	 */
+	static void InitParams(int argc, char* argv[]); 
+
+	static void InitParams();
+
+	static void InitParams(const char* path);
+
+	static void InitParams(int argc, char* argv[], const char* path);
+
+#endif
+
 
 
 private:

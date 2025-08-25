@@ -58,6 +58,7 @@
 #include <iostream>		// std::cout, std::endl
 #include <sstream>		// std::stringstream
 #include <algorithm>	// std::find, std::transform
+#include <array>		// std::params
 
 #include <snn.h>
 
@@ -75,16 +76,33 @@
 // but do document your code.
 
 
+//std::array<int, CARLsim::CARLSIM_PARAMS_SIZE> CARLsim::params = { -1, -1, -1, -1 };
+
+//int CARLsim::NParams = 4;
+
+
 
 class CARLsim::Impl {
 public:
 	// +++++ PUBLIC METHODS: SETUP / TEAR-DOWN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
-	Impl(CARLsim* sim, const std::string& netName, SimMode prferredSimMode, LoggerMode loggerMode, int randSeed) {
+	Impl(CARLsim* sim, const std::string& netName, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed
+#ifdef CARLSIM_FEAT_SYSPARAMS	
+		, int custom1, int custom2, int custom3
+#endif
+	) {
 		netName_ 					= netName;
 		loggerMode_ 				= loggerMode;
-		preferredSimMode_			= prferredSimMode;
+		preferredSimMode_			= preferredSimMode;
 		randSeed_					= randSeed;
+
+		custom1_ = custom1;
+		custom2_ = custom2;
+		custom3_ = custom3; 
+
+		//loggerMode_ 				= CARLsim::params[CARLSIM_LOGGER_MODE] == -1 ? loggerMode : (LoggerMode) params[CARLSIM_LOGGER_MODE];
+		//preferredSimMode_			= CARLsim::params[CARLSIM_SIM_MODE] == -1 ? preferredSimMode : (SimMode) CARLsim::params[CARLSIM_SIM_MODE];
+		//randSeed_					= CARLsim::params[CARLSIM_RAND_SEED] == -1 ? randSeed : CARLsim::params[CARLSIM_RAND_SEED];
 		enablePrint_ = false;
 		copyState_ = false;
 
@@ -1996,10 +2014,34 @@ private:
 		bool gpuAllocationResult = false;
 		std::string funcName = "CARLsimInit()";
 
-		UserErrors::assertTrue(loggerMode_!=UNKNOWN_LOGGER,UserErrors::CANNOT_BE_UNKNOWN,"CARLsim()","Logger mode");
+		//// Parameter Overwrites
+		//loggerMode_ = SNN::Params[CARLSIM_LOGGER_MODE] == -1 ? loggerMode_ : (LoggerMode)SNN::Params[CARLSIM_LOGGER_MODE];
+		//preferredSimMode_ = SNN::Params[CARLSIM_SIM_MODE] == -1 ? preferredSimMode_ : (SimMode)SNN::Params[CARLSIM_SIM_MODE];
+		//randSeed_ = SNN::Params[CARLSIM_RAND_SEED] == -1 ? randSeed_ : SNN::Params[CARLSIM_RAND_SEED];
+
+		// Parameter Overwrites
+		loggerMode_ = SNN::Params[LOGGER_MODE_PARAM] == -1 ? loggerMode_ : (LoggerMode)SNN::Params[LOGGER_MODE_PARAM];
+		preferredSimMode_ = SNN::Params[SIM_MODE_PARAM] == -1 ? preferredSimMode_ : (SimMode)SNN::Params[SIM_MODE_PARAM];
+		randSeed_ = SNN::Params[RAND_SEED_PARAM] == -1 ? randSeed_ : SNN::Params[RAND_SEED_PARAM];
+
+		custom1_ = SNN::Params[CUSTOM_1_PARAM] == -1 ? randSeed_ : SNN::Params[CUSTOM_1_PARAM];
+
+
+		// Check for configuration errors
+		UserErrors::assertTrue(loggerMode_ >= USER && loggerMode_ <= CUSTOM, UserErrors::HAS_INVALID_VALUE, "CARLsim()", "Logger mode");
+		UserErrors::assertTrue(preferredSimMode_ >= CPU_MODE && preferredSimMode_ <= HYBRID_MODE, UserErrors::HAS_INVALID_VALUE, "CARLsim()", "Preferred sim mode");
+		UserErrors::assertTrue(randSeed_ > 0, UserErrors::HAS_INVALID_VALUE, "CARLsim()", "randSeed");
+
+		// Orignal check for user error 
+		UserErrors::assertTrue(loggerMode_ != UNKNOWN_LOGGER, UserErrors::CANNOT_BE_UNKNOWN, "CARLsim()", "Logger mode");
+
 
 		// init SNN object
-		snn_ = new SNN(netName_, preferredSimMode_, loggerMode_, randSeed_);
+		snn_ = new SNN(netName_, preferredSimMode_, loggerMode_, randSeed_
+#ifdef CARLSIM_FEAT_SYSPARAMS
+			, custom1_, custom2_, custom3_
+#endif 
+		);
 
 		// set default time constants for synaptic current decay
 		// TODO: add ref
@@ -2070,6 +2112,11 @@ private:
 	int randSeed_;              //!< RNG seed
 	LoggerMode loggerMode_;     //!< logger mode (USER, DEVELOPER, SILENT, CUSTOM)
 	SimMode preferredSimMode_;  //!< preferred simulation mode (CPU_MODE, GPU_MODE, HYBRID_MODE)
+
+	int custom1_;		//!< custom int parameter 1 CARLSIM_CUSTOM_1
+	int custom2_;
+	int custom3_;
+
 	bool enablePrint_;
 	bool copyState_;
 
@@ -2131,8 +2178,6 @@ private:
 };
 
 
-
-
 // ****************************************************************************************************************** //
 // CARLSIM API IMPLEMENTATION
 // ****************************************************************************************************************** //
@@ -2148,8 +2193,16 @@ pthread_mutex_t CARLsim::Impl::gpuAllocationLock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
 // constructor / destructor
-CARLsim::CARLsim(const std::string& netName, SimMode preferredSimMode, LoggerMode loggerMode, int ithGPUs, int randSeed) : 
-_impl( new Impl(this, netName, preferredSimMode, loggerMode, randSeed) ) {}
+CARLsim::CARLsim(const std::string& netName, SimMode preferredSimMode, LoggerMode loggerMode, int ithGPUs, int randSeed
+#ifdef CARLSIM_FEAT_SYSPARAMS
+	, int custom1, int custom2, int custom3
+#endif
+) : 
+_impl( new Impl(this, netName, preferredSimMode, loggerMode, randSeed
+#ifdef CARLSIM_FEAT_SYSPARAMS
+	, custom1, custom2, custom3
+#endif
+) ) {}
 CARLsim::~CARLsim() { delete _impl; }
 
 // connect with primitive type
@@ -2733,6 +2786,31 @@ void CARLsim::cudaDeviceDescription(unsigned ithGPU, const char** desc) {
 	SNN::cudaDeviceDescription(ithGPU, desc);
 }
 
+#ifdef CARLSIM_FEAT_SYSPARAMS
+std::array<int, CARLSIM_PARAMS>& CARLsim::Params() {
+	return SNN::Params;
+}
+
+// read command line parameter (with polymorphy by arguments)
+void CARLsim::InitParams(int argc, char* argv[]) {
+	SNN::InitParams(argc, argv);
+}
+
+// from env var
+void CARLsim::InitParams() {
+	SNN::InitParams();
+}
+
+// read from config file
+void CARLsim::InitParams(const char* path) {
+	SNN::InitParams(path);
+}
+
+void CARLsim::InitParams(int argc, char* argv[], const char* path) {
+	SNN::InitParams(argc, argv, path);
+}
+
+#endif
 
 #endif
 

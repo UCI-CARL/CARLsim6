@@ -102,6 +102,10 @@ void UserErrors::throwError(std::string errorFunc, errorType error, std::string 
 		errorMsg += " is unknown."; break;
 	case WRONG_NEURON_TYPE:
 		errorMsg += " cannot be called on this neuron type."; break;
+	case HAS_INVALID_VALUE:
+		errorMsg += " has been assigned an invalid value."; break;
+	case UNKNOWN_PARAMETER:
+		errorMsg += " is an unknown parameter."; break;
 	case UNKNOWN:
 	default:
 		errorMsg += ". An unknown error has occurred."; break;

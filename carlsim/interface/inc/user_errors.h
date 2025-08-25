@@ -60,8 +60,10 @@ public:
 		MUST_HAVE_SAME_SIGN,	//!< some parameters must have the same sign
 		NETWORK_ALREADY_RUN,	//!< function cannot be called because network has already bun run
 		UNKNOWN_GROUP_ID,		//!< the specified group id is unknown
-		UNKNOWN,				//!< an unknown error
-		WRONG_NEURON_TYPE		//!< function cannot be applied to neuron type
+		WRONG_NEURON_TYPE,		//!< function cannot be applied to neuron type
+		HAS_INVALID_VALUE,		//!< system parameter has been assigned an invalid value
+		UNKNOWN_PARAMETER,		//!< system parameter is not supported by CARLsim
+		UNKNOWN 				//!< an unknown error
 	};
 
 

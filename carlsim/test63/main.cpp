@@ -2,6 +2,7 @@
 
 #include "gtest/gtest.h"
 
+#include "carlsim.h"
 
 // --gtest_filter=ADK13.*
 // --gtest_filter=*NrnMon*
@@ -14,6 +15,9 @@
 
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
+
+	CARLsim::InitParams(argc, argv, "carlsim.conf");
+
 	return RUN_ALL_TESTS();
 }
 
