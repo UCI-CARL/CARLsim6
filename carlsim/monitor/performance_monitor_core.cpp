@@ -63,7 +63,7 @@ PerformanceMonitorCore* PerformanceMonitorCore::create(SNN* snn, int monitorId, 
 
 	// Enum is defined in see carlsim_definitions.h   
 	switch (backend) {
-		case PMB_MS: return new PerformanceMonitorMs(snn, monitorId, sampleRate);
+		//case PMB_MS: return new PerformanceMonitorMs(snn, monitorId, sampleRate);
 		case PMB_INTEL: return new PerformanceMonitorIntel(snn, monitorId, sampleRate);
 		// ARM, AMD, LNX ... 
 		default: 

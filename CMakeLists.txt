@@ -188,7 +188,7 @@ set(monitor_SRCS
 	carlsim/monitor/neuron_monitor.cpp
 	carlsim/monitor/performance_monitor_core.cpp
 	carlsim/monitor/performance_monitor_intel.cpp 
-	carlsim/monitor/performance_monitor_ms.cpp 
+	#carlsim/monitor/performance_monitor_ms.cpp 
 	carlsim/monitor/performance_monitor.cpp
 	carlsim/monitor/spike_monitor_core.cpp
 	carlsim/monitor/spike_monitor.cpp        
@@ -204,7 +204,7 @@ set(monitor_HDRS
 	carlsim/monitor/neuron_monitor.h
 	carlsim/monitor/performance_monitor_core.h
 	carlsim/monitor/performance_monitor_intel.h
-	carlsim/monitor/performance_monitor_ms.h
+	#carlsim/monitor/performance_monitor_ms.h
 	carlsim/monitor/performance_monitor.h
 	carlsim/monitor/spike_monitor_core.h
 	carlsim/monitor/spike_monitor.h

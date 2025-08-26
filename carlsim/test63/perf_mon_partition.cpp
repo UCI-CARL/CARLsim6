@@ -184,13 +184,13 @@ TEST(PerfMon, partition) {
 	const size_t length = 100; 
 	char name[length];
 	for (int i = 0; i < N_exc; i++) {
-		sprintf_s<length>(name, "g_exc%i", i);
+		snprintf(name, length, "g_exc%i", i);
 		g_exc[i] = sim->createGroup(name, N, EXCITATORY_NEURON, i);  // core 1..n for exc cluster
 		sim->setNeuronParameters(g_exc[i], 0.02f, 0.2f, -65.0f, 8.0f);
 	}
 
 	for (int i = 0; i < N_exc+1; i++) {
-		sprintf_s<length>(name, "g_inter%i", i);
+		snprintf(name, length, "g_inter%i", i);
 		g_inter[i] = sim->createGroup(name, 1, EXCITATORY_NEURON, 0);  // core 0 is common base
 		sim->setNeuronParameters(g_inter[i], 0.02f, 0.2f, -65.0f, 8.0f);
 	}
@@ -250,14 +250,14 @@ TEST(PerfMon, partition) {
 	EXPECT_FALSE(perfMon->getPersistentData());	
 
 	int nCores = 16;
-	bool bPerfMon = true; 
+	bool bPerfMon = false; 
 	bool bSpikeMon = true;
 
 	// CPU 3.5 s  3500
 	// GPU 100,200,400,800 
 	//const int slice = 100;
 	const int slice = ms;  // ms
-	for (int t = 0; t < 500*2; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
+	for (int t = 0; t < 500*2*30; t += slice) {   // we do expect 4 x 100ms load on cores 1..4
  
 		if(bPerfMon) perfMon->startRecording();
 		if (bSpikeMon) {

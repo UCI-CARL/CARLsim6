@@ -957,6 +957,27 @@ public:
 		}
 	}
 
+	// set ISTDP by stdp curve
+	void setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve) {
+		std::string funcName = "setESTDP(\"" + getGroupName(preGrpId) + ", " + getGroupName(postGrpId) + "\")";
+		UserErrors::assertTrue(!isSet || isSet && !isPoissonGroup(postGrpId), UserErrors::WRONG_NEURON_TYPE, funcName,
+			funcName);
+		UserErrors::assertTrue(type != UNKNOWN_STDP, UserErrors::CANNOT_BE_UNKNOWN, funcName, "Mode");
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE, UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName,
+			funcName, "CONFIG.");
+
+		hasSetSTDPALL_ = postGrpId == ALL; // adding groups after this will not have conductances set
+
+		if (isSet) { // enable STDP, use custom values
+			snn_->setESTDP(preGrpId, postGrpId, true, type, curve.stdpCurve, curve.betaLTP, curve.betaLTD, curve.lambda, curve.delta);
+		}
+		else { // disable STDP and DA-STDP as well
+			snn_->setESTDP(preGrpId, postGrpId, false, UNKNOWN_STDP, UNKNOWN_CURVE, 0.0f, 0.0f, 1.0f, 1.0f);
+		}
+	}
+
+
+
 	// set STP, default
 	void setSTP(int grpId, bool isSet) {
 		std::string funcName = "setSTP(\""+getGroupName(grpId)+"\")";
@@ -1366,6 +1387,79 @@ public:
 		// return NeuronMonitor object
 		return snn_->setNeuronMonitor(grpId, fid);
 	}
+
+	// set neuron monitor for group and write neuron state values (AMPA, NMDA, GABAa, GABAb, and total EXC and INH values) to file
+	CobaMonitor* setCobaMonitor(int grpId, const std::string& fileName) {
+		std::string funcName = "setCobaMonitor(\"" + getGroupName(grpId) + "\",\"" + fileName + "\")";
+		UserErrors::assertTrue(grpId != ALL, UserErrors::ALL_NOT_ALLOWED, funcName, "grpId");		// grpId can't be ALL
+		UserErrors::assertTrue(grpId >= 0, UserErrors::CANNOT_BE_NEGATIVE, funcName, "grpId"); // grpId can't be negative
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE,
+			UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
+
+		FILE* fid;
+		std::string fileNameLower = fileName;
+		std::transform(fileNameLower.begin(), fileNameLower.end(), fileNameLower.begin(), ::tolower);
+		if (fileNameLower == "null") {
+			// user does not want a binary file created
+			fid = NULL;
+		}
+		else {
+			// try to open spike file
+			if (fileNameLower == "default") {
+				std::string fileNameDefault = "results/c_" + snn_->getGroupName(grpId) + ".dat";
+				fid = fopen(fileNameDefault.c_str(), "wb");
+				if (fid == NULL) {
+					std::string fileError = " Make sure results/ exists.";
+					UserErrors::assertTrue(false, UserErrors::FILE_CANNOT_OPEN, funcName, fileNameDefault, fileError);
+				}
+			}
+			else {
+				fid = fopen(fileName.c_str(), "wb");
+				if (fid == NULL) {
+					std::string fileError = " Double-check file permissions and make sure directory exists.";
+					UserErrors::assertTrue(false, UserErrors::FILE_CANNOT_OPEN, funcName, fileName, fileError);
+				}
+			}
+		}
+		//printf("\n\n before snn_->setCobaMonitor \n \n");
+		// return CobaMonitor object
+		return snn_->setCobaMonitor(grpId, fid);
+	}
+	
+	PerformanceMonitor* setPerformanceMonitor(PerformanceMonitorBackend backend, const std::string& fileName) {
+		std::string funcName = "setPerformanceMonitor(\"" + fileName + "\")";
+		UserErrors::assertTrue(carlsimState_ == CONFIG_STATE,
+			UserErrors::CAN_ONLY_BE_CALLED_IN_STATE, funcName, funcName, "CONFIG.");
+
+		FILE* fid;
+		std::string fileNameLower = fileName;
+		std::transform(fileNameLower.begin(), fileNameLower.end(), fileNameLower.begin(), ::tolower);
+		if (fileNameLower == "null") {
+			// user does not want a binary file created
+			fid = NULL;
+		}
+		else {
+			// try to open spike file
+			if (fileNameLower == "default") {
+				std::string fileNameDefault = "results/p_CARLsim.dat";  // snn_->getNetName()
+				fid = fopen(fileNameDefault.c_str(), "wb");
+				if (fid == NULL) {
+					std::string fileError = " Make sure results/ exists.";
+					UserErrors::assertTrue(false, UserErrors::FILE_CANNOT_OPEN, funcName, fileNameDefault, fileError);
+				}
+			}
+			else {
+				fid = fopen(fileName.c_str(), "wb");
+				if (fid == NULL) {
+					std::string fileError = " Double-check file permissions and make sure directory exists.";
+					UserErrors::assertTrue(false, UserErrors::FILE_CANNOT_OPEN, funcName, fileName, fileError);
+				}
+			}
+		}
+		return snn_->setPerformanceMonitor(backend, fid);
+	}
+	
+
 
 	// assign spike rate to poisson group
 	void setSpikeRate(int grpId, PoissonRate* spikeRate, int refPeriod) {
@@ -2066,6 +2160,7 @@ short int CARLsim::connect(int grpId1, int grpId2, const std::string& connType, 
 
 // connect with custom ConnectionGenerator (short)
 // TODO: don't need two versions of this... make it (grpId1, grpId2, conn, synWtType, mulSynFast, mulSynSlow)
+// WP: Target grp and network has no COBA
 short int CARLsim::connect(int grpId1, int grpId2, ConnectionGenerator* conn, bool synWtType) {
 	return _impl->connect(grpId1, grpId2, conn, synWtType);
 }
@@ -2260,6 +2355,13 @@ void CARLsim::setISTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, P
 	_impl->setISTDP(preGrpId, postGrpId, isSet, type, curve);
 }
 
+
+
+// Sets E-STDP with the pulse curve
+void CARLsim::setESTDP(int preGrpId, int postGrpId, bool isSet, STDPType type, PulseCurve curve) {
+	_impl->setESTDP(preGrpId, postGrpId, isSet, type, curve);
+}
+
 // Sets STP params U, tau_u, and tau_x of a neuron group (pre-synaptically)
 void CARLsim::setSTP(int grpId, bool isSet, float STP_U, float STP_tau_u, float STP_tau_x) {
 	_impl->setSTP(grpId, isSet, STP_U, STP_tau_u, STP_tau_x);
@@ -2376,6 +2478,17 @@ SpikeMonitor* CARLsim::setSpikeMonitor(int grpId, const std::string& fileName) {
 NeuronMonitor* CARLsim::setNeuronMonitor(int grpId, const std::string& fileName) {
 	return _impl->setNeuronMonitor(grpId, fileName);
 }
+
+// Sets a Neuron Monitor for a groups, prints neuron state values (voltage, recovery, and total current values) to binary file
+CobaMonitor* CARLsim::setCobaMonitor(int grpId, const std::string& fileName) {
+	return _impl->setCobaMonitor(grpId, fileName);
+}
+
+// Sets a Performance Monitor for a type, writes util, ipc, freq, energy per core to a binary file
+PerformanceMonitor* CARLsim::setPerformanceMonitor(PerformanceMonitorBackend backend, const std::string& fileName) {
+	return _impl->setPerformanceMonitor(backend, fileName);
+}
+
 
 // Sets a spike rate
 void CARLsim::setSpikeRate(int grpId, PoissonRate* spikeRate, int refPeriod) {
@@ -2615,12 +2728,10 @@ int CARLsim::cudaDeviceCount() {
 	return SNN::cudaDeviceCount();
 }
 
-#ifndef __NO_CUDA__
 // LN Extension 20201017
 void CARLsim::cudaDeviceDescription(unsigned ithGPU, const char** desc) {
 	SNN::cudaDeviceDescription(ithGPU, desc);
 }
-#endif 
+
 
 #endif
-

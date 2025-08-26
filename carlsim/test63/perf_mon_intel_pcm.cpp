@@ -57,12 +57,15 @@
 
 //  https://learn.microsoft.com/en-us/windows/win32/api/pdh/nf-pdh-pdhgetformattedcounterarraya
 
-#include <windows.h>
+//#include <windows.h>
 #include <stdio.h>
 
 // #ifdef INTEL_PCM
 
-#include <pcm-lib.h>
+//#include <pcm-lib.h>
+#include <cpucounters.h>
+#include <pci.h>
+#include <utils.h>
 
 using namespace pcm;
 

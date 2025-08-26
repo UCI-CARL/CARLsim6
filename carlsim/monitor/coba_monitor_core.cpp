@@ -341,7 +341,7 @@ void CobaMonitorCore::print(bool meanOnly) {
 #if defined(WIN32) || defined(WIN64)
 			_snprintf(volts, 10, "%4.4f ", vectorAMPA_[i][j]);
 #else
-			snprintf(volts, 10, "%4.4f ", vectorV_[i][j]);
+			snprintf(volts, 10, "%4.4f ", vectorAMPA_[i][j]);
 #endif
 			strcat(buffer, volts);
 			if (j%dispAmpaPerRow == dispAmpaPerRow-1 && j<nV-1) {

@@ -134,7 +134,7 @@ TEST(PerfMon, threads) {
 
 	}
 
-	PerformanceMonitor* perfMon = sim->setPerformanceMonitor(PMB_MS, "DEFAULT");
+	PerformanceMonitor* perfMon = sim->setPerformanceMonitor(PMB_INTEL, "DEFAULT");
 	perfMon->setSampleRate(10);
 
 

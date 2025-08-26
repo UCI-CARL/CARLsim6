@@ -84,7 +84,7 @@ TEST(PerfMon, slice) {
 
 	//NeuronMonitor* nrnMon = sim->setNeuronMonitor(g1, "DEFAULT");
 
-	PerformanceMonitor* perfMon = sim->setPerformanceMonitor(PMB_MS, "DEFAULT");  
+	PerformanceMonitor* perfMon = sim->setPerformanceMonitor(PMB_INTEL, "DEFAULT");  
 	perfMon->setSampleRate(10);
 
 	// synfire FFI 

@@ -4,12 +4,14 @@
 #include <cstdlib>
 #include <spikegen_from_vector.h>
 #include <normal_spikegen.h>
+#include <snn_definitions.h>
+
 #include <iostream>
 
 int main(int argc, const char* argv[]) {
 	// ---------------- CONFIG STATE -------------------
 #ifdef __NO_CUDA__
-	CARLsim sim("synfire_network", CPU_MODE, DEVELOPER);
+	CARLsim sim("synfire_network", CPU_MODE, DEVELOPER, 5);
 #else
 	CARLsim sim("synfire_network", GPU_MODE, DEVELOPER);
 #endif
@@ -31,15 +33,14 @@ int main(int argc, const char* argv[]) {
 
 	NormalSpikeGenerator spikegen =  NormalSpikeGenerator(10.0f, 2.4f, 400, false);
 
-
 	// Create Synfire Chain Groups
 	for (int i = 0; i < nGroups; i++) {
 		std::string gExcName = "exc" + std::to_string(i);
 		std::string gInhName = "inh" + std::to_string(i);
-		gExc[i] = sim.createGroup(gExcName.c_str(),nNeurExc,EXCITATORY_NEURON,i);
+		gExc[i] = sim.createGroup(gExcName.c_str(),nNeurExc,EXCITATORY_NEURON,i+1);
 		sim.setNeuronParameters(gExc[i], 0.02f, 0.2f, -65.0f, 8.0f);
 
-		gInh[i] = sim.createGroup(gInhName.c_str(),nNeurInh,INHIBITORY_NEURON,i);
+		gInh[i] = sim.createGroup(gInhName.c_str(),nNeurInh,INHIBITORY_NEURON,i+1);
 		sim.setNeuronParameters(gInh[i], 0.1f, 0.2f, -65.0f, 2.0f);
 	}
 	
@@ -81,6 +82,7 @@ int main(int argc, const char* argv[]) {
 
 	// run COBA mode
 	sim.setConductances(true);
+	PerformanceMonitor* perfMon = sim.setPerformanceMonitor(PMB_INTEL, "DEFAULT");
 
 	// ---------------- SETUP STATE -------------------
 	sim.setupNetwork();
@@ -88,26 +90,33 @@ int main(int argc, const char* argv[]) {
     //std::vector<SpikeMonitor*> SMinh(nGroups);
 
 	std::vector<ConnectionMonitor*> CMee(nGroups);
+	
+	perfMon->setSampleRate(10);
+
     //std::vector<ConnectionMonitor*> CMei(nGroups);
+	SMexc[0] = sim.setSpikeMonitor(gExc[3], "DEFAULT");
     for (int i = 0; i < nGroups; i++) {
-        SMexc[i] = sim.setSpikeMonitor(gExc[i], "DEFAULT");
+        //SMexc[i] = sim.setSpikeMonitor(gExc[i], "DEFAULT");
         //SMinh[i] = sim.setSpikeMonitor(gInh[i], "DEFAULT");
 		//CMei[i] = sim.setConnectionMonitor(gInh[i], gExc[i], "DEFAULT");
 		if (i < nGroups-1) {
 			//CMee[i] = sim.setConnectionMonitor(gExc[i], gExc[i+1], "DEFAULT");
 		}
     }
-	SpikeMonitor* SMinput = sim.setSpikeMonitor(spiking_group, "DEFAULT");
+	//SpikeMonitor* SMinput = sim.setSpikeMonitor(spiking_group, "DEFAULT");
 //	SMinput->print(true);
 
     // ---------------- RUN STATE -------------------
-	SMinput->startRecording();
+	perfMon->startRecording();
+	//SMinput->startRecording();
+	SMexc[0]->startRecording();
 	for (int i = 0; i < nGroups; i++) {
-        SMexc[i]->startRecording();
+        //SMexc[i]->startRecording();
         //SMinh[i]->startRecording();
         //SMexc[i]->print(false);
         //SMinh[i]->print(false);
     }
+	
 	//t in ms
     for (int t = 0; t < 5; t++) {
 		std::cout << "t: " << t << std::endl;
@@ -131,10 +140,11 @@ int main(int argc, const char* argv[]) {
     }
 
     // Stop Recording & Print Stats
-
-	SMinput->stopRecording();
+	perfMon->stopRecording();
+	//SMinput->stopRecording();
+	SMexc[0]->stopRecording();
     for (int i = 0; i < nGroups; i++) {
-		SMexc[i]->stopRecording();
+		//SMexc[i]->stopRecording();
         //SMinh[i]->stopRecording();
         //SMexc[i]->print(false);
         //SMinh[i]->print(false);

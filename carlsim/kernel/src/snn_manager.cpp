@@ -3079,10 +3079,6 @@ void SNN::spikeGeneratorUpdate() {
 	spikeBuf->step();
 }
 
-#ifndef __NO_CPPTHREADS__
-ThreadPool* findFiring_TP = nullptr;
-#endif
-
 void SNN::findFiring() {
 	#ifndef __NO_PTHREADS__ // POSIX
 		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
@@ -3218,58 +3214,7 @@ void SNN::doCurrentUpdate() {
 	#endif
 }
 
-/*
-* 
-!!! always assert assumptions !!!  
 
-#ifdef __NO_CUDA__
-	#define CPU_RUNTIME_BASE 0
-#else
-	#define CPU_RUNTIME_BASE 8
-#endif
-
-*/
-
-#ifndef __NO_CPPTHREADS__
-void SNN::generateArgs(const char* name, std::vector<ThreadStruct> &argsThreadRoutine, int &cores, int &offset) {
-
-	//std::vector<ThreadStruct> argsThreadRoutine,
-	// get CPU CORES from global SNN run configuration !!! TODO   YAML, ... 
-	cores = 4;
-	offset = 4; 
-	int logical = 2;  // logical cores 
-
-	// Count partitions of the networks
-	int partitions = 0;
-	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
-		if (!groupPartitionLists[netId].empty()) {
-			if (netId < CPU_RUNTIME_BASE) {
-				// GPU runtime detected
-				KERNEL_ERROR("Hybrid GPU/CPU SNNs are not supported with STL Concurrency.");
-				exitSimulation(KERNEL_ERROR_CPPTHREADS_NO_HYBRIDS);
-			}
-			else {
-				ThreadStruct_s arg;  // TODO constructor snn_pointer, netId !!!  ??? Struct
-				arg.snn_pointer = this;
-				arg.netId = netId;
-				arg.lGrpId = 0;
-				arg.startIdx = 0;
-				arg.endIdx = 0;
-				arg.GtoLOffset = 0;
-				argsThreadRoutine.emplace_back(arg);
-				assert(partitions == netId - CPU_RUNTIME_BASE);
-				partitions++;
-			}
-		}
-	}
-
-	KERNEL_INFO("Create pool of %d threads with affinity to core[%0d],.. for %s", cores, offset, name);
-}
-#endif
-
-#ifndef __NO_CPPTHREADS__
-ThreadPool* updateTimingTable_TP = nullptr;
-#endif
 void SNN::updateTimingTable() {
 	#ifndef __NO_PTHREADS__ // POSIX
 		pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice

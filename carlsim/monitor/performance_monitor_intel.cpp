@@ -119,7 +119,7 @@ void PerformanceMonitorIntel::init() {
 		pcmCoreStateBefore_.push_back(getCoreCounterState(i));
 
 	// Sleep for a 1 ms (measurement interval)
-	Sleep(10);
+	sleep(10);
 
 	// Take second snapshot
 	pcmSystemStateAfter_.push_back(getSystemCounterState());

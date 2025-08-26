@@ -21,7 +21,7 @@ add_executable(carlsim-tests63
 	norm_spike_gen.cpp
 	cb_mon.cpp
 	#perf_mon.cpp
-	perf_mon_optim.cpp
+	#perf_mon_optim.cpp
 	perf_mon_slice.cpp
 	perf_mon_slice_pcm.cpp
 	perf_mon_threads.cpp
@@ -36,7 +36,7 @@ add_executable(carlsim-tests63
 	#pthreads_worker.cpp
 	#thread_worker.cpp
 	thread_worker_copilot.cpp
-	thread_worker_pool.cpp
+	#thread_worker_pool.cpp
 )
 
 #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     

@@ -58,7 +58,10 @@
 #include <performance_monitor_core.h>
 
 // #ifdef INTEL_PCM
-#include <pcm-lib.h>
+//#include <pcm-lib.h>
+#include <cpucounters.h>
+#include <pci.h>
+#include <utils.h>
 //using namespace pcm;
 
 class SNN; // forward declaration of SNN class

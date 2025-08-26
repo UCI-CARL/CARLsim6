@@ -64,7 +64,7 @@ const int N_cores = 12;
 //const int N_cores = 4;
 
 
-unsigned long long N_calc = 0;
+/*unsigned long long N_calc = 0;
 //unsigned long long N_calc = 1000;
 //unsigned long long N_calc = 10000000;
 int N_iter = 100;
@@ -221,3 +221,4 @@ TEST(PerfMon, pdh) {
 
 }
 
+*/
