@@ -180,9 +180,9 @@ TEST(PerfMon, partition) {
 	//xx
 
 	// Overwrites
-	CARLsim::Params()[LOGGER_MODE_PARAM] = USER;
+	//CARLsim::Params()[LOGGER_MODE_PARAM] = USER;
 
-	CARLsim::Params()[RAND_SEED_PARAM] = 40;  // trigger exception
+	//CARLsim::Params()[RAND_SEED_PARAM] = 40;  // trigger exception
 
 	//CARLsim::Params()[CARLSIM_LOGGER_MODE] = USER;
 
@@ -212,7 +212,11 @@ TEST(PerfMon, partition) {
 	//int nCores = 16;   // 80% --> 2.4x
 	//int nCores = 8;    // 83.2% -> 2.9x     !!! 16 -> 2.4x   !!! 32 --> 96%  AND >95% BLOCKING    4 -> 2.3 (prob. most power eff) / partitions / 2  --> 1.4
 
+	//const int N_exc = 1;   // Release    4.5
 	const int N_exc = 2;   // Release    4.5
+	//const int N_exc = 4;   // Release    4.5
+	//const int N_exc = 8;   // Release    4.5
+	//const int N_exc = CARLsim::Params()[CUSTOM_2_PARAM];   // Release    4.5
 
 	/*
 	ST

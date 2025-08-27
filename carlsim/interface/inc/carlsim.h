@@ -196,6 +196,8 @@ public:
 	 */
 	CARLsim(const std::string& netName = "SNN", SimMode preferredSimMode = CPU_MODE, LoggerMode loggerMode = USER, int ithGPUs = 0, int randSeed = -1
 #ifdef CARLSIM_FEAT_SYSPARAMS
+		,int speedFactor = -1
+		,int ompThreads = -1   // 1 core 
 		,int custom1 = -1
 		,int custom2 = -1
 		,int custom3 = -1

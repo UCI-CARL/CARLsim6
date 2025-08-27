@@ -278,11 +278,13 @@ void SNN::InitParams(const char* path) {
 // TODO: consider moving unsafe computations out of constructor
 SNN::SNN(const std::string& name, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed
 #ifdef CARLSIM_FEAT_SYSPARAMS
-	, int custom1, int custom2, int custom3
+	, int speedFactor, int ompThreads, int custom1, int custom2, int custom3
 #endif
             ): networkName_(name), preferredSimMode_(preferredSimMode), loggerMode_(loggerMode),
 					  randSeed_(SNN::setRandSeed(randSeed))  // all of these are const
 #ifdef CARLSIM_FEAT_SYSPARAMS
+	, speedFactor_(speedFactor)
+	, ompThreads_(ompThreads)
 	, custom1_(custom1)
 	, custom2_(custom2)
 	, custom3_(custom3)
@@ -1375,6 +1377,11 @@ void SNN::setupNetworkMT() {
 /// PUBLIC METHODS: RUNNING A SIMULATION
 /// ************************************************************************************************************ ///
 
+	// adaptive
+static double lag = -200.f;  // initial limit to add a core thread, hysterese adaptive 
+static double ahead = 400.f;  // initial limit to remove a core thread, exponential decay 0.9
+
+
 int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	assert(_nmsec >= 0 && _nmsec < 1000);
 	assert(_nsec  >= 0);
@@ -1431,7 +1438,13 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 #ifdef LN_RT_SYNC
 	using namespace std::chrono_literals;
 	//double modelSpeed = 0.1;  // model time in respected to real time, e.g. the spike time of 1 ms in the SNN model 
-	double modelSpeed = 10;  // model time in respected to real time, e.g. the spike time of 1 ms in the SNN model 
+	//double modelSpeed = 10;  // model time in respected to real time, e.g. the spike time of 1 ms in the SNN model 
+
+	double modelSpeed = 1.0;
+	//int speedFactor = SNN::Params[SPEED_FACTOR_PARAM];
+	if (speedFactor_ != -1)
+		modelSpeed = ((double) speedFactor_) / 1000.0;
+
 	// with modelSpeed of 2.0 means, that must only take 500 us realtime, 
 		// or in other words the model runs 2x faster (than realtime).
 		// A modelSpeed of 10% means, that the spike time of 1 ms takes 1/100 s, 
@@ -1443,6 +1456,7 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	//unsigned long long rtNs = 0;	// total realtime in ns 
 	unsigned long long realStepUs = (modelStepMs * 1000.0 ) / modelSpeed; // runDurationMs is SNN model time
 	unsigned long long rtUs = 0;	// total realtime in us 
+	unsigned long long rtUs2 = 0;	// total realtime in us (calc)
 
 	// Initialize stopwatch at nanosecond precision
 	//auto start = std::chrono::high_resolution_clock::now();  // 
@@ -1468,16 +1482,22 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 
 	//KERNEL_INFO("Reached the advSimStep loop!");
 
+
+
 	// if nsec=0, simTimeMs=10, we need to run the simulator for 10 timeStep;
 	// if nsec=1, simTimeMs=10, we need to run the simulator for 1*1000+10, time Step;
-	for(int i = 0; i < runDurationMs; i++) {
+	for (int i = 0; i < runDurationMs; i++) {
 
 #ifdef LN_RT_SYNC
-//		rtNs += realStepNs;  // expected total realtime in ns
-		rtUs += realStepUs;  // expected total realtime in us
+		if (speedFactor_ != -1) {
+			//		rtNs += realStepNs;  // expected total realtime in ns
+			rtUs += realStepUs;  // expected total realtime in us
+			rtUs2 = (unsigned long long) ((i+1) * 1000.0 * modelSpeed);   // expected total realtime 
+			// simTime  --> respect monitor update after each run
+		}
 #endif 
 
-		if(numPerformanceMonitor)
+		if (numPerformanceMonitor)
 			armPerformanceMonitor();  // begin event for performance counter
 
 		advSimStep();
@@ -1525,35 +1545,82 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 		//	updatePerformanceMonitor();
 
 #ifdef LN_RT_SYNC
-		//prevNs = elapsedNs; 
-		// Calculate the difference in nanoseconds
-		//auto current = std::chrono::high_resolution_clock::now();
-		auto current = std::chrono::steady_clock::now();
-		//auto elapsed = start.time_since_epoch(); 
-		//auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(current - start);
-		auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(current - start);
-		//elapsedNs = elapsed.count();
-		elapsedUs = elapsed.count();
-		//const std::chrono::duration<unsigned long long, std::nano> elapsedNs = current - start;
-		
-		// Sleep for remaining time in ns precision
-		//long long sleepNs = rtNs - elapsedNs;
-		long long sleepUs = rtUs - elapsedUs;
-		//printf("sleep %lld\n", sleepUs);
-		if (sleepUs > 0) {
-			// convert into duration with ns resolution
-			// The standard recommends that a steady clock is used to measure the duration. 
-			// If an implementation uses a system clock instead, the wait time may also be sensitive to clock adjustments.
-			//const std::chrono::duration<long long, std::nano>sleep(sleepUs);
-			//printf("sleep %lld\n", sleepUs);
-			const std::chrono::duration<long long, std::micro>sleep(sleepUs);
-			//const std::chrono::duration<long long, std::micro>sleep(sleepUs);
+		if (speedFactor_ != -1) {
+			//prevNs = elapsedNs; 
+			// Calculate the difference in nanoseconds
+			//auto current = std::chrono::high_resolution_clock::now();
+			auto current = std::chrono::steady_clock::now();
+			//auto elapsed = start.time_since_epoch(); 
+			//auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(current - start);
+			auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(current - start);
+			//elapsedNs = elapsed.count();
+			elapsedUs = elapsed.count();
+			//const std::chrono::duration<unsigned long long, std::nano> elapsedNs = current - start;
 
-	//		std::this_thread::sleep_for(sleep);
-			 
-			//std::this_thread::sleep_for(duration);
-			//std::this_thread::sleep_for(10ms);
-			//std::this_thread::sleep_for(1ns);
+			// Sleep for remaining time in ns precision
+			//long long sleepNs = rtNs - elapsedNs;
+			long long sleepUs = rtUs - elapsedUs;
+			//printf("sleep %lld\n", sleepUs);
+			if (sleepUs > 0) {
+				// convert into duration with ns resolution
+				// The standard recommends that a steady clock is used to measure the duration. 
+				// If an implementation uses a system clock instead, the wait time may also be sensitive to clock adjustments.
+				//const std::chrono::duration<long long, std::nano>sleep(sleepUs);
+				//printf("sleep %lld\n", sleepUs);
+				const std::chrono::duration<long long, std::micro>sleep(sleepUs);
+				//const std::chrono::duration<long long, std::micro>sleep(sleepUs);
+
+				//if (i % 100 && sleepUs > 400 && ompThreads_ <= 16 && ompThreads_ > 1) {
+				//	ompThreads_--;
+				//	printf("%d us ahead, removing core thread (%d)\n", sleepUs, ompThreads_);
+				//}
+				if (i % 100 == 0 && sleepUs > ahead && ompThreads_ <= ompMaxThreads && ompThreads_ > 1) {  // give 10ms to catch up before altering cores
+					ompThreads_--;
+					printf("%d us ahead, removing core thread (%d)\n", sleepUs, ompThreads_);
+				}
+				//if (i % 100 && sleepUs > ahead && ompThreads_ <= 8 && ompThreads_ > 1) {
+				//	ompThreads_--;
+				//	printf("%d us ahead, removing core thread (%d)\n", sleepUs, ompThreads_);
+				//	ahead = sleepUs;  // max
+				//}
+
+				std::this_thread::sleep_for(sleep);
+
+				//std::this_thread::sleep_for(duration);
+				//std::this_thread::sleep_for(10ms);
+				//std::this_thread::sleep_for(1ns);
+
+			}
+			else {
+
+				//if (i % 100 == 0 && sleepUs < -200 && ompThreads_ < 16) {  // Hysterese, save limits, last knon, then exponential decrease by x (energy policy)
+				//	ompThreads_++;
+				//	printf("%d us lack, adding core thread (%d)\n", sleepUs, ompThreads_);
+				//}
+				if (i % 100 == 0 && sleepUs < -200 && ompThreads_ < ompMaxThreads) {  // Hysterese, save limits, last knon, then exponential decrease by x (energy policy)
+					ompThreads_++;
+					printf("%d us lack, adding core thread (%d)\n", sleepUs, ompThreads_);
+					ahead += 200; // ahead_init - |lag_init|
+				}
+				//if (i%100==0 && sleepUs < lag && ompThreads_ < 8) {  // Hysterese, save limits, last knon, then exponential decrease by x (energy policy)
+				//	ompThreads_++;
+				//	printf("%d us lack, adding core thread (%d)\n", sleepUs, ompThreads_);
+				//	//lag = sleepUs; // border
+				//}
+			}
+/*
+Timing:                 Model Simulation Time = 100 sec
+						Actual Execution Time = 106.87 sec
+						Speed Factor (Model/Real) = 93.6 %
+
+vs. 	
+						Actual Execution Time = 100.80 sec
+						Speed Factor (Model/Real) = 99.2 %
+*/
+			//if (i % 100) {
+			//	lag   *= 0.99995;
+			//	ahead *= 0.99999;
+			//}
 		}
 #endif
 
@@ -3161,6 +3228,17 @@ void SNN::SNNinit() {
 	wtANDwtChangeUpdateIntervalCnt_ = 0; // helper var to implement fast modulo
 	stdpScaleFactor_ = 1.0f;
 	wtChangeDecay_ = 0.0f;
+
+
+#ifndef __NO_OPENMP__
+	ompMaxThreads = omp_get_max_threads();
+	if (ompThreads_ == -1) {
+		// for intel multi logical core apply 4 other 2 for start of binary search
+		ompThreads_ = ompMaxThreads / (ompMaxThreads > 8 ? 4 : 2);
+		if(ompThreads_ < 1) 
+			ompThreads_ = 1;
+	}
+#endif
 
 	// FIXME: use it when necessary
 #ifndef __NO_CUDA__

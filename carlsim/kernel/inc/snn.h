@@ -165,7 +165,9 @@ public:
 	 * \param randSeed randomize seed of the random number generator
 	 */
 	SNN(const std::string& name, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed
-#ifdef CARLSIM_FEAT_SYSPARAMS	
+#ifdef CARLSIM_FEAT_SYSPARAMS
+		,int speedFactor
+		,int ompThreads
 		,int custom1
 		,int custom2
 		,int custom3
@@ -1370,9 +1372,16 @@ private:
 	const int randSeed_;			//!< random number seed to use
 
 #ifdef CARLSIM_FEAT_SYSPARAMS
+	int speedFactor_;
+	int ompThreads_;
 	int custom1_;
 	int custom2_;
 	int custom3_;
+
+#endif
+
+#ifndef __NO_OPENMP__
+	int ompMaxThreads; //!< initialized once
 #endif
 
 	int numGPUs;    //!< number of GPU(s) is used in the simulation

@@ -88,7 +88,7 @@ public:
 
 	Impl(CARLsim* sim, const std::string& netName, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed
 #ifdef CARLSIM_FEAT_SYSPARAMS	
-		, int custom1, int custom2, int custom3
+		, int speedFactor, int ompThreads, int custom1, int custom2, int custom3
 #endif
 	) {
 		netName_ 					= netName;
@@ -96,13 +96,14 @@ public:
 		preferredSimMode_			= preferredSimMode;
 		randSeed_					= randSeed;
 
+#ifdef CARLSIM_FEAT_SYSPARAMS
+		speedFactor_ = speedFactor;
+		ompThreads_ = ompThreads;
 		custom1_ = custom1;
 		custom2_ = custom2;
 		custom3_ = custom3; 
+#endif
 
-		//loggerMode_ 				= CARLsim::params[CARLSIM_LOGGER_MODE] == -1 ? loggerMode : (LoggerMode) params[CARLSIM_LOGGER_MODE];
-		//preferredSimMode_			= CARLsim::params[CARLSIM_SIM_MODE] == -1 ? preferredSimMode : (SimMode) CARLsim::params[CARLSIM_SIM_MODE];
-		//randSeed_					= CARLsim::params[CARLSIM_RAND_SEED] == -1 ? randSeed : CARLsim::params[CARLSIM_RAND_SEED];
 		enablePrint_ = false;
 		copyState_ = false;
 
@@ -2014,18 +2015,18 @@ private:
 		bool gpuAllocationResult = false;
 		std::string funcName = "CARLsimInit()";
 
-		//// Parameter Overwrites
-		//loggerMode_ = SNN::Params[CARLSIM_LOGGER_MODE] == -1 ? loggerMode_ : (LoggerMode)SNN::Params[CARLSIM_LOGGER_MODE];
-		//preferredSimMode_ = SNN::Params[CARLSIM_SIM_MODE] == -1 ? preferredSimMode_ : (SimMode)SNN::Params[CARLSIM_SIM_MODE];
-		//randSeed_ = SNN::Params[CARLSIM_RAND_SEED] == -1 ? randSeed_ : SNN::Params[CARLSIM_RAND_SEED];
-
 		// Parameter Overwrites
 		loggerMode_ = SNN::Params[LOGGER_MODE_PARAM] == -1 ? loggerMode_ : (LoggerMode)SNN::Params[LOGGER_MODE_PARAM];
 		preferredSimMode_ = SNN::Params[SIM_MODE_PARAM] == -1 ? preferredSimMode_ : (SimMode)SNN::Params[SIM_MODE_PARAM];
 		randSeed_ = SNN::Params[RAND_SEED_PARAM] == -1 ? randSeed_ : SNN::Params[RAND_SEED_PARAM];
 
-		custom1_ = SNN::Params[CUSTOM_1_PARAM] == -1 ? randSeed_ : SNN::Params[CUSTOM_1_PARAM];
-
+#ifdef CARLSIM_FEAT_SYSPARAMS
+		speedFactor_ = SNN::Params[SPEED_FACTOR_PARAM] == -1 ? speedFactor_ : SNN::Params[SPEED_FACTOR_PARAM];
+		ompThreads_ = SNN::Params[OMP_THREADS_PARAM] == -1 ? ompThreads_ : SNN::Params[OMP_THREADS_PARAM];
+		custom1_ = SNN::Params[CUSTOM_1_PARAM] == -1 ? custom1_: SNN::Params[CUSTOM_1_PARAM];
+		custom2_ = SNN::Params[CUSTOM_2_PARAM] == -1 ? custom2_: SNN::Params[CUSTOM_2_PARAM];
+		custom3_ = SNN::Params[CUSTOM_3_PARAM] == -1 ? custom3_: SNN::Params[CUSTOM_3_PARAM];
+#endif
 
 		// Check for configuration errors
 		UserErrors::assertTrue(loggerMode_ >= USER && loggerMode_ <= CUSTOM, UserErrors::HAS_INVALID_VALUE, "CARLsim()", "Logger mode");
@@ -2039,7 +2040,7 @@ private:
 		// init SNN object
 		snn_ = new SNN(netName_, preferredSimMode_, loggerMode_, randSeed_
 #ifdef CARLSIM_FEAT_SYSPARAMS
-			, custom1_, custom2_, custom3_
+			, speedFactor_, ompThreads_, custom1_, custom2_, custom3_
 #endif 
 		);
 
@@ -2113,9 +2114,14 @@ private:
 	LoggerMode loggerMode_;     //!< logger mode (USER, DEVELOPER, SILENT, CUSTOM)
 	SimMode preferredSimMode_;  //!< preferred simulation mode (CPU_MODE, GPU_MODE, HYBRID_MODE)
 
+#ifdef CARLSIM_FEAT_SYSPARAMS
+	int speedFactor_;
+	int ompThreads_;
+
 	int custom1_;		//!< custom int parameter 1 CARLSIM_CUSTOM_1
 	int custom2_;
 	int custom3_;
+#endif 
 
 	bool enablePrint_;
 	bool copyState_;
@@ -2195,12 +2201,12 @@ pthread_mutex_t CARLsim::Impl::gpuAllocationLock = PTHREAD_MUTEX_INITIALIZER;
 // constructor / destructor
 CARLsim::CARLsim(const std::string& netName, SimMode preferredSimMode, LoggerMode loggerMode, int ithGPUs, int randSeed
 #ifdef CARLSIM_FEAT_SYSPARAMS
-	, int custom1, int custom2, int custom3
+	, int speedFactor, int ompThreads, int custom1, int custom2, int custom3
 #endif
 ) : 
 _impl( new Impl(this, netName, preferredSimMode, loggerMode, randSeed
 #ifdef CARLSIM_FEAT_SYSPARAMS
-	, custom1, custom2, custom3
+	, speedFactor, ompThreads, custom1, custom2, custom3
 #endif
 ) ) {}
 CARLsim::~CARLsim() { delete _impl; }

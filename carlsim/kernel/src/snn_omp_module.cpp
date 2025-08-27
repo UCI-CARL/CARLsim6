@@ -2207,16 +2207,35 @@ void  SNN::globalStateUpdate_CPU(int netId) {
 	int lGrpId;
 	int lNId;
 
-	omp_set_dynamic(0);  // 1 20s
+	//omp_set_dynamic(1);  // 1 20s    statt 100 sec -> 118 sec  = 18% error, each step behind, does not catch up
+/*
+-309 us lack, adding core thread (4)
+-304 us lack, adding core thread (4)
+-397 us lack, adding core thread (4)
+-395 us lack, adding core thread (4)
+-400 us lack, adding core thread (4)
+-413 us lack, adding core thread (4)
+-348 us lack, adding core thread (4)
+-459 us lack, adding core thread (4))
+*/
 
 // TODO Implement LoadBalancing based on Networsize, Processor Util (PCM/PIM/PDH), .. see Update Meeting Mo. 17.08.2025
 // provide a test case with different load scenarios, such as PoisonGenerator with variating frequencies, or network paths
 //
+// 
+
+	//if(!ompMaxThreads_)
+	//	ompMaxThreads_ = omp_get_max_threads();
+
+	omp_set_dynamic(0);  // 1 20s
+	omp_set_num_threads(ompThreads_);
+
+
 	//omp_set_num_threads(1);  // 1 working for omp parallel for  -> this produces the .. fixed load on n cores 
 	//omp_set_num_threads(2);  // best results for   1: 1.1x   2: 1.3x  3:1.0x   4: 1.0x   => ST reached!!!   7.95s
 	//omp_set_num_threads(4);   // ThreadPool 1.1  fairly the same as 1.2x ST
 	//omp_set_num_threads(8);   // overhead
-	omp_set_num_threads(16);  // 2.4 !!!!   => Threads MUST correspond to partitions 
+	//omp_set_num_threads(16);  // 2.4 !!!!   => Threads MUST correspond to partitions 
 	//omp_set_num_threads(32);  // blocking 100% system
 
 	auto _simNumStepsPerMs = networkConfigs[netId].simNumStepsPerMs;
