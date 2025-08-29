@@ -1382,6 +1382,7 @@ private:
 
 #ifndef __NO_OPENMP__
 	int ompMaxThreads; //!< initialized once
+	FILE* ompDcaLog;    //!< omp dynamic core assigment, csv
 #endif
 
 	int numGPUs;    //!< number of GPU(s) is used in the simulation

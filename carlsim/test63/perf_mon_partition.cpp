@@ -137,22 +137,21 @@ public:
 TEST(PerfMon, partition) {
 
 	bool bPerfMon = false; 
-	const int sample_rate = 1; // huge impact
+	//const int sample_rate = 1; // huge impact
 	//const int sample_rate = 5; // moderate impact
 	//const int sample_rate = 10; // moderate impact
-	//const int sample_rate = 20; // no impact 
+	//const int sample_rate = 25; // no impact 
 	//const int sample_rate = 50; // no impact 
-	//const int sample_rate = 100; // no impact 
+	const int sample_rate = 100; // no impact  
 	bool bSpikeMon = false;
 
 	double rate = 1; // Hz
 	int isi = 1000 / rate; // inter-spike interval, e.g. 500ms at 2 Hz
 
-	//const int GroupSizes[] = { 40, 100, 400, 1000, 4000, 10000, 40000, 100000 };
-
-
 	int Delays[] = { 1,2,5,10,20 };
-	int Neurons[] = { 20, 40, 100, 200, 400, 1000, 2000, 4000, 10000, 20000 };
+	int Neurons[] = { 20, 40, 100, 200, 400, 1000, 2000, 4000, 5000, 10000, 20000 };
+	// 1k
+	//int Neurons[] = { 20, 40, 100, 200, 400, 500, 1000, 2000, 4000, 5000, 10000, 20000 };
 
 	// alles mit Debug version ->  Argumentation:  need sufficient load, determined,  w/o compiler optimizations
 	// if released, the cores can be reduced e.g. to 2 in the example above   then speed factor 4.2  (vs. )
@@ -160,10 +159,9 @@ TEST(PerfMon, partition) {
 
 	int d_i = 2;  // 5 ms ENUM  d5, d20   // -->  2.9 !!!  => rule of thumb x 2 partitions & <= max(phys. cores)  !!! ++ affinity to avoid context switching, _ cache line invalidated _
 	//int d_i = 3;  // 10 ms ENUM  d5, d20
-	//int N_i = 4;  // 100 ms   ENUM  N100, N400,     AB 5 kommt neues Bottle-Neck hinzu!!! => Workload zu klein, Parall. nicht mehr mgl
-	int N_i = 5;  // 100 ms   ENUM  N100, N400,     AB 5 kommt neues Bottle-Neck hinzu!!! => Workload zu klein, Parall. nicht mehr mgl
-
-
+	
+	//int N_i = 5;  // 100 ms   ENUM  N100, N400,     AB 5 kommt neues Bottle-Neck hinzu!!! => Workload zu klein, Parall. nicht mehr mgl
+	int N_i = CARLsim::Params()[CUSTOM_2_PARAM];
 
 	// chain
 	int ms = 100; // ms 
@@ -213,7 +211,7 @@ TEST(PerfMon, partition) {
 	//int nCores = 8;    // 83.2% -> 2.9x     !!! 16 -> 2.4x   !!! 32 --> 96%  AND >95% BLOCKING    4 -> 2.3 (prob. most power eff) / partitions / 2  --> 1.4
 
 	//const int N_exc = 1;   // Release    4.5
-	const int N_exc = 2;   // Release    4.5
+	const int N_exc = 2;   // Release    4.5   // Results presented Jeff Fr. 29.08.2025
 	//const int N_exc = 4;   // Release    4.5
 	//const int N_exc = 8;   // Release    4.5
 	//const int N_exc = CARLsim::Params()[CUSTOM_2_PARAM];   // Release    4.5
@@ -337,8 +335,8 @@ x4.5 sicherheit ggü. RT --> learning or sparse processing --> see slow down
 	PerformanceMonitor* perfMon = nullptr;
 	if (bPerfMon) {
 		// Performance monitors 
-		//perfMon = sim->setPerformanceMonitor(PMB_INTEL, "DEFAULT");
-		perfMon = sim->setPerformanceMonitor(PMB_INTEL, "NULL");
+		perfMon = sim->setPerformanceMonitor(PMB_INTEL, "DEFAULT");
+		//perfMon = sim->setPerformanceMonitor(PMB_INTEL, "NULL");
 		perfMon->setSampleRate(sample_rate);
 	}
 

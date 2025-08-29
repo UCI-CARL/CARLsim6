@@ -1377,10 +1377,9 @@ void SNN::setupNetworkMT() {
 /// PUBLIC METHODS: RUNNING A SIMULATION
 /// ************************************************************************************************************ ///
 
-	// adaptive
-static double lag = -200.f;  // initial limit to add a core thread, hysterese adaptive 
-static double ahead = 400.f;  // initial limit to remove a core thread, exponential decay 0.9
-
+// adaptive
+static double lag = -100.f;  // initial limit to add a core thread, hysterese adaptive 
+static double ahead = 100.f;  // initial limit to remove a core thread, exponential decay 0.9
 
 int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 	assert(_nmsec >= 0 && _nmsec < 1000);
@@ -1436,6 +1435,9 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 
 
 #ifdef LN_RT_SYNC
+
+
+
 	using namespace std::chrono_literals;
 	//double modelSpeed = 0.1;  // model time in respected to real time, e.g. the spike time of 1 ms in the SNN model 
 	//double modelSpeed = 10;  // model time in respected to real time, e.g. the spike time of 1 ms in the SNN model 
@@ -1495,6 +1497,8 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 			rtUs2 = (unsigned long long) ((i+1) * 1000.0 * modelSpeed);   // expected total realtime 
 			// simTime  --> respect monitor update after each run
 		}
+
+
 #endif 
 
 		if (numPerformanceMonitor)
@@ -1561,6 +1565,13 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 			//long long sleepNs = rtNs - elapsedNs;
 			long long sleepUs = rtUs - elapsedUs;
 			//printf("sleep %lld\n", sleepUs);
+
+#ifndef __NO_OPENMP__
+			if (i % 25 == 0) {
+				fprintf(ompDcaLog, "%lld;%lld;%d\n", simTimeRunStart + i, sleepUs, ompThreads_);  // REFACT lambda					
+			}
+#endif
+
 			if (sleepUs > 0) {
 				// convert into duration with ns resolution
 				// The standard recommends that a steady clock is used to measure the duration. 
@@ -1570,20 +1581,23 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 				const std::chrono::duration<long long, std::micro>sleep(sleepUs);
 				//const std::chrono::duration<long long, std::micro>sleep(sleepUs);
 
+#ifndef __NO_OPENMP__
+
 				//if (i % 100 && sleepUs > 400 && ompThreads_ <= 16 && ompThreads_ > 1) {
 				//	ompThreads_--;
 				//	printf("%d us ahead, removing core thread (%d)\n", sleepUs, ompThreads_);
 				//}
 				if (i % 100 == 0 && sleepUs > ahead && ompThreads_ <= ompMaxThreads && ompThreads_ > 1) {  // give 10ms to catch up before altering cores
 					ompThreads_--;
-					printf("%d us ahead, removing core thread (%d)\n", sleepUs, ompThreads_);
+					printf("%d us ahead, removing core thread --> %d  (ahead=%.0f)\n", sleepUs, ompThreads_, ahead);
+					fprintf(ompDcaLog, "%lld;%lld;%d\n", simTimeRunStart + i, sleepUs, ompThreads_);  // REFACT lambda					
 				}
 				//if (i % 100 && sleepUs > ahead && ompThreads_ <= 8 && ompThreads_ > 1) {
 				//	ompThreads_--;
 				//	printf("%d us ahead, removing core thread (%d)\n", sleepUs, ompThreads_);
 				//	ahead = sleepUs;  // max
 				//}
-
+#endif
 				std::this_thread::sleep_for(sleep);
 
 				//std::this_thread::sleep_for(duration);
@@ -1592,21 +1606,23 @@ int SNN::runNetwork(int _nsec, int _nmsec, bool printRunSummary) {
 
 			}
 			else {
-
+#ifndef __NO_OPENMP__
 				//if (i % 100 == 0 && sleepUs < -200 && ompThreads_ < 16) {  // Hysterese, save limits, last knon, then exponential decrease by x (energy policy)
 				//	ompThreads_++;
 				//	printf("%d us lack, adding core thread (%d)\n", sleepUs, ompThreads_);
 				//}
-				if (i % 100 == 0 && sleepUs < -200 && ompThreads_ < ompMaxThreads) {  // Hysterese, save limits, last knon, then exponential decrease by x (energy policy)
+				if (i % 100 == 0 && sleepUs < -100 && ompThreads_ < ompMaxThreads) {  // Hysterese, save limits, last knon, then exponential decrease by x (energy policy)
 					ompThreads_++;
-					printf("%d us lack, adding core thread (%d)\n", sleepUs, ompThreads_);
-					ahead += 200; // ahead_init - |lag_init|
+					printf("%d us lack, adding core thread --> %d  (ahead=%.0f)\n", sleepUs, ompThreads_, ahead);
+					fprintf(ompDcaLog, "%lld;%lld;%d\n", simTimeRunStart + i, sleepUs, ompThreads_);  // REFACT lambda		
+					ahead += 100; // ahead_init - |lag_init|
 				}
 				//if (i%100==0 && sleepUs < lag && ompThreads_ < 8) {  // Hysterese, save limits, last knon, then exponential decrease by x (energy policy)
 				//	ompThreads_++;
 				//	printf("%d us lack, adding core thread (%d)\n", sleepUs, ompThreads_);
 				//	//lag = sleepUs; // border
 				//}
+#endif
 			}
 /*
 Timing:                 Model Simulation Time = 100 sec
@@ -1617,10 +1633,10 @@ vs.
 						Actual Execution Time = 100.80 sec
 						Speed Factor (Model/Real) = 99.2 %
 */
-			//if (i % 100) {
-			//	lag   *= 0.99995;
-			//	ahead *= 0.99999;
-			//}
+			if (i % 25) {
+				//lag   *= 0.99995;
+				//ahead *= 0.999975;
+			}
 		}
 #endif
 
@@ -3238,6 +3254,13 @@ void SNN::SNNinit() {
 		if(ompThreads_ < 1) 
 			ompThreads_ = 1;
 	}
+	// if log 
+	ompDcaLog = fopen("ompdca.csv", "w");  // fp  FILE* 
+	if (!ompDcaLog) {
+		KERNEL_ERROR("Ddynamic core allocation cannot be logged.");
+		exit(UNKNOWN_LOGGER_ERROR);
+	}
+
 #endif
 
 	// FIXME: use it when necessary
@@ -6553,7 +6576,11 @@ void SNN::deleteObjects() {
 //#endif
 //
 
-
+#ifndef __NO_OPENMP__
+	if (ompDcaLog != NULL) {
+		fclose(ompDcaLog);
+	}
+#endif
 
 	simulatorDeleted = true;
 }
