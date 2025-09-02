@@ -2798,7 +2798,7 @@ std::array<int, CARLSIM_PARAMS>& CARLsim::Params() {
 }
 
 // read command line parameter (with polymorphy by arguments)
-void CARLsim::InitParams(int argc, char* argv[]) {
+void CARLsim::InitParams(int argc, const char* argv[]) {
 	SNN::InitParams(argc, argv);
 }
 
@@ -2812,7 +2812,7 @@ void CARLsim::InitParams(const char* path) {
 	SNN::InitParams(path);
 }
 
-void CARLsim::InitParams(int argc, char* argv[], const char* path) {
+void CARLsim::InitParams(int argc, const char* argv[], const char* path) {
 	SNN::InitParams(argc, argv, path);
 }
 

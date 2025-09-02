@@ -2173,13 +2173,13 @@ public:
 	/*! 
 	 * \brief read the parameters from command line
 	 */
-	static void InitParams(int argc, char* argv[]); 
+	static void InitParams(int argc, const char* argv[]); 
 
 	static void InitParams();
 
 	static void InitParams(const char* path);
 
-	static void InitParams(int argc, char* argv[], const char* path);
+	static void InitParams(int argc, const char* argv[], const char* path);
 
 #endif
 

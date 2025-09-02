@@ -104,7 +104,7 @@ std::array<int, CARLSIM_PARAMS> SNN::Params = { -1, -1, -1, -1, -1, -1, -1 };
 
 static bool DebugParams = false;
 
-void SNN::InitParams(int argc, char* argv[], const char* defaultConfPath) {
+void SNN::InitParams(int argc, const char* argv[], const char* defaultConfPath) {
 
 	// Activate print the setting the environment variable CARLSIM_LOG_PARAMS to any value. 
 	// More finer printing can be achieved by utilizing CARLsim logger level (INFO, DEBUG, DEV). 
@@ -134,7 +134,7 @@ void SNN::InitParams(int argc, char* argv[], const char* defaultConfPath) {
 	InitParams(argc, argv);
 }
 
-void SNN::InitParams(int argc, char* argv[]) {
+void SNN::InitParams(int argc, const char* argv[]) {
 
 	std::vector<std::string> args(argv + 1, argv + argc);
 

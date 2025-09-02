@@ -16,7 +16,7 @@
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 
-	CARLsim::InitParams(argc, argv, "carlsim.conf");
+	CARLsim::InitParams(argc, (const char**) argv, "carlsim.conf");
 
 	return RUN_ALL_TESTS();
 }
