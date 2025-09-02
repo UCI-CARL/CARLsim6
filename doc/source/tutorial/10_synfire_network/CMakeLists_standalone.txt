@@ -1,0 +1,61 @@
+project(synfire)
+
+
+# Targets 
+add_executable(synfire
+   src/synfire_network.cpp
+   /home/vyomshah/CARLsim6/tools/spike_generators/normal_spikegen.cpp
+)
+set_property(TARGET synfire PROPERTY PROJECT_LABEL tutorial_10_synfire_network)
+
+
+set(scripts_OAT     
+   scripts/initOAT.m
+   scripts/demoOAT.m
+   scripts/ffcurve.m
+)
+source_group("Scripts\\OAT" FILES ${scripts_OAT})    
+add_custom_target(synfire_scripts
+   SOURCES ${scripts_OAT}
+)
+set_property(TARGET synfire_scripts PROPERTY PROJECT_LABEL tutorial_10_synfire_network_scripts)
+
+
+add_dependencies(synfire synfire_scripts)
+
+
+
+
+# definitions    
+if(CARLSIM_NO_CUDA)
+   target_compile_definitions(synfire PUBLIC
+       -D__NO_CUDA__ )
+endif()
+
+
+# Linking   
+target_link_directories(synfire PRIVATE
+   /home/vyomshah/carlsim/lib  # Ensure this matches where CARLsim is built
+)
+
+
+target_include_directories(synfire PRIVATE
+   /home/vyomshah/CARLsim6/tools/stopwatch
+   /home/vyomshah/CARLsim6/tools/spike_generators
+   /home/vyomshah/carlsim/include
+)        
+
+
+target_link_libraries(synfire PRIVATE carlsimd)
+
+
+# Installation 
+install(TARGETS synfire
+       EXPORT synfire
+       RUNTIME
+       DESTINATION $<$<CONFIG:Debug>:debug/>tutorials/synfire_network
+       COMPONENT synfire)
+
+
+install(DIRECTORY scripts
+       DESTINATION $<$<CONFIG:Debug>:debug/>tutorials/synfire )
