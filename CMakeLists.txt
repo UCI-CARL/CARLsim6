@@ -35,9 +35,9 @@ ENDIF()
 
 IF(OPENMP_FOUND AND NOT CARLSIM_NO_OPENMP )
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-	#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 	#https://learn.microsoft.com/en-us/cpp/build/reference/openmp-enable-openmp-2-0-support?view=msvc-170
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /openmp:experimental")	
+	#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /openmp:experimental")	
 ENDIF()
 
 
@@ -177,7 +177,7 @@ set(kernel_SRCS
 	carlsim/kernel/src/spike_buffer.cpp
 )    
 
-if(WIN32 AND NOT CARLSIM_NO_OPENMP)
+if(NOT CARLSIM_NO_OPENMP)
 set(kernel_SRCS
 	${kernel_SRCS}
 	carlsim/kernel/src/snn_omp_module.cpp)
@@ -186,8 +186,8 @@ set(kernel_SRCS
 	${kernel_SRCS}
 	carlsim/kernel/src/snn_cpu_module.cpp)
 endif()
-
-if(WIN32 AND NOT CARLSIM_NO_CPPTHREADS)
+	
+if(NOT CARLSIM_NO_CPPTHREADS)
 set(kernel_SRCS
 	${kernel_SRCS}
 	carlsim/kernel/src/thread_pool.cpp
@@ -222,8 +222,8 @@ set(monitor_SRCS
 	carlsim/monitor/neuron_monitor_core.cpp
 	carlsim/monitor/neuron_monitor.cpp
 	carlsim/monitor/performance_monitor_core.cpp
-	carlsim/monitor/performance_monitor_intel.cpp 
-	carlsim/monitor/performance_monitor_ms.cpp 
+#	carlsim/monitor/performance_monitor_intel.cpp 
+#	carlsim/monitor/performance_monitor_ms.cpp 
 	carlsim/monitor/performance_monitor.cpp
 	carlsim/monitor/spike_monitor_core.cpp
 	carlsim/monitor/spike_monitor.cpp        
@@ -238,8 +238,8 @@ set(monitor_HDRS
 	carlsim/monitor/neuron_monitor_core.h
 	carlsim/monitor/neuron_monitor.h
 	carlsim/monitor/performance_monitor_core.h
-	carlsim/monitor/performance_monitor_intel.h
-	carlsim/monitor/performance_monitor_ms.h
+#	carlsim/monitor/performance_monitor_intel.h
+#	carlsim/monitor/performance_monitor_ms.h
 	carlsim/monitor/performance_monitor.h
 	carlsim/monitor/spike_monitor_core.h
 	carlsim/monitor/spike_monitor.h
