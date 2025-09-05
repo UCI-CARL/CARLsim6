@@ -21,13 +21,13 @@ add_executable(carlsim-tests63
 	norm_spike_gen.cpp
 	cb_mon.cpp
 	#perf_mon.cpp
-	perf_mon_optim.cpp
+	#perf_mon_optim.cpp
 	perf_mon_slice.cpp
 	perf_mon_slice_pcm.cpp
 	perf_mon_threads.cpp
-	perf_mon_integ.cpp
-	perf_mon_ms_pdh.cpp
-	perf_mon_intel_pcm.cpp
+	#perf_mon_integ.cpp
+	#perf_mon_ms_pdh.cpp
+	#perf_mon_intel_pcm.cpp
 	perf_mon_partition.cpp
 	#perf_mon_intel_msr.cpp
 	#msr.cpp
@@ -35,8 +35,8 @@ add_executable(carlsim-tests63
 	#pthreads_test.cpp
 	#pthreads_worker.cpp
 	#thread_worker.cpp
-	thread_worker_copilot.cpp
-	thread_worker_pool.cpp
+	#thread_worker_copilot.cpp
+	#thread_worker_pool.cpp
 )
 
 #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     
@@ -69,13 +69,13 @@ PRIVATE
 #	GTest::gtest
 #	gcov
 #    endif()
-	C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVCE3.lib
+	#C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVCE3.lib
 	#target_link_libraries(carlsim PRIVATE C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVSE3.lib)
 	#target_link_libraries(carlsim PRIVATE C:/Test/sourceforge/PTHREADS-BUILT/lib/pthreadVC3.lib)
 
 	#"C:/Program Files/PCM/lib/pcm-lib.lib"
-	"C:/Program Files/PCM/debug/lib/pcm-lib.lib"
-
+	#"C:/Program Files/PCM/debug/lib/pcm-lib.lib"
+	
 )
 
 

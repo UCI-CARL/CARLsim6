@@ -875,10 +875,10 @@ public:
 
 #ifdef CARLSIM_FEAT_SYSPARAMS
 	// read command line parameter, polymorphy by arguments
-	static void SNN::InitParams(int argc, const char* argv[]);
-	static void SNN::InitParams();
-	static void SNN::InitParams(const char* path);
-	static void SNN::InitParams(int argc, const char* argv[], const char* defaultConfPath);
+	static void InitParams(int argc, const char* argv[]);
+	static void InitParams();
+	static void InitParams(const char* path);
+	static void InitParams(int argc, const char* argv[], const char* defaultConfPath);
 #endif
 
 	// **************************************************************************************************************** //

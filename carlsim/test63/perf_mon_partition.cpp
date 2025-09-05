@@ -188,8 +188,8 @@ TEST(PerfMon, partition) {
 	//auto devices = CARLsim::cudaDeviceCount();
 
 
-	CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, SILENT, 0, 42);
-	//CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, USER, 0, 42);
+	//CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, SILENT, 0, 42);
+	CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, USER, 0, 42);
 	//CARLsim* sim = new CARLsim("PerfMon.partition", GPU_MODE, USER, 0, 42);
 
 	sim->setConductances(true);
@@ -279,7 +279,12 @@ x4.5 sicherheit ggü. RT --> learning or sparse processing --> see slow down
 	const size_t length = 100; 
 	char name[length];
 	for (int i = 0; i < N_exc; i++) {
+#ifdef __WIN32__		
 		sprintf_s<length>(name, "g_exc%i", i);
+#else	
+		sprintf(name, "g_exc%i", i);
+#endif
+		
 		g_exc[i] = sim->createGroup(name, N, EXCITATORY_NEURON, i);  // core 1..n for exc cluster
 		//g_exc[i] = sim->createGroup(name, N, EXCITATORY_NEURON, 0);  // core 1..n for exc cluster
 		//g_exc[i] = sim->createGroup(name, N, EXCITATORY_NEURON, 0, GPU_CORES);  // core 1..n for exc cluster
@@ -287,7 +292,12 @@ x4.5 sicherheit ggü. RT --> learning or sparse processing --> see slow down
 	}
 
 	for (int i = 0; i < N_exc+1; i++) {
+#ifdef __WIN32__		
 		sprintf_s<length>(name, "g_inter%i", i);
+#else
+		sprintf(name, "g_inter%i", i);
+#endif
+		
 		g_inter[i] = sim->createGroup(name, 1, EXCITATORY_NEURON, 0);  // core 0 is common base
 		sim->setNeuronParameters(g_inter[i], 0.02f, 0.2f, -65.0f, 8.0f);
 	}

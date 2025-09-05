@@ -3248,6 +3248,7 @@ void SNN::SNNinit() {
 
 #ifndef __NO_OPENMP__
 	ompMaxThreads = omp_get_max_threads();
+//	ompMaxThreads = 4;
 	if (ompThreads_ == -1) {
 		// for intel multi logical core apply 4 other 2 for start of binary search
 		ompThreads_ = ompMaxThreads / (ompMaxThreads > 8 ? 4 : 2);
@@ -3664,7 +3665,7 @@ void SNN::doCurrentUpdateD1() {
 }
 #else 
 void SNN::doCurrentUpdate() {
-#ifndef __NO_CPPTHREADS__doCurrentUpdate // POSIX
+#ifndef __NO_PTHREADS__ // POSIX
 #ifdef UNIX
 	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
 	cpu_set_t cpus;
@@ -3961,7 +3962,7 @@ void SNN::globalStateUpdate() {
 // #elif  __NO_PTHREADS__ // POSIX
 
 
-#include <omp.h>
+//#include <omp.h>
 
 //omp_set_num_threads(1);  // 1 working for omp parallel for  -> this produces the .. fixed load on n cores 
 //omp_set_num_threads(2);  // best results for   1: 1.1x   2: 1.3x  3:1.0x   4: 1.0x   => ST reached!!!   7.95s
@@ -3984,19 +3985,22 @@ void SNN::globalStateUpdate() {
 		globalStateUpdate_TP->next();
 #else
 #ifndef __NO_PTHREADS__ // POSIX
-#ifdef UNIX
+//#ifdef UNIX
 	pthread_t threads[numCores + 1]; // 1 additional array size if numCores == 0, it may work though bad practice
 	cpu_set_t cpus;
 	ThreadStruct argsThreadRoutine[numCores + 1]; // same as above, +1 array size
 	int threadCount = 0;
-#else // Experimental WIN32 support
+//#else // Experimental WIN32 support
+
+//tttttt
+
 //	std::vector<pthread_t> threads(numCores + 1); // 1 additional array size if numCores == 0, it may work though bad practice
 //	//pthread_t threads[NUM_CPU_CORES + 1];
 //	cpu_set_t cpus;
 //	std::vector<ThreadStruct> argsThreadRoutine(numCores + 1); // same as above, +1 array size
 //	//ThreadStruct argsThreadRoutine[NUM_CPU_CORES + 1];
 //	int threadCount = 0;
-#endif
+//#endif
 
 #endif
 	int netId;
@@ -4094,7 +4098,7 @@ Overall Spike Count:    2+ms delay = 15443
 					argsThreadRoutine[threadCount].endIdx = 0;
 					argsThreadRoutine[threadCount].GtoLOffset = 0;
 
-					////pthread_create(&threads[threadCount], &attr, &SNN::helperGlobalStateUpdate_CPU, (void*)&argsThreadRoutine[threadCount]);
+					int rc = pthread_create(&threads[threadCount], &attr, &SNN::helperGlobalStateUpdate_CPU, (void*)&argsThreadRoutine[threadCount]);
 
 					//// TIME OVERHEAD ~100 ms   3500 / 500 = 7 
 					//pthread_create(&threads[threadCount], &attr, &SNN::helperGlobalStateUpdate_CPU_MOCK, (void*)&argsThreadRoutine[threadCount]);
@@ -4105,8 +4109,8 @@ Overall Spike Count:    2+ms delay = 15443
 					//pthread_t t;
 					//pthread_create(&t, NULL, func, NULL);
 
-					int rc = pthread_create(&threads[threadCount], NULL, func, NULL);  // 7.33s !!!
-					printf("tid: %llu  x: %llu  rc: %d\n", threads[threadCount].p, threads[threadCount].x, rc);
+					//int rc = pthread_create(&threads[threadCount], NULL, func, NULL);  // 7.33s !!!
+					//printf("tid: %llu  x: %llu  rc: %d\n", threads[threadCount].p, threads[threadCount].x, rc);
 
 					
 ///*

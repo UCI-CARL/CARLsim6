@@ -153,11 +153,15 @@
 #endif
 
 //#define __SELECTED_PTHREADS__
-#ifdef __SELECTED_PTHREADS__
+//#ifdef __SELECTED_PTHREADS__
 	// TODO PTHREAD patches
 	//#define NUM_CPU_CORES sysconf(_SC_NPROCESSORS_ONLN)
-	#define sched_getcpu() 0
-	#define NUM_CPU_CORES 4
+//	#define sched_getcpu() 0
+//	#define NUM_CPU_CORES 4
+//#endif
+
+#ifndef __NO_PTHREADS__
+	#define NUM_CPU_CORES sysconf(_SC_NPROCESSORS_ONLN)
 #endif
 
 
