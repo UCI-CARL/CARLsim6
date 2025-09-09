@@ -50,9 +50,12 @@
 
 #include <performance_monitor_core.h>
 
-// IF Intel, MS, ...
-//#include <performance_monitor_intel.h>
-//#include <performance_monitor_ms.h>
+#ifdef WIN32
+ #include <performance_monitor_ms.h>
+#endif
+#ifdef INTEL_PCM
+#include <performance_monitor_intel.h>
+#endif
 
 #include <snn.h>				// CARLsim private implementation
 #include <snn_definitions.h>	// KERNEL_ERROR, KERNEL_INFO, ...
@@ -65,8 +68,12 @@ PerformanceMonitorCore* PerformanceMonitorCore::create(SNN* snn, int monitorId, 
 
 	// Enum is defined in see carlsim_definitions.h   
 	switch (backend) {
-//		case PMB_MS: return new PerformanceMonitorMs(snn, monitorId, sampleRate);
-//		case PMB_INTEL: return new PerformanceMonitorIntel(snn, monitorId, sampleRate);
+#ifdef WIN32
+		case PMB_MS: return new PerformanceMonitorMs(snn, monitorId, sampleRate);
+#endif
+#ifdef INTEL_PCM
+		case PMB_INTEL: return new PerformanceMonitorIntel(snn, monitorId, sampleRate);
+#endif
 		// ARM, AMD, LNX ... 
 		default: 
 			throw "Unsupported PerformanceMonitor Backend.";
@@ -75,7 +82,6 @@ PerformanceMonitorCore* PerformanceMonitorCore::create(SNN* snn, int monitorId, 
 	}
 
 }
-
 
 
 PerformanceMonitorCore::PerformanceMonitorCore(SNN* snn, int monitorId, int sampleRate): 

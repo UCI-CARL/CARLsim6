@@ -47,7 +47,7 @@ ENDIF()
     # all options have to be captured in the carlsim_conf.h.in, see below
 
     option(CARLSIM_GH_ACTIONS "Configure CMake for GitHub Actions" OFF)         # Set this when called by GitHub WFs
-    option(CARLSIM_NO_CUDA "Turn off CUDA support" OFF)         # more for boot straping and quality ensurance
+    option(CARLSIM_NO_CUDA "Turn off CUDA support" ON)         # more for boot straping and quality ensurance
     option(CARLSIM_NO_PTHREADS "Turn off PTHREADS" ON)          # since CARLsim5, Linux Release builds throw segmentation violation 
     option(CARLSIM_NO_CPPTHREADS "Turn off C++ Threads" ON)          # turn off C++ built-in concurrency support library
     option(CARLSIM_SHARED "Build CARLSIM as shared library" ON)     # this is the primary supported way
@@ -59,7 +59,7 @@ ENDIF()
     option(CARLSIM_PYCARL "Build CARLSIM PyCARL" OFF)            # not for CR but SNN
     option(CARLSIM_PY "Build carlsim6py" OFF)            # Python extension module for CARLsim6 
     option(CARLSIM_TOOLS "Build CARLSIM Tools" ON)              # check for dependecies
-    option(CARLSIM_TEST "Build CARLSIM Tests" ON)               # mandadory for development
+    option(CARLSIM_TEST "Build CARLSIM Tests" OFF)               # mandadory for development
     
     option(CARLSIM_VLS_SIZING "Configure CARLsim for VLS Networks" OFF)  # 
 
@@ -83,6 +83,9 @@ ENDIF()
 	set(CARLSIM_CUDA_GENCODE "" CACHE STRING "Enforce code generation for specific CUDA archtecture and device, e.g. -gencode arch=compute_86,code=sm_86 for RTX3090, 80 for A100, 61 for Titan Xp" )  
 	
 	option(CARLSIM_FIX_SYNCTHREADS "Avoid blocking synthread call for Ampere GPUs" ON)  # Ported from CARLsim 4 on A100  
+
+	option(CARLSIM_INTEL_PCM "Use Intel PCM as performance monitor backend " OFF)
+
 
 if(CARLSIM_SHARED AND CARLSIM_STATIC)
     message(FATAL_ERROR "Cannot build as both static and shared, choose only one.")
@@ -222,8 +225,6 @@ set(monitor_SRCS
 	carlsim/monitor/neuron_monitor_core.cpp
 	carlsim/monitor/neuron_monitor.cpp
 	carlsim/monitor/performance_monitor_core.cpp
-#	carlsim/monitor/performance_monitor_intel.cpp 
-#	carlsim/monitor/performance_monitor_ms.cpp 
 	carlsim/monitor/performance_monitor.cpp
 	carlsim/monitor/spike_monitor_core.cpp
 	carlsim/monitor/spike_monitor.cpp        
@@ -238,13 +239,32 @@ set(monitor_HDRS
 	carlsim/monitor/neuron_monitor_core.h
 	carlsim/monitor/neuron_monitor.h
 	carlsim/monitor/performance_monitor_core.h
-#	carlsim/monitor/performance_monitor_intel.h
-#	carlsim/monitor/performance_monitor_ms.h
 	carlsim/monitor/performance_monitor.h
 	carlsim/monitor/spike_monitor_core.h
 	carlsim/monitor/spike_monitor.h
 )
 
+#append monitor
+if(CARLSIM_INTEL_PCM)
+	set(monitor_SRCS
+		${monitor_SRCS}
+		carlsim/monitor/performance_monitor_intel.cpp  
+	)
+	set(monitor_HDRS
+		${monitor_HDRS}
+		carlsim/monitor/performance_monitor_intel.h
+	)
+endif()
+if(MSVC)
+	set(monitor_SRCS
+		${monitor_SRCS}
+		carlsim/monitor/performance_monitor_ms.cpp 
+	)
+	set(monitor_HDRS
+		${monitor_HDRS}
+		carlsim/monitor/performance_monitor_ms.h
+	)
+endif()
 
 
 source_group("Header Files\\Interface" FILES ${interface_HDRS})
@@ -442,6 +462,10 @@ if(CARLSIM_VLS_SIZING)
 endif()
 
 
+if(CARLSIM_INTEL_PCM) 
+	target_compile_definitions(carlsim PUBLIC INTEL_PCM)
+endif()
+
 # Includes
 
 target_include_directories(carlsim
@@ -452,11 +476,21 @@ target_include_directories(carlsim
 		#C:/Test/sourceforge/PTHREADS-BUILT/include
 )
 
-#if Intel PCM
-target_include_directories(carlsim
-	PUBLIC
-	"C:/Program Files/PCM/include/windows"
-)
+if(CARLSIM_INTEL_PCM) 
+	if(MSVC)
+		target_include_directories(carlsim
+			PUBLIC
+			"C:/Program Files/PCM/include/windows"
+		)
+	endif()
+	if(UNIX)
+		target_include_directories(carlsim
+			PUBLIC
+			"/usr/lib/include/pcm"
+		)
+	endif()
+endif()	
+
 #SET_TARGET_PROPERTIES(carlsim PROPERTIES LINK_FLAGS "/PROFILE")
 
 
@@ -524,18 +558,17 @@ if(WIN32)
 	target_link_libraries(carlsim PRIVATE pdh.lib)
 endif()
 
-#if Intel PCM
-# additive
-if(WIN32)  
-	# unresolved external symbol "public: static class pcm::PCM * __cdecl pcm::PCM::getInstance(void)" (?getInstance@PCM@pcm@@SAPEAV12@XZ) referenced in function "private: virtual void __cdecl PerfMon_pcmInit_Test::TestBody(void)" (?TestBody@PerfMon_pcmInit_Test@@EEAAXXZ)
-#	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
-
-	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
-	target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/debug/lib/pcm-lib.lib")
-
-	# mismatch detected for 'RuntimeLibrary': value 'MT_StaticRelease' doesn't match value 'MD_DynamicRelease' in carlsim.obj
-	#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/PCM_STATIC.lib")
-endif()
+if(CARLSIM_INTEL_PCM) 
+	if(MSVC)
+		# unresolved external symbol "public: static class pcm::PCM * __cdecl pcm::PCM::getInstance(void)" (?getInstance@PCM@pcm@@SAPEAV12@XZ) referenced in function "private: virtual void __cdecl PerfMon_pcmInit_Test::TestBody(void)" (?TestBody@PerfMon_pcmInit_Test@@EEAAXXZ)
+		#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/lib/pcm-lib.lib")
+		target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/debug/lib/pcm-lib.lib")
+		#target_link_libraries(carlsim PRIVATE "C:/Program Files/PCM/$<$<CONFIG:Debug>:debug/>/lib/pcm-lib.lib")
+	endif()
+	if(UNIX)
+		target_link_libraries(carlsim PRIVATE "/usr/lib/libpcm.a")
+	endif()
+endif()	
 
 
 ### Installation ###

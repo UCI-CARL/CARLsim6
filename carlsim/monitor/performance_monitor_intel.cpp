@@ -48,6 +48,7 @@
 * Ver 05/24/2017
 */
 
+
 #include <performance_monitor_intel.h>
 
 #include <snn.h>				// CARLsim private implementation
@@ -55,10 +56,8 @@
 
 #include <algorithm>			// std::sort
 
-//#if defined(WIN32) && (__INTEL_PCM__)
+
 using namespace pcm;
-
-
 
 
 PerformanceMonitorIntel::PerformanceMonitorIntel(SNN* snn, int monitorId, int sampleRate):
@@ -214,7 +213,7 @@ void PerformanceMonitorIntel::pushPerformanceCounter() {  // int time
 
 		//std::cout << "Core " << i << ": "
 	}
-
+	
 	
 	for (int i = 0; i < nCores_; ++i) {
 		double util = vectorUtilization_[i].back();

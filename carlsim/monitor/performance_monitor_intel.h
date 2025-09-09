@@ -51,6 +51,7 @@
 #ifndef _PERFORMANCE_MON_INTEL_H_
 #define _PERFORMANCE_MON_INTEL_H_
 
+
 #include <carlsim_datastructures.h>	// NeuronMonMode
 #include <stdio.h>					// FILE
 #include <vector>					// std::vector
@@ -60,8 +61,9 @@
 //#define __MOCKING_MODE__ 
 //#define __REDESIGN__
 
-// #ifdef INTEL_PCM
+
 #include <pcm-lib.h>
+
 //using namespace pcm;
 
 class SNN; // forward declaration of SNN class
@@ -85,7 +87,6 @@ public:
 	virtual void release(); 
 
 
-//#if defined(INTEL_PCM)
 #ifndef __MOCKING_MODE__
 	pcm::PCM* pcm_;
 	std::vector<pcm::SystemCounterState> pcmSystemStateBefore_;
@@ -100,6 +101,6 @@ public:
 	std::vector<pcm::CoreCounterState*> pcmCoreStateAfter_;
 #endif
 
-
 };
+
 #endif

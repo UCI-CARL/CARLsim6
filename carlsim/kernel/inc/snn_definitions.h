@@ -152,19 +152,14 @@
 	#define CPU_RUNTIME_BASE 8
 #endif
 
-//#define __SELECTED_PTHREADS__
-//#ifdef __SELECTED_PTHREADS__
-	// TODO PTHREAD patches
-	//#define NUM_CPU_CORES sysconf(_SC_NPROCESSORS_ONLN)
-//	#define sched_getcpu() 0
-//	#define NUM_CPU_CORES 4
-//#endif
-
 #ifndef __NO_PTHREADS__
+#ifdef UNIX
 	#define NUM_CPU_CORES sysconf(_SC_NPROCESSORS_ONLN)
+#else
+	#define sched_getcpu() 0
+	#define NUM_CPU_CORES 4
 #endif
-
-
+#endif
 
 /*
 Network Parameters:     numNeurons = 1152 (numNExcReg:numNInhReg = 44.4:44.4)

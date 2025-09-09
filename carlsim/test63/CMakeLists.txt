@@ -14,8 +14,8 @@ if(NOT GTest_FOUND)
     FetchContent_MakeAvailable(googletest)
 endif()
 
-# Targets
-add_executable(carlsim-tests63
+
+set(test63_SRCS      
 	carlsim_tests_common.cpp
 	main.cpp
 	norm_spike_gen.cpp
@@ -23,20 +23,35 @@ add_executable(carlsim-tests63
 	#perf_mon.cpp
 	#perf_mon_optim.cpp
 	perf_mon_slice.cpp
-	perf_mon_slice_pcm.cpp
 	perf_mon_threads.cpp
 	#perf_mon_integ.cpp
-	#perf_mon_ms_pdh.cpp
-	#perf_mon_intel_pcm.cpp
 	perf_mon_partition.cpp
-	#perf_mon_intel_msr.cpp
-	#msr.cpp
 	#pthreads_pool.cpp
 	#pthreads_test.cpp
 	#pthreads_worker.cpp
 	#thread_worker.cpp
 	#thread_worker_copilot.cpp
 	#thread_worker_pool.cpp
+)
+if(CARLSIM_INTEL_PCM)
+	set(test63_SRCS
+		${test63_SRCS}
+		perf_mon_slice_pcm.cpp
+		#perf_mon_intel_pcm.cpp
+		#perf_mon_intel_msr.cpp
+		#msr.cpp
+	)
+endif()
+if(MSVC)
+	set(test63_SRCS
+		${test63_SRCS}
+		#perf_mon_ms_pdh.cpp	
+	)
+endif()
+
+# Targets
+add_executable(carlsim-tests63
+	${test63_SRCS}	
 )
 
 #ISSUE: gtest flags gtest death test style lnk1120 unresolved externals     

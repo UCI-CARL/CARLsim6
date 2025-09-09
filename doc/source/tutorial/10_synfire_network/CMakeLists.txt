@@ -15,6 +15,9 @@ set(scripts_OAT
 source_group("Scripts\\OAT" FILES ${scripts_OAT})     
 add_custom_target(synfire_scripts
 	SOURCES ${scripts_OAT}
+	scripts/intelbench.bat
+	scripts/intelbench.sh
+	scripts/pibench.sh
 )
 set_property(TARGET synfire_scripts PROPERTY PROJECT_LABEL tutorial_10_synfire_scripts)
 

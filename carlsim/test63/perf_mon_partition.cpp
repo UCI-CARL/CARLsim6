@@ -279,7 +279,7 @@ x4.5 sicherheit ggü. RT --> learning or sparse processing --> see slow down
 	const size_t length = 100; 
 	char name[length];
 	for (int i = 0; i < N_exc; i++) {
-#ifdef __WIN32__		
+#ifdef WIN32		
 		sprintf_s<length>(name, "g_exc%i", i);
 #else	
 		sprintf(name, "g_exc%i", i);
@@ -292,7 +292,7 @@ x4.5 sicherheit ggü. RT --> learning or sparse processing --> see slow down
 	}
 
 	for (int i = 0; i < N_exc+1; i++) {
-#ifdef __WIN32__		
+#ifdef WIN32		
 		sprintf_s<length>(name, "g_inter%i", i);
 #else
 		sprintf(name, "g_inter%i", i);
