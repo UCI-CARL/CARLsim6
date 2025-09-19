@@ -32,6 +32,7 @@ set(test63_SRCS
 	#thread_worker.cpp
 	#thread_worker_copilot.cpp
 	#thread_worker_pool.cpp
+	gui_gen.cpp
 )
 if(CARLSIM_INTEL_PCM)
 	set(test63_SRCS
@@ -79,6 +80,7 @@ PRIVATE
 target_link_libraries(carlsim-tests63
 PRIVATE
     carlsim-spike-generators
+	carlsim-persistance
     ${GTEST_LIBRARIES}
 #    if(CARLSIM_GH_ACTIONS)
 #	GTest::gtest
