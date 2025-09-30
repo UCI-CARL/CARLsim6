@@ -6,14 +6,15 @@ if(CARLSIM_SAMPLES)
     if(CARLSIM_JK_CA3_SSN)
       add_subdirectory(ca3_example_net)
     endif()
+     
 #    add_subdirectory(test_kernel)
 #    add_subdirectory(test_kernel2)
 #    add_subdirectory(test_kernel3)
 #    add_subdirectory(lif_izhi_random_spnet)
+#    add_subdirectory(synfire1_benchmark)
+    add_subdirectory(synfire4_benchmark)
     add_subdirectory(spike_generator)
-endif()
-
- 
+endif() 
 #if(CARLSIM_BENCHMARKS)    
 #    add_subdirectory(benchmark1)
 #    add_subdirectory(benchmark2)

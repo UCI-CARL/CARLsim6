@@ -14,7 +14,7 @@
 
 
 
-TEST(CsGen, synfire) {
+TEST(CsGen, mini) {
 
 	// cd csgen
 
@@ -37,24 +37,20 @@ TEST(CsGen, synfire) {
 	}
 	int grpId_1;
 	{
-		auto grpId = carlsim->createGroup("Cexc0", 200, EXCITATORY_NEURON, 0, CPU_CORES);
+		auto grpId = carlsim->createGroup("Cexc0", 200, EXCITATORY_NEURON, 0, (ComputingBackend)0);
 		carlsim->setNeuronParameters(grpId, 0.020000, 0.200000, -65.000000, 8.000000);
 		carlsim->setConductances(grpId, false);
 		assert(grpId == 1);
 		grpId_1 = grpId;
 	}
 
-	ConnectionGeneratorFromFile* conngen_0 = nullptr;
 	int conn_id_0;
+	ConnectionGeneratorFromFile* conngen_0 = nullptr;
 	{
 		conngen_0 = new ConnectionGeneratorFromFile("csgen\\conngrpgen_0_0_1.dat");
-		conn_id_0 = carlsim->connect(0, 1, conngen_0, SYN_FIXED);
-
-		//ConnectionGeneratorFromFile conngen("csgen\\conngrpgen_0_0_1.dat");
-		//conn_id_0 = carlsim->connect(0, 1, &conngen, SYN_FIXED);
-
-
-		assert(conn_id_0 == 0);
+		auto connId = carlsim->connect(0, 1, conngen_0, SYN_FIXED);
+		assert(connId == 0);
+		conn_id_0 = connId;
 	}
 
 	carlsim->setupNetwork();
@@ -72,3 +68,124 @@ TEST(CsGen, synfire) {
 
 	EXPECT_TRUE(true);
 }
+
+
+
+
+TEST(CsGen, synfire4) {
+
+/*
+	std::vector<float> vect(200, .0f);
+	//std::vector<std::pair<int, float>> aer = {};
+	std::vector<std::pair<int, float>> aer = { {3,80.000000}, {69,80.000000}, {130,80.000000} };
+	for (auto iter = aer.begin(); iter != aer.end(); iter++) { vect[iter->first] = iter->second; };
+*/
+
+
+	// cd csgen
+
+	CARLsim* carlsim = new CARLsim("synfire4loopB", CPU_MODE, USER, 0, 42);
+
+	// CONFIG STATE
+	carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
+
+
+	#include "synfire4loopB/generators.h"
+
+	#include "synfire4loopB/groups.h"
+
+	#include "synfire4loopB/connections.h"
+	
+	//auto spikemon_0 = carlsim->setSpikeMonitor(0, "DEFAULT");
+	//spikemon_0->setPersistentData(true);
+
+	#include "synfire4loopB/monitors.h"
+
+
+	carlsim->setupNetwork();
+
+
+	// include "delete_spikegen.h"
+	//delete spike_gen_0;
+
+
+	for (int i = 0; i < 200; i++) {
+		carlsim->runNetwork(0, 1, false);
+	}
+
+	
+	for (int i = 0; i < 1500; i++) {
+		carlsim->runNetwork(0, 1, false);
+	}
+
+	//for (int i = 0; i < 5; i++) {
+	//	carlsim->runNetwork(0, 100, true);
+	//}
+
+	//for (int i = 0; i < 3; i++) {
+	//	carlsim->runNetwork(1, 0, true);
+	//}
+
+	#include "synfire4loopB/deletes.h"
+
+	delete carlsim;
+
+	EXPECT_TRUE(true);
+}
+
+
+
+TEST(CsGen, synfireMin) {
+
+	
+	// cd csgen
+
+	CARLsim* carlsim = new CARLsim("synfireMin", CPU_MODE, USER, 0, 42);
+
+	// CONFIG STATE
+	carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
+
+
+#include "synfireMin/generators.h"
+
+#include "synfireMin/groups.h"
+
+#include "synfireMin/connections.h"
+
+		//auto spikemon_0 = carlsim->setSpikeMonitor(0, "DEFAULT");
+		//spikemon_0->setPersistentData(true);
+
+#include "synfireMin/monitors.h"
+
+
+	carlsim->setupNetwork();
+
+
+	// include "delete_spikegen.h"
+	//delete spike_gen_0;
+
+
+	for (int i = 0; i < 200; i++) {
+		carlsim->runNetwork(0, 1, false);
+	}
+
+
+	//for (int i = 0; i < 1500; i++) {
+	//	carlsim->runNetwork(0, 1, false);
+	//}
+
+	//for (int i = 0; i < 5; i++) {
+	//	carlsim->runNetwork(0, 100, true);
+	//}
+
+	//for (int i = 0; i < 3; i++) {
+	//	carlsim->runNetwork(1, 0, true);
+	//}
+
+#include "synfireMin/deletes.h"
+
+	delete carlsim;
+
+	EXPECT_TRUE(true);
+}
+

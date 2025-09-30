@@ -2,6 +2,7 @@
 echo benchmark synfire snn for %2 seconds 6x:
 
 SET OMP_PROC_BIND=TRUE
+@REM SET OMP_NUM_THREADS=4
 @REM export OMP_PLACES={0},{1},{2},{3}
 @REM SET OMP_PLACES="{0},{2},{4},{6}"
 @REM export OMP_PLACES={1},{3},{5},{7}

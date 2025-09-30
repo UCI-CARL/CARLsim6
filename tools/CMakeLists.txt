@@ -3,6 +3,7 @@
     if(CARLSIM_SHARED)
       add_subdirectory(spike_generators)
       add_subdirectory(stopwatch)
+      add_subdirectory(persistance)
     endif()
     
     if(CARLSIM_TOOLS)

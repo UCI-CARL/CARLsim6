@@ -206,14 +206,29 @@ TEST(spikeGenFunc, NormalSpikeGeneratorPeriod100) {
 	sim.setSpikeMonitor(g0, "spkInputGrp0.dat"); // save spikes to file
 
 	// run for 2s with 100ms timeslice 
-	// expected: currentTime increase in 100 steps
-	// so if period 200 would cause 5 runs of the SpikeGen
-	// resulting in 5*21 = 105 spikes
+// expected: currentTime increase in 100 steps
+// so if period 200 would cause 5 runs of the SpikeGen
+// resulting in 5*21 = 105 spikes
 	for (int t = 0; t < 20; t++) {
 		//printf("timeslice %d\n", t);
-		sim.runNetwork(0, 100);  
+		sim.runNetwork(0, 100);
+		// spikes?
 	}
 
+
+//	// run for 2s with 100ms timeslice 
+//// expected: currentTime increase in 100 steps
+//// so if period 200 would cause 5 runs of the SpikeGen
+//// resulting in 5*21 = 105 spikes
+//	for (int t = 0; t < 20; t++) {
+//		//printf("timeslice %d\n", t);
+//		for (int ms = 0; ms < 100; ms++) {
+//			sim.runNetwork(0, 1);
+//		}
+//		// #spikes = 1000
+//	}
+//
+//
 
 
 	EXPECT_TRUE(true);
