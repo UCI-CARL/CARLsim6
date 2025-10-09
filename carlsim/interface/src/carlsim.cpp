@@ -1743,6 +1743,10 @@ public:
 	int getSimTimeSec() { return snn_->getSimTimeSec(); }
 	int getSimTimeMsec() { return snn_->getSimTimeMs(); }
 
+	void getSimSummary(unsigned int& spikeCount) {
+		snn_->getSimSummary(spikeCount);
+	};
+
 	// returns pointer to existing SpikeMonitor object, NULL else
 	SpikeMonitor* getSpikeMonitor(int grpId) {
 		std::stringstream funcName; funcName << "getSpikeMonitor(" << grpId << ")";
@@ -2674,6 +2678,9 @@ int CARLsim::getSimTime() { return _impl->getSimTime(); }
 int CARLsim::getSimTimeSec() { return _impl->getSimTimeSec(); }
 
 int CARLsim::getSimTimeMsec() { return _impl->getSimTimeMsec(); }
+
+void CARLsim::getSimSummary(unsigned int& spikeCount) { _impl->getSimSummary(spikeCount); }
+
 
 // returns pointer to previously allocated SpikeMonitor object, NULL else
 SpikeMonitor* CARLsim::getSpikeMonitor(int grpId) { return _impl->getSpikeMonitor(grpId); }

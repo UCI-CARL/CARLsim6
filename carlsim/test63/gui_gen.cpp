@@ -13,134 +13,392 @@
 #include <array>
 
 
+//
+//TEST(CsGen, mini) {
+//
+//	// cd csgen
+//
+//	CARLsim* carlsim = new CARLsim("netName", CPU_MODE, SILENT, 0, 42);
+//
+//
+//	// include  "create_spikegen.h"
+//	NormalSpikeGenerator* spike_gen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 200);
+//
+//	// CONFIG STATE
+//	carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
+//
+//
+//	int grpId_0;
+//	{
+//		auto grpId = carlsim->createSpikeGeneratorGroup("Cstim", 200, EXCITATORY_NEURON);
+//		carlsim->setSpikeGenerator(grpId, spike_gen_0);
+//		assert(grpId == 0);
+//		grpId_0 = grpId;
+//	}
+//	int grpId_1;
+//	{
+//		auto grpId = carlsim->createGroup("Cexc0", 200, EXCITATORY_NEURON, 0, (ComputingBackend)0);
+//		carlsim->setNeuronParameters(grpId, 0.020000, 0.200000, -65.000000, 8.000000);
+//		carlsim->setConductances(grpId, false);
+//		assert(grpId == 1);
+//		grpId_1 = grpId;
+//	}
+//
+//	int conn_id_0;
+//	ConnectionGeneratorFromFile* conngen_0 = nullptr;
+//	{
+//		conngen_0 = new ConnectionGeneratorFromFile("csgen\\conngrpgen_0_0_1.dat");
+//		auto connId = carlsim->connect(0, 1, conngen_0, SYN_FIXED);
+//		assert(connId == 0);
+//		conn_id_0 = connId;
+//	}
+//
+//	carlsim->setupNetwork();
+//
+//	delete conngen_0;
+//
+//
+//	// include "delete_spikegen.h"
+//	//delete spike_gen_0;
+//
+//
+//	carlsim->runNetwork(3, 0, true);
+//
+//	delete carlsim;
+//
+//	EXPECT_TRUE(true);
+//}
 
-TEST(CsGen, mini) {
-
-	// cd csgen
-
-	CARLsim* carlsim = new CARLsim("netName", CPU_MODE, USER, 0, 42);
 
 
-	// include  "create_spikegen.h"
-	NormalSpikeGenerator* spike_gen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 200);
+// not periodical -> validate steps from file
+TEST(CsGen, synfire4) {
 
-	// CONFIG STATE
-	carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
+	int TSim = 1000; // ms
+	int NIter = 4;  // iterations
+	int NMsecs[] = { 1, 10, 100, 200 };
+	
+	// Reference 
+	/*
+		Overall Spike Count :  Total = 27697 for 1sec run
 
+		for (int i = 0; i < 1000; i++) {
+			carlsim->runNetwork(0, 1, false);
+		}
 
-	int grpId_0;
-	{
-		auto grpId = carlsim->createSpikeGeneratorGroup("Cstim", 200, EXCITATORY_NEURON);
-		carlsim->setSpikeGenerator(grpId, spike_gen_0);
-		assert(grpId == 0);
-		grpId_0 = grpId;
+		for (int i = 0; i < 100; i++) {
+			carlsim->runNetwork(0, 10, false);
+		}
+
+		for (int i = 0; i < 10; i++) {
+			carlsim->runNetwork(0, 100, false);
+		}
+
+		for (int i = 0; i < 5; i++) {
+			carlsim->runNetwork(0, 200, false);
+		}
+	*/
+
+	for (int iter = 0; iter < NIter; iter++) {
+
+		CARLsim* carlsim = new CARLsim("synfire4loopB", CPU_MODE, SILENT, 0, 42);
+
+		// CONFIG STATE
+		carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
+
+		//#include "synfire4loopB/generators.h"
+		//NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 200);
+		NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 0);
+
+#include "synfire4loopB/groups.h"
+
+#include "synfire4loopB/connections-file.h"
+
+		//auto spikemon_0 = carlsim->setSpikeMonitor(0, "DEFAULT");
+		//spikemon_0->setPersistentData(true);
+
+#include "synfire4loopB/monitors.h"
+
+		carlsim->setupNetwork();
+
+		auto nMsec = NMsecs[iter];
+		for (int i = 0; i < TSim / nMsec; i++) {
+			carlsim->runNetwork(0, nMsec, false);
+		}
+
+#include "synfire4loopB/deletes.h"
+
+		auto state = carlsim->getCARLsimState();
+		EXPECT_EQ(state, RUN_STATE);
+
+		unsigned int spikes = 0;
+		carlsim->getSimSummary(spikes);
+
+		EXPECT_EQ(spikes, 27697);
+
+		delete carlsim;
+
 	}
-	int grpId_1;
-	{
-		auto grpId = carlsim->createGroup("Cexc0", 200, EXCITATORY_NEURON, 0, (ComputingBackend)0);
-		carlsim->setNeuronParameters(grpId, 0.020000, 0.200000, -65.000000, 8.000000);
-		carlsim->setConductances(grpId, false);
-		assert(grpId == 1);
-		grpId_1 = grpId;
-	}
 
-	int conn_id_0;
-	ConnectionGeneratorFromFile* conngen_0 = nullptr;
-	{
-		conngen_0 = new ConnectionGeneratorFromFile("csgen\\conngrpgen_0_0_1.dat");
-		auto connId = carlsim->connect(0, 1, conngen_0, SYN_FIXED);
-		assert(connId == 0);
-		conn_id_0 = connId;
-	}
-
-	carlsim->setupNetwork();
-
-	delete conngen_0;
-
-
-	// include "delete_spikegen.h"
-	//delete spike_gen_0;
-
-
-	carlsim->runNetwork(3, 0, true);
-
-	delete carlsim;
-
-	EXPECT_TRUE(true);
 }
 
 
+// => Normal: mean, sd  difference of periodical / not => expected lower mean (due to shut-of, same sd)
 
+// not periodical -> validate steps from file than random
+TEST(CsGen, synfire4random) {
 
-TEST(CsGen, synfire4) {
+	int TSim = 1000; // ms
+	int NIter = 4;  // iterations
+	int Seeds[] = { 42, 13, 666, 1965 };
+	int Spikes[] = { 26694, 26874, 26637, 26938 };
 
-/*
-	std::vector<float> vect(200, .0f);
-	//std::vector<std::pair<int, float>> aer = {};
-	std::vector<std::pair<int, float>> aer = { {3,80.000000}, {69,80.000000}, {130,80.000000} };
-	for (auto iter = aer.begin(); iter != aer.end(); iter++) { vect[iter->first] = iter->second; };
-*/
+	for (int iter = 0; iter < NIter; iter++) {
 
+		CARLsim* carlsim = new CARLsim("synfire4loopB", CPU_MODE, SILENT, 0, Seeds[iter]);
 
-	// cd csgen
+		// CONFIG STATE
+		carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
 
-	CARLsim* carlsim = new CARLsim("synfire4loopB", CPU_MODE, USER, 0, 42);
+		//#include "synfire4loopB/generators.h"
+		//NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 200);
+		NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 0);
 
+		#include "synfire4loopB/groups.h"
+
+		#include "synfire4loopB/connections-random.h"
+	
+		#include "synfire4loopB/monitors.h"
+
+		carlsim->setupNetwork();
+
+		for (int i = 0; i < TSim; i++) {
+			carlsim->runNetwork(0, 1, false);
+		}
+
+		auto state = carlsim->getCARLsimState();
+		EXPECT_EQ(state, RUN_STATE);
+
+		unsigned int spikes = 0;
+		carlsim->getSimSummary(spikes);
+
+		EXPECT_EQ(spikes, Spikes[iter]);
+
+		delete carlsim;
+
+	}
+	
+}
+
+TEST(CsGen, synfire4period) {
+
+	// Random  Spikes
+	// file -> 26830  (random connections generated by CARLsimGUI)
+
+	CARLsim* carlsim = new CARLsim("synfire4loopB", CPU_MODE, SILENT, 0, 42);   
+ 	
 	// CONFIG STATE
 	carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
 
-
-	#include "synfire4loopB/generators.h"
+	//#include "synfire4loopB/generators.h"
+	NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 200);
+	//NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 0);
 
 	#include "synfire4loopB/groups.h"
 
-	#include "synfire4loopB/connections.h"
-	
-	//auto spikemon_0 = carlsim->setSpikeMonitor(0, "DEFAULT");
-	//spikemon_0->setPersistentData(true);
+	#include "synfire4loopB/connections-file.h"
 
 	#include "synfire4loopB/monitors.h"
-
 
 	carlsim->setupNetwork();
 
 
-	// include "delete_spikegen.h"
-	//delete spike_gen_0;
-
-
-	for (int i = 0; i < 200; i++) {
+	for (int i = 0; i < 1000; i++) {
 		carlsim->runNetwork(0, 1, false);
 	}
-
-	
-	for (int i = 0; i < 1500; i++) {
-		carlsim->runNetwork(0, 1, false);
-	}
-
-	//for (int i = 0; i < 5; i++) {
-	//	carlsim->runNetwork(0, 100, true);
-	//}
-
-	//for (int i = 0; i < 3; i++) {
-	//	carlsim->runNetwork(1, 0, true);
-	//}
 
 	#include "synfire4loopB/deletes.h"
 
-	delete carlsim;
+	auto state = carlsim->getCARLsimState();
+	EXPECT_EQ(state, RUN_STATE);
 
-	EXPECT_TRUE(true);
+	unsigned int spikes = 0;
+	carlsim->getSimSummary(spikes);
+	
+	EXPECT_LT(spikes, 27697); // Reference non-periodical spike count
+
+	EXPECT_EQ(spikes, 26830);
+
+	delete carlsim;
 }
 
 
+// random
+TEST(CsGen, synfire4periodrand) {
+
+	// Random  Spikes
+	// 42   -> 26260
+	// 13   -> 27919
+	// 666  -> 26141
+	// 1965 -> 26697
+	// file -> 26830  (random connections generated by CARLsimGUI)
+
+	int TSim = 1000; // ms
+	int NIter = 4;  // iterations
+	int Seeds[] = { 42, 13, 666, 1965 };
+	int Spikes[] = { 26260, 27919, 26141, 26697 };
+
+	for (int iter = 0; iter < NIter; iter++) {
+
+		CARLsim* carlsim = new CARLsim("synfire4loopB", CPU_MODE, SILENT, 0, Seeds[iter]);
+
+		// CONFIG STATE
+		carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
+
+
+		//#include "synfire4loopB/generators.h"
+		NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 200);
+		//NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 0);
+
+		#include "synfire4loopB/groups.h"
+
+		#include "synfire4loopB/connections-random.h"
+
+		#include "synfire4loopB/monitors.h"
+
+		carlsim->setupNetwork();
+
+
+		for (int i = 0; i < TSim; i++) {
+			carlsim->runNetwork(0, 1, false);
+		}
+
+		auto state = carlsim->getCARLsimState();
+		EXPECT_EQ(state, RUN_STATE);
+
+		unsigned int spikes = 0;
+		carlsim->getSimSummary(spikes);
+
+		EXPECT_EQ(spikes, Spikes[iter]);
+
+		delete carlsim;
+
+	}
+}
+
+
+// random
+TEST(CsGen, synfire4periodstat) {
+
+	int TSim = 1000; // ms
+	int NIter = 5;  // iterations
+	//int NIter = 200;  // iterations
+	//int NIter = 1000;  // iterations
+	//int NIter = 10000;  // iterations
+
+	int seed = 1;
+
+	std::vector<int> spikes_periodical, spikes_once;
+	double mean_periodical = .0, mean_once = .0;
+	double total_periodical = .0, total_once = .0, total_delta = .0;
+
+	for (int iter = 0; iter < NIter; iter++) {
+		seed += iter; // fib
+
+		{
+			CARLsim* carlsim = new CARLsim("synfire4loopB", CPU_MODE, SILENT, 0, seed);
+			carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
+			NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 200);
+			#include "synfire4loopB/groups.h"
+			#include "synfire4loopB/connections-random.h"
+			#include "synfire4loopB/monitors.h"
+			carlsim->setupNetwork();
+			for (int i = 0; i < TSim; i++) {
+				carlsim->runNetwork(0, 1, false);
+			}
+			unsigned int spikes = 0;
+			carlsim->getSimSummary(spikes);
+			EXPECT_NEAR(spikes, 27697, 5500);
+			spikes_periodical.push_back(spikes);
+			total_periodical += spikes;
+			mean_periodical = (mean_periodical * iter + spikes) / (iter+1);  // = total / iter
+			EXPECT_NEAR(mean_periodical, total_periodical / (iter+1), 0.01);
+			delete carlsim;
+		}
+
+		{
+			CARLsim* carlsim = new CARLsim("synfire4loopB", CPU_MODE, SILENT, 0, seed);
+			carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);
+			NormalSpikeGenerator* spikegen_0 = new NormalSpikeGenerator(10.000000, 2.400000, 400, 0);
+			#include "synfire4loopB/groups.h"
+			#include "synfire4loopB/connections-random.h"
+			#include "synfire4loopB/monitors.h"
+			carlsim->setupNetwork();
+			for (int i = 0; i < TSim; i++) {
+				carlsim->runNetwork(0, 1, false);
+			}
+			unsigned int spikes = 0;
+			carlsim->getSimSummary(spikes);
+			EXPECT_NEAR(spikes, 27697, 5500);
+			spikes_once.push_back(spikes);
+			total_once += spikes;
+			mean_once = (mean_once * iter + spikes) / (iter + 1);  // = total / iter
+			EXPECT_NEAR(mean_once, total_once / (iter + 1), 0.01);
+			delete carlsim;
+		}
+		total_delta += spikes_once.back() - spikes_periodical.back();
+		//printf("%d. E(once):%.0f - E(period):%.0f =  %.0f\n", iter, mean_once, mean_periodical, mean_once - mean_periodical);
+		//printf("%d. Spikes(once):%d - Spikes(period):%d =  %d\n", iter, spikes_once.back(), spikes_periodical.back(), spikes_once.back() - spikes_periodical.back());
+	}
+
+	EXPECT_LT(total_periodical, total_once);
+	EXPECT_LT(mean_periodical, mean_once);
+	//printf("%d. E(once):%.0f - E(period):%.0f = d %.0f\n", NIter, mean_once, mean_periodical, mean_once - mean_periodical);
+	//printf("E(delta) %.1f\n", (double) (total_delta / NIter) );
+
+	// p(spikes_i) = 1/NIter
+	// E
+	double f = 1.0 / NIter;
+	double E_p = .0, E_o = .0, E_d = .0;
+	for (int iter = 0; iter < NIter; iter++) {
+		double spikes_p = spikes_periodical[iter];
+		double spikes_o = spikes_once[iter];
+		double spikes_d = spikes_o - spikes_p;
+		E_p += spikes_p * f;
+		E_o += spikes_o * f;
+		E_d += spikes_d * f;
+	}
+	// SD
+	double V_p = .0, V_o = .0, V_d = .0;
+	for (int iter = 0; iter < NIter; iter++) {
+		double spikes_p = spikes_periodical[iter];
+		double spikes_o = spikes_once[iter];
+		double spikes_d = spikes_o - spikes_p;
+		V_p += (spikes_p - E_p) * (spikes_p - E_p) * f;
+		V_o += (spikes_o - E_o) * (spikes_o - E_o) * f;
+		V_d += (spikes_d - E_d) * (spikes_d - E_d) * f;
+	}
+	double SD_p = sqrt(V_p), SD_o = sqrt(V_o), SD_d = sqrt(V_d);
+	
+	//printf("SD(once):%.1f, SD(period):%.1f,  SD(delta):%.1f\n", SD_o, SD_p, SD_d);
+
+/*
+10000. E(once):26626 - E(period):26345 = d 281
+E(delta) 281.4
+SD(once):142.8, SD(period):769.6,  SD(delta):764.8
+--> assumption: strong correlation of rv(period) and rv(delta)  dependent
+covariance .. --> 1
+*/
+
+
+}
 
 TEST(CsGen, synfireMin) {
 
 	
 	// cd csgen
 
-	CARLsim* carlsim = new CARLsim("synfireMin", CPU_MODE, USER, 0, 42);
+	CARLsim* carlsim = new CARLsim("synfireMin", CPU_MODE, SILENT, 0, 42);
 
 	// CONFIG STATE
 	carlsim->setIntegrationMethod(RUNGE_KUTTA4, 10);

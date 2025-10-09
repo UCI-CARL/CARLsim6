@@ -9985,7 +9985,37 @@ void SNN::updatePerformanceMonitor() {
 }
 
 
+// retrieve summary for quality assurance
+// can be used in RUN_STATE only. 
+// 
+void SNN::getSimSummary(unsigned int &spikeCount) {
 
+	//CARLsimState state = getCARLsimState();
+	//_impl->getCARLsimState();
+
+	//assert(carlsimState_ == SETUP_STATE)
+	//carlsimState_ == SETUP_STATE;
+
+
+	/* snn_datastructures.h
+	unsigned int spikeCountSec;   //!< the total number of spikes in 1 second, used in CPU_MODE currently
+	unsigned int spikeCountD1Sec; //!< the total number of spikes with axonal delay == 1 in 1 second, used in CPU_MODE currently	
+	unsigned int spikeCountD2Sec; //!< the total number of spikes with axonal delay > 1 in 1 second, used in CPU_MODE currently
+	unsigned int spikeCountExtRxD1Sec;
+	unsigned int spikeCountExtRxD2Sec;
+	unsigned int spikeCount;      //!< the total number of spikes in a simulation, used in CPU_MODE currently
+	unsigned int spikeCountD1;    //!< the total number of spikes with anxonal delay == 1 in a simulation, used in CPU_MODE currently
+	unsigned int spikeCountD2;    //!< the total number of spikes with anxonal delay > 1 in a simulation, used in CPU_MODE currently
+	unsigned int nPoissonSpikes;  //!< the total number of spikes of poisson neurons, used in CPU_MODE currently
+	unsigned int spikeCountLastSecLeftD2; //!< the nubmer of spike left in the last second, used in CPU_MODE currently
+	unsigned int spikeCountExtRxD2; //!< the number of external spikes with axonal delay > 1 in a simulation, used in CPU_MODE currently
+	unsigned int spikeCountExtRxD1; //!< the number of external spikes with axonal delay == 1 in a simulation, used in CPU_MODE currently
+    */	
+
+	fetchNetworkSpikeCount();
+
+	spikeCount = managerRuntimeData.spikeCount;
+}
 
 
 // FIXME: update summary format for multiGPUs

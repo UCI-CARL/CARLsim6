@@ -361,8 +361,8 @@ TEST(CbMon, pthreads) {
 
 	//const int AFFINITY = 4;
 
-	CARLsim* sim = new CARLsim("CbMon.pthreads", CPU_MODE, USER, 0, 42);  // DEVELOPER --> USER --> SILENT
-	//CARLsim* sim = new CARLsim("CbMon.pthreads", GPU_MODE, SILENT, 0, 42);
+	//CARLsim* sim = new CARLsim("CbMon.pthreads", CPU_MODE, USER, 0, 42);  // DEVELOPER --> USER --> SILENT
+	CARLsim* sim = new CARLsim("CbMon.pthreads", GPU_MODE, SILENT, 0, 42);
 
 
 	sim->setConductances(true);

@@ -188,8 +188,8 @@ TEST(PerfMon, partition) {
 	//auto devices = CARLsim::cudaDeviceCount();
 
 
-	//CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, SILENT, 0, 42);
-	CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, USER, 0, 42);
+	CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, SILENT, 0, 42);
+	//CARLsim* sim = new CARLsim("PerfMon.partition", CPU_MODE, USER, 0, 42);
 	//CARLsim* sim = new CARLsim("PerfMon.partition", GPU_MODE, USER, 0, 42);
 
 	sim->setConductances(true);

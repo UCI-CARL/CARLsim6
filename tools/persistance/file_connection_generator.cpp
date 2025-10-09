@@ -65,10 +65,9 @@ ConnectionGeneratorFromFile::ConnectionGeneratorFromFile(std::string fileName) {
 
 	// open file
 	FILE *file = fopen(fileName.c_str(), "rb");
-	
+	assert(file);
+
 	// read header
-
-
 	//auto nbytes = fread(&conn_gen_header, sizeof(conn_gen_header_t), 1, file);
 
 	auto records = fread(&conn_gen_header, sizeof(conn_gen_header_t), 1, file);

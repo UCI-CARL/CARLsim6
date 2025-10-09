@@ -741,6 +741,9 @@ public:
 	int getSimTimeSec() { return simTimeSec; }
 	int getSimTimeMs() { return simTimeMs; }
 
+	//! public access function for the simulation summary similar to printSimSummary()
+	void getSimSummary(unsigned int& spikeCount);
+
 	//! Returns pointer to existing SpikeMonitor object, NULL else
 	SpikeMonitor* getSpikeMonitor(int grpId);
 
@@ -769,7 +772,6 @@ public:
 	//! Returns pointer to existing PerformanceMonitorCore object, NULL else.
 	//! Should not be exposed to user interface
 	PerformanceMonitorCore* getPerformanceMonitorCore();
-
 
 
 

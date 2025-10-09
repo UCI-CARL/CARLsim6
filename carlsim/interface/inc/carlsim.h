@@ -1905,6 +1905,13 @@ public:
 	int getSimTimeMsec();
 
 	/*!
+	 * \brief Returns key performance counter of the simulation summary.
+	 *
+	 * \STATE ::SETUP_STATE, ::RUN_STATE
+	 */
+	void getSimSummary(unsigned int& spikeCount);
+
+	/*!
 	 * \brief Returns the number of spikes per neuron for a certain group
 	 *
 	 * A SpikeCounter keeps track of all spikes per neuron binned into a certain time period (recordDur).

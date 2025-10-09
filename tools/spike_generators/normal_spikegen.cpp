@@ -98,7 +98,8 @@ NormalSpikeGenerator::NormalSpikeGenerator(double mean, double sd, int events, i
 */
 int NormalSpikeGenerator::nextSpikeTime(CARLsim* sim, int grpId, int nid, int currentTime, int lastScheduledSpikeTime, int endOfTimeSlice) {
 
-	//printf("nid:%u currentTime: %u lastScheduled: %u %u\n", nid, currentTime, lastScheduledSpikeTime, endOfTimeSlice);
+	//if(nid < 3)
+	//	printf("nid:%u currentTime: %u lastScheduled: %u %u\n", nid, currentTime, lastScheduledSpikeTime, endOfTimeSlice);
 
 
 	if (period_ > 0) {
@@ -114,8 +115,10 @@ int NormalSpikeGenerator::nextSpikeTime(CARLsim* sim, int grpId, int nid, int cu
 			return currentTime + 1;
 		else 
 			return 0xFFFFFFFF; // no start
+
+
 	} 
-	else
+	else  // period_ == 0
 	{
 		if (lastScheduledSpikeTime == 0) {
 			// search for first 
