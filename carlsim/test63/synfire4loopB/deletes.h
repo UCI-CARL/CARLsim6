@@ -26,7 +26,6 @@
 
 	delete conngen_13;
 
-	delete conngen_14;
 
 	delete spikegen_0;
 

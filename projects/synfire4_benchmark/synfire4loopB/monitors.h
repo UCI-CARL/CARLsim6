@@ -1,6 +1,6 @@
-	auto perfmon = carlsim->setPerformanceMonitor(PMB_MS, "DEFAULT"); 
-	perfmon->setPersistentData(true);
-	perfmon->setSampleRate(100);
+//	auto perfmon = carlsim->setPerformanceMonitor(PMB_MS, "DEFAULT"); 
+//	perfmon->setPersistentData(true);
+//	perfmon->setSampleRate(100);
 
 	auto spikemon_0 = carlsim->setSpikeMonitor(0, "DEFAULT");
 	spikemon_0->setPersistentData(true);

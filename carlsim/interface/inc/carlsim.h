@@ -201,6 +201,7 @@ public:
 		,int custom1 = -1
 		,int custom2 = -1
 		,int custom3 = -1
+		,int kernelFeatures = 0
 #endif
 		);
 	~CARLsim();

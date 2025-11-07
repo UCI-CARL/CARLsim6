@@ -1515,17 +1515,28 @@ void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int lGrpId
 	int numN = glbNetworkConfig.numN;
 	int maxDelay = glbNetworkConfig.maxDelay;
 
+	size_t used = 0;
+	int len = 1; // line length, zero terminated 
 	strcpy(buffer, ""); // init buffer
-	auto append = [&]() {strcat(buffer, lineBuffer); };  
+	auto append = [&]() {
+		if (used + len + 3 < length ) {
+			strcat(buffer, lineBuffer);
+			used += len;
+		} else
+		if(used + 3 < length) {
+			strcat(buffer, "..."); // len = 3
+			used += length - used; // buffer full
+		}
+	};  
 
-	sprintf(lineBuffer, "%-9s      %-9s      %-9s      %-9s\n", "Npost", "Npre", "cumPost", "cumPre");
+	len = sprintf(lineBuffer, "%-9s      %-9s      %-9s      %-9s\n", "Npost", "Npre", "cumPost", "cumPre");
 	append(); 
 	for (int lNId = lStartNIdPre; lNId <= lEndNIdPre; lNId++) {
 		int _Npost = runtimeData[netId].Npost[lNId];
 		int _Npre = runtimeData[netId].Npre[lNId];
 		int _cumulativePost = runtimeData[netId].cumulativePost[lNId];
 		int _cumulativePre = runtimeData[netId].cumulativePre[lNId];
-		sprintf(lineBuffer, "[%3d] %3d      [%3d] %3d      [%3d] %3d      [%3d] %3d\n", lNId, _Npost, lNId, _Npre, lNId, _cumulativePost, lNId, _cumulativePre);
+		len = sprintf(lineBuffer, "[%3d] %3d      [%3d] %3d      [%3d] %3d      [%3d] %3d\n", lNId, _Npost, lNId, _Npre, lNId, _cumulativePost, lNId, _cumulativePre);
 		append();
 	}
 
@@ -1536,45 +1547,45 @@ void SNN::printEntrails_CPU(char* buffer, unsigned length, int netId, int lGrpId
 	int numPreSynapses = groupConfigs[netId][lGrpIdPost].numPreSynapses;
 
 
-	sprintf(lineBuffer, "\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
+	len = sprintf(lineBuffer, "\n%s (%s, %s, %s)\n", "postSynapticIds", "connectionGroupId", "synapseId", "postNId");
 	append();
 	for (int pos = start; pos < numPostSynapses; pos++) {     // maybe some kind of max, to to pos_post,  pos_pre
 		auto postSynInfo = runtimeData[netId].postSynapticIds[pos];  // post_pos
 		int lNId = GET_CONN_NEURON_ID(postSynInfo);
 		int grpId = GET_CONN_GRP_ID(postSynInfo);
 		int synId = GET_CONN_SYN_ID(postSynInfo);
-		sprintf(lineBuffer, "[%3d] {%3d %3d} %3d \n", pos, grpId, synId, lNId);
+		len = sprintf(lineBuffer, "[%3d] {%3d %3d} %3d \n", pos, grpId, synId, lNId);
 		append();
 	}
 
-	sprintf(lineBuffer, "\n%s (%s, %s, %s)\n", "preSynapticIds", "connectionGroupId", "synapseId", "preNId");
+	len = sprintf(lineBuffer, "\n%s (%s, %s, %s)\n", "preSynapticIds", "connectionGroupId", "synapseId", "preNId");
 	append();
 	for (int pos = start; pos < numPreSynapses; pos++) {     // maybe some kind of max, to to pos_post,  pos_pre
 		auto preSynInfo = runtimeData[netId].preSynapticIds[pos];  // post_pos
 		int lNId = GET_CONN_NEURON_ID(preSynInfo);
 		int grpId = GET_CONN_GRP_ID(preSynInfo);
 		int synId = GET_CONN_SYN_ID(preSynInfo);
-		sprintf(lineBuffer, "[%3d] {%3d %3d} %3d\n", pos, grpId, synId, lNId);
+		len = sprintf(lineBuffer, "[%3d] {%3d %3d} %3d\n", pos, grpId, synId, lNId);
 		append();
 	}
 
 	//int numPreN = groupConfigMap[gGrpIdPre].numN;
 	int numPreN = groupConfigs[netId][lGrpIdPre].numN;
 
-	sprintf(lineBuffer, "\npostDelayInfo (pre x d)\n   ");  append();
+	len = sprintf(lineBuffer, "\npostDelayInfo (pre x d)\n   ");  append();
 	for (int t = 0; t < maxDelay + 1; t++) {
-		sprintf(lineBuffer, "%4d ", t+1);  append();
+		len = sprintf(lineBuffer, "%4d ", t+1);  append();
 	}
-	sprintf(lineBuffer, "\n");  append();
+	len = sprintf(lineBuffer, "\n");  append();
 	for (int lNId = lStartNIdPre; lNId <= lEndNIdPre; lNId++)
 	{
-		sprintf(lineBuffer, "%2d ", lNId);  append();
+		len = sprintf(lineBuffer, "%2d ", lNId);  append();
 		for (int t = 0; t < maxDelay + 1; t++) {
-			sprintf(lineBuffer, "[%d,%d]",
+			len = sprintf(lineBuffer, "[%d,%d]",
 				runtimeData[netId].postDelayInfo[lNId * (maxDelay + 1) + t].delay_index_start,
 				runtimeData[netId].postDelayInfo[lNId * (maxDelay + 1) + t].delay_length);  append();
 		}
-		sprintf(lineBuffer, "\n"); append();
+		len = sprintf(lineBuffer, "\n"); append();
 	}
 
 }

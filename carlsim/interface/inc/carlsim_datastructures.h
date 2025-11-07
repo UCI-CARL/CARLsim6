@@ -186,6 +186,7 @@ enum CarlsimParam {
 	CUSTOM_1_PARAM,
 	CUSTOM_2_PARAM,
 	CUSTOM_3_PARAM,
+	KERNEL_FEATURES_PARAM,
 	CARLSIM_PARAMS
 };
 
@@ -201,6 +202,7 @@ static const char* CarlsimParameter_string[] = {
 	"CARLSIM_CUSTOM_1",
 	"CARLSIM_CUSTOM_2",
 	"CARLSIM_CUSTOM_3",
+	"CARLSIM_KERNEL_FEATURES",
 	""
 };
 

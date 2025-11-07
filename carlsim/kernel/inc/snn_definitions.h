@@ -310,4 +310,11 @@ Overall Spike Count:    2+ms delay = 137984
 #define GET_INITWTS_RAMPUP(a)		(((a) >> CONNECTION_INITWTS_RAMPUP) & 1)
 #define GET_INITWTS_RAMPDOWN(a)		(((a) >> CONNECTION_INITWTS_RAMPDOWN) & 1)
 
+
+#define KERNEL_FEATURE_ACTIVE(k, f)	        ( ( (k & f) >> (f-1) ) & 1)   // test kernel feature
+#define KERNEL_EXPORT_CONNECTOM		1		// export connectom of global neuron ids
+#define KERNEL_CONNECTION_CHECKSUMS 2
+#define KERNEL_GROUPS_CHECKSUMS		3
+
+
 #endif

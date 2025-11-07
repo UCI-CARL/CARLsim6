@@ -18,10 +18,11 @@ SET OMP_PROC_BIND=TRUE
 @echo done.  >&2
 @timeout 5  >&2
 
-@echo synfire4 %1 3 cores
-.\synfire4   --carlsim_rand_seed=42 --carlsim_custom_2=%2 --carlsim_omp_threads=3 >"results\console-synfire,omp,%1,3cores.txt"
-@echo done.  >&2
-@timeout 5  >&2
+@REM @echo synfire4 %1 3 cores
+@REM .\synfire4   --carlsim_rand_seed=42 --carlsim_custom_2=%2 --carlsim_omp_threads=3 >"results\console-synfire,omp,%1,3cores.txt"
+@REM @echo done.  >&2
+@REM @timeout 5  >&2
+
 
 @echo synfire4 %1 4 cores
 .\synfire4  --carlsim_rand_seed=42 --carlsim_custom_2=%2 --carlsim_omp_threads=4 >"results\console-synfire,omp,%1,4cores.txt"
@@ -32,3 +33,11 @@ SET OMP_PROC_BIND=TRUE
 .\synfire4  --carlsim_rand_seed=42 --carlsim_custom_2=%2 --carlsim_omp_threads=8 >"results\console-synfire,omp,%1,8cores.txt"
 @echo done.  >&2
 @timeout 5  >&2
+
+@echo synfire4 %1 16 cores
+.\synfire4  --carlsim_rand_seed=42 --carlsim_custom_2=%2 --carlsim_omp_threads=16 >"results\console-synfire,omp,%1,16cores.txt"
+@echo done.  >&2
+@timeout 5  >&2
+
+
+

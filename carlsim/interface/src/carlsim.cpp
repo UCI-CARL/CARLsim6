@@ -88,7 +88,7 @@ public:
 
 	Impl(CARLsim* sim, const std::string& netName, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed
 #ifdef CARLSIM_FEAT_SYSPARAMS	
-		, int speedFactor, int ompThreads, int custom1, int custom2, int custom3
+		, int speedFactor, int ompThreads, int custom1, int custom2, int custom3, int kernelFeatures
 #endif
 	) {
 		netName_ 					= netName;
@@ -102,6 +102,7 @@ public:
 		custom1_ = custom1;
 		custom2_ = custom2;
 		custom3_ = custom3; 
+		kernelFeatures_ = kernelFeatures;
 #endif
 
 		enablePrint_ = false;
@@ -2030,6 +2031,7 @@ private:
 		custom1_ = SNN::Params[CUSTOM_1_PARAM] == -1 ? custom1_: SNN::Params[CUSTOM_1_PARAM];
 		custom2_ = SNN::Params[CUSTOM_2_PARAM] == -1 ? custom2_: SNN::Params[CUSTOM_2_PARAM];
 		custom3_ = SNN::Params[CUSTOM_3_PARAM] == -1 ? custom3_: SNN::Params[CUSTOM_3_PARAM];
+		kernelFeatures_ = SNN::Params[KERNEL_FEATURES_PARAM] == -1 ? kernelFeatures_ : SNN::Params[KERNEL_FEATURES_PARAM];
 #endif
 
 		// Check for configuration errors
@@ -2044,7 +2046,7 @@ private:
 		// init SNN object
 		snn_ = new SNN(netName_, preferredSimMode_, loggerMode_, randSeed_
 #ifdef CARLSIM_FEAT_SYSPARAMS
-			, speedFactor_, ompThreads_, custom1_, custom2_, custom3_
+			, speedFactor_, ompThreads_, custom1_, custom2_, custom3_, kernelFeatures_
 #endif 
 		);
 
@@ -2125,6 +2127,8 @@ private:
 	int custom1_;		//!< custom int parameter 1 CARLSIM_CUSTOM_1
 	int custom2_;
 	int custom3_;
+
+	int kernelFeatures_;
 #endif 
 
 	bool enablePrint_;
@@ -2205,12 +2209,12 @@ pthread_mutex_t CARLsim::Impl::gpuAllocationLock = PTHREAD_MUTEX_INITIALIZER;
 // constructor / destructor
 CARLsim::CARLsim(const std::string& netName, SimMode preferredSimMode, LoggerMode loggerMode, int ithGPUs, int randSeed
 #ifdef CARLSIM_FEAT_SYSPARAMS
-	, int speedFactor, int ompThreads, int custom1, int custom2, int custom3
+	, int speedFactor, int ompThreads, int custom1, int custom2, int custom3, int kernelFeatures
 #endif
 ) : 
 _impl( new Impl(this, netName, preferredSimMode, loggerMode, randSeed
 #ifdef CARLSIM_FEAT_SYSPARAMS
-	, speedFactor, ompThreads, custom1, custom2, custom3
+	, speedFactor, ompThreads, custom1, custom2, custom3, kernelFeatures
 #endif
 ) ) {}
 CARLsim::~CARLsim() { delete _impl; }

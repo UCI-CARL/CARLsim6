@@ -171,6 +171,7 @@ public:
 		,int custom1
 		,int custom2
 		,int custom3
+		,int kernelFeatures
 #endif	
 	);
 
@@ -183,7 +184,7 @@ public:
 	// +++++ PUBLIC PROPERTIES ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ //
 
 	const static unsigned int MAJOR_VERSION = 6; //!< major release version, as in CARLsim X
-	const static unsigned int MINOR_VERSION = 0; //!< minor release version, as in CARLsim 2.X
+	const static unsigned int MINOR_VERSION = 3; //!< minor release version, as in CARLsim 2.X
 
 #ifdef CARLSIM_FEAT_SYSPARAMS
 	static std::array<int, CARLSIM_PARAMS> Params;
@@ -1013,6 +1014,8 @@ private:
 
 	int loadSimulation_internal(bool onlyPlastic);
 
+	void exportConnectom(int gSrcGrpId = ALL, int gDestGrpId = ALL);
+
 	void resetConductances(int netId);
 	void resetCurrent(int netId);
 	void resetFiringInformation(); //!< resets the firing information when updateNetwork is called
@@ -1379,7 +1382,7 @@ private:
 	int custom1_;
 	int custom2_;
 	int custom3_;
-
+	int kernelFeatures_;
 #endif
 
 #ifndef __NO_OPENMP__

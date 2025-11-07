@@ -126,7 +126,7 @@ void SNN::InitParams(int argc, const char* argv[], const char* defaultConfPath) 
 	infile.close();
 
 	// Set the CARLsim parameters by precedence CLI, environment variable, and config file:
-	DebugParams ? printf("CARLsim parameters set from paramter file:\n(%s)\n", path) : 0;
+	DebugParams ? printf("CARLsim parameters set from parameter file:\n(%s)\n", path) : 0;
 	InitParams(path);
 	DebugParams ? printf("CARLsim parameters set by environment variables:\n") : 0;
 	InitParams();
@@ -278,7 +278,7 @@ void SNN::InitParams(const char* path) {
 // TODO: consider moving unsafe computations out of constructor
 SNN::SNN(const std::string& name, SimMode preferredSimMode, LoggerMode loggerMode, int randSeed
 #ifdef CARLSIM_FEAT_SYSPARAMS
-	, int speedFactor, int ompThreads, int custom1, int custom2, int custom3
+	, int speedFactor, int ompThreads, int custom1, int custom2, int custom3, int kernelFeatures
 #endif
             ): networkName_(name), preferredSimMode_(preferredSimMode), loggerMode_(loggerMode),
 					  randSeed_(SNN::setRandSeed(randSeed))  // all of these are const
@@ -288,6 +288,7 @@ SNN::SNN(const std::string& name, SimMode preferredSimMode, LoggerMode loggerMod
 	, custom1_(custom1)
 	, custom2_(custom2)
 	, custom3_(custom3)
+	, kernelFeatures_(kernelFeatures)
 #endif
 {
 	// move all unsafe operations out of constructor
@@ -701,7 +702,7 @@ void SNN::setConductances(bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int td
 // LN2021
 // control conductance values at group level
 // same interface design is used in order to maintain backward compatibilty
-// Defaul CUBA => singel group(s) opt in to COBA with special paramters; however Network does need to support COBA despite
+// Default CUBA => singel group(s) opt in to COBA with special parameters; however Network does need to support COBA despite
 // Default COBA => single group(s) opt out with CUBA; Network already does support COBA 
 // Default CUBA & NMweighted => other context, here irrelevant
 void SNN::setConductances(int gGrpId, bool isSet, int tdAMPA, int trNMDA, int tdNMDA, int tdGABAa, int trGABAb, int tdGABAb) {
@@ -1325,6 +1326,12 @@ void SNN::setupNetwork() {
 		partitionSNN();
 	case PARTITIONED_SNN:
 		generateRuntimeSNN();
+		if (KERNEL_FEATURE_ACTIVE(kernelFeatures_, KERNEL_EXPORT_CONNECTOM)) {
+			KERNEL_INFO("KernelFeature EXPORT_CONNECTOM active");  // if programmatic not applicable
+			//exportConnectom(0, 1);
+			//exportConnectom(1, 3);
+			exportConnectom(ALL, ALL);
+		}
 		break;
 	case EXECUTABLE_SNN:
 		break;
@@ -7591,6 +7598,14 @@ void SNN::partitionSNN() {
 	// update GroupConfig::numPostSynapses, GroupConfig::numPreSynapses
 	if (loadSimFID == NULL) {
 		connectNetwork();
+		//if (KERNEL_FEATURE_ACTIVE(kernelFeatures_, KERNEL_EXPORT_CONNECTOM)) {
+		//	KERNEL_INFO("KernelFeature EXPORT_CONNECTOM active");
+		//	exportConnectom(0, 1);
+		//}
+		//if (KERNEL_FEATURE_ACTIVE(kernelFeatures_, KERNEL_CONNECTION_CHECKSUMS)) {
+		//	KERNEL_INFO("KernelFeature CONNECTION_CHECKSUMS active");
+		//	//connectionChecksums();
+		//}
 	} else {
 		KERNEL_INFO("Load Simulation");
 		loadSimulation_internal(false);  // true or false doesn't matter here
@@ -7813,6 +7828,176 @@ void SNN::partitionSNNMT() {
 	snnState = PARTITIONED_SNN;
 }
 #endif 
+
+
+void SNN::exportConnectom(int gGrpSrc, int gGrpDest) {
+
+	// see void SNN::saveSimulation(FILE* fid, bool saveSynapseInfo) {
+
+	// write header
+	struct conn_gen_header_t {
+		unsigned version; // 01.00.000   Major, Minor, Patch
+		size_t header_size;
+		size_t payload_size;
+		int gConnId;
+		int gIdPre;
+		int gIdPost;
+		unsigned connected;
+		unsigned content; // records
+		double weight_factor;
+		unsigned nfrom;
+		unsigned nto;
+		unsigned long long checksum; // reserved
+	};
+
+	// file cache with auto init
+	std::map<std::pair<int, int>, std::pair<FILE*, conn_gen_header_t>> fileSet;
+
+
+	for (int netId = 0; netId < MAX_NET_PER_SNN; netId++) {
+		if (!groupPartitionLists[netId].empty()) {
+
+			// copy from runtimeData to managerRuntimeData
+			fetchPreConnectionInfo(netId);
+			fetchPostConnectionInfo(netId);
+			fetchConnIdsLookupArray(netId);
+			fetchSynapseState(netId);
+
+			// save number of synapses that starting from local groups
+			int numSynToSave = 0;
+			for (std::list<GroupConfigMD>::iterator grpIt = groupPartitionLists[netId].begin(); grpIt != groupPartitionLists[netId].end(); grpIt++) {
+				if (grpIt->netId == netId) {
+					numSynToSave += grpIt->numPostSynapses;
+				}
+			}
+
+			int numSynSaved = 0;
+			for (int lNId = 0; lNId < networkConfigs[netId].numNAssigned; lNId++) {
+				unsigned int offset = managerRuntimeData.cumulativePost[lNId];
+
+				// save each synapse starting from from neuron lNId
+				for (int t = 0; t < glbNetworkConfig.maxDelay; t++) {
+					DelayInfo dPar = managerRuntimeData.postDelayInfo[lNId * (glbNetworkConfig.maxDelay + 1) + t];
+
+					for (int idx_d = dPar.delay_index_start; idx_d < (dPar.delay_index_start + dPar.delay_length); idx_d++) {
+						SynInfo post_info = managerRuntimeData.postSynapticIds[offset + idx_d];
+						int lNIdPost = GET_CONN_NEURON_ID(post_info);
+						int lGrpIdPost = GET_CONN_GRP_ID(post_info);
+						int preSynId = GET_CONN_SYN_ID(post_info);
+						int pre_pos = managerRuntimeData.cumulativePre[lNIdPost] + preSynId;
+						SynInfo pre_info = managerRuntimeData.preSynapticIds[pre_pos];
+						int lNIdPre = GET_CONN_NEURON_ID(pre_info);
+						int lGrpIdPre = GET_CONN_GRP_ID(pre_info);
+						float weight = managerRuntimeData.wt[pre_pos];
+						float maxWeight = managerRuntimeData.maxSynWt[pre_pos];
+						int connId = managerRuntimeData.connIdsPreIdx[pre_pos];
+						int delay = t + 1;
+
+						// convert local group id to global group id
+						// convert local neuron id to neuron order in group
+						int gGrpIdPre = groupConfigs[netId][lGrpIdPre].gGrpId;
+						int gGrpIdPost = groupConfigs[netId][lGrpIdPost].gGrpId;
+						int grpNIdPre = lNId - groupConfigs[netId][lGrpIdPre].lStartN;
+						int grpNIdPost = lNIdPost - groupConfigs[netId][lGrpIdPost].lStartN;
+
+						if ((gGrpIdPre == gGrpSrc || gGrpSrc == ALL) && 
+							(gGrpIdPost == gGrpDest || gGrpDest == ALL)) 
+						{
+							auto key = std::pair<int, int>(gGrpIdPre, gGrpIdPost);
+							auto file = fileSet[key].first;
+							if (file == NULL) {							
+
+								char filename[256];
+								sprintf(filename, "%s/conngrpgen_%d_%d_%d.dat", "results", connId, gGrpIdPre, gGrpIdPost);
+								file = fopen(filename, "wb"); // binary write
+								assert(file);
+								fileSet[key].first = file;
+
+								conn_gen_header_t conn_gen_header;
+
+								conn_gen_header.version = 100000;
+								conn_gen_header.header_size = sizeof(conn_gen_header_t);
+								conn_gen_header.payload_size = 0; // (sizeof(unsigned) * 2 + sizeof(float) * 2) * 1; // content;
+								conn_gen_header.gConnId = connId;
+								conn_gen_header.gIdPre = gGrpIdPre;
+								conn_gen_header.gIdPost = gGrpIdPost;
+								conn_gen_header.connected = 0; // connected;
+								conn_gen_header.content = 0; // content;
+								conn_gen_header.weight_factor = 100.; // weightFactor;  // ISSUE
+								conn_gen_header.nfrom = -1; // nfrom;
+								conn_gen_header.nto = -1; // nto;
+
+								conn_gen_header.checksum = 0; // reserved
+
+								fileSet[key].second = conn_gen_header;
+
+								assert(fwrite(&conn_gen_header, sizeof(conn_gen_header_t), 1, file));
+
+							} 	
+
+							if (groupConfigMDMap[gGrpIdPre].netId == netId) {
+								// file stream write 
+								// unsigned, unsigned, float32, float32 
+								// pre, post, w, d 
+
+								auto& conn_gen_header = fileSet[key].second;
+
+								auto& k = std::pair<int, int>(grpNIdPre, grpNIdPost);
+								auto& v = std::pair<float, float>(weight / conn_gen_header.weight_factor, delay);
+
+								assert(fwrite(&k, sizeof(unsigned), 2, file));
+								assert(fwrite(&v, sizeof(float), 2, file));
+
+								// Debug
+								unsigned pre = k.first;
+								unsigned post = k.second;
+								if (pre < 10 && post < 10) {
+									printf("preNId:%d  ->  postNId: %d\n", pre, post);
+								}
+															
+								conn_gen_header.connected++;
+								conn_gen_header.content++;
+								conn_gen_header.payload_size += sizeof(unsigned) * 2 + sizeof(float) * 2;
+
+								// append payload in parallel IO by system file cache
+							}
+						}
+	
+
+						//// we only save synapses starting from local groups since otherwise we will save external synapses twice 
+						//// write order is based on function connectNeurons (no NetId & external_NetId)
+						//// inline void SNN::connectNeurons(int netId, int _grpSrc, int _grpDest, int _nSrc, int _nDest, short int _connId, float initWt, float maxWt, uint8_t delay, int externalNetId) 
+						//if (groupConfigMDMap[gGrpIdPre].netId == netId) {
+						//	numSynSaved++;
+						//	//if (!fwrite(&gGrpIdPre, sizeof(int), 1, fid)) KERNEL_ERROR("saveSimulation fwrite error");
+						//	//if (!fwrite(&gGrpIdPost, sizeof(int), 1, fid)) KERNEL_ERROR("saveSimulation fwrite error");
+						//	//if (!fwrite(&grpNIdPre, sizeof(int), 1, fid)) KERNEL_ERROR("saveSimulation fwrite error");
+						//	//if (!fwrite(&grpNIdPost, sizeof(int), 1, fid)) KERNEL_ERROR("saveSimulation fwrite error");
+						//	//if (!fwrite(&connId, sizeof(int), 1, fid)) KERNEL_ERROR("saveSimulation fwrite error");
+						//	//if (!fwrite(&weight, sizeof(float), 1, fid)) KERNEL_ERROR("saveSimulation fwrite error");
+						//	//if (!fwrite(&maxWeight, sizeof(float), 1, fid)) KERNEL_ERROR("saveSimulation fwrite error");
+						//	//if (!fwrite(&delay, sizeof(int), 1, fid)) KERNEL_ERROR("saveSimulation fwrite error");
+						//}
+					}
+				}
+			}
+		}
+	}
+	for (auto iter = fileSet.begin(); iter != fileSet.end(); iter++) {
+		auto &file = iter->second.first; 
+		fpos_t pos; 
+		fgetpos(file, &pos);
+		auto& conn_gen_header = iter->second.second;
+		assert(pos == conn_gen_header.header_size + conn_gen_header.payload_size); // validate file size in bytes
+		// update header
+		fseek(file, 0, 0);  // beginning
+		assert(fwrite(&conn_gen_header, sizeof(conn_gen_header_t), 1, file));
+		fclose(file);
+		// Debug
+		printf("close f %d %d \n", iter->first.first, iter->first.second);  // CRC
+	}
+}
+
 
 int SNN::loadSimulation_internal(bool onlyPlastic) {
 	// TSC: so that we can restore the file position later...
