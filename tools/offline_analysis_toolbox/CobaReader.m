@@ -268,11 +268,11 @@ classdef CobaReader < handle
             end
             
             % read Grid3D
-            obj.grid3D = fread(obj.fileId, [1 4], 'int32');
+            obj.grid3D = fread(obj.fileId, [1 3], 'int32');
             if feof(obj.fileId) || prod(obj.grid3D)<=0
                 obj.throwError(['Could not find valid Grid3D ' ...
                     'dimensions (grid=[' num2str(obj.grid3D(1)) ' ' ...
-                    num2str(obj.grid3D(2)) ' ' num2str(obj.grid3D(4)) ...
+                    num2str(obj.grid3D(2)) ' ' num2str(obj.grid3D(3)) ...
                     '])'])
                 return
             end
